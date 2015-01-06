@@ -13,8 +13,6 @@ public class Baby {
 	private String hearing;
 	private String newborn_screening_test;
 	private String birth_outcome;
-	
-
 
 	public Baby() {
 		
