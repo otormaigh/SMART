@@ -1,12 +1,24 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:weightSum="3.0"
     tools:context="${relativePackage}.${activityClass}" >
 
     <button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:layout_weight="1"
+        />
+    
+    <Button 
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content"
+      android:layout_weight="1"
+   />
+    
+  
+   
 
-</RelativeLayout>
+</LinearLayout>

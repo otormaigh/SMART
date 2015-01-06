@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">Smart App</string>
-    <string name="hello_world">Service options</string>
-    <string name="title_activity_dublin_domino">DublinDominoActivity</string>
+    <string name="hello_world">hello_world</string>
+    <string name="title_activity_dublin_domino">Service options</string>
 
 </resources>
