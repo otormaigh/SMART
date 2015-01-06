@@ -17,7 +17,8 @@ public class Appointments {
 	}
 	
 	public String getId(){ 
-		return id;}
+		return id;
+	}
 	
 	
 	public String getDate(){
