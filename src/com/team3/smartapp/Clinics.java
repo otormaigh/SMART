@@ -1,5 +1,4 @@
 package com.team3.smartapp;
-
 	
 public class Clinics {
 	
@@ -86,6 +85,5 @@ public class Clinics {
 
 	public void setDays(String newDays) {
 		days = newDays;
-	}
-		
+	}		
 }
