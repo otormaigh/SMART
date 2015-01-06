@@ -1,7 +1,5 @@
 package com.team3.smartapp;
 
-
-
 public class Pregnancy {
     private int id;
     private int service_user_id;
@@ -15,7 +13,6 @@ public class Pregnancy {
     private String gestation;
     
 	public Pregnancy() {
-
 	}
 
 	public int getId() {
@@ -101,5 +98,4 @@ public class Pregnancy {
 	public void setEstimated_delivery_date(String estimated_delivery_date) {
 		this.estimated_delivery_date=estimated_delivery_date;
 	}
-
 }
