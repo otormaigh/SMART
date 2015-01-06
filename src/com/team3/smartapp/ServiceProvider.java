@@ -1,20 +1,26 @@
 package com.team3.smartapp;
 
+import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 public class ServiceProvider {
 	private int id;
-	private String date;
+	private Date date;
 	private String time;
+	//private Date dateNew;
+	//private Time time;
 	private int serviceProviderId;
 	private int serviceUserId;
-	private String priority;		//Enum PriorityEnum.java
-	private String visitType;		//Enum VisitTypeEnum.java
+	private String priority;		//Enum Priority.java
+	private String visitType;		//Enum VisitType.java
 	private int serviceOptionId;
 	
 	public ServiceProvider(){
 	}
 	
-	public ServiceProvider(int id, String date, String time, int serviceProviderId, int serviceUserId, 
-						   String priority, String visitType, int serviceOptionId) {
+	public ServiceProvider(int id, Date date, String time, int serviceProviderId,
+						   int serviceUserId, String priority, String visitType, int serviceOptionId) {
 		this.id = id;
 		this.date = date;
 		this.time = time;
@@ -30,11 +36,20 @@ public class ServiceProvider {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getDate() {
+	public Date getDate() {
 		return date;
 	}
-	public void setDate(String date) {
-		this.date = date;
+	public void setDate(String theDate) throws ParseException {
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		String dateInString = theDate;	 
+		try {	 
+			Date date = formatter.parse(dateInString);
+			System.out.println(date);
+			System.out.println(formatter.format(date));
+	 
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 	}
 	public String getTime() {
 		return time;
