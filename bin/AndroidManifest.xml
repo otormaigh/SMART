@@ -23,8 +23,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ClinicActivity"
-            android:label="@string/title_activity_clinic" >
+            android:name=".DublinDominoActivity"
+            android:label="@string/title_activity_dublin_domino" >
         </activity>
     </application>
 
