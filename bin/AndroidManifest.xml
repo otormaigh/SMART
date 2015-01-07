@@ -34,6 +34,10 @@
             android:name=".DominoWicklowActivity"
             android:label="@string/title_activity_domino_wicklow" >
         </activity>
+        <activity
+            android:name=".SatelliteActivity"
+            android:label="@string/title_activity_satellite" >
+        </activity>
     </application>
 
 </manifest>
