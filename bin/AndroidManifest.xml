@@ -1,4 +1,3 @@
-
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.team3.smartapp"
@@ -26,10 +25,6 @@
         <activity
             android:name=".DublinDominoActivity"
             android:label="@string/title_activity_dublin_domino" >
-        </activity>
-        <activity
-            android:name=".DominoWicklowActivity"
-            android:label="@string/title_activity_domino_wicklow" >
         </activity>
         <activity
             android:name=".EtcActivity"
