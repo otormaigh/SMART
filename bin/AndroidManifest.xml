@@ -26,6 +26,10 @@
             android:name=".DublinDominoActivity"
             android:label="@string/title_activity_dublin_domino" >
         </activity>
+        <activity
+            android:name=".EtcActivity"
+            android:label="@string/title_activity_etc" >
+        </activity>
     </application>
 
 </manifest>
