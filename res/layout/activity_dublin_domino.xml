@@ -3,10 +3,10 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:weightSum="3.0"
+    android:weightSum="15.0"
     tools:context="${relativePackage}.${activityClass}" >
 
-    <button
+    <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -17,6 +17,30 @@
     android:layout_height="wrap_content"
       android:layout_weight="1"
    />
+     <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        />
+    
+    <Button 
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content"
+      android:layout_weight="1"
+   />
+    
+         <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        />
+    
+    <Button 
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content"
+      android:layout_weight="1"
+   />
+    
     
   
    
