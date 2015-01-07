@@ -2,7 +2,15 @@
 <resources>
 
     <string name="app_name">Smart App</string>
-    <string name="hello_world">hello_world</string>
-    <string name="title_activity_dublin_domino">Service options</string>
+    <string name="greystones">Greystones</string>
+    <string name="monday">\n	-Weekly, Monday</string>
+    <string name="greystones_tuesday">Greystones\n	-Weekly, Tuesday</string>
+    <string name="kilmacanogue">Kilmacanogue\n	-Weekly, Thursday</string>
+    <string name="home_visits">Home Visits\n	-Miscellaneous\n-Daily</string>
+    
+    <string-array name="greystones_test">
+        <item>Greystones</item>
+        <item>\n-Weekly, Monday</item>
+    </string-array>
 
 </resources>
