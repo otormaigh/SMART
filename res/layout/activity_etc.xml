@@ -25,7 +25,6 @@
         android:layout_marginRight="@dimen/padding_small"
         android:layout_marginTop="@dimen/padding_medium"
         android:layout_weight="1.0"
-        android:text="@string/button_six"
         android:textColor="@color/black"
         android:textSize="@dimen/text_large" />
 
@@ -37,7 +36,6 @@
         android:layout_marginRight="@dimen/padding_small"
         android:layout_marginTop="@dimen/padding_medium"
         android:layout_weight="1.0"
-        android:text="@string/button_seven"
         android:textColor="@color/black"
         android:textSize="@dimen/text_large" />
 
