@@ -3,28 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:weightSum="18.0"
-    tools:context="${relativePackage}.${activityClass}" >
-
-    <TextView
-        android:id="@+id/main_View"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/padding_small"
-        android:layout_marginRight="@dimen/padding_small"
-        android:layout_marginBottom="@dimen/padding_small"
-        android:layout_weight="0.5"
-        android:textSize="@dimen/text_medium" />
-    
+    android:weightSum="4.0"
+    tools:context="${relativePackage}.${activityClass}" >   
     
    <Button
         android:id="@+id/button_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/padding_small"
-        android:layout_marginRight="@dimen/padding_small"
-        android:layout_marginTop="@dimen/padding_medium"
-        android:layout_weight="1.0"
+        android:layout_marginTop="@dimen/padding_large"
+        android:layout_marginBottom="@dimen/padding_large"
+        android:layout_weight="1.0"android:text="@string/ballinteer_monday"
         android:textColor="@color/black"
         android:textSize="@dimen/text_large" />
 
@@ -32,11 +20,9 @@
         android:id="@+id/button_2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/padding_small"
-        android:layout_marginRight="@dimen/padding_small"
-        android:layout_marginTop="@dimen/padding_medium"
-        android:layout_weight="1.0"
+         android:layout_marginTop="@dimen/padding_large"
+        android:layout_marginBottom="@dimen/padding_large"
+        android:layout_weight="1.0"android:text="@string/dunLaoghaire_tuesday"
         android:textColor="@color/black"
         android:textSize="@dimen/text_large" />
-
 </LinearLayout>
