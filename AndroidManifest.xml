@@ -24,7 +24,7 @@
         </activity>
         <activity
             android:name=".DominoDublinActivity"
-            android:label="@string/title_activity_dublin_domino" >
+            android:label="@string/title_activity_domino_dublin" >
         </activity>
         <activity
             android:name=".EtcActivity"
