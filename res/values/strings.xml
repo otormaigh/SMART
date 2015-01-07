@@ -4,15 +4,15 @@
     <string name="app_name">Smart App</string>
     <string name="greystones">Greystones</string>
     <string name="monday">\n	-Weekly, Monday</string>
+    <string name="greystones_monday">Greystones\n	-Weekly, Monday</string>
     <string name="greystones_tuesday">Greystones\n	-Weekly, Tuesday</string>
+    <string name="ballinteer_monday">Ballinteer\n	-Weekly, Monday</string>
+    <string name="dunLaoghaire_tuesday">Dun Laoghaire\n	-Weekly, Tuesday</string>
     <string name="kilmacanogue">Kilmacanogue\n	-Weekly, Thursday</string>
+    <string name="bray_thursday">Bray\n	-Weekly, Thursday</string>
+    <string name="arklow_tuesday">Arklow\n	-Weekly, Tuesday</string>
+    <string name="newtownmountkennedy_wednesday">Newtownmountkennedy\n	-Weekly, Wednesday \n-Booking clinics</string>
     <string name="home_visits">Home Visits\n	-Miscellaneous\n-Daily</string>
-
-    <string-array name="greystones_test">
-        <item>Greystones</item>
-        <item>\n-Weekly, Monday</item>
-    </string-array>
-
     <string name="domino_view">Select Service option</string>
     <string name="hello_world">Hello World</string>
     <string name="label_title">My Text Label</string>
@@ -23,5 +23,6 @@
     <string name="button_five">five</string>
     <string name="title_activity_etc">EtcActivity</string>
     <string name="title_activity_domino_wicklow">DominoWicklowActivity</string>
+    <string name="title_activity_satellite">MainActivity</string>
 
 </resources>
