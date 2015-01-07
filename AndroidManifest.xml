@@ -30,6 +30,10 @@
             android:name=".EtcActivity"
             android:label="@string/title_activity_etc" >
         </activity>
+        <activity
+            android:name=".DominoWicklowActivity"
+            android:label="@string/title_activity_domino_wicklow" >
+        </activity>
     </application>
 
 </manifest>
