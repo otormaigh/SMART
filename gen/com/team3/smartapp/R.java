@@ -7,6 +7,8 @@
 
 package com.team3.smartapp;
 
+import android.view.View;
+
 public final class R {
     public static final class attr {
     }
@@ -39,6 +41,8 @@ public final class R {
     public static final class layout {
         public static final int activity_dublin_domino=0x7f030000;
         public static final int activity_main=0x7f030001;
+		public static View activity_domino_wicklow;
+		public static View activity_etc;
     }
     public static final class string {
         public static final int app_name=0x7f060000;
