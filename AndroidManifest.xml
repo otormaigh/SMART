@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".DublinDominoActivity"
+            android:name=".DominoDublinActivity"
             android:label="@string/title_activity_dublin_domino" >
         </activity>
         <activity
@@ -33,6 +33,10 @@
         <activity
             android:name=".DominoWicklowActivity"
             android:label="@string/title_activity_domino_wicklow" >
+        </activity>
+        <activity
+            android:name=".SatelliteActivity"
+            android:label="@string/title_activity_satellite" >
         </activity>
     </application>
 
