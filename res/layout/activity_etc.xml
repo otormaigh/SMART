@@ -7,7 +7,6 @@
     tools:context="${relativePackage}.${activityClass}" >
 
     <TextView
-        android:text="@string/eth_view"
         android:id="@+id/main_View"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
