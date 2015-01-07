@@ -9,7 +9,9 @@
     <string name="ballinteer_monday">Ballinteer\n	-Weekly, Monday</string>
     <string name="dunLaoghaire_tuesday">Dun Laoghaire\n	-Weekly, Tuesday</string>
     <string name="kilmacanogue">Kilmacanogue\n	-Weekly, Thursday</string>
-      <string name="arklow_tuesday">Arklow\n	-Weekly, Tuesday</string>
+    <string name="bray_thursday">Bray\n	-Weekly, Thursday</string>
+    <string name="arklow_tuesday">Arklow\n	-Weekly, Tuesday</string>
+    <string name="newtownmountkennedy_wednesday">Newtownmountkennedy\n	-Weekly, Wednesday \n-Booking clinics</string>
     <string name="home_visits">Home Visits\n	-Miscellaneous\n-Daily</string>
     <string name="domino_view">Select Service option</string>
     <string name="hello_world">Hello World</string>
