@@ -28,6 +28,7 @@
     <string name="button_four">four</string>
     <string name="button_five">five</string>
     <string name="title_activity_etc">EtcActivity</string>
+    <string name="title_activity_domino_dublin">DominoDublinActivity</string>
     <string name="title_activity_domino_wicklow">DominoWicklowActivity</string>
     <string name="title_activity_satellite">MainActivity</string>
 

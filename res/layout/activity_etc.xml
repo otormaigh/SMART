@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/padding_large"
         android:layout_marginBottom="@dimen/padding_large"
-        android:layout_weight="1.0"android:text="@string/ballinteer_monday"
+        android:layout_weight="1.0"
+        android:text="@string/ballinteer_monday"
         android:textColor="@color/black"
         android:textSize="@dimen/text_large" />
 
@@ -22,7 +23,9 @@
         android:layout_height="wrap_content"
          android:layout_marginTop="@dimen/padding_large"
         android:layout_marginBottom="@dimen/padding_large"
-        android:layout_weight="1.0"android:text="@string/dunLaoghaire_tuesday"
+        android:layout_weight="1.0"
+        android:text="@string/dunLaoghaire_tuesday"
         android:textColor="@color/black"
         android:textSize="@dimen/text_large" />
+
 </LinearLayout>
