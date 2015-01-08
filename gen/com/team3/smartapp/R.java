@@ -39,17 +39,14 @@ public final class R {
         public static final int logo1=0x7f020002;
     }
     public static final class id {
-        public static final int DominoD=0x7f090000;
-        public static final int DominoW=0x7f090001;
-        public static final int ETHD=0x7f090002;
-        public static final int ETHW=0x7f090003;
-        public static final int Satellite=0x7f090004;
-        public static final int domino_dublin_Churchtown=0x7f090008;
-        public static final int domino_dublin_Dunlaoghaire=0x7f090007;
-        public static final int domino_dublin_Homevisits=0x7f09000a;
+        public static final int domino_d=0x7f090000;
+        public static final int domino_dublin_churchtown=0x7f090008;
+        public static final int domino_dublin_dunlaoghaire=0x7f090007;
+        public static final int domino_dublin_homevisits=0x7f09000a;
         public static final int domino_dublin_leopardstown=0x7f090006;
         public static final int domino_dublin_nmh=0x7f090005;
         public static final int domino_dublin_nmh2=0x7f090009;
+        public static final int domino_w=0x7f090001;
         public static final int domino_wicklow_Homevisits=0x7f09000e;
         public static final int domino_wicklow_Kilmacanogue=0x7f09000d;
         public static final int domino_wicklow_greystones1=0x7f09000b;
@@ -58,9 +55,12 @@ public final class R {
         public static final int etc_dublin_dunLaoghaire=0x7f090010;
         public static final int etc_wicklow_ballinteer=0x7f090011;
         public static final int etc_wicklow_dunLaoghaire=0x7f090012;
+        public static final int ethd=0x7f090002;
+        public static final int ethw=0x7f090003;
         public static final int imageView2=0x7f090013;
         public static final int login=0x7f090016;
         public static final int password=0x7f090015;
+        public static final int satellite=0x7f090004;
         public static final int satellite_arklow=0x7f090018;
         public static final int satellite_bray=0x7f09001a;
         public static final int satellite_greystones=0x7f090017;
@@ -77,21 +77,19 @@ public final class R {
         public static final int activity_satellite=0x7f030006;
     }
     public static final class string {
-        public static final int DominoD=0x7f070008;
-        public static final int DominoW=0x7f070009;
-        public static final int ETHD=0x7f07000a;
-        public static final int ETHW=0x7f07000b;
-        public static final int Satellite=0x7f07000c;
-        public static final int Service_Options=0x7f07000d;
         public static final int app_name=0x7f070001;
         public static final int arklow_tuesday=0x7f07001a;
         public static final int ballinteer_monday=0x7f070017;
         public static final int bray_thursday=0x7f070019;
-        public static final int button_NMH_OPD=0x7f07000e;
+        public static final int button_nmh_opd=0x7f07000e;
         public static final int churchtown=0x7f070011;
+        public static final int domino_d=0x7f070008;
         public static final int domino_view=0x7f07001c;
+        public static final int domino_w=0x7f070009;
         public static final int dunLaoghaire_tuesday=0x7f070018;
         public static final int dunlaoghaire=0x7f070010;
+        public static final int ethd=0x7f07000a;
+        public static final int ethw=0x7f07000b;
         public static final int greystones_monday=0x7f070014;
         public static final int greystones_tuesday=0x7f070015;
         public static final int home_visits=0x7f070013;
@@ -100,6 +98,8 @@ public final class R {
         public static final int login=0x7f070000;
         public static final int newtownmountkennedy_wednesday=0x7f07001b;
         public static final int nmh=0x7f070012;
+        public static final int satellite=0x7f07000c;
+        public static final int service_options=0x7f07000d;
         public static final int title_activity_clinic=0x7f070002;
         public static final int title_activity_domino_dublin=0x7f070003;
         public static final int title_activity_domino_wicklow=0x7f070004;
