@@ -5,7 +5,7 @@
         <item>Greystones</item>
         <item>\n-Weekly, Monday</item>
     </string-array>
-
+    <string name="login">Login</string>
     <string name="app_name">Clinics</string>
     <string name="title_activity_clinic">Clinic Activity</string>
     <string name="title_activity_domino_dublin">DominoDublinActivity</string>
@@ -42,5 +42,5 @@
     <string name="domino_view">Select Service option</string>
     
     
-     <string name="login">Login</string>
+     
 </resources>
