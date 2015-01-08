@@ -40,4 +40,7 @@
     <string name="arklow_tuesday">Arklow\n	-Weekly, Tuesday</string>
     <string name="newtownmountkennedy_wednesday">Newtownmountkennedy\n	-Weekly, Wednesday \n-Booking clinics</string>
     <string name="domino_view">Select Service option</string>
+    
+    
+     <string name="login">Login</string>
 </resources>
