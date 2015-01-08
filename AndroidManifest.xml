@@ -42,5 +42,10 @@
             android:name=".SatelliteActivity"
             android:label="@string/title_activity_satellite" >
         </activity>
+        <activity
+            android:name=".EtcWicklowActivity"
+            android:label="@string/title_activity_etc_wicklow" >
+        </activity>
     </application>
+
 </manifest>
