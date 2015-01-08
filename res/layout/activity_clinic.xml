@@ -3,79 +3,54 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context="${relativePackage}.${activityClass}"
     android:orientation="vertical"
-    android:weightSum="5.0"
-    tools:context="com.example.myapp.MainActivity" >
+    android:weightSum="5.0">
 
     <Button
         android:id="@+id/DominoD"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/padding_small"
-        android:layout_marginRight="@dimen/padding_small"
-        android:layout_marginTop="@dimen/padding_large"
-        android:layout_marginBottom="@dimen/padding_small"
-        android:background="@color/grey"
         android:text="@string/DominoD"
-        android:weightSum="1.0"
-        android:textColor="@color/black"
-        android:textSize="@dimen/text_large" />
+        android:layout_weight="1.0"
+        android:textSize="@dimen/text_large" >
+    </Button>
 
     <Button
         android:id="@+id/DominoW"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/padding_small"
-        android:layout_marginRight="@dimen/padding_small"
-        android:layout_marginTop="@dimen/padding_large"
-        android:layout_marginBottom="@dimen/padding_small"
-        android:background="@color/grey"
         android:text="@string/DominoW"
-        android:weightSum="1.0"
-        android:textColor="@color/black"
-        android:textSize="@dimen/text_large" />
+        android:layout_weight="1.0"
+        android:textSize="@dimen/text_large" >
+    </Button>
 
      <Button
          android:id="@+id/ETHD"
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
-         android:layout_marginLeft="@dimen/padding_small"
-         android:layout_marginRight="@dimen/padding_small"
-         android:layout_marginTop="@dimen/padding_large"
-         android:layout_marginBottom="@dimen/padding_small"
-         android:background="@color/grey"
          android:text="@string/ETHD"
-         android:weightSum="1.0"
-         android:textColor="@color/black"
-         android:textSize="@dimen/text_large" />
+         android:layout_weight="1.0""
+         android:textSize="@dimen/text_large" >
+     </Button>
 
      <Button
          android:id="@+id/ETHW"
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
-         android:layout_marginLeft="@dimen/padding_small"
-         android:layout_marginRight="@dimen/padding_small"
-         android:layout_marginTop="@dimen/padding_large"
-         android:layout_marginBottom="@dimen/padding_small"
-         android:background="@color/grey"
          android:text="@string/ETHW"
-         android:weightSum="1.0"
-         android:textColor="@color/black"
-         android:textSize="@dimen/text_large" />
+         android:layout_weight="1.0"
+         android:textSize="@dimen/text_large" >
+     </Button>
 
      <Button
          android:id="@+id/Satellite"
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
-         android:layout_marginLeft="@dimen/padding_small"
-         android:layout_marginRight="@dimen/padding_small"
-         android:layout_marginTop="@dimen/padding_large"
-         android:layout_marginBottom="@dimen/padding_small"
-         android:background="@color/grey"
          android:text="@string/Satellite"
-         android:weightSum="1.0"
-         android:textColor="@color/black"
-         android:textSize="@dimen/text_large" />
+         android:layout_weight="1.0"
+         android:textSize="@dimen/text_large" >
+     </Button>
     
 
 </LinearLayout>
