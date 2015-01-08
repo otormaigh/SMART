@@ -6,7 +6,7 @@
     tools:context="${relativePackage}.${activityClass}"
     android:orientation="vertical"
     android:weightSum="5.0">
-
+    
     <Button
         android:id="@+id/DominoD"
         android:layout_width="match_parent"
@@ -15,7 +15,6 @@
         android:layout_weight="1.0"
         android:textSize="@dimen/text_large" >
     </Button>
-
     <Button
         android:id="@+id/DominoW"
         android:layout_width="match_parent"
@@ -24,7 +23,6 @@
         android:layout_weight="1.0"
         android:textSize="@dimen/text_large" >
     </Button>
-
      <Button
          android:id="@+id/ETHD"
          android:layout_width="match_parent"
@@ -33,7 +31,6 @@
          android:layout_weight="1.0"
          android:textSize="@dimen/text_large" >
      </Button>
-
      <Button
          android:id="@+id/ETHW"
          android:layout_width="match_parent"
@@ -42,7 +39,6 @@
          android:layout_weight="1.0"
          android:textSize="@dimen/text_large" >
      </Button>
-
      <Button
          android:id="@+id/Satellite"
          android:layout_width="match_parent"
@@ -51,6 +47,4 @@
          android:layout_weight="1.0"
          android:textSize="@dimen/text_large" >
      </Button>
-    
-
 </LinearLayout>
