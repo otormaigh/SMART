@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Smart App</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="title_activity_clinic">ClinicActivity</string>
+    <string name="title_activity_clinic">Clinic Activity</string>
+    <string name="title_activity_main_activity_domino">Domino </string>
+    <string name="Service_Options">Service Options</string>
+    <string name="DominoD">Domino(Dublin)</string>
+    <string name="DominoW">Domino(Wicklow)</string>
+    <string name="ETHD">ETH(Dublin)</string>
+    <string name="ETHW">ETH(Wiclow)</string>
+    <string name="Satellite">Satellite</string>
+    <string name="title_activity_domino_dublin">DominoDublinActivity</string>
+    
+    <string name="app_name">Clinics</string>
+    <string name="button_NMH_OPD">NMH(OPD Location)\n-Evening Booking Clinic\n-Weekly,Monday)</string>
+    <string name="Leopardstown">Leopardstown\n-Weekly,Tuesday\n</string>
+    <string name="Dunlaoghaire">Dun laoghaire\n-St. Michaels Hospital\n-Weekly,Wednesday</string>
+    <string name="Churchtown">Churchtown\n-Weekly,Thursday\n</string>
+    <string name="NMH">NMH\n-Weekly,Friday\n</string>
+    <string name="Homevisits">Home visits\n-Miscellaneous\n-Daily</string>
 
 </resources>
