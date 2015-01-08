@@ -11,27 +11,31 @@
 	    android:layout_height="wrap_content"
 	    android:layout_width="match_parent"
 	    android:layout_weight="1.0"
-	    android:text="@string/greystones_monday">
+	    android:text="@string/greystones_monday"
+	    android:textSize="@dimen/text_medium">
 	</Button>
 	<Button
-	    android:id="@+id/dominoWicklow_greystones2"
+	    android:id="@+id/domino_wicklow_greystones2"
 	    android:layout_height="wrap_content"
 	    android:layout_width="match_parent"
 	    android:layout_weight="1.0"
-	    android:text="@string/greystones_tuesday">
+	    android:text="@string/greystones_tuesday"
+	    android:textSize="@dimen/text_medium">
 	</Button>
 	<Button
 	    android:id="@+id/dominoWicklow_Kilmacanogue"
 	    android:layout_height="wrap_content"
 	    android:layout_width="match_parent"
 	    android:layout_weight="1.0"
-	    android:text="@string/kilmacanogue">
+	    android:text="@string/kilmacanogue"
+	    android:textSize="@dimen/text_medium">
 	</Button>
 	<Button
 	    android:id="@+id/dominoWicklow_Homevisits"
 	    android:layout_height="wrap_content"
 	    android:layout_width="match_parent"
 	    android:layout_weight="1.0"
-	    android:text="@string/home_visits">
+	    android:text="@string/home_visits"
+	    android:textSize="@dimen/text_medium">
 	</Button>
 </LinearLayout>
