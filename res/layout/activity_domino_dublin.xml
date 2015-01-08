@@ -15,10 +15,8 @@
         android:layout_marginRight="@dimen/padding_small"
         android:layout_marginTop="@dimen/padding_Xsmall"
         android:layout_marginBottom="@dimen/padding_Xsmall"
-        android:background="@color/grey"
         android:text="@string/button_NMH_OPD"
         android:layout_weight="1.0"
-        android:textColor="@color/black"
         android:textSize="@dimen/text_small" />
 
     <Button
