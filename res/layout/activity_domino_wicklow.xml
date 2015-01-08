@@ -6,29 +6,32 @@
     android:orientation="vertical"
     android:weightSum="4.0">
     
-	<Button
-	   
+	<Button	   
 	    android:layout_height="wrap_content"
 	    android:layout_width="match_parent"
 	    android:layout_weight="1.0"
-	    android:text="@string/greystones_monday">
+	    android:text="@string/greystones_monday"
+	    android:textSize="@dimen/text_medium">
 	</Button>
 	<Button
 	    android:layout_height="wrap_content"
 	    android:layout_width="match_parent"
 	    android:layout_weight="1.0"
-	    android:text="@string/greystones_tuesday">
+	    android:text="@string/greystones_tuesday"
+	    android:textSize="@dimen/text_medium">
 	</Button>
 	<Button
 	    android:layout_height="wrap_content"
 	    android:layout_width="match_parent"
 	    android:layout_weight="1.0"
-	    android:text="@string/kilmacanogue">
+	    android:text="@string/kilmacanogue"
+	    android:textSize="@dimen/text_medium">
 	</Button>
 	<Button
 	    android:layout_height="wrap_content"
 	    android:layout_width="match_parent"
 	    android:layout_weight="1.0"
-	    android:text="@string/home_visits">
+	    android:text="@string/home_visits"
+	    android:textSize="@dimen/text_medium">
 	</Button>
 </LinearLayout>
