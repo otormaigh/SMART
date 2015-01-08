@@ -27,5 +27,4 @@
         android:text="@string/dunLaoghaire_tuesday"
         android:textColor="@color/black"
         android:textSize="@dimen/text_large" />
-
 </LinearLayout>
