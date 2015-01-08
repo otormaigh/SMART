@@ -31,16 +31,21 @@
             android:label="@string/title_activity_domino_dublin" >
         </activity>
         <activity
-            android:name=".EtcActivity"
-            android:label="@string/title_activity_etc" >
-        </activity>
-        <activity
             android:name=".DominoWicklowActivity"
             android:label="@string/title_activity_domino_wicklow" >
+        </activity>
+        <activity
+            android:name=".EtcDublinActivity"
+            android:label="@string/title_activity_etc_dublin" >
+        </activity>
+        <activity
+            android:name=".EtcWicklowActivity"
+            android:label="@string/title_activity_etc_wicklow" >
         </activity>
         <activity
             android:name=".SatelliteActivity"
             android:label="@string/title_activity_satellite" >
         </activity>
     </application>
+
 </manifest>
