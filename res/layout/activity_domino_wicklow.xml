@@ -7,7 +7,7 @@
     android:weightSum="4.0">
     
 	<Button
-	    android:id="@+id/dominoWicklow_greystones1"
+	    android:id="@+id/domino_wicklow_greystones1"
 	    android:layout_height="wrap_content"
 	    android:layout_width="match_parent"
 	    android:layout_weight="1.0"
@@ -23,7 +23,7 @@
 	    android:textSize="@dimen/text_medium">
 	</Button>
 	<Button
-	    android:id="@+id/dominoWicklow_Kilmacanogue"
+	    android:id="@+id/domino_wicklow_Kilmacanogue"
 	    android:layout_height="wrap_content"
 	    android:layout_width="match_parent"
 	    android:layout_weight="1.0"
@@ -31,7 +31,7 @@
 	    android:textSize="@dimen/text_medium">
 	</Button>
 	<Button
-	    android:id="@+id/dominoWicklow_Homevisits"
+	    android:id="@+id/domino_wicklow_Homevisits"
 	    android:layout_height="wrap_content"
 	    android:layout_width="match_parent"
 	    android:layout_weight="1.0"

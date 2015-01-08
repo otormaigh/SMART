@@ -7,7 +7,7 @@
     tools:context="${relativePackage}.${activityClass}" >   
     
    <Button
-        android:id="@+id/ballinteer_button"
+        android:id="@+id/etc_wicklow_ballinteer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/padding_large"
@@ -16,7 +16,7 @@
         android:text="@string/ballinteer_monday"
         android:textSize="@dimen/text_large" />
     <Button
-        android:id="@+id/dunLaoghaire_button"
+       android:id="@+id/etc_wicklow_dunLaoghaire"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/padding_large"
