@@ -5,6 +5,6 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
-	<classpathentry kind="lib" path="C:/Users/admin/Desktop/postgresql-9.3-1102.jdbc3.jar"/>
+	<classpathentry kind="lib" path="/home/user/Android_Projects/postgresql-9.3-1102.jdbc3.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
