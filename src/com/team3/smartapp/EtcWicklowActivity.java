@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package com.team3.smartapp;
 
 import android.app.Activity;
