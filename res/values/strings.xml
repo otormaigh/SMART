@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">Smart App</string>
-    <string name="greystones">Greystones</string>
+    <string name="greystones"><![CDATA[<b>Greystones</b>]]></string>
     <string name="monday">\n	-Weekly, Monday</string>
     <string name="greystones_monday">Greystones\n	-Weekly, Monday</string>
     <string name="greystones_tuesday">Greystones\n	-Weekly, Tuesday</string>
@@ -26,3 +26,5 @@
     <string name="title_activity_satellite">MainActivity</string>
 
 </resources>
+    
+
