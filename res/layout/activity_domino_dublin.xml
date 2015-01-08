@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="6.0"
+    tools:context="com.example.myapp.MainActivity" >
+    
+    <ScreenName
+        android:id="@+id/Clinics"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/padding_small"
+        android:layout_marginRight="@dimen/padding_small"
+        android:layout_marginTop="@dimen/padding_Xsmall"
+        android:layout_marginBottom="@dimen/padding_Xsmall"
+        android:background="@color/grey"
+        android:text="@string/app_name"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_small" />
+        
+    <Button
+        android:id="@+id/button_NMH_OPD"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/padding_small"
+        android:layout_marginRight="@dimen/padding_small"
+        android:layout_marginTop="@dimen/padding_Xsmall"
+        android:layout_marginBottom="@dimen/padding_Xsmall"
+        android:background="@color/grey"
+        android:text="@string/button_NMH_OPD"
+        android:layout_weight="1.0"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_small" />
+
+    <Button
+        android:id="@+id/Leopardstown"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/padding_small"
+        android:layout_marginRight="@dimen/padding_small"
+        android:layout_marginTop="@dimen/padding_Xsmall"
+        android:layout_marginBottom="@dimen/padding_Xsmall"
+        android:background="@color/grey"
+        android:text="@string/Leopardstown"
+        android:layout_weight="1.0"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_small" />
+
+     <Button
+         android:id="@+id/Dunlaoghaire"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginLeft="@dimen/padding_small"
+         android:layout_marginRight="@dimen/padding_small"
+         android:layout_marginTop="@dimen/padding_Xsmall"
+         android:layout_marginBottom="@dimen/padding_Xsmall"
+         android:background="@color/grey"
+         android:text="@string/Dunlaoghaire"
+         android:layout_weight="1.0"
+         android:textColor="@color/black"
+         android:textSize="@dimen/text_small" />
+
+     <Button
+         android:id="@+id/Churchtown"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginLeft="@dimen/padding_small"
+         android:layout_marginRight="@dimen/padding_small"
+         android:layout_marginTop="@dimen/padding_Xsmall"
+         android:layout_marginBottom="@dimen/padding_Xsmall"
+         android:background="@color/grey"
+         android:text="@string/Churchtown"
+         android:layout_weight="1.0"
+         android:textColor="@color/black"
+         android:textSize="@dimen/text_small" />
+
+     <Button
+         android:id="@+id/NMH"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginLeft="@dimen/padding_small"
+         android:layout_marginRight="@dimen/padding_small"
+         android:layout_marginTop="@dimen/padding_Xsmall"
+         android:layout_marginBottom="@dimen/padding_Xsmall"
+         android:background="@color/grey"
+         android:text="@string/NMH"
+         android:layout_weight="1.0"
+         android:textColor="@color/black"
+         android:textSize="@dimen/text_small" />
+     
+     <Button
+         android:id="@+id/Homevisits"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginLeft="@dimen/padding_small"
+         android:layout_marginRight="@dimen/padding_small"
+         android:layout_marginTop="@dimen/padding_Xsmall"
+         android:layout_marginBottom="@dimen/padding_Xsmall"
+         android:background="@color/grey"
+         android:text="@string/Homevisits"
+         android:layout_weight="1.0"
+         android:textColor="@color/black"
+         android:textSize="@dimen/text_small" />
+    
+
+</LinearLayout>
