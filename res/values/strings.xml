@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+<<<<<<< HEAD
     <string name="title_activity_clinic">Clinic Activity</string>
     <string name="title_activity_main_activity_domino">Domino </string>
     <string name="Service_Options">Service Options</string>
@@ -20,6 +21,10 @@
     
     <string name="app_name">Smart App</string>
     <string name="greystones"><![CDATA[<b>Greystones</b>]]></string>   
+=======
+
+  
+>>>>>>> branch 'master' of https://github.com/GH8734/Smart-App.git
 	<string name="app_name">Smart App</string>	
 	 
 	<string-array name="greystones_test">
