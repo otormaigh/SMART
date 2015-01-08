@@ -1,41 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <string-array name="greystones_test">
+        <item>Greystones</item>
+        <item>\n-Weekly, Monday</item>
+    </string-array>
+
+    <string name="app_name">Clinics</string>
     <string name="title_activity_clinic">Clinic Activity</string>
-    <string name="title_activity_main_activity_domino">Domino </string>
-    <string name="Service_Options">Service Options</string>
+    <string name="title_activity_domino_dublin">DominoDublinActivity</string>
+    <string name="title_activity_domino_wicklow">DominoWicklowActivity</string>
+    <string name="title_activity_etc_dublin">EtcDublinActivity</string>
+    <string name="title_activity_etc_wicklow">EtcWicklowActivity</string>
+    <string name="title_activity_satellite">MainActivity</string>
+    
     <string name="DominoD">Domino(Dublin)</string>
     <string name="DominoW">Domino(Wicklow)</string>
     <string name="ETHD">ETH(Dublin)</string>
     <string name="ETHW">ETH(Wiclow)</string>
     <string name="Satellite">Satellite</string>
+    <string name="Service_Options">Service Options</string>
     
-    <string name="app_name">Clinics</string>
     <string name="button_NMH_OPD">NMH(OPD Location)\n-Evening Booking Clinic\n-Weekly,Monday)</string>
-    <string name="Leopardstown">Leopardstown\n-Weekly,Tuesday\n</string>
-    <string name="Dunlaoghaire">Dun laoghaire\n-St. Michaels Hospital\n-Weekly,Wednesday</string>
-    <string name="Churchtown">Churchtown\n-Weekly,Thursday\n</string>
-    <string name="NMH">NMH\n-Weekly,Friday\n</string>
-    <string name="Homevisits">Home visits\n-Miscellaneous\n-Daily</string>
+    <string name="leopardstown">Leopardstown\n-Weekly,Tuesday\n</string>
+    <string name="dunlaoghaire">Dun laoghaire\n-St. Michaels Hospital\n-Weekly,Wednesday</string>
+    <string name="churchtown">Churchtown\n-Weekly,Thursday\n</string>
+    <string name="nmh">NMH\n-Weekly,Friday\n</string>
+    <string name="home_visits">Home Visits\n	-Miscellaneous\n-Daily</string>
     
-    <string-array name="greystones_test">
-        <item>Greystones</item>
-        <item>\n-Weekly, Monday</item>
-    </string-array>
-    
-    <string name="monday">\n	-Weekly, Monday</string>
     <string name="greystones_monday">Greystones\n	-Weekly, Monday</string>
     <string name="greystones_tuesday">Greystones\n	-Weekly, Tuesday</string>
+    <string name="kilmacanogue">Kilmacanogue\n	-Weekly, Thursday</string>
+    
     <string name="ballinteer_monday">Ballinteer\n	-Weekly, Monday</string>
     <string name="dunLaoghaire_tuesday">Dun Laoghaire\n	-Weekly, Tuesday</string>
-    <string name="kilmacanogue">Kilmacanogue\n	-Weekly, Thursday</string>
+    
     <string name="bray_thursday">Bray\n	-Weekly, Thursday</string>
     <string name="arklow_tuesday">Arklow\n	-Weekly, Tuesday</string>
     <string name="newtownmountkennedy_wednesday">Newtownmountkennedy\n	-Weekly, Wednesday \n-Booking clinics</string>
-    <string name="home_visits">Home Visits\n	-Miscellaneous\n-Daily</string>
     <string name="domino_view">Select Service option</string>
-    <string name="title_activity_etc">EtcActivity</string>
-    <string name="title_activity_domino_dublin">DominoDublinActivity</string>
-    <string name="title_activity_domino_wicklow">DominoWicklowActivity</string>
-    <string name="title_activity_satellite">MainActivity</string>
-
+    
+    
+     <string name="login">Login</string>
 </resources>
