@@ -13,7 +13,6 @@
         android:layout_height="wrap_content"
         android:text="@string/button_NMH_OPD"
         android:layout_weight="1.0"
-        android:textColor="@color/black"
         android:textSize="@dimen/text_small" />
 
     <Button
@@ -22,7 +21,6 @@
         android:layout_height="wrap_content"
         android:text="@string/Leopardstown"
         android:layout_weight="1.0"
-        android:textColor="@color/black"
         android:textSize="@dimen/text_small" />
 
      <Button
@@ -31,15 +29,14 @@
          android:layout_height="wrap_content"
          android:text="@string/Dunlaoghaire"
          android:layout_weight="1.0"
-         android:textColor="@color/black"
          android:textSize="@dimen/text_small" />
 
      <Button
          android:id="@+id/Churchtown"
          android:layout_width="match_parent"
+         android:layout_height="wrap_content"
          android:text="@string/Churchtown"
          android:layout_weight="1.0"
-         android:textColor="@color/black"
          android:textSize="@dimen/text_small" />
 
      <Button
@@ -48,7 +45,6 @@
          android:layout_height="wrap_content"
          android:text="@string/NMH"
          android:layout_weight="1.0"
-         android:textColor="@color/black"
          android:textSize="@dimen/text_small" />
 
      <Button
@@ -57,7 +53,6 @@
          android:layout_height="wrap_content"
          android:text="@string/Homevisits"
          android:layout_weight="1.0"
-         android:textColor="@color/black"
          android:textSize="@dimen/text_small" />
 
 </LinearLayout>
