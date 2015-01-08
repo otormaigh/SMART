@@ -18,14 +18,14 @@
         android:id="@+id/Leopardstown"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/Leopardstown"
+        android:text="@string/leopardstown"
         android:layout_weight="1.0"
         android:textSize="@dimen/text_small" />
      <Button
          android:id="@+id/Dunlaoghaire"
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
-         android:text="@string/Dunlaoghaire"
+         android:text="@string/dunlaoghaire"
          android:layout_weight="1.0"
          android:textSize="@dimen/text_small" />
      <Button
@@ -33,20 +33,20 @@
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
          android:layout_weight="1.0"
-         android:text="@string/Churchtown"
+         android:text="@string/churchtown"
          android:textSize="@dimen/text_small" />
      <Button
          android:id="@+id/NMH"
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
-         android:text="@string/NMH"
+         android:text="@string/nmh"
          android:layout_weight="1.0"
          android:textSize="@dimen/text_small" />
      <Button
          android:id="@+id/Homevisits"
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
-         android:text="@string/Homevisits"
+         android:text="@string/home_visits"
          android:layout_weight="1.0"
          android:textSize="@dimen/text_small" />
 </LinearLayout>
