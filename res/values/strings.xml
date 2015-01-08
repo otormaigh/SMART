@@ -16,15 +16,15 @@
     <string name="title_activity_etc_wicklow">EtcWicklowActivity</string>
     <string name="title_activity_satellite">MainActivity</string>
     
-    <string name="DominoD">Domino(Dublin)</string>
-    <string name="DominoW">Domino(Wicklow)</string>
-    <string name="ETHD">ETH(Dublin)</string>
-    <string name="ETHW">ETH(Wiclow)</string>
-    <string name="Satellite">Satellite</string>
+    <string name="domino_d">Domino(Dublin)</string>
+    <string name="domino_w">Domino(Wicklow)</string>
+    <string name="ethd">ETH(Dublin)</string>
+    <string name="ethw">ETH(Wiclow)</string>
+    <string name="satellite">Satellite</string>
     
-    <string name="Service_Options">Service Options</string>
+    <string name="service_options">Service Options</string>
     
-    <string name="button_NMH_OPD">NMH(OPD Location)\n-Evening Booking Clinic\n-Weekly,Monday)</string>
+    <string name="button_nmh_opd">NMH(OPD Location)\n-Evening Booking Clinic\n-Weekly,Monday)</string>
     <string name="leopardstown">Leopardstown\n-Weekly,Tuesday\n</string>
     <string name="dunlaoghaire">Dun laoghaire\n-St. Michaels Hospital\n-Weekly,Wednesday</string>
     <string name="churchtown">Churchtown\n-Weekly,Thursday\n</string>
@@ -41,9 +41,5 @@
     <string name="bray_thursday">Bray\n	-Weekly, Thursday</string>
     <string name="arklow_tuesday">Arklow\n	-Weekly, Tuesday</string>
     <string name="newtownmountkennedy_wednesday">Newtownmountkennedy\n	-Weekly, Wednesday \n-Booking clinics</string>
-    <string name="domino_view">Select Service option</string>
-    
-    
-     
+    <string name="domino_view">Select Service option</string> 
 </resources>
-

@@ -12,10 +12,8 @@
       android:layout_marginLeft="70dp"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:background="@drawable/logo"
-  />
-  
-    <EditText 
+      android:background="@drawable/logo"/>
+	<EditText 
     android:id="@+id/username2"
     android:layout_height="wrap_content"
     android:gravity="center" 
@@ -25,8 +23,7 @@
     android:layout_marginTop="60dp"
     android:layout_marginBottom="10dp"
     android:maxLines="1">
-    </EditText>
-    
+    </EditText>    
     <EditText 
     android:id="@+id/password"
     android:layout_height="wrap_content"
@@ -35,14 +32,12 @@
     android:layout_width="fill_parent"
     android:hint="Password" 
     android:maxLines="1">
-    </EditText>
-    
-    <Button
-   android:id="@+id/login"
-   android:layout_width="fill_parent"
-   android:layout_height="wrap_content"
-   android:text="@string/login" 
-
-/>
+    </EditText>    
+	<Button
+	android:id="@+id/login"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:text="@string/login" 
+	/>
     
 </LinearLayout>
