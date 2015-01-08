@@ -6,19 +6,6 @@
     android:orientation="vertical"
     android:weightSum="5.0"
     tools:context="com.example.myapp.MainActivity" >
-    
-    <ScreenName
-        android:id="@+id/Service_Options"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/padding_small"
-        android:layout_marginRight="@dimen/padding_small"
-        android:layout_marginTop="@dimen/padding_large"
-        android:layout_marginBottom="@dimen/padding_small"
-        android:background="@color/grey"
-        android:text="@string/Service_Options"
-        android:textColor="@color/black"
-        android:textSize="@dimen/text_large" />
 
     <Button
         android:id="@+id/DominoD"
