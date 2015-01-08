@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.team3.smartapp"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="15"
+        android:targetSdkVersion="21" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ClinicActivity"
+            android:label="@string/title_activity_clinic" >
+        </activity>
+        <activity
+            android:name=".DominoDublinActivity"
+            android:label="@string/title_activity_domino_dublin" >
+        </activity>
+        <activity
+            android:name=".DominoWicklowActivity"
+            android:label="@string/title_activity_domino_wicklow" >
+        </activity>
+        <activity
+            android:name=".EtcDublinActivity"
+            android:label="@string/title_activity_etc_dublin" >
+        </activity>
+        <activity
+            android:name=".EtcWicklowActivity"
+            android:label="@string/title_activity_etc_wicklow" >
+        </activity>
+        <activity
+            android:name=".SatelliteActivity"
+            android:label="@string/title_activity_satellite" >
+        </activity>
+        <activity
+            android:name=".Clinic_dates_Activity"
+            android:label="@string/Clinic_Dates" >
+        </activity>
+    </application>
+
+</manifest>
