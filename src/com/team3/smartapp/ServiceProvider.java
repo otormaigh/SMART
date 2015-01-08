@@ -1,28 +1,33 @@
+
 package com.team3.smartapp;
 
 public class ServiceProvider {
 	private int id;
-	private String date;
-	private String time;
-	private int serviceProviderId;
-	private int serviceUserId;
-	private String priority;		//Enum PriorityEnum.java
-	private String visitType;		//Enum VisitTypeEnum.java
-	private int serviceOptionId;
+	private String name;
+	private String username;
+	private String password;
+	private Boolean active;
+	private Boolean admin;
+	private String jobOccupation;		//JobOccupationEnum.java
+	private String jobLevel;			//JobLevelEnum.java
+	private int primaryPhone;
+	private int secondaryPhone;	
 	
 	public ServiceProvider(){
 	}
-	
-	public ServiceProvider(int id, String date, String time, int serviceProviderId, int serviceUserId, 
-						   String priority, String visitType, int serviceOptionId) {
+	public ServiceProvider(int id, String name, String username, String password, 
+						   Boolean active, Boolean admin, String jobOccupation,
+						   String jobLevel, int primaryPhone, int secondaryPhone){
 		this.id = id;
-		this.date = date;
-		this.time = time;
-		this.serviceProviderId = serviceProviderId;
-		this.serviceUserId = serviceUserId;
-		this.priority = priority;
-		this.visitType = visitType;
-		this.serviceOptionId = serviceOptionId;
+		this.name = name;
+		this.username = username;
+		this.password = password;
+		this.active = active;
+		this.admin = admin;
+		this.jobOccupation = jobOccupation;
+		this.jobLevel = jobLevel;
+		this.primaryPhone = primaryPhone;
+		this.secondaryPhone = secondaryPhone;		
 	}
 	public int getId() {
 		return id;
@@ -30,56 +35,59 @@ public class ServiceProvider {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getDate() {
-		return date;
+	public String getName() {
+		return name;
 	}
-	public void setDate(String date) {
-		this.date = date;
+	public void setName(String name) {
+		this.name = name;
 	}
-	public String getTime() {
-		return time;
+	public String getUsername() {
+		return username;
 	}
-	public void setTime(String time) {
-		this.time = time;
+	public void setUsername(String username) {
+		this.username = username;
 	}
-	public int getServiceProviderId() {
-		return serviceProviderId;
+	public String getPassword() {
+		return password;
 	}
-	public void setServiceProviderId(int serviceProviderId) {
-		this.serviceProviderId = serviceProviderId;
+	public void setPassword(String password) {
+		this.password = password;
 	}
-	public int getServiceUserId() {
-		return serviceUserId;
+	public Boolean getActive() {
+		return active;
 	}
-	public void setServiceUserId(int serviceUserId) {
-		this.serviceUserId = serviceUserId;
+	public void setActive(Boolean active) {
+		this.active = active;
 	}
-	public String getPriority() {
-		return priority;
+	public Boolean getAdmin() {
+		return admin;
 	}
-	public void setPriority(String priority) {
-		this.priority = priority;
+	public void setAdmin(Boolean admin) {
+		this.admin = admin;
 	}
-	public String getVisitType() {
-		return visitType;
+	public String getJobOccupation() {
+		return jobOccupation;
 	}
-	public void setVisitType(String visitType) {
-		this.visitType = visitType;
+	public void setJobOccupation(String jobOccupation) {
+		this.jobOccupation = jobOccupation;
 	}
-	public int getServiceOptionId() {
-		return serviceOptionId;
+	public String getJobLevel() {
+		return jobLevel;
 	}
-	public void setServiceOptionId(int serviceOptionId) {
-		this.serviceOptionId = serviceOptionId;
+	public void setJobLevel(String jobLevel) {
+		this.jobLevel = jobLevel;
 	}
-	public String toString(){
-		return "ID: " + id + "\n" +
-			   "Date: " + date + "\n" +
-			   "Time: " + time + "\n" +
-			   "Provider ID: " + serviceProviderId + "\n" +
-			   "User ID: " + serviceUserId + "\n" +
-			   "Priority: " + priority + "\n" +
-			   "Visit Type: " + visitType + "\n" +
-			   "Service Option ID: " + serviceOptionId + "\n";
+	public int getPrimaryPhone() {
+		return primaryPhone;
+	}
+	public void setPrimaryPhone(int primaryPhone) {
+		this.primaryPhone = primaryPhone;
+	}
+	public int getSecondaryPhone() {
+		return secondaryPhone;
+	}
+	public void setSecondaryPhone(int secondaryPhone) {
+		this.secondaryPhone = secondaryPhone;
 	}
 }
+
