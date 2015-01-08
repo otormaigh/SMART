@@ -32,8 +32,8 @@
          android:id="@+id/domino_dublin_Churchtown"
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
-         android:layout_weight="1.0"
          android:text="@string/churchtown"
+         android:layout_weight="1.0"
          android:textSize="@dimen/text_small" />
      <Button
          android:id="@+id/domino_dublin_nmh2"
