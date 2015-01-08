@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.team3.smartapp"
@@ -27,15 +28,20 @@
             android:label="@string/title_activity_clinic" >
         </activity>
         <activity
-            android:name=".MainActivityDomino"
-            android:label="@string/title_activity_main_activity_domino" >
-        </activity>
-        <activity android:name=".DominoActivity" >
-        </activity>
-        <activity
             android:name=".DominoDublinActivity"
             android:label="@string/title_activity_domino_dublin" >
         </activity>
+        <activity
+            android:name=".EtcActivity"
+            android:label="@string/title_activity_etc" >
+        </activity>
+        <activity
+            android:name=".DominoWicklowActivity"
+            android:label="@string/title_activity_domino_wicklow" >
+        </activity>
+        <activity
+            android:name=".SatelliteActivity"
+            android:label="@string/title_activity_satellite" >
+        </activity>
     </application>
-
 </manifest>
