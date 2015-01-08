@@ -9,8 +9,4 @@
     <dimen name="text_small">20dp</dimen>
     <dimen name="text_medium">23dp</dimen>
     <dimen name="text_large">27dp</dimen>
-    
-    <dimen name="button_width">140dp</dimen>
-    
-    <dimen name="corner_radius">10dp</dimen>
 </resources>
