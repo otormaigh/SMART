@@ -26,6 +26,16 @@
             android:name=".ClinicActivity"
             android:label="@string/title_activity_clinic" >
         </activity>
+        <activity
+            android:name=".MainActivityDomino"
+            android:label="@string/title_activity_main_activity_domino" >
+        </activity>
+        <activity android:name=".DominoActivity" >
+        </activity>
+        <activity
+            android:name=".DominoDublinActivity"
+            android:label="@string/title_activity_domino_dublin" >
+        </activity>
     </application>
 
 </manifest>
