@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="padding_Xsmall">1dp</dimen>
     <dimen name="padding_small">12dp</dimen>
     <dimen name="padding_medium">20dp</dimen>
-    <dimen name="padding_large">24dp</dimen>
+    <dimen name="padding_large">28dp</dimen>
     
     <dimen name="small_font">8sp</dimen>
     <dimen name="medium_font">16sp</dimen>
     <dimen name="large_font">20sp</dimen>
     
-    <dimen name="text_small">15dp</dimen>
+    <dimen name="text_small">20dp</dimen>
     <dimen name="text_medium">23dp</dimen>
     <dimen name="text_large">27dp</dimen>
     
