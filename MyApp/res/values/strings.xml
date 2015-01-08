@@ -1,0 +1,10 @@
+<resources>
+
+    <string name="main_View">Welcome</string>
+    <string name="label_title">My Text Label</string>
+	<string name="button_one">one</string>
+	<string name="button_two">two</string>
+	<string name="button_three">three</string>
+	<string name="button_four">four</string>
+	<string name="button_five">five</string>
+	</resources>
