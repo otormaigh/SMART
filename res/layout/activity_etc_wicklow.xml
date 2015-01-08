@@ -15,7 +15,6 @@
         android:layout_weight="1.0"
         android:text="@string/ballinteer_monday"
         android:textSize="@dimen/text_large" />
-
     <Button
         android:id="@+id/dunLaoghaire_button"
         android:layout_width="match_parent"
