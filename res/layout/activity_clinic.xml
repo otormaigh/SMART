@@ -5,8 +5,8 @@
     android:layout_height="match_parent"
     tools:context="${relativePackage}.${activityClass}"
     android:orientation="vertical"
-    android:weightSum="5.0"
-    tools:context="com.example.myapp.MainActivity" >
+    android:weightSum="5.0">
+    
     <Button
         android:id="@+id/DominoD"
         android:layout_width="match_parent"
@@ -28,7 +28,7 @@
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
          android:text="@string/ETHD"
-         android:layout_weight="1.0""
+         android:layout_weight="1.0"
          android:textSize="@dimen/text_large" >
      </Button>
      <Button
