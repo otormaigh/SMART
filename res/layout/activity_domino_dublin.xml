@@ -6,19 +6,6 @@
     android:orientation="vertical"
     android:weightSum="6.0"
     tools:context="com.example.myapp.MainActivity" >
-    
-    <ScreenName
-        android:id="@+id/Clinics"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/padding_small"
-        android:layout_marginRight="@dimen/padding_small"
-        android:layout_marginTop="@dimen/padding_Xsmall"
-        android:layout_marginBottom="@dimen/padding_Xsmall"
-        android:background="@color/grey"
-        android:text="@string/app_name"
-        android:textColor="@color/black"
-        android:textSize="@dimen/text_small" />
 
     <Button
         android:id="@+id/NMH_OPD"
