@@ -13,40 +13,40 @@
         android:layout_height="wrap_content"
         android:text="@string/button_nmh_opd"
         android:layout_weight="1.0"
-        android:textSize="@dimen/text_small" />
+        android:textSize="@dimen/text_Xsmall" />
     <Button
         android:id="@+id/domino_dublin_leopardstown"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/leopardstown"
         android:layout_weight="1.0"
-        android:textSize="@dimen/text_small" />
+        android:textSize="@dimen/text_Xsmall" />
      <Button
          android:id="@+id/domino_dublin_dunlaoghaire"
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
          android:text="@string/dunlaoghaire"
          android:layout_weight="1.0"
-         android:textSize="@dimen/text_small" />
+         android:textSize="@dimen/text_Xsmall" />
      <Button
          android:id="@+id/domino_dublin_churchtown"
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
          android:text="@string/churchtown"
          android:layout_weight="1.0"
-         android:textSize="@dimen/text_small" />
+         android:textSize="@dimen/text_Xsmall" />
      <Button
          android:id="@+id/domino_dublin_nmh2"
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
          android:text="@string/nmh"
          android:layout_weight="1.0"
-         android:textSize="@dimen/text_small" />
+         android:textSize="@dimen/text_Xsmall" />
      <Button
          android:id="@+id/domino_dublin_homevisits"
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
          android:text="@string/home_visits"
          android:layout_weight="1.0"
-         android:textSize="@dimen/text_small" />
+         android:textSize="@dimen/text_Xsmall" />
 </LinearLayout>
