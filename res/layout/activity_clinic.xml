@@ -8,18 +8,18 @@
     android:weightSum="5.0">
     
     <Button
-        android:id="@+id/DominoD"
+        android:id="@+id/domino_d"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/DominoD"
+        android:text="@string/domino_d"
         android:layout_weight="1.0"
         android:textSize="@dimen/text_large" >
     </Button>
     <Button
-        android:id="@+id/DominoW"
+        android:id="@+id/domino_w"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/DominoW"
+        android:text="@string/domino_w"
         android:layout_weight="1.0"
         android:textSize="@dimen/text_large" >
     </Button>
