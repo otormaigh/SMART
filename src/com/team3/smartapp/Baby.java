@@ -1,6 +1,5 @@
 package com.team3.smartapp;
 
-
 public class Baby {
 	
 	private int id;
