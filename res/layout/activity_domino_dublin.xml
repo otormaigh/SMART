@@ -8,11 +8,15 @@
     tools:context="com.example.myapp.MainActivity" >
 
     <Button
-        android:id="@+id/domino_NMH_OPD"
+        android:id="@+id/domino_dublin_nmh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+<<<<<<< HEAD
         android:text="@string/domino_NMH_OPD"
         android:gravity="start"
+=======
+        android:text="@string/button_nmh_opd"
+>>>>>>> branch 'master' of https://github.com/GH8734/Smart-App.git
         android:layout_weight="1.0"
         android:textSize="@dimen/text_Xsmall" />
     <Button
