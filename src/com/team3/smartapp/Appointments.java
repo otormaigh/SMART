@@ -33,7 +33,6 @@ public class Appointments {
 	public String getVistType(){
 		return vistType;
 	}
-	
 	public String getServiceOptionId(){
 		return serviceOptionId;
 	}	
