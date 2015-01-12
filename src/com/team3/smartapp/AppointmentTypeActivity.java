@@ -1,9 +1,16 @@
 package com.team3.smartapp;
 
+import com.example.midwifeoragnizer.MainActivity;
+import com.example.midwifeoragnizer.PatientActivity;
+import com.example.midwifeoragnizer.R;
+import com.example.midwifeoragnizer.MainActivity.ButtonClick;
+
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 
 public class AppointmentTypeActivity extends Activity {
@@ -13,26 +20,21 @@ public class AppointmentTypeActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.appointment_type);
-		addListenerOnButton();
+		
+		clinics = (Button)findViewById(R.id.clinics);
+		clinics.setOnClickListener(new ButtonClick());
+		
 	}
-	
-	
-	public void addListenerOnButton() {
-		 
-		final Context context = this;
+		private class ButtonClick implements View.OnClickListener{
+			public void onClick(View v) {
+				switch(v.clinics()){
+				case R.id.clinics:
+					Intent intentPatient = new Intent(MainActivity.this, PatientActivity.class);
+					startActivity(intentPatient);
+					break;
+		
+		
  
-		clinics = (Button) findViewById(R.id.clinics);
- 
-		clinics.setOnClickListener(new OnClickListener() {
- 
-			@Override
-			public void onClick(View arg0) {
- 
-			    Intent intent = new Intent(context, activity_clinic.class);
-                startActivity(intent);   
- 
-			}
- 
-		});
- 
-}
+	}
+		}
+	}

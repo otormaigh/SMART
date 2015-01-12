@@ -4,6 +4,7 @@
     android:versionCode="1"
     android:versionName="1.0" >
 <<<<<<< HEAD
+<<<<<<< HEAD
     <uses-sdk
         android:minSdkVersion="15"
         android:targetSdkVersion="21" />
@@ -49,6 +50,8 @@
     </application>
 =======
 
+=======
+>>>>>>> branch 'master' of https://github.com/GH8734/Smart-App.git
     <uses-sdk
         android:minSdkVersion="15"
         android:targetSdkVersion="21" />
@@ -91,11 +94,10 @@
             android:name=".SatelliteActivity"
             android:label="@string/title_activity_satellite" >
         </activity>
-        <activity
-            android:name=".Clinic_dates_Activity"
-            android:label="@string/Clinic_Dates" >
-        </activity>
     </application>
+<<<<<<< HEAD
 
+>>>>>>> branch 'master' of https://github.com/GH8734/Smart-App.git
+=======
 >>>>>>> branch 'master' of https://github.com/GH8734/Smart-App.git
 </manifest>
