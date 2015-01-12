@@ -5,8 +5,8 @@
     <dimen name="padding_medium">20dp</dimen>
     <dimen name="padding_large">28dp</dimen>
     
-    <dimen name="text_Xsmall">10dp</dimen>
-    <dimen name="text_small">20dp</dimen>
-    <dimen name="text_medium">23dp</dimen>
-    <dimen name="text_large">27dp</dimen>
+    <dimen name="text_Xsmall">10sp</dimen>
+    <dimen name="text_small">20sp</dimen>
+    <dimen name="text_medium">23sp</dimen>
+    <dimen name="text_large">27sp</dimen>
 </resources>
