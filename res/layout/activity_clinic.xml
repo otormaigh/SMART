@@ -16,6 +16,7 @@
         android:layout_weight="1.0"
         android:textSize="@dimen/text_large" >
     </Button>
+    
     <Button
         android:id="@+id/domino_w"
         android:layout_width="match_parent"
