@@ -27,11 +27,12 @@ public class AppointmentTypeActivity extends Activity {
 	}
 		private class ButtonClick implements View.OnClickListener{
 			public void onClick(View v) {
-				switch(v.clinics()){
+				switch(v.getId()){
 				case R.id.clinics:
-					Intent intentPatient = new Intent(MainActivity.this, ClinicActivity.class);
+					Intent intentPatient = new Intent(AppointmentTypeActivity.this, ClinicActivity.class);
 					startActivity(intentPatient);
 					break;
+					
 				}
 			}
 		}
