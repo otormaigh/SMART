@@ -54,7 +54,7 @@
             android:name=".AppointmentTypeActivity"
             android:label="@string/title_activity_appointment_type" >
         </activity>
->>>>>>> branch 'master' of https://github.com/GH8734/Smart-App.git
+
     </application>
 
 </manifest>
