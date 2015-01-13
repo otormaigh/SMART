@@ -1,4 +1,3 @@
-
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
@@ -22,7 +21,7 @@
     <string name="domino_d">Domino(Dublin)</string>
     <string name="domino_w">Domino(Wicklow)</string>
     <string name="ETHD">ETH(Dublin)</string>
-    <string name="ETHW">ETH(Wiclow)</string>
+    <string name="ETHW">ETH(Wicklow)</string>
     <string name="Satellite">Satellite</string>
     <string name="Service_Options">Service Options</string>
     <string name="domino_NMH_OPD">NMH(OPD Location)\n-Evening Booking Clinic\n-Weekly,Monday)</string>
