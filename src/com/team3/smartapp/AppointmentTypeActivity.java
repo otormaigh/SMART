@@ -29,7 +29,7 @@ public class AppointmentTypeActivity extends Activity {
 			public void onClick(View v) {
 				switch(v.clinics()){
 				case R.id.clinics:
-					Intent intentPatient = new Intent(MainActivity.this, PatientActivity.class);
+					Intent intentPatient = new Intent(MainActivity.this, ClinicActivity.class);
 					startActivity(intentPatient);
 					break;
 		

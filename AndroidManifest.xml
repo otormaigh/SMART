@@ -3,6 +3,7 @@
     package="com.team3.smartapp"
     android:versionCode="1"
     android:versionName="1.0" >
+
     <uses-sdk
         android:minSdkVersion="15"
         android:targetSdkVersion="21" />
@@ -45,7 +46,6 @@
             android:name=".SatelliteActivity"
             android:label="@string/title_activity_satellite" >
         </activity>
-<<<<<<< HEAD
         <activity
             android:name=".Clinic_dates_Activity"
             android:label="@string/Clinic_Dates" >
@@ -54,7 +54,7 @@
             android:name=".AppointmentTypeActivity"
             android:label="@string/title_activity_appointment_type" >
         </activity>
-=======
->>>>>>> branch 'master' of https://github.com/GH8734/Smart-App.git
+>>>>>>> branch 'master' of https://github.com/GH8734/Smart-App.git
     </application>
+
 </manifest>
