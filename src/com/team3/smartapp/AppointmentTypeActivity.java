@@ -1,10 +1,5 @@
 package com.team3.smartapp;
 
-import com.example.midwifeoragnizer.MainActivity;
-import com.example.midwifeoragnizer.PatientActivity;
-import com.example.midwifeoragnizer.R;
-import com.example.midwifeoragnizer.MainActivity.ButtonClick;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;

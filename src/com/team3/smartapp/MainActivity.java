@@ -27,10 +27,9 @@ public class MainActivity extends Activity {
 			}
 		}
 	}
-<<<<<<< HEAD
 }
 
 		
-=======
-}
->>>>>>> refs/remotes/origin/master
+
+
+
