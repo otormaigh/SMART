@@ -107,6 +107,7 @@ public final class R {
         public static final int login=0x7f07001f;
         public static final int newtownmountkennedy_wednesday=0x7f07001d;
         public static final int nmh=0x7f070014;
+        public static final int test_string=0x7f070029;
         public static final int title_activity_appointment_type=0x7f070027;
         public static final int title_activity_clinic=0x7f070003;
         public static final int title_activity_clinic_dates_=0x7f070009;
