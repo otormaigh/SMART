@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+
 public class AppointmentTypeActivity extends Activity {
  
 	Button clinics;
@@ -31,8 +32,4 @@ public class AppointmentTypeActivity extends Activity {
 				}
 			}
 		}
-}
-		
-		
- 
-	
+	}
