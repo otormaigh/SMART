@@ -32,9 +32,11 @@ public class AppointmentTypeActivity extends Activity {
 					Intent intentPatient = new Intent(MainActivity.this, ClinicActivity.class);
 					startActivity(intentPatient);
 					break;
+				}
+			}
+		}
+}
 		
 		
  
-	}
-		}
-	}
+	
