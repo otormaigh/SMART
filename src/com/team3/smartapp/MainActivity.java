@@ -5,10 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import com.team3.smartapp.*;
 
-public class MainActivity extends Activity {
-	
+public class MainActivity extends Activity {	
 	private Button test;
 	
 	@Override
@@ -18,8 +16,7 @@ public class MainActivity extends Activity {
 
 		test = (Button)findViewById(R.id.login);
 		test.setOnClickListener(new ButtonClick());
-	}
-	
+	}	
 	private class ButtonClick implements View.OnClickListener{
 		public void onClick(View v) {
 			switch(v.getId()){
@@ -30,6 +27,10 @@ public class MainActivity extends Activity {
 			}
 		}
 	}
+<<<<<<< HEAD
 }
 
 		
+=======
+}
+>>>>>>> refs/remotes/origin/master
