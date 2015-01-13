@@ -117,7 +117,7 @@ public final class R {
         public static final int week_five=0x7f060028;
         public static final int week_four=0x7f060027;
         public static final int week_one=0x7f060024;
-        public static final int week_six=0x7f060029;
+        public static final int week_six_lllll=0x7f060029;
         public static final int week_three=0x7f060026;
         public static final int week_two=0x7f060025;
     }
