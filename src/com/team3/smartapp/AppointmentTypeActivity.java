@@ -7,9 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import com.team3.smartapp.*;
-public class AppointmentTypeActivity extends Activity {
- 
+public class AppointmentTypeActivity extends Activity { 
 	Button clinics;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +29,4 @@ public class AppointmentTypeActivity extends Activity {
 				}
 			}
 		}
-}
-		
-		
- 
-	
+	}
