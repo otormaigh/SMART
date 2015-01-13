@@ -42,7 +42,7 @@ public final class R {
     public static final class id {
         public static final int ETHD=0x7f090002;
         public static final int ETHW=0x7f090003;
-        public static final int clinics=0x7f09001a;
+        public static final int clinics=0x7f09001b;
         public static final int domino_d=0x7f090000;
         public static final int domino_dublin_churchtown=0x7f090008;
         public static final int domino_dublin_dunlaoghaire=0x7f090007;
@@ -59,15 +59,16 @@ public final class R {
         public static final int etc_dublin_dunLaoghaire=0x7f090010;
         public static final int etc_wicklow_ballinteer=0x7f090011;
         public static final int etc_wicklow_dunLaoghaire=0x7f090012;
-        public static final int login=0x7f090015;
-        public static final int password=0x7f090014;
+        public static final int imageView2=0x7f090013;
+        public static final int login=0x7f090016;
+        public static final int password=0x7f090015;
         public static final int satellite=0x7f090004;
-        public static final int satellite_arklow=0x7f090017;
-        public static final int satellite_bray=0x7f090019;
-        public static final int satellite_greystones=0x7f090016;
-        public static final int satellite_newtownmountkenned=0x7f090018;
-        public static final int username2=0x7f090013;
-        public static final int visits=0x7f09001b;
+        public static final int satellite_arklow=0x7f090018;
+        public static final int satellite_bray=0x7f09001a;
+        public static final int satellite_greystones=0x7f090017;
+        public static final int satellite_newtownmountkenned=0x7f090019;
+        public static final int username2=0x7f090014;
+        public static final int visits=0x7f09001c;
     }
     public static final class layout {
         public static final int activity_clinic=0x7f030000;
