@@ -7,7 +7,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-public class AppointmentTypeActivity extends Activity { 
+
+
+public class AppointmentTypeActivity extends Activity {
+ 
 	Button clinics;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
