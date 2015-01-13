@@ -48,5 +48,5 @@
     <string name="week_five">Week 5\nMon, 29 Sep</string>
     <string name="week_six">Week 6\nMon, 06 Oct</string>
     <string name="title_activity_appointment_type">appointment_type</string>
-    <string name="hello_world_lslslsls">Hello world!</string>   
+    <string name="hello_world">Hello world!</string>   
 </resources>
