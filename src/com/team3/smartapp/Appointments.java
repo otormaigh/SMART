@@ -1,7 +1,5 @@
 package com.team3.smartapp;
 
-import java.util.Date;
-
 public class Appointments {
 	private String id;
 	private String date;

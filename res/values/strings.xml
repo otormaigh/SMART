@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string-array name="greystones_test">
-        <item>Greystones</item>
-        <item>\n-Weekly, Monday</item>
-    </string-array>
-    
-    
     <string name="clinics">Clinics</string>
     <string name="visits">Visits</string>
     
@@ -48,5 +41,4 @@
     <string name="week_five">Week 5\nMon, 29 Sep</string>
     <string name="week_six">Week 6\nMon, 06 Oct</string>
     <string name="title_activity_appointment_type">appointment_type</string>
-    <string name="hello_world">Hello world!</string>   
 </resources>
