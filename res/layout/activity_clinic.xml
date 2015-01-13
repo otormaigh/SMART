@@ -34,10 +34,10 @@
          android:textSize="@dimen/text_large" >
      </Button>
      <Button
-         android:id="@+id/ethw"
+         android:id="@+id/ETHW"
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
-         android:text="@string/ethw"
+         android:text="@string/ETHW"
          android:layout_weight="1.0"
          android:textSize="@dimen/text_large" >
      </Button>
@@ -45,7 +45,7 @@
          android:id="@+id/satellite"
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
-         android:text="@string/satellite"
+         android:text="@string/Satellite"
          android:layout_weight="1.0"
          android:textSize="@dimen/text_large" >
      </Button>
