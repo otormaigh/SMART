@@ -1,3 +1,4 @@
+
 package com.team3.smartapp;
 
 import android.app.Activity;
@@ -66,4 +67,3 @@ public class ClinicActivity extends Activity {
 	}
 }
 
-	
