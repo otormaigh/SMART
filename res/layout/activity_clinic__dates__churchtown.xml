@@ -8,50 +8,50 @@
     tools:context="com.example.myapp.MainActivity" >
 
     <Button
-        android:id="@+id/domino_dublin_nmh"
+        android:id="@+id/week_one_church"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/domino_NMH_OPD"
+        android:text="@string/week_one_church"
         android:layout_weight="1.0"
         android:textSize="@dimen/text_small" />
     
     <Button
-        android:id="@+id/domino_dublin_leopardstown"
+        android:id="@+id/week_two_church"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/leopardstown"
+        android:text="@string/week_two_church"
         android:layout_weight="1.0"
         android:textSize="@dimen/text_small" />
     
      <Button
-         android:id="@+id/domino_dublin_dunlaoghaire"
+         android:id="@+id/week_three_church"
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
-         android:text="@string/dunlaoghaire"
+         android:text="@string/week_three_church"
          android:layout_weight="1.0"
          android:textSize="@dimen/text_small" />
      
      <Button
-         android:id="@+id/domino_dublin_churchtown"
+         android:id="@+id/week_four_church"
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
-         android:text="@string/churchtown"
+         android:text="@string/week_four_church"
          android:layout_weight="1.0"
          android:textSize="@dimen/text_small" />
      
      <Button
-         android:id="@+id/domino_dublin_nmh2"
+         android:id="@+id/week_five_church"
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
-         android:text="@string/nmh"
+         android:text="@string/week_five_church"
          android:layout_weight="1.0"
          android:textSize="@dimen/text_small" />
      
      <Button
-         android:id="@+id/domino_dublin_homevisits"
+         android:id="@+id/week_six_church"
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
-         android:text="@string/home_visits"
+         android:text="@string/week_six_church"
          android:layout_weight="1.0"
          android:textSize="@dimen/text_small" />
      
