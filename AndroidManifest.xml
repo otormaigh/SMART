@@ -57,11 +57,11 @@
         <activity
             android:name=".ClinicDatesNMH"
             android:label="@string/title_activity_clinic_dates_nmh" >
-          </activity>
-        <activity   
-        android:name=".Clinic_Dates_NMHOPD"
+        </activity>
+        <activity
+            android:name=".Clinic_Dates_NMHOPD"
             android:label="@string/title_activity_clinic_dates_nmhOPD" >
-    </activity>
+        </activity>
         <activity
             android:name=".ClinicDatesleopardstown"
             android:label="@string/title_activity_clinic_dates_leopardstown" >
@@ -78,5 +78,10 @@
             android:name=".Clinic_Dates_nmh"
             android:label="@string/title_activity_clinic_dates_nmh" >
         </activity>
+        <activity
+            android:name=".ClinicDatesHomevisits"
+            android:label="@string/title_activity_clinic_dates_homevisits" >
+        </activity>
     </application>
+
 </manifest>
