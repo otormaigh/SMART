@@ -1,7 +1,5 @@
 package com.team3.smartapp;
 
-
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -41,27 +39,26 @@ public class DominoDublinActivity extends Activity {
 		
 		domino_dublin_homevisits = (Button)findViewById(R.id.domino_dublin_homevisits);
 		domino_dublin_homevisits.setOnClickListener(new ButtonClick());
-
-
 	}
+	
 	
 	private class ButtonClick implements View.OnClickListener{
 		public void onClick(View v) {
 			switch(v.getId()){
 			case R.id.domino_dublin_nmh:
-				Intent intentDominoDublinNmh = new Intent(DominoDublinActivity.this, DominoDublinActivity.class);
+				Intent intentDominoDublinNmh = new Intent(DominoDublinActivity.this, ClinicDatesNMH.class);
 				startActivity(intentDominoDublinNmh);
 				break;
 			case R.id.domino_dublin_leopardstown:
-				Intent intentDominoDublinLeopardstown = new Intent(DominoDublinActivity.this, DominoWicklowActivity.class);
+				Intent intentDominoDublinLeopardstown = new Intent(DominoDublinActivity.this, ClinicDatesleopardstown.class);
 				startActivity(intentDominoDublinLeopardstown);
 				break;
 			case R.id.domino_dublin_dunlaoghaire:
-				Intent intentDominoDublinDunLaoghaire = new Intent(DominoDublinActivity.this, EtcDublinActivity.class);
+				Intent intentDominoDublinDunLaoghaire = new Intent(DominoDublinActivity.this, ClinicDatesDlaoghaire.class);
 				startActivity(intentDominoDublinDunLaoghaire);
 				break;
 			case R.id.domino_dublin_churchtown:
-				Intent intentDominoDublinChurchtown = new Intent(DominoDublinActivity.this, EtcWicklowActivity.class);
+				Intent intentDominoDublinChurchtown = new Intent(DominoDublinActivity.this, ClinicDatesChurchtown.class);
 				startActivity(intentDominoDublinChurchtown);
 				break;
 			case R.id.domino_dublin_nmh2:
@@ -69,12 +66,10 @@ public class DominoDublinActivity extends Activity {
 				startActivity(intentDominoDublinNmh2);
 				break;
 			case R.id.domino_dublin_homevisits:
-				Intent intentDominoDublinHomevisits = new Intent(DominoDublinActivity.this, SatelliteActivity.class);
+				Intent intentDominoDublinHomevisits = new Intent(DominoDublinActivity.this, ClinicDatesHomevisits.class);
 				startActivity(intentDominoDublinHomevisits);
 				break;
-
 			}
 		}
 	}
-
 }
