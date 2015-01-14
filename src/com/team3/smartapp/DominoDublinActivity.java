@@ -49,28 +49,28 @@ public class DominoDublinActivity extends Activity {
 		public void onClick(View v) {
 			switch(v.getId()){
 			case R.id.domino_dublin_nmh:
-				Intent intentDominoDublin = new Intent(DominoDublinActivity.this, DominoDublinActivity.class);
-				startActivity(intentDominoDublin);
+				Intent intentDominoDublinNmh = new Intent(DominoDublinActivity.this, DominoDublinActivity.class);
+				startActivity(intentDominoDublinNmh);
 				break;
 			case R.id.domino_dublin_leopardstown:
-				Intent intentDominoWicklow = new Intent(DominoDublinActivity.this, DominoWicklowActivity.class);
-				startActivity(intentDominoWicklow);
+				Intent intentDominoDublinLeopardstown = new Intent(DominoDublinActivity.this, DominoWicklowActivity.class);
+				startActivity(intentDominoDublinLeopardstown);
 				break;
 			case R.id.domino_dublin_dunlaoghaire:
-				Intent intentEthdDublin = new Intent(DominoDublinActivity.this, EtcDublinActivity.class);
-				startActivity(intentEthdDublin);
+				Intent intentDominoDublinDunLaoghaire = new Intent(DominoDublinActivity.this, EtcDublinActivity.class);
+				startActivity(intentDominoDublinDunLaoghaire);
 				break;
 			case R.id.domino_dublin_churchtown:
-				Intent intentEthdWicklow = new Intent(DominoDublinActivity.this, EtcWicklowActivity.class);
-				startActivity(intentEthdWicklow);
+				Intent intentDominoDublinChurchtown = new Intent(DominoDublinActivity.this, EtcWicklowActivity.class);
+				startActivity(intentDominoDublinChurchtown);
 				break;
 			case R.id.domino_dublin_nmh2:
-				Intent intentSatellite = new Intent(DominoDublinActivity.this, SatelliteActivity.class);
-				startActivity(intentSatellite);
+				Intent intentDominoDublinNmh2 = new Intent(DominoDublinActivity.this, SatelliteActivity.class);
+				startActivity(intentDominoDublinNmh2);
 				break;
 			case R.id.domino_dublin_homevisits:
-				Intent intentfrSatellite = new Intent(DominoDublinActivity.this, SatelliteActivity.class);
-				startActivity(intentSatellite);
+				Intent intentDominoDublinHomevisits = new Intent(DominoDublinActivity.this, SatelliteActivity.class);
+				startActivity(intentDominoDublinHomevisits);
 				break;
 
 			}
