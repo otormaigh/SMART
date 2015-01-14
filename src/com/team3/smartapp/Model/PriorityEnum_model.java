@@ -1,11 +1,11 @@
-package com.team3.smartapp;
+package com.team3.smartapp.Model;
 
-public enum PriorityEnum {
+public enum PriorityEnum_model {
 	OTHER("other");
 	
 	private String priority;
 	
-	private PriorityEnum(String priority){
+	private PriorityEnum_model(String priority){
 		this.priority = priority;
 	}
 	public String toString(){
