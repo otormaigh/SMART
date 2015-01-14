@@ -3,11 +3,9 @@
     package="com.team3.smartapp"
     android:versionCode="1"
     android:versionName="1.0" >
-
     <uses-sdk
         android:minSdkVersion="15"
         android:targetSdkVersion="21" />
-
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -18,7 +16,6 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -55,9 +52,8 @@
             android:label="@string/Clinic_Dates" >
         </activity>
         <activity
-            android:name=".Clinic_Dates_NMH"
-            android:label="@string/title_activity_clinic__dates__nmh" >
+            android:name=".ClinicDatesNMH"
+            android:label="@string/title_activity_clinic_dates_nmh" >
         </activity>
     </application>
-
 </manifest>
