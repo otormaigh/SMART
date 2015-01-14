@@ -46,19 +46,19 @@ public class DominoDublinActivity extends Activity {
 		public void onClick(View v) {
 			switch(v.getId()){
 			case R.id.domino_dublin_nmh:
-				Intent intentDominoDublinNmh = new Intent(DominoDublinActivity.this, ClinicDatesNMH.class);
+				Intent intentDominoDublinNmh = new Intent(DominoDublinActivity.this, ClinicDatesNMHActivity.class);
 				startActivity(intentDominoDublinNmh);
 				break;
 			case R.id.domino_dublin_leopardstown:
-				Intent intentDominoDublinLeopardstown = new Intent(DominoDublinActivity.this, ClinicDatesleopardstown.class);
+				Intent intentDominoDublinLeopardstown = new Intent(DominoDublinActivity.this, ClinicDatesLeopardstownActivity.class);
 				startActivity(intentDominoDublinLeopardstown);
 				break;
 			case R.id.domino_dublin_dunlaoghaire:
-				Intent intentDominoDublinDunLaoghaire = new Intent(DominoDublinActivity.this, ClinicDatesDlaoghaire.class);
+				Intent intentDominoDublinDunLaoghaire = new Intent(DominoDublinActivity.this, ClinicDatesDunLaoghaireActivity.class);
 				startActivity(intentDominoDublinDunLaoghaire);
 				break;
 			case R.id.domino_dublin_churchtown:
-				Intent intentDominoDublinChurchtown = new Intent(DominoDublinActivity.this, ClinicDatesChurchtown.class);
+				Intent intentDominoDublinChurchtown = new Intent(DominoDublinActivity.this, ClinicDatesChurchtownActivity.class);
 				startActivity(intentDominoDublinChurchtown);
 				break;
 			case R.id.domino_dublin_nmh2:
@@ -66,7 +66,7 @@ public class DominoDublinActivity extends Activity {
 				startActivity(intentDominoDublinNmh2);
 				break;
 			case R.id.domino_dublin_homevisits:
-				Intent intentDominoDublinHomevisits = new Intent(DominoDublinActivity.this, ClinicDatesHomevisits.class);
+				Intent intentDominoDublinHomevisits = new Intent(DominoDublinActivity.this, ClinicDatesHomevisitsActivity.class);
 				startActivity(intentDominoDublinHomevisits);
 				break;
 			}
