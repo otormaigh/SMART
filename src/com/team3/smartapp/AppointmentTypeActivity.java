@@ -13,7 +13,7 @@ public class AppointmentTypeActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.appointment_type);
+		setContentView(R.layout.activity_appointment_type);
 		
 		clinics = (Button)findViewById(R.id.clinics);
 		clinics.setOnClickListener(new ButtonClick());
