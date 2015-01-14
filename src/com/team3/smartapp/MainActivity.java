@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends Activity {	
+
 	private Button loginButton;
 	
 	@Override
@@ -28,3 +29,5 @@ public class MainActivity extends Activity {
 		}
 	}
 }
+
+
