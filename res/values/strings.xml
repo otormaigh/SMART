@@ -74,5 +74,6 @@
     <string name="week_six_nmh">Week 6\nFri, 10 Oct</string>
     <string name="title_activity_clinic_dates_homevisits">ClinicDatesHomevisits</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_nmh">NmhActivity</string>
 
 </resources>
