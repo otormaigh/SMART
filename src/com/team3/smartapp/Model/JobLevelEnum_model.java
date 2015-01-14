@@ -1,11 +1,11 @@
-package com.team3.smartapp;
+package com.team3.smartapp.Model;
 
-public enum JobLevelEnum {
+public enum JobLevelEnum_model {
 	RESIDENT("Resident");
 	
 	private String jobLevel;
 	
-	private JobLevelEnum(String jobLevel){
+	private JobLevelEnum_model(String jobLevel){
 		this.jobLevel = jobLevel;
 	}
 	public String toString(){
