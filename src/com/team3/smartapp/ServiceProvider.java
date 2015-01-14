@@ -14,7 +14,9 @@ public class ServiceProvider {
 	private int secondaryPhone;	
 	
 	public ServiceProvider(){
+		
 	}
+	
 	public ServiceProvider(int id, String name, String username, String password, 
 						   Boolean active, Boolean admin, String jobOccupation,
 						   String jobLevel, int primaryPhone, int secondaryPhone){
