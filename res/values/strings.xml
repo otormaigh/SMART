@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="clinics">Clinics</string>
     <string name="visits">Visits</string>
     
@@ -34,7 +35,7 @@
     <string name="domino_view">Select Service option</string>
     <string name="login">Login</string>
     <string name="Clinic_Dates">Clinic Dates</string>
-    <string name="week_one">Week 1\nMon, 01 Sep 2014</string>
+    <string name="week_one_nmh">Week 1\nMon, 01 Sep 2014</string>
     <string name="week_two">Week 2\nMon, 08 Sep 2014</string>
     <string name="week_three">Week 3\nMon, 15 Sep 2014</string>
     <string name="week_four">Week 4\nMon, 22 Sep</string>
@@ -42,3 +43,6 @@
     <string name="week_six">Week 6\nMon, 06 Oct</string>
     <string name="title_activity_appointment_type">appointment_type</string>
 </resources>
+
+
+   
