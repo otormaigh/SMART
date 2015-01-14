@@ -1,3 +1,4 @@
+
 package com.team3.smartapp;
 
 import android.app.Activity;
@@ -29,5 +30,3 @@ public class MainActivity extends Activity {
 		}
 	}
 }
-
-
