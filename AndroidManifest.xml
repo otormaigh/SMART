@@ -58,6 +58,22 @@
             android:name=".Clinic_Dates_NMH"
             android:label="@string/title_activity_clinic__dates__nmh" >
         </activity>
+        <activity
+            android:name=".Clinic_Dates_leopardstown"
+            android:label="@string/title_activity_clinic__dates_leopardstown" >
+        </activity>
+        <activity
+            android:name=".Clinic_Dates_Dlaoghaire"
+            android:label="@string/title_activity_clinic__dates__dlaoghaire" >
+        </activity>
+        <activity
+            android:name=".Clinic_Dates_Churchtown"
+            android:label="@string/title_activity_clinic__dates__churchtown" >
+        </activity>
+        <activity
+            android:name=".Clinic_Dates_nmh"
+            android:label="@string/title_activity_clinic__dates_nmh" >
+        </activity>
     </application>
 
 </manifest>
