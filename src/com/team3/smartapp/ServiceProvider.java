@@ -8,8 +8,8 @@ public class ServiceProvider {
 	private String password;
 	private Boolean active;
 	private Boolean admin;
-	private String jobOccupation;		//JobOccupationEnum.java
-	private String jobLevel;			//JobLevelEnum.java
+	private String jobOccupation;		//JobOccupationEnum_model.java
+	private String jobLevel;			//JobLevelEnum_model.java
 	private int primaryPhone;
 	private int secondaryPhone;	
 	
