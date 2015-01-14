@@ -1,5 +1,7 @@
 package com.team3.smartapp;
 
+import android.view.Menu;
+import android.view.MenuItem;
 import android.app.Activity;
 import android.os.Bundle;
 
