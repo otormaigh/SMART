@@ -1,6 +1,6 @@
 package com.team3.smartapp.Model;
 
-public class Pregnancy {
+public class Pregnancy_model {
     private int id;
     private int service_user_id;
     private String estimated_delivery_date;
@@ -12,7 +12,7 @@ public class Pregnancy {
     private String last_menstrual_period;
     private String gestation;
     
-	public Pregnancy() {
+	public Pregnancy_model() {
 	}
 	public int getId() {
 		return id;
