@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+      
     <string name="clinics">Clinics</string>
     <string name="visits">Visits</string>
     <string name="app_name">Clinics</string>
+    
     <string name="title_activity_appointment_type">appointment_type</string>
     <string name="title_activity_clinic">Clinic Activity</string>
     <string name="title_activity_domino_dublin">DominoDublinActivity</string>
@@ -16,15 +17,18 @@
     <string name="title_activity_clinic_dates_churchtown">ClinicDatesChurchtown</string>
     <string name="title_activity_clinic_dates_nmhOPD">ClinicDatesnmh</string>
     <string name="title_activity_clinic_dates_nmh">ClinicDatesnmh</string>
+    
     <string name="main_logo"> main_logo</string>
     <string name="login">Login</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
+    
     <string name="domino_d">Domino(Dublin)</string>
     <string name="domino_w">Domino(Wicklow)</string>
     <string name="ETHD">ETH(Dublin)</string>
     <string name="ETHW">ETH(Wicklow)</string>
     <string name="Satellite">Satellite</string>
+    
     <string name="Service_Options">Service Options</string>
     <string name="domino_NMH_OPD">NMH(OPD Location)\n-Evening Booking Clinic\n-Weekly,Monday)</string>
     <string name="leopardstown">Leopardstown\n-Weekly,Tuesday\n</string>
