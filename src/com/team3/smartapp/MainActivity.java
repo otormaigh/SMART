@@ -21,8 +21,8 @@ public class MainActivity extends Activity {
 		public void onClick(View v) {
 			switch(v.getId()){
 			case R.id.login:
-				Intent intentPatient = new Intent(MainActivity.this, AppointmentTypeActivity.class);
-				startActivity(intentPatient);
+				Intent intent = new Intent(MainActivity.this, AppointmentTypeActivity.class);
+				startActivity(intent);
 				break;
 			}
 		}
