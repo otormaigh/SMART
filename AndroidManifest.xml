@@ -82,6 +82,10 @@
             android:name=".ClinicDatesHomevisits"
             android:label="@string/title_activity_clinic_dates_homevisits" >
         </activity>
+        <activity
+            android:name=".NmhActivity"
+            android:label="@string/title_activity_nmh" >
+        </activity>
     </application>
 
 </manifest>
