@@ -3,7 +3,7 @@ package com.team3.smartapp;
 import android.app.Activity;
 import android.os.Bundle;
 
-public class ClinicDatesleopardstown extends Activity {
+public class ClinicDatesLeopardstownActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

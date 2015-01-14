@@ -1,7 +1,7 @@
 
-package com.team3.smartapp;
+package com.team3.smartapp.Model;
 
-public class ServiceProvider {
+public class ServiceProvider_model {
 	private int id;
 	private String name;
 	private String username;
@@ -13,9 +13,9 @@ public class ServiceProvider {
 	private int primaryPhone;
 	private int secondaryPhone;	
 	
-	public ServiceProvider(){
+	public ServiceProvider_model(){
 	}
-	public ServiceProvider(int id, String name, String username, String password, 
+	public ServiceProvider_model(int id, String name, String username, String password, 
 						   Boolean active, Boolean admin, String jobOccupation,
 						   String jobLevel, int primaryPhone, int secondaryPhone){
 		this.id = id;
