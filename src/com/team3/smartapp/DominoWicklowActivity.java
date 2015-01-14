@@ -3,7 +3,6 @@ package com.team3.smartapp;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.widget.Button;
 
 public class DominoWicklowActivity extends Activity {
 
