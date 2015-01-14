@@ -10,6 +10,6 @@ public class Clinic_Dates_NMH extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_clinic__dates__nmh);
+		setContentView(R.layout.activity_clinic_dates_nmh);
 	}
 }
