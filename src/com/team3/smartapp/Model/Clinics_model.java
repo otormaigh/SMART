@@ -1,6 +1,6 @@
 package com.team3.smartapp.Model;
 	
-public class Clinics {
+public class Clinics_model {
 	
 	private int id;
 	private String name;
@@ -12,7 +12,7 @@ public class Clinics {
 	private int appointmentIntervals;
 	private String days;
 
-	public Clinics() {
+	public Clinics_model() {
 	}
 	public int getId() {
 		return id;

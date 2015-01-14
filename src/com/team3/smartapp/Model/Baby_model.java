@@ -1,6 +1,6 @@
 package com.team3.smartapp.Model;
 
-public class Baby {
+public class Baby_model {
 	
 	private int id;
 	private int pregnancy_id;
@@ -13,7 +13,7 @@ public class Baby {
 	private String newborn_screening_test;
 	private String birth_outcome;
 
-	public Baby() {		
+	public Baby_model() {		
 	}	
 	public int getId(){
 		return id;
