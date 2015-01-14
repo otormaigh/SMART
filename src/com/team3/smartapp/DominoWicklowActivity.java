@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.widget.Button;
-import com.team3.smartapp.*;
+
 public class DominoWicklowActivity extends Activity {
 
 
