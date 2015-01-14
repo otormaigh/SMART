@@ -4,7 +4,7 @@ package com.team3.smartapp;
 import android.app.Activity;
 import android.os.Bundle;
 
-public class ClinicDatesNMH extends Activity {
+public class ClinicDatesNMHActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

@@ -55,7 +55,7 @@
             android:label="@string/Clinic_Dates" >
         </activity>
         <activity
-            android:name=".ClinicDatesNMH"
+            android:name=".ClinicDatesNMHActivity"
             android:label="@string/title_activity_clinic_dates_nmh" >
         </activity>
         <activity
@@ -63,15 +63,15 @@
             android:label="@string/title_activity_clinic_dates_nmhOPD" >
         </activity>
         <activity
-            android:name=".ClinicDatesleopardstown"
+            android:name=".ClinicDatesLeopardstownActivity"
             android:label="@string/title_activity_clinic_dates_leopardstown" >
         </activity>
         <activity
-            android:name=".ClinicDatesDlaoghaire"
+            android:name=".ClinicDatesDunLaoghaireActivity"
             android:label="@string/title_activity_clinic_dates_dlaoghaire" >
         </activity>
         <activity
-            android:name=".ClinicDatesChurchtown"
+            android:name=".ClinicDatesChurchtownActivity"
             android:label="@string/title_activity_clinic_dates_churchtown" >
         </activity>
         <activity
@@ -79,7 +79,7 @@
             android:label="@string/title_activity_clinic_dates_nmh" >
         </activity>
         <activity
-            android:name=".ClinicDatesHomevisits"
+            android:name=".ClinicDatesHomevisitsActivity"
             android:label="@string/title_activity_clinic_dates_homevisits" >
         </activity>
     </application>
