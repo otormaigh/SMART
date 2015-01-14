@@ -4,35 +4,45 @@
     <string name="clinics">Clinics</string>
     <string name="visits">Visits</string>
     <string name="app_name">Clinics</string>
+    <string name="title_activity_appointment_type">appointment_type</string>
     <string name="title_activity_clinic">Clinic Activity</string>
     <string name="title_activity_domino_dublin">DominoDublinActivity</string>
     <string name="title_activity_domino_wicklow">DominoWicklowActivity</string>
     <string name="title_activity_etc_dublin">EtcDublinActivity</string>
     <string name="title_activity_etc_wicklow">EtcWicklowActivity</string>
     <string name="title_activity_satellite">MainActivity</string>
-    <string name="title_activity_clinic_dates_"></string>
+    
+    <string name="main_logo"> main_logo</string>
+    <string name="login">Login</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    
     <string name="domino_d">Domino(Dublin)</string>
     <string name="domino_w">Domino(Wicklow)</string>
     <string name="ETHD">ETH(Dublin)</string>
     <string name="ETHW">ETH(Wicklow)</string>
     <string name="Satellite">Satellite</string>
     <string name="Service_Options">Service Options</string>
+    
     <string name="domino_NMH_OPD">NMH(OPD Location)\n-Evening Booking Clinic\n-Weekly,Monday)</string>
     <string name="leopardstown">Leopardstown\n-Weekly,Tuesday\n</string>
     <string name="dunlaoghaire">Dun laoghaire\n-St. Michaels Hospital\n-Weekly,Wednesday</string>
     <string name="churchtown">Churchtown\n-Weekly,Thursday\n</string>
     <string name="nmh">NMH\n-Weekly,Friday\n</string>
     <string name="home_visits">Home Visits\n	-Miscellaneous\n-Daily</string>
+    
     <string name="greystones_monday">Greystones\n	-Weekly, Monday</string>
     <string name="greystones_tuesday">Greystones\n	-Weekly, Tuesday</string>
     <string name="kilmacanogue">Kilmacanogue\n	-Weekly, Thursday</string>
+    
     <string name="ballinteer_monday">Ballinteer\n	-Weekly, Monday</string>
     <string name="dunLaoghaire_tuesday">Dun Laoghaire\n	-Weekly, Tuesday</string>
-    <string name="bray_thursday">Bray\n	-Weekly, Thursday</string>
+    
     <string name="arklow_tuesday">Arklow\n	-Weekly, Tuesday</string>
     <string name="newtownmountkennedy_wednesday">Newtownmountkennedy\n	-Weekly, Wednesday \n-Booking clinics</string>
+    <string name="bray_thursday">Bray\n	-Weekly, Thursday</string>
+    
     <string name="domino_view">Select Service option</string>
-    <string name="login">Login</string>
     <string name="Clinic_Dates">Clinic Dates</string>
     <string name="week_one_nmh">Week 1\nMon, 01 Sep 2014</string>
     <string name="week_two_nmh">Week 2\nMon, 08 Sep 2014</string>
@@ -43,6 +53,4 @@
     <string name="title_activity_appointment_type">appointment_type</string>
     <string name="title_activity_clinic__dates__nmh">Clinic_Dates_NMH</string>
     <string name="hello_world">Hello world!</string>
-    
-
-</resources>
+</resourses>
