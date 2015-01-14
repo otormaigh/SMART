@@ -3,9 +3,11 @@
     package="com.team3.smartapp"
     android:versionCode="1"
     android:versionName="1.0" >
+
     <uses-sdk
         android:minSdkVersion="15"
         android:targetSdkVersion="21" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -16,6 +18,7 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -52,9 +55,24 @@
             android:label="@string/Clinic_Dates" >
         </activity>
         <activity
-            android:name=".ClinicDatesNMH"
+            android:name=".Clinic_Dates_NMHOPD"
+            android:label="@string/title_activity_clinic_dates_nmhopd" >
+        </activity>
+        <activity
+            android:name=".Clinic_Dates_leopardstown"
+            android:label="@string/title_activity_clinic_dates_leopardstown" >
+        </activity>
+        <activity
+            android:name=".Clinic_Dates_Dlaoghaire"
+            android:label="@string/title_activity_clinic_dates_dlaoghaire" >
+        </activity>
+        <activity
+            android:name=".Clinic_Dates_Churchtown"
+            android:label="@string/title_activity_clinic_dates_churchtown" >
+        </activity>
+        <activity
+            android:name=".Clinic_Dates_nmh"
             android:label="@string/title_activity_clinic_dates_nmh" >
         </activity>
     </application>
-
 </manifest>
