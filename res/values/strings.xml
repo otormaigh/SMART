@@ -11,7 +11,7 @@
     <string name="title_activity_etc_dublin">EtcDublinActivity</string>
     <string name="title_activity_etc_wicklow">EtcWicklowActivity</string>
     <string name="title_activity_satellite">MainActivity</string>    
-    <string name="title_activity_clinic__dates__nmh">Clinic_Dates_NMH</string>
+    <string name="title_activity_clinic_dates_nmh">Clinic_Dates_NMH</string>
     
     <string name="main_logo"> main_logo</string>
     <string name="login">Login</string>
