@@ -56,4 +56,5 @@
             android:label="@string/title_activity_clinic_dates_nmh" >
         </activity>
     </application>
+
 </manifest>

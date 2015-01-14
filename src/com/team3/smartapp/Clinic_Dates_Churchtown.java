@@ -5,11 +5,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class DominoDublinActivity extends Activity {
+public class Clinic_Dates_Churchtown extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_domino_dublin);
+		setContentView(R.layout.activity_clinic_dates_churchtown);
 	}
 }
