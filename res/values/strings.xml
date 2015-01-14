@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="clinics">Clinics</string>
     <string name="visits">Visits</string>
     <string name="app_name">Clinics</string>
@@ -11,10 +10,10 @@
     <string name="title_activity_etc_dublin">EtcDublinActivity</string>
     <string name="title_activity_etc_wicklow">EtcWicklowActivity</string>
     <string name="title_activity_satellite">MainActivity</string>
-    <string name="title_activity_clinic__dates__nmh">Clinic_Dates_NMH</string>
-    <string name="title_activity_clinic__dates_leopardstown">Clinic_Dates_leopardstown</string>
-    <string name="title_activity_clinic__dates__dlaoghaire">Clinic_Dates_Dlaoghaire</string>
-    <string name="title_activity_clinic__dates__churchtown">Clinic_Dates_Churchtown</string>
+    <string name="title_activity_clinic_dates_nmh">Clinic_Dates_NMH</string>
+    <string name="title_activity_clinic_dates_leopardstown">Clinic_Dates_leopardstown</string>
+    <string name="title_activity_clinic_dates_dlaoghaire">Clinic_Dates_Dlaoghaire</string>
+    <string name="title_activity_clinic_dates_churchtown">Clinic_Dates_Churchtown</string>
     
     <string name="main_logo"> main_logo</string>
     <string name="login">Login</string>
