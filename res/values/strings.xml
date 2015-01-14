@@ -10,7 +10,8 @@
     <string name="title_activity_domino_wicklow">DominoWicklowActivity</string>
     <string name="title_activity_etc_dublin">EtcDublinActivity</string>
     <string name="title_activity_etc_wicklow">EtcWicklowActivity</string>
-    <string name="title_activity_satellite">MainActivity</string>
+    <string name="title_activity_satellite">MainActivity</string>    
+    <string name="title_activity_clinic__dates__nmh">Clinic_Dates_NMH</string>
     
     <string name="main_logo"> main_logo</string>
     <string name="login">Login</string>
@@ -50,7 +51,6 @@
     <string name="week_four_nmh">Week 4\nMon, 22 Sep</string>
     <string name="week_five_nmh">Week 5\nMon, 29 Sep</string>
     <string name="week_six_nmh">Week 6\nMon, 06 Oct</string>
-    <string name="title_activity_appointment_type">appointment_type</string>
-    <string name="title_activity_clinic__dates__nmh">Clinic_Dates_NMH</string>
+        
     <string name="hello_world">Hello world!</string>
-</resourses>
+</resources>
