@@ -1,6 +1,6 @@
-package com.team3.smartapp;
+package com.team3.smartapp.Model;
 
-public class Appointments {
+public class Appointments_model {
 	private String id;
 	private String date;
 	private String time;
@@ -9,9 +9,10 @@ public class Appointments {
 	private boolean priority;
 	private String vistType;
 	private String serviceOptionId;
+	
 
-	public Appointments (){	
-	}	
+	public Appointments_model (){	
+	}
 	public String getId(){ 
 		return id;
 	}	
@@ -33,7 +34,6 @@ public class Appointments {
 	public String getVistType(){
 		return vistType;
 	}
-	
 	public String getServiceOptionId(){
 		return serviceOptionId;
 	}	

@@ -23,6 +23,10 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".AppointmentTypeActivity"
+            android:label="@string/title_activity_appointment_type" >
+        </activity>
+        <activity
             android:name=".ClinicActivity"
             android:label="@string/title_activity_clinic" >
         </activity>
@@ -45,6 +49,42 @@
         <activity
             android:name=".SatelliteActivity"
             android:label="@string/title_activity_satellite" >
+        </activity>
+        <activity
+            android:name=".Clinic_dates_Activity"
+            android:label="@string/Clinic_Dates" >
+        </activity>
+        <activity
+            android:name=".ClinicDatesNMHActivity"
+            android:label="@string/title_activity_clinic_dates_nmh" >
+        </activity>
+        <activity
+            android:name=".Clinic_Dates_NMHOPD"
+            android:label="@string/title_activity_clinic_dates_nmhOPD" >
+        </activity>
+        <activity
+            android:name=".ClinicDatesLeopardstownActivity"
+            android:label="@string/title_activity_clinic_dates_leopardstown" >
+        </activity>
+        <activity
+            android:name=".ClinicDatesDunLaoghaireActivity"
+            android:label="@string/title_activity_clinic_dates_dlaoghaire" >
+        </activity>
+        <activity
+            android:name=".ClinicDatesChurchtownActivity"
+            android:label="@string/title_activity_clinic_dates_churchtown" >
+        </activity>
+        <activity
+            android:name=".Clinic_Dates_nmh"
+            android:label="@string/title_activity_clinic_dates_nmh" >
+        </activity>
+        <activity
+            android:name=".ClinicDatesHomevisitsActivity"
+            android:label="@string/title_activity_clinic_dates_homevisits" >
+        </activity>
+        <activity
+            android:name=".NmhActivity"
+            android:label="@string/title_activity_nmh" >
         </activity>
     </application>
 

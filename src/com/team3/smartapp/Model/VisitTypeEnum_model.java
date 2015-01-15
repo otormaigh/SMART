@@ -1,12 +1,12 @@
-package com.team3.smartapp;
+package com.team3.smartapp.Model;
 
-public enum VisitTypeEnum {
+public enum VisitTypeEnum_model {
 	ANTENATAL("antenatal"),			//before baby
 	POSTNATAL("postnatal");			//after baby
 	
 	private String visitType;
 	
-	private VisitTypeEnum(String visitType){
+	private VisitTypeEnum_model(String visitType){
 		this.visitType = visitType;
 	}
 	public String toString(){
