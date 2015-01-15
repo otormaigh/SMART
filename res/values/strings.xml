@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-      
     <string name="clinics">Clinics</string>
     <string name="visits">Visits</string>
     <string name="app_name">Clinics</string>
-    
+    <!-- ACTIVITY TITLES -->
     <string name="title_activity_appointment_type">appointment_type</string>
     <string name="title_activity_clinic">Clinic Activity</string>
     <string name="title_activity_domino_dublin">DominoDublinActivity</string>
@@ -17,19 +16,21 @@
     <string name="title_activity_clinic_dates_churchtown">ClinicDatesChurchtown</string>
     <string name="title_activity_clinic_dates_nmhOPD">ClinicDatesnmh</string>
     <string name="title_activity_clinic_dates_nmh">ClinicDatesnmh</string>
-    
+    <string name="title_activity_clinic_dates_homevisits">ClinicDatesHomevisits</string>
+    <string name="title_activity_nmh">NmhActivity</string>
+    <!-- MAIN SCREEN -->
     <string name="main_logo"> main_logo</string>
     <string name="login">Login</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
-    
+    <!-- SERVICE OPTIONS -->
     <string name="domino_d">Domino(Dublin)</string>
     <string name="domino_w">Domino(Wicklow)</string>
     <string name="ETHD">ETH(Dublin)</string>
     <string name="ETHW">ETH(Wicklow)</string>
-    <string name="Satellite">Satellite</string>
-    
+    <string name="Satellite">Satellite</string>    
     <string name="Service_Options">Service Options</string>
+    <!-- CLINICS -->
     <string name="domino_NMH_OPD">NMH(OPD Location)\n-Evening Booking Clinic\n-Weekly,Monday)</string>
     <string name="leopardstown">Leopardstown\n-Weekly,Tuesday\n</string>
     <string name="dunlaoghaire">Dun laoghaire\n-St. Michaels Hospital\n-Weekly,Wednesday</string>
@@ -45,38 +46,41 @@
     <string name="newtownmountkennedy_wednesday">Newtownmountkennedy\n	-Weekly, Wednesday \n-Booking clinics</string>
     <string name="bray_thursday">Bray\n	-Weekly, Thursday</string>
     <string name="domino_view">Select Service option</string>
+    <!-- CLINIC DATES -->
     <string name="Clinic_Dates">Clinic Dates</string>
+    <!-- NMHOPD WEEKS -->
     <string name="week_one_nmhOPD">Week 1\nMon, 01 Sep 2014</string>
     <string name="week_two_nmhOPD">Week 2\nMon, 08 Sep 2014</string>
     <string name="week_three_nmhOPD">Week 3\nMon, 15 Sep 2014</string>
     <string name="week_four_nmhOPD">Week 4\nMon, 22 Sep</string>
     <string name="week_five_nmhOPD">Week 5\nMon, 29 Sep</string>
     <string name="week_six_nmhOPD">Week 6\nMon, 06 Oct</string>
+    <!-- LEOPARDSTOWN WEEKS -->
     <string name="week_one_leopardstown">Week 1\nTue, 02 Sep 2014</string>
     <string name="week_two_leopardstown">Week 2\nTue, 09 Sep 2014</string>
     <string name="week_three_leopardstown">Week 3\nTue, 16 Sep 2014</string>
     <string name="week_four_leopardstown">Week 4\nTue, 23 Sep</string>
     <string name="week_five_leopardstown">Week 5\nTue, 30 Sep</string>
     <string name="week_six_leopardstown">Week 6\nTue, 07 Oct</string>
+    <!-- DLAOGHAIRE WEEKS -->
     <string name="week_one_Dlaoghaire">Week 1\nWed, 03 Sep 2014</string>
     <string name="week_two_Dlaoghaire">Week 2\nWed, 10 Sep 2014</string>
     <string name="week_three_Dlaoghaire">Week 3\nWed, 17 Sep 2014</string>
     <string name="week_four_Dlaoghaire">Week 4\nWed, 24 Sep</string>
     <string name="week_five_Dlaoghaire">Week 5\nWed, 01 Sep</string>
     <string name="week_six_Dlaoghaire">Week 6\nWed, 08 Oct</string>
+    <!-- CHURCHTOWN WEEKS -->
     <string name="week_one_church">Week 1\nThurs, 04 Sep 2014</string>
     <string name="week_two_church">Week 2\nThurs, 11 Sep 2014</string>
     <string name="week_three_church">Week 3\nThurs, 18 Sep 2014</string>
     <string name="week_four_church">Week 4\nThurs, 25 Sep</string>
     <string name="week_five_church">Week 5\nThurs, 02 Sep</string>
     <string name="week_six_church">Week 6\nThurs, 09 Oct</string>
+    <!-- NMH WEEKS -->
     <string name="week_one_nmh">Week 1\nFri, 05 Sep 2014</string>
     <string name="week_two_nmh">Week 2\nFri, 12 Sep 2014</string>
     <string name="week_three_nmh">Week 3\nFri, 19 Sep 2014</string>
     <string name="week_four_nmh">Week 4\nFri, 26 Sep</string>
     <string name="week_five_nmh">Week 5\nFri, 03 Sep</string>
     <string name="week_six_nmh">Week 6\nFri, 10 Oct</string>
-    <string name="title_activity_clinic_dates_homevisits">ClinicDatesHomevisits</string>
-    <string name="hello_world">Hello world!</string>
-
 </resources>
