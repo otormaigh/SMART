@@ -86,6 +86,14 @@
             android:name=".NmhActivity"
             android:label="@string/title_activity_nmh" >
         </activity>
+        <activity
+            android:name=".SelectTimeActivityMainActivity"
+            android:label="@string/title_activity_select_time_activity_main" >
+        </activity>
+        <activity
+            android:name=".SelectTime"
+            android:label="@string/title_activity_select_time" >
+        </activity>
     </application>
 
 </manifest>
