@@ -10,6 +10,6 @@ public class SelectTimeActivityMainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main_select_time);
+		setContentView(R.layout.activity_select_time);
 	}
 }

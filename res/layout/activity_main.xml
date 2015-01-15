@@ -32,7 +32,7 @@
     	android:maxLines="1">
     </EditText>  
       
-    <EditText 
+      <EditText 
 	    android:id="@+id/password"
 	    android:layout_height="wrap_content"
 	    android:gravity="center" 
