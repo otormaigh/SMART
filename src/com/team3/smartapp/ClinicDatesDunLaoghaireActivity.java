@@ -1,13 +1,15 @@
 package com.team3.smartapp;
 
+import android.view.Menu;
+import android.view.MenuItem;
 import android.app.Activity;
 import android.os.Bundle;
 
-public class SatelliteActivity extends Activity {
+public class ClinicDatesDunLaoghaireActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_satellite);
+		setContentView(R.layout.activity_clinic_dates_dun_laoghaire);
 	}
 }

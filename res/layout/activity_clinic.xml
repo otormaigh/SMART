@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,18 +9,19 @@
     android:weightSum="5.0">
     
     <Button
-        android:id="@+id/DominoD"
+        android:id="@+id/domino_d"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/DominoD"
+        android:text="@string/domino_d"
         android:layout_weight="1.0"
         android:textSize="@dimen/text_large" >
     </Button>
+    
     <Button
-        android:id="@+id/DominoW"
+        android:id="@+id/domino_w"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/DominoW"
+        android:text="@string/domino_w"
         android:layout_weight="1.0"
         android:textSize="@dimen/text_large" >
     </Button>
@@ -40,7 +42,7 @@
          android:textSize="@dimen/text_large" >
      </Button>
      <Button
-         android:id="@+id/Satellite"
+         android:id="@+id/satellite"
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
          android:text="@string/Satellite"
