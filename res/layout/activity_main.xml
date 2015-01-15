@@ -26,6 +26,7 @@
     	android:inputType ="text" 
     	android:layout_width="fill_parent"
     	android:hint="@string/username" 
+    	android:background="@drawable/drawable"
     	android:layout_marginTop="150dp"
     	android:layout_marginBottom="20dp"
     	android:maxLines="1">
@@ -38,6 +39,7 @@
 	    android:inputType ="textPassword" 
 	    android:layout_width="fill_parent"
 	    android:hint="@string/password" 
+	    android:background="@drawable/drawable"
 	    android:maxLines="1">
     </EditText>
         
