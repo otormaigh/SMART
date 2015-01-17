@@ -1,4 +1,4 @@
-package com.team3.smartapp.Model;
+package com.team3.smartapp.model;
 
 public class Pregnancy_model {
     private int id;
