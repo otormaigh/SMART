@@ -3,8 +3,8 @@ package com.team3.smartapp;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.text.Html;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 
@@ -39,6 +39,14 @@ public class DominoDublinActivity extends Activity {
 		
 		domino_dublin_homevisits = (Button)findViewById(R.id.domino_dublin_homevisits);
 		domino_dublin_homevisits.setOnClickListener(new ButtonClick());
+		
+		String[] my_array = getResources().getStringArray(R.array.domino_NMH_OPD);	
+		String arrayFormat = TextUtils.join("",my_array);
+		
+		String text = String.format(arrayFormat);
+		CharSequence styledText = Html.fromHtml(text);
+
+		domino_dublin_nmh.setText(styledText);	
 	}
 	
 	

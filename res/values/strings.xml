@@ -31,7 +31,11 @@
     <string name="Satellite">Satellite</string>    
     <string name="Service_Options">Service Options</string>
     <!-- CLINICS -->
-    <string name="domino_NMH_OPD">NMH(OPD Location)\n-Evening Booking Clinic\n-Weekly,Monday)</string>
+    <string-array name="domino_NMH_OPD">
+        <item>&lt;b>NMH(OPD Location) &lt;/b>&lt;br></item>
+        <item>&lt;small>-Evening Booking Clinic &lt;/small>&lt;br></item>
+        <item>&lt;small>-Weekly,Monday &lt;/small></item>
+    </string-array>
     <string name="leopardstown">Leopardstown\n-Weekly,Tuesday\n</string>
     <string name="dunlaoghaire">Dun laoghaire\n-St. Michaels Hospital\n-Weekly,Wednesday</string>
     <string name="churchtown">Churchtown\n-Weekly,Thursday\n</string>
