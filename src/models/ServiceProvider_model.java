@@ -1,5 +1,5 @@
 
-package com.team3.smartapp.model;
+package models;
 
 public class ServiceProvider_model {
 	private int id;

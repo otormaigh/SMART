@@ -1,4 +1,4 @@
-package com.team3.smartapp.model;
+package models;
 
 public class Appointments_model {
 	private String id;
