@@ -1,4 +1,4 @@
-package com.team3.smartapp;
+package models;
 
 public class Login_model {
 	private String name;
