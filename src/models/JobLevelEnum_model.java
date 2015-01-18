@@ -1,4 +1,4 @@
-package com.team3.smartapp.model;
+package models;
 
 public enum JobLevelEnum_model {
 	RESIDENT("Resident");

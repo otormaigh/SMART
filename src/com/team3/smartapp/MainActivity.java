@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import models.Login_model;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -23,6 +24,7 @@ public class MainActivity extends Activity {
 	private String db_name;
 	private String db_username;
 	private String db_password;
+	private int counter = 0;
 	Connection c;
 	Statement stmt;
 	Login_model login = new Login_model();
@@ -82,8 +84,10 @@ public class MainActivity extends Activity {
     		        	db_username = rs.getString("username");
     		        	db_password = rs.getString("password");
     				}else {
-    					Log.d("MYLOG", "Incorrect username. Please try again.");
-    				}			
+    					Toast.makeText(MainActivity.this, 
+ 								   "Incorrect username. Please try again.", 
+ 								   Toast.LENGTH_SHORT).show();
+    					}			
     				rs.close();
     				stmt.close();
     			} catch (SQLException e) {
@@ -115,13 +119,46 @@ public class MainActivity extends Activity {
 	}		 
 	private Object checkCredentials(){
 		if (login.getPassword().equals(login.getDb_password())){
-			Toast.makeText(MainActivity.this, "Welcome " + login.getName() + "\nLogin Successful", Toast.LENGTH_SHORT).show();
+			Toast.makeText(MainActivity.this, 
+						   "Welcome " + login.getName() + "\nLogin Successful", 
+						   Toast.LENGTH_SHORT).show();
 			Intent intent = new Intent(MainActivity.this, AppointmentTypeActivity.class);
 			startActivity(intent);
 			return null;
 		}else {
-			Toast.makeText(MainActivity.this, "Incorrect password. Please try again.", Toast.LENGTH_SHORT).show();
+			switch (counter) {
+			case 0:
+				Toast.makeText(MainActivity.this, 
+						   "Incorrect password. You have 3 tries left.", 
+						   Toast.LENGTH_SHORT).show();
+				counter ++;
+				break;
+			case 1:
+				Toast.makeText(MainActivity.this, 
+						   "Incorrect password. You have 2 tries left.", 
+						   Toast.LENGTH_SHORT).show();
+				counter ++;
+				break;
+			case 2:
+				Toast.makeText(MainActivity.this, 
+						   "Incorrect password. You have 1 try left.", 
+						   Toast.LENGTH_SHORT).show();
+				counter ++;
+				break;
+			case 3:
+				finish();
+				break;
+				
+			}
 		}
 		return null;
+	}	
+	@Override
+	public void finish() {
+		Toast.makeText(MainActivity.this, 
+				   "Incorrect password. You have no tries left. \n"
+				 + "Closing app now.", 
+				   Toast.LENGTH_SHORT).show();
+		super.finish();
 	}
 }
