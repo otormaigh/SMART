@@ -1,0 +1,52 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="${relativePackage}.${activityClass}" 
+	android:orientation="vertical"
+	android:weightSum="6.0">
+
+       <Button
+       	  android:id="@+id/one_Select_time"
+       	  android:layout_width="match_parent"
+       	  android:layout_height="wrap_content"
+          android:text="@string/one_Select_time"
+          android:layout_weight="1" />
+    
+       <Button 
+          android:id="@+id/two_Select_time"
+          android:layout_width="match_parent" 
+          android:layout_height="wrap_content"
+          android:text="@string/two_Select_time"
+          android:layout_weight="1" />
+    	 
+       <Button 
+           android:id="@+id/three_Select_time"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:text="@string/three_Select_time"
+           android:layout_weight="1" />
+       
+       <Button 
+           android:id="@+id/four_Select_time"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:text="@string/four_Select_time"
+           android:layout_weight="1" />"
+       
+       <Button 
+           android:id="@+id/five_Select_time"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:text="@string/five_Select_time"
+           android:layout_weight="1" />
+       
+       <Button 
+           android:id="@+id/six_Select_time"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:text="@string/six_Select_time"
+           android:layout_weight="1" />
+         
+       
+</LinearLayout>
