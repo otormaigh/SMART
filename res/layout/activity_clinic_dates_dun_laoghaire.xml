@@ -8,51 +8,52 @@
     tools:context="com.example.myapp.MainActivity" >
 
     <Button
-        android:id="@+id/week_one_leopardstown"
+        android:id="@+id/week_one_Dlaoghaire"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/week_one_leopardstown"
+        android:text="@string/week_one_Dlaoghaire"
         android:layout_weight="1.0"
         android:textSize="@dimen/text_small" />
     
     <Button
-        android:id="@+id/week_two_leopardstown"
+        android:id="@+id/week_two_Dlaoghaire"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/week_two_leopardstown"
+        android:text="@string/week_two_Dlaoghaire"
         android:layout_weight="1.0"
         android:textSize="@dimen/text_small" />
     
      <Button
-         android:id="@+id/week_three_leopardstown"
+         android:id="@+id/week_three_Dlaoghaire"
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
-         android:text="@string/week_three_leopardstown"
+         android:text="@string/week_three_Dlaoghaire"
          android:layout_weight="1.0"
          android:textSize="@dimen/text_small" />
      
      <Button
-         android:id="@+id/week_four_leopardstown"
+         android:id="@+id/week_four_Dlaoghaire"
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
-         android:text="@string/week_four_leopardstown"
+         android:text="@string/week_four_Dlaoghaire"
          android:layout_weight="1.0"
          android:textSize="@dimen/text_small" />
      
      <Button
-         android:id="@+id/week_five_leopardstown"
+         android:id="@+id/week_five_Dlaoghaire"
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
-         android:text="@string/week_five_leopardstown"
+         android:text="@string/week_five_Dlaoghaire"
          android:layout_weight="1.0"
          android:textSize="@dimen/text_small" />
      
      <Button
-         android:id="@+id/week_six_leopardstown"
+         android:id="@+id/week_six_Dlaoghaire"
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
-         android:text="@string/week_six_leopardstown"
+         android:text="@string/week_six_Dlaoghaire"
          android:layout_weight="1.0"
          android:textSize="@dimen/text_small" />
      
 </LinearLayout>
+
