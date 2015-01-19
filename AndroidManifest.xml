@@ -86,6 +86,10 @@
             android:name=".NmhActivity"
             android:label="@string/title_activity_nmh" >
         </activity>
+        <activity
+            android:name=".ServiceUser"
+            android:label="@string/title_activity_service_user" >
+        </activity>
     </application>
 
 </manifest>
