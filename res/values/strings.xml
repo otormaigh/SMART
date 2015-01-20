@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="clinics">Clinics</string>
     <string name="visits">Visits</string>
     <string name="app_name">Clinics</string>
@@ -19,6 +18,8 @@
     <string name="title_activity_clinic_dates_nmh">ClinicDatesnmh</string>
     <string name="title_activity_clinic_dates_homevisits">ClinicDatesHomevisits</string>
     <string name="title_activity_nmh">NmhActivity</string>
+    <string name="title_activity_select_time">SelectTime</string>
+    <string name="title_activity_select_time_activity_main">MainActivity</string>
     <!-- MAIN SCREEN -->
     <string name="main_logo"> main_logo</string>
     <string name="login">Login</string>
@@ -29,10 +30,14 @@
     <string name="domino_w">Domino(Wicklow)</string>
     <string name="ETHD">ETH(Dublin)</string>
     <string name="ETHW">ETH(Wicklow)</string>
-    <string name="Satellite">Satellite</string>
+    <string name="Satellite">Satellite</string>    
     <string name="Service_Options">Service Options</string>
     <!-- CLINICS -->
-    <string name="domino_NMH_OPD">NMH(OPD Location)\n-Evening Booking Clinic\n-Weekly,Monday)</string>
+    <string-array name="domino_NMH_OPD">
+        <item>&lt;b>NMH(OPD Location) &lt;/b>&lt;br></item>
+        <item>&lt;small>-Evening Booking Clinic &lt;/small>&lt;br></item>
+        <item>&lt;small>-Weekly,Monday &lt;/small></item>
+    </string-array>
     <string name="leopardstown">Leopardstown\n-Weekly,Tuesday\n</string>
     <string name="dunlaoghaire">Dun laoghaire\n-St. Michaels Hospital\n-Weekly,Wednesday</string>
     <string name="churchtown">Churchtown\n-Weekly,Thursday\n</string>
@@ -84,15 +89,11 @@
     <string name="week_four_nmh">Week 4\nFri, 26 Sep</string>
     <string name="week_five_nmh">Week 5\nFri, 03 Sep</string>
     <string name="week_six_nmh">Week 6\nFri, 10 Oct</string>
-    <string name="title_activity_select_time_activity_main">MainActivity</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="title_activity_select_time">SelectTime</string>
-	<!-- Select Time-->
-	<string name="one_Select_time">08:30am</string>
-	<string name="two_Select_time">08:45am</string>
-	<string name="three_Select_time">09:00am</string>
-	<string name="four_Select_time">09:15am</string>
-	<string name="five_Select_time">09:30am</string>
-	<string name="six_Select_time">09:45am</string>
-		
+    <!-- Select Time-->
+    <string name="one_Select_time">08:30am</string>
+    <string name="two_Select_time">08:45am</string>
+    <string name="three_Select_time">09:00am</string>
+    <string name="four_Select_time">09:15am</string>
+    <string name="five_Select_time">09:30am</string>
+    <string name="six_Select_time">09:45am</string>
 </resources>
