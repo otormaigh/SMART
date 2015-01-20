@@ -1,4 +1,4 @@
-package com.team3.smartapp.Model;
+package models;
 
 public enum PriorityEnum_model {
 	OTHER("other");
