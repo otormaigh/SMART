@@ -1,4 +1,4 @@
-package com.team3.smartapp.Model;
+package models;
 
 public enum VisitTypeEnum_model {
 	ANTENATAL("antenatal"),			//before baby

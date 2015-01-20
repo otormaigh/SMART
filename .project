@@ -30,4 +30,11 @@
 		<nature>com.android.ide.eclipse.adt.AndroidNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>model</name>
+			<type>2</type>
+			<location>/home/user/Android_Projects/Eclipse_Projects/Android/SmartApp/src/com/team3/smartapp/model</location>
+		</link>
+	</linkedResources>
 </projectDescription>
