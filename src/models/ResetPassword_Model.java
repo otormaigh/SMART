@@ -1,4 +1,4 @@
-package com.team3.smartapp.Model;
+package models;
 
 public class ResetPassword_Model {
 	
