@@ -2,10 +2,8 @@ package com.team3.smartapp;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 
-public class SelectTimeActivityMainActivity extends Activity {
+public class SelectTimeActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
