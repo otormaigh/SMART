@@ -19,6 +19,7 @@
     <string name="title_activity_clinic_dates_homevisits">ClinicDatesHomevisits</string>
     <string name="title_activity_nmh">NmhActivity</string>
     <string name="title_activity_select_time">SelectTime</string>
+    <string name="title_activity_service_user">ServiceUser</string>
     <!-- MAIN SCREEN -->
     <string name="main_logo"> main_logo</string>
     <string name="login">Login</string>
@@ -97,10 +98,10 @@
     <string name="Next_Of_Kin">Next-of-kin</string>
     <string name="Book_Appointment">Book Appointment</string>
 	<!-- Select Time-->
-    <string name="one_Select_time">08:30am</string>
-    <string name="two_Select_time">08:45am</string>
-    <string name="three_Select_time">09:00am</string>
-    <string name="four_Select_time">09:15am</string>
-    <string name="five_Select_time">09:30am</string>
-    <string name="six_Select_time">09:45am</string>
+    <string name="one_select_time">08:30am</string>
+    <string name="two_select_time">08:45am</string>
+    <string name="three_select_time">09:00am</string>
+    <string name="four_select_time">09:15am</string>
+    <string name="five_select_time">09:30am</string>
+    <string name="six_select_time">09:45am</string>
 </resources>
