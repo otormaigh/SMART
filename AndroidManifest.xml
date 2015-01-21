@@ -85,6 +85,10 @@
             android:label="@string/title_activity_nmh" >
         </activity>
         <activity
+            android:name=".ServiceUser"
+            android:label="@string/title_activity_service_user" >
+        </activity>
+		<activity
             android:name=".SelectTimeActivity"
             android:label="@string/title_activity_select_time" >
         </activity>
