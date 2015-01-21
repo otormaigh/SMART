@@ -1,0 +1,93 @@
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:weightSum="7.0"
+    tools:context="${relativePackage}.${activityClass}" >    
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">        
+			<Button
+		        android:id="@+id/Ante_Natal"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginBottom="@dimen/padding_large"
+		        android:layout_marginLeft="@dimen/padding_large"
+		        android:layout_marginTop="@dimen/padding_Xsmall"
+		        android:layout_marginRight="@dimen/padding_Xsmall"
+		        android:layout_weight="1.0"
+		        android:text="@string/Ante_Natal"
+		        android:textSize="@dimen/text_Xsmall" />    
+			<Button
+		        android:id="@+id/Personal"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/Personal"
+		        android:layout_marginLeft="@dimen/padding_large"
+		        android:layout_marginTop="@dimen/padding_Xsmall"
+		        android:layout_marginBottom="@dimen/padding_large"
+		        android:layout_marginRight="@dimen/padding_Xsmall"
+		        android:layout_weight="1.0"
+		        android:textSize="@dimen/text_Xsmall" />    
+			<Button
+		        android:id="@+id/Post_Natal"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/Post_Natal"
+		        android:layout_marginLeft="@dimen/padding_large"
+		        android:layout_marginTop="@dimen/padding_Xsmall"
+		        android:layout_marginBottom="@dimen/padding_large"
+		        android:layout_marginRight="@dimen/padding_Xsmall"
+		        android:layout_weight="1.0"
+		        android:textSize="@dimen/text_Xsmall" />
+    </LinearLayout>
+	<LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">    
+			<Button
+		        android:id="@+id/Contact"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/Contact"
+		        android:layout_marginTop="@dimen/padding_large"
+		        android:layout_marginBottom="@dimen/padding_small"
+		        android:layout_weight="1.0" />  
+			<Button
+		        android:id="@+id/Address"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/Address"
+		        android:layout_marginTop="@dimen/padding_large"
+		        android:layout_marginBottom="@dimen/padding_small"
+		        android:layout_weight="1.0"
+		        android:textSize="@dimen/text_medium" />    
+			<Button
+		        android:id="@+id/Next_Of_Kin"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/Next_Of_Kin"
+		        android:layout_marginTop="@dimen/padding_large"
+		        android:layout_marginBottom="@dimen/padding_small"
+		        android:layout_weight="1.0"
+		        android:textSize="@dimen/text_small" />        
+		    <LinearLayout
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content" >
+					<Button
+				        android:id="@+id/Book_Appointment"
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:layout_marginBottom="@dimen/padding_Xsmall"
+				        android:layout_marginLeft="@dimen/padding_small"
+				        android:layout_marginRight="@dimen/padding_small"
+				        android:layout_marginTop="@dimen/padding_large"
+				        android:layout_weight="1.0"
+				        android:text="@string/Book_Appointment"
+				        android:textSize="@dimen/text_large" />    
+		</LinearLayout>    
+	</LinearLayout>
+</LinearLayout>
