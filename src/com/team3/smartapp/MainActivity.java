@@ -74,7 +74,7 @@ public class MainActivity extends Activity {
         protected String doInBackground(String... params) { 
         	try {
         		c = DriverManager.getConnection(
-        				"jdbc:postgresql://10.0.3.2:5432/smart", 
+        				"jdbc:postgresql://192.168.1.61:5432/smart", 
         				"postgres", "password");       		
     		} catch (SQLException e) {
     			Log.d("MYLOG", "Connection Failed! Check output console");
