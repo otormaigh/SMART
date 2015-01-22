@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+ 
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
@@ -9,56 +11,104 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
 	android:text="@string/service_user"   
-    android:layout_marginTop="@dimen/padding_small"/> 
+    android:layout_marginTop="@dimen/padding_Xsmall"/> 
+   
+   <TextView
+     android:id="@+id/service_user_db"
+     android:layout_width="fill_parent"
+     android:layout_height="wrap_content"
+     android:layout_marginTop="@dimen/padding_Xsmall" /> 
    
    <TextView
     android:id="@+id/hospital_number"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
 	android:text="@string/hospital_number"   
-    android:layout_marginTop="@dimen/padding_medium"/>
+    android:layout_marginTop="@dimen/padding_small"/>
+   
+   <TextView
+     android:id="@+id/hospital_number_db"
+     android:layout_width="fill_parent"
+     android:layout_height="wrap_content"
+     android:layout_marginTop="@dimen/padding_Xsmall" /> 
    
    <TextView
     android:id="@+id/appointment_clinic"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
 	android:text="@string/appointment_clinic"   
-    android:layout_marginTop="@dimen/padding_medium"/>
+    android:layout_marginTop="@dimen/padding_small"/>
+   
+   <TextView
+     android:id="@+id/appointment_clinic_db"
+     android:layout_width="fill_parent"
+     android:layout_height="wrap_content"
+     android:layout_marginTop="@dimen/padding_Xsmall" /> 
    
    <TextView
     android:id="@+id/appointment_date"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
 	android:text="@string/appointment_date"   
-    android:layout_marginTop="@dimen/padding_medium"/>
+    android:layout_marginTop="@dimen/padding_small"/>
+   
+   <TextView
+     android:id="@+id/appointment_date_db"
+     android:layout_width="fill_parent"
+     android:layout_height="wrap_content"
+     android:layout_marginTop="@dimen/padding_Xsmall" /> 
    
    <TextView
     android:id="@+id/appointment_time"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
 	android:text="@string/appointment_time"   
-    android:layout_marginTop="@dimen/padding_medium"/>
+    android:layout_marginTop="@dimen/padding_small"/>
+   
+   <TextView
+     android:id="@+id/appointment_time_db"
+     android:layout_width="fill_parent"
+     android:layout_height="wrap_content"
+     android:layout_marginTop="@dimen/padding_Xsmall" /> 
    
    <TextView
     android:id="@+id/duration"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
 	android:text="@string/duration"   
-    android:layout_marginTop="@dimen/padding_medium"/>
+    android:layout_marginTop="@dimen/padding_small"/>
+   
+   <TextView
+     android:id="@+id/duration_db"
+     android:layout_width="fill_parent"
+     android:layout_height="wrap_content"
+     android:layout_marginTop="@dimen/padding_Xsmall" /> 
    
    <TextView
     android:id="@+id/email_to"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
 	android:text="@string/email_to"   
-    android:layout_marginTop="@dimen/padding_medium"/>
+    android:layout_marginTop="@dimen/padding_small"/>
+   
+   <TextView
+     android:id="@+id/email_to_db"
+     android:layout_width="fill_parent"
+     android:layout_height="wrap_content"
+     android:layout_marginTop="@dimen/padding_Xsmall" /> 
    
    <TextView
     android:id="@+id/sms_to"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
 	android:text="@string/sms_to"   
-    android:layout_marginTop="@dimen/padding_medium"/>
+    android:layout_marginTop="@dimen/padding_small"/>
+   
+   <TextView
+     android:id="@+id/sms_to_db"
+     android:layout_width="fill_parent"
+     android:layout_height="wrap_content"
+     android:layout_marginTop="@dimen/padding_Xsmall" /> 
    
    <Button
     android:id="@+id/confirm_appointment"
