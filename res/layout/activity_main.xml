@@ -16,6 +16,42 @@
       android:layout_height="wrap_content"
       android:background="@drawable/logo"
 	/>  
+	
+    <TextView
+      android:layout_gravity="center|top"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/smart"
+      android:textSize="18sp"
+      android:layout_marginTop="15dp"
+	/> 
+	
+     <TextView
+      android:layout_gravity="center|top"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/secure_maternity"
+      android:textSize="20sp"
+      android:textColor="@color/blue"
+	/>  
+	 <TextView
+      android:layout_gravity="center|top"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/appointment_recording"
+      android:textSize="20sp"
+      android:textColor="@color/blue"/>
+	
+	
+	<TextView
+      android:layout_gravity="center|top"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/tracker"
+      android:textSize="20sp"
+      android:textColor="@color/blue"/>
+
+
 	<EditText
 	    android:id="@+id/username"
     	android:layout_height="wrap_content"
@@ -24,7 +60,7 @@
     	android:inputType ="text" 
     	android:hint="@string/username" 
     	android:background="@drawable/drawable"
-    	android:layout_marginTop="150dp"
+    	android:layout_marginTop="50dp"
     	android:layout_marginBottom="20dp"
     	android:maxLines="1">
     </EditText>
