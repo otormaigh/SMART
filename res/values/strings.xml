@@ -4,12 +4,6 @@
     <string name="visits">Visits</string>
     <string name="app_name">Clinics</string>
     <!-- ACTIVITY TITLES -->
-    <string name="smart">Smart</string>
-    <string name="secure_maternity">Secure Maternity</string>
-    <string name="appointment_recording">Appointment Recording</string>
-    <string name="maternity_hospital">@ National Maternity Hospital, Ireland</string>
-    <string name="about">About</string>
-    <string name="tracker">Tracker</string>
     <string name="title_activity_appointment_type">appointment_type</string>
     <string name="title_activity_clinic">Clinic Activity</string>
     <string name="title_activity_domino_dublin">DominoDublinActivity</string>
@@ -31,6 +25,13 @@
     <string name="login">Login</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
+    <string name="smart">Smart</string>
+    <string name="secure_maternity">Secure Maternity</string>
+    <string name="appointment_recording">Appointment Recording</string>
+    <string name="maternity_hospital">© National Maternity Hospital, Ireland</string>
+    <string name="about">About</string>
+    <string name="tracker">Tracker</string>
+    
     <!-- SERVICE OPTIONS -->
     <string name="domino_d">Domino(Dublin)</string>
     <string name="domino_w">Domino(Wicklow)</string>
