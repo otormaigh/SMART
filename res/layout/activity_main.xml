@@ -7,6 +7,7 @@
     android:weightSum="2.0"
     tools:context="${relativePackage}.${activityClass}" 
     android:background="@color/white">
+    
   <ImageView
       android:contentDescription="@string/main_logo"
       android:id="@+id/imageView"
@@ -60,7 +61,7 @@
     	android:inputType ="text" 
     	android:hint="@string/username" 
     	android:background="@drawable/drawable"
-    	android:layout_marginTop="30dp"
+    	android:layout_marginTop="20dp"
     	android:layout_marginBottom="20dp"
     	android:maxLines="1">
     </EditText>
@@ -83,5 +84,24 @@
 		android:layout_height="wrap_content"
 		android:background="@color/blue"
 		android:text="@string/login" 
-	/>    
+	/>  
+	
+   <TextView
+      android:layout_gravity="center|top"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="10dp"
+      android:textColor="@color/black"
+      android:text="@string/maternity_hospital"/>
+   
+     <TextView
+      android:layout_gravity="center|top"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textColor="@color/blue"
+      android:textSize="20sp"
+      android:text="@string/about"/>
+   
+
+	
 </LinearLayout>
