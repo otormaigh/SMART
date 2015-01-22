@@ -60,7 +60,7 @@
     	android:inputType ="text" 
     	android:hint="@string/username" 
     	android:background="@drawable/drawable"
-    	android:layout_marginTop="50dp"
+    	android:layout_marginTop="30dp"
     	android:layout_marginBottom="20dp"
     	android:maxLines="1">
     </EditText>
