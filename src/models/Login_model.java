@@ -1,20 +1,20 @@
 package models;
 
 public class Login_model {
-	private String name;
 	private String username;
 	private String password;
 	private String token;
+	private String db_name;
 	private String db_username;
 	private String db_password;
 
 	public Login_model() {
 	}
-	public String getName() {
-		return name;
+	public String getDb_name() {
+		return db_name;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setDb_name(String db_name) {
+		this.db_name = db_name;
 	}
 	public String getUsername() {
 		return username;

@@ -8,12 +8,9 @@ import java.sql.Statement;
 
 import models.Login_model;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -32,8 +29,8 @@ public class MainActivity extends Activity {
 	private String credentialType;
 	Connection c;
 	Statement stmt;
-	ResultSet rs;
-	Login_model login;
+	ResultSet rs;	
+	Login_model login = new Login_model();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,30 +51,15 @@ public class MainActivity extends Activity {
 			Log.d("MYLOG", "Where is your PostgreSQL JDBC Driver? "
 				+ "Include in your library path!");
 			e.printStackTrace(); 
-		Log.d("MYLOG", "PostgreSQL JDBC Driver Registered!");	
-		}
-	}	
-	@Override
-	protected void onStop() {
-		super.onStop();
-		try {
-			rs.close();
-			stmt.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
+			Log.d("MYLOG", "PostgreSQL JDBC Driver Registered!");	
 		}
 	}
 	private class ButtonClick implements View.OnClickListener{
 		public void onClick(View v) {
 			switch(v.getId()){
-			case R.id.login:				
-				//showAlert();				
-				if (counter_username == 3 || counter_password == 3){
-					finish();
-				} else {
-					new LongOperation().execute((String[]) null);
-					break;
-				}
+			case R.id.login:
+				getCredentials();
+				new LongOperation().execute((String[]) null);
 			}
 		}
 	}
@@ -85,19 +67,18 @@ public class MainActivity extends Activity {
         protected String doInBackground(String... params) { 
         	try {
         		c = DriverManager.getConnection(
-        				"jdbc:postgresql://10.0.2.2:5432/smart", 
-        				"postgres", "password");       		
+        				"jdbc:postgresql://10.15.1.80:5432/smart", 
+        				"postgres", "postgres");       		
     		} catch (SQLException e) {
     			Log.d("MYLOG", "Connection Failed! Check output console");
     			e.printStackTrace();
     		}
         	if (c != null) {
         		Log.d("MYLOG", "Connected to Database");
-        		getCredentials();
     			try {
     				stmt = ((Connection) c).createStatement();
     				ResultSet rs = stmt.executeQuery(
-    						  "SELECT * FROM service_providers WHERE username = '"
+    						  "SELECT * FROM service_providers WHERE username = '" 
     						  + login.getUsername() + "';");
     				if(rs.next()){
     					db_name = rs.getString("name");
@@ -106,7 +87,7 @@ public class MainActivity extends Activity {
     				}else {
     					Log.d("MYLOG", "If database empty");
     					
-    					switch (counter_username) {
+    					/*switch (counter_username) {
     					case 0:
     						Toast.makeText(MainActivity.this, 
     								   	   "Incorrect username. You have 3 tries left.", 
@@ -126,9 +107,11 @@ public class MainActivity extends Activity {
     						counter_username ++;
     						break;
     					case 3:
-    						finish();
+    						Toast.makeText(MainActivity.this, 
+									   "Incorrect username. You have no tries left.", 
+									   Toast.LENGTH_SHORT).show();
     						break;
-    					}
+    					} */
     				}
     				rs.close();
     				stmt.close();
@@ -141,11 +124,10 @@ public class MainActivity extends Activity {
         	return null;
         }@Override
         protected void onPostExecute(String result) {
-        	login.setName(db_name);
+        	login.setDb_name(db_name);
         	login.setDb_username(db_username);
-        	login.setDb_password(db_password);		
-        	credentialType = "username";
-			checkCredentials();
+        	login.setDb_password(db_password);
+        	checkCredentials();
         }
         @Override
         protected void onPreExecute() {
@@ -163,7 +145,7 @@ public class MainActivity extends Activity {
 	private Object checkCredentials(){
 		if (login.getPassword().equals(login.getDb_password())){
 			Toast.makeText(MainActivity.this, 
-						   "Welcome " + login.getName() + "\nLogin Successful", 
+						   "Welcome " + login.getDb_name() + "\nLogin Successful", 
 						   Toast.LENGTH_SHORT).show();
 			Intent intent = new Intent(MainActivity.this, AppointmentTypeActivity.class);
 			startActivity(intent);
@@ -190,35 +172,12 @@ public class MainActivity extends Activity {
 				counter_password ++;
 				break;
 			case 3:
-				finish();
+				Toast.makeText(MainActivity.this, 
+						   "Incorrect password. You have no tries left.", 
+						   Toast.LENGTH_SHORT).show();
 				break;
 			}
 		}
 		return null;
 	}
-	@Override
-	public void finish() {
-		Toast.makeText(MainActivity.this, 
-					   "Incorrect " + credentialType + ". You have no tries left. \n"
-					   + "Closing app now.", 
-					   Toast.LENGTH_SHORT).show();
-		super.finish();
-	}
-	/*private void showAlert(){
-		final AlertDialog alertDialog = new AlertDialog.Builder(this).create();  
-		alertDialog.setTitle("Alert");  
-		alertDialog.setMessage("00:03");
-		alertDialog.show(); 
-
-		new CountDownTimer(10000, 1000) {
-		    @Override
-		    public void onTick(long millisUntilFinished) {
-		       alertDialog.setMessage("00:"+ (millisUntilFinished/1000));
-		    }
-		    @Override
-		    public void onFinish() {
-		        //View info.setVisibility(View.GONE);
-		    }
-		}.start();
-	}*/
 }
