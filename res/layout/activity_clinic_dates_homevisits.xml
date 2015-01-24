@@ -5,7 +5,9 @@
     tools:context="${relativePackage}.${activityClass}" >
 
     <android.widget.CalendarView
+        android:id="@+id/calendar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
+    
 </RelativeLayout>
