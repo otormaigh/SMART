@@ -8,9 +8,12 @@ import java.sql.Statement;
 
 import models.Login_model;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -75,6 +78,7 @@ public class MainActivity extends Activity {
     		}
         	if (c != null) {
         		Log.d("MYLOG", "Connected to Database");
+        		getCredentials();
     			try {
     				stmt = ((Connection) c).createStatement();
     				ResultSet rs = stmt.executeQuery(
@@ -180,4 +184,29 @@ public class MainActivity extends Activity {
 		}
 		return null;
 	}
+	/*@Override
+	public void finish() {
+		Toast.makeText(MainActivity.this, 
+					   "Incorrect " + credentialType + ". You have no tries left. \n"
+					   + "Closing app now.", 
+					   Toast.LENGTH_SHORT).show();
+		super.finish();
+	}
+	private void showAlert(){
+		final AlertDialog alertDialog = new AlertDialog.Builder(this).create();  
+		alertDialog.setTitle("Alert");  
+		alertDialog.setMessage("00:03");
+		alertDialog.show(); 
+
+		new CountDownTimer(10000, 1000) {
+		    @Override
+		    public void onTick(long millisUntilFinished) {
+		       alertDialog.setMessage("00:"+ (millisUntilFinished/1000));
+		    }
+		    @Override
+		    public void onFinish() {
+		        //View info.setVisibility(View.GONE);
+		    }
+		}.start();
+	}*/
 }
