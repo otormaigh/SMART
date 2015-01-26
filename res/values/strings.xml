@@ -1,25 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="clinics">Clinics</string>
     <string name="visits">Visits</string>
     <string name="app_name">Clinics</string>
+
     <!-- ACTIVITY TITLES -->
-    <string name="title_activity_appointment_type">appointment_type</string>
+    <string name="title_activity_appointment_type">Appointment Type Activity</string>
     <string name="title_activity_clinic">Clinic Activity</string>
-    <string name="title_activity_domino_dublin">DominoDublinActivity</string>
-    <string name="title_activity_domino_wicklow">DominoWicklowActivity</string>
-    <string name="title_activity_etc_dublin">EtcDublinActivity</string>
-    <string name="title_activity_etc_wicklow">EtcWicklowActivity</string>
-    <string name="title_activity_satellite">MainActivity</string>
-    <string name="title_activity_clinic_dates_leopardstown">ClinicDatesleopardstown</string>
-    <string name="title_activity_clinic_dates_dlaoghaire">ClinicDatesDlaoghaire</string>
-    <string name="title_activity_clinic_dates_churchtown">ClinicDatesChurchtown</string>
-    <string name="title_activity_clinic_dates_nmhOPD">ClinicDatesnmh</string>
-    <string name="title_activity_clinic_dates_nmh">ClinicDatesnmh</string>
-    <string name="title_activity_clinic_dates_homevisits">ClinicDatesHomevisits</string>
-    <string name="title_activity_nmh">NmhActivity</string>
-    <string name="title_activity_select_time">SelectTime</string>
-    <string name="title_activity_service_user">ServiceUser</string>
+    <string name="title_activity_domino_dublin">Domino Dublin Activity</string>
+    <string name="title_activity_domino_wicklow">Domino Wicklow Activity</string>
+    <string name="title_activity_etc_dublin">Etc Dublin Activity</string>
+    <string name="title_activity_etc_wicklow">Etc Wicklow Activity</string>
+    <string name="title_activity_satellite">Main Activity</string>
+    <string name="title_activity_clinic_dates_leopardstown">Clinic Dates Leopardstown</string>
+    <string name="title_activity_clinic_dates_dunlaoghaire">Clinic Dates DunLaoghaire</string>
+    <string name="title_activity_clinic_dates_churchtown">Clinic Dates Churchtown</string>
+    <string name="title_activity_clinic_dates_nmh_opd">Clinic Dates NMH OPD</string>
+    <string name="title_activity_clinic_dates_nmh">Clinic Dates NMH</string>
+    <string name="title_activity_clinic_dates_homevisits">Clinic Dates Home Visits</string>
+    <string name="title_activity_nmh">NMH Activity</string>
+    <string name="title_activity_select_time">Select Time Activity</string>
+    <string name="title_activity_service_user">Service User Activity</string>
+
     <!-- MAIN SCREEN -->
     <string name="main_logo"> main_logo</string>
     <string name="login">Login</string>
@@ -28,23 +31,26 @@
     <string name="smart">Smart</string>
     <string name="secure_maternity">Secure Maternity</string>
     <string name="appointment_recording">Appointment Recording</string>
+    <string name="tracker">Tracker</string>
     <string name="maternity_hospital">© National Maternity Hospital, Ireland</string>
     <string name="about">About</string>
-    <string name="tracker">Tracker</string>
-    
+    <string name="about_link">About<a href="http://www.nmh.ie/about-us.8.html">About</a></string>
+
     <!-- SERVICE OPTIONS -->
     <string name="domino_d">Domino(Dublin)</string>
     <string name="domino_w">Domino(Wicklow)</string>
-    <string name="ETHD">ETH(Dublin)</string>
-    <string name="ETHW">ETH(Wicklow)</string>
-    <string name="Satellite">Satellite</string>    
-    <string name="Service_Options">Service Options</string>
+    <string name="ethd">ETH(Dublin)</string>
+    <string name="ethw">ETH(Wicklow)</string>
+    <string name="satellite">Satellite</string>
+    <string name="service_options">Service Options</string>
+
     <!-- CLINICS -->
-    <string-array name="domino_NMH_OPD">
+    <string-array name="domino_nmh_opd">
         <item>&lt;b>NMH(OPD Location) &lt;/b>&lt;br></item>
         <item>&lt;small>-Evening Booking Clinic &lt;/small>&lt;br></item>
         <item>&lt;small>-Weekly,Monday &lt;/small></item>
     </string-array>
+
     <string name="leopardstown">Leopardstown\n-Weekly,Tuesday\n</string>
     <string name="dunlaoghaire">Dun laoghaire\n-St. Michaels Hospital\n-Weekly,Wednesday</string>
     <string name="churchtown">Churchtown\n-Weekly,Thursday\n</string>
@@ -59,15 +65,18 @@
     <string name="newtownmountkennedy_wednesday">Newtownmountkennedy\n	-Weekly, Wednesday \n-Booking clinics</string>
     <string name="bray_thursday">Bray\n	-Weekly, Thursday</string>
     <string name="domino_view">Select Service option</string>
+
     <!-- CLINIC DATES -->
-    <string name="Clinic_Dates">Clinic Dates</string>
+    <string name="clinic_cates">Clinic Dates</string>
+
     <!-- NMHOPD WEEKS -->
-    <string name="week_one_nmhOPD">Week 1\nMon, 01 Sep 2014</string>
-    <string name="week_two_nmhOPD">Week 2\nMon, 08 Sep 2014</string>
-    <string name="week_three_nmhOPD">Week 3\nMon, 15 Sep 2014</string>
-    <string name="week_four_nmhOPD">Week 4\nMon, 22 Sep</string>
-    <string name="week_five_nmhOPD">Week 5\nMon, 29 Sep</string>
-    <string name="week_six_nmhOPD">Week 6\nMon, 06 Oct</string>
+    <string name="week_one_nmh_opd">Week 1\nMon, 01 Sep 2014</string>
+    <string name="week_two_nmh_opd">Week 2\nMon, 08 Sep 2014</string>
+    <string name="week_three_nmh_opd">Week 3\nMon, 15 Sep 2014</string>
+    <string name="week_four_nmh_opd">Week 4\nMon, 22 Sep</string>
+    <string name="week_five_nmh_opd">Week 5\nMon, 29 Sep</string>
+    <string name="week_six_nmh_opd">Week 6\nMon, 06 Oct</string>
+
     <!-- LEOPARDSTOWN WEEKS -->
     <string name="week_one_leopardstown">Week 1\nTue, 02 Sep 2014</string>
     <string name="week_two_leopardstown">Week 2\nTue, 09 Sep 2014</string>
@@ -75,20 +84,23 @@
     <string name="week_four_leopardstown">Week 4\nTue, 23 Sep</string>
     <string name="week_five_leopardstown">Week 5\nTue, 30 Sep</string>
     <string name="week_six_leopardstown">Week 6\nTue, 07 Oct</string>
+
     <!-- DLAOGHAIRE WEEKS -->
-    <string name="week_one_Dlaoghaire">Week 1\nWed, 03 Sep 2014</string>
-    <string name="week_two_Dlaoghaire">Week 2\nWed, 10 Sep 2014</string>
-    <string name="week_three_Dlaoghaire">Week 3\nWed, 17 Sep 2014</string>
-    <string name="week_four_Dlaoghaire">Week 4\nWed, 24 Sep</string>
-    <string name="week_five_Dlaoghaire">Week 5\nWed, 01 Sep</string>
-    <string name="week_six_Dlaoghaire">Week 6\nWed, 08 Oct</string>
+    <string name="week_one_dunlaoghaire">Week 1\nWed, 03 Sep 2014</string>
+    <string name="week_two_dunlaoghaire">Week 2\nWed, 10 Sep 2014</string>
+    <string name="week_three_dunlaoghaire">Week 3\nWed, 17 Sep 2014</string>
+    <string name="week_four_dunlaoghaire">Week 4\nWed, 24 Sep</string>
+    <string name="week_five_dunlaoghaire">Week 5\nWed, 01 Sep</string>
+    <string name="week_six_dunlaoghaire">Week 6\nWed, 08 Oct</string>
+
     <!-- CHURCHTOWN WEEKS -->
-    <string name="week_one_church">Week 1\nThurs, 04 Sep 2014</string>
-    <string name="week_two_church">Week 2\nThurs, 11 Sep 2014</string>
-    <string name="week_three_church">Week 3\nThurs, 18 Sep 2014</string>
-    <string name="week_four_church">Week 4\nThurs, 25 Sep</string>
-    <string name="week_five_church">Week 5\nThurs, 02 Sep</string>
-    <string name="week_six_church">Week 6\nThurs, 09 Oct</string>
+    <string name="week_one_churchtown">Week 1\nThurs, 04 Sep 2014</string>
+    <string name="week_two_churchtown">Week 2\nThurs, 11 Sep 2014</string>
+    <string name="week_three_churchtown">Week 3\nThurs, 18 Sep 2014</string>
+    <string name="week_four_churchtown">Week 4\nThurs, 25 Sep</string>
+    <string name="week_five_churchtown">Week 5\nThurs, 02 Sep</string>
+    <string name="week_six_churchtown">Week 6\nThurs, 09 Oct</string>
+
     <!-- NMH WEEKS -->
     <string name="week_one_nmh">Week 1\nFri, 05 Sep 2014</string>
     <string name="week_two_nmh">Week 2\nFri, 12 Sep 2014</string>
@@ -97,13 +109,14 @@
     <string name="week_five_nmh">Week 5\nFri, 03 Sep</string>
     <string name="week_six_nmh">Week 6\nFri, 10 Oct</string>
 
-    <!-- Select Time-->
-    <string name="one_Select_time">08:30am</string>
-    <string name="two_Select_time">08:45am</string>
-    <string name="three_Select_time">09:00am</string>
-    <string name="four_Select_time">09:15am</string>
-    <string name="five_Select_time">09:30am</string>
-    <string name="six_Select_time">09:45am</string>
+    <!-- SELECT TIME -->
+    <string name="one_select_time">08:30am</string>
+    <string name="two_select_time">08:45am</string>
+    <string name="three_select_time">09:00am</string>
+    <string name="four_select_time">09:15am</string>
+    <string name="five_select_time">09:30am</string>
+    <string name="six_select_time">09:45am</string>
+
     <!-- "CONFIRM_APPOINTMENT -->
     <string name="service_user">Service User</string>
     <string name="hospital_number">Hospital Number</string>
@@ -116,19 +129,21 @@
     <string name="confirm_appointment">Confirm Appointment</string>
 
     <!-- SERVICE USERS -->
-    <string name="Ante_Natal">Ante-Natal</string>
-    <string name="Personal">Personal</string>
-    <string name="Post_Natal">Post-Natal</string>
-    <string name="Contact">Contact</string>
-    <string name="Address">Address</string>
-    <string name="Next_Of_Kin">Next-of-kin</string>
-    <string name="Book_Appointment">Book Appointment</string>
-	<!-- Select Time-->
-    <string name="one_select_time">08:30am</string>
-    <string name="two_select_time">08:45am</string>
-    <string name="three_select_time">09:00am</string>
-    <string name="four_select_time">09:15am</string>
-    <string name="five_select_time">09:30am</string>
-    <string name="six_select_time">09:45am</string>
+    <string name="ante_natal">Ante-Natal</string>
+    <string name="personal">Personal</string>
+    <string name="post_natal">Post-Natal</string>
+    <string name="contact">Contact</string>
+    <string name="address">Address</string>
+    <string name="next_of_kin">Next-of-kin</string>
+    <string name="book_appointment">Book Appointment</string>
+    <string name="title_activity_service_user_search">Service User Search Activity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- SERVICE USER SEARCH -->
+    <string name="ssr_title">Search by the service user\'s hospital number,
+        name and\/or dat of birth (@dd\/mm\/yyyy) \n
+        You can combine search terms in one line if you like. \n
+        Example: Mary Murphy @17/06/1976</string>
 
 </resources>

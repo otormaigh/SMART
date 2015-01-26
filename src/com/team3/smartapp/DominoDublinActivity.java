@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class DominoDublinActivity extends Activity {
-	
+
 	private Button domino_dublin_nmh;
 	private Button domino_dublin_leopardstown;
 	private Button domino_dublin_dunlaoghaire;
@@ -21,38 +21,38 @@ public class DominoDublinActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_domino_dublin);
-		
-		domino_dublin_nmh = (Button)findViewById(R.id.domino_dublin_nmh);
+
+		domino_dublin_nmh = (Button) findViewById(R.id.domino_dublin_nmh);
 		domino_dublin_nmh.setOnClickListener(new ButtonClick());
-		
-		domino_dublin_leopardstown = (Button)findViewById(R.id.domino_dublin_leopardstown);
+
+		domino_dublin_leopardstown = (Button) findViewById(R.id.domino_dublin_leopardstown);
 		domino_dublin_leopardstown.setOnClickListener(new ButtonClick());
-		
-		domino_dublin_dunlaoghaire = (Button)findViewById(R.id.domino_dublin_dunlaoghaire);
+
+		domino_dublin_dunlaoghaire = (Button) findViewById(R.id.domino_dublin_dunlaoghaire);
 		domino_dublin_dunlaoghaire.setOnClickListener(new ButtonClick());
-		
-		domino_dublin_churchtown = (Button)findViewById(R.id.domino_dublin_churchtown);
+
+		domino_dublin_churchtown = (Button) findViewById(R.id.domino_dublin_churchtown);
 		domino_dublin_churchtown.setOnClickListener(new ButtonClick());
-		
-		domino_dublin_nmh2 = (Button)findViewById(R.id.domino_dublin_nmh2);
+
+		domino_dublin_nmh2 = (Button) findViewById(R.id.domino_dublin_nmh2);
 		domino_dublin_nmh2.setOnClickListener(new ButtonClick());
-		
-		domino_dublin_homevisits = (Button)findViewById(R.id.domino_dublin_homevisits);
+
+		domino_dublin_homevisits = (Button) findViewById(R.id.domino_dublin_homevisits);
 		domino_dublin_homevisits.setOnClickListener(new ButtonClick());
-		
-		String[] my_array = getResources().getStringArray(R.array.domino_NMH_OPD);	
-		String arrayFormat = TextUtils.join("",my_array);
-		
+
+		String[] my_array = getResources().getStringArray(
+				R.array.domino_nmh_opd);
+		String arrayFormat = TextUtils.join("", my_array);
+
 		String text = String.format(arrayFormat);
 		CharSequence styledText = Html.fromHtml(text);
 
-		domino_dublin_nmh.setText(styledText);	
+		domino_dublin_nmh.setText(styledText);
 	}
-	
-	
-	private class ButtonClick implements View.OnClickListener{
+
+	private class ButtonClick implements View.OnClickListener {
 		public void onClick(View v) {
-			switch(v.getId()){
+			switch (v.getId()) {
 			case R.id.domino_dublin_nmh:
 				Intent intentDominoDublinNmh = new Intent(DominoDublinActivity.this, ClinicDatesNMHActivity.class);
 				startActivity(intentDominoDublinNmh);
@@ -66,7 +66,7 @@ public class DominoDublinActivity extends Activity {
 				startActivity(intentDominoDublinDunLaoghaire);
 				break;
 			case R.id.domino_dublin_churchtown:
-				Intent intentDominoDublinChurchtown = new Intent(DominoDublinActivity.this, ClinicDatesChurchtownActivity.class);
+				Intent intentDominoDublinChurchtown = new Intent(DominoDublinActivity.this,	ClinicDatesChurchtownActivity.class);
 				startActivity(intentDominoDublinChurchtown);
 				break;
 			case R.id.domino_dublin_nmh2:
@@ -74,7 +74,7 @@ public class DominoDublinActivity extends Activity {
 				startActivity(intentDominoDublinNmh2);
 				break;
 			case R.id.domino_dublin_homevisits:
-				Intent intentDominoDublinHomevisits = new Intent(DominoDublinActivity.this, ClinicDatesHomevisitsActivity.class);
+				Intent intentDominoDublinHomevisits = new Intent(DominoDublinActivity.this,	ClinicDatesHomevisitsActivity.class);
 				startActivity(intentDominoDublinHomevisits);
 				break;
 			}
