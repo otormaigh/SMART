@@ -4,8 +4,9 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
-public class ServiceUser extends Activity {
+public class ServiceUserActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
