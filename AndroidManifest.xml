@@ -104,6 +104,14 @@
             android:name=".ServiceUserSearchActivity"
             android:label="@string/title_activity_service_user_search" >
         </activity>
+        <activity
+            android:name=".DbInfo"
+            android:label="@string/title_activity_db_info" >
+        </activity>
+        <activity
+            android:name=".HttpClient"
+            android:label="@string/title_activity_http_client" >
+        </activity>
     </application>
 
 </manifest>
