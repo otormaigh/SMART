@@ -5,55 +5,55 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="6.0"
-    tools:context="com.example.myapp.MainActivity" >
+    tools:context="${relativePackage}.${activityClass}" >
 
     <Button
         android:id="@+id/domino_dublin_nmh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@array/domino_NMH_OPD"
         android:layout_weight="1.0"
-        android:textSize="@dimen/text_small" 
-        android:gravity="start"/>
-    
+        android:gravity="start"
+        android:text="@array/domino_nmh_opd"
+        android:textSize="@dimen/text_small" />
+
     <Button
         android:id="@+id/domino_dublin_leopardstown"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/leopardstown"
         android:layout_weight="1.0"
+        android:text="@string/leopardstown"
         android:textSize="@dimen/text_small" />
-    
-     <Button
-         android:id="@+id/domino_dublin_dunlaoghaire"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:text="@string/dunlaoghaire"
-         android:layout_weight="1.0"
-         android:textSize="@dimen/text_small" />
-     
-     <Button
-         android:id="@+id/domino_dublin_churchtown"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:text="@string/churchtown"
-         android:layout_weight="1.0"
-         android:textSize="@dimen/text_small" />
-     
-     <Button
-         android:id="@+id/domino_dublin_nmh2"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:text="@string/nmh"
-         android:layout_weight="1.0"
-         android:textSize="@dimen/text_small" />
-     
-     <Button
-         android:id="@+id/domino_dublin_homevisits"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:text="@string/home_visits"
-         android:layout_weight="1.0"
-         android:textSize="@dimen/text_small" />
-     
+
+    <Button
+        android:id="@+id/domino_dublin_dunlaoghaire"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.0"
+        android:text="@string/dunlaoghaire"
+        android:textSize="@dimen/text_small" />
+
+    <Button
+        android:id="@+id/domino_dublin_churchtown"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.0"
+        android:text="@string/churchtown"
+        android:textSize="@dimen/text_small" />
+
+    <Button
+        android:id="@+id/domino_dublin_nmh2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.0"
+        android:text="@string/nmh"
+        android:textSize="@dimen/text_small" />
+
+    <Button
+        android:id="@+id/domino_dublin_homevisits"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.0"
+        android:text="@string/home_visits"
+        android:textSize="@dimen/text_small" />
+
 </LinearLayout>
