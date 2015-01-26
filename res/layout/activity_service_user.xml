@@ -1,15 +1,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:weightSum="7.0"
+    android:weightSum="20.0"
     tools:context="${relativePackage}.${activityClass}" >
     
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_centerInParent="true">
         
         <Button
         android:id="@+id/Ante_Natal"
@@ -49,56 +50,71 @@
         
         
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="100dp"
+        android:layout_height="80dp"
+        android:orientation="vertical"
+        android:layout_gravity="bottom">
     
         <Button
         android:id="@+id/Contact"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="80dp"
         android:text="@string/Contact"
+        android:layout_alignParentBottom="true"
         android:layout_marginTop="@dimen/padding_large"
         android:layout_marginBottom="@dimen/padding_small"
         android:layout_weight="1.0" />
+        </RelativeLayout>
+      <RelativeLayout  
+        android:layout_width="100dp"
+        android:layout_height="80dp"
+        android:orientation="vertical"
+        android:layout_gravity="bottom">
     
         <Button
         android:id="@+id/Address"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="80dp"
         android:text="@string/Address"
-        android:layout_marginTop="@dimen/padding_large"
-        android:layout_marginBottom="@dimen/padding_small"
-        android:layout_weight="1.0"
-        android:textSize="@dimen/text_medium" />
-    
-        <Button
-        android:id="@+id/Next_Of_Kin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/Next_Of_Kin"
+        android:layout_alignParentBottom="true"
         android:layout_marginTop="@dimen/padding_large"
         android:layout_marginBottom="@dimen/padding_small"
         android:layout_weight="1.0"
         android:textSize="@dimen/text_small" />
-        
-    <LinearLayout
+        </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:orientation="vertical"
+        android:layout_gravity="bottom">
+    
+        <Button
+        android:id="@+id/Next_Of_Kin"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:text="@string/Next_Of_Kin"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="@dimen/padding_large"
+        android:layout_marginBottom="@dimen/padding_small"
+        android:layout_weight="1.0"
+        android:textSize="@dimen/text_small" />
+        </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/Book_Appointment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
 
         <Button
-        android:id="@+id/Book_Appointment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/padding_Xsmall"
-        android:layout_marginLeft="@dimen/padding_small"
-        android:layout_marginRight="@dimen/padding_small"
-        android:layout_marginTop="@dimen/padding_large"
-        android:layout_weight="1.0"
-        android:text="@string/Book_Appointment"
-        android:textSize="@dimen/text_large" />
-    </LinearLayout>
-    
-</LinearLayout>
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:layout_marginBottom="@dimen/padding_large"
+            android:background="@color/lightBlue"
+            android:text="@string/Book_Appointment"
+            android:textSize="@dimen/text_large" />
+    </RelativeLayout>
+
 </LinearLayout>
