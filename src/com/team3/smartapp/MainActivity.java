@@ -133,6 +133,7 @@ public class MainActivity extends Activity {
 
         @Override
         protected void onProgressUpdate(Void... values) {
+        	Log.d("MYLOG", "On progress update");
         }
 	}
 
