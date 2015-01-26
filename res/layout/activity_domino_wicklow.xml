@@ -1,41 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="${relativePackage}.${activityClass}" 
     android:orientation="vertical"
-    android:weightSum="4.0">
-    
-	<Button
-	    android:id="@+id/domino_wicklow_greystones1"
-	    android:layout_height="wrap_content"
-	    android:layout_width="match_parent"
-	    android:layout_weight="1.0"
-	    android:text="@string/greystones_monday"
-	    android:textSize="@dimen/text_medium">
-	</Button>
-	<Button
-	    android:id="@+id/domino_wicklow_greystones2"
-	    android:layout_height="wrap_content"
-	    android:layout_width="match_parent"
-	    android:layout_weight="1.0"
-	    android:text="@string/greystones_tuesday"
-	    android:textSize="@dimen/text_medium">
-	</Button>
-	<Button
-	    android:id="@+id/domino_wicklow_Kilmacanogue"
-	    android:layout_height="wrap_content"
-	    android:layout_width="match_parent"
-	    android:layout_weight="1.0"
-	    android:text="@string/kilmacanogue"
-	    android:textSize="@dimen/text_medium">
-	</Button>
-	<Button
-	    android:id="@+id/domino_wicklow_Homevisits"
-	    android:layout_height="wrap_content"
-	    android:layout_width="match_parent"
-	    android:layout_weight="1.0"
-	    android:text="@string/home_visits"
-	    android:textSize="@dimen/text_medium">
-	</Button>
+    android:weightSum="4.0"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <Button
+        android:id="@+id/domino_wicklow_greystones1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.0"
+        android:text="@string/greystones_monday"
+        android:textSize="@dimen/text_medium" />
+
+    <Button
+        android:id="@+id/domino_wicklow_greystones2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.0"
+        android:text="@string/greystones_tuesday"
+        android:textSize="@dimen/text_medium" />
+
+    <Button
+        android:id="@+id/domino_wicklow_Kilmacanogue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.0"
+        android:text="@string/kilmacanogue"
+        android:textSize="@dimen/text_medium" />
+
+    <Button
+        android:id="@+id/domino_wicklow_Homevisits"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.0"
+        android:text="@string/home_visits"
+        android:textSize="@dimen/text_medium" />
+
 </LinearLayout>

@@ -1,7 +1,7 @@
 package models;
 
 public class ResetPassword_Model {
-	
+
 	private String token;
 	private String username;
 	private String email;
@@ -9,7 +9,7 @@ public class ResetPassword_Model {
 	private String password_verification;
 
 	public ResetPassword_Model() {
-	
+
 	}
 
 	public String getToken() {
