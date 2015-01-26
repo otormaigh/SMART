@@ -9,56 +9,71 @@ public class Appointments_model {
 	private boolean priority;
 	private String vistType;
 	private String serviceOptionId;
-	
 
-	public Appointments_model (){	
+	public Appointments_model() {
 	}
-	public String getId(){ 
+
+	public String getId() {
 		return id;
-	}	
-	public String getDate(){
+	}
+
+	public String getDate() {
 		return date;
-	}	
-	public String getTime(){
+	}
+
+	public String getTime() {
 		return time;
-	}	
-	public String getServiceProvderrId(){
+	}
+
+	public String getServiceProvderrId() {
 		return serviceProvderId;
-	}	
-	public String getServiceUserId(){
+	}
+
+	public String getServiceUserId() {
 		return serviceUserId;
-	}	
-	public Boolean getPriority(){
+	}
+
+	public Boolean getPriority() {
 		return priority;
 	}
-	public String getVistType(){
+
+	public String getVistType() {
 		return vistType;
 	}
-	public String getServiceOptionId(){
+
+	public String getServiceOptionId() {
 		return serviceOptionId;
-	}	
-	public void setId( String newId){
+	}
+
+	public void setId(String newId) {
 		this.id = newId;
-	}	
-	public void setDate( String newDate){
+	}
+
+	public void setDate(String newDate) {
 		this.date = newDate;
-	}	
-	public void settime( String newTime){
+	}
+
+	public void settime(String newTime) {
 		this.time = newTime;
-	}	
-	public void setserviceProvderId( String newServiceProvderId){
+	}
+
+	public void setserviceProvderId(String newServiceProvderId) {
 		this.serviceProvderId = newServiceProvderId;
 	}
-	public void setServiceUserId( String serviceUserId){
+
+	public void setServiceUserId(String serviceUserId) {
 		this.serviceUserId = serviceUserId;
-	}	
-	public void setPriority( boolean Priority){
+	}
+
+	public void setPriority(boolean Priority) {
 		this.priority = Priority;
 	}
-	public void setVistType( String VistType){
+
+	public void setVistType(String VistType) {
 		this.vistType = VistType;
-	}	
-	public void setServiceOptionId (String ServiceOptionId){
+	}
+
+	public void setServiceOptionId(String ServiceOptionId) {
 		this.serviceOptionId = ServiceOptionId;
 	}
 }
