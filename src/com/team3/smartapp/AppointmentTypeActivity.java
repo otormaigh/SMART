@@ -1,11 +1,5 @@
 package com.team3.smartapp;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.View;
-import android.widget.Button;
 
 
 public class AppointmentTypeActivity extends Activity {
@@ -17,6 +11,8 @@ public class AppointmentTypeActivity extends Activity {
 		setContentView(R.layout.activity_appointment_type);
 		
 		clinics = (Button)findViewById(R.id.clinics);
+		clinics.setText(Html.fromHtml("<b><big>" + "Clinics" + "</big></b>" +  "<br />" + 
+		        "<small>" + "(antenatal)" + "</small>" + "<br />"));
 		clinics.setOnClickListener(new ButtonClick());
 		
 	}
