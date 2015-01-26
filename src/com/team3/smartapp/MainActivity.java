@@ -62,8 +62,9 @@ public class MainActivity extends Activity {
 		public void onClick(View v) {
 			switch (v.getId()) {
                 case R.id.login:
-                /*Intent intent = new Intent(MainActivity.this, ServiceUserActivity.class);
-                startActivity(intent);*/
+
+                //Intent intent = new Intent(MainActivity.this, ServiceUserActivity.class);
+               // startActivity(intent);
 
 				getCredentials();
 				new LongOperation().execute((String[]) null);
@@ -86,7 +87,7 @@ public class MainActivity extends Activity {
         }
     }*/
     
-	private class LongOperation extends AsyncTask<String, Void, String> {
+	public class LongOperation extends AsyncTask<String, Void, String> {
 		protected String doInBackground(String... params) {
 			try {
 				c = DriverManager.getConnection("jdbc:postgresql://" + host + ":" + port + "/" + database, username, password);
@@ -144,13 +145,15 @@ public class MainActivity extends Activity {
 		login.setPassword(password);
 	}
 
-private Object checkCredentials() {
-   // private void checkCredentials(){
+
+	private Object checkCredentials() {
+    //private void checkCredentials(){
+
 		if (login.getPassword().equals(login.getDb_password())) {
 			Toast.makeText(MainActivity.this,
                            "Welcome " + login.getDb_name() + "\nLogin Successful",
 					        Toast.LENGTH_SHORT).show();
-			Intent intent = new Intent(MainActivity.this, ClinicActivity.class);
+			Intent intent = new Intent(MainActivity.this, HttpClient.class);
 			startActivity(intent);
 			return null;
 		} else {
