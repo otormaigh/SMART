@@ -145,5 +145,7 @@
         name and\/or dat of birth (@dd\/mm\/yyyy) \n
         You can combine search terms in one line if you like. \n
         Example: Mary Murphy @17/06/1976</string>
+    <string name="title_activity_db_info">DbInfo</string>
+    <string name="title_activity_http_client">HttpClient</string>
 
 </resources>

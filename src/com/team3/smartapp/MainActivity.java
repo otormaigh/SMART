@@ -67,6 +67,7 @@ public class MainActivity extends Activity {
 		public void onClick(View v) {
 			switch (v.getId()) {
                 case R.id.login:
+
                 //Intent intent = new Intent(MainActivity.this, ServiceUserActivity.class);
                // startActivity(intent);
 
@@ -77,7 +78,7 @@ public class MainActivity extends Activity {
 		}
 	}
 
-    private void connectToDB(){
+   /* private void connectToDB(){
         c = null;
         stmt = null;
 
@@ -89,8 +90,9 @@ public class MainActivity extends Activity {
             e.printStackTrace();
             Log.d("MYLOG", "PostgreSQL JDBC Driver Registered!");
         }
-    }
-	private class LongOperation extends AsyncTask<String, Void, String> {
+    }*/
+    
+	public class LongOperation extends AsyncTask<String, Void, String> {
 		protected String doInBackground(String... params) {
 			try {
 				c = DriverManager.getConnection("jdbc:postgresql://" + host + ":" + port + "/" + database, username, password);
@@ -148,13 +150,15 @@ public class MainActivity extends Activity {
 		login.setPassword(password);
 	}
 
+
 	private Object checkCredentials() {
     //private void checkCredentials(){
+
 		if (login.getPassword().equals(login.getDb_password())) {
 			Toast.makeText(MainActivity.this,
                            "Welcome " + login.getDb_name() + "\nLogin Successful",
 					        Toast.LENGTH_SHORT).show();
-			Intent intent = new Intent(MainActivity.this, ClinicActivity.class);
+			Intent intent = new Intent(MainActivity.this, HttpClient.class);
 			startActivity(intent);
 			return null;
 		} else {
@@ -186,6 +190,7 @@ public class MainActivity extends Activity {
 		}
 		return null;
 	}
+
     private static final int GROUP_ID = 0;
 	private static final int ITEM_ID = 1;
 
