@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="clinics">Clinics</string>
-    <string name="visits">Visits</string>
+    <string name="appointments">Appointments</string>
+    <string name="clinics">Clinics (ante-natal)</string>
+    <string name="visits">Visits (post-natal)</string>
     <string name="app_name">Clinics</string>
     <!-- ACTIVITY TITLES -->
     <string name="title_activity_appointment_type">appointment_type</string>
