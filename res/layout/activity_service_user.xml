@@ -1,120 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:weightSum="20.0"
-    tools:context="${relativePackage}.${activityClass}" >
-    
+    android:weightSum="7.0"
+    tools:context="${relativePackage}.${activityClass}">
+
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_centerInParent="true">
-        
-        <Button
-        android:id="@+id/Ante_Natal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/padding_large"
-        android:layout_marginLeft="@dimen/padding_large"
-        android:layout_marginTop="@dimen/padding_Xsmall"
-        android:layout_marginRight="@dimen/padding_Xsmall"
-        android:layout_weight="1.0"
-        android:text="@string/Ante_Natal"
-        android:textSize="@dimen/text_Xsmall" />
-    
-        <Button
-        android:id="@+id/Personal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/Personal"
-        android:layout_marginLeft="@dimen/padding_large"
-        android:layout_marginTop="@dimen/padding_Xsmall"
-        android:layout_marginBottom="@dimen/padding_large"
-        android:layout_marginRight="@dimen/padding_Xsmall"
-        android:layout_weight="1.0"
-        android:textSize="@dimen/text_Xsmall" />
-    
-        <Button
-        android:id="@+id/Post_Natal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/Post_Natal"
-        android:layout_marginLeft="@dimen/padding_large"
-        android:layout_marginTop="@dimen/padding_Xsmall"
-        android:layout_marginBottom="@dimen/padding_large"
-        android:layout_marginRight="@dimen/padding_Xsmall"
-        android:layout_weight="1.0"
-        android:textSize="@dimen/text_Xsmall" />     
-        
-        
-    </LinearLayout>
-    <RelativeLayout
-        android:layout_width="100dp"
-        android:layout_height="80dp"
-        android:orientation="vertical"
-        android:layout_gravity="bottom">
-    
-        <Button
-        android:id="@+id/Contact"
-        android:layout_width="100dp"
-        android:layout_height="80dp"
-        android:text="@string/Contact"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="@dimen/padding_large"
         android:layout_marginBottom="@dimen/padding_small"
-        android:layout_weight="1.0" />
-        </RelativeLayout>
-      <RelativeLayout  
-        android:layout_width="100dp"
-        android:layout_height="80dp"
-        android:orientation="vertical"
-        android:layout_gravity="bottom">
-    
-        <Button
-        android:id="@+id/Address"
-        android:layout_width="100dp"
-        android:layout_height="80dp"
-        android:text="@string/Address"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="@dimen/padding_large"
-        android:layout_marginBottom="@dimen/padding_small"
-        android:layout_weight="1.0"
-        android:textSize="@dimen/text_small" />
-        </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:orientation="vertical"
-        android:layout_gravity="bottom">
-    
-        <Button
-        android:id="@+id/Next_Of_Kin"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:text="@string/Next_Of_Kin"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="@dimen/padding_large"
-        android:layout_marginBottom="@dimen/padding_small"
-        android:layout_weight="1.0"
-        android:textSize="@dimen/text_small" />
-        </RelativeLayout>
+        android:layout_marginTop="@dimen/padding_small"
+        android:gravity="center"
+        android:orientation="horizontal">
 
-    <RelativeLayout
-        android:id="@+id/Book_Appointment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_alignParentBottom="true"
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_marginBottom="@dimen/padding_large"
-            android:background="@color/lightBlue"
-            android:text="@string/Book_Appointment"
-            android:textSize="@dimen/text_large" />
-    </RelativeLayout>
+            android:text="Name\nAge, P: 2+1, G: 34+5" />
+    </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/padding_medium"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/ante_natal"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/ic_action_back" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ante Natal" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/user_image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="@dimen/padding_medium"
+            android:layout_marginRight="@dimen/padding_medium"
+            android:clickable="true"
+            android:src="@drawable/ic_action_person" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/post_natal"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:clickable="true"
+                android:src="@drawable/ic_action_forward" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Post Natal" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/padding_medium">
+
+            <Button
+                android:id="@+id/user_contact"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="@dimen/padding_medium"
+                android:background="@drawable/ic_action_call" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill_horizontal"
+                android:text="Hospital Number? \nEmail \nMobile" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/padding_medium" >
+
+            <Button
+                android:id="@+id/user_address"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="@dimen/padding_medium"
+                android:clickable="true"
+                android:background="@drawable/ic_action_map" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill_horizontal"
+                android:text="Road\nCity\nCounty" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/padding_medium">
+
+                <Button
+                    android:id="@+id/next_of_kin_contact"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginRight="@dimen/padding_medium"
+                    android:clickable="true"
+                    android:background="@drawable/ic_action_cc_bcc" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="fill_horizontal"
+                    android:text="Name\nContact Number" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/book_appointment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1.0"
+                android:text="@string/book_appointment"
+                android:textSize="@dimen/text_large" />
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>
+
