@@ -22,11 +22,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
-    private String host = "10.0.2.2";
+    private String host = "10.15.1.80";
     private String port = "5432";
     private String username = "postgres";
-    private String password = "password";
-    private String database = "smart";
+    private String password = "postgres";
+    private String database = "smart_team_3";
 
 	private Button loginButton;
 	private TextView usernameTextView;
@@ -67,12 +67,12 @@ public class MainActivity extends Activity {
 		public void onClick(View v) {
 			switch (v.getId()) {
                 case R.id.login:
-                Intent intent = new Intent(MainActivity.this, ServiceUserActivity.class);
-                startActivity(intent);
+                //Intent intent = new Intent(MainActivity.this, ServiceUserActivity.class);
+               // startActivity(intent);
 
-				/*getCredentials();
+				getCredentials();
 				new LongOperation().execute((String[]) null);
-                Log.d("MYLOG", "Button Clicked");*/
+                Log.d("MYLOG", "Button Clicked");
 			}
 		}
 	}
@@ -148,15 +148,15 @@ public class MainActivity extends Activity {
 		login.setPassword(password);
 	}
 
-	//private Object checkCredentials() {
-    private void checkCredentials(){
-		//if (login.getPassword().equals(login.getDb_password())) {
+	private Object checkCredentials() {
+    //private void checkCredentials(){
+		if (login.getPassword().equals(login.getDb_password())) {
 			Toast.makeText(MainActivity.this,
                            "Welcome " + login.getDb_name() + "\nLogin Successful",
 					        Toast.LENGTH_SHORT).show();
-			Intent intent = new Intent(MainActivity.this, ServiceUserActivity.class);
+			Intent intent = new Intent(MainActivity.this, ClinicActivity.class);
 			startActivity(intent);
-			/*return null;
+			return null;
 		} else {
 			switch (counter_password) {
 			case 0:
@@ -184,7 +184,7 @@ public class MainActivity extends Activity {
 				break;
 			}
 		}
-		return null;*/
+		return null;
 	}
     private static final int GROUP_ID = 0;
 	private static final int ITEM_ID = 1;
