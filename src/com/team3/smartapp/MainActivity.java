@@ -257,6 +257,14 @@ public class MainActivity extends Activity {
 			Intent intent = new Intent(MainActivity.this, SubMenu.class);
 			startActivity(intent);
 			break;
+			
+		case R.id.user_address :
+			System.out.println("User address was selected!");
+              Intent intent1 = new Intent(MainActivity.this, SubMenu.class);
+          	
+		case R.id.next_of_kin_contact :
+			System.out.println("Next of kin contacts was selected!");
+              Intent intent2 = new Intent(MainActivity.this, SubMenu.class);
 }
 		return super.onOptionsItemSelected(item);
 	}
