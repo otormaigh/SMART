@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <Button
+            <ImageView
                 android:id="@+id/ante_natal"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
@@ -85,13 +85,12 @@
             android:orientation="horizontal"
             android:paddingBottom="@dimen/padding_medium">
 
-            <ImageView
+            <Button
                 android:id="@+id/user_contact"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginRight="@dimen/padding_medium"
-                android:clickable="true"
-                android:src="@drawable/ic_action_call" />
+                android:background="@drawable/ic_action_call" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -104,15 +103,15 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingBottom="@dimen/padding_medium">
+            android:paddingBottom="@dimen/padding_medium" >
 
-            <ImageView
+            <Button
                 android:id="@+id/user_address"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginRight="@dimen/padding_medium"
                 android:clickable="true"
-                android:src="@drawable/ic_action_map" />
+                android:background="@drawable/ic_action_map" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -132,13 +131,13 @@
                 android:orientation="horizontal"
                 android:paddingBottom="@dimen/padding_medium">
 
-                <ImageView
-                    android:id="@+id/next_of_kin_contact"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginRight="@dimen/padding_medium"
-                    android:clickable="true"
-                    android:src="@drawable/ic_action_cc_bcc" />
+            <Button
+                android:id="@+id/next_of_kin_contact"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="@dimen/padding_medium"
+                android:clickable="true"
+                android:background="@drawable/ic_action_cc_bcc" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -158,3 +157,4 @@
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
+
