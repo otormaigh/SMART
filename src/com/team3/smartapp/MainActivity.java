@@ -154,7 +154,7 @@ public class MainActivity extends Activity {
 			Toast.makeText(MainActivity.this,
                            "Welcome " + login.getDb_name() + "\nLogin Successful",
 					        Toast.LENGTH_SHORT).show();
-			Intent intent = new Intent(MainActivity.this, HttpClient.class);
+			Intent intent = new Intent(MainActivity.this, HttpClientActivity.class);
 			startActivity(intent);
 			return null;
 		} else {

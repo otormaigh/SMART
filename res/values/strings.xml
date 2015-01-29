@@ -3,7 +3,7 @@
 
     <string name="clinics">Clinics</string>
     <string name="visits">Visits</string>
-    <string name="app_name">Clinics</string>
+    <string name="app_name">Midwife Organizer</string>
 
     <!-- ACTIVITY TITLES -->
     <string name="title_activity_appointment_type">Appointment Type Activity</string>
@@ -22,6 +22,8 @@
     <string name="title_activity_nmh">NMH Activity</string>
     <string name="title_activity_select_time">Select Time Activity</string>
     <string name="title_activity_service_user">Service User Activity</string>
+    <string name="title_activity_db_info">DbInfo</string>
+    <string name="title_activity_http_client">HttpClient</string>
 
     <!-- MAIN SCREEN -->
     <string name="main_logo"> main_logo</string>
@@ -145,7 +147,6 @@
         name and\/or dat of birth (@dd\/mm\/yyyy) \n
         You can combine search terms in one line if you like. \n
         Example: Mary Murphy @17/06/1976</string>
-    <string name="title_activity_db_info">DbInfo</string>
-    <string name="title_activity_http_client">HttpClient</string>
+    
 
 </resources>
