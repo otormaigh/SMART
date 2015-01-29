@@ -22,7 +22,7 @@ import android.util.Log;
 
 import android.widget.TextView;
 
-public class HttpClient extends Activity {
+public class HttpClientActivity extends Activity {
 	TextView resultView;
 	private InputStream isr;
 	private StringBuilder sb;
