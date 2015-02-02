@@ -10,6 +10,14 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <android:uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
+    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <android:uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
+
     <!--
     <android:uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="18" />
@@ -18,7 +26,6 @@
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="18" />
     -->
-
     <application
         android:allowBackup="true"
         android:icon="@drawable/logo"
@@ -35,49 +42,57 @@
         </activity>
         <activity
             android:name=".AppointmentTypeActivity"
-            android:label="@string/title_activity_appointment_type"></activity>
+            android:label="@string/title_activity_appointment_type" />
         <activity
             android:name=".ClinicActivity"
-            android:label="@string/title_activity_clinic"></activity>
+            android:label="@string/title_activity_clinic" />
         <activity
             android:name=".ClinicDatesChurchtownActivity"
-            android:label="@string/title_activity_clinic_dates_churchtown"></activity>
+            android:label="@string/title_activity_clinic_dates_churchtown" />
         <activity
             android:name=".ClinicDatesDunLaoghaireActivity"
-            android:label="@string/title_activity_clinic_dates_dunlaoghaire"></activity>
+            android:label="@string/title_activity_clinic_dates_dunlaoghaire" />
         <activity
             android:name=".ClinicDatesHomevisitsActivity"
-            android:label="@string/title_activity_clinic_dates_homevisits"></activity>
+            android:label="@string/title_activity_clinic_dates_homevisits" />
         <activity
             android:name=".ClinicDatesLeopardstownActivity"
-            android:label="@string/title_activity_clinic_dates_leopardstown"></activity>
+            android:label="@string/title_activity_clinic_dates_leopardstown" />
         <activity
             android:name=".DominoDublinActivity"
-            android:label="@string/title_activity_domino_dublin"></activity>
+            android:label="@string/title_activity_domino_dublin" />
         <activity
             android:name=".DominoWicklowActivity"
-            android:label="@string/title_activity_domino_wicklow"></activity>
+            android:label="@string/title_activity_domino_wicklow" />
         <activity
             android:name=".EtcDublinActivity"
-            android:label="@string/title_activity_etc_dublin"></activity>
+            android:label="@string/title_activity_etc_dublin" />
         <activity
             android:name=".EtcWicklowActivity"
-            android:label="@string/title_activity_etc_wicklow"></activity>
+            android:label="@string/title_activity_etc_wicklow" />
         <activity
             android:name=".HttpClientActivity"
-            android:label="@string/title_activity_http_client"></activity>
+            android:label="@string/title_activity_http_client" />
         <activity
             android:name=".SatelliteActivity"
-            android:label="@string/title_activity_satellite"></activity>
+            android:label="@string/title_activity_satellite" />
         <activity
             android:name=".SelectTimeActivity"
-            android:label="@string/title_activity_select_time"></activity>
+            android:label="@string/title_activity_select_time" />
         <activity
             android:name=".ServiceUserActivity"
-            android:label="@string/title_activity_service_user"></activity>
+            android:label="@string/title_activity_service_user" />
         <activity
             android:name=".ServiceUserSearchActivity"
-            android:label="@string/title_activity_service_user_search"></activity>
+            android:label="@string/title_activity_service_user_search" />
+        <activity
+            android:name=".AppointmentTypeSpinnerActivity"
+            android:label="@string/title_activity_appointment_type_spinner" >
+        </activity>
+        <activity
+            android:name=".QuickMenuActivity"
+            android:label="@string/title_activity_quick_menu" >
+        </activity>
     </application>
 
 </manifest>
