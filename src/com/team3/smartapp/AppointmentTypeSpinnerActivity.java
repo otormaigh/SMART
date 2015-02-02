@@ -1,10 +1,9 @@
 package com.team3.smartapp;
 
 import android.app.Activity;
-import android.content.Intent;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.text.Html;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -113,20 +112,42 @@ public class AppointmentTypeSpinnerActivity extends Activity {
 		// TODO Auto-generated method stub
 		switch(item.getItemId()) {
 		case R.id.menu_item1 :
-			System.out.println("Item 1 was selected!");
-			finish();
-            Toast.makeText(AppointmentTypeSpinnerActivity.this, "You are now logged out", Toast.LENGTH_SHORT).show();
-
+			exitOptionsDialog();
 		case R.id.menu_item2 :
 			System.out.println("Item 2 was selected!");
-            
-           
+  
 		}
-
 		return super.onOptionsItemSelected(item);
 	}
 
-    private class ButtonClick implements View.OnClickListener {
+    private void exitOptionsDialog() {
+		// TODO Auto-generated method stub
+    	 new AlertDialog.Builder(this)
+     	.setTitle(R.string.Logout_title)
+     		.setMessage(R.string.Logout_dialog_message)
+     		.setNegativeButton(R.string.No,
+     				new DialogInterface.OnClickListener()
+     				{
+     					public void onClick(DialogInterface dialoginterface, int i)
+     					{}
+     				}
+     			)
+     		.setPositiveButton(R.string.Yes,
+     				new DialogInterface.OnClickListener()
+     				{
+     					public void onClick(DialogInterface dialoginterface, int i)
+     					{
+     						finish();
+     						Toast.makeText(AppointmentTypeSpinnerActivity.this, "You are now logged out", Toast.LENGTH_SHORT).show();
+     					}
+     				}
+     			)
+     		.show();
+     	}
+		
+	
+
+	private class ButtonClick implements View.OnClickListener {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.appointment_calendar_button:
@@ -390,5 +411,9 @@ public class AppointmentTypeSpinnerActivity extends Activity {
         @Override
         public void onNothingSelected(AdapterView<?> parent) {
         }
+        
+    	
+    	   
+   
     }
 }
