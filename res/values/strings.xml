@@ -8,6 +8,7 @@
         <item>Clinics</item>
         <item>Visits</item>
     </string-array>
+    <!-- APPOINTMENT TYPES -->
     <string-array name="clinic_service_option">
         <item>Select Clinic Option</item>
         <item>Domino Dublin</item>
@@ -22,6 +23,7 @@
         <item>Visit 2</item>
         <item>Visit 3</item>
     </string-array>
+    <!-- CLINICS -->
     <string-array name="domino_dublin">
         <item>Select Clinic</item>
         <item>NMH(OPD Location)</item>
@@ -31,6 +33,26 @@
         <item>NMH</item>
         <item>Home Visits</item>
     </string-array>
+    <string-array name="domino_wicklow">
+        <item>Select Clinic</item>
+        <item>Greystones (Monday)</item>
+        <item>Greystones (Tuesday)</item>
+        <item>Kilmacanogue</item>
+        <item>Home Visits</item>
+    </string-array>
+    <string-array name="eth">
+        <item>Select Clinic</item>
+        <item>Ballinteer</item>
+        <item>Dun laoghaire</item>
+    </string-array>
+    <string-array name="satellite">
+        <item>Select Clinic</item>
+        <item>Greystones</item>
+        <item>Arklow</item>
+        <item>Newtownmountkennedy</item>
+        <item>Bray</item>
+    </string-array>
+
     <string-array name="weeks">
         <item>Select Week</item>
         <item>Week 1</item>
@@ -71,6 +93,8 @@
     <string name="title_activity_service_user">Service User Activity</string>
     <string name="title_activity_db_info">DbInfo</string>
     <string name="title_activity_http_client">HttpClient</string>
+    <string name="title_activity_appointment_type_spinner">AppointmentTypeSpinnerActivity</string>
+    <string name="title_activity_quick_menu">QuickMenuActivity</string>
 
     <!-- MAIN SCREEN -->
     <string name="main_logo"> main_logo</string>
@@ -83,8 +107,8 @@
     <string name="tracker">Tracker</string>
     <string name="maternity_hospital">© National Maternity Hospital, Ireland</string>
     <string name="about">About</string>
-    <string name="about_link">About<a href="http://www.nmh.ie/about-us.8.html">About</a></string>
-
+    <string name="about_link"><a href="http://www.nmh.ie/about-us.8.html">About</a></string>
+    
     <!-- QUICK MENU -->
     <string name="patient_info">Patient Info</string>
     <string name="calendar">Calendar</string>
@@ -196,10 +220,8 @@
 
     <!-- SERVICE USER SEARCH -->
     <string name="ssr_title">Search by the service user\'s hospital number,
-        name and\/or dat of birth (@dd\/mm\/yyyy) \n
-        You can combine search terms in one line if you like. \n
-        Example: Mary Murphy @17/06/1976</string>
-    <string name="title_activity_appointment_type_spinner">AppointmentTypeSpinnerActivity</string>
-    <string name="title_activity_quick_menu">QuickMenuActivity</string>
+        					 name and\/or dat of birth (@dd\/mm\/yyyy) \n
+        					 You can combine search terms in one line if you like. \n
+        					 Example: Mary Murphy @17/06/1976</string>
 
 </resources>
