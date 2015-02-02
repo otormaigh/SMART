@@ -114,6 +114,9 @@ public class AppointmentTypeSpinnerActivity extends Activity {
 		switch(item.getItemId()) {
 		case R.id.menu_item1 :
 			System.out.println("Item 1 was selected!");
+			finish();
+            Toast.makeText(AppointmentTypeSpinnerActivity.this, "You are now logged out", Toast.LENGTH_SHORT).show();
+
 		case R.id.menu_item2 :
 			System.out.println("Item 2 was selected!");
             
