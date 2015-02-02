@@ -10,10 +10,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-
-
-
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -33,15 +29,12 @@ public class HttpClient extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_http_client);
 		 resultView = (TextView) findViewById(R.id.resultView);
-		    
 		 new LongOperation().execute((String[]) null);
 	}
+
 	
-
-
-
 	private class LongOperation extends AsyncTask<String, Void, String> {
-		protected String doInBackground(String... params) {
+	  protected String doInBackground(String... params) {
 		try{
 	        DefaultHttpClient httpclient = new DefaultHttpClient();
 	        HttpPost httppost = new HttpPost("http://10.15.1.80/team3/service_users.php"); 
@@ -50,7 +43,7 @@ public class HttpClient extends Activity {
 	        isr = entity.getContent();
 	}
 	catch(Exception e){
-	        Log.e("log_tag", "Error in http connection "+e.toString());
+ 	        Log.e("log_tag", "Error in http connection "+e.toString());
 	        resultView.setText("Couldnt connect to database");
 	}
 		
