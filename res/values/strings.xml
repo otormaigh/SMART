@@ -1,6 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--  -->
+
+    <string-array name="appointment_type">
+        <item>Select Appointment Type</item>
+        <item>Clinics</item>
+        <item>Visits</item>
+    </string-array>
+    <string-array name="clinic_service_option">
+        <item>Select Clinic Option</item>
+        <item>Domino Dublin</item>
+        <item>Domino Wicklow</item>
+        <item>ETH Dublin</item>
+        <item>ETH Wicklow</item>
+        <item>Satellite</item>
+    </string-array>
+    <string-array name="visit_service_option">
+        <item>Select Visit Option</item>
+        <item>Visit 1</item>
+        <item>Visit 2</item>
+        <item>Visit 3</item>
+    </string-array>
+    <string-array name="domino_dublin">
+        <item>Select Clinic</item>
+        <item>NMH(OPD Location)</item>
+        <item>Leopardstown</item>
+        <item>Dun laoghaire</item>
+        <item>Churchtown</item>
+        <item>NMH</item>
+        <item>Home Visits</item>
+    </string-array>
+    <string-array name="weeks">
+        <item>Select Week</item>
+        <item>Week 1</item>
+        <item>Week 2</item>
+        <item>Week 3</item>
+        <item>Week 4</item>
+        <item>Week 5</item>
+        <item>Week 6</item>
+    </string-array>
+
+    <string name="appointment_type">Appointment Type</string>
+    <string name="clinic_option">Clinic Option</string>
+    <string name="visit_option">Visit Option</string>
+    <string name="show_appointment">Show Appointment</string>
+
+    <!--  -->
+
     <string name="clinics">Clinics</string>
     <string name="visits">Visits</string>
     <string name="app_name">Midwife Organizer</string>
@@ -37,6 +84,11 @@
     <string name="maternity_hospital">© National Maternity Hospital, Ireland</string>
     <string name="about">About</string>
     <string name="about_link">About<a href="http://www.nmh.ie/about-us.8.html">About</a></string>
+
+    <!-- QUICK MENU -->
+    <string name="patient_info">Patient Info</string>
+    <string name="calendar">Calendar</string>
+    <string name="todays_appointments">Today\'s Appointments</string>
 
     <!-- SERVICE OPTIONS -->
     <string name="domino_d">Domino(Dublin)</string>
@@ -147,5 +199,7 @@
         name and\/or dat of birth (@dd\/mm\/yyyy) \n
         You can combine search terms in one line if you like. \n
         Example: Mary Murphy @17/06/1976</string>
+    <string name="title_activity_appointment_type_spinner">AppointmentTypeSpinnerActivity</string>
+    <string name="title_activity_quick_menu">QuickMenuActivity</string>
 
 </resources>

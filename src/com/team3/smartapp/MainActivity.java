@@ -63,11 +63,11 @@ public class MainActivity extends Activity {
 			switch (v.getId()) {
                 case R.id.login:
 
-                //Intent intent = new Intent(MainActivity.this, ServiceUserActivity.class);
-               // startActivity(intent);
+                Intent intent = new Intent(MainActivity.this, AppointmentTypeSpinnerActivity.class);
+                startActivity(intent);
 
-				getCredentials();
-				new LongOperation().execute((String[]) null);
+				//getCredentials();
+				//new LongOperation().execute((String[]) null);
                 Log.d("MYLOG", "Button Clicked");
 			}
 		}
