@@ -13,6 +13,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -63,6 +66,35 @@ public class MainActivity extends Activity {
             Log.d("MYLOG", "PostgreSQL JDBC Driver Registered!");
         }
 	}
+	
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// TODO Auto-generated method stub
+		
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.main_menu, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		switch(item.getItemId()) {
+		case R.id.menu_item1 :
+			System.out.println("Item 1 was selected!");
+			Intent intent = new Intent(MainActivity.this, MainActivity.class);
+			startActivity(intent);
+		case R.id.menu_item2 :
+			System.out.println("Item 2 was selected!");
+            
+           
+		}
+
+		return super.onOptionsItemSelected(item);
+	}
+	
+	
 
 	private class ButtonClick implements View.OnClickListener {
 		public void onClick(View v) {
