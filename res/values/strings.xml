@@ -147,46 +147,6 @@
     <!-- CLINIC DATES -->
     <string name="clinic_cates">Clinic Dates</string>
 
-    <!-- NMHOPD WEEKS -->
-    <string name="week_one_nmh_opd">Week 1\nMon, 01 Sep 2014</string>
-    <string name="week_two_nmh_opd">Week 2\nMon, 08 Sep 2014</string>
-    <string name="week_three_nmh_opd">Week 3\nMon, 15 Sep 2014</string>
-    <string name="week_four_nmh_opd">Week 4\nMon, 22 Sep</string>
-    <string name="week_five_nmh_opd">Week 5\nMon, 29 Sep</string>
-    <string name="week_six_nmh_opd">Week 6\nMon, 06 Oct</string>
-
-    <!-- LEOPARDSTOWN WEEKS -->
-    <string name="week_one_leopardstown">Week 1\nTue, 02 Sep 2014</string>
-    <string name="week_two_leopardstown">Week 2\nTue, 09 Sep 2014</string>
-    <string name="week_three_leopardstown">Week 3\nTue, 16 Sep 2014</string>
-    <string name="week_four_leopardstown">Week 4\nTue, 23 Sep</string>
-    <string name="week_five_leopardstown">Week 5\nTue, 30 Sep</string>
-    <string name="week_six_leopardstown">Week 6\nTue, 07 Oct</string>
-
-    <!-- DLAOGHAIRE WEEKS -->
-    <string name="week_one_dunlaoghaire">Week 1\nWed, 03 Sep 2014</string>
-    <string name="week_two_dunlaoghaire">Week 2\nWed, 10 Sep 2014</string>
-    <string name="week_three_dunlaoghaire">Week 3\nWed, 17 Sep 2014</string>
-    <string name="week_four_dunlaoghaire">Week 4\nWed, 24 Sep</string>
-    <string name="week_five_dunlaoghaire">Week 5\nWed, 01 Sep</string>
-    <string name="week_six_dunlaoghaire">Week 6\nWed, 08 Oct</string>
-
-    <!-- CHURCHTOWN WEEKS -->
-    <string name="week_one_churchtown">Week 1\nThurs, 04 Sep 2014</string>
-    <string name="week_two_churchtown">Week 2\nThurs, 11 Sep 2014</string>
-    <string name="week_three_churchtown">Week 3\nThurs, 18 Sep 2014</string>
-    <string name="week_four_churchtown">Week 4\nThurs, 25 Sep</string>
-    <string name="week_five_churchtown">Week 5\nThurs, 02 Sep</string>
-    <string name="week_six_churchtown">Week 6\nThurs, 09 Oct</string>
-
-    <!-- NMH WEEKS -->
-    <string name="week_one_nmh">Week 1\nFri, 05 Sep 2014</string>
-    <string name="week_two_nmh">Week 2\nFri, 12 Sep 2014</string>
-    <string name="week_three_nmh">Week 3\nFri, 19 Sep 2014</string>
-    <string name="week_four_nmh">Week 4\nFri, 26 Sep</string>
-    <string name="week_five_nmh">Week 5\nFri, 03 Sep</string>
-    <string name="week_six_nmh">Week 6\nFri, 10 Oct</string>
-
     <!-- SELECT TIME -->
     <string name="one_select_time">08:30am</string>
     <string name="two_select_time">08:45am</string>
