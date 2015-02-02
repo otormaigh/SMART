@@ -1,0 +1,43 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.team3.smartapp.AppointmentTypeSpinnerActivity">
+
+    <Spinner
+        android:id="@+id/appointment_spinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/appointment_type" />
+
+    <Spinner
+        android:id="@+id/clinic_service_option_spinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/clinic_service_option" />
+
+    <Spinner
+        android:id="@+id/visit_service_option_spinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/visit_service_option" />
+
+    <Spinner
+        android:id="@+id/domino_dublin_spinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/domino_dublin" />
+
+    <Spinner
+        android:id="@+id/week_spinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/weeks" />
+
+    <Button
+        android:id="@+id/appointment_calendar_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/show_appointment" />
+</LinearLayout>
