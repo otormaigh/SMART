@@ -63,11 +63,11 @@ public class MainActivity extends Activity {
 			switch (v.getId()) {
                 case R.id.login:
 
-                //Intent intent = new Intent(MainActivity.this, ServiceUserActivity.class);
-               // startActivity(intent);
+                Intent intent = new Intent(MainActivity.this, AppointmentTypeSpinnerActivity.class);
+                startActivity(intent);
 
-				getCredentials();
-				new LongOperation().execute((String[]) null);
+				//getCredentials();
+				//new LongOperation().execute((String[]) null);
                 Log.d("MYLOG", "Button Clicked");
 			}
 		}
@@ -135,6 +135,7 @@ public class MainActivity extends Activity {
 
         @Override
         protected void onProgressUpdate(Void... values) {
+        	Log.d("MYLOG", "On progress update");
         }
 	}
 
@@ -153,7 +154,7 @@ public class MainActivity extends Activity {
 			Toast.makeText(MainActivity.this,
                            "Welcome " + login.getDb_name() + "\nLogin Successful",
 					        Toast.LENGTH_SHORT).show();
-			Intent intent = new Intent(MainActivity.this, HttpClient.class);
+			Intent intent = new Intent(MainActivity.this, HttpClientActivity.class);
 			startActivity(intent);
 			return null;
 		} else {
