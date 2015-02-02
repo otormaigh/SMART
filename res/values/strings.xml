@@ -95,7 +95,14 @@
     <string name="title_activity_http_client">HttpClient</string>
     <string name="title_activity_appointment_type_spinner">AppointmentTypeSpinnerActivity</string>
     <string name="title_activity_quick_menu">QuickMenuActivity</string>
-
+    
+     <!-- LOGOUT SESSION -->
+    <string name="Yes"> Yes</string>
+    <string name="No"> No</string>
+    <string name="Logout_dialog_message">Are you sure you want to Logout?</string>
+     <string name="Logout_title">Logout</string>
+    
+    
     <!-- MAIN SCREEN -->
     <string name="main_logo"> main_logo</string>
     <string name="login">Login</string>
