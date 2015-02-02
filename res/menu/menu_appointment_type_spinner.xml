@@ -1,10 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.team3.smartapp.ServiceUserSearchActivity">
+    tools:context="com.team3.smartapp.AppointmentTypeSpinnerActivity">
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" android:showAsAction="never" />
-    <item 
-        android:id="@+id/user_content"
-        android:title="Settings"/>    
-
 </menu>
