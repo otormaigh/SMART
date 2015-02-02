@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -94,6 +97,31 @@ public class AppointmentTypeSpinnerActivity extends Activity {
         weekSpinner.setVisibility(View.GONE);
         appointmentCalendar.setVisibility(View.GONE);
     }
+    
+    
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// TODO Auto-generated method stub
+		
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.main_menu, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		switch(item.getItemId()) {
+		case R.id.menu_item1 :
+			System.out.println("Item 1 was selected!");
+		case R.id.menu_item2 :
+			System.out.println("Item 2 was selected!");
+            
+           
+		}
+
+		return super.onOptionsItemSelected(item);
+	}
 
     private class ButtonClick implements View.OnClickListener {
         public void onClick(View v) {
