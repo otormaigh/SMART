@@ -112,7 +112,7 @@ public class AppointmentTypeSpinnerActivity extends Activity {
 		// TODO Auto-generated method stub
 		switch(item.getItemId()) {
 		case R.id.menu_item1 :
-			exitOptionsDialog();
+			Logout();
 		case R.id.menu_item2 :
 			System.out.println("Item 2 was selected!");
   
@@ -120,7 +120,7 @@ public class AppointmentTypeSpinnerActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
-    private void exitOptionsDialog() {
+    private void Logout() {
 		// TODO Auto-generated method stub
     	 new AlertDialog.Builder(this)
      	.setTitle(R.string.Logout_title)
