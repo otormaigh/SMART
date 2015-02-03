@@ -1,10 +1,7 @@
 package com.team3.smartapp;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.text.Html;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,7 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 
 public class AppointmentTypeSpinnerActivity extends Activity {
     private Spinner appointmentSpinner, clinicOptionSpinner, visitOptionSpinner,
@@ -102,7 +98,7 @@ public class AppointmentTypeSpinnerActivity extends Activity {
                     //Intent intent = new Intent(AppointmentTypeSpinnerActivity.this, AppointmentTypeSpinnerActivity.class);
                     //startActivity(intent);
                     Log.d("MYLOG", "Button Clicked");
-                    Toast.makeText(AppointmentTypeSpinnerActivity.this, "Show Appointment List", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AppointmentTypeSpinnerActivity.this, "Button Pressed", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -333,22 +329,22 @@ public class AppointmentTypeSpinnerActivity extends Activity {
                         case 0:
                             appointmentCalendar.setVisibility(View.GONE);
                             break;
-                        case 1:
+                        case 1:     //Week 1
                             appointmentCalendar.setVisibility(View.VISIBLE);
                             break;
-                        case 2:
+                        case 2:     //Week 2
                             appointmentCalendar.setVisibility(View.VISIBLE);
                             break;
-                        case 3:
+                        case 3:     //Week 3
                             appointmentCalendar.setVisibility(View.VISIBLE);
                             break;
-                        case 4:
+                        case 4:     //Week 4
                             appointmentCalendar.setVisibility(View.VISIBLE);
                             break;
-                        case 5:
+                        case 5:     //Week 5
                             appointmentCalendar.setVisibility(View.VISIBLE);
                             break;
-                        case 6:
+                        case 6:     //Week 6
                             appointmentCalendar.setVisibility(View.VISIBLE);
                             break;
                     }
