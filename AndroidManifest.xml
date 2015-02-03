@@ -3,20 +3,32 @@
     package="com.team3.smartapp"
     android:versionCode="1"
     android:versionName="1.0" >
+
     <uses-sdk
         android:minSdkVersion="15"
-        android:targetSdkVersion="21" />    
+        android:targetSdkVersion="21" />
+
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <android:uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
+    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <android:uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.team3.smartapp.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -49,16 +61,12 @@
             android:label="@string/title_activity_satellite" >
         </activity>
         <activity
-            android:name=".Clinic_dates_Activity"
-            android:label="@string/Clinic_Dates" >
-        </activity>
-        <activity
             android:name=".ClinicDatesNMHActivity"
             android:label="@string/title_activity_clinic_dates_nmh" >
         </activity>
         <activity
             android:name=".Clinic_Dates_NMHOPD"
-            android:label="@string/title_activity_clinic_dates_nmhOPD" >
+            android:label="@string/title_activity_clinic_dates_nmh_opd" >
         </activity>
         <activity
             android:name=".ClinicDatesLeopardstownActivity"
@@ -66,7 +74,7 @@
         </activity>
         <activity
             android:name=".ClinicDatesDunLaoghaireActivity"
-            android:label="@string/title_activity_clinic_dates_dlaoghaire" >
+            android:label="@string/title_activity_clinic_dates_dunlaoghaire" >
         </activity>
         <activity
             android:name=".ClinicDatesChurchtownActivity"
@@ -85,12 +93,17 @@
             android:label="@string/title_activity_nmh" >
         </activity>
         <activity
-            android:name=".ServiceUser"
+            android:name=".ServiceUserActivity"
             android:label="@string/title_activity_service_user" >
         </activity>
-		<activity
+        <activity
             android:name=".SelectTimeActivity"
             android:label="@string/title_activity_select_time" >
         </activity>
+        <activity
+            android:name=".ServiceUserSearchActivity"
+            android:label="@string/title_activity_service_user_search" >
+        </activity>
     </application>
+
 </manifest>

@@ -1,6 +1,11 @@
 package com.team3.smartapp;
 
-
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.text.Html;
+import android.view.View;
+import android.widget.Button;
 
 public class AppointmentTypeActivity extends Activity {
  
@@ -16,20 +21,15 @@ public class AppointmentTypeActivity extends Activity {
 		clinics.setOnClickListener(new ButtonClick());
 		
 	}
-		private class ButtonClick implements View.OnClickListener{
-			public void onClick(View v) {
-				switch(v.getId()){
-				case R.id.clinics:
-					Intent intentPatient = new Intent(AppointmentTypeActivity.this, ClinicActivity.class);
-					startActivity(intentPatient);
-					break;
-					
-				}
+	private class ButtonClick implements View.OnClickListener{
+		public void onClick(View v) {
+			switch(v.getId()){
+			case R.id.clinics:
+				Intent intentPatient = new Intent(AppointmentTypeActivity.this, ClinicActivity.class);
+				startActivity(intentPatient);
+				break;
+				
 			}
 		}
-		@Override
-		public boolean onCreateOptionsMenu(Menu menu) {
-			// TODO Auto-generated method stub
-			return super.onCreateOptionsMenu(menu);
-		}
 	}
+}
