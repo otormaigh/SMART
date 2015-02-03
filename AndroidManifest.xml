@@ -9,6 +9,7 @@
         android:targetSdkVersion="21" />
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/logo"
@@ -47,5 +48,10 @@
         <activity
             android:name=".ConfirmAppointmentActivity"
             android:label="@string/title_activity_confirm_appointment" />
+        <activity
+            android:name=".AppointmentCalendarActivity"
+            android:label="@string/title_activity_appointment_calendar" >
+        </activity>
     </application>
+
 </manifest>
