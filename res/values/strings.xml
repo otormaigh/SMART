@@ -1,13 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!--  -->
+    <string name="app_name">Midwife Organizer</string>
+
+    <!-- ACTIVITY TITLES -->
+    <string name="title_activity_select_time">Select Time</string>
+    <string name="title_activity_service_user">Service User</string>
+    <string name="title_activity_db_info">Db Info</string>
+    <string name="title_activity_http_client">Http Client</string>
+    <string name="title_activity_appointment_type_spinner">Appointment Type Spinner</string>
+    <string name="title_activity_quick_menu">Quick Menu</string>
+    <string name="title_activity_confirm_appointment">Confirm Appointment</string>
+
+    <!-- MAIN SCREEN -->
+    <string name="main_logo"> main_logo</string>
+    <string name="login">Login</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="smart">Smart</string>
+    <string name="secure_maternity">Secure Maternity</string>
+    <string name="appointment_recording">Appointment Recording</string>
+    <string name="tracker">Tracker</string>
+    <string name="maternity_hospital">© National Maternity Hospital, Ireland</string>
+    <string name="about">About</string>
+    <string name="about_link"><a href="http://www.nmh.ie/about-us.8.html">About</a></string>
+
+    <!-- QUICK MENU -->
+    <string name="patient_info">Patient Info</string>
+    <string name="calendar">Calendar</string>
+    <string name="todays_appointments">Today\'s Appointments</string>
+
+    <!-- SPINNER TITLES -->
+    <string name="appointment_type">Appointment Type</string>
+    <string name="clinic_option">Clinic Option</string>
+    <string name="visit_option">Visit Option</string>
+    <string name="show_appointment">Show Appointment</string>
+
+    <!-- APPOINTMENT SPINNER -->
     <string-array name="appointment_type">
         <item>Select Appointment Type</item>
         <item>Clinics</item>
         <item>Visits</item>
     </string-array>
-    <!-- APPOINTMENT TYPES -->
+
+    <!-- CLINIC OPTIONS SPINNER -->
     <string-array name="clinic_service_option">
         <item>Select Clinic Option</item>
         <item>Domino Dublin</item>
@@ -16,12 +52,15 @@
         <item>ETH Wicklow</item>
         <item>Satellite</item>
     </string-array>
+
+    <!-- VISIT OPTIONS SPINNER -->
     <string-array name="visit_service_option">
         <item>Select Visit Option</item>
         <item>Visit 1</item>
         <item>Visit 2</item>
         <item>Visit 3</item>
     </string-array>
+
     <!-- CLINICS -->
     <string-array name="domino_dublin">
         <item>Select Clinic</item>
@@ -61,56 +100,6 @@
         <item>Week 6</item>
     </string-array>
 
-    <string name="appointment_type">Appointment Type</string>
-    <string name="clinic_option">Clinic Option</string>
-    <string name="visit_option">Visit Option</string>
-    <string name="show_appointment">Show Appointment</string>
-    <!--  -->
-
-    <string name="clinics">Clinics</string>
-    <string name="visits">Visits</string>
-    <string name="app_name">Midwife Organizer</string>
-
-    <!-- ACTIVITY TITLES -->
-    <string name="title_activity_select_time">Select Time Activity</string>
-    <string name="title_activity_service_user">Service User Activity</string>
-    <string name="title_activity_db_info">DbInfo</string>
-    <string name="title_activity_http_client">HttpClient</string>
-    <string name="title_activity_appointment_type_spinner">AppointmentTypeSpinnerActivity</string>
-    <string name="title_activity_quick_menu">QuickMenuActivity</string>
-    
-     <!-- LOGOUT SESSION -->
-    <string name="Yes"> Yes</string>
-    <string name="No"> No</string>
-    <string name="Logout_dialog_message">Are you sure you want to Logout?</string>
-    <string name="Logout_title">Logout</string>
-    
-    <!-- MAIN SCREEN -->
-    <string name="main_logo"> main_logo</string>
-    <string name="login">Login</string>
-    <string name="username">Username</string>
-    <string name="password">Password</string>
-    <string name="smart">Smart</string>
-    <string name="secure_maternity">Secure Maternity</string>
-    <string name="appointment_recording">Appointment Recording</string>
-    <string name="tracker">Tracker</string>
-    <string name="maternity_hospital">© National Maternity Hospital, Ireland</string>
-    <string name="about">About</string>
-    <string name="about_link"><a href="http://www.nmh.ie/about-us.8.html">About</a></string>
-
-    <!-- QUICK MENU -->
-    <string name="patient_info">Patient Info</string>
-    <string name="calendar">Calendar</string>
-    <string name="todays_appointments">Today\'s Appointments</string>
-
-    <!-- SERVICE OPTIONS -->
-    <string name="domino_d">Domino(Dublin)</string>
-    <string name="domino_w">Domino(Wicklow)</string>
-    <string name="ethd">ETH(Dublin)</string>
-    <string name="ethw">ETH(Wicklow)</string>
-    <string name="satellite">Satellite</string>
-    <string name="service_options">Service Options</string>
-
     <!-- SELECT TIME -->
     <string name="one_select_time">08:30am</string>
     <string name="two_select_time">08:45am</string>
@@ -148,5 +137,11 @@
         					 You can combine search terms in one line if you like. \n
         					 Example: Mary Murphy @17/06/1976</string>
     <string name="title_activity_calendar">CalendarActivity</string>
+
+    <!-- LOGOUT SESSION -->
+    <string name="Yes"> Yes</string>
+    <string name="No"> No</string>
+    <string name="Logout_dialog_message">Are you sure you want to Logout?</string>
+    <string name="Logout_title">Logout</string>
 
 </resources>
