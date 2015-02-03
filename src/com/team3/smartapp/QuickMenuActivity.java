@@ -34,15 +34,15 @@ public class QuickMenuActivity extends Activity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.patientInfo:
-                    Intent intentPatient = new Intent(QuickMenuActivity.this, QuickMenuActivity.class);
+                    Intent intentPatient = new Intent(QuickMenuActivity.this, ServiceUserSearchActivity.class);
                     startActivity(intentPatient);
                     break;
                 case R.id.bookAppointment:
-                    Intent intentBook = new Intent(QuickMenuActivity.this, QuickMenuActivity.class);
+                    Intent intentBook = new Intent(QuickMenuActivity.this, AppointmentTypeSpinnerActivity.class);
                     startActivity(intentBook);
                     break;
                 case R.id.calendar:
-                    Intent intentCalendar = new Intent(QuickMenuActivity.this, QuickMenuActivity.class);
+                    Intent intentCalendar = new Intent(QuickMenuActivity.this, CalendarActivity.class);
                     startActivity(intentCalendar);
                     break;
                 case R.id.todays_appointments:
