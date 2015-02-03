@@ -93,6 +93,10 @@
             android:name=".QuickMenuActivity"
             android:label="@string/title_activity_quick_menu" >
         </activity>
+        <activity
+            android:name=".CalendarActivity"
+            android:label="@string/title_activity_calendar" >
+        </activity>
     </application>
 
 </manifest>
