@@ -13,6 +13,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -63,6 +66,8 @@ public class MainActivity extends Activity {
             Log.d("MYLOG", "PostgreSQL JDBC Driver Registered!");
         }
 	}
+	
+	
 
 	private class ButtonClick implements View.OnClickListener {
 		public void onClick(View v) {
