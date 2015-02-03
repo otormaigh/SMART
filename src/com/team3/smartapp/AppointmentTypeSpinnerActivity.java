@@ -90,15 +90,65 @@ public class AppointmentTypeSpinnerActivity extends Activity {
         weekSpinner.setVisibility(View.GONE);
         appointmentCalendar.setVisibility(View.GONE);
     }
+    
+    
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// TODO Auto-generated method stub
+		
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.main_menu, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
 
-    private class ButtonClick implements View.OnClickListener {
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		switch(item.getItemId()) {
+		case R.id.menu_item1 :
+			Logout();
+		case R.id.menu_item2 :
+			System.out.println("Item 2 was selected!");
+  
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+    private void Logout() {
+		// TODO Auto-generated method stub
+    	 new AlertDialog.Builder(this)
+     	.setTitle(R.string.Logout_title)
+     		.setMessage(R.string.Logout_dialog_message)
+     		.setNegativeButton(R.string.No,
+     				new DialogInterface.OnClickListener()
+     				{
+     					public void onClick(DialogInterface dialoginterface, int i)
+     					{}
+     				}
+     			)
+     		.setPositiveButton(R.string.Yes,
+     				new DialogInterface.OnClickListener()
+     				{
+     					public void onClick(DialogInterface dialoginterface, int i)
+     					{
+     						finish();
+     						Toast.makeText(AppointmentTypeSpinnerActivity.this, "You are now logged out", Toast.LENGTH_SHORT).show();
+     					}
+     				}
+     			)
+     		.show();
+     	}
+		
+	
+
+	private class ButtonClick implements View.OnClickListener {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.appointment_calendar_button:
                     //Intent intent = new Intent(AppointmentTypeSpinnerActivity.this, AppointmentTypeSpinnerActivity.class);
                     //startActivity(intent);
                     Log.d("MYLOG", "Button Clicked");
-                    Toast.makeText(AppointmentTypeSpinnerActivity.this, "Button Pressed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AppointmentTypeSpinnerActivity.this, "Show Appointment List", Toast.LENGTH_SHORT).show();
             }
         }
     }
