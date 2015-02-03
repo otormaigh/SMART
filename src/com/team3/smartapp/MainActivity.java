@@ -69,7 +69,7 @@ public class MainActivity extends Activity {
 			switch (v.getId()) {
                 case R.id.login:
 
-                Intent intent = new Intent(MainActivity.this, AppointmentTypeSpinnerActivity.class);
+                Intent intent = new Intent(MainActivity.this, QuickMenuActivity.class);
                 startActivity(intent);
 
 				//getCredentials();
