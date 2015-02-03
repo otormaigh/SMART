@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -97,7 +96,6 @@ public class AppointmentTypeSpinnerActivity extends Activity {
         appointmentCalendar.setVisibility(View.GONE);
     }
     
-    
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// TODO Auto-generated method stub
@@ -149,10 +147,9 @@ public class AppointmentTypeSpinnerActivity extends Activity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.appointment_calendar_button:
-                    Intent intent = new Intent(AppointmentTypeSpinnerActivity.this, AppointmentCalendarActivity.class);
-                    startActivity(intent);
-                    Log.d("MYLOG", "Button Clicked");
-                    Toast.makeText(AppointmentTypeSpinnerActivity.this, "Show Appointment List", Toast.LENGTH_SHORT).show();
+                    //Intent intent = new Intent(getApplicationContext(), AppointmentCalendarActivity.class);
+               //     startActivity(intent);
+                    break;
             }
         }
     }
