@@ -5,55 +5,54 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="6.0"
-    tools:context="com.example.myapp.MainActivity" >
+    tools:context="${relativePackage}.${activityClass}" >
 
     <Button
-        android:id="@+id/week_one_church"
+        android:id="@+id/week_one_churchtown"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/week_one_church"
         android:layout_weight="1.0"
+        android:text="@string/week_one_churchtown"
         android:textSize="@dimen/text_small" />
-    
+
     <Button
-        android:id="@+id/week_two_church"
+        android:id="@+id/week_two_churchtown"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/week_two_church"
         android:layout_weight="1.0"
+        android:text="@string/week_two_churchtown"
         android:textSize="@dimen/text_small" />
-    
-     <Button
-         android:id="@+id/week_three_church"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:text="@string/week_three_church"
-         android:layout_weight="1.0"
-         android:textSize="@dimen/text_small" />
-     
-     <Button
-         android:id="@+id/week_four_church"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:text="@string/week_four_church"
-         android:layout_weight="1.0"
-         android:textSize="@dimen/text_small" />
-     
-     <Button
-         android:id="@+id/week_five_church"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:text="@string/week_five_church"
-         android:layout_weight="1.0"
-         android:textSize="@dimen/text_small" />
-     
-     <Button
-         android:id="@+id/week_six_church"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:text="@string/week_six_church"
-         android:layout_weight="1.0"
-         android:textSize="@dimen/text_small" />
-     
+
+    <Button
+        android:id="@+id/week_three_churchtown"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.0"
+        android:text="@string/week_three_churchtown"
+        android:textSize="@dimen/text_small" />
+
+    <Button
+        android:id="@+id/week_four_churchtown"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.0"
+        android:text="@string/week_four_churchtown"
+        android:textSize="@dimen/text_small" />
+
+    <Button
+        android:id="@+id/week_five_churchtown"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.0"
+        android:text="@string/week_five_churchtown"
+        android:textSize="@dimen/text_small" />
+
+    <Button
+        android:id="@+id/week_six_churchtown"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.0"
+        android:text="@string/week_six_churchtown"
+        android:textSize="@dimen/text_small" />
+
 </LinearLayout>
-
