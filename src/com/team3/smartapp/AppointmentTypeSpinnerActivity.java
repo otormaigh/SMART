@@ -3,6 +3,7 @@ package com.team3.smartapp;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -111,7 +112,7 @@ public class AppointmentTypeSpinnerActivity extends Activity {
 		// TODO Auto-generated method stub
 		switch(item.getItemId()) {
 		case R.id.menu_item1 :
-			Logout();
+			logout();
 		case R.id.menu_item2 :
 			System.out.println("Item 2 was selected!");
   
@@ -119,9 +120,9 @@ public class AppointmentTypeSpinnerActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
-    private void Logout() {
+    private void logout() {
 		// TODO Auto-generated method stub
-    	 new AlertDialog.Builder(this)
+    	new AlertDialog.Builder(this)
      	.setTitle(R.string.Logout_title)
      		.setMessage(R.string.Logout_dialog_message)
      		.setNegativeButton(R.string.No,
@@ -143,15 +144,13 @@ public class AppointmentTypeSpinnerActivity extends Activity {
      			)
      		.show();
      	}
-		
-	
 
 	private class ButtonClick implements View.OnClickListener {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.appointment_calendar_button:
-                    //Intent intent = new Intent(AppointmentTypeSpinnerActivity.this, AppointmentTypeSpinnerActivity.class);
-                    //startActivity(intent);
+                    Intent intent = new Intent(AppointmentTypeSpinnerActivity.this, AppointmentCalendarActivity.class);
+                    startActivity(intent);
                     Log.d("MYLOG", "Button Clicked");
                     Toast.makeText(AppointmentTypeSpinnerActivity.this, "Show Appointment List", Toast.LENGTH_SHORT).show();
             }
