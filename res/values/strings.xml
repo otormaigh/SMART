@@ -52,7 +52,6 @@
         <item>Newtownmountkennedy</item>
         <item>Bray</item>
     </string-array>
-
     <string-array name="weeks">
         <item>Select Week</item>
         <item>Week 1</item>
@@ -108,7 +107,7 @@
     <string name="maternity_hospital">© National Maternity Hospital, Ireland</string>
     <string name="about">About</string>
     <string name="about_link"><a href="http://www.nmh.ie/about-us.8.html">About</a></string>
-    
+
     <!-- QUICK MENU -->
     <string name="patient_info">Patient Info</string>
     <string name="calendar">Calendar</string>
@@ -223,5 +222,6 @@
         					 name and\/or dat of birth (@dd\/mm\/yyyy) \n
         					 You can combine search terms in one line if you like. \n
         					 Example: Mary Murphy @17/06/1976</string>
+    <string name="title_activity_calendar">CalendarActivity</string>
 
 </resources>
