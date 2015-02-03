@@ -44,5 +44,8 @@
         <activity
             android:name=".ServiceUserSearchActivity"
             android:label="@string/title_activity_service_user_search" />
+        <activity
+            android:name=".ConfirmAppointmentActivity"
+            android:label="@string/title_activity_confirm_appointment" />
     </application>
 </manifest>
