@@ -5,27 +5,10 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="18"
-        android:targetSdkVersion="18" />
+        android:minSdkVersion="15"
+        android:targetSdkVersion="21" />
 
     <uses-permission android:name="android.permission.INTERNET" />
-
-    <android:uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="18" />
-    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <android:uses-permission
-        android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="18" />
-
-    <!--
-    <android:uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="18" />
-    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <android:uses-permission
-        android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="18" />
-    -->
     <application
         android:allowBackup="true"
         android:icon="@drawable/logo"
@@ -41,62 +24,25 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".AppointmentTypeActivity"
-            android:label="@string/title_activity_appointment_type" />
+            android:name=".QuickMenuActivity"
+            android:label="@string/title_activity_quick_menu" />
         <activity
-            android:name=".ClinicActivity"
-            android:label="@string/title_activity_clinic" />
+            android:name=".AppointmentTypeSpinnerActivity"
+            android:label="@string/title_activity_appointment_type_spinner" />
         <activity
-            android:name=".ClinicDatesChurchtownActivity"
-            android:label="@string/title_activity_clinic_dates_churchtown" />
-        <activity
-            android:name=".ClinicDatesDunLaoghaireActivity"
-            android:label="@string/title_activity_clinic_dates_dunlaoghaire" />
-        <activity
-            android:name=".ClinicDatesHomevisitsActivity"
-            android:label="@string/title_activity_clinic_dates_homevisits" />
-        <activity
-            android:name=".ClinicDatesLeopardstownActivity"
-            android:label="@string/title_activity_clinic_dates_leopardstown" />
-        <activity
-            android:name=".DominoDublinActivity"
-            android:label="@string/title_activity_domino_dublin" />
-        <activity
-            android:name=".DominoWicklowActivity"
-            android:label="@string/title_activity_domino_wicklow" />
-        <activity
-            android:name=".EtcDublinActivity"
-            android:label="@string/title_activity_etc_dublin" />
-        <activity
-            android:name=".EtcWicklowActivity"
-            android:label="@string/title_activity_etc_wicklow" />
-        <activity
-            android:name=".HttpClientActivity"
-            android:label="@string/title_activity_http_client" />
-        <activity
-            android:name=".SatelliteActivity"
-            android:label="@string/title_activity_satellite" />
+            android:name=".CalendarActivity"
+            android:label="@string/title_activity_calendar" />
         <activity
             android:name=".SelectTimeActivity"
             android:label="@string/title_activity_select_time" />
+        <activity
+            android:name=".HttpClientActivity"
+            android:label="@string/title_activity_http_client" />
         <activity
             android:name=".ServiceUserActivity"
             android:label="@string/title_activity_service_user" />
         <activity
             android:name=".ServiceUserSearchActivity"
             android:label="@string/title_activity_service_user_search" />
-        <activity
-            android:name=".AppointmentTypeSpinnerActivity"
-            android:label="@string/title_activity_appointment_type_spinner" >
-        </activity>
-        <activity
-            android:name=".QuickMenuActivity"
-            android:label="@string/title_activity_quick_menu" >
-        </activity>
-        <activity
-            android:name=".CalendarActivity"
-            android:label="@string/title_activity_calendar" >
-        </activity>
     </application>
-
 </manifest>
