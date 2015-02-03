@@ -66,8 +66,6 @@ public class MainActivity extends Activity {
             Log.d("MYLOG", "PostgreSQL JDBC Driver Registered!");
         }
 	}
-	
-	
 
 	private class ButtonClick implements View.OnClickListener {
 		public void onClick(View v) {
