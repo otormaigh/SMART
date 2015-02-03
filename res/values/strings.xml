@@ -52,7 +52,6 @@
         <item>Newtownmountkennedy</item>
         <item>Bray</item>
     </string-array>
-
     <string-array name="weeks">
         <item>Select Week</item>
         <item>Week 1</item>
@@ -95,7 +94,14 @@
     <string name="title_activity_http_client">HttpClient</string>
     <string name="title_activity_appointment_type_spinner">AppointmentTypeSpinnerActivity</string>
     <string name="title_activity_quick_menu">QuickMenuActivity</string>
-
+    
+     <!-- LOGOUT SESSION -->
+    <string name="Yes"> Yes</string>
+    <string name="No"> No</string>
+    <string name="Logout_dialog_message">Are you sure you want to Logout?</string>
+     <string name="Logout_title">Logout</string>
+    
+    
     <!-- MAIN SCREEN -->
     <string name="main_logo"> main_logo</string>
     <string name="login">Login</string>
@@ -108,7 +114,7 @@
     <string name="maternity_hospital">© National Maternity Hospital, Ireland</string>
     <string name="about">About</string>
     <string name="about_link"><a href="http://www.nmh.ie/about-us.8.html">About</a></string>
-    
+
     <!-- QUICK MENU -->
     <string name="patient_info">Patient Info</string>
     <string name="calendar">Calendar</string>
@@ -183,5 +189,6 @@
         					 name and\/or dat of birth (@dd\/mm\/yyyy) \n
         					 You can combine search terms in one line if you like. \n
         					 Example: Mary Murphy @17/06/1976</string>
+    <string name="title_activity_calendar">CalendarActivity</string>
 
 </resources>

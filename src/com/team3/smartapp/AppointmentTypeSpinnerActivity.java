@@ -1,18 +1,19 @@
 package com.team3.smartapp;
 
 import android.app.Activity;
-import android.content.Intent;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.text.Html;
-import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 
 public class AppointmentTypeSpinnerActivity extends Activity {
     private Spinner appointmentSpinner, clinicOptionSpinner, visitOptionSpinner,
@@ -94,8 +95,58 @@ public class AppointmentTypeSpinnerActivity extends Activity {
         weekSpinner.setVisibility(View.GONE);
         appointmentCalendar.setVisibility(View.GONE);
     }
+    
+    
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// TODO Auto-generated method stub
+		
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.main_menu, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
 
-    private class ButtonClick implements View.OnClickListener {
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		switch(item.getItemId()) {
+		case R.id.menu_item1 :
+			Logout();
+		case R.id.menu_item2 :
+			System.out.println("Item 2 was selected!");
+  
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+    private void Logout() {
+		// TODO Auto-generated method stub
+    	 new AlertDialog.Builder(this)
+     	.setTitle(R.string.Logout_title)
+     		.setMessage(R.string.Logout_dialog_message)
+     		.setNegativeButton(R.string.No,
+     				new DialogInterface.OnClickListener()
+     				{
+     					public void onClick(DialogInterface dialoginterface, int i)
+     					{}
+     				}
+     			)
+     		.setPositiveButton(R.string.Yes,
+     				new DialogInterface.OnClickListener()
+     				{
+     					public void onClick(DialogInterface dialoginterface, int i)
+     					{
+     						finish();
+     						Toast.makeText(AppointmentTypeSpinnerActivity.this, "You are now logged out", Toast.LENGTH_SHORT).show();
+     					}
+     				}
+     			)
+     		.show();
+     	}
+		
+	
+
+	private class ButtonClick implements View.OnClickListener {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.appointment_calendar_button:
@@ -333,22 +384,22 @@ public class AppointmentTypeSpinnerActivity extends Activity {
                         case 0:
                             appointmentCalendar.setVisibility(View.GONE);
                             break;
-                        case 1:
+                        case 1:     //Week 1
                             appointmentCalendar.setVisibility(View.VISIBLE);
                             break;
-                        case 2:
+                        case 2:     //Week 2
                             appointmentCalendar.setVisibility(View.VISIBLE);
                             break;
-                        case 3:
+                        case 3:     //Week 3
                             appointmentCalendar.setVisibility(View.VISIBLE);
                             break;
-                        case 4:
+                        case 4:     //Week 4
                             appointmentCalendar.setVisibility(View.VISIBLE);
                             break;
-                        case 5:
+                        case 5:     //Week 5
                             appointmentCalendar.setVisibility(View.VISIBLE);
                             break;
-                        case 6:
+                        case 6:     //Week 6
                             appointmentCalendar.setVisibility(View.VISIBLE);
                             break;
                     }
