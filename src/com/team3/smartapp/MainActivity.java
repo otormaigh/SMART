@@ -13,6 +13,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -69,7 +72,7 @@ public class MainActivity extends Activity {
 			switch (v.getId()) {
                 case R.id.login:
 
-                Intent intent = new Intent(MainActivity.this, AppointmentTypeSpinnerActivity.class);
+                Intent intent = new Intent(MainActivity.this, QuickMenuActivity.class);
                 startActivity(intent);
 
 				//getCredentials();
