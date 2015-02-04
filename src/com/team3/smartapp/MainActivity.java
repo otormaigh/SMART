@@ -5,12 +5,17 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import models.Login_model;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -26,6 +31,7 @@ public class MainActivity extends Activity {
 	private Button loginButton;
 	private TextView usernameTextView;
 	private TextView passwordTextView;
+	private TextView about;
 	private String db_name;
 	private String db_username;
 	private String db_password;
@@ -44,6 +50,9 @@ public class MainActivity extends Activity {
 		loginButton.setOnClickListener(new ButtonClick());
 		usernameTextView = (TextView) findViewById(R.id.username);
 		passwordTextView = (TextView) findViewById(R.id.password);
+		
+		about = (TextView) findViewById(R.id.about);
+	    about.setMovementMethod(LinkMovementMethod.getInstance());
 
         c = null;
         stmt = null;
@@ -62,17 +71,18 @@ public class MainActivity extends Activity {
 		public void onClick(View v) {
 			switch (v.getId()) {
                 case R.id.login:
-                //Intent intent = new Intent(MainActivity.this, ServiceUserActivity.class);
-               // startActivity(intent);
 
-				getCredentials();
-				new LongOperation().execute((String[]) null);
+                Intent intent = new Intent(MainActivity.this, QuickMenuActivity.class);
+                startActivity(intent);
+
+				//getCredentials();
+				//new LongOperation().execute((String[]) null);
                 Log.d("MYLOG", "Button Clicked");
 			}
 		}
 	}
 
-    private void connectToDB(){
+   /* private void connectToDB(){
         c = null;
         stmt = null;
 
@@ -84,8 +94,9 @@ public class MainActivity extends Activity {
             e.printStackTrace();
             Log.d("MYLOG", "PostgreSQL JDBC Driver Registered!");
         }
-    }
-	private class LongOperation extends AsyncTask<String, Void, String> {
+    }*/
+    
+	public class LongOperation extends AsyncTask<String, Void, String> {
 		protected String doInBackground(String... params) {
 			try {
 				c = DriverManager.getConnection("jdbc:postgresql://" + host + ":" + port + "/" + database, username, password);
@@ -133,6 +144,7 @@ public class MainActivity extends Activity {
 
         @Override
         protected void onProgressUpdate(Void... values) {
+        	Log.d("MYLOG", "On progress update");
         }
 	}
 
@@ -143,13 +155,15 @@ public class MainActivity extends Activity {
 		login.setPassword(password);
 	}
 
+
 	private Object checkCredentials() {
     //private void checkCredentials(){
+
 		if (login.getPassword().equals(login.getDb_password())) {
 			Toast.makeText(MainActivity.this,
                            "Welcome " + login.getDb_name() + "\nLogin Successful",
 					        Toast.LENGTH_SHORT).show();
-			Intent intent = new Intent(MainActivity.this, ClinicActivity.class);
+			Intent intent = new Intent(MainActivity.this, HttpClientActivity.class);
 			startActivity(intent);
 			return null;
 		} else {
