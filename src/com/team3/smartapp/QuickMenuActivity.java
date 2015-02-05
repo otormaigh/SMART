@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-
 public class QuickMenuActivity extends Activity {
     private Button patientInfo;
     private Button bookAppointment;
