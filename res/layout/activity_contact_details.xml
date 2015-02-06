@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/padding_Xlarge"
         android:layout_marginBottom="@dimen/padding_Xlarge"
-        android:textSize="@dimen/text_large"
+        android:textSize="@dimen/text_medium"
         android:weightSum="1.0"
         android:layout_gravity="center_vertical"
         android:text="@string/Midwife_Name" />
@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/padding_Xlarge"
         android:layout_marginBottom="@dimen/padding_Xlarge"
-        android:textSize="@dimen/text_large"
+        android:textSize="@dimen/text_medium"
         android:weightSum="1.0"
         android:layout_gravity="center_vertical"
         android:text="@string/Midwife_Email" />
