@@ -1,12 +1,55 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="10"
+    android:layout_gravity="center_vertical"
     tools:context="${relativePackage}.${activityClass}" >
 
     <TextView
+        android:id="@+id/Midwife_Name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:layout_marginTop="@dimen/padding_Xlarge"
+        android:layout_marginBottom="@dimen/padding_Xlarge"
+        android:textSize="@dimen/text_medium"
+        android:weightSum="1.0"
+        android:layout_gravity="center_vertical"
+        android:text="@string/Midwife_Name" />
 
-</RelativeLayout>
+    <TextView
+        android:id="@+id/Midwife_Email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_Xlarge"
+        android:layout_marginBottom="@dimen/padding_Xlarge"
+        android:textSize="@dimen/text_medium"
+        android:weightSum="1.0"
+        android:layout_gravity="center_vertical"
+        android:text="@string/Midwife_Email" />
+
+    <TextView
+        android:id="@+id/Primary_Number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_Xlarge"
+        android:layout_marginBottom="@dimen/padding_Xlarge"
+        android:textSize="@dimen/text_medium"
+        android:weightSum="1.0"
+        android:layout_gravity="center_vertical"
+        android:text="@string/Primary_Number" />
+
+    <TextView
+        android:id="@+id/Secondary_Number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_Xlarge"
+        android:layout_marginBottom="@dimen/padding_Xlarge"
+        android:textSize="@dimen/text_medium"
+        android:weightSum="1.0"
+        android:layout_gravity="center_vertical"
+        android:text="@string/Secondary_Number" />
+
+
+</LinearLayout>
