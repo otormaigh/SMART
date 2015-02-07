@@ -144,6 +144,13 @@
     <string name="Logout_dialog_message">Are you sure you want to Logout?</string>
     <string name="Logout_title">Logout</string>
     <string name="title_activity_appointment_calendar">AppointmentCalendarActivity</string>
-    <string name="title_activity_contact_details">ContactDetailsActivity</string>
+    <string name="title_activity_contact_details">ContactDetails</string>
+    
+    <!-- CONTACT DETAILS -->
+    <string name="Midwife_Name">Name:</string>
+    <string name="Midwife_Email">Email:</string>
+    <string name="Primary_Number">Primary No. :</string>
+    <string name="Secondary_Number">Secondary No. :</string>
+    
 
 </resources>
