@@ -1,13 +1,9 @@
 package com.team3.smartapp;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
-
-import java.util.Calendar;
 
 
 public class CalendarActivity extends Activity {
