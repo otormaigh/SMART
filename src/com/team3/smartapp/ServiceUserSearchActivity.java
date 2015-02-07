@@ -1,6 +1,17 @@
 package com.team3.smartapp;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+import models.Login_model;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,143 +19,134 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import connecttodb.AccessDBTable;
 
 public class ServiceUserSearchActivity extends Activity {
-    private String host = "10.0.2.2";
-    private String port = "5432";
-    private String username = "postgres";
-    private String password = "password";
-    private String database = "smart";
 
-    private EditText searchParams;
-    private Button search;
-    private Button searchResult1;
-    private Button searchResult2;
-    private Button searchResult3;
-    private String enteredSearch;
-    private String db_name;
-    private String db_hospital_number;
-    private String db_email;
-    private String db_mobile_num;
+	private EditText searchParams;
+	private Button search, searchResult1, searchResult2,searchResult3;
+	private String hospitalNumber, name, dob, email, mobileNumber, road,
+            county, postCode, nextOfKinName, nextOfKinContactNumber;
+	private String enteredSearch, first;
+	private int arrayPos;
+    private String token;
 
-    Connection c;
-    Statement stmt;
-    ResultSet rs;
+	Connection c;
+	Statement stmt;
+	ResultSet rs;
+	JSONObject json;
+	JSONArray query;
+	Login_model login = new Login_model();
+	AccessDBTable dbTable = new AccessDBTable();
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_service_user_search);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_service_user_search);
 
-        searchParams = (EditText) findViewById(R.id.search_params);
-        search = (Button) findViewById(R.id.search);
-        search.setOnClickListener(new ButtonClick());
-        searchResult1 = (Button) findViewById(R.id.search_result_1);
-        searchResult1.setOnClickListener(new ButtonClick());
-        searchResult2 = (Button) findViewById(R.id.search_result_2);
-        searchResult2.setOnClickListener(new ButtonClick());
-        searchResult3 = (Button) findViewById(R.id.search_result_3);
-        searchResult3.setOnClickListener(new ButtonClick());
+		searchParams = (EditText) findViewById(R.id.search_params);
+		search = (Button) findViewById(R.id.search);
+		search.setOnClickListener(new ButtonClick());
+		searchResult1 = (Button) findViewById(R.id.search_result_1);
+		searchResult1.setOnClickListener(new ButtonClick());
+		searchResult2 = (Button) findViewById(R.id.search_result_2);
+		searchResult2.setOnClickListener(new ButtonClick());
+		searchResult3 = (Button) findViewById(R.id.search_result_3);
+		searchResult3.setOnClickListener(new ButtonClick());
 
-        connectToDB();
-    }
+        token = login.getToken();
+	}
+	private class ButtonClick implements View.OnClickListener {
+		public void onClick(View v) {
+			switch (v.getId()) {
+			case R.id.search:
+				Log.d("MYLOG", "Search Button Pressed");
+				enteredSearch = searchParams.getText().toString();
+				new LongOperation().execute((String[]) null);
+				break;
+			case R.id.search_result_1:
+				Log.d("MYLOG", "First Result Button Pressed");
+				Intent intent = new Intent(ServiceUserSearchActivity.this, ServiceUserActivity.class);
+				intent.putExtra("hospital_number", hospitalNumber);
+                intent.putExtra("name", name);
+                intent.putExtra("dob", dob);
+                intent.putExtra("email", email);
+				intent.putExtra("mobile_number", mobileNumber);
+				intent.putExtra("road", road);
+				intent.putExtra("county", county);
+				intent.putExtra("post_code", postCode);
+				intent.putExtra("next_of_kin_name", nextOfKinName);
+				intent.putExtra("next_of_kin_phone", nextOfKinContactNumber);
+		        startActivity(intent);
+				break;
+			case R.id.search_result_2:
+				break;
+			case R.id.search_result_3:
+				break;
+			}
+		}
+	}
+	public int getObjects(JSONArray obj, String key, String val) {
+		for(int i = 0; i < obj.length(); i++){
+			try {
+				if(((JSONObject) ((JSONObject) obj.get(i)).get("personal_fields")).get(key).equals(val)){
+					return i;
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+	    return 0;
+	}
 
-    private class ButtonClick implements View.OnClickListener {
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.search:
-                    enteredSearch = searchParams.getText().toString();
-                    new LongOperation().execute((String[]) null);
-                    break;
-                case R.id.search_result_1:
-                    break;
-                case R.id.search_result_2:
-                    break;
-                case R.id.search_result_3:
-                    break;
-            }
-        }
-    }
+	public class LongOperation extends AsyncTask<String, Void, String> {
+		@Override
+		protected void onPreExecute() {
+		}
+		protected String doInBackground(String... params) {
+			Log.d("MYLOG", "ServiceUserSearch DoInBackground");
+			String dbQuery = dbTable.accessDB(token, "service_users");
+			//Log.d("MYLOG", "dbQuery: " + dbQuery);
+			try {
+				json = new JSONObject(dbQuery);
+				query = json.getJSONArray("service_users");
+				arrayPos = getObjects(query, "name", enteredSearch);
+				
+				first = (((JSONObject) ((JSONObject) query.get(arrayPos)).get("personal_fields")).get("name")).toString();
+				hospitalNumber = (((JSONObject) query.get(arrayPos)).get("hospital_number")).toString();
+                name = (((JSONObject) ((JSONObject) query.get(arrayPos)).get("personal_fields")).get("name")).toString();
+                dob = (((JSONObject) ((JSONObject) query.get(arrayPos)).get("personal_fields")).get("dob")).toString();
+				email = (((JSONObject) ((JSONObject) query.get(arrayPos)).get("personal_fields")).get("email")).toString();
+				mobileNumber = (((JSONObject) ((JSONObject) query.get(arrayPos)).get("personal_fields")).get("mobile_phone")).toString();
+				road = (((JSONObject) ((JSONObject) query.get(arrayPos)).get("personal_fields")).get("home_address")).toString();
+				county = (((JSONObject) ((JSONObject) query.get(arrayPos)).get("personal_fields")).get("home_county")).toString();
+				postCode = (((JSONObject) ((JSONObject) query.get(arrayPos)).get("personal_fields")).get("home_post_code")).toString();
+				nextOfKinName = (((JSONObject) ((JSONObject) query.get(arrayPos)).get("personal_fields")).get("next_of_kin_name")).toString();
+				nextOfKinContactNumber = (((JSONObject) ((JSONObject) query.get(arrayPos)).get("personal_fields")).get("next_of_kin_phone")).toString();
 
-    private void connectToDB() {
-        c = null;
-        stmt = null;
-
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            Log.d("MYLOG", "Where is your PostgreSQL JDBC Driver? "
-                    + "Include in your library path!");
-            e.printStackTrace();
-            Log.d("MYLOG", "PostgreSQL JDBC Driver Registered!");
-        }
-    }
-
-    private class LongOperation extends AsyncTask<String, Void, String> {
-        private String name;
-        private String hospital_number;
-        private String email;
-        private String mobile_num;
-
-        protected String doInBackground(String... params) {
-            try {
-                c = DriverManager.getConnection(
-                        "jdbc:postgresql://" + host + ":" + port + "/" + database +
-                                "\"," + username + "\"," + password);
-            } catch (SQLException e) {
-                Log.d("MYLOG", "Connection Failed! Check output console");
-                e.printStackTrace();
-            }
-            if (c != null) {
-                Log.d("MYLOG", "Connected to Database");
-                try {
-                    stmt = ((Connection) c).createStatement();
-                    ResultSet rs = stmt
-                            .executeQuery("SELECT * FROM service_users WHERE name = '"
-                                    + enteredSearch + "';");
-                    if (rs.next()) {
-                        name = rs.getString("name");
-                        hospital_number = rs.getString("hospital_number");
-                        //appointment clinic
-                        //appointment date
-                        //appointment time
-                        //duration
-                        email = rs.getString("email");
-                        mobile_num = rs.getString("mobile_phone");
-                    } else {
-                        Log.d("MYLOG", "If database empty");
-                    }
-                    rs.close();
-                    stmt.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                Log.d("MYLOG", "Failed to make connection!");
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            searchResult1.setText(name);
-            db_name = name;
-            db_hospital_number = hospital_number;
-            db_email = email;
-            db_mobile_num = mobile_num;
-        }
-
-        @Override
-        protected void onPreExecute() {
-        }
-
-        @Override
-        protected void onProgressUpdate(Void... values) {
-        }
-    }
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+		@Override
+		protected void onProgressUpdate(Void... values) {
+			Log.d("MYLOG", "On progress update");
+		}
+		@Override
+		protected void onPostExecute(String result) {
+            Log.d("MYLOG", "onPostExecute");
+            searchResult1.setText(first);
+            ServiceUserSearchActivity.this.hospitalNumber = hospitalNumber.toString();
+            ServiceUserSearchActivity.this.name = name.toString();
+            ServiceUserSearchActivity.this.dob = dob.toString();
+            ServiceUserSearchActivity.this.email = email.toString();
+            ServiceUserSearchActivity.this.mobileNumber = mobileNumber.toString();
+            ServiceUserSearchActivity.this.road = road.toString();
+            ServiceUserSearchActivity.this.county = county.toString();
+            ServiceUserSearchActivity.this.postCode = postCode.toString();
+            ServiceUserSearchActivity.this.nextOfKinName = nextOfKinName.toString();
+            ServiceUserSearchActivity.this.nextOfKinContactNumber = nextOfKinContactNumber.toString();
+		}
+	}
 }
