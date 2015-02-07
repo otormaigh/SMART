@@ -15,6 +15,7 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+
 import android.widget.TextView;
 
 public class HttpClientActivity extends Activity {
@@ -31,9 +32,6 @@ public class HttpClientActivity extends Activity {
 		    
 		 new LongOperation().execute((String[]) null);
 	}
-	
-
-
 
 	private class LongOperation extends AsyncTask<String, Void, String> {
 		protected String doInBackground(String... params) {
