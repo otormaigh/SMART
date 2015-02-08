@@ -64,7 +64,8 @@
         </activity>
         <activity
             android:name=".ContactDetailsActivity"
-            android:label="@string/title_activity_contact_details" >
+            android:label="@string/title_activity_contact_details"
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 

@@ -9,14 +9,17 @@ import java.net.URL;
 import android.util.Log;
 
 public class AccessDBTable {
-	URL obj;
-	HttpURLConnection con;
-	
+    private String token;
+    private String tableURL;
+    URL obj;
+    HttpURLConnection con;
+
 	public String accessDB(String token, String tableURL){
-		
-		return accessDBTable(token, tableURL);
+		this.token = token;
+        this.tableURL = tableURL;
+		return accessDB();
 	}
-	private String accessDBTable(String token, String tableURL) {
+	private String accessDB() {
 		Log.d("MYLOG", "In AccessDB");
 		Log.d("MYLOG", "AccessDB Token: " + token);
 		Log.d("MYLOG", "AccessDB TableURL: " + tableURL);
@@ -39,7 +42,7 @@ public class AccessDBTable {
 				response.append(inputLine);
 			}
 			in.close();
-			//Log.d("MYLOG", "response.toString(): " + response.toString());
+			Log.d("MYLOG", "response.toString(): " + response.toString());
 			return response.toString();
 		} catch (IOException e) {
 			e.printStackTrace();

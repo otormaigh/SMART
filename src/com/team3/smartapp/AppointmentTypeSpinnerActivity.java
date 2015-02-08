@@ -15,11 +15,14 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 public class AppointmentTypeSpinnerActivity extends Activity {
-    private Spinner appointmentSpinner, clinicOptionSpinner, visitOptionSpinner,
-            dominoDublinSpinner, dominoWicklowSpinner, ethDublinSpinner, ethWicklowSpinner, satelliteSpinner, weekSpinner;
+    private Spinner appointmentSpinner, clinicOptionSpinner, visitOptionSpinner, dominoDublinSpinner,
+            dominoWicklowSpinner, ethDublinSpinner, ethWicklowSpinner, satelliteSpinner, weekSpinner, daySpinner;
     private Button appointmentCalendar;
-    private ArrayAdapter<CharSequence> appointmentAdapter, clinicAdapter, visitAdapter,
-            dominoDublinAdapter, dominoWicklowAdapter, ethDublinAdapter, ethWicklowAdapter, satelliteAdapter, weekAdapter;
+    private ArrayAdapter<CharSequence> appointmentAdapter, clinicAdapter, visitAdapter, dominoDublinAdapter,
+            dominoWicklowAdapter, ethDublinAdapter, ethWicklowAdapter, satelliteAdapter, weekAdapter, dayAdapter;
+    private int regionSelected, hospitalSelected, weekSelected, daySelected;
+    
+    AppointmentCalendarActivity passOptions = new AppointmentCalendarActivity();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +83,12 @@ public class AppointmentTypeSpinnerActivity extends Activity {
         weekAdapter.setDropDownViewResource(R.layout.spinner_layout);
         weekSpinner.setAdapter(weekAdapter);
 
+        daySpinner = (Spinner) findViewById(R.id.day_spinner);
+        daySpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
+        dayAdapter = ArrayAdapter.createFromResource(this, R.array.days, R.layout.spinner_layout);
+        dayAdapter.setDropDownViewResource(R.layout.spinner_layout);
+        daySpinner.setAdapter(dayAdapter);
+
         appointmentCalendar = (Button) findViewById(R.id.appointment_calendar_button);
         appointmentCalendar.setOnClickListener(new ButtonClick());
 
@@ -92,6 +101,7 @@ public class AppointmentTypeSpinnerActivity extends Activity {
         ethWicklowSpinner.setVisibility(View.GONE);
         satelliteSpinner.setVisibility(View.GONE);
         weekSpinner.setVisibility(View.GONE);
+        daySpinner.setVisibility(View.GONE);
         appointmentCalendar.setVisibility(View.GONE);
     }
     
@@ -169,6 +179,7 @@ public class AppointmentTypeSpinnerActivity extends Activity {
                             ethWicklowSpinner.setVisibility(View.GONE);
                             satelliteSpinner.setVisibility(View.GONE);
                             weekSpinner.setVisibility(View.GONE);
+                            daySpinner.setVisibility(View.GONE);
                             appointmentCalendar.setVisibility(View.GONE);
                             break;
                         case 1:     //Clinic
@@ -185,6 +196,7 @@ public class AppointmentTypeSpinnerActivity extends Activity {
                             ethWicklowSpinner.setVisibility(View.GONE);
                             satelliteSpinner.setVisibility(View.GONE);
                             weekSpinner.setVisibility(View.GONE);
+                            daySpinner.setVisibility(View.GONE);
                             appointmentCalendar.setVisibility(View.GONE);
                             visitOptionSpinner.setSelection(0);
                             break;
@@ -193,6 +205,7 @@ public class AppointmentTypeSpinnerActivity extends Activity {
                 case R.id.clinic_service_option_spinner:
                     switch (position) {
                         case 0:
+                            regionSelected = 0;
                             appointmentSpinner.setVisibility(View.VISIBLE);
                             clinicOptionSpinner.setVisibility(View.VISIBLE);
                             visitOptionSpinner.setVisibility(View.GONE);
@@ -202,25 +215,31 @@ public class AppointmentTypeSpinnerActivity extends Activity {
                             ethWicklowSpinner.setVisibility(View.GONE);
                             satelliteSpinner.setVisibility(View.GONE);
                             weekSpinner.setVisibility(View.GONE);
+                            daySpinner.setVisibility(View.GONE);
                             appointmentCalendar.setVisibility(View.GONE);
                             break;
                         case 1:     //Domino Dublin
+                            regionSelected = 1;
                             dominoDublinSpinner.setVisibility(View.VISIBLE);
                             dominoDublinSpinner.setSelection(0);
                             break;
                         case 2:     //Domino Wicklow
+                            regionSelected = 2;
                             dominoWicklowSpinner.setVisibility(View.VISIBLE);
                             dominoWicklowSpinner.setSelection(0);
                             break;
                         case 3:     //ETH Dublin
+                            regionSelected = 3;
                             ethDublinSpinner.setVisibility(View.VISIBLE);
                             ethDublinSpinner.setSelection(0);
                             break;
                         case 4:     //ETH Wicklow
+                            regionSelected = 4;
                             ethWicklowSpinner.setVisibility(View.VISIBLE);
                             ethWicklowSpinner.setSelection(0);
                             break;
                         case 5:     //Satellite
+                            regionSelected = 5;
                             satelliteSpinner.setVisibility(View.VISIBLE);
                             satelliteSpinner.setSelection(0);
                             break;
@@ -229,6 +248,7 @@ public class AppointmentTypeSpinnerActivity extends Activity {
                 case R.id.domino_dublin_spinner:
                     switch (position) {
                         case 0:
+                            hospitalSelected = 0;
                             appointmentSpinner.setVisibility(View.VISIBLE);
                             clinicOptionSpinner.setVisibility(View.VISIBLE);
                             visitOptionSpinner.setVisibility(View.GONE);
@@ -238,25 +258,31 @@ public class AppointmentTypeSpinnerActivity extends Activity {
                             ethWicklowSpinner.setVisibility(View.GONE);
                             satelliteSpinner.setVisibility(View.GONE);
                             weekSpinner.setVisibility(View.GONE);
+                            daySpinner.setVisibility(View.GONE);
                             appointmentCalendar.setVisibility(View.GONE);
                             break;
                         case 1:     //NMH(OPD Location)
+                            hospitalSelected = 1;
                             weekSpinner.setVisibility(View.VISIBLE);
                             weekSpinner.setSelection(0);
                             break;
                         case 2:     //Leopardstown
+                            hospitalSelected = 2;
                             weekSpinner.setVisibility(View.VISIBLE);
                             weekSpinner.setSelection(0);
                             break;
                         case 3:     //Dun Laoghaire
+                            hospitalSelected = 3;
                             weekSpinner.setVisibility(View.VISIBLE);
                             weekSpinner.setSelection(0);
                             break;
                         case 4:     //Churchtown
+                            hospitalSelected = 4;
                             weekSpinner.setVisibility(View.VISIBLE);
                             weekSpinner.setSelection(0);
                             break;
                         case 5:     //NMH
+                            hospitalSelected = 5;
                             weekSpinner.setVisibility(View.VISIBLE);
                             weekSpinner.setSelection(0);
                             break;
@@ -265,6 +291,7 @@ public class AppointmentTypeSpinnerActivity extends Activity {
                 case R.id.domino_wicklow_spinner:
                     switch (position) {
                         case 0:
+                            hospitalSelected = 0;
                             appointmentSpinner.setVisibility(View.VISIBLE);
                             clinicOptionSpinner.setVisibility(View.VISIBLE);
                             visitOptionSpinner.setVisibility(View.GONE);
@@ -274,21 +301,26 @@ public class AppointmentTypeSpinnerActivity extends Activity {
                             ethWicklowSpinner.setVisibility(View.GONE);
                             satelliteSpinner.setVisibility(View.GONE);
                             weekSpinner.setVisibility(View.GONE);
+                            daySpinner.setVisibility(View.GONE);
                             appointmentCalendar.setVisibility(View.GONE);
                             break;
                         case 1:     //Greystones (Monday)
+                            hospitalSelected = 1;
                             weekSpinner.setVisibility(View.VISIBLE);
                             weekSpinner.setSelection(0);
                             break;
                         case 2:     //Greystones (Tuesday)
+                            hospitalSelected = 2;
                             weekSpinner.setVisibility(View.VISIBLE);
                             weekSpinner.setSelection(0);
                             break;
                         case 3:     //Kilmacanogue
+                            hospitalSelected = 3;
                             weekSpinner.setVisibility(View.VISIBLE);
                             weekSpinner.setSelection(0);
                             break;
                         case 4:     //Home Visits
+                            hospitalSelected = 4;
                             weekSpinner.setVisibility(View.VISIBLE);
                             weekSpinner.setSelection(0);
                             break;
@@ -297,6 +329,7 @@ public class AppointmentTypeSpinnerActivity extends Activity {
                 case R.id.eth_dublin_spinner:
                     switch (position) {
                         case 0:
+                            hospitalSelected = 0;
                             appointmentSpinner.setVisibility(View.VISIBLE);
                             clinicOptionSpinner.setVisibility(View.VISIBLE);
                             visitOptionSpinner.setVisibility(View.GONE);
@@ -306,13 +339,16 @@ public class AppointmentTypeSpinnerActivity extends Activity {
                             ethWicklowSpinner.setVisibility(View.GONE);
                             satelliteSpinner.setVisibility(View.GONE);
                             weekSpinner.setVisibility(View.GONE);
+                            daySpinner.setVisibility(View.GONE);
                             appointmentCalendar.setVisibility(View.GONE);
                             break;
                         case 1:     //Ballinteer
+                            hospitalSelected = 1;
                             weekSpinner.setVisibility(View.VISIBLE);
                             weekSpinner.setSelection(0);
                             break;
                         case 2:     //Dun Laoghaire
+                            hospitalSelected = 2;
                             weekSpinner.setVisibility(View.VISIBLE);
                             weekSpinner.setSelection(0);
                             break;
@@ -321,6 +357,7 @@ public class AppointmentTypeSpinnerActivity extends Activity {
                 case R.id.eth_wicklow_spinner:
                     switch (position) {
                         case 0:
+                            hospitalSelected = 0;
                             appointmentSpinner.setVisibility(View.VISIBLE);
                             clinicOptionSpinner.setVisibility(View.VISIBLE);
                             visitOptionSpinner.setVisibility(View.GONE);
@@ -330,13 +367,16 @@ public class AppointmentTypeSpinnerActivity extends Activity {
                             ethWicklowSpinner.setVisibility(View.VISIBLE);
                             satelliteSpinner.setVisibility(View.GONE);
                             weekSpinner.setVisibility(View.GONE);
+                            daySpinner.setVisibility(View.GONE);
                             appointmentCalendar.setVisibility(View.GONE);
                             break;
                         case 1:     //Ballinteer
+                            hospitalSelected = 1;
                             weekSpinner.setVisibility(View.VISIBLE);
                             weekSpinner.setSelection(0);
                             break;
                         case 2:     //Dun Laoghaire
+                            hospitalSelected = 2;
                             weekSpinner.setVisibility(View.VISIBLE);
                             weekSpinner.setSelection(0);
                             break;
@@ -345,6 +385,7 @@ public class AppointmentTypeSpinnerActivity extends Activity {
                 case R.id.satellite_spinner:
                     switch (position) {
                         case 0:
+                            hospitalSelected = 0;
                             appointmentSpinner.setVisibility(View.VISIBLE);
                             clinicOptionSpinner.setVisibility(View.VISIBLE);
                             visitOptionSpinner.setVisibility(View.GONE);
@@ -354,21 +395,26 @@ public class AppointmentTypeSpinnerActivity extends Activity {
                             ethWicklowSpinner.setVisibility(View.GONE);
                             satelliteSpinner.setVisibility(View.VISIBLE);
                             weekSpinner.setVisibility(View.GONE);
+                            daySpinner.setVisibility(View.GONE);
                             appointmentCalendar.setVisibility(View.GONE);
                             break;
                         case 1:     //Greystones
+                            hospitalSelected = 1;
                             weekSpinner.setVisibility(View.VISIBLE);
                             weekSpinner.setSelection(0);
                             break;
                         case 2:     //Arklow
+                            hospitalSelected = 2;
                             weekSpinner.setVisibility(View.VISIBLE);
                             weekSpinner.setSelection(0);
                             break;
                         case 3:     //Newtownmountkennedy
+                            hospitalSelected = 3;
                             weekSpinner.setVisibility(View.VISIBLE);
                             weekSpinner.setSelection(0);
                             break;
                         case 4:     //Bray
+                            hospitalSelected = 4;
                             weekSpinner.setVisibility(View.VISIBLE);
                             weekSpinner.setSelection(0);
                             break;
@@ -377,31 +423,88 @@ public class AppointmentTypeSpinnerActivity extends Activity {
                 case R.id.week_spinner:
                     switch (position) {
                         case 0:
+                            weekSelected = 0;
+                            daySpinner.setVisibility(View.GONE);
                             appointmentCalendar.setVisibility(View.GONE);
                             break;
                         case 1:     //Week 1
-                            appointmentCalendar.setVisibility(View.VISIBLE);
+                            weekSelected = 1;
+                            daySpinner.setVisibility(View.VISIBLE);
+                            daySpinner.setSelection(0);
                             break;
                         case 2:     //Week 2
-                            appointmentCalendar.setVisibility(View.VISIBLE);
+                            weekSelected = 2;
+                            daySpinner.setVisibility(View.VISIBLE);
+                            daySpinner.setSelection(0);
                             break;
                         case 3:     //Week 3
-                            appointmentCalendar.setVisibility(View.VISIBLE);
+                            weekSelected = 3;
+                            daySpinner.setVisibility(View.VISIBLE);
+                            daySpinner.setSelection(0);
                             break;
                         case 4:     //Week 4
-                            appointmentCalendar.setVisibility(View.VISIBLE);
+                            weekSelected = 4;
+                            daySpinner.setVisibility(View.VISIBLE);
+                            daySpinner.setSelection(0);
                             break;
                         case 5:     //Week 5
-                            appointmentCalendar.setVisibility(View.VISIBLE);
+                            weekSelected = 5;
+                            daySpinner.setVisibility(View.VISIBLE);
+                            daySpinner.setSelection(0);
                             break;
                         case 6:     //Week 6
+                            weekSelected = 6;
+                            daySpinner.setVisibility(View.VISIBLE);
+                            daySpinner.setSelection(0);
+                            break;
+                    }
+                    break;
+                case R.id.day_spinner:
+                    switch (position) {
+                        case 0:
+                            daySelected = 0;
+                            appointmentCalendar.setVisibility(View.GONE);
+                            break;
+                        case 1:     //Monday
+                            daySelected = 1;
+                            appointmentCalendar.setVisibility(View.VISIBLE);
+                            break;
+                        case 2:     //Tuesday
+                            daySelected = 2;
+                            appointmentCalendar.setVisibility(View.VISIBLE);
+                            break;
+                        case 3:     //Wednesday
+                            daySelected = 3;
+                            appointmentCalendar.setVisibility(View.VISIBLE);
+                            break;
+                        case 4:     //Thursday
+                            daySelected = 4;
+                            appointmentCalendar.setVisibility(View.VISIBLE);
+                            break;
+                        case 5:     //Friday
+                            daySelected = 5;
+                            appointmentCalendar.setVisibility(View.VISIBLE);
+                            break;
+                        case 6:     //Saturday
+                            daySelected = 6;
+                            appointmentCalendar.setVisibility(View.VISIBLE);
+                            break;
+                        case 7:     //Sunday
+                            daySelected = 7;
                             appointmentCalendar.setVisibility(View.VISIBLE);
                             break;
                     }
                     break;
             }
+            //setOptionsSelected(region, hospital, week, day);
+            //if today is Wednesday hide spinners for Week 1 Day Monday, Tuesday
+            //Today is Tuesday 10/02/15
+            //if region 1, hospital 1, week 1, day 3
+            //show appointments for Wednesday 11/02 in Domino Dublin, NMH (OPD Location)
+            //if region 3, hospital 2, week 5, day 4
+            //show appointments for Thursday 5/03 in ETH Dublin, Dun Laoghaire
+            passOptions.setOptionsSelected(regionSelected, hospitalSelected, weekSelected, daySelected);
         }
-
         @Override
         public void onNothingSelected(AdapterView<?> parent) {
         }

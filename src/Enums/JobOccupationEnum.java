@@ -1,11 +1,11 @@
-package models;
+package Enums;
 
-public enum JobOccupationEnum_model {
+public enum JobOccupationEnum {
 	COMMUNITY_MIDWIFE("Community Midwife");
 
 	private String jobOccupation;
 
-	private JobOccupationEnum_model(String jobOccupation) {
+	private JobOccupationEnum(String jobOccupation) {
 		this.jobOccupation = jobOccupation;
 	}
 

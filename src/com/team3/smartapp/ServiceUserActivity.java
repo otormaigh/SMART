@@ -1,7 +1,10 @@
 package com.team3.smartapp;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.text.DateFormat;
@@ -11,8 +14,10 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class ServiceUserActivity extends Activity {
-	private TextView hospitalNumber, name, age, email, mobileNumber, road,  county, postCode, nextOfKinName, nextOfKinContactNumber;
-    private String ageFromDob, dob;
+	private TextView hospitalNumber, name, age, email, mobileNumber, road,  county,
+            postCode, nextOfKinName, nextOfKinContactNumber;
+    private String dob;
+    private Button bookAppointmentButton;
     private Date dobAsDate;
     private Calendar cal = Calendar.getInstance();
 	@Override
@@ -20,7 +25,7 @@ public class ServiceUserActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_service_user);
 
-        String dob = getIntent().getStringExtra("dob");
+        dob = getIntent().getStringExtra("dob");
 		
 		hospitalNumber = (TextView) findViewById(R.id.hospital_number);
         name = (TextView) findViewById(R.id.name);
@@ -32,12 +37,12 @@ public class ServiceUserActivity extends Activity {
 		postCode = (TextView) findViewById(R.id.post_code);
 		nextOfKinName = (TextView) findViewById(R.id.next_of_kin_name);
 		nextOfKinContactNumber = (TextView) findViewById(R.id.next_of_kin_contact_number);
+        bookAppointmentButton = (Button) findViewById(R.id.book_appointment);
+        bookAppointmentButton.setOnClickListener(new ButtonClick());
 
         hospitalNumber.setText(getIntent().getStringExtra("hospital_number"));
         name.setText(getIntent().getStringExtra("name"));
-
         age.setText(Integer.toString(getAge(dob)));
-
         email.setText(getIntent().getStringExtra("email"));
 		mobileNumber.setText(getIntent().getStringExtra("mobile_number"));
 		road.setText(getIntent().getStringExtra("road"));
@@ -45,15 +50,6 @@ public class ServiceUserActivity extends Activity {
 		postCode.setText(getIntent().getStringExtra("post_code"));
 		nextOfKinName.setText(getIntent().getStringExtra("next_of_kin_name"));
 		nextOfKinContactNumber.setText(getIntent().getStringExtra("next_of_kin_phone"));
-
-/*        try {
-            dob = getIntent().getStringExtra("dob");
-            DateFormat df = new SimpleDateFormat("yyyy MM dd");
-            Date dobAsDate =  df.parse(dob);
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }     */
 	}
     public int getAge(String dob) {
         try {
@@ -85,5 +81,15 @@ public class ServiceUserActivity extends Activity {
             }
         }
         return result;
+    }
+    private class ButtonClick implements View.OnClickListener {
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.book_appointment:
+                    Intent intent = new Intent(ServiceUserActivity.this, AppointmentTypeSpinnerActivity.class);
+                    startActivity(intent);
+                    break;
+            }
+        }
     }
 }
