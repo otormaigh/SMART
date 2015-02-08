@@ -1,12 +1,12 @@
-package models;
+package Enums;
 
-public enum VisitTypeEnum_model {
+public enum VisitTypeEnum {
 	ANTENATAL("antenatal"), // before baby
 	POSTNATAL("postnatal"); // after baby
 
 	private String visitType;
 
-	private VisitTypeEnum_model(String visitType) {
+	private VisitTypeEnum(String visitType) {
 		this.visitType = visitType;
 	}
 

@@ -3,7 +3,7 @@ package com.team3.smartapp;
 import android.app.Activity;
 import android.os.Bundle;
 import connecttodb.AccessDBTable;
-import connecttodb.GetAuthKey;
+import connecttodb.GetToken;
 
 public class ContactDetailsActivity extends Activity {
 	String username = "team_chile";
@@ -14,7 +14,7 @@ public class ContactDetailsActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_contact_details);
 		
-/*		GetAuthKey getToken = new GetAuthKey();
+/*		GetToken getToken = new GetToken();
 		String token = null;
 		token = getToken.getAuthKey(username, password);
 		
