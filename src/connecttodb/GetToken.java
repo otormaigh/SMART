@@ -12,19 +12,20 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import android.util.Log;
 
-public class GetAuthKey {
+public class GetToken {
+	private String username;
+	private String password;
 	private HttpURLConnection httpcon;
 	private String loginURL = "http://54.72.7.91:8888/login";
 	public Login_model login = new Login_model();
+	private String encodeType = "ISO-8859-1";
 	JSONObject credentials = new JSONObject();
 	JSONObject jsonLogin = new JSONObject();
-	private String encodeType = "ISO-8859-1";
 	
-	public String getAuthKey(String username, String password){
-		return getToken(username, password);
-	}
-	
-	private String getToken(String username, String password){
+	public String getToken(String username, String password){
+		return getToken();
+	}	
+	private String getToken(){
 		try {
 			credentials.put("username", username);
 			credentials.put("password", password);
