@@ -5,7 +5,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 import models.Login_model;
-import connecttodb.GetAuthKey;
+import connecttodb.GetToken;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -27,7 +27,7 @@ public class MainActivity extends Activity {
 	Statement stmt;
 	ResultSet rs;
 	Login_model login = new Login_model();
-	GetAuthKey getToken = new GetAuthKey();
+	GetToken getToken = new GetToken();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +63,7 @@ public class MainActivity extends Activity {
 
 	public class LongOperation extends AsyncTask<String, Void, String> {
 		protected String doInBackground(String... params) {
-			String token = getToken.getAuthKey(login.getUsername(), login.getPassword());
+			String token = getToken.getToken(login.getUsername(), login.getPassword());
 			//String token = getToken.getAuthKey("team_chile", "smartappiscoming");
 			login.setToken(token);
             Log.d("MYLOG", "Token: " + token);

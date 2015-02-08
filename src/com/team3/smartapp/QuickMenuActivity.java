@@ -49,7 +49,7 @@ public class QuickMenuActivity extends Activity {
                     startActivity(intentCalendar);
                     break;
                 case R.id.todays_appointments:
-                    Intent intentToday = new Intent(QuickMenuActivity.this, QuickMenuActivity.class);
+                    Intent intentToday = new Intent(QuickMenuActivity.this, AppointmentCalendarActivity.class);
                     startActivity(intentToday);
                     break;
             }
