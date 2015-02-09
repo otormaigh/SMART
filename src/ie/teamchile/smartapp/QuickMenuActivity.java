@@ -1,4 +1,4 @@
-package com.team3.smartapp;
+package ie.teamchile.smartapp;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-
 import models.Login_model;
 
 public class QuickMenuActivity extends Activity {

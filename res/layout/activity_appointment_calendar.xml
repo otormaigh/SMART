@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     android:weightSum="4.0"
-    tools:context="com.team3.smartapp.AppointmentCalendarActivity">
+    tools:context="ie.teamchile.smartapp.AppointmentCalendarActivity">
 
     <TextView
         android:layout_width="wrap_content"
