@@ -1,11 +1,11 @@
-package models;
+package Enums;
 
-public enum JobLevelEnum_model {
+public enum JobLevelEnum {
 	RESIDENT("Resident");
 
 	private String jobLevel;
 
-	private JobLevelEnum_model(String jobLevel) {
+	private JobLevelEnum(String jobLevel) {
 		this.jobLevel = jobLevel;
 	}
 
