@@ -2,12 +2,15 @@ package ie.teamchile.smartapp;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,7 +25,7 @@ public class ServiceUserActivity extends Activity {
 	private TextView hospitalNumber, name, age, email, mobileNumber, road,  county,
             postCode, nextOfKinName, nextOfKinContactNumber;
     private String dob;
-    private Button bookAppointmentButton, userContact;
+    private Button bookAppointmentButton, userContact, next_of_kin_contact;
     private Date dobAsDate;
     private Calendar cal = Calendar.getInstance();
 	@Override
@@ -57,53 +60,88 @@ public class ServiceUserActivity extends Activity {
 		postCode.setText(getIntent().getStringExtra("post_code"));
 		nextOfKinName.setText(getIntent().getStringExtra("next_of_kin_name"));
 		nextOfKinContactNumber.setText(getIntent().getStringExtra("next_of_kin_phone"));
-		
-		 Button userContact = (Button) findViewById(R.id.user_contact);
-		 userContact.setOnClickListener(new View.OnClickListener() {
+	
+		Button next_of_kin_contact = (Button) findViewById(R.id.next_of_kin_contact);
+		 next_of_kin_contact.setOnClickListener(new View.OnClickListener() {
+			 
 	         public void onClick(View view) {
-	         makeCall();
+	          kinContact();
 	      }
 	   });
         
 	}
 	
-	private void makeCall() {
+	private void kinContact() {
 		// TODO Auto-generated method stub
-    	new AlertDialog.Builder(this)
-     	.setTitle(R.string.Logout_title)
-     		.setMessage(R.string.Logout_dialog_message)
-     		.setNegativeButton(R.string.No,
+    	final Dialog dialog = new Dialog(ServiceUserActivity.this);
+    	dialog.setContentView(R.layout.contact_dialog_box);
+    	dialog.setTitle(R.string.phoneCall_title);
+    	Button phoneCall = (Button) dialog.findViewById(R.id.makeCall);
+    	phoneCall.setOnClickListener(new OnClickListener(){
+    		
+    	
+    
+     	
+     					public void onClick(View view ){
+     					}
+     					
+    	}
+     			
+     			
+     			.setPositiveButton(R.string.sms_title,
      				new DialogInterface.OnClickListener()
      				{
      					public void onClick(DialogInterface dialoginterface, int i)
-     					{}
+     					{
+     						 Log.i("Send SMS", "");
+     						
+     						String uri = ""+nextOfKinContactNumber.getText().toString();
+     						 Intent sendSMS = new Intent(Intent.ACTION_VIEW);
+     						sendSMS.setType("vnd.android-dir/mms-sms");
+     						sendSMS.putExtra("address", uri);
+                         
+     						 
+     						try{
+     							startActivity(sendSMS);
+     						}catch (android.content.ActivityNotFoundException ex) {
+    					         Toast.makeText(ServiceUserActivity.this, 
+    					         "Call faild, please try again later.", Toast.LENGTH_SHORT).show();
+     					}
+     					}
      				}
      			)
-     		.setPositiveButton(R.string.Yes,
+     			
+     			
+     		.setNeutralButton(R.string.phoneCall_title,
      				new DialogInterface.OnClickListener()
      				{
      					public void onClick(DialogInterface dialoginterface, int i)
      					{
      						 Log.i("Make call", "");
-
-     					      Intent phoneIntent = new Intent(Intent.ACTION_CALL);
-     					      phoneIntent.setData(Uri.parse(mobile_number.));
+     						 String uri = "tel:"+nextOfKinContactNumber.getText().toString();
+     						 Intent phoneIntent = new Intent(Intent.ACTION_CALL, Uri.parse(uri));
+					      
      						try {
+     							
      					         startActivity(phoneIntent);
-     					         finish();
-     					         Log.i("Finished making a call...", "");
+     						
      					      } catch (android.content.ActivityNotFoundException ex) {
      					         Toast.makeText(ServiceUserActivity.this, 
      					         "Call faild, please try again later.", Toast.LENGTH_SHORT).show();
      					      }
      					   }
      				
-     				}
+     					}
+     		
      			)
      		.show();
      	}
 
+
 	
+	
+	
+	 
     public int getAge(String dob) {
         try {
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
