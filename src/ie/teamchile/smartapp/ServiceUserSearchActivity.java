@@ -97,7 +97,6 @@ public class ServiceUserSearchActivity extends Activity {
 		}
 	    return 0;
 	}
-
 	public class LongOperation extends AsyncTask<String, Void, String> {
 		@Override
 		protected void onPreExecute() {
@@ -105,7 +104,6 @@ public class ServiceUserSearchActivity extends Activity {
 		protected String doInBackground(String... params) {
 			Log.d("MYLOG", "ServiceUserSearch DoInBackground");
 			String dbQuery = dbTable.accessDB(token, "service_users");
-			//Log.d("MYLOG", "dbQuery: " + dbQuery);
 			try {
 				json = new JSONObject(dbQuery);
 				query = json.getJSONArray("service_users");
