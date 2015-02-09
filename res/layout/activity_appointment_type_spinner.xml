@@ -59,6 +59,12 @@
         android:layout_height="wrap_content"
         android:entries="@array/weeks" />
 
+    <Spinner
+        android:id="@+id/day_spinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/days" />
+
     <Button
         android:id="@+id/appointment_calendar_button"
         android:layout_width="fill_parent"

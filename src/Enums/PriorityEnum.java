@@ -1,11 +1,11 @@
-package models;
+package Enums;
 
-public enum PriorityEnum_model {
+public enum PriorityEnum {
 	OTHER("other");
 
 	private String priority;
 
-	private PriorityEnum_model(String priority) {
+	private PriorityEnum(String priority) {
 		this.priority = priority;
 	}
 
