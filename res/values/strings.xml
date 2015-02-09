@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+
     <string name="app_name">Midwife Organizer</string>
+
 
     <!-- ACTIVITY TITLES -->
     <string name="title_activity_select_time">Select Time</string>
