@@ -64,7 +64,7 @@ public class MainActivity extends Activity {
 	public class LongOperation extends AsyncTask<String, Void, String> {
 		protected String doInBackground(String... params) {
 			String token = getToken.getToken(login.getUsername(), login.getPassword());
-			//String token = getToken.getAuthKey("team_chile", "smartappiscoming");
+			//String token = getToken.getToken("team_chile", "smartappiscoming");
 			login.setToken(token);
             Log.d("MYLOG", "Token: " + token);
             Log.d("MYLOG", "Get Token: " + login.getToken());
