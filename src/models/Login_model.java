@@ -1,17 +1,17 @@
 package models;
 
 public class Login_model {
-	private String username;
-	private String password;
-	private String token;
-	private String db_name;
-	private String db_username;
-	private String db_password;
+	private static String username;
+	private static String password;
+	private static String token;
+	private static String db_name;
+	private static String db_username;
+	private static String db_password;
 
 	public Login_model() {
 	}
 
-	public String getDb_name() {
+	public static String getDb_name() {
 		return db_name;
 	}
 
@@ -19,7 +19,7 @@ public class Login_model {
 		this.db_name = db_name;
 	}
 
-	public String getUsername() {
+	public static String getUsername() {
 		return username;
 	}
 
@@ -27,7 +27,7 @@ public class Login_model {
 		this.username = username;
 	}
 
-	public String getPassword() {
+	public static String getPassword() {
 		return password;
 	}
 
@@ -35,7 +35,7 @@ public class Login_model {
 		this.password = password;
 	}
 
-	public String getToken() {
+	public static String getToken() {
 		return token;
 	}
 
@@ -43,7 +43,7 @@ public class Login_model {
 		this.token = token;
 	}
 
-	public String getDb_username() {
+	public static String getDb_username() {
 		return db_username;
 	}
 
@@ -51,7 +51,7 @@ public class Login_model {
 		this.db_username = db_username;
 	}
 
-	public String getDb_password() {
+	public static String getDb_password() {
 		return db_password;
 	}
 
