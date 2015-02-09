@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.team3.smartapp"
+    package="ie.teamchile.smartapp"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -16,7 +16,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
+            android:name="ie.teamchile.smartapp.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -26,45 +26,46 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".QuickMenuActivity"
+            android:name="ie.teamchile.smartapp.QuickMenuActivity"
             android:label="@string/title_activity_quick_menu"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".AppointmentTypeSpinnerActivity"
+            android:name="ie.teamchile.smartapp.AppointmentTypeSpinnerActivity"
             android:label="@string/title_activity_appointment_type_spinner"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".CalendarActivity"
+            android:name="ie.teamchile.smartapp.CalendarActivity"
             android:label="@string/title_activity_calendar"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SelectTimeActivity"
+            android:name="ie.teamchile.smartapp.SelectTimeActivity"
             android:label="@string/title_activity_select_time"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".HttpClientActivity"
+            android:name="ie.teamchile.smartapp.HttpClientActivity"
             android:label="@string/title_activity_http_client"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ServiceUserActivity"
+            android:name="ie.teamchile.smartapp.ServiceUserActivity"
             android:label="@string/title_activity_service_user"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ServiceUserSearchActivity"
+            android:name="ie.teamchile.smartapp.ServiceUserSearchActivity"
             android:label="@string/title_activity_service_user_search"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ConfirmAppointmentActivity"
+            android:name="ie.teamchile.smartapp.ConfirmAppointmentActivity"
             android:label="@string/title_activity_confirm_appointment"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".AppointmentCalendarActivity"
+            android:name="ie.teamchile.smartapp.AppointmentCalendarActivity"
             android:label="@string/title_activity_appointment_calendar"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".ContactDetails"
-            android:label="@string/title_activity_contact_details" >
+            android:name="ie.teamchile.smartapp.ContactDetailsActivity"
+            android:label="@string/title_activity_contact_details"
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 

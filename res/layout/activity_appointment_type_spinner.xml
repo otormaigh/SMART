@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.team3.smartapp.AppointmentTypeSpinnerActivity">
+    tools:context="ie.teamchile.smartapp.AppointmentTypeSpinnerActivity">
 
     <Spinner
         android:id="@+id/appointment_spinner"
@@ -58,6 +58,12 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:entries="@array/weeks" />
+
+    <Spinner
+        android:id="@+id/day_spinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/days" />
 
     <Button
         android:id="@+id/appointment_calendar_button"
