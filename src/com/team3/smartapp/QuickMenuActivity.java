@@ -4,10 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+
+import models.Login_model;
 
 public class QuickMenuActivity extends Activity {
     private Button patientInfo;
@@ -28,6 +28,10 @@ public class QuickMenuActivity extends Activity {
         calendar.setOnClickListener(new ButtonClick());
         todaysAppointments = (Button) findViewById(R.id.todays_appointments);
         todaysAppointments.setOnClickListener(new ButtonClick());
+
+        Login_model login = new Login_model();
+        Log.d("MYLOG", "Before Other get token");
+        Log.d("MYLOG", "Other get token: " + login.getToken());
     }
     private class ButtonClick implements View.OnClickListener {
         public void onClick(View v) {
@@ -45,7 +49,7 @@ public class QuickMenuActivity extends Activity {
                     startActivity(intentCalendar);
                     break;
                 case R.id.todays_appointments:
-                    Intent intentToday = new Intent(QuickMenuActivity.this, QuickMenuActivity.class);
+                    Intent intentToday = new Intent(QuickMenuActivity.this, AppointmentCalendarActivity.class);
                     startActivity(intentToday);
                     break;
             }
