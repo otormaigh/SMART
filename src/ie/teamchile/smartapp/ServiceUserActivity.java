@@ -83,10 +83,10 @@ public class ServiceUserActivity extends Activity {
 
 				// TODO Auto-generated method stub
 		    	final Dialog dialog = new Dialog(ServiceUserActivity.this);
-		    	dialog.setContentView(R.layout.contact_dialog_box);
+		    	dialog.setContentView(R.layout.user_contact_dialog_box);
 		    	dialog.setTitle(R.string.contact_dialog_message);
 		    	
-		    	Button phoneCall = (Button) dialog.findViewById(R.id.makeCall);
+		    	Button phoneCall = (Button) dialog.findViewById(R.id.makeCall2);
 		    	phoneCall.setOnClickListener(new OnClickListener(){
 		    		
 		    	
@@ -107,6 +107,55 @@ public class ServiceUserActivity extends Activity {
 		 					   }
 		 				
 		    	});
+		    	
+		    	
+		    	Button sendSms1 = (Button) dialog.findViewById(R.id.sendSms2);
+		    	sendSms1.setOnClickListener(new OnClickListener(){
+
+					@Override
+					public void onClick(View v) {
+						 Log.i("Send SMS", "");
+							
+							String no = ""+mobileNumber.getText().toString();
+							 Intent sendSMS = new Intent(Intent.ACTION_VIEW);
+							sendSMS.setType("vnd.android-dir/mms-sms");
+							sendSMS.putExtra("address", no);
+		              
+							 
+							try{
+								startActivity(sendSMS);
+							}catch (android.content.ActivityNotFoundException ex) {
+						         Toast.makeText(ServiceUserActivity.this, 
+						         "Call faild, please try again later.", Toast.LENGTH_SHORT).show();
+						}
+					}
+		    	});
+		    	
+		    	
+		    	Button sendEmail = (Button) dialog.findViewById(R.id.sendEmail);
+		    	sendEmail.setOnClickListener(new OnClickListener(){
+
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						
+					}
+		    		
+		    	}
+		    	);
+
+		    	
+		    	Button cancel = (Button) dialog.findViewById(R.id.cancel2);
+		    	cancel.setOnClickListener(new OnClickListener(){
+
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						dialog.cancel();
+					}	
+		    		
+		    	});
+
 			
 	 		dialog.show();
 }
@@ -162,6 +211,8 @@ public class ServiceUserActivity extends Activity {
 				}
 			}
     	});
+    	
+    	
  		
     	Button cancel = (Button) dialog.findViewById(R.id.cancel);
     	cancel.setOnClickListener(new OnClickListener(){
