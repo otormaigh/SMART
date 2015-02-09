@@ -13,6 +13,67 @@ public class AppointmentCalendarActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appointment_calendar);
     }
+
+    /*String inDate = null;
+		Date outDate = null;
+		ArrayList<Date> dates = new ArrayList<Date>();
+		ArrayList<JSONObject> jsonValues = new ArrayList<JSONObject>();
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd - HH:mm:ss");
+		DateFormat df1 = new SimpleDateFormat("MM-dd-yyyy - HH:mm:ss");
+		JSONObject jsonNew;
+
+		//get access token
+		GetAuthKey getToken = new GetAuthKey();
+		String token = getToken.getAuthKey(username, password, loginUrl);
+
+		//get string representation of the response from the database
+		AccessDBTable accessTable = new AccessDBTable();
+		String response = accessTable.accessDB(token, DBUrl);
+
+		//put the response at a JSONObject
+		try {
+			jsonNew = new JSONObject(response);
+			JSONArray query = jsonNew.getJSONArray("appointments");
+			System.out.println("JSON ARRAY: " + query.get(1));
+
+			//iterate through jSONArray and put it into an ArrayList
+			for (int i = 0; i < query.length(); i++)
+			   jsonValues.add(query.getJSONObject(i));
+
+			//Custom comparator compares entry A to B and moves its position
+			//in the ArrayList depending on how it compares to the other.
+			Collections.sort(jsonValues, new Comparator<JSONObject>() {
+		    @Override
+		    public int compare(JSONObject a, JSONObject b) {
+		        String valA = new String();
+		        String valB = new String();
+
+		        try {
+		            valA = (String) a.get("date") + " " + a.get("time");
+		            valB = (String) b.get("date") + " " + b.get("time");
+		        }
+		        catch (JSONException e) {
+		            System.out.printf("JSONException in combineJSONArrays sort section", e);
+		        }
+
+		        int comp = valA.compareTo(valB);
+
+		        if(comp > 0)
+		            return 1;
+		        if(comp < 0)
+		            return -1;
+		        return 0;
+		    }
+		});
+			//iterate through sorted ArrayList and print out result
+			for(int i = 0; i < jsonValues.size(); i++){
+				System.out.println(jsonValues.get(i));
+			}
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}*/
     public void setOptionsSelected(int regionSelected, int hospitalSelected, int weekSelected, int daySelected){
     	this.regionSelected = regionSelected;
     	this.hospitalSelected = hospitalSelected;
