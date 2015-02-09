@@ -1,11 +1,16 @@
 package ie.teamchile.smartapp;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -17,7 +22,7 @@ public class ServiceUserActivity extends Activity {
 	private TextView hospitalNumber, name, age, email, mobileNumber, road,  county,
             postCode, nextOfKinName, nextOfKinContactNumber;
     private String dob;
-    private Button bookAppointmentButton;
+    private Button bookAppointmentButton, userContact;
     private Date dobAsDate;
     private Calendar cal = Calendar.getInstance();
 	@Override
@@ -39,6 +44,8 @@ public class ServiceUserActivity extends Activity {
 		nextOfKinContactNumber = (TextView) findViewById(R.id.next_of_kin_contact_number);
         bookAppointmentButton = (Button) findViewById(R.id.book_appointment);
         bookAppointmentButton.setOnClickListener(new ButtonClick());
+        
+        
 
         hospitalNumber.setText(getIntent().getStringExtra("hospital_number"));
         name.setText(getIntent().getStringExtra("name"));
@@ -50,7 +57,53 @@ public class ServiceUserActivity extends Activity {
 		postCode.setText(getIntent().getStringExtra("post_code"));
 		nextOfKinName.setText(getIntent().getStringExtra("next_of_kin_name"));
 		nextOfKinContactNumber.setText(getIntent().getStringExtra("next_of_kin_phone"));
+		
+		 Button userContact = (Button) findViewById(R.id.user_contact);
+		 userContact.setOnClickListener(new View.OnClickListener() {
+	         public void onClick(View view) {
+	         makeCall();
+	      }
+	   });
+        
 	}
+	
+	private void makeCall() {
+		// TODO Auto-generated method stub
+    	new AlertDialog.Builder(this)
+     	.setTitle(R.string.Logout_title)
+     		.setMessage(R.string.Logout_dialog_message)
+     		.setNegativeButton(R.string.No,
+     				new DialogInterface.OnClickListener()
+     				{
+     					public void onClick(DialogInterface dialoginterface, int i)
+     					{}
+     				}
+     			)
+     		.setPositiveButton(R.string.Yes,
+     				new DialogInterface.OnClickListener()
+     				{
+     					public void onClick(DialogInterface dialoginterface, int i)
+     					{
+     						 Log.i("Make call", "");
+
+     					      Intent phoneIntent = new Intent(Intent.ACTION_CALL);
+     					      phoneIntent.setData(Uri.parse(mobile_number.));
+     						try {
+     					         startActivity(phoneIntent);
+     					         finish();
+     					         Log.i("Finished making a call...", "");
+     					      } catch (android.content.ActivityNotFoundException ex) {
+     					         Toast.makeText(ServiceUserActivity.this, 
+     					         "Call faild, please try again later.", Toast.LENGTH_SHORT).show();
+     					      }
+     					   }
+     				
+     				}
+     			)
+     		.show();
+     	}
+
+	
     public int getAge(String dob) {
         try {
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd");

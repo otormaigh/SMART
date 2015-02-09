@@ -129,7 +129,7 @@
             <Button
                 android:id="@+id/user_contact"
                 android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_height="50dp"                
                 android:layout_marginRight="@dimen/padding_medium"
                 android:background="@drawable/ic_action_call" />
 
