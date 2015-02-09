@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.team3.smartapp.AppointmentTypeSpinnerActivity">
+    tools:context="ie.teamchile.smartapp.AppointmentTypeSpinnerActivity">
 
     <Spinner
         android:id="@+id/appointment_spinner"

@@ -1,4 +1,4 @@
-package com.team3.smartapp;
+package ie.teamchile.smartapp;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -18,7 +18,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
 import connecttodb.AccessDBTable;
 
 public class ServiceUserSearchActivity extends Activity {
