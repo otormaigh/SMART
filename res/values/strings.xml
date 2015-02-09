@@ -13,6 +13,9 @@
     <string name="title_activity_appointment_type_spinner">Appointment Type Spinner</string>
     <string name="title_activity_quick_menu">Quick Menu</string>
     <string name="title_activity_confirm_appointment">Confirm Appointment</string>
+    <string name="title_activity_calendar">CalendarActivity</string>
+    <string name="title_activity_appointment_calendar">AppointmentCalendarActivity</string>
+    <string name="title_activity_contact_details">ContactDetails</string>
 
     <!-- MAIN SCREEN -->
     <string name="main_logo"> main_logo</string>
@@ -101,6 +104,16 @@
         <item>Week 5</item>
         <item>Week 6</item>
     </string-array>
+    <string-array name="days">
+        <item>Select Day</item>
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+        <item>Sunday</item>
+    </string-array>
 
     <!-- SELECT TIME -->
     <string name="one_select_time">08:30am</string>
@@ -138,13 +151,17 @@
         					 name and\/or dat of birth (@dd\/mm\/yyyy) \n
         					 You can combine search terms in one line if you like. \n
         					 Example: Mary Murphy @17/06/1976</string>
-    <string name="title_activity_calendar">CalendarActivity</string>
 
     <!-- LOGOUT SESSION -->
     <string name="Yes"> Yes</string>
     <string name="No"> No</string>
     <string name="Logout_dialog_message">Are you sure you want to Logout?</string>
     <string name="Logout_title">Logout</string>
-    <string name="title_activity_appointment_calendar">AppointmentCalendarActivity</string>
+    
+    <!-- CONTACT DETAILS -->
+    <string name="Midwife_Name">Name:</string>
+    <string name="Midwife_Email">Email:</string>
+    <string name="Primary_Number">Primary No. :</string>
+    <string name="Secondary_Number">Secondary No. :</string>
 
 </resources>
