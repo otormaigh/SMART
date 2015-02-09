@@ -1,4 +1,4 @@
-package com.team3.smartapp;
+package ie.teamchile.smartapp;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -15,7 +15,6 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-
 import android.widget.TextView;
 
 public class HttpClientActivity extends Activity {

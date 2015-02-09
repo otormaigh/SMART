@@ -1,4 +1,4 @@
-package com.team3.smartapp;
+package ie.teamchile.smartapp;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
