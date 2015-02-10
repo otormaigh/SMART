@@ -1,11 +1,19 @@
 package ie.teamchile.smartapp;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.telephony.SmsManager;
+import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -17,7 +25,7 @@ public class ServiceUserActivity extends Activity {
 	private TextView hospitalNumber, name, age, email, mobileNumber, road,  county,
             postCode, nextOfKinName, nextOfKinContactNumber;
     private String dob;
-    private Button bookAppointmentButton;
+    private Button bookAppointmentButton, userContact, next_of_kin_contact;
     private Date dobAsDate;
     private Calendar cal = Calendar.getInstance();
 	@Override
@@ -39,6 +47,8 @@ public class ServiceUserActivity extends Activity {
 		nextOfKinContactNumber = (TextView) findViewById(R.id.next_of_kin_contact_number);
         bookAppointmentButton = (Button) findViewById(R.id.book_appointment);
         bookAppointmentButton.setOnClickListener(new ButtonClick());
+        
+        
 
         hospitalNumber.setText(getIntent().getStringExtra("hospital_number"));
         name.setText(getIntent().getStringExtra("name"));
@@ -50,7 +60,177 @@ public class ServiceUserActivity extends Activity {
 		postCode.setText(getIntent().getStringExtra("post_code"));
 		nextOfKinName.setText(getIntent().getStringExtra("next_of_kin_name"));
 		nextOfKinContactNumber.setText(getIntent().getStringExtra("next_of_kin_phone"));
+	
+		Button next_of_kin_contact = (Button) findViewById(R.id.next_of_kin_contact);
+		 next_of_kin_contact.setOnClickListener(new View.OnClickListener() {
+			 
+	         public void onClick(View view) {
+	          kinContact();
+	      }
+	   });
+		 
+
+		 Button userContact = (Button) findViewById(R.id.user_contact);
+		 userContact.setOnClickListener(new View.OnClickListener() {
+			 
+	         public void onClick(View view) {
+	          usrContact();
+	      }
+		 });
 	}
+
+			private void usrContact() {
+
+				// TODO Auto-generated method stub
+		    	final Dialog dialog = new Dialog(ServiceUserActivity.this);
+		    	dialog.setContentView(R.layout.user_contact_dialog_box);
+		    	dialog.setTitle(R.string.contact_dialog_message);
+		    	
+		    	Button phoneCall = (Button) dialog.findViewById(R.id.makeCall2);
+		    	phoneCall.setOnClickListener(new OnClickListener(){
+		    		
+		    	
+		     					public void onClick(View view ){
+		     				
+								 Log.i("Make call", "");
+		 						 String uri = "tel:"+mobileNumber.getText().toString();
+		 						 Intent phoneIntent = new Intent(Intent.ACTION_CALL, Uri.parse(uri));
+						      
+		 						try {
+		 							
+		 					         startActivity(phoneIntent);
+		 						
+		 					      } catch (android.content.ActivityNotFoundException ex) {
+		 					         Toast.makeText(ServiceUserActivity.this, 
+		 					         "Call faild, please try again later.", Toast.LENGTH_SHORT).show();
+		 					      }
+		 					   }
+		 				
+		    	});
+		    	
+		    	
+		    	Button sendSms1 = (Button) dialog.findViewById(R.id.sendSms2);
+		    	sendSms1.setOnClickListener(new OnClickListener(){
+
+					@Override
+					public void onClick(View v) {
+						 Log.i("Send SMS", "");
+							
+							String no = ""+mobileNumber.getText().toString();
+							 Intent sendSMS = new Intent(Intent.ACTION_VIEW);
+							sendSMS.setType("vnd.android-dir/mms-sms");
+							sendSMS.putExtra("address", no);
+		              
+							 
+							try{
+								startActivity(sendSMS);
+							}catch (android.content.ActivityNotFoundException ex) {
+						         Toast.makeText(ServiceUserActivity.this, 
+						         "Call faild, please try again later.", Toast.LENGTH_SHORT).show();
+						}
+					}
+		    	});
+		    	
+		    	
+		    	Button sendEmail = (Button) dialog.findViewById(R.id.sendEmail);
+		    	sendEmail.setOnClickListener(new OnClickListener(){
+
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						
+					}
+		    		
+		    	}
+		    	);
+
+		    	
+		    	Button cancel = (Button) dialog.findViewById(R.id.cancel2);
+		    	cancel.setOnClickListener(new OnClickListener(){
+
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						dialog.cancel();
+					}	
+		    		
+		    	});
+
+			
+	 		dialog.show();
+}
+
+			
+	private void kinContact() {
+		// TODO Auto-generated method stub
+    	final Dialog dialog = new Dialog(ServiceUserActivity.this);
+    	dialog.setContentView(R.layout.contact_dialog_box);
+    	dialog.setTitle(R.string.contact_dialog_message);
+    	
+    	Button phoneCall = (Button) dialog.findViewById(R.id.makeCall);
+    	phoneCall.setOnClickListener(new OnClickListener(){
+    		
+    	
+     					public void onClick(View view ){
+     				
+						 Log.i("Make call", "");
+ 						 String uri = "tel:"+nextOfKinContactNumber.getText().toString();
+ 						 Intent phoneIntent = new Intent(Intent.ACTION_CALL, Uri.parse(uri));
+				      
+ 						try {
+ 							
+ 					         startActivity(phoneIntent);
+ 						
+ 					      } catch (android.content.ActivityNotFoundException ex) {
+ 					         Toast.makeText(ServiceUserActivity.this, 
+ 					         "Call faild, please try again later.", Toast.LENGTH_SHORT).show();
+ 					      }
+ 					   }
+ 				
+    	});
+
+    	
+    	Button sendSms = (Button) dialog.findViewById(R.id.sendSms);
+    	sendSms.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				 Log.i("Send SMS", "");
+					
+					String uri = ""+nextOfKinContactNumber.getText().toString();
+					 Intent sendSMS = new Intent(Intent.ACTION_VIEW);
+					sendSMS.setType("vnd.android-dir/mms-sms");
+					sendSMS.putExtra("address", uri);
+              
+					 
+					try{
+						startActivity(sendSMS);
+					}catch (android.content.ActivityNotFoundException ex) {
+				         Toast.makeText(ServiceUserActivity.this, 
+				         "Call faild, please try again later.", Toast.LENGTH_SHORT).show();
+				}
+			}
+    	});
+    	
+    	
+ 		
+    	Button cancel = (Button) dialog.findViewById(R.id.cancel);
+    	cancel.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				dialog.cancel();
+			}	
+    		
+    	});
+    	
+    	
+ 		dialog.show();
+     					
+    	}
+
+
     public int getAge(String dob) {
         try {
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
