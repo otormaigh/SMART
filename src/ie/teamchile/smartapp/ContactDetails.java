@@ -1,11 +1,12 @@
 package ie.teamchile.smartapp;
 
-import ie.teamchile.smartapp.R.drawable;
+import models.Login_model;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import connecttodb.AccessDBTable;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,14 +14,16 @@ import android.util.Log;
 
 public class ContactDetails extends Activity {
 
-	public Object arrayPos;
-	public JSONArray query;
-	public Object enteredSearch;
-	public String SeconaryNumber;
-	public String PrimaryNumber;
-	public String Email;
-	public String Name;
-	public JSONObject json;
+	private int arrayPos;
+	private JSONArray query;
+	private Object enteredSearch;
+	private String seconaryNumber;
+	private String primaryNumber;
+	private Login_model login=new Login_model();
+	private AccessDBTable database=new AccessDBTable();
+	private String email;
+	private String name;
+	private JSONObject json;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -32,17 +35,14 @@ public class ContactDetails extends Activity {
 		}
 		protected String doInBackground(String... params) {
 			Log.d("MYLOG", "ServiceProviderSearch DoInBackground");
-			String dbQuery = drawable.accessDB("id", "service_providers");
+			String dbQuery = database.accessDB(Login_model.getToken(), "service_providers");
 			try {
 				json = new JSONObject(dbQuery);
 				query = json.getJSONArray("service_providers");
-				arrayPos = getObjects(query, "id", enteredSearch);
+				arrayPos = getObjects(query, "id", "14");
 				
-				Name = (((JSONObject) ((JSONObject) query.get((String) arrayPos)).get("Midwife_Name")).get("Name")).toString();
-				Email = ((JSONArray) ((JSONObject) query.get((String) arrayPos)).get("Midwife_Email")).get("Email")).toString();
-                PrimaryNumber = (((JSONObject) ((JSONObject) query.get((String) arrayPos)).get("Primary_Number")).get("PrimaryNumber")).toString();
-                SeconaryNumber = (((JSONObject) ((JSONObject) query.get((String) arrayPos)).get("Secondary_Number")).get("SecondaryNumber")).toString();
-	;
+				name = (String) ((JSONObject)query.get(arrayPos)).get("name");
+				Log.d("Record Retrieved", name);
 
 			} catch (JSONException e) {
 				e.printStackTrace();
@@ -50,8 +50,8 @@ public class ContactDetails extends Activity {
 			return null;
 }
 }
-	public Object getObjects(JSONArray query2, String string,
-			Object enteredSearch2) {
-		return null;
+	public int getObjects(JSONArray query2, String string,
+			String enteredSearch2) {
+		return 0;
 	}       
 }
