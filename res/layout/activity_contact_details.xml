@@ -2,107 +2,109 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center_vertical"
     android:orientation="vertical"
     android:weightSum="10"
-    android:layout_gravity="center_vertical"
     tools:context="${relativePackage}.${activityClass}" >
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    >
-    <TextView
-        android:id="@+id/Midwife_Name"
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding_Xlarge"
-        android:layout_marginBottom="@dimen/padding_Xlarge"
-        android:textSize="@dimen/text_medium"
-        android:layout_gravity="center_vertical"
-        android:text="@string/Midwife_Name" />
+        android:orientation="horizontal" >
 
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/padding_Xlarge"
-        android:layout_marginTop="@dimen/padding_Xlarge"
-        android:layout_weight="5"
-        android:textSize="@dimen/text_medium"
-        android:text="  Mary" />
+        <TextView
+            android:id="@+id/Midwife_Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="@dimen/padding_Xlarge"
+            android:layout_marginTop="@dimen/padding_Xlarge"
+            android:text="@string/Midwife_Name"
+            android:textSize="@dimen/text_medium" />
 
-</LinearLayout>
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    >
-    <TextView
-        android:id="@+id/Midwife_Email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding_Xlarge"
-        android:layout_marginBottom="@dimen/padding_Xlarge"
-        android:textSize="@dimen/text_medium"
-        android:layout_gravity="center_vertical"
-        android:text="@string/Midwife_Email" />
-
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding_Xlarge"
-        android:layout_marginBottom="@dimen/padding_Xlarge"
-        android:layout_weight="5"
-        android:textSize="@dimen/text_medium"
-        android:text="  Mary@gmail.com" />
-    </LinearLayout>
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    >
-    <TextView
-        android:id="@+id/Primary_Number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding_Xlarge"
-        android:layout_marginBottom="@dimen/padding_Xlarge"
-        android:textSize="@dimen/text_medium"
-        android:layout_gravity="center_vertical"
-        android:text="@string/Primary_Number" />
-
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding_Xlarge"
-        android:layout_marginBottom="@dimen/padding_Xlarge"
-        android:layout_weight="5"
-        android:textSize="@dimen/text_medium"
-        android:text="  0861524315" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/padding_Xlarge"
+            android:layout_marginTop="@dimen/padding_Xlarge"
+            android:layout_weight="5"
+            android:text="  Mary"
+            android:textSize="@dimen/text_medium" />
     </LinearLayout>
 
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal" >
-
-    <TextView
-        android:id="@+id/Secondary_Number"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginBottom="@dimen/padding_Xlarge"
-        android:layout_marginTop="@dimen/padding_Xlarge"
-        android:text="@string/Secondary_Number"
-        android:textSize="@dimen/text_medium" />
+        android:orientation="horizontal" >
 
-    <TextView
-        android:layout_width="0dp"
+        <TextView
+            android:id="@+id/Midwife_Email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="@dimen/padding_Xlarge"
+            android:layout_marginTop="@dimen/padding_Xlarge"
+            android:text="@string/Midwife_Email"
+            android:textSize="@dimen/text_medium" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/padding_Xlarge"
+            android:layout_marginTop="@dimen/padding_Xlarge"
+            android:layout_weight="5"
+            android:text="  Mary@gmail.com"
+            android:textSize="@dimen/text_medium" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/padding_Xlarge"
-        android:layout_marginTop="@dimen/padding_Xlarge"
-        android:layout_weight="5"
-        android:textSize="@dimen/text_medium"
-        android:text="  0852514235" />
-</LinearLayout>
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/Primary_Number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="@dimen/padding_Xlarge"
+            android:layout_marginTop="@dimen/padding_Xlarge"
+            android:text="@string/Primary_Number"
+            android:textSize="@dimen/text_medium" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/padding_Xlarge"
+            android:layout_marginTop="@dimen/padding_Xlarge"
+            android:layout_weight="5"
+            android:text="  0861524315"
+            android:textSize="@dimen/text_medium" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/Secondary_Number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="@dimen/padding_Xlarge"
+            android:layout_marginTop="@dimen/padding_Xlarge"
+            android:text="@string/Secondary_Number"
+            android:textSize="@dimen/text_medium" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/padding_Xlarge"
+            android:layout_marginTop="@dimen/padding_Xlarge"
+            android:layout_weight="5"
+            android:text="  0852514235"
+            android:textSize="@dimen/text_medium" />
+    </LinearLayout>
 
 </LinearLayout>
