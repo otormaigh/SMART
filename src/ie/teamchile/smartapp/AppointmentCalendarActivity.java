@@ -1,81 +1,90 @@
 package ie.teamchile.smartapp;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import Enums.HospitalEnum;
 import Enums.RegionEnum;
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
+import connecttodb.DateSorterThing;
 
 public class AppointmentCalendarActivity extends Activity {
-	private int regionSelected, hospitalSelected, weekSelected, daySelected;
+	private TextView appointmentInfo;
+	private static int regionSelected, hospitalSelected, weekSelected, daySelected;
+	private int week_1, week_2, week_3, week_4, week_5, week_6, week_7;
+	private String textPopulate;
+	DateFormat df = new SimpleDateFormat("yyyy-MM-dd - HH:mm:ss");
+	ArrayList<JSONObject> thing1 = new ArrayList<JSONObject>();
+	ArrayList<JSONObject> thing2 = new ArrayList<JSONObject>();
+	Calendar c = Calendar.getInstance();
+	DateSorterThing ds = new DateSorterThing();
+
+	Date startDate = null, endDate = null;
+	Date day = null;
+	Date thingDate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appointment_calendar);
-    }
+        appointmentInfo = (TextView)findViewById(R.id.appointment_info);
+        
+        c.set(Calendar.YEAR, 2014);
+		c.set(Calendar.MONTH, Calendar.OCTOBER);
+		c.set(Calendar.DAY_OF_MONTH, 16);
+		Log.d("MYLOG", "Date set to " + c.getTime());
+		week_1 = c.get(Calendar.WEEK_OF_YEAR);
+		Log.d("MYLOG", "week of year: " + week_1);
+		week_2 = c.get(Calendar.WEEK_OF_YEAR) + 1;
+		week_3 = c.get(Calendar.WEEK_OF_YEAR) + 2;
+		week_4 = c.get(Calendar.WEEK_OF_YEAR) + 3;
+		week_5 = c.get(Calendar.WEEK_OF_YEAR) + 4;
+		week_6 = c.get(Calendar.WEEK_OF_YEAR) + 5;
+		week_7 = c.get(Calendar.WEEK_OF_YEAR) + 6;
 
-    /*String inDate = null;
-		Date outDate = null;
-		ArrayList<Date> dates = new ArrayList<Date>();
-		ArrayList<JSONObject> jsonValues = new ArrayList<JSONObject>();
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd - HH:mm:ss");
-		DateFormat df1 = new SimpleDateFormat("MM-dd-yyyy - HH:mm:ss");
-		JSONObject jsonNew;
-
-		//get access token
-		GetAuthKey getToken = new GetAuthKey();
-		String token = getToken.getAuthKey(username, password, loginUrl);
-
-		//get string representation of the response from the database
-		AccessDBTable accessTable = new AccessDBTable();
-		String response = accessTable.accessDB(token, DBUrl);
-
-		//put the response at a JSONObject
-		try {
-			jsonNew = new JSONObject(response);
-			JSONArray query = jsonNew.getJSONArray("appointments");
-			System.out.println("JSON ARRAY: " + query.get(1));
-
-			//iterate through jSONArray and put it into an ArrayList
-			for (int i = 0; i < query.length(); i++)
-			   jsonValues.add(query.getJSONObject(i));
-
-			//Custom comparator compares entry A to B and moves its position
-			//in the ArrayList depending on how it compares to the other.
-			Collections.sort(jsonValues, new Comparator<JSONObject>() {
-		    @Override
-		    public int compare(JSONObject a, JSONObject b) {
-		        String valA = new String();
-		        String valB = new String();
-
-		        try {
-		            valA = (String) a.get("date") + " " + a.get("time");
-		            valB = (String) b.get("date") + " " + b.get("time");
-		        }
-		        catch (JSONException e) {
-		            System.out.printf("JSONException in combineJSONArrays sort section", e);
-		        }
-
-		        int comp = valA.compareTo(valB);
-
-		        if(comp > 0)
-		            return 1;
-		        if(comp < 0)
-		            return -1;
-		        return 0;
-		    }
-		});
-			//iterate through sorted ArrayList and print out result
-			for(int i = 0; i < jsonValues.size(); i++){
-				System.out.println(jsonValues.get(i));
+		Log.d("MYLOG", "selectOption");
+        Log.d("MYLOG", "region1: " + regionSelected);
+        Log.d("MYLOG", "hospital1: " + hospitalSelected);
+        Log.d("MYLOG", "week1: " + weekSelected);
+        Log.d("MYLOG", "day1: " + daySelected);
+		setOptionsSelected(regionSelected, hospitalSelected, weekSelected, daySelected);
+		new LongOperation().execute((String[]) null);	
+		Log.d("MYLOG", "thing : " + thing1);
+		for (int i = 0; i < thing1.size(); i++) {
+			try {
+				thingDate = df.parse((((JSONObject) thing1.get(i)).get("date")) + " - " + (((JSONObject) thing1.get(i)).get("time")));
+				textPopulate += df.format(thingDate);
+				Log.d("MYLOG", "thingDate is : " + thingDate);
+			} catch (ParseException | JSONException e) {
+				e.printStackTrace();
 			}
-
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-	}*/
-    public void setOptionsSelected(int regionSelected, int hospitalSelected, int weekSelected, int daySelected){
+		}		
+		appointmentInfo.setText(textPopulate);		
+    }
+    public void setRegionSelected(int regionSelected){
     	this.regionSelected = regionSelected;
+    }
+    public void setHospitalSelected(int hospitalSelected){
+    	this.hospitalSelected = hospitalSelected;
+    }
+    public void setWeekSelected(int weekSelected){
+    	this.weekSelected = weekSelected;
+    }
+    public void setDaySelected(int daySelected){
+    	this.daySelected = daySelected;
+    }
+    public void setOptionsSelected(int regionSelected, int hospitalSelected, int weekSelected, int daySelected){
+		this.regionSelected = regionSelected;
     	this.hospitalSelected = hospitalSelected;
     	this.weekSelected = weekSelected;
     	this.daySelected = daySelected;
@@ -177,7 +186,16 @@ public class AppointmentCalendarActivity extends Activity {
     		break;
     	case 1:
     		Log.d("MYLOG", "Week 1 selected");
-    		break;
+			c.set(Calendar.WEEK_OF_YEAR, week_1);
+			c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+			startDate = c.getTime();
+			Log.d("MYLOG", "startDate: " + startDate);
+			//c.set(Calendar.WEEK_OF_YEAR, week_1);
+			c.add(Calendar.DAY_OF_WEEK, 6);
+			endDate = c.getTime();
+			c.add(Calendar.DAY_OF_WEEK, -6);
+			Log.d("MYLOG", "endDate: " + endDate);			
+			break;
     	case 2:
     		Log.d("MYLOG", "Week 2 selected");
     		break;
@@ -193,6 +211,9 @@ public class AppointmentCalendarActivity extends Activity {
     	case 6:
     		Log.d("MYLOG", "Week 6 selected");
     		break;
+    	case 7:
+    		Log.d("MYLOG", "Week 7 selected");
+    		break;
     	}
     	switch(daySelected){
     	case 0:
@@ -202,6 +223,10 @@ public class AppointmentCalendarActivity extends Activity {
     		break;
     	case 2:
     		Log.d("MYLOG", "Tuesday selected");
+    		c.add(Calendar.DAY_OF_WEEK, 1);
+    		Log.d("MYLOG", "" + c.getTime());
+			day = c.getTime();  
+			Log.d("MYLOG", "day1: " + day);
     		break;
     	case 3:
     		Log.d("MYLOG", "Wednesday selected");
@@ -220,4 +245,47 @@ public class AppointmentCalendarActivity extends Activity {
     		break;
     	}
     }
+    public class LongOperation extends AsyncTask<String, Void, String> {    
+    	Date dayThis;
+		@Override
+		protected void onPreExecute() {
+			dayThis = AppointmentCalendarActivity.this.day;  
+			Log.d("MYLOG", "this.day: " + dayThis);
+		}
+		protected String doInBackground(String... params) {
+/*			try {
+				Log.d("MYLOG", "in async");
+				thing2 = ds.dateSorter(df.parse("2014-10-14 - 00:00:00"));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}*/	
+			//day = dayArray[0];
+			Log.d("MYLOG", "this.day: " + dayThis);
+			Log.d("MYLOG", "in async");
+			Log.d("MYLOG", "day is : " + day);
+			thing2 = ds.dateSorter(dayThis);
+			return null;
+		}
+		@Override
+		protected void onProgressUpdate(Void... values) {
+			
+			Log.d("MYLOG", "On progress update");
+		}
+		@Override
+        protected void onPostExecute(String result) {
+			thing1 = thing2;
+			Log.d("MYLOG", "thing2 : " + thing2);
+			
+			for (int i = 0; i < thing1.size(); i++) {
+				try {
+					thingDate = df.parse((((JSONObject) thing2.get(i)).get("date")) + " - " + (((JSONObject) thing2.get(i)).get("time")));
+					textPopulate += (df.format(thingDate));
+					Log.d("MYLOG", "thingDate is : " + thingDate);
+				} catch (ParseException | JSONException e) {
+					e.printStackTrace();
+				}
+			}		
+			appointmentInfo.setText(textPopulate);
+		}
+	}
 }
