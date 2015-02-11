@@ -29,6 +29,7 @@ public class ContactDetails extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_contact_details);
 	}
+
 	public class LongOperation extends AsyncTask<String, Void, String> {
 		@Override
 		protected void onPreExecute() {
@@ -48,8 +49,9 @@ public class ContactDetails extends Activity {
 				e.printStackTrace();
 			}
 			return null;
-}
-}
+		}
+	}
+	
 	public int getObjects(JSONArray query2, String string,
 			String enteredSearch2) {
 		return 0;
