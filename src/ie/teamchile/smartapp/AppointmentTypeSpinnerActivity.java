@@ -3,7 +3,9 @@ package ie.teamchile.smartapp;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -128,19 +130,13 @@ public class AppointmentTypeSpinnerActivity extends Activity {
 	}
 
     private void logout() {
-		// TODO Auto-generated method stub
-    	new AlertDialog.Builder(this)
-     	.setTitle(R.string.Logout_title)
-     		.setMessage(R.string.Logout_dialog_message)
-     		.setNegativeButton(R.string.No,
-     				new DialogInterface.OnClickListener()
+    	new AlertDialog.Builder(this).setTitle(R.string.Logout_title).setMessage(R.string.Logout_dialog_message)
+     		.setNegativeButton(R.string.No, new DialogInterface.OnClickListener()
      				{
      					public void onClick(DialogInterface dialoginterface, int i)
      					{}
      				}
-     			)
-     		.setPositiveButton(R.string.Yes,
-     				new DialogInterface.OnClickListener()
+     			).setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener()
      				{
      					public void onClick(DialogInterface dialoginterface, int i)
      					{
@@ -148,16 +144,23 @@ public class AppointmentTypeSpinnerActivity extends Activity {
      						Toast.makeText(AppointmentTypeSpinnerActivity.this, "You are now logged out", Toast.LENGTH_SHORT).show();
      					}
      				}
-     			)
-     		.show();
+     			).show();
      	}
 
 	private class ButtonClick implements View.OnClickListener {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.appointment_calendar_button:
-                    //Intent intent = new Intent(getApplicationContext(), AppointmentCalendarActivity.class);
-               //     startActivity(intent);
+                    Log.d("MYLOG", "region: " + regionSelected);
+                    Log.d("MYLOG", "hospital: " + hospitalSelected);
+                    Log.d("MYLOG", "week: " + weekSelected);
+                    Log.d("MYLOG", "day: " + daySelected);
+                    passOptions.setRegionSelected(regionSelected);
+                    passOptions.setHospitalSelected(hospitalSelected);
+                    passOptions.setWeekSelected(weekSelected);
+                    passOptions.setDaySelected(daySelected);
+                    Intent intent = new Intent(getApplicationContext(), AppointmentCalendarActivity.class);
+                    startActivity(intent);
                     break;
             }
         }
@@ -503,7 +506,6 @@ public class AppointmentTypeSpinnerActivity extends Activity {
             //show appointments for Wednesday 11/02 in Domino Dublin, NMH (OPD Location)
             //if region 3, hospital 2, week 5, day 4
             //show appointments for Thursday 5/03 in ETH Dublin, Dun Laoghaire
-            passOptions.setOptionsSelected(regionSelected, hospitalSelected, weekSelected, daySelected);
         }
         @Override
         public void onNothingSelected(AdapterView<?> parent) {
