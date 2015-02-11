@@ -19,15 +19,15 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
+	private String token, username, password;
 	private Button loginButton;
-	private TextView usernameTextView;
-	private TextView passwordTextView;
-	private TextView about;
-	Connection c;
-	Statement stmt;
-	ResultSet rs;
-	Login_model login = new Login_model();
-	GetToken getToken = new GetToken();
+	private TextView usernameTextView, passwordTextView, about;
+	private Connection c = null;
+	private Statement stmt = null;
+	private ResultSet rs = null;
+	private Login_model login = new Login_model();
+	private GetToken getToken = new GetToken();
+	private Intent intent;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +41,6 @@ public class MainActivity extends Activity {
 		
 		about = (TextView) findViewById(R.id.about);
 	    about.setMovementMethod(LinkMovementMethod.getInstance());
-
-        c = null;
-        stmt = null;
 	}
 
 	private class ButtonClick implements View.OnClickListener {
@@ -62,29 +59,29 @@ public class MainActivity extends Activity {
 	}
 
 	public class LongOperation extends AsyncTask<String, Void, String> {
+		@Override
+		protected void onPreExecute() {
+		}
 		protected String doInBackground(String... params) {
-			String token = getToken.getToken(login.getUsername(), login.getPassword());
-			//String token = getToken.getAuthKey("team_chile", "smartappiscoming");
+			token = getToken.getToken(Login_model.getUsername(), Login_model.getPassword());
+			//token = getToken.getToken("team_chile", "smartappiscoming");
 			login.setToken(token);
             Log.d("MYLOG", "Token: " + token);
-            Log.d("MYLOG", "Get Token: " + login.getToken());
+            Log.d("MYLOG", "Get Token: " + Login_model.getToken());
 			return null;
+		}
+		@Override
+		protected void onProgressUpdate(Void... values) {
+			Log.d("MYLOG", "On progress update");
 		}
 		@Override
         protected void onPostExecute(String result) {
             checkCredentials();
         }
-        @Override
-        protected void onPreExecute() {
-        }
-        @Override
-        protected void onProgressUpdate(Void... values) {
-        	Log.d("MYLOG", "On progress update");
-        }
 	}
 	private void getCredentials() {
-		String username = usernameTextView.getText().toString();
-		String password = passwordTextView.getText().toString();
+		username = usernameTextView.getText().toString();
+		password = passwordTextView.getText().toString();
 		login.setUsername(username);
 		login.setPassword(password);
 	}
@@ -92,7 +89,7 @@ public class MainActivity extends Activity {
     private void checkCredentials(){    	
     	if (getToken.getResponseCode().equals("201")){
     		Toast.makeText(this, "Login Successful", Toast.LENGTH_LONG).show();
-    		Intent intent = new Intent(MainActivity.this, QuickMenuActivity.class);
+    		intent = new Intent(MainActivity.this, QuickMenuActivity.class);
 			startActivity(intent);
     	} else
     		Toast.makeText(this, "Login Failed", Toast.LENGTH_LONG).show();
