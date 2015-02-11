@@ -18,6 +18,8 @@
     <string name="title_activity_contact_details">ContactDetails</string>
 
     <!-- MAIN SCREEN -->
+    <string name="usernameDefault">team_chile</string>
+    <string name="passwordDefault">smartappiscoming</string>
     <string name="main_logo"> main_logo</string>
     <string name="login">Login</string>
     <string name="username">Username</string>

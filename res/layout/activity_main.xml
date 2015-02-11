@@ -87,6 +87,7 @@
             android:layout_weight="1.0"
             android:hint="@string/username"
             android:inputType="text"
+            android:text="@string/usernameDefault"
             android:maxLines="1" />
 
         <EditText
@@ -99,6 +100,7 @@
             android:layout_weight="1.0"
             android:hint="@string/password"
             android:inputType="textPassword"
+            android:text="@string/passwordDefault"
             android:maxLines="1" />
 
         <Button
