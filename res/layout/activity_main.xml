@@ -87,6 +87,7 @@
             android:layout_weight="1.0"
             android:hint="@string/username"
             android:inputType="text"
+            android:text="@string/usernameDefault"
             android:maxLines="1" />
 
         <EditText
@@ -99,6 +100,7 @@
             android:layout_weight="1.0"
             android:hint="@string/password"
             android:inputType="textPassword"
+            android:text="@string/passwordDefault"
             android:maxLines="1" />
 
         <Button
@@ -131,8 +133,9 @@
             android:id="@+id/about"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center|top"/>
-            
-
+            android:layout_gravity="center|top"
+            android:text="@string/about"
+            android:textColor="@color/blue"/>
+           
     </LinearLayout>
 </LinearLayout>
