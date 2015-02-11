@@ -9,10 +9,12 @@ import java.net.URL;
 import android.util.Log;
 
 public class AccessDBTable {
-    private String token;
-    private String tableURL;
-    URL obj;
-    HttpURLConnection con;
+    private String token, tableURL, inputLine;
+    private int responseCode;
+    private StringBuffer response;
+    private URL obj;
+    private HttpURLConnection con;
+    private BufferedReader in;
 
 	public String accessDB(String token, String tableURL){
 		this.token = token;
@@ -31,18 +33,17 @@ public class AccessDBTable {
 			con.setRequestProperty("Api-Key", apiKey);
 			con.setRequestProperty("Auth-Token", token);
 
-			int responseCode = con.getResponseCode();
+			responseCode = con.getResponseCode();
 			Log.d("MYLOG", "Response Code from AccessDB: " + responseCode);
 
-			BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-			String inputLine;
-			StringBuffer response = new StringBuffer();
+			in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+			response = new StringBuffer();
 
 			while ((inputLine = in.readLine()) != null) {
 				response.append(inputLine);
 			}
 			in.close();
-			Log.d("MYLOG", "response.toString(): " + response.toString());
+			//Log.d("MYLOG", "response.toString(): " + response.toString());
 			return response.toString();
 		} catch (IOException e) {
 			e.printStackTrace();

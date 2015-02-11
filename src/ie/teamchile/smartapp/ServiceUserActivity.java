@@ -137,7 +137,20 @@ public class ServiceUserActivity extends Activity {
 
 					@Override
 					public void onClick(View v) {
-						// TODO Auto-generated method stub
+						
+						 Log.i("Send Email", "");
+							
+							String mail = ""+email.getText().toString();
+							 Intent sendEmail = new Intent(Intent.ACTION_SEND);
+						
+		              
+							 
+							try{
+								startActivity(sendEmail);
+							}catch (android.content.ActivityNotFoundException ex) {
+						         Toast.makeText(ServiceUserActivity.this, 
+						         "Call faild, please try again later.", Toast.LENGTH_SHORT).show();
+						}
 						
 					}
 		    		
