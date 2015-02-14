@@ -152,24 +152,6 @@ public class AppointmentTypeSpinnerActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
-/*    private void logout() {
-    	new AlertDialog.Builder(this).setTitle(R.string.Logout_title).setMessage(R.string.Logout_dialog_message)
-     		.setNegativeButton(R.string.No, new DialogInterface.OnClickListener()
-     				{
-     					public void onClick(DialogInterface dialoginterface, int i)
-     					{}
-     				}
-     			).setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener()
-     				{
-     					public void onClick(DialogInterface dialoginterface, int i)
-     					{
-     						finish();
-     						Toast.makeText(AppointmentTypeSpinnerActivity.this, "You are now logged out", Toast.LENGTH_SHORT).show();
-     					}
-     				}
-     			).show();
-     	}*/
-
 	private class ButtonClick implements View.OnClickListener {
         public void onClick(View v) {
             switch (v.getId()) {
