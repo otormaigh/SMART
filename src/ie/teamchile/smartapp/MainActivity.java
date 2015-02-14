@@ -3,6 +3,7 @@ package ie.teamchile.smartapp;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Calendar;
 
 import models.Login_model;
 import connecttodb.GetToken;
@@ -18,7 +19,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
-
 	private String token, username, password;
 	private Button loginButton;
 	private TextView usernameTextView, passwordTextView, about;
@@ -28,11 +28,14 @@ public class MainActivity extends Activity {
 	private Login_model login = new Login_model();
 	private GetToken getToken = new GetToken();
 	private Intent intent;
+	private Calendar cal = Calendar.getInstance();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		Log.d("MYLOG", "Time is: " + cal.getTime());
 
 		loginButton = (Button) findViewById(R.id.login);
 		loginButton.setOnClickListener(new ButtonClick());
@@ -41,24 +44,25 @@ public class MainActivity extends Activity {
 		
 		about = (TextView) findViewById(R.id.about);
 	    about.setMovementMethod(LinkMovementMethod.getInstance());
+	    
 	}
 
 	private class ButtonClick implements View.OnClickListener {
 		public void onClick(View v) {
 			switch (v.getId()) {
                 case R.id.login:                	
-                Intent intent = new Intent(MainActivity.this, QuickMenuActivity.class);
-                startActivity(intent);
-				login.setToken("0c325638d97faf29d71f");
+                //Intent intent = new Intent(MainActivity.this, QuickMenuActivity.class);
+                //startActivity(intent);
+				//login.setToken("0c325638d97faf29d71f");
 
-                //getCredentials();
-				//new LongOperation().execute((String[]) null);
+                getCredentials();
+				new LongOperation().execute((String[]) null);
 				Log.d("MYLOG", "Button Clicked");
 			}
 		}
 	}
 
-	public class LongOperation extends AsyncTask<String, Void, String> {
+	private class LongOperation extends AsyncTask<String, Void, String> {
 		@Override
 		protected void onPreExecute() {
 		}
@@ -85,7 +89,6 @@ public class MainActivity extends Activity {
 		login.setUsername(username);
 		login.setPassword(password);
 	}
-
     private void checkCredentials(){    	
     	if (getToken.getResponseCode().equals("201")){
     		Toast.makeText(this, "Login Successful", Toast.LENGTH_LONG).show();
