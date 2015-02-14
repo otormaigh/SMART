@@ -29,9 +29,10 @@ public class DateSorterThing {
 	Calendar c = Calendar.getInstance();
 	Date week1 = (nowDate);
 
-	public DateSorterThing() {		
+	public  ArrayList<JSONObject> dateSorter(Date queryDate) {	
+		return dateSorter();
 	}
-	public ArrayList<JSONObject> dateSorter(Date queryDate) {
+	private ArrayList<JSONObject> dateSorter() {
 		Log.d("MYLOG", "queryDate: " + queryDate);
 		AccessDBTable accessDB = new AccessDBTable();
 		String response = accessDB.accessDB("0c325638d97faf29d71f", "appointments");
@@ -56,7 +57,7 @@ public class DateSorterThing {
 		}
 		return getDates(jsonValues, queryDate);
 	}
-	public ArrayList<JSONObject> getDates(ArrayList<JSONObject> obj, Date dateToBeChecked) {
+	private ArrayList<JSONObject> getDates(ArrayList<JSONObject> obj, Date dateToBeChecked) {
 		try {
 			for (int i = 0; i < obj.size(); i++) {
 				dbDate = df.parse((((JSONObject) jsonValues.get(i)).get("date")) + " - " + (((JSONObject) jsonValues.get(i)).get("time")));
@@ -70,7 +71,7 @@ public class DateSorterThing {
 		}
 		return sortDates(appointmentsThatDay);
 	}
-	public ArrayList<JSONObject> sortDates(ArrayList<JSONObject> objToBeSorted) {
+	private ArrayList<JSONObject> sortDates(ArrayList<JSONObject> objToBeSorted) {
 		Collections.sort(objToBeSorted, new Comparator<JSONObject>() {
 			@Override
 			public int compare(JSONObject a, JSONObject b) {

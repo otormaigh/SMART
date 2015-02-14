@@ -46,7 +46,6 @@ public class MainActivity extends Activity {
 	    about.setMovementMethod(LinkMovementMethod.getInstance());
 	    
 	}
-
 	private class ButtonClick implements View.OnClickListener {
 		public void onClick(View v) {
 			switch (v.getId()) {
@@ -61,7 +60,6 @@ public class MainActivity extends Activity {
 			}
 		}
 	}
-
 	private class LongOperation extends AsyncTask<String, Void, String> {
 		@Override
 		protected void onPreExecute() {
