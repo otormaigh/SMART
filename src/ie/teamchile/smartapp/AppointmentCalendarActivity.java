@@ -279,19 +279,26 @@ public class AppointmentCalendarActivity extends Activity {
 			super.onPostExecute(result);
 			Log.d("MYLOG", "result: " + result);
 			AppointmentCalendarActivity.this.thing2 = thing;
-			for (int i = 0; i < thing.size(); i++) {
-				try {
-					thingDate.add(((String) ((JSONObject) ((JSONObject) thing.get(i)).get("appointments")).get("time")) + " " + 
-							      ((String) ((JSONObject) ((JSONObject) thing.get(i)).get("appointments")).get("date")));							
+			try {
+				for (int i = 0; i < thing.size(); i++) {
+					Integer clinic_id = (((JSONObject) ((JSONObject) thing.get(i)).get("appointments")).getInt("clinic_id"));
 					
-					thingTime.add((String) ((JSONObject) ((JSONObject) thing.get(i)).get("appointments")).get("time"));
-					Log.d("MYLOG", "thingDate is : " + thingDate);
-				} catch (JSONException e) {
-					e.printStackTrace();
+					if (clinic_id == hospitalSelected) {
+						Log.d("MYLOG", "if statement true");
+						thingDate.add(((String) ((JSONObject) ((JSONObject) thing.get(i)).get("appointments")).get("time"))
+									+ " "
+									+ ((String) ((JSONObject) ((JSONObject) thing.get(i)).get("appointments")).get("date")));	
+						thingTime.add((String) ((JSONObject) ((JSONObject) thing.get(i)).get("appointments")).get("time"));
+					}
+					Log.d("MYLOG", "if statement false");
 				}
+				ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+						AppointmentCalendarActivity.this, R.layout.list_rows,
+						R.id.date, thingDate);
+				listView.setAdapter(adapter);
+			} catch (JSONException e) {
+				e.printStackTrace();
 			}
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(AppointmentCalendarActivity.this, R.layout.list_rows, R.id.date, thingDate);
-	        listView.setAdapter(adapter); 
 		}
 	}
 }
