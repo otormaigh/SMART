@@ -6,6 +6,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+
+import models.Login_model;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,79 +19,61 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import connecttodb.DateSorterThing;
+import connecttodb.SetDateToHashMap;
 
 public class AppointmentCalendarActivity extends Activity {
-	private TextView appointmentInfo;
 	private static int regionSelected, hospitalSelected, weekSelected, daySelected;
-	private int week_1, week_2, week_3, week_4, week_5, week_6, week_7;
-	private String textPopulate;
-	DateFormat df = new SimpleDateFormat("yyyy-MM-dd - HH:mm:ss");
-	ArrayList<JSONObject> thing1 = new ArrayList<JSONObject>();
-	ArrayList<JSONObject> thing2 = new ArrayList<JSONObject>();
-	Calendar c = Calendar.getInstance();
-	DateSorterThing ds = new DateSorterThing();
-
-	Date startDate = null, endDate = null;
-	Date day = null;
-	Date thingDate;
+	private Date day = null;
+	private DateFormat df = new SimpleDateFormat("yyyy-MM-dd - HH:mm:ss");
+	private DateFormat dfDateOnly = new SimpleDateFormat("yyyy-MM-dd");
+	private DateFormat dfTimeOnly = new SimpleDateFormat("HH:mm:ss");
+	private ArrayList<JSONObject> thing = new ArrayList<JSONObject>();
+	private ArrayList<JSONObject> thing2 = new ArrayList<JSONObject>();
+	private ArrayList<JSONObject> dateArray = new ArrayList<JSONObject>();
+	private ArrayList<JSONObject> timeArray = new ArrayList<JSONObject>();
+	private Calendar c = Calendar.getInstance();
+	private DateSorterThing ds = new DateSorterThing();
+	private SetDateToHashMap getDates = new SetDateToHashMap();
+	private ListView listView;
+	private ArrayList<String> dateArrayForList = new ArrayList<String>();
+	private ArrayList<String> timeArrayForList = new ArrayList<String>();
+	private ArrayList<String> thingDate = new ArrayList<String>();
+	private ArrayList<String> thingTime = new ArrayList<String>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_appointment_calendar);
-        appointmentInfo = (TextView)findViewById(R.id.appointment_info);
+        setContentView(R.layout.list_layout);
+        listView = (ListView)findViewById(R.id.list);
         
-        c.set(Calendar.YEAR, 2014);
-		c.set(Calendar.MONTH, Calendar.OCTOBER);
-		c.set(Calendar.DAY_OF_MONTH, 16);
-		Log.d("MYLOG", "Date set to " + c.getTime());
-		week_1 = c.get(Calendar.WEEK_OF_YEAR);
-		Log.d("MYLOG", "week of year: " + week_1);
-		week_2 = c.get(Calendar.WEEK_OF_YEAR) + 1;
-		week_3 = c.get(Calendar.WEEK_OF_YEAR) + 2;
-		week_4 = c.get(Calendar.WEEK_OF_YEAR) + 3;
-		week_5 = c.get(Calendar.WEEK_OF_YEAR) + 4;
-		week_6 = c.get(Calendar.WEEK_OF_YEAR) + 5;
-		week_7 = c.get(Calendar.WEEK_OF_YEAR) + 6;
-
+        c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        Log.d("MYLOG", "Date set to " + c.getTime());
+		
 		Log.d("MYLOG", "selectOption");
         Log.d("MYLOG", "region1: " + regionSelected);
         Log.d("MYLOG", "hospital1: " + hospitalSelected);
-        Log.d("MYLOG", "week1: " + weekSelected);
-        Log.d("MYLOG", "day1: " + daySelected);
 		setOptionsSelected(regionSelected, hospitalSelected, weekSelected, daySelected);
-		new LongOperation().execute((String[]) null);	
-		Log.d("MYLOG", "thing : " + thing1);
-		for (int i = 0; i < thing1.size(); i++) {
-			try {
-				thingDate = df.parse((((JSONObject) thing1.get(i)).get("date")) + " - " + (((JSONObject) thing1.get(i)).get("time")));
-				textPopulate += df.format(thingDate);
-				Log.d("MYLOG", "thingDate is : " + thingDate);
-			} catch (ParseException | JSONException e) {
-				e.printStackTrace();
-			}
-		}		
-		appointmentInfo.setText(textPopulate);		
+		new LongOperation().execute();	
+		Log.d("MYLOG", "thing2 after async: " + thing2);
+        Log.d("MYLOG", "timeArrayForList after async: " + timeArrayForList);
     }
     public void setRegionSelected(int regionSelected){
-    	this.regionSelected = regionSelected;
+    	AppointmentCalendarActivity.regionSelected = regionSelected;
     }
     public void setHospitalSelected(int hospitalSelected){
-    	this.hospitalSelected = hospitalSelected;
+    	AppointmentCalendarActivity.hospitalSelected = hospitalSelected;
     }
     public void setWeekSelected(int weekSelected){
-    	this.weekSelected = weekSelected;
+    	AppointmentCalendarActivity.weekSelected = weekSelected;
     }
     public void setDaySelected(int daySelected){
-    	this.daySelected = daySelected;
+    	AppointmentCalendarActivity.daySelected = daySelected;
     }
-    public void setOptionsSelected(int regionSelected, int hospitalSelected, int weekSelected, int daySelected){
-		this.regionSelected = regionSelected;
-    	this.hospitalSelected = hospitalSelected;
-    	this.weekSelected = weekSelected;
-    	this.daySelected = daySelected;
-    	
+    public void setOptionsSelected(int regionSelected, int hospitalSelected, int weekSelected, int daySelected){    	
     	switch (regionSelected){
     	case 0:
     		break;
@@ -103,7 +88,8 @@ public class AppointmentCalendarActivity extends Activity {
         		Log.d("MYLOG", nmh_opd.toString() + " selected");
         		break;
         	case 2:
-        		Log.d("MYLOG", "Leopardstown selected");
+        		HospitalEnum leopardstown = HospitalEnum.LEOPARDSTOWN;
+        		Log.d("MYLOG", leopardstown.toString() + " selected");
         		break;
         	case 3:
         		Log.d("MYLOG", "Dun Laoghaire selected");
@@ -182,37 +168,40 @@ public class AppointmentCalendarActivity extends Activity {
     		break;
     	}
     	switch(weekSelected){
-    	case 0:
-    		break;
-    	case 1:
-    		Log.d("MYLOG", "Week 1 selected");
-			c.set(Calendar.WEEK_OF_YEAR, week_1);
-			c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-			startDate = c.getTime();
-			Log.d("MYLOG", "startDate: " + startDate);
-			//c.set(Calendar.WEEK_OF_YEAR, week_1);
-			c.add(Calendar.DAY_OF_WEEK, 6);
-			endDate = c.getTime();
-			c.add(Calendar.DAY_OF_WEEK, -6);
-			Log.d("MYLOG", "endDate: " + endDate);			
+		case 0:
 			break;
-    	case 2:
-    		Log.d("MYLOG", "Week 2 selected");
-    		break;
-    	case 3:
+		case 1:
+			Log.d("MYLOG", "Week 1 selected");
+			break;
+		case 2:
+			Log.d("MYLOG", "Week 2 selected");
+			c.add(Calendar.DAY_OF_YEAR, 7);
+			Log.d("MYLOG", "Plus 7 days is: " + c.getTime());
+			break;
+		case 3:
     		Log.d("MYLOG", "Week 3 selected");
+			c.add(Calendar.DAY_OF_YEAR, (c.getFirstDayOfWeek() + 14));
+			Log.d("MYLOG", "Plus 14 days is: " + c.getTime());
     		break;
     	case 4:
     		Log.d("MYLOG", "Week 4 selected");
+    		c.add(Calendar.DAY_OF_YEAR, (c.getFirstDayOfWeek() + 21));
+			Log.d("MYLOG", "Plus 21 days is: " + c.getTime());				
     		break;
     	case 5:
     		Log.d("MYLOG", "Week 5 selected");
+    		c.add(Calendar.DAY_OF_YEAR, (c.getFirstDayOfWeek() + 28));
+			Log.d("MYLOG", "Plus 21 days is: " + c.getTime());	
     		break;
     	case 6:
     		Log.d("MYLOG", "Week 6 selected");
+    		c.add(Calendar.DAY_OF_YEAR, (c.getFirstDayOfWeek() + 35));
+			Log.d("MYLOG", "Plus 21 days is: " + c.getTime());	
     		break;
     	case 7:
     		Log.d("MYLOG", "Week 7 selected");
+    		c.add(Calendar.DAY_OF_YEAR, (c.getFirstDayOfWeek() + 42));
+			Log.d("MYLOG", "Plus 21 days is: " + c.getTime());	
     		break;
     	}
     	switch(daySelected){
@@ -220,72 +209,89 @@ public class AppointmentCalendarActivity extends Activity {
     		break;
     	case 1:
     		Log.d("MYLOG", "Monday selected");
+    		c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+    		Log.d("MYLOG", "" + c.getTime());
+			day = c.getTime();  
+			Log.d("MYLOG", "day1: " + day);
     		break;
     	case 2:
     		Log.d("MYLOG", "Tuesday selected");
-    		c.add(Calendar.DAY_OF_WEEK, 1);
+    		c.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
     		Log.d("MYLOG", "" + c.getTime());
 			day = c.getTime();  
 			Log.d("MYLOG", "day1: " + day);
     		break;
     	case 3:
     		Log.d("MYLOG", "Wednesday selected");
+    		c.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
+    		Log.d("MYLOG", "" + c.getTime());
+			day = c.getTime();  
+			Log.d("MYLOG", "day1: " + day);
     		break;
     	case 4:
     		Log.d("MYLOG", "Thursday selected");
+    		c.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
+    		Log.d("MYLOG", "" + c.getTime());
+			day = c.getTime();  
+			Log.d("MYLOG", "day1: " + day);
     		break;
     	case 5:
     		Log.d("MYLOG", "Friday selected");
+    		c.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
+    		Log.d("MYLOG", "" + c.getTime());
+			day = c.getTime();  
+			Log.d("MYLOG", "day1: " + day);
     		break;
     	case 6:
     		Log.d("MYLOG", "Saturday selected");
+    		c.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+    		Log.d("MYLOG", "" + c.getTime());
+			day = c.getTime();  
+			Log.d("MYLOG", "day1: " + day);
     		break;
     	case 7:
     		Log.d("MYLOG", "Sunday selected");
+    		c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+    		Log.d("MYLOG", "" + c.getTime());
+			day = c.getTime();  
+			Log.d("MYLOG", "day1: " + day);
     		break;
     	}
     }
-    public class LongOperation extends AsyncTask<String, Void, String> {    
+    public class LongOperation extends AsyncTask<String, Void, ArrayList<JSONObject>> {    
     	Date dayThis;
 		@Override
 		protected void onPreExecute() {
+			super.onPreExecute();
 			dayThis = AppointmentCalendarActivity.this.day;  
-			Log.d("MYLOG", "this.day: " + dayThis);
 		}
-		protected String doInBackground(String... params) {
-/*			try {
-				Log.d("MYLOG", "in async");
-				thing2 = ds.dateSorter(df.parse("2014-10-14 - 00:00:00"));
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}*/	
-			//day = dayArray[0];
-			Log.d("MYLOG", "this.day: " + dayThis);
-			Log.d("MYLOG", "in async");
-			Log.d("MYLOG", "day is : " + day);
-			thing2 = ds.dateSorter(dayThis);
-			return null;
+		protected ArrayList<JSONObject> doInBackground(String... params) {
+			String dayThisStr = dfDateOnly.format(dayThis);
+			thing = getDates.setDateToHaspMap(Login_model.getToken(), dayThisStr);
+			return thing;
 		}
 		@Override
-		protected void onProgressUpdate(Void... values) {
-			
+		protected void onProgressUpdate(Void... values) {	
 			Log.d("MYLOG", "On progress update");
 		}
 		@Override
-        protected void onPostExecute(String result) {
-			thing1 = thing2;
-			Log.d("MYLOG", "thing2 : " + thing2);
-			
-			for (int i = 0; i < thing1.size(); i++) {
+        protected void onPostExecute(ArrayList<JSONObject> result) {	
+			super.onPostExecute(result);
+			Log.d("MYLOG", "result: " + result);
+			AppointmentCalendarActivity.this.thing2 = thing;
+			for (int i = 0; i < thing.size(); i++) {
 				try {
-					thingDate = df.parse((((JSONObject) thing2.get(i)).get("date")) + " - " + (((JSONObject) thing2.get(i)).get("time")));
-					textPopulate += (df.format(thingDate));
+					thingDate.add(((String) ((JSONObject) ((JSONObject) thing.get(i)).get("appointments")).get("time")) + " " + 
+							      ((String) ((JSONObject) ((JSONObject) thing.get(i)).get("appointments")).get("date")));							
+					
+					thingTime.add((String) ((JSONObject) ((JSONObject) thing.get(i)).get("appointments")).get("time"));
 					Log.d("MYLOG", "thingDate is : " + thingDate);
-				} catch (ParseException | JSONException e) {
+				} catch (JSONException e) {
 					e.printStackTrace();
 				}
-			}		
-			appointmentInfo.setText(textPopulate);
+			}
+			ArrayAdapter<String> adapter = new ArrayAdapter<String>(AppointmentCalendarActivity.this, R.layout.list_rows, R.id.date, thingDate);
+	        listView.setAdapter(adapter); 
 		}
 	}
 }
