@@ -331,17 +331,17 @@ public class AppointmentTypeSpinnerActivity extends Activity {
                             appointmentCalendar.setVisibility(View.GONE);
                             break;
                         case 1:     //Greystones (Monday)
-                            hospitalSelected = 1;
+                            hospitalSelected = 6;
                             weekSpinner.setVisibility(View.VISIBLE);
                             weekSpinner.setSelection(0);
                             break;
                         case 2:     //Greystones (Tuesday)
-                            hospitalSelected = 2;
+                            hospitalSelected = 6;
                             weekSpinner.setVisibility(View.VISIBLE);
                             weekSpinner.setSelection(0);
                             break;
                         case 3:     //Kilmacanogue
-                            hospitalSelected = 3;
+                            hospitalSelected = 7;
                             weekSpinner.setVisibility(View.VISIBLE);
                             weekSpinner.setSelection(0);
                             break;
@@ -369,12 +369,12 @@ public class AppointmentTypeSpinnerActivity extends Activity {
                             appointmentCalendar.setVisibility(View.GONE);
                             break;
                         case 1:     //Ballinteer
-                            hospitalSelected = 1;
+                            hospitalSelected = 8;
                             weekSpinner.setVisibility(View.VISIBLE);
                             weekSpinner.setSelection(0);
                             break;
                         case 2:     //Dun Laoghaire
-                            hospitalSelected = 2;
+                            hospitalSelected = 9;
                             weekSpinner.setVisibility(View.VISIBLE);
                             weekSpinner.setSelection(0);
                             break;
@@ -397,12 +397,12 @@ public class AppointmentTypeSpinnerActivity extends Activity {
                             appointmentCalendar.setVisibility(View.GONE);
                             break;
                         case 1:     //Ballinteer
-                            hospitalSelected = 1;
+                            hospitalSelected = 8;
                             weekSpinner.setVisibility(View.VISIBLE);
                             weekSpinner.setSelection(0);
                             break;
                         case 2:     //Dun Laoghaire
-                            hospitalSelected = 2;
+                            hospitalSelected = 9;
                             weekSpinner.setVisibility(View.VISIBLE);
                             weekSpinner.setSelection(0);
                             break;
@@ -425,22 +425,22 @@ public class AppointmentTypeSpinnerActivity extends Activity {
                             appointmentCalendar.setVisibility(View.GONE);
                             break;
                         case 1:     //Greystones
-                            hospitalSelected = 1;
+                            hospitalSelected = 10;
                             weekSpinner.setVisibility(View.VISIBLE);
                             weekSpinner.setSelection(0);
                             break;
                         case 2:     //Arklow
-                            hospitalSelected = 2;
+                            hospitalSelected = 11;
                             weekSpinner.setVisibility(View.VISIBLE);
                             weekSpinner.setSelection(0);
                             break;
                         case 3:     //Newtownmountkennedy
-                            hospitalSelected = 3;
+                            hospitalSelected = 12;
                             weekSpinner.setVisibility(View.VISIBLE);
                             weekSpinner.setSelection(0);
                             break;
                         case 4:     //Bray
-                            hospitalSelected = 4;
+                            hospitalSelected = 13;
                             weekSpinner.setVisibility(View.VISIBLE);
                             weekSpinner.setSelection(0);
                             break;
