@@ -17,13 +17,14 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-public class AppointmentTypeSpinnerActivity extends Activity {
+public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
     private Spinner appointmentSpinner, clinicOptionSpinner, visitOptionSpinner, dominoDublinSpinner,
             dominoWicklowSpinner, ethDublinSpinner, ethWicklowSpinner, satelliteSpinner, weekSpinner, daySpinner;
     private Button appointmentCalendar;
     private ArrayAdapter<CharSequence> appointmentAdapter, clinicAdapter, visitAdapter, dominoDublinAdapter,
             dominoWicklowAdapter, ethDublinAdapter, ethWicklowAdapter, satelliteAdapter, weekAdapter, dayAdapter;
     private int regionSelected, hospitalSelected, weekSelected, daySelected;
+    private String responseCode;
     private Logout logout = new Logout();
     private Login_model login = new Login_model();
     
@@ -111,7 +112,7 @@ public class AppointmentTypeSpinnerActivity extends Activity {
     }
     
 	
-	private class LongOperation extends AsyncTask<String, Void, String> {
+/*	private class LongOperation extends AsyncTask<String, Void, String> {
 		@Override
 		protected void onPreExecute() {
 		}
@@ -126,7 +127,7 @@ public class AppointmentTypeSpinnerActivity extends Activity {
 		@Override
         protected void onPostExecute(String result) {
         }
-	}
+	}*/
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {		
 		MenuInflater inflater = getMenuInflater();
@@ -139,14 +140,17 @@ public class AppointmentTypeSpinnerActivity extends Activity {
 		switch(item.getItemId()) {
 		case R.id.menu_item1 :		//logout			
 			Log.d("MYLOG", "Logout button pressed");
-			new LongOperation().execute((String[]) null);
-			login.setToken(null);
+            logout.doLogout(Login_model.getToken());
+            login.setToken(null);
+
 			Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			Toast.makeText(this, "Logout Successful", Toast.LENGTH_LONG).show();
             startActivity(intent);
+            break;
 		case R.id.menu_item2 :
 			System.out.println("Item 2 was selected!");
+            break;
   
 		}
 		return super.onOptionsItemSelected(item);

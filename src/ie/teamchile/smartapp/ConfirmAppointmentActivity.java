@@ -3,7 +3,7 @@ package ie.teamchile.smartapp;
 import android.app.Activity;
 import android.os.Bundle;
 
-public class ConfirmAppointmentActivity extends Activity {
+public class ConfirmAppointmentActivity extends MenuInheritActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

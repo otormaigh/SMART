@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 import models.Login_model;
 
@@ -25,7 +24,7 @@ import android.widget.ListView;
 import connecttodb.DateSorterThing;
 import connecttodb.SetDateToHashMap;
 
-public class AppointmentCalendarActivity extends Activity {
+public class AppointmentCalendarActivity extends MenuInheritActivity {
 	private static int regionSelected, hospitalSelected, weekSelected, daySelected;
 	private Date day = null;
 	private DateFormat df = new SimpleDateFormat("yyyy-MM-dd - HH:mm:ss", Locale.getDefault());
@@ -65,6 +64,8 @@ public class AppointmentCalendarActivity extends Activity {
                     name = ((JSONObject) ((JSONObject) ((JSONObject) thing.get(i)).get("appointments")).get("service_user")).get("name");
                     time = ((JSONObject) ((JSONObject) thing.get(i)).get("appointments")).get("time");
                     gestation = ((JSONObject) ((JSONObject) ((JSONObject) thing.get(i)).get("appointments")).get("service_user")).get("gestation");
+                    //get closing time
+                    //check if last appointment is 15 minutes before closing time
 
                     if(i == 0){
                         aptList.add(time + " --- " + name + " --- " + gestation);
