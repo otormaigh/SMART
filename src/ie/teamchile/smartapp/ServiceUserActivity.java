@@ -126,7 +126,7 @@ public class ServiceUserActivity extends Activity {
 								startActivity(sendSMS);
 							}catch (android.content.ActivityNotFoundException ex) {
 						         Toast.makeText(ServiceUserActivity.this, 
-						         "Call faild, please try again later.", Toast.LENGTH_SHORT).show();
+						         "SMS failed, please try again later.", Toast.LENGTH_SHORT).show();
 						}
 					}
 		    	});
@@ -140,16 +140,22 @@ public class ServiceUserActivity extends Activity {
 						
 						 Log.i("Send Email", "");
 							
-							String mail = ""+email.getText().toString();
-							 Intent sendEmail = new Intent(Intent.ACTION_SEND);
-						
-		              
 							 
-							try{
-								startActivity(sendEmail);
-							}catch (android.content.ActivityNotFoundException ex) {
+							 Intent sendEmail = new Intent(Intent.ACTION_SEND);
+							 //String mailTo = ""+email.getText().toString();
+							 sendEmail.setData(Uri.parse("mailto:"));
+							 sendEmail.setType("text/plain");
+							 sendEmail.putExtra(Intent.EXTRA_EMAIL, "email");
+							 sendEmail.putExtra(Intent.EXTRA_CC, "");
+							 sendEmail.putExtra(Intent.EXTRA_SUBJECT, "RE: Testing");
+							 sendEmail.putExtra(Intent.EXTRA_TEXT, "");
+						try{
+							startActivity(sendEmail);
+							finish();
+						    Log.i("Finished sending email...", "");
+						}catch (android.content.ActivityNotFoundException ex) {
 						         Toast.makeText(ServiceUserActivity.this, 
-						         "Call faild, please try again later.", Toast.LENGTH_SHORT).show();
+						         "Email failed, please try again later.", Toast.LENGTH_SHORT).show();
 						}
 						
 					}
@@ -199,8 +205,7 @@ public class ServiceUserActivity extends Activity {
  					         "Call faild, please try again later.", Toast.LENGTH_SHORT).show();
  					      }
  					   }
- 				
-    	});
+    	            });
 
     	
     	Button sendSms = (Button) dialog.findViewById(R.id.sendSms);
