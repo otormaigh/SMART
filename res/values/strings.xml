@@ -174,5 +174,6 @@
     <string name="Midwife_Email">Email:</string>
     <string name="Primary_Number">Primary No. :</string>
     <string name="Secondary_Number">Secondary No. :</string>
+    <string name="title_activity_menu_inherit">MenuInheritActivity</string>
 
 </resources>
