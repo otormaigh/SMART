@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Calendar;
 
+import connecttodb.Logout;
 import models.Login_model;
 import connecttodb.GetToken;
 import android.app.Activity;
@@ -18,14 +19,16 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends Activity {
+public class MainActivity extends MenuInheritActivity {
 	private String token, username, password;
+   // private int responseCode;
 	private Button loginButton;
 	private TextView usernameTextView, passwordTextView, about;
 	private Connection c = null;
 	private Statement stmt = null;
 	private ResultSet rs = null;
 	private Login_model login = new Login_model();
+    private Logout logout = new Logout();
 	private GetToken getToken = new GetToken();
 	private Intent intent;
 	private Calendar cal = Calendar.getInstance();
@@ -46,7 +49,14 @@ public class MainActivity extends Activity {
 	    about.setMovementMethod(LinkMovementMethod.getInstance());
 	    
 	}
-	private class ButtonClick implements View.OnClickListener {
+
+/*    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        responseCode = logout.doLogout(Login_model.getToken());
+    }*/
+
+    private class ButtonClick implements View.OnClickListener {
 		public void onClick(View v) {
 			switch (v.getId()) {
                 case R.id.login:                	
