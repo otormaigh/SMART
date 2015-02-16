@@ -13,7 +13,7 @@ import android.util.Log;
 import android.widget.TextView;
 import connecttodb.AccessDBTable;
 
-public class ContactDetails extends Activity {
+public class ContactDetails extends MenuInheritActivity {
 
 	private int arrayPos;
 	private JSONArray query;
