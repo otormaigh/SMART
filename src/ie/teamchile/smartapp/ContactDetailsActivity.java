@@ -5,7 +5,7 @@ import android.os.Bundle;
 import connecttodb.AccessDBTable;
 import connecttodb.GetToken;
 
-public class ContactDetailsActivity extends Activity {
+public class ContactDetailsActivity extends MenuInheritActivity {
 	String username = "team_chile";
 	String password = "smartappiscoming";
 
