@@ -20,7 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import connecttodb.AccessDBTable;
 
-public class ServiceUserSearchActivity extends Activity {
+public class ServiceUserSearchActivity extends MenuInheritActivity {
 
 	private EditText searchParams;
 	private Button search, searchResult1, searchResult2,searchResult3;

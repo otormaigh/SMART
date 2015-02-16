@@ -1,20 +1,18 @@
 package ie.teamchile.smartapp;
 
 import models.Login_model;
-import android.app.Activity;
+
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
+
 import connecttodb.Logout;
 
-public class QuickMenuActivity extends Activity {
+public class QuickMenuActivity extends MenuInheritActivity {
     private Button patientInfo;
     private Button bookAppointment;
     private Button calendar;
@@ -62,23 +60,7 @@ public class QuickMenuActivity extends Activity {
             }
         }
     }
-	private class LongOperation extends AsyncTask<String, Void, String> {
-		@Override
-		protected void onPreExecute() {
-		}
-		protected String doInBackground(String... params) {
-			logout.doLogout(Login_model.getToken());
-			return null;
-		}
-		@Override
-		protected void onProgressUpdate(Void... values) {
-			Log.d("MYLOG", "On progress update");
-		}
-		@Override
-        protected void onPostExecute(String result) {
-        }
-	}
-	@Override
+/*	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {		
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.main_menu, menu);
@@ -88,18 +70,20 @@ public class QuickMenuActivity extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch(item.getItemId()) {
-		case R.id.menu_item1 :		//logout			
-			Log.d("MYLOG", "Logout button pressed");
-			new LongOperation().execute((String[]) null);
-			login.setToken(null);
-			Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
-			Toast.makeText(this, "Logout Successful", Toast.LENGTH_LONG).show();
+		case R.id.menu_item1 :		//logout
+            Log.d("MYLOG", "Logout button pressed");
+            logout.doLogout(Login_model.getToken());
+            login.setToken(null);
+
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            Toast.makeText(this, "Logout Successful", Toast.LENGTH_LONG).show();
             startActivity(intent);
+            break;
 		case R.id.menu_item2 :
 			System.out.println("Item 2 was selected!");
   
 		}
 		return super.onOptionsItemSelected(item);
-	}
+	}*/
 }

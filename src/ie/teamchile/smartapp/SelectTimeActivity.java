@@ -3,7 +3,7 @@ package ie.teamchile.smartapp;
 import android.app.Activity;
 import android.os.Bundle;
 
-public class SelectTimeActivity extends Activity {
+public class SelectTimeActivity extends MenuInheritActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
