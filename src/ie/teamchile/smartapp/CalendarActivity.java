@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 
 
-public class CalendarActivity extends Activity {
+public class CalendarActivity extends MenuInheritActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

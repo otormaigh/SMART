@@ -6,19 +6,21 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import connecttodb.AccessDBTable;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
+import connecttodb.AccessDBTable;
 
-public class ContactDetails extends Activity {
+public class ContactDetails extends MenuInheritActivity {
 
 	private int arrayPos;
 	private JSONArray query;
 	private Object enteredSearch;
 	private String seconaryNumber;
 	private String primaryNumber;
+	private TextView nameTextView;
 	private Login_model login=new Login_model();
 	private AccessDBTable database=new AccessDBTable();
 	private String email;
@@ -28,13 +30,31 @@ public class ContactDetails extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_contact_details);
+		
+		nameTextView = (TextView)findViewById(R.id.Midwife_Name);
+		Log.d("MYLOG", "in oncreate: ");
+		new LongOperation().execute();
+		
 	}
 
-	public class LongOperation extends AsyncTask<String, Void, String> {
+	public class LongOperation extends AsyncTask<Void, Integer, String> {
+		@Override
+		protected void onPostExecute(String result) {
+			Log.d("Record Retrieved", "result: " + result);
+			nameTextView.setText(name);
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+		}
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			// TODO Auto-generated method stub
+			super.onProgressUpdate(values);
+		}
 		@Override
 		protected void onPreExecute() {
 		}
-		protected String doInBackground(String... params) {
+		@Override
+		protected String doInBackground(Void... params) {
 			Log.d("MYLOG", "ServiceProviderSearch DoInBackground");
 			String dbQuery = database.accessDB(Login_model.getToken(), "service_providers");
 			try {
@@ -43,7 +63,7 @@ public class ContactDetails extends Activity {
 				arrayPos = getObjects(query, "id", "14");
 				
 				name = (String) ((JSONObject)query.get(arrayPos)).get("name");
-				Log.d("Record Retrieved", name);
+				Log.d("MYLOG", name);
 
 			} catch (JSONException e) {
 				e.printStackTrace();
@@ -52,8 +72,7 @@ public class ContactDetails extends Activity {
 		}
 	}
 	
-	public int getObjects(JSONArray query2, String string,
-			String enteredSearch2) {
+	public int getObjects(JSONArray query2, String string, String enteredSearch2) {
 		return 0;
 	}       
 }
