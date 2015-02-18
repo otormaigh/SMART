@@ -32,8 +32,18 @@ public class ContactDetails extends Activity {
 
 	public class LongOperation extends AsyncTask<String, Void, String> {
 		@Override
+		protected void onPostExecute(String result) {
+			super.onPostExecute(result);
+		}
+		@Override
+		protected void onProgressUpdate(Void... values) {
+			super.onProgressUpdate(values);
+		}
+		@Override
 		protected void onPreExecute() {
 		}
+		
+		
 		protected String doInBackground(String... params) {
 			Log.d("MYLOG", "ServiceProviderSearch DoInBackground");
 			String dbQuery = database.accessDB(Login_model.getToken(), "service_providers");
@@ -57,3 +67,4 @@ public class ContactDetails extends Activity {
 		return 0;
 	}       
 }
+      
