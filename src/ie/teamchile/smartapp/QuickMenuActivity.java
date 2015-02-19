@@ -1,7 +1,9 @@
 package ie.teamchile.smartapp;
 
+import ie.teamchile.smartapp.R;
+import ie.teamchile.smartapp.R.id;
+import ie.teamchile.smartapp.R.layout;
 import models.Login_model;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,7 +11,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-
 import connecttodb.Logout;
 
 public class QuickMenuActivity extends MenuInheritActivity {
@@ -17,8 +18,6 @@ public class QuickMenuActivity extends MenuInheritActivity {
     private Button bookAppointment;
     private Button calendar;
     private Button todaysAppointments;
-    private Logout logout = new Logout();
-    private Login_model login = new Login_model();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +35,7 @@ public class QuickMenuActivity extends MenuInheritActivity {
 
         Login_model login = new Login_model();
         Log.d("MYLOG", "Before Other get token");
-        Log.d("MYLOG", "Other get token: " + login.getToken());
+        Log.d("MYLOG", "Other get token: " + Login_model.getToken());
     }
     private class ButtonClick implements View.OnClickListener {
         public void onClick(View v) {
@@ -60,30 +59,4 @@ public class QuickMenuActivity extends MenuInheritActivity {
             }
         }
     }
-/*	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {		
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.main_menu, menu);
-		return super.onCreateOptionsMenu(menu);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch(item.getItemId()) {
-		case R.id.menu_item1 :		//logout
-            Log.d("MYLOG", "Logout button pressed");
-            logout.doLogout(Login_model.getToken());
-            login.setToken(null);
-
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            Toast.makeText(this, "Logout Successful", Toast.LENGTH_LONG).show();
-            startActivity(intent);
-            break;
-		case R.id.menu_item2 :
-			System.out.println("Item 2 was selected!");
-  
-		}
-		return super.onOptionsItemSelected(item);
-	}*/
 }
