@@ -7,6 +7,7 @@ import java.util.Calendar;
 
 import models.Login_model;
 import utility.ConnectivityTester;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
