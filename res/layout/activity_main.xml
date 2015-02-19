@@ -83,7 +83,7 @@
             android:layout_marginBottom="20dp"
             android:layout_marginLeft="@dimen/padding_medium"
             android:layout_marginRight="@dimen/padding_medium"
-            android:layout_marginTop="@dimen/padding_medium"
+            android:layout_marginTop="@dimen/padding_small"
             android:layout_weight="1.0"
             android:hint="@string/username"
             android:inputType="text"

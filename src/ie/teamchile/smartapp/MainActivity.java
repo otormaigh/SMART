@@ -1,3 +1,4 @@
+
 package ie.teamchile.smartapp;
 
 import java.sql.Connection;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import connecttodb.GetToken;
 import connecttodb.Logout;
+
 
 public class MainActivity extends MenuInheritActivity {
 	private String token, username, password;
@@ -103,3 +105,4 @@ public class MainActivity extends MenuInheritActivity {
     		Toast.makeText(this, "Login Failed", Toast.LENGTH_LONG).show();
 	}
 }
+
