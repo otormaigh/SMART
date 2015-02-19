@@ -40,7 +40,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.list_layout);
+        setContentView(R.layout.activity_appointment_calendar);
         listView = (ListView)findViewById(R.id.list);
         
         c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);

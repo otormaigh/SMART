@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 import connecttodb.Logout;
 
-
 public class MenuInheritActivity extends Activity {
     private Logout logout = new Logout();
     private Login_model login = new Login_model();
