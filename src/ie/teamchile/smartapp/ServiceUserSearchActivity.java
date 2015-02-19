@@ -10,7 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
+
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
