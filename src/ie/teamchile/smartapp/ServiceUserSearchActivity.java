@@ -1,5 +1,9 @@
 package ie.teamchile.smartapp;
 
+import ie.teamchile.smartapp.R;
+import ie.teamchile.smartapp.R.id;
+import ie.teamchile.smartapp.R.layout;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;

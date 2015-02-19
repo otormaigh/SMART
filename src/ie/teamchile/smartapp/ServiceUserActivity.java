@@ -14,6 +14,10 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import ie.teamchile.smartapp.R;
+import ie.teamchile.smartapp.R.id;
+import ie.teamchile.smartapp.R.layout;
+import ie.teamchile.smartapp.R.string;
 
 import java.text.DateFormat;
 import java.text.ParseException;
