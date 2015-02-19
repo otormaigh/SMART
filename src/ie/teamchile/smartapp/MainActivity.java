@@ -20,7 +20,7 @@ import android.widget.Toast;
 import connecttodb.GetToken;
 import connecttodb.Logout;
 
-public class MainActivity extends Activity {
+public class MainActivity extends MenuInheritActivity {
 	private String token, username, password;
 	private Button loginButton;
 	private TextView usernameTextView, passwordTextView, about;
