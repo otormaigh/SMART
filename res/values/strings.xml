@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-
     <string name="app_name">Midwife Organizer</string>
-
 
     <!-- ACTIVITY TITLES -->
     <string name="title_activity_select_time">Select Time</string>
@@ -18,6 +15,8 @@
     <string name="title_activity_contact_details">ContactDetails</string>
 
     <!-- MAIN SCREEN -->
+    <string name="usernameDefault">team_chile</string>
+    <string name="passwordDefault">smartappiscoming</string>
     <string name="main_logo"> main_logo</string>
     <string name="login">Login</string>
     <string name="username">Username</string>
@@ -48,9 +47,9 @@
         <item>Visits</item>
     </string-array>
 
-    <!-- CLINIC OPTIONS SPINNER -->
+    <!-- SERVICE OPTIONS SPINNER -->
     <string-array name="clinic_service_option">
-        <item>Select Clinic Option</item>
+        <item>Select Service Option</item>
         <item>Domino Dublin</item>
         <item>Domino Wicklow</item>
         <item>ETH Dublin</item>
@@ -66,7 +65,7 @@
         <item>Visit 3</item>
     </string-array>
 
-    <!-- CLINICS -->
+    <!-- CLINICS OPTION SPINNER -->
     <string-array name="domino_dublin">
         <item>Select Clinic</item>
         <item>NMH(OPD Location)</item>
@@ -103,6 +102,7 @@
         <item>Week 4</item>
         <item>Week 5</item>
         <item>Week 6</item>
+        <item>Week 7</item>
     </string-array>
     <string-array name="days">
         <item>Select Day</item>
@@ -156,7 +156,15 @@
     <string name="Yes"> Yes</string>
     <string name="No"> No</string>
     <string name="Logout_dialog_message">Are you sure you want to Logout?</string>
-    <string name="Logout_title">Logout</string>
+    <string name="Logout_title">Logout</string>    
+    
+        <!-- CONTACT DIALOG BOX -->
+   <string name="Yes_makeCall"> Yes</string>
+    <string name="No_makeCall"> No</string>
+    <string name="contact_dialog_message">Select The Option</string>
+    <string name="phoneCall_title">Phone Call</string>
+    <string name="sms_title">SMS</string>
+    <string name="cancel">Cancel</string> 
     
     <!-- CONTACT DETAILS -->
     <string name="Midwife_Name">Name:</string>
