@@ -1,5 +1,7 @@
 package ie.teamchile.smartapp;
 
+import ie.teamchile.smartapp.R;
+import ie.teamchile.smartapp.R.layout;
 import android.app.Activity;
 import android.os.Bundle;
 
