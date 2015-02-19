@@ -45,7 +45,7 @@ public class MenuInheritActivity extends Activity {
               	{              		
               	}
               }).setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener()
-        }
+        {
         public void onClick(DialogInterface dialoginterface, int i)
 		              {
 		                 Log.d("MYLOG", "Logout button pressed");
