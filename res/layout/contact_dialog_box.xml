@@ -2,33 +2,25 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
-         
-    <Button
-        android:id="@+id/makeCall2"
-        android:layout_width="match_parent"
-        android:background="@drawable/drawable"
-        android:layout_height="wrap_content"
-        android:text="@string/phone_call" />
-    
-    <Button
-        android:id="@+id/sendSms2"
-        android:layout_width="match_parent"
-        android:background="@drawable/drawable"
-        android:layout_height="wrap_content"
-        android:text="@string/sms" />
-    
-    <Button
-        android:id="@+id/sendEmail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/drawable"
-        android:text="@string/email_to" />
-    
-    <Button
-        android:id="@+id/cancel2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/drawable"
-        android:text="@string/cancel" />  
 
-</LinearLayout>
+    <Button
+        android:id="@+id/makeCall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/drawable"
+        android:text="@string/phone_call" />
+
+    <Button
+        android:id="@+id/sendSms"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/drawable"
+        android:text="@string/sms" />
+
+    <Button
+        android:id="@+id/cancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/drawable"
+        android:text="@string/cancel" />
+    </LinearLayout>
