@@ -21,7 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class ServiceUserActivity extends Activity {
+public class ServiceUserActivity extends MenuInheritActivity {
 	private TextView hospitalNumber, name, age, email, mobileNumber, road,  county,
             postCode, nextOfKinName, nextOfKinContactNumber;
     private String dob;
@@ -285,4 +285,5 @@ public class ServiceUserActivity extends Activity {
             }
         }
     }
+
 }

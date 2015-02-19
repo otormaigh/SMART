@@ -22,9 +22,9 @@ public class AccessDBTable {
 		return accessDB();
 	}
 	private String accessDB() {
-		Log.d("MYLOG", "In AccessDB");
-		Log.d("MYLOG", "AccessDB Token: " + token);
-		Log.d("MYLOG", "AccessDB TableURL: " + tableURL);
+		//Log.d("MYLOG", "In AccessDB");
+		//Log.d("MYLOG", "AccessDB Token: " + token);
+		//Log.d("MYLOG", "AccessDB TableURL: " + tableURL);
 		try {
 			con = (HttpURLConnection) obj.openConnection();
 			con.setRequestMethod("GET");

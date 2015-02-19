@@ -33,10 +33,12 @@ public class ContactDetails extends Activity {
 	public class LongOperation extends AsyncTask<String, Void, String> {
 		@Override
 		protected void onPostExecute(String result) {
+			// TODO Auto-generated method stub
 			super.onPostExecute(result);
 		}
 		@Override
 		protected void onProgressUpdate(Void... values) {
+			// TODO Auto-generated method stub
 			super.onProgressUpdate(values);
 		}
 		@Override
@@ -67,4 +69,3 @@ public class ContactDetails extends Activity {
 		return 0;
 	}       
 }
-      
