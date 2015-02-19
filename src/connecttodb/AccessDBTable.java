@@ -6,28 +6,50 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import models.Login_model;
+import Enums.CredentialsEnum;
+import android.os.AsyncTask;
 import android.util.Log;
 
 public class AccessDBTable {
-    private String apiKey = "1e7db54d-df97-407a-868b-9dc50dce7883";
-    private String token, tableURL, inputLine;
+	private static CredentialsEnum url = CredentialsEnum.URL;
+	private static CredentialsEnum api = CredentialsEnum.API_KEY;
+	private String tableUrl, apiKey;
+    private String token, table, inputLine;
     private int responseCode;
     private StringBuffer response;
     private URL obj;
     private HttpURLConnection con;
     private BufferedReader in;
 
-	public String accessDB(String token, String tableURL){
+	public String accessDB(String token, String table){
+		tableUrl = url.toString();
+		apiKey = api.toString();
+		
 		this.token = token;
-        this.tableURL = tableURL;
+        this.table = table;
 		return accessDB();
+	}
+	private class LongOperation extends AsyncTask<String, Void, String> {
+		@Override
+		protected void onPreExecute() {
+		}
+		protected String doInBackground(String... params) {
+			return null;
+		}
+		@Override
+		protected void onProgressUpdate(Void... values) {
+		}
+		@Override
+        protected void onPostExecute(String result) {
+        }
 	}
 	private String accessDB() {
 		//Log.d("MYLOG", "In AccessDB");
 		//Log.d("MYLOG", "AccessDB Token: " + token);
 		//Log.d("MYLOG", "AccessDB TableURL: " + tableURL);
 		try {
-			obj = new URL("http://54.72.7.91:8888/" + tableURL);
+			obj = new URL(tableUrl + table);
 			con = (HttpURLConnection) obj.openConnection();
 			con.setRequestMethod("GET");
 
@@ -36,7 +58,7 @@ public class AccessDBTable {
 			con.setRequestProperty("Auth-Token", token);
 
 			responseCode = con.getResponseCode();
-			Log.d("MYLOG", "\nSending 'GET' request to URL : " + "http://54.72.7.91:8888/" + tableURL);
+			Log.d("MYLOG", "\nSending 'GET' request to URL : " + api + table);
 			Log.d("MYLOG", "Response Code from AccessDB: " + responseCode);
 
 			in = new BufferedReader(new InputStreamReader(con.getInputStream()));

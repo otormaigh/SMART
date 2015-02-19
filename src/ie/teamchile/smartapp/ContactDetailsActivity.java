@@ -1,27 +1,72 @@
 package ie.teamchile.smartapp;
 
-import android.app.Activity;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.TextView;
 import connecttodb.AccessDBTable;
-import connecttodb.GetToken;
+import models.Login_model;
 
 public class ContactDetailsActivity extends MenuInheritActivity {
-	String DBUrl = "http://54.72.7.91:8888/service_users/14";
-	String loginUrl = "http://54.72.7.91:8888/login";
-	String username = "team_chile";
-	String password = "smartappiscoming";
 
+	private int arrayPos;
+	private JSONArray query;
+	private Object enteredSearch;
+	private String seconaryNumber;
+	private String primaryNumber;
+	private TextView nameTextView;
+	private Login_model login=new Login_model();
+	private AccessDBTable database=new AccessDBTable();
+	private String email;
+	private String name;
+	private JSONObject json;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_contact_details);
 		
-/*		GetToken getToken = new GetToken();
-		String token = null;
-		token = getToken.getAuthKey(username, password);
-		
-		//get string representation of the response from the database
-		AccessDBTable accessTable = new AccessDBTable();
-		String response = accessTable.accessDB(token, DBUrl);*/
+		nameTextView = (TextView)findViewById(R.id.Midwife_Name);
+		Log.d("MYLOG", "in oncreate: ");
+		new LongOperation().execute();		
 	}
+
+	public class LongOperation extends AsyncTask<Void, Integer, String> {
+		@Override
+		protected void onPostExecute(String result) {
+			Log.d("Record Retrieved", "result: " + result);
+			nameTextView.setText(name);
+			super.onPostExecute(result);
+		}
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			super.onProgressUpdate(values);
+		}
+		@Override
+		protected void onPreExecute() {
+		}
+		@Override
+		protected String doInBackground(Void... params) {
+			Log.d("MYLOG", "ServiceProviderSearch DoInBackground");
+			String dbQuery = database.accessDB(Login_model.getToken(), "service_providers");
+			try {
+				json = new JSONObject(dbQuery);
+				query = json.getJSONArray("service_providers");
+				arrayPos = getObjects(query, "id", "14");
+				
+				name = (String) ((JSONObject)query.get(arrayPos)).get("name");
+				Log.d("MYLOG", name);
+
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+	}	
+	public int getObjects(JSONArray query2, String string, String enteredSearch2) {
+		return 0;
+	}       
 }

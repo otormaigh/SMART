@@ -1,21 +1,16 @@
 package ie.teamchile.smartapp;
 
-import models.Login_model;
-import connecttodb.Logout;
-import android.app.Activity;
+import java.util.Calendar;
+import java.util.Date;
+
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
     private Spinner appointmentSpinner, clinicOptionSpinner, visitOptionSpinner, dominoDublinSpinner,
@@ -23,10 +18,9 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
     private Button appointmentCalendar;
     private ArrayAdapter<CharSequence> appointmentAdapter, clinicAdapter, visitAdapter, dominoDublinAdapter,
             dominoWicklowAdapter, ethDublinAdapter, ethWicklowAdapter, satelliteAdapter, weekAdapter, dayAdapter;
-    private int regionSelected, hospitalSelected, weekSelected, daySelected;
-    private String responseCode;
-    private Logout logout = new Logout();
-    private Login_model login = new Login_model();
+    private int regionSelected, hospitalSelected, weekSelected;
+	private Date daySelected;
+    private Calendar c = Calendar.getInstance();
     
     AppointmentCalendarActivity passOptions = new AppointmentCalendarActivity();
 
@@ -34,6 +28,9 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appointment_type_spinner);
+        
+        c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        Log.d("MYLOG", "Date set to " + c.getTime());
 
         appointmentSpinner = (Spinner) findViewById(R.id.appointment_spinner);
         appointmentSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
@@ -110,52 +107,6 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
         daySpinner.setVisibility(View.GONE);
         appointmentCalendar.setVisibility(View.GONE);
     }
-    
-	
-/*	private class LongOperation extends AsyncTask<String, Void, String> {
-		@Override
-		protected void onPreExecute() {
-		}
-		protected String doInBackground(String... params) {
-			logout.doLogout(Login_model.getToken());
-			return null;
-		}
-		@Override
-		protected void onProgressUpdate(Void... values) {
-			Log.d("MYLOG", "On progress update");
-		}
-		@Override
-        protected void onPostExecute(String result) {
-        }
-	}*/
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {		
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.main_menu, menu);
-		return super.onCreateOptionsMenu(menu);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch(item.getItemId()) {
-		case R.id.menu_item1 :		//logout			
-			Log.d("MYLOG", "Logout button pressed");
-            logout.doLogout(Login_model.getToken());
-            login.setToken(null);
-
-			Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			Toast.makeText(this, "Logout Successful", Toast.LENGTH_LONG).show();
-            startActivity(intent);
-            break;
-		case R.id.menu_item2 :
-			System.out.println("Item 2 was selected!");
-            break;
-  
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
 	private class ButtonClick implements View.OnClickListener {
         public void onClick(View v) {
             switch (v.getId()) {
@@ -174,7 +125,6 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
             }
         }
     }
-
     private class MySpinnerOnItemSelectedListener implements AdapterView.OnItemSelectedListener {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -431,7 +381,7 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
                             weekSpinner.setSelection(0);
                             break;
                     }
-                    break;
+                    break;                    
                 case R.id.week_spinner:
                     switch (position) {
                         case 0:
@@ -446,31 +396,49 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
                             break;
                         case 2:     //Week 2
                             weekSelected = 2;
+                            Log.d("MYLOG", "Week 2 selected");
+                			c.add(Calendar.DAY_OF_YEAR, 7);
+                			Log.d("MYLOG", "Plus 7 days is: " + c.getTime());
                             daySpinner.setVisibility(View.VISIBLE);
                             daySpinner.setSelection(0);
                             break;
                         case 3:     //Week 3
                             weekSelected = 3;
+                            Log.d("MYLOG", "Week 3 selected");
+                			c.add(Calendar.DAY_OF_YEAR, (c.getFirstDayOfWeek() + 14));
+                			Log.d("MYLOG", "Plus 14 days is: " + c.getTime());
                             daySpinner.setVisibility(View.VISIBLE);
                             daySpinner.setSelection(0);
                             break;
                         case 4:     //Week 4
                             weekSelected = 4;
+                            Log.d("MYLOG", "Week 4 selected");
+                    		c.add(Calendar.DAY_OF_YEAR, (c.getFirstDayOfWeek() + 21));
+                			Log.d("MYLOG", "Plus 21 days is: " + c.getTime());
                             daySpinner.setVisibility(View.VISIBLE);
                             daySpinner.setSelection(0);
                             break;
                         case 5:     //Week 5
                             weekSelected = 5;
+                            Log.d("MYLOG", "Week 5 selected");
+                    		c.add(Calendar.DAY_OF_YEAR, (c.getFirstDayOfWeek() + 28));
+                			Log.d("MYLOG", "Plus 21 days is: " + c.getTime());
                             daySpinner.setVisibility(View.VISIBLE);
                             daySpinner.setSelection(0);
                             break;
                         case 6:     //Week 6
                             weekSelected = 6;
+                            Log.d("MYLOG", "Week 6 selected");
+                    		c.add(Calendar.DAY_OF_YEAR, (c.getFirstDayOfWeek() + 35));
+                			Log.d("MYLOG", "Plus 21 days is: " + c.getTime());	
                             daySpinner.setVisibility(View.VISIBLE);
                             daySpinner.setSelection(0);
                             break;
                         case 7:     //Week 7
                             weekSelected = 7;
+                            Log.d("MYLOG", "Week 7 selected");
+                    		c.add(Calendar.DAY_OF_YEAR, (c.getFirstDayOfWeek() + 42));
+                			Log.d("MYLOG", "Plus 21 days is: " + c.getTime());	
                             daySpinner.setVisibility(View.VISIBLE);
                             daySpinner.setSelection(0);
                             break;
@@ -479,35 +447,69 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
                 case R.id.day_spinner:
                     switch (position) {
                         case 0:
-                            daySelected = 0;
                             appointmentCalendar.setVisibility(View.GONE);
                             break;
                         case 1:     //Monday
-                            daySelected = 1;
+                        	Log.d("MYLOG", "Monday selected");
+                    		c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+                    		Log.d("MYLOG", "" + c.getTime());
+                			daySelected = c.getTime();  
+                			
+                			Log.d("MYLOG", "day from spinner: " + daySelected);
                             appointmentCalendar.setVisibility(View.VISIBLE);
                             break;
                         case 2:     //Tuesday
-                            daySelected = 2;
+                        	Log.d("MYLOG", "Tuesday selected");
+                    		c.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
+                    		Log.d("MYLOG", "" + c.getTime());
+                    		daySelected = c.getTime();  
+                    		
+                			Log.d("MYLOG", "day from spinner: " + daySelected);
                             appointmentCalendar.setVisibility(View.VISIBLE);
                             break;
                         case 3:     //Wednesday
-                            daySelected = 3;
+                        	Log.d("MYLOG", "Wednesday selected");
+                    		c.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
+                    		Log.d("MYLOG", "" + c.getTime());                    		
+                    		daySelected = c.getTime();  
+                    		
+                			Log.d("MYLOG", "day from spinner: " + daySelected);
                             appointmentCalendar.setVisibility(View.VISIBLE);
                             break;
                         case 4:     //Thursday
-                            daySelected = 4;
+                        	Log.d("MYLOG", "Thursday selected");
+                    		c.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
+                    		Log.d("MYLOG", "" + c.getTime());
+                    		daySelected = c.getTime();  
+                    		
+                			Log.d("MYLOG", "day from spinner: " + daySelected);
                             appointmentCalendar.setVisibility(View.VISIBLE);
                             break;
                         case 5:     //Friday
-                            daySelected = 5;
+                        	Log.d("MYLOG", "Friday selected");
+                    		c.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
+                    		Log.d("MYLOG", "" + c.getTime());
+                    		daySelected = c.getTime();  
+                    		
+                			Log.d("MYLOG", "day from spinner: " + daySelected);
                             appointmentCalendar.setVisibility(View.VISIBLE);
                             break;
                         case 6:     //Saturday
-                            daySelected = 6;
+                        	Log.d("MYLOG", "Saturday selected");
+                    		c.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+                    		Log.d("MYLOG", "" + c.getTime());
+                    		daySelected = c.getTime();  
+                    		
+                			Log.d("MYLOG", "day from spinner: " + daySelected);
                             appointmentCalendar.setVisibility(View.VISIBLE);
                             break;
                         case 7:     //Sunday
-                            daySelected = 7;
+                        	Log.d("MYLOG", "Sunday selected");
+                    		c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+                    		Log.d("MYLOG", "" + c.getTime());
+                    		daySelected = c.getTime();  
+                    		
+                			Log.d("MYLOG", "day from spinner: " + daySelected);
                             appointmentCalendar.setVisibility(View.VISIBLE);
                             break;
                     }
