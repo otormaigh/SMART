@@ -6,8 +6,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Calendar;
 
-import models.Login_model;
 import utility.ConnectivityTester;
+import models.Login_model;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -40,9 +40,9 @@ public class MainActivity extends MenuInheritActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		testConn.testTheNetworkConnection();
-		Log.d("MYLOG", "is 3g connected: " + testConn.is3GConnected());
-		Log.d("MYLOG", "is WiFi connected: " + testConn.isWifiConnected());
+		//testConn.testTheNetworkConnection();
+		//Log.d("MYLOG", "is 3g connected: " + testConn.is3GConnected());
+		//Log.d("MYLOG", "is WiFi connected: " + testConn.isWifiConnected());
 		
 		Log.d("MYLOG", "Time is: " + cal.getTime());
 
@@ -59,9 +59,9 @@ public class MainActivity extends MenuInheritActivity {
 		public void onClick(View v) {
 			switch (v.getId()) {
                 case R.id.login:                	
-                //Intent intent = new Intent(MainActivity.this, QuickMenuActivity.class);
-                //startActivity(intent);
-				//login.setToken("0c325638d97faf29d71f");
+                Intent intent = new Intent(MainActivity.this, QuickMenuActivity.class);
+                startActivity(intent);
+				login.setToken("0c325638d97faf29d71f");
 
                 getCredentials();
 				new LongOperation().execute((String[]) null);
