@@ -1,9 +1,5 @@
 package ie.teamchile.smartapp;
 
-import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.R.id;
-import ie.teamchile.smartapp.R.layout;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
