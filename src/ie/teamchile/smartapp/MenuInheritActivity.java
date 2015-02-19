@@ -29,8 +29,7 @@ public class MenuInheritActivity extends Activity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
         return super.onCreateOptionsMenu(menu);
-    }
-    
+    }    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
@@ -43,16 +42,11 @@ public class MenuInheritActivity extends Activity {
             new DialogInterface.OnClickListener()
               {
               	public void onClick(DialogInterface dialoginterface, int i)
-              	{
-              		
+              	{              		
               	}
-              }
-     
-              )
-                 .setPositiveButton(R.string.Yes,
-		            new DialogInterface.OnClickListener()
-		               {
-		                 public void onClick(DialogInterface dialoginterface, int i)
+              }).setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener()
+        }
+        public void onClick(DialogInterface dialoginterface, int i)
 		              {
 		                 Log.d("MYLOG", "Logout button pressed");
 		                 if(Login_model.getToken() == ""){
@@ -84,12 +78,3 @@ public class MenuInheritActivity extends Activity {
         return super.onOptionsItemSelected(item); 
     }
 }
-    
-    
-		
-                 				
-		
-        
-
-    
-
