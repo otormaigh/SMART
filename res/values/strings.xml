@@ -170,7 +170,7 @@
     <!-- CONTACT DETAILS -->
     <string name="midwife_name">Name:</string>
     <string name="midwife_email">Email:</string>
-    <string name="Primary_Number">Primary No. :</string>
+    <string name="primary_number">Primary No. :</string>
     <string name="secondary_number">Secondary No. :</string>
     <string name="title_activity_today_appointment">TodayAppointmentActivity</string>
 
