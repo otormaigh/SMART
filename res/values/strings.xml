@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">Midwife Organizer</string>
 
     <!-- ACTIVITY TITLES -->
@@ -157,8 +156,7 @@
     <string name="Yes"> Yes</string>
     <string name="No"> No</string>
     <string name="Logout_dialog_message">Are you sure you want to Logout?</string>
-    <string name="Logout_title">Logout</string>
-    
+    <string name="Logout_title">Logout</string>    
     
         <!-- CONTACT DIALOG BOX -->
    <string name="Yes_makeCall"> Yes</string>
@@ -166,14 +164,12 @@
     <string name="contact_dialog_message">Select The Option</string>
     <string name="phoneCall_title">Phone Call</string>
     <string name="sms_title">SMS</string>
-    <string name="cancel">Cancel</string>
- 
+    <string name="cancel">Cancel</string> 
     
     <!-- CONTACT DETAILS -->
     <string name="Midwife_Name">Name:</string>
     <string name="Midwife_Email">Email:</string>
     <string name="Primary_Number">Primary No. :</string>
     <string name="Secondary_Number">Secondary No. :</string>
-    <string name="title_activity_menu_inherit">MenuInheritActivity</string>
 
 </resources>

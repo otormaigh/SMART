@@ -6,15 +6,18 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+
 import models.Login_model;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import Enums.CredentialsEnum;
 import android.util.Log;
 
 public class GetToken {
 	private String username, password, strToken, st;
-	private String loginURL = "http://54.72.7.91:8888/login";
-	private String encodeType = "ISO-8859-1";
+	private String loginUrl, encodeType;
 	private String responseCode = null;
 	private int id, ch;
 	private HttpURLConnection httpcon;
@@ -25,8 +28,13 @@ public class GetToken {
 	private InputStream is;
 	private OutputStream os;
 	private StringBuffer sb;
+	private static CredentialsEnum url = CredentialsEnum.URL;
+	private static CredentialsEnum encode = CredentialsEnum.ENCODETYPE;
 	
 	public String getToken(String username, String password){
+		loginUrl = url.toString() + "login";
+		encodeType = encode.toString();
+		
 		this.username = username;
 		this.password = password;
 		return getToken();
@@ -38,8 +46,8 @@ public class GetToken {
 			jsonLogin.put("login", credentials);
 			Log.d("MYLOG", "jsonLogin: " + jsonLogin);
 			
-			httpcon = (HttpURLConnection) ((new URL(loginURL).openConnection()));
-			URLEncoder.encode(loginURL, encodeType);
+			httpcon = (HttpURLConnection) ((new URL(loginUrl).openConnection()));
+			URLEncoder.encode(loginUrl, encodeType);
 			httpcon.setDoOutput(true);
 			httpcon.setRequestMethod("POST");
 			httpcon.setRequestProperty("Content-Type", "application/json");
@@ -67,6 +75,7 @@ public class GetToken {
 			strToken = (String) ((JSONObject) json.get("login")).get("token");
 			id = (Integer) ((JSONObject) json.get("login")).get("id");
 			login.setUserId(id);
+			login.setToken(strToken);
 			
 			Log.d("MYLOG", "id: " + Login_model.getUserId());
 			Log.d("MYLOG", "sb.toString(): " + sb.toString());

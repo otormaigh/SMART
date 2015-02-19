@@ -16,18 +16,18 @@ import org.json.JSONObject;
 import android.util.Log;
 
 public class DateSorterThing {
-	String inDate = null;
-	Date outDate = null;
-	ArrayList<Date> dates = new ArrayList<Date>();
-	ArrayList<JSONObject> jsonValues = new ArrayList<JSONObject>();
-	ArrayList<JSONObject> appointmentsThatDay = new ArrayList<JSONObject>();
-	ArrayList<JSONObject> objSorted = new ArrayList<JSONObject>();
-	DateFormat df = new SimpleDateFormat("yyyy-MM-dd - HH:mm:ss");
-	DateFormat dfDateOnly = new SimpleDateFormat("yyyy-MM-dd");
-	JSONObject jsonNew;
-	Date dateAsDate, timeAsDate, nowDate, dbDate, queryDate;
-	Calendar c = Calendar.getInstance();
-	Date week1 = (nowDate);
+	private String inDate = null;
+	private Date outDate = null;
+	private ArrayList<Date> dates = new ArrayList<Date>();
+	private ArrayList<JSONObject> jsonValues = new ArrayList<JSONObject>();
+	private ArrayList<JSONObject> appointmentsThatDay = new ArrayList<JSONObject>();
+	private ArrayList<JSONObject> objSorted = new ArrayList<JSONObject>();
+	private DateFormat df = new SimpleDateFormat("yyyy-MM-dd - HH:mm:ss");
+	private DateFormat dfDateOnly = new SimpleDateFormat("yyyy-MM-dd");
+	private JSONObject jsonNew;
+	private Date dateAsDate, timeAsDate, nowDate, dbDate, queryDate;
+	private Calendar c = Calendar.getInstance();
+	private Date week1 = (nowDate);
 
 	public  ArrayList<JSONObject> dateSorter(Date queryDate) {	
 		return dateSorter();
