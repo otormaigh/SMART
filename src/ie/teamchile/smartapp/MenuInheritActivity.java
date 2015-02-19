@@ -1,11 +1,7 @@
 package ie.teamchile.smartapp;
 
-import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.R.id;
-import ie.teamchile.smartapp.R.menu;
 import models.Login_model;
 import android.app.Activity;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
