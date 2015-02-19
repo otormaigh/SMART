@@ -20,7 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import connecttodb.AccessDBTable;
 
-public class ServiceUserSearchActivity extends Activity {
+public class ServiceUserSearchActivity extends MenuInheritActivity {
 
 	private EditText searchParams;
 	private Button search, searchResult1, searchResult2,searchResult3;
@@ -108,7 +108,7 @@ public class ServiceUserSearchActivity extends Activity {
 				json = new JSONObject(dbQuery);
 				query = json.getJSONArray("service_users");
 				arrayPos = getObjects(query, "name", enteredSearch);
-				
+
 				first = (((JSONObject) ((JSONObject) query.get(arrayPos)).get("personal_fields")).get("name")).toString();
 				hospitalNumber = (((JSONObject) query.get(arrayPos)).get("hospital_number")).toString();
                 name = (((JSONObject) ((JSONObject) query.get(arrayPos)).get("personal_fields")).get("name")).toString();
