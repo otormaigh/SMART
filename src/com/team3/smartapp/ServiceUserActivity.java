@@ -2,12 +2,14 @@
 package com.team3.smartapp;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
-
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -27,6 +29,8 @@ public class ServiceUserActivity extends Activity {
     private Button bookAppointmentButton;
     private Date dobAsDate;
     private Calendar cal = Calendar.getInstance();
+	CharSequence[] items = { "go to maps","go back" };
+	boolean[] itemsChecked = new boolean [items.length];
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -66,7 +70,7 @@ public class ServiceUserActivity extends Activity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-       // Calendar cal = Calendar.getInstance();
+       // Calendar calf = Calendar.getInstance();
         cal.setTime(dobAsDate);
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);
@@ -96,7 +100,81 @@ public class ServiceUserActivity extends Activity {
                     Intent intent = new Intent(ServiceUserActivity.this, AppointmentTypeSpinnerActivity.class);
                     startActivity(intent);
                     break;
-            }
-        }
-    }
-}
+            }}}
+    public void onClick2(View v) {
+    	showDialog(0);
+    	}		
+
+    protected Dialog onCreateDialog(int id) {
+    	switch (id) {
+    	case 0:
+    	return new AlertDialog.Builder(this)
+    	.setIcon(R.drawable.ic_launcher)
+    	.setTitle("This is a dialog with some simple text...")
+    	.setPositiveButton("OK",
+    	new DialogInterface.OnClickListener() {
+    	public void onClick(DialogInterface dialog, int whichButton)
+    	{
+    	Toast.makeText(getBaseContext(),
+    	"OK clicked!", Toast.LENGTH_SHORT).show();
+    	}
+    	}
+    	)
+    	.setNegativeButton("Cancel",
+    	new DialogInterface.OnClickListener() {
+    	public void onClick(DialogInterface dialog, int whichButton)
+    	{
+    	Toast.makeText(getBaseContext(),
+    	"Cancel clicked!", Toast.LENGTH_SHORT).show();
+    	}
+    	}
+    	)
+    	.setMultiChoiceItems(items, itemsChecked,
+    	new DialogInterface.OnMultiChoiceClickListener() {
+    	public void onClick(DialogInterface dialog,
+    	int which, boolean isChecked) {
+    	Toast.makeText(getBaseContext(),
+    	items[which] + (isChecked ? " checked!":" unchecked!"),
+    	Toast.LENGTH_SHORT).show();
+    	
+    	}
+    	}
+    	).create();
+    	}
+    	return null;
+    	}
+    	}
+    	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
