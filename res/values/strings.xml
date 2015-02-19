@@ -152,6 +152,9 @@
         					 name and\/or dat of birth (@dd\/mm\/yyyy) \n
         					 You can combine search terms in one line if you like. \n
         					 Example: Mary Murphy @17/06/1976</string>
+    <string name="enter_search">Enter Search Parameters</string>
+    <string name="search_result">Search Results</string>
+    <string name="btn_search">Search</string>
 
     <!-- LOGOUT SESSION -->
     <string name="Yes"> Yes</string>
@@ -160,11 +163,11 @@
     <string name="Logout_title">Logout</string>
 
     <!-- CONTACT DIALOG BOX -->
-    <string name="Yes_makeCall"> Yes</string>
-    <string name="No_makeCall"> No</string>
+    <string name="Yes_make_call"> Yes</string>
+    <string name="No_make_call"> No</string>
     <string name="contact_dialog_message">Select The Option</string>
-    <string name="phoneCall_title">Phone Call</string>
-    <string name="sms_title">SMS</string>
+    <string name="phone_call">Phone Call</string>
+    <string name="sms">Send SMS</string>
     <string name="cancel">Cancel</string>
 
     <!-- CONTACT DETAILS -->

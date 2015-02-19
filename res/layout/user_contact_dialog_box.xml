@@ -8,34 +8,27 @@
         android:layout_width="match_parent"
         android:background="@drawable/drawable"
         android:layout_height="wrap_content"
-        android:text="Phone Call"
-        />
+        android:text="@string/phone_call" />
     
     <Button
         android:id="@+id/sendSms2"
         android:layout_width="match_parent"
         android:background="@drawable/drawable"
         android:layout_height="wrap_content"
-        android:text="Send SMS"
-        />
+        android:text="@string/sms" />
     
     <Button
         android:id="@+id/sendEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/drawable"
-        android:text="Email"
-        />
+        android:text="@string/email" />
     
     <Button
         android:id="@+id/cancel2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/drawable"
-        android:text="Cancel"
-        />
-    
-  
-  
-    
+        android:text="@string/cancel" />  
+
 </LinearLayout>
