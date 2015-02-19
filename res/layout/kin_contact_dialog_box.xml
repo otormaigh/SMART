@@ -4,21 +4,21 @@
     android:orientation="vertical" >
 
     <Button
-        android:id="@+id/makeCall"
+        android:id="@+id/kinPhoneCall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/drawable"
         android:text="Phone Call" />
 
     <Button
-        android:id="@+id/sendSms"
+        android:id="@+id/kinSendSMS"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/drawable"
         android:text="Send SMS" />
 
     <Button
-        android:id="@+id/cancel"
+        android:id="@+id/kinCancel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/drawable"
