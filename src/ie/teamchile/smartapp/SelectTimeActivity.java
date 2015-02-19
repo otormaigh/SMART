@@ -1,6 +1,5 @@
 package ie.teamchile.smartapp;
 
-import android.app.Activity;
 import android.os.Bundle;
 
 public class SelectTimeActivity extends MenuInheritActivity {
