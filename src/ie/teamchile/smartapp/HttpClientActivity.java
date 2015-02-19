@@ -17,7 +17,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
-public class HttpClientActivity extends Activity {
+public class HttpClientActivity extends MenuInheritActivity {
 	TextView resultView;
 	private InputStream isr;
 	private StringBuilder sb;

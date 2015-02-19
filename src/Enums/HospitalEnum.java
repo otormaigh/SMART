@@ -18,6 +18,7 @@ public enum HospitalEnum {
     private HospitalEnum(String hospital) {
         this.hospital = hospital;
     }
+    
     public String toString() {
         return hospital;
     }

@@ -1,9 +1,10 @@
 package ie.teamchile.smartapp;
 
+import models.Login_model;
+import connecttodb.Logout;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -16,13 +17,16 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-public class AppointmentTypeSpinnerActivity extends Activity {
+public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
     private Spinner appointmentSpinner, clinicOptionSpinner, visitOptionSpinner, dominoDublinSpinner,
             dominoWicklowSpinner, ethDublinSpinner, ethWicklowSpinner, satelliteSpinner, weekSpinner, daySpinner;
     private Button appointmentCalendar;
     private ArrayAdapter<CharSequence> appointmentAdapter, clinicAdapter, visitAdapter, dominoDublinAdapter,
             dominoWicklowAdapter, ethDublinAdapter, ethWicklowAdapter, satelliteAdapter, weekAdapter, dayAdapter;
     private int regionSelected, hospitalSelected, weekSelected, daySelected;
+    private String responseCode;
+    private Logout logout = new Logout();
+    private Login_model login = new Login_model();
     
     AppointmentCalendarActivity passOptions = new AppointmentCalendarActivity();
 
@@ -107,10 +111,25 @@ public class AppointmentTypeSpinnerActivity extends Activity {
         appointmentCalendar.setVisibility(View.GONE);
     }
     
+	
+/*	private class LongOperation extends AsyncTask<String, Void, String> {
+		@Override
+		protected void onPreExecute() {
+		}
+		protected String doInBackground(String... params) {
+			logout.doLogout(Login_model.getToken());
+			return null;
+		}
+		@Override
+		protected void onProgressUpdate(Void... values) {
+			Log.d("MYLOG", "On progress update");
+		}
+		@Override
+        protected void onPostExecute(String result) {
+        }
+	}*/
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// TODO Auto-generated method stub
-		
+	public boolean onCreateOptionsMenu(Menu menu) {		
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.main_menu, menu);
 		return super.onCreateOptionsMenu(menu);
@@ -118,34 +137,24 @@ public class AppointmentTypeSpinnerActivity extends Activity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// TODO Auto-generated method stub
 		switch(item.getItemId()) {
-		case R.id.menu_item1 :
-			logout();
+		case R.id.menu_item1 :		//logout			
+			Log.d("MYLOG", "Logout button pressed");
+            logout.doLogout(Login_model.getToken());
+            login.setToken(null);
+
+			Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			Toast.makeText(this, "Logout Successful", Toast.LENGTH_LONG).show();
+            startActivity(intent);
+            break;
 		case R.id.menu_item2 :
 			System.out.println("Item 2 was selected!");
+            break;
   
 		}
 		return super.onOptionsItemSelected(item);
 	}
-
-    private void logout() {
-    	new AlertDialog.Builder(this).setTitle(R.string.Logout_title).setMessage(R.string.Logout_dialog_message)
-     		.setNegativeButton(R.string.No, new DialogInterface.OnClickListener()
-     				{
-     					public void onClick(DialogInterface dialoginterface, int i)
-     					{}
-     				}
-     			).setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener()
-     				{
-     					public void onClick(DialogInterface dialoginterface, int i)
-     					{
-     						finish();
-     						Toast.makeText(AppointmentTypeSpinnerActivity.this, "You are now logged out", Toast.LENGTH_SHORT).show();
-     					}
-     				}
-     			).show();
-     	}
 
 	private class ButtonClick implements View.OnClickListener {
         public void onClick(View v) {
@@ -308,17 +317,17 @@ public class AppointmentTypeSpinnerActivity extends Activity {
                             appointmentCalendar.setVisibility(View.GONE);
                             break;
                         case 1:     //Greystones (Monday)
-                            hospitalSelected = 1;
+                            hospitalSelected = 6;
                             weekSpinner.setVisibility(View.VISIBLE);
                             weekSpinner.setSelection(0);
                             break;
                         case 2:     //Greystones (Tuesday)
-                            hospitalSelected = 2;
+                            hospitalSelected = 6;
                             weekSpinner.setVisibility(View.VISIBLE);
                             weekSpinner.setSelection(0);
                             break;
                         case 3:     //Kilmacanogue
-                            hospitalSelected = 3;
+                            hospitalSelected = 7;
                             weekSpinner.setVisibility(View.VISIBLE);
                             weekSpinner.setSelection(0);
                             break;
@@ -346,12 +355,12 @@ public class AppointmentTypeSpinnerActivity extends Activity {
                             appointmentCalendar.setVisibility(View.GONE);
                             break;
                         case 1:     //Ballinteer
-                            hospitalSelected = 1;
+                            hospitalSelected = 8;
                             weekSpinner.setVisibility(View.VISIBLE);
                             weekSpinner.setSelection(0);
                             break;
                         case 2:     //Dun Laoghaire
-                            hospitalSelected = 2;
+                            hospitalSelected = 9;
                             weekSpinner.setVisibility(View.VISIBLE);
                             weekSpinner.setSelection(0);
                             break;
@@ -374,12 +383,12 @@ public class AppointmentTypeSpinnerActivity extends Activity {
                             appointmentCalendar.setVisibility(View.GONE);
                             break;
                         case 1:     //Ballinteer
-                            hospitalSelected = 1;
+                            hospitalSelected = 8;
                             weekSpinner.setVisibility(View.VISIBLE);
                             weekSpinner.setSelection(0);
                             break;
                         case 2:     //Dun Laoghaire
-                            hospitalSelected = 2;
+                            hospitalSelected = 9;
                             weekSpinner.setVisibility(View.VISIBLE);
                             weekSpinner.setSelection(0);
                             break;
@@ -402,22 +411,22 @@ public class AppointmentTypeSpinnerActivity extends Activity {
                             appointmentCalendar.setVisibility(View.GONE);
                             break;
                         case 1:     //Greystones
-                            hospitalSelected = 1;
+                            hospitalSelected = 10;
                             weekSpinner.setVisibility(View.VISIBLE);
                             weekSpinner.setSelection(0);
                             break;
                         case 2:     //Arklow
-                            hospitalSelected = 2;
+                            hospitalSelected = 11;
                             weekSpinner.setVisibility(View.VISIBLE);
                             weekSpinner.setSelection(0);
                             break;
                         case 3:     //Newtownmountkennedy
-                            hospitalSelected = 3;
+                            hospitalSelected = 12;
                             weekSpinner.setVisibility(View.VISIBLE);
                             weekSpinner.setSelection(0);
                             break;
                         case 4:     //Bray
-                            hospitalSelected = 4;
+                            hospitalSelected = 13;
                             weekSpinner.setVisibility(View.VISIBLE);
                             weekSpinner.setSelection(0);
                             break;
@@ -457,6 +466,11 @@ public class AppointmentTypeSpinnerActivity extends Activity {
                             break;
                         case 6:     //Week 6
                             weekSelected = 6;
+                            daySpinner.setVisibility(View.VISIBLE);
+                            daySpinner.setSelection(0);
+                            break;
+                        case 7:     //Week 7
+                            weekSelected = 7;
                             daySpinner.setVisibility(View.VISIBLE);
                             daySpinner.setSelection(0);
                             break;
