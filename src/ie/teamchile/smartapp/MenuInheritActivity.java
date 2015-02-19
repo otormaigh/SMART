@@ -1,3 +1,4 @@
+
 package ie.teamchile.smartapp;
 
 import models.Login_model;
@@ -15,7 +16,6 @@ import android.view.View;
 import android.widget.Toast;
 import connecttodb.Logout;
 
-
 public class MenuInheritActivity extends Activity {
     private Logout logout = new Logout();
     private Login_model login = new Login_model();
@@ -29,8 +29,7 @@ public class MenuInheritActivity extends Activity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
         return super.onCreateOptionsMenu(menu);
-    }
-    
+    }    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
@@ -43,16 +42,11 @@ public class MenuInheritActivity extends Activity {
             new DialogInterface.OnClickListener()
               {
               	public void onClick(DialogInterface dialoginterface, int i)
-              	{
-              		
+              	{              		
               	}
-              }
-     
-              )
-                 .setPositiveButton(R.string.Yes,
-		            new DialogInterface.OnClickListener()
-		               {
-		                 public void onClick(DialogInterface dialoginterface, int i)
+              }).setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener()
+        {
+        public void onClick(DialogInterface dialoginterface, int i)
 		              {
 		                 Log.d("MYLOG", "Logout button pressed");
 		                 if(Login_model.getToken() == ""){
@@ -77,18 +71,10 @@ public class MenuInheritActivity extends Activity {
                  )
 		             
               .show();
-  
+
             case R.id.menu_item2:
                 System.out.println("Item 2 was selected!");
         }
         return super.onOptionsItemSelected(item); 
     }
 }
-    
-    
-		
-                 				
-		
-        
-
-    

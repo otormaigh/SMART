@@ -19,7 +19,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginBottom="@dimen/padding_Xlarge"
             android:layout_marginTop="@dimen/padding_Xlarge"
-            android:text="@string/Midwife_Name"
+            android:text="@string/midwife_name"
             android:textSize="@dimen/text_medium" />
 
         <TextView
@@ -44,7 +44,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginBottom="@dimen/padding_Xlarge"
             android:layout_marginTop="@dimen/padding_Xlarge"
-            android:text="@string/Midwife_Email"
+            android:text="@string/midwife_email"
             android:textSize="@dimen/text_medium" />
 
         <TextView
@@ -69,7 +69,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginBottom="@dimen/padding_Xlarge"
             android:layout_marginTop="@dimen/padding_Xlarge"
-            android:text="@string/Primary_Number"
+            android:text="@string/primary_number"
             android:textSize="@dimen/text_medium" />
 
         <TextView
@@ -94,7 +94,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginBottom="@dimen/padding_Xlarge"
             android:layout_marginTop="@dimen/padding_Xlarge"
-            android:text="@string/Secondary_Number"
+            android:text="@string/secondary_number"
             android:textSize="@dimen/text_medium" />
 
         <TextView
