@@ -1,3 +1,4 @@
+
 package ie.teamchile.smartapp;
 
 import java.sql.Connection;
@@ -7,7 +8,6 @@ import java.util.Calendar;
 
 import models.Login_model;
 import utility.ConnectivityTester;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import connecttodb.GetToken;
 import connecttodb.Logout;
+
 
 public class MainActivity extends MenuInheritActivity {
 	private String token, username, password;
@@ -104,3 +105,4 @@ public class MainActivity extends MenuInheritActivity {
     		Toast.makeText(this, "Login Failed", Toast.LENGTH_LONG).show();
 	}
 }
+
