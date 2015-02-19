@@ -5,7 +5,7 @@ import android.os.Bundle;
 import connecttodb.AccessDBTable;
 import connecttodb.GetToken;
 
-public class ContactDetailsActivity extends Activity {
+public class ContactDetailsActivity extends MenuInheritActivity {
 	String DBUrl = "http://54.72.7.91:8888/service_users/14";
 	String loginUrl = "http://54.72.7.91:8888/login";
 	String username = "team_chile";

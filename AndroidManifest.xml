@@ -11,6 +11,14 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
+    <android:uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
+    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <android:uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/logo"
@@ -71,6 +79,10 @@
         <activity
             android:name=".ListView"
             android:label="@string/title_activity_list_view" >
+        </activity>
+        <activity
+            android:name=".MainActivityAnteNatal"
+            android:label="@string/title_activity_main_activity_ante_natal" >
         </activity>
     </application>
 

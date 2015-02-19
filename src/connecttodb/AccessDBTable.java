@@ -23,9 +23,9 @@ public class AccessDBTable {
 		return accessDB();
 	}
 	private String accessDB() {
-		Log.d("MYLOG", "In AccessDB");
-		Log.d("MYLOG", "AccessDB Token: " + token);
-		Log.d("MYLOG", "AccessDB TableURL: " + tableURL);
+		//Log.d("MYLOG", "In AccessDB");
+		//Log.d("MYLOG", "AccessDB Token: " + token);
+		//Log.d("MYLOG", "AccessDB TableURL: " + tableURL);
 		try {
 			obj = new URL("http://54.72.7.91:8888/" + tableURL);
 			con = (HttpURLConnection) obj.openConnection();
