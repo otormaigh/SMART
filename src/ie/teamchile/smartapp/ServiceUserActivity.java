@@ -1,6 +1,5 @@
 package ie.teamchile.smartapp;
 
-
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -239,5 +238,3 @@ public class ServiceUserActivity extends MenuInheritActivity {
         return result;
     }
 }
-
-

@@ -47,7 +47,7 @@ public class QuickMenuActivity extends MenuInheritActivity {
                     startActivity(intentCalendar);
                     break;
                 case R.id.todays_appointments:
-                    Intent intentToday = new Intent(QuickMenuActivity.this, AppointmentCalendarActivity.class);
+                    Intent intentToday = new Intent(QuickMenuActivity.this, TodayAppointmentActivity.class);
                     startActivity(intentToday);
                     break;
             }
