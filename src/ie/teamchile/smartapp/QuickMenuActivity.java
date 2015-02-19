@@ -1,17 +1,11 @@
 package ie.teamchile.smartapp;
 
-import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.R.id;
-import ie.teamchile.smartapp.R.layout;
 import models.Login_model;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import connecttodb.Logout;
 
 public class QuickMenuActivity extends MenuInheritActivity {
     private Button patientInfo;
