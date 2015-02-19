@@ -1,3 +1,4 @@
+
 package ie.teamchile.smartapp;
 
 import java.sql.Connection;
@@ -5,10 +6,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Calendar;
 
-import connecttodb.Logout;
 import models.Login_model;
-import connecttodb.GetToken;
-import android.app.Activity;
+import utility.ConnectivityTester;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -18,10 +17,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import connecttodb.GetToken;
+import connecttodb.Logout;
 
-public class MainActivity extends Activity {
+
+public class MainActivity extends MenuInheritActivity {
 	private String token, username, password;
-   // private int responseCode;
 	private Button loginButton;
 	private TextView usernameTextView, passwordTextView, about;
 	private Connection c = null;
@@ -32,11 +33,16 @@ public class MainActivity extends Activity {
 	private GetToken getToken = new GetToken();
 	private Intent intent;
 	private Calendar cal = Calendar.getInstance();
+	private ConnectivityTester testConn = new ConnectivityTester(this);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		testConn.testTheNetworkConnection();
+		Log.d("MYLOG", "is 3g connected: " + testConn.is3GConnected());
+		Log.d("MYLOG", "is WiFi connected: " + testConn.isWifiConnected());
 		
 		Log.d("MYLOG", "Time is: " + cal.getTime());
 
@@ -49,13 +55,6 @@ public class MainActivity extends Activity {
 	    about.setMovementMethod(LinkMovementMethod.getInstance());
 	    
 	}
-
-/*    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        responseCode = logout.doLogout(Login_model.getToken());
-    }*/
-
     private class ButtonClick implements View.OnClickListener {
 		public void onClick(View v) {
 			switch (v.getId()) {
@@ -77,7 +76,7 @@ public class MainActivity extends Activity {
 		protected String doInBackground(String... params) {
 			token = getToken.getToken(Login_model.getUsername(), Login_model.getPassword());
 			//token = getToken.getToken("team_chile", "smartappiscoming");
-			login.setToken(token);
+			
             Log.d("MYLOG", "Token: " + token);
             Log.d("MYLOG", "Get Token: " + Login_model.getToken());
 			return null;
@@ -106,3 +105,4 @@ public class MainActivity extends Activity {
     		Toast.makeText(this, "Login Failed", Toast.LENGTH_LONG).show();
 	}
 }
+
