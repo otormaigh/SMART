@@ -54,7 +54,7 @@ public class AccessDBTable {
 			con.setRequestProperty("Auth-Token", token);
 
 			responseCode = con.getResponseCode();
-			Log.d("MYLOG", "\nSending 'GET' request to URL : " + apiKey + table);
+			Log.d("MYLOG", "\nSending 'GET' request to URL : " + url + table);
 			Log.d("MYLOG", "Response Code from AccessDB: " + responseCode);
 
 			in = new BufferedReader(new InputStreamReader(con.getInputStream()));
