@@ -166,6 +166,7 @@
     <string name="contact_dialog_message">Select The Option</string>
     <string name="phone_call">Phone Call</string>
     <string name="sms">Send SMS</string>
+    <string name="email">Email</string>
     <string name="cancel">Cancel</string>
 
     <!-- CONTACT DETAILS -->
