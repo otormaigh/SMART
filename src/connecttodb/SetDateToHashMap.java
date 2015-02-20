@@ -32,7 +32,7 @@ public class SetDateToHashMap {
 			JSONArray query = jsonNew.getJSONArray("appointments");
 			for (int i = 0; i < query.length(); i++)
 				jsonValues.add(query.getJSONObject(i));
-			jsonValues = sortDates(jsonValues);
+			    jsonValues = sortDates(jsonValues);
 			for (int i = 0; i < jsonValues.size(); i++) {
 				idArray = new ArrayList<String>();
 				id = String.valueOf((jsonValues.get(i).getInt("id")));
