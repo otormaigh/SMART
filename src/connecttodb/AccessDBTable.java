@@ -12,9 +12,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 public class AccessDBTable {
-	private static CredentialsEnum url = CredentialsEnum.URL;
-	private static CredentialsEnum api = CredentialsEnum.API_KEY;
-	private String tableUrl, apiKey;
+	private static String url = CredentialsEnum.URL.toString();
+	private static String apiKey = CredentialsEnum.API_KEY.toString();
     private String token, table, inputLine;
     private int responseCode;
     private StringBuffer response;
@@ -23,9 +22,6 @@ public class AccessDBTable {
     private BufferedReader in;
 
 	public String accessDB(String token, String table){
-		tableUrl = url.toString();
-		apiKey = api.toString();
-		
 		this.token = token;
         this.table = table;
 		return accessDB();
@@ -49,7 +45,7 @@ public class AccessDBTable {
 		//Log.d("MYLOG", "AccessDB Token: " + token);
 		//Log.d("MYLOG", "AccessDB TableURL: " + tableURL);
 		try {
-			obj = new URL(tableUrl + table);
+			obj = new URL(url + table);
 			con = (HttpURLConnection) obj.openConnection();
 			con.setRequestMethod("GET");
 
@@ -58,7 +54,7 @@ public class AccessDBTable {
 			con.setRequestProperty("Auth-Token", token);
 
 			responseCode = con.getResponseCode();
-			Log.d("MYLOG", "\nSending 'GET' request to URL : " + api + table);
+			Log.d("MYLOG", "\nSending 'GET' request to URL : " + apiKey + table);
 			Log.d("MYLOG", "Response Code from AccessDB: " + responseCode);
 
 			in = new BufferedReader(new InputStreamReader(con.getInputStream()));
