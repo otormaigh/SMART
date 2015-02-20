@@ -4,23 +4,23 @@
     android:orientation="vertical" >
 
     <Button
-        android:id="@+id/kinPhoneCall"
+        android:id="@+id/kin_Phone_Call"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/drawable"
-        android:text="Phone Call" />
+        android:background="@drawable/border"
+        android:text="@string/phone_call" />
 
     <Button
-        android:id="@+id/kinSendSMS"
+        android:id="@+id/kin_Send_SMS"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/drawable"
-        android:text="Send SMS" />
+        android:background="@drawable/border"
+        android:text="@string/sms" />
 
     <Button
-        android:id="@+id/kinCancel"
+        android:id="@+id/kin_Cancel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/drawable"
-        android:text="Cancel" />
+        android:background="@drawable/border"
+        android:text="@string/cancel" />
 </LinearLayout>
