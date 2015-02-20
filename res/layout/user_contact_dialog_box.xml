@@ -4,28 +4,28 @@
     android:orientation="vertical" >
          
     <Button
-        android:id="@+id/userPhoneCall"
+        android:id="@+id/user_Phone_Call"
         android:layout_width="match_parent"
         android:background="@drawable/drawable"
         android:layout_height="wrap_content"
         android:text="@string/phone_call" />
     
     <Button
-        android:id="@+id/userSendSMS"
+        android:id="@+id/user_Send_SMS"
         android:layout_width="match_parent"
         android:background="@drawable/drawable"
         android:layout_height="wrap_content"
         android:text="@string/sms" />
     
     <Button
-        android:id="@+id/userSendEmail"
+        android:id="@+id/user_Send_Email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/drawable"
         android:text="@string/email_to" />
     
     <Button
-        android:id="@+id/userCancel"
+        android:id="@+id/user_Cancel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/drawable"

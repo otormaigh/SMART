@@ -76,7 +76,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
                 case R.id.next_of_kin_contact:
                     kinContact();
                     break;
-                case R.id.userPhoneCall:
+                case R.id.user_Phone_Call:
                     Log.i("Make call", "");
                     uri = "tel:" + mobileNumber.getText().toString();
                     Intent phoneIntent = new Intent(Intent.ACTION_DIAL, Uri.parse(uri));
@@ -87,7 +87,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
                                 "Call failed, please try again later.", Toast.LENGTH_SHORT).show();
                     }
                     break;
-                case R.id.userSendSMS:
+                case R.id.user_Send_SMS:
                     Log.i("Send SMS", "");
                     String no = "" + mobileNumber.getText().toString();
                     Intent sendSMS = new Intent(Intent.ACTION_VIEW);
@@ -100,7 +100,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
                                 "SMS failed, please try again later.", Toast.LENGTH_SHORT).show();
                     }
                     break;
-                case R.id.userSendEmail:
+                case R.id.user_Send_Email:
                     Log.i("Send Email", "");
                     String mail = "" + email.getText().toString();
                     Intent sendEmail = new Intent(Intent.ACTION_SEND);
@@ -111,7 +111,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
                                 "Email failed, please try again later.", Toast.LENGTH_SHORT).show();
                     }
                     break;
-                case R.id.kinPhoneCall:
+                case R.id.kin_Phone_Call:
                     Log.i("Make call", "");
                     String uri1 = "tel:" + nextOfKinContactNumber.getText().toString();
                     Intent phoneIntent1 = new Intent(Intent.ACTION_DIAL, Uri.parse(uri1));
@@ -122,7 +122,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
                                 "Call failed, please try again later.", Toast.LENGTH_SHORT).show();
                     }
                     break;
-                case R.id.kinSendSMS:
+                case R.id.kin_Send_SMS:
                     Log.i("Send SMS", "");
                     String no1 = "" + nextOfKinContactNumber.getText().toString();
                     Intent sendSMS1 = new Intent(Intent.ACTION_VIEW);
@@ -135,10 +135,10 @@ public class ServiceUserActivity extends MenuInheritActivity {
                                 "SMS failed, please try again later.", Toast.LENGTH_SHORT).show();
                     }
                     break;
-                case R.id.userCancel:
+                case R.id.user_Cancel:
                     dialog.cancel();
                     break;
-                case R.id.kinCancel:
+                case R.id.kin_Cancel:
                     dialog.cancel();
                     break;
             }
@@ -154,13 +154,13 @@ public class ServiceUserActivity extends MenuInheritActivity {
         dialog = new Dialog(ServiceUserActivity.this);
         dialog.setContentView(R.layout.user_contact_dialog_box);
         dialog.setTitle(R.string.contact_dialog_message);
-        userPhoneCall = (Button) dialog.findViewById(R.id.userPhoneCall);
+        userPhoneCall = (Button) dialog.findViewById(R.id.user_Phone_Call);
         userPhoneCall.setOnClickListener(new ButtonClick());
-        userSendSMS = (Button) dialog.findViewById(R.id.userSendSMS);
+        userSendSMS = (Button) dialog.findViewById(R.id.user_Send_SMS);
         userSendSMS.setOnClickListener(new ButtonClick());
-        userSendEmail = (Button) dialog.findViewById(R.id.userSendEmail);
+        userSendEmail = (Button) dialog.findViewById(R.id.user_Send_Email);
         userSendEmail.setOnClickListener(new ButtonClick());
-        userCancel = (Button) dialog.findViewById(R.id.userCancel);
+        userCancel = (Button) dialog.findViewById(R.id.user_Cancel);
         userCancel.setOnClickListener(new ButtonClick());
         dialog.show();
     }
@@ -168,11 +168,11 @@ public class ServiceUserActivity extends MenuInheritActivity {
         dialog = new Dialog(ServiceUserActivity.this);
         dialog.setContentView(R.layout.kin_contact_dialog_box);
         dialog.setTitle(R.string.contact_dialog_message);
-        kinPhoneCall = (Button) dialog.findViewById(R.id.kinPhoneCall);
+        kinPhoneCall = (Button) dialog.findViewById(R.id.kin_Phone_Call);
         kinPhoneCall.setOnClickListener(new ButtonClick());
-        kinSendSMS = (Button) dialog.findViewById(R.id.kinSendSMS);
+        kinSendSMS = (Button) dialog.findViewById(R.id.kin_Send_SMS);
         kinSendSMS.setOnClickListener(new ButtonClick());
-        kinCancel = (Button) dialog.findViewById(R.id.kinCancel);
+        kinCancel = (Button) dialog.findViewById(R.id.kin_Cancel);
         kinCancel.setOnClickListener(new ButtonClick());
         dialog.show();
     }
