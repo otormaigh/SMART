@@ -42,11 +42,9 @@ public class MenuInheritActivity extends Activity {
                 new AlertDialog.Builder(this)
                         .setTitle(R.string.Logout_title)
                         .setMessage(R.string.Logout_dialog_message)
-                        .setNegativeButton(R.string.No,
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialoginterface, int i) {
-                                    }
-                                }).setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener() {
+                        .setNegativeButton(R.string.No, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialoginterface, int i) {
+                }}).setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialoginterface, int i) {
                         Log.d("MYLOG", "Logout button pressed");
                         if (Login_model.getToken() == "") {
@@ -66,9 +64,7 @@ public class MenuInheritActivity extends Activity {
                             startActivity(intent);
                         }
                     }
-                })
-                        .show();
-
+                }).show();
             case R.id.menu_item2:
                 System.out.println("Item 2 was selected!");
         }
