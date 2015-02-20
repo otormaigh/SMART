@@ -2,9 +2,9 @@
     android:shape="rectangle">
 
     <stroke android:width="0.6dip" 
-     android:color="#000000" />
+     android:color="#33B5E5" />
     
-   <padding 
+   <padding
        android:left="12dp"
        android:top="12dp"
        android:right="12dp"
