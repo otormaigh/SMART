@@ -6,14 +6,14 @@
     <Button
         android:id="@+id/user_Phone_Call"
         android:layout_width="match_parent"
-        android:background="@drawable/drawable"
+        android:background="@drawable/border"
         android:layout_height="wrap_content"
         android:text="@string/phone_call" />
     
     <Button
         android:id="@+id/user_Send_SMS"
         android:layout_width="match_parent"
-        android:background="@drawable/drawable"
+        android:background="@drawable/border"
         android:layout_height="wrap_content"
         android:text="@string/sms" />
     
@@ -21,14 +21,14 @@
         android:id="@+id/user_Send_Email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/drawable"
+        android:background="@drawable/border"
         android:text="@string/email_to" />
     
     <Button
         android:id="@+id/user_Cancel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/drawable"
+        android:background="@drawable/border"
         android:text="@string/cancel" />  
 
 </LinearLayout>
