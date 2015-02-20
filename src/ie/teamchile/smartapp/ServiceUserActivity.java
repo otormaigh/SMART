@@ -63,8 +63,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		county.setText(getIntent().getStringExtra("county"));
 		postCode.setText(getIntent().getStringExtra("post_code"));
 		nextOfKinName.setText(getIntent().getStringExtra("next_of_kin_name"));
-		nextOfKinContactNumber.setText(getIntent().getStringExtra(
-				"next_of_kin_phone"));
+		nextOfKinContactNumber.setText(getIntent().getStringExtra("next_of_kin_phone"));
 	}
 
 	private class ButtonClick implements View.OnClickListener, DialogInterface {
