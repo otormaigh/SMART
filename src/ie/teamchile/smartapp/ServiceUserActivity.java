@@ -20,7 +20,7 @@ import java.util.Date;
 public class ServiceUserActivity extends MenuInheritActivity {
     private TextView hospitalNumber, name, age, email, mobileNumber, road, county,
             postCode, nextOfKinName, nextOfKinContactNumber;
-    private String dob, uri;
+    private String dob, userCall, userSMS, userEmail, kinCall, kinSMS;
     private Dialog dialog;
     private Button bookAppointmentButton, userContact, next_of_kin_contact, userPhoneCall, userSendSMS,
             userSendEmail, userCancel, kinPhoneCall, kinSendSMS, kinCancel;
@@ -78,8 +78,8 @@ public class ServiceUserActivity extends MenuInheritActivity {
                     break;
                 case R.id.user_Phone_Call:
                     Log.i("Make call", "");
-                    uri = "tel:" + mobileNumber.getText().toString();
-                    Intent phoneIntent = new Intent(Intent.ACTION_DIAL, Uri.parse(uri));
+                    userCall = "tel:" + mobileNumber.getText().toString();
+                    Intent phoneIntent = new Intent(Intent.ACTION_DIAL, Uri.parse(userCall));
                     try {
                         startActivity(phoneIntent);
                     } catch (android.content.ActivityNotFoundException ex) {
@@ -89,10 +89,10 @@ public class ServiceUserActivity extends MenuInheritActivity {
                     break;
                 case R.id.user_Send_SMS:
                     Log.i("Send SMS", "");
-                    String no = "" + mobileNumber.getText().toString();
+                    userSMS = "" + mobileNumber.getText().toString();
                     Intent sendSMS = new Intent(Intent.ACTION_VIEW);
                     sendSMS.setType("vnd.android-dir/mms-sms");
-                    sendSMS.putExtra("address", no);
+                    sendSMS.putExtra("address", userSMS);
                     try {
                         startActivity(sendSMS);
                     } catch (android.content.ActivityNotFoundException ex) {
@@ -102,7 +102,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
                     break;
                 case R.id.user_Send_Email:
                     Log.i("Send Email", "");
-                    String mail = "" + email.getText().toString();
+                    userEmail = "" + email.getText().toString();
                     Intent sendEmail = new Intent(Intent.ACTION_SEND);
                     try {
                         startActivity(sendEmail);
@@ -113,8 +113,8 @@ public class ServiceUserActivity extends MenuInheritActivity {
                     break;
                 case R.id.kin_Phone_Call:
                     Log.i("Make call", "");
-                    String uri1 = "tel:" + nextOfKinContactNumber.getText().toString();
-                    Intent phoneIntent1 = new Intent(Intent.ACTION_DIAL, Uri.parse(uri1));
+                    kinCall = "tel:" + nextOfKinContactNumber.getText().toString();
+                    Intent phoneIntent1 = new Intent(Intent.ACTION_DIAL, Uri.parse(kinCall));
                     try {
                         startActivity(phoneIntent1);
                     } catch (android.content.ActivityNotFoundException ex) {
@@ -124,10 +124,10 @@ public class ServiceUserActivity extends MenuInheritActivity {
                     break;
                 case R.id.kin_Send_SMS:
                     Log.i("Send SMS", "");
-                    String no1 = "" + nextOfKinContactNumber.getText().toString();
+                    kinSMS = "" + nextOfKinContactNumber.getText().toString();
                     Intent sendSMS1 = new Intent(Intent.ACTION_VIEW);
                     sendSMS1.setType("vnd.android-dir/mms-sms");
-                    sendSMS1.putExtra("address", no1);
+                    sendSMS1.putExtra("address", kinSMS);
                     try {
                         startActivity(sendSMS1);
                     } catch (android.content.ActivityNotFoundException ex) {
