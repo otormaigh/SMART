@@ -25,6 +25,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
     private Button bookAppointmentButton, userContact, next_of_kin_contact, userPhoneCall, userSendSMS,
             userSendEmail, userCancel, kinPhoneCall, kinSendSMS, kinCancel;
     private Date dobAsDate;
+    private Intent userCallIntent, userSmsIntent, userEmailIntent, kinCallIntent, kinSmsIntent;
     private Calendar cal = Calendar.getInstance();
 
     @Override
@@ -79,9 +80,9 @@ public class ServiceUserActivity extends MenuInheritActivity {
                 case R.id.user_Phone_Call:
                     Log.i("Make call", "");
                     userCall = "tel:" + mobileNumber.getText().toString();
-                    Intent phoneIntent = new Intent(Intent.ACTION_DIAL, Uri.parse(userCall));
+                    userCallIntent = new Intent(Intent.ACTION_DIAL, Uri.parse(userCall));
                     try {
-                        startActivity(phoneIntent);
+                        startActivity(userCallIntent);
                     } catch (android.content.ActivityNotFoundException ex) {
                         Toast.makeText(ServiceUserActivity.this,
                                 "Call failed, please try again later.", Toast.LENGTH_SHORT).show();
@@ -90,11 +91,11 @@ public class ServiceUserActivity extends MenuInheritActivity {
                 case R.id.user_Send_SMS:
                     Log.i("Send SMS", "");
                     userSMS = "" + mobileNumber.getText().toString();
-                    Intent sendSMS = new Intent(Intent.ACTION_VIEW);
-                    sendSMS.setType("vnd.android-dir/mms-sms");
-                    sendSMS.putExtra("address", userSMS);
+                    userSmsIntent = new Intent(Intent.ACTION_VIEW);
+                    userSmsIntent.setType("vnd.android-dir/mms-sms");
+                    userSmsIntent.putExtra("address", userSMS);
                     try {
-                        startActivity(sendSMS);
+                        startActivity(userSmsIntent);
                     } catch (android.content.ActivityNotFoundException ex) {
                         Toast.makeText(ServiceUserActivity.this,
                                 "SMS failed, please try again later.", Toast.LENGTH_SHORT).show();
@@ -103,9 +104,9 @@ public class ServiceUserActivity extends MenuInheritActivity {
                 case R.id.user_Send_Email:
                     Log.i("Send Email", "");
                     userEmail = "" + email.getText().toString();
-                    Intent sendEmail = new Intent(Intent.ACTION_SEND);
+                    userEmailIntent = new Intent(Intent.ACTION_SEND);
                     try {
-                        startActivity(sendEmail);
+                        startActivity(userEmailIntent);
                     } catch (android.content.ActivityNotFoundException ex) {
                         Toast.makeText(ServiceUserActivity.this,
                                 "Email failed, please try again later.", Toast.LENGTH_SHORT).show();
@@ -114,9 +115,9 @@ public class ServiceUserActivity extends MenuInheritActivity {
                 case R.id.kin_Phone_Call:
                     Log.i("Make call", "");
                     kinCall = "tel:" + nextOfKinContactNumber.getText().toString();
-                    Intent phoneIntent1 = new Intent(Intent.ACTION_DIAL, Uri.parse(kinCall));
+                    kinCallIntent = new Intent(Intent.ACTION_DIAL, Uri.parse(kinCall));
                     try {
-                        startActivity(phoneIntent1);
+                        startActivity(kinCallIntent);
                     } catch (android.content.ActivityNotFoundException ex) {
                         Toast.makeText(ServiceUserActivity.this,
                                 "Call failed, please try again later.", Toast.LENGTH_SHORT).show();
@@ -125,11 +126,11 @@ public class ServiceUserActivity extends MenuInheritActivity {
                 case R.id.kin_Send_SMS:
                     Log.i("Send SMS", "");
                     kinSMS = "" + nextOfKinContactNumber.getText().toString();
-                    Intent sendSMS1 = new Intent(Intent.ACTION_VIEW);
-                    sendSMS1.setType("vnd.android-dir/mms-sms");
-                    sendSMS1.putExtra("address", kinSMS);
+                    kinSmsIntent = new Intent(Intent.ACTION_VIEW);
+                    kinSmsIntent.setType("vnd.android-dir/mms-sms");
+                    kinSmsIntent.putExtra("address", kinSMS);
                     try {
-                        startActivity(sendSMS1);
+                        startActivity(kinSmsIntent);
                     } catch (android.content.ActivityNotFoundException ex) {
                         Toast.makeText(ServiceUserActivity.this,
                                 "SMS failed, please try again later.", Toast.LENGTH_SHORT).show();
