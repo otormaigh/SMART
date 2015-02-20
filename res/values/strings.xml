@@ -175,6 +175,7 @@
     <string name="primary_number">Primary No. :</string>
     <string name="secondary_number">Secondary No. :</string>
     <string name="title_activity_today_appointment">TodayAppointmentActivity</string>
+    <string name="title_activity_post_natal">PostNatal</string>
+    <string name="title_activity_anti_natal">AntiNatal</string>
 
 </resources>
-
