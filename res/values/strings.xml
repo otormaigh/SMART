@@ -10,12 +10,12 @@
     <string name="title_activity_appointment_type_spinner">Appointment Type Spinner</string>
     <string name="title_activity_quick_menu">Quick Menu</string>
     <string name="title_activity_confirm_appointment">Confirm Appointment</string>
-    <string name="title_activity_calendar">CalendarActivity</string>
-    <string name="title_activity_appointment_calendar">AppointmentCalendarActivity</string>
-	<string name="title_activity_today_appointment">TodayAppointmentActivity</string>
-    <string name="title_activity_contact_details">ContactDetails</string>
-	<string name="title_activity_post_natal">PostNatal</string>
-    <string name="title_activity_anti_natal">AntiNatal</string>
+    <string name="title_activity_calendar">Calendar</string>
+    <string name="title_activity_appointment_calendar">Appointment Calendar</string>
+	<string name="title_activity_today_appointment">Today Appointment</string>
+    <string name="title_activity_contact_details">Contact Details</string>
+	<string name="title_activity_post_natal">Post Natal</string>
+    <string name="title_activity_anti_natal">Anti Natal</string>
 
     <!-- MAIN SCREEN -->
     <string name="usernameDefault">team_chile</string>
