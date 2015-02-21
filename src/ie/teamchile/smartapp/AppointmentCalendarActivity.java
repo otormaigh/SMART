@@ -13,11 +13,19 @@ import models.Login_model;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ArrayAdapter;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+import connecttodb.AccessDBTable;
 import connecttodb.DateSorter;
 import connecttodb.SetDateToHashMap;
 
@@ -27,22 +35,31 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 	private Date day = null;
 	private DateFormat df = new SimpleDateFormat("yyyy-MM-dd - HH:mm:ss", Locale.getDefault());
 	private DateFormat dfDateOnly = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+	private DateFormat dfDateOnlyOther = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 	private DateFormat dfTimeOnly = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());	
 	private ArrayList<JSONObject> aptsAtDate = new ArrayList<JSONObject>();
 	private ArrayList<String> aptList = new ArrayList<String>();	
+	private ArrayList<String> timeList = new ArrayList<String>();
+	private ArrayList<String> nameList = new ArrayList<String>();
+	private ArrayList<String> gestList = new ArrayList<String>();
 	private Calendar c = Calendar.getInstance();
 	private DateSorter ds = new DateSorter();
 	private SetDateToHashMap getDates = new SetDateToHashMap();
 	private ListView listView;
 	private Object time, name, gestation;
+	private ListAdapter adapter;
+	private TextView clinicName;
+	private Button dateInList;
+	private AccessDBTable table = new AccessDBTable();
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appointment_calendar);
-        listView = (ListView)findViewById(R.id.list);        
-/*      ArrayAdapter<String> listItem = new ArrayAdapter<String>(this,
-                android.R.layout.activity_list_item, android.R.id.list);
-        listView.setAdapter(listItem);*/        
+        listView = (ListView)findViewById(R.id.list);
+        clinicName = (TextView)findViewById(R.id.clinic_name);
+        dateInList = (Button)findViewById(R.id.button2);
+        dateInList.setText(dfDateOnlyOther.format(daySelected));
         
         c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         Log.d("MYLOG", "Date set to " + c.getTime());
@@ -68,7 +85,9 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
                     //if yes put in free slot after appointment
 
                     if(i == 0){
-                        aptList.add(time + " --- " + name + " --- " + gestation);
+                    	timeList.add("----------");
+                    	nameList.add("Free Slot");
+                    	gestList.add("----------");
                     } else {
                         Object timeFirst = ((JSONObject) ((JSONObject) aptsAtDate.get(i-1)).get("appointments")).get("time");
                         Date timeA = dfTimeOnly.parse(String.valueOf(timeFirst));
@@ -76,21 +95,74 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
                         c.setTime(timeA);
                         c.add(Calendar.MINUTE, 15);
                         if(!(c.getTime().equals(timeB))){
-                            aptList.add("---------- Free Slot ----------");
-                            aptList.add(time + " --- " + name + " --- " + gestation);
-                        } else {
-                            aptList.add(time + " --- " + name + " --- " + gestation);
+                        	timeList.add("----------");
+                        	nameList.add("Free Slot");
+                        	gestList.add("----------");
+                        	
+                        	timeList.add(time.toString());
+                        	nameList.add(name.toString());
+                        	gestList.add(gestation.toString());                        	
+                        } else {                        	
+                        	timeList.add(time.toString());
+                        	nameList.add(name.toString());
+                        	gestList.add(gestation.toString());
                         }
                     }
                 }
             }
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(AppointmentCalendarActivity.this, R.layout.list_rows, R.id.date, aptList);
+            /*ArrayAdapter<String> adapter = new ArrayAdapter<String>(AppointmentCalendarActivity.this, R.layout.list_rows, R.id.date, aptList);
             listView.setAdapter(adapter);
+            listView.setTextFilterEnabled(true);*/
+            
+            //listView = (ListView) findViewById(R.id.list);
+    		//adapter = new ListElementAdapter (this, timeList, nameList, gestList);
+            listView.setAdapter(new ListElementAdapter (this, timeList, nameList, gestList));
             listView.setTextFilterEnabled(true);
+            
         } catch (JSONException | ParseException e) {
             e.printStackTrace();
         }
     }
+    private class ListElementAdapter extends BaseAdapter {
+		Context context;
+		LayoutInflater layoutInflater;
+		int position;
+		ArrayList<String> aptTime, aptName, aptGest;
+
+		public ListElementAdapter(Context context, ArrayList<String> aptTime, ArrayList<String> aptName, ArrayList<String> aptGest) {
+			super();
+			Log.d("MYLOG", "List Adapter Called");
+			this.context = context;
+			this.aptTime = aptTime;
+			this.aptName = aptName;
+			this.aptGest = aptGest;
+			layoutInflater = LayoutInflater.from(context);
+		}
+		@Override
+		public int getCount() {
+			return aptTime.size();
+		}
+		@Override
+		public Object getItem(int position) {
+			return null;
+		}
+		@Override
+		public long getItemId(int position) {
+			return position;
+		}
+		@Override
+		public View getView(final int position, View convertView, ViewGroup parent) {
+			this.position = position;
+			convertView = layoutInflater.inflate(R.layout.list_rows, null);
+			TextView timeText = (TextView) convertView.findViewById(R.id.time);
+			TextView nameText = (TextView) convertView.findViewById(R.id.name);
+			TextView gestText = (TextView) convertView.findViewById(R.id.gestation);
+			timeText.setText(aptTime.get(position));
+			nameText.setText(aptName.get(position));
+			gestText.setText(aptGest.get(position));
+			return convertView;
+		}
+	}
     public void setRegionSelected(int regionSelected){
     	AppointmentCalendarActivity.regionSelected = regionSelected;
     }
@@ -105,12 +177,25 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
     }
     public class LongOperation extends AsyncTask<String, Void, ArrayList<JSONObject>> {    
     	//Date dayWanted;
+    	String clinicNameFromDB = null;
+    	String namefromDB = null;
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
 			//dayWanted = AppointmentCalendarActivity.this.daySelected;
 		}
 		protected ArrayList<JSONObject> doInBackground(String... params) {
+			try {
+				String fromDB = table.accessDB(Login_model.getToken(), "clinics/" + hospitalSelected);
+				JSONObject jsonFromDB = new JSONObject(fromDB);				
+				String namefromDB = jsonFromDB.getJSONArray("clinics").getJSONObject(0).getString("name");
+				
+				Log.d("MYLOG", "-------------------------");
+				Log.d("MYLOG", "clinicName before: " + namefromDB);
+				Log.d("MYLOG", "-------------------------");
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}			
 			String daySelectedStr = dfDateOnly.format(daySelected);
 			aptsAtDate = getDates.setDateToHaspMap(Login_model.getToken(), daySelectedStr);
 			return aptsAtDate;
@@ -121,6 +206,10 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 		@Override
         protected void onPostExecute(ArrayList<JSONObject> result) {	
 			super.onPostExecute(result);
+			clinicName.setText(namefromDB);
+			Log.d("MYLOG", "-------------------------");
+			Log.d("MYLOG", "clinicName after: " + namefromDB);
+			Log.d("MYLOG", "-------------------------");
 			Log.d("MYLOG", "result: " + result);
 			setAptToList(result);
 		}
