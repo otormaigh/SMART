@@ -12,7 +12,10 @@
     <string name="title_activity_confirm_appointment">Confirm Appointment</string>
     <string name="title_activity_calendar">CalendarActivity</string>
     <string name="title_activity_appointment_calendar">AppointmentCalendarActivity</string>
+	<string name="title_activity_today_appointment">TodayAppointmentActivity</string>
     <string name="title_activity_contact_details">ContactDetails</string>
+	<string name="title_activity_post_natal">PostNatal</string>
+    <string name="title_activity_anti_natal">AntiNatal</string>
 
     <!-- MAIN SCREEN -->
     <string name="main_logo"> main_logo</string>
@@ -173,7 +176,5 @@
     <string name="midwife_email">Email:</string>
     <string name="primary_number">Primary No. :</string>
     <string name="secondary_number">Secondary No. :</string>
-    <string name="title_activity_today_appointment">TodayAppointmentActivity</string>
-
+    
 </resources>
-
