@@ -120,7 +120,7 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
                     passOptions.setHospitalSelected(hospitalSelected);
                     passOptions.setWeekSelected(weekSelected);
                     passOptions.setDaySelected(daySelected);
-                    Intent intent = new Intent(getApplicationContext(), AppointmentCalendarActivity.class);
+                    Intent intent = new Intent(AppointmentTypeSpinnerActivity.this, AppointmentCalendarActivity.class);
                     startActivity(intent);
                     break;
             }
