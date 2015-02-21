@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tableLayout1"
+    android:layout_width="fill_parent"
+    android:background="@drawable/border"
+    android:layout_height="fill_parent">
+
+ 
+    <!-- 2 columns -->
+    <TableRow
+       
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border"
+        android:padding="5dip" >
+ 
+        <TextView
+          
+            android:text="Column 1"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/button1"
+            android:text="Column 2"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    </TableRow>
+      <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border"
+        android:padding="5dip" >
+ 
+        <TextView
+            android:text="Column 1"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:text="Column 2"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    </TableRow>
+</TableLayout>
