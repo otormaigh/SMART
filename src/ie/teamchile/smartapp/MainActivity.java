@@ -59,9 +59,9 @@ public class MainActivity extends MenuInheritActivity {
 		public void onClick(View v) {
 			switch (v.getId()) {
                 case R.id.login:                	
-                Intent intent = new Intent(MainActivity.this, QuickMenuActivity.class);
+                /*Intent intent = new Intent(MainActivity.this, QuickMenuActivity.class);
                 startActivity(intent);
-				login.setToken("0c325638d97faf29d71f");
+				login.setToken("0c325638d97faf29d71f");*/
 
                 getCredentials();
 				new LongOperation().execute((String[]) null);
