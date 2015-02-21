@@ -18,7 +18,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import connecttodb.DateSorterThing;
+import connecttodb.DateSorter;
 import connecttodb.SetDateToHashMap;
 
 public class AppointmentCalendarActivity extends MenuInheritActivity {
@@ -27,13 +27,11 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 	private Date day = null;
 	private DateFormat df = new SimpleDateFormat("yyyy-MM-dd - HH:mm:ss", Locale.getDefault());
 	private DateFormat dfDateOnly = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-	private DateFormat dfTimeOnly = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
-	
-	private ArrayList<JSONObject> thing = new ArrayList<JSONObject>();
-	private ArrayList<String> aptList = new ArrayList<String>();
-	
+	private DateFormat dfTimeOnly = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());	
+	private ArrayList<JSONObject> aptsAtDate = new ArrayList<JSONObject>();
+	private ArrayList<String> aptList = new ArrayList<String>();	
 	private Calendar c = Calendar.getInstance();
-	private DateSorterThing ds = new DateSorterThing();
+	private DateSorter ds = new DateSorter();
 	private SetDateToHashMap getDates = new SetDateToHashMap();
 	private ListView listView;
 	private Object time, name, gestation;
@@ -41,13 +39,10 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appointment_calendar);
-        listView = (ListView)findViewById(R.id.list);
-        
-        ArrayAdapter<String> listItem = new ArrayAdapter<String>(this,
+        listView = (ListView)findViewById(R.id.list);        
+/*      ArrayAdapter<String> listItem = new ArrayAdapter<String>(this,
                 android.R.layout.activity_list_item, android.R.id.list);
-
-        listView.setAdapter(listItem);
-        listView.setTextFilterEnabled(true);
+        listView.setAdapter(listItem);*/        
         
         c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         Log.d("MYLOG", "Date set to " + c.getTime());
@@ -59,15 +54,15 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
         Log.d("MYLOG", "day: " + daySelected);
 		new LongOperation().execute((String[]) null);
     }
-    public void setAptToList(ArrayList<JSONObject> thing){
+    public void setAptToList(ArrayList<JSONObject> aptsAtDate){
         try {
-            for (int i = 0; i < thing.size(); i++) {
-                Integer clinic_id = (((JSONObject) ((JSONObject) thing.get(i)).get("appointments")).getInt("clinic_id"));
+            for (int i = 0; i < aptsAtDate.size(); i++) {
+                Integer clinic_id = (((JSONObject) ((JSONObject) aptsAtDate.get(i)).get("appointments")).getInt("clinic_id"));
 
                 if (clinic_id == hospitalSelected) {
-                    name = ((JSONObject) ((JSONObject) ((JSONObject) thing.get(i)).get("appointments")).get("service_user")).get("name");
-                    time = ((JSONObject) ((JSONObject) thing.get(i)).get("appointments")).get("time");
-                    gestation = ((JSONObject) ((JSONObject) ((JSONObject) thing.get(i)).get("appointments")).get("service_user")).get("gestation");
+                    name = ((JSONObject) ((JSONObject) ((JSONObject) aptsAtDate.get(i)).get("appointments")).get("service_user")).get("name");
+                    time = ((JSONObject) ((JSONObject) aptsAtDate.get(i)).get("appointments")).get("time");
+                    gestation = ((JSONObject) ((JSONObject) ((JSONObject) aptsAtDate.get(i)).get("appointments")).get("service_user")).get("gestation");
                     //get closing time
                     //check if last appointment is 15 minutes before closing time
                     //if yes put in free slot after appointment
@@ -75,12 +70,12 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
                     if(i == 0){
                         aptList.add(time + " --- " + name + " --- " + gestation);
                     } else {
-                        Object timeFirst = ((JSONObject) ((JSONObject) thing.get(i-1)).get("appointments")).get("time");
-                        Date timeAtFirst = dfTimeOnly.parse(String.valueOf(timeFirst));
-                        Date timeAtSecond = dfTimeOnly.parse(String.valueOf(time));
-                        c.setTime(timeAtFirst);
+                        Object timeFirst = ((JSONObject) ((JSONObject) aptsAtDate.get(i-1)).get("appointments")).get("time");
+                        Date timeA = dfTimeOnly.parse(String.valueOf(timeFirst));
+                        Date timeB = dfTimeOnly.parse(String.valueOf(time));
+                        c.setTime(timeA);
                         c.add(Calendar.MINUTE, 15);
-                        if(!(c.getTime().equals(timeAtSecond))){
+                        if(!(c.getTime().equals(timeB))){
                             aptList.add("---------- Free Slot ----------");
                             aptList.add(time + " --- " + name + " --- " + gestation);
                         } else {
@@ -91,6 +86,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
             }
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(AppointmentCalendarActivity.this, R.layout.list_rows, R.id.date, aptList);
             listView.setAdapter(adapter);
+            listView.setTextFilterEnabled(true);
         } catch (JSONException | ParseException e) {
             e.printStackTrace();
         }
@@ -108,16 +104,16 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
         AppointmentCalendarActivity.daySelected = daySelected;
     }
     public class LongOperation extends AsyncTask<String, Void, ArrayList<JSONObject>> {    
-    	Date dayWanted;
+    	//Date dayWanted;
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			dayWanted = AppointmentCalendarActivity.this.daySelected;
+			//dayWanted = AppointmentCalendarActivity.this.daySelected;
 		}
 		protected ArrayList<JSONObject> doInBackground(String... params) {
-			String dayWantedStr = dfDateOnly.format(dayWanted);
-			thing = getDates.setDateToHaspMap(Login_model.getToken(), dayWantedStr);
-			return thing;
+			String daySelectedStr = dfDateOnly.format(daySelected);
+			aptsAtDate = getDates.setDateToHaspMap(Login_model.getToken(), daySelectedStr);
+			return aptsAtDate;
 		}
 		@Override
 		protected void onProgressUpdate(Void... values) {
