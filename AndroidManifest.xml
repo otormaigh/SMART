@@ -70,6 +70,14 @@
             android:name=".TodayAppointmentActivity"
             android:label="@string/title_activity_today_appointment" >
         </activity>
+        <activity
+            android:name=".PostNatal"
+            android:label="@string/title_activity_post_natal" >
+        </activity>
+        <activity
+            android:name=".AntiNatal"
+            android:label="@string/title_activity_anti_natal" >
+        </activity>
     </application>
 
 </manifest>
