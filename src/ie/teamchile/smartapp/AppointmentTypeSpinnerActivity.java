@@ -20,7 +20,7 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
             dominoWicklowAdapter, ethDublinAdapter, ethWicklowAdapter, satelliteAdapter, weekAdapter, dayAdapter;
     private int regionSelected, hospitalSelected, weekSelected;
 	private Date daySelected;
-    private Calendar c = Calendar.getInstance();
+    private Calendar c;
     
     AppointmentCalendarActivity passOptions = new AppointmentCalendarActivity();
 
@@ -29,6 +29,7 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appointment_type_spinner);
         
+        c = Calendar.getInstance();
         c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         Log.d("MYLOG", "Date set to " + c.getTime());
 
@@ -386,16 +387,19 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
                     switch (position) {
                         case 0:
                             weekSelected = 0;
+                            c = Calendar.getInstance();
                             daySpinner.setVisibility(View.GONE);
                             appointmentCalendar.setVisibility(View.GONE);
                             break;
                         case 1:     //Week 1
                             weekSelected = 1;
+                            c = Calendar.getInstance();
                             daySpinner.setVisibility(View.VISIBLE);
                             daySpinner.setSelection(0);
                             break;
                         case 2:     //Week 2
                             weekSelected = 2;
+                            c = Calendar.getInstance();
                             Log.d("MYLOG", "Week 2 selected");
                 			c.add(Calendar.DAY_OF_YEAR, 7);
                 			Log.d("MYLOG", "Plus 7 days is: " + c.getTime());
@@ -404,6 +408,7 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
                             break;
                         case 3:     //Week 3
                             weekSelected = 3;
+                            c = Calendar.getInstance();
                             Log.d("MYLOG", "Week 3 selected");
                 			c.add(Calendar.DAY_OF_YEAR, (c.getFirstDayOfWeek() + 14));
                 			Log.d("MYLOG", "Plus 14 days is: " + c.getTime());
@@ -412,6 +417,7 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
                             break;
                         case 4:     //Week 4
                             weekSelected = 4;
+                            c = Calendar.getInstance();
                             Log.d("MYLOG", "Week 4 selected");
                     		c.add(Calendar.DAY_OF_YEAR, (c.getFirstDayOfWeek() + 21));
                 			Log.d("MYLOG", "Plus 21 days is: " + c.getTime());
@@ -420,6 +426,7 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
                             break;
                         case 5:     //Week 5
                             weekSelected = 5;
+                            c = Calendar.getInstance();
                             Log.d("MYLOG", "Week 5 selected");
                     		c.add(Calendar.DAY_OF_YEAR, (c.getFirstDayOfWeek() + 28));
                 			Log.d("MYLOG", "Plus 21 days is: " + c.getTime());
@@ -428,6 +435,7 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
                             break;
                         case 6:     //Week 6
                             weekSelected = 6;
+                            c = Calendar.getInstance();
                             Log.d("MYLOG", "Week 6 selected");
                     		c.add(Calendar.DAY_OF_YEAR, (c.getFirstDayOfWeek() + 35));
                 			Log.d("MYLOG", "Plus 21 days is: " + c.getTime());	
@@ -436,6 +444,7 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
                             break;
                         case 7:     //Week 7
                             weekSelected = 7;
+                            c = Calendar.getInstance();
                             Log.d("MYLOG", "Week 7 selected");
                     		c.add(Calendar.DAY_OF_YEAR, (c.getFirstDayOfWeek() + 42));
                 			Log.d("MYLOG", "Plus 21 days is: " + c.getTime());	
