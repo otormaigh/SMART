@@ -14,6 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,17 +40,17 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 	private DateFormat dfTimeOnly = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());	
 	private ArrayList<JSONObject> aptsAtDate = new ArrayList<JSONObject>();
 	private ArrayList<String> aptList = new ArrayList<String>();	
-	private ArrayList<String> timeList = new ArrayList<String>();
+/*	private ArrayList<String> timeList = new ArrayList<String>();
 	private ArrayList<String> nameList = new ArrayList<String>();
-	private ArrayList<String> gestList = new ArrayList<String>();
+	private ArrayList<String> gestList = new ArrayList<String>();*/
 	private Calendar c = Calendar.getInstance();
 	private DateSorter ds = new DateSorter();
 	private SetDateToHashMap getDates = new SetDateToHashMap();
 	private ListView listView;
 	private Object time, name, gestation;
-	private ListAdapter adapter;
+	private BaseAdapter adapter;
 	private TextView clinicName;
-	private Button dateInList;
+	private Button dateInList, prevWeek, nextWeek;
 	private AccessDBTable table = new AccessDBTable();
 	
     @Override
@@ -60,6 +61,11 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
         clinicName = (TextView)findViewById(R.id.clinic_name);
         dateInList = (Button)findViewById(R.id.button2);
         dateInList.setText(dfDateOnlyOther.format(daySelected));
+        prevWeek = (Button)findViewById(R.id.button1);
+        prevWeek.setOnClickListener(new ButtonClick());
+        nextWeek = (Button)findViewById(R.id.button3);
+        nextWeek.setOnClickListener(new ButtonClick());
+        
         
         c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         Log.d("MYLOG", "Date set to " + c.getTime());
@@ -71,11 +77,50 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
         Log.d("MYLOG", "day: " + daySelected);
 		new LongOperation().execute((String[]) null);
     }
+    private class ButtonClick implements View.OnClickListener {
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.button1:
+                	Log.d("MYLOG", "daySelected: " + daySelected.toLocaleString());
+                	c.setTime(daySelected);
+                	Log.d("MYLOG", "day was: " + c.getTime());
+                	c.add(Calendar.DAY_OF_YEAR, -7);
+                	Log.d("MYLOG", "day is: " + c.getTime());
+                	daySelected = c.getTime();
+                	listView.setAdapter(null);
+                	adapter.notifyDataSetChanged();
+                	new LongOperation().execute((String[]) null);
+                    break;
+                case R.id.button3:
+                	Log.d("MYLOG", "daySelected: " + daySelected.toLocaleString());
+                	c.setTime(daySelected);
+                	Log.d("MYLOG", "day was: " + c.getTime());
+                	c.add(Calendar.DAY_OF_YEAR, 7);
+                	Log.d("MYLOG", "day is: " + c.getTime());
+                	daySelected = c.getTime();
+                	listView.setAdapter(null);
+                	adapter.notifyDataSetChanged();
+                	new LongOperation().execute((String[]) null);
+                    break;
+            }
+        }
+    }
     public void setAptToList(ArrayList<JSONObject> aptsAtDate){
+    	ArrayList<String> timeList = new ArrayList<String>();
+    	timeList.clear();
+    	ArrayList<String> nameList = new ArrayList<String>();
+    	nameList.clear();
+    	ArrayList<String> gestList = new ArrayList<String>();
+    	gestList.clear();
+    	Log.d("MYLOG", "timeList without data: " + timeList);
+        Log.d("MYLOG", "nameList without data: " + nameList);
+        Log.d("MYLOG", "gestList without data: " + gestList);
         try {
             for (int i = 0; i < aptsAtDate.size(); i++) {
                 Integer clinic_id = (((JSONObject) ((JSONObject) aptsAtDate.get(i)).get("appointments")).getInt("clinic_id"));
-
+              /*  Log.d("MYLOG", "timeList: " + timeList);
+                Log.d("MYLOG", "nameList: " + nameList);
+                Log.d("MYLOG", "gestList: " + gestList);*/
                 if (clinic_id == hospitalSelected) {
                     name = ((JSONObject) ((JSONObject) ((JSONObject) aptsAtDate.get(i)).get("appointments")).get("service_user")).get("name");
                     time = ((JSONObject) ((JSONObject) aptsAtDate.get(i)).get("appointments")).get("time");
@@ -110,15 +155,17 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
                     }
                 }
             }
+            Log.d("MYLOG", "timeList with data: " + timeList);
+            Log.d("MYLOG", "nameList with data: " + nameList);
+            Log.d("MYLOG", "gestList with data: " + gestList);
             /*ArrayAdapter<String> adapter = new ArrayAdapter<String>(AppointmentCalendarActivity.this, R.layout.list_rows, R.id.date, aptList);
             listView.setAdapter(adapter);
             listView.setTextFilterEnabled(true);*/
             
             //listView = (ListView) findViewById(R.id.list);
-    		//adapter = new ListElementAdapter (this, timeList, nameList, gestList);
-            listView.setAdapter(new ListElementAdapter (this, timeList, nameList, gestList));
-            listView.setTextFilterEnabled(true);
-            
+            adapter = new ListElementAdapter (AppointmentCalendarActivity.this, timeList, nameList, gestList);
+            listView.setAdapter(adapter);
+            //listView.setTextFilterEnabled(true);            
         } catch (JSONException | ParseException e) {
             e.printStackTrace();
         }
@@ -129,8 +176,13 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 		int position;
 		ArrayList<String> aptTime, aptName, aptGest;
 
+		@Override
+		public void notifyDataSetChanged() {
+			super.notifyDataSetChanged();
+		}
 		public ListElementAdapter(Context context, ArrayList<String> aptTime, ArrayList<String> aptName, ArrayList<String> aptGest) {
 			super();
+			Log.d("MYLOG", "daySelected: " + daySelected.toLocaleString());
 			Log.d("MYLOG", "List Adapter Called");
 			this.context = context;
 			this.aptTime = aptTime;
@@ -173,12 +225,18 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
     	AppointmentCalendarActivity.weekSelected = weekSelected;
     }
     public void setDaySelected(Date daySelected){
-        AppointmentCalendarActivity.daySelected = daySelected;
+        this.daySelected = daySelected;
     }
     public class LongOperation extends AsyncTask<String, Void, ArrayList<JSONObject>> {    
     	//Date dayWanted;
     	String clinicNameFromDB = null;
     	String namefromDB = null;
+    	String fromDB = null;
+    	JSONObject jsonFromDB = null;
+    	String daySelectedStr = null;
+    	DateSorter ds = new DateSorter();
+    	SetDateToHashMap getDates = new SetDateToHashMap();
+    	private AccessDBTable table = new AccessDBTable();
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
@@ -186,9 +244,9 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 		}
 		protected ArrayList<JSONObject> doInBackground(String... params) {
 			try {
-				String fromDB = table.accessDB(Login_model.getToken(), "clinics/" + hospitalSelected);
-				JSONObject jsonFromDB = new JSONObject(fromDB);				
-				String namefromDB = jsonFromDB.getJSONArray("clinics").getJSONObject(0).getString("name");
+				fromDB = table.accessDB(Login_model.getToken(), "clinics/" + hospitalSelected);
+				jsonFromDB = new JSONObject(fromDB);				
+				namefromDB = jsonFromDB.getJSONArray("clinics").getJSONObject(0).getString("name");
 				
 				Log.d("MYLOG", "-------------------------");
 				Log.d("MYLOG", "clinicName before: " + namefromDB);
@@ -196,7 +254,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}			
-			String daySelectedStr = dfDateOnly.format(daySelected);
+			daySelectedStr = dfDateOnly.format(daySelected);
 			aptsAtDate = getDates.setDateToHaspMap(Login_model.getToken(), daySelectedStr);
 			return aptsAtDate;
 		}
