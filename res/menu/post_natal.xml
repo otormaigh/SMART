@@ -1,6 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="ie.teamchile.smartapp.PostNatal" >
+    tools:context="ie.teamchile.smartapp.PostNatalActivity" >
 
     <item
         android:id="@+id/action_settings"
