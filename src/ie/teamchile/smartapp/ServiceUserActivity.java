@@ -200,11 +200,13 @@ public class ServiceUserActivity extends MenuInheritActivity {
         .setMessage(R.string.user_address_message)
         .setNegativeButton(R.string.No, new DialogInterface.OnClickListener() {
 		public void onClick(DialogInterface dialoginterface, int i) {
-		}}).setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener() {
+			
+		}})
+		.setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener() {
 		    public void onClick(DialogInterface dialoginterface, int i) {
-		    	String address = "" + road+county+postCode.getText().toString();	
-		    	Uri uri = Uri.parse(address);
-		    	Intent intent = new Intent(android.content.Intent.ACTION_VIEW, uri);
+		    	String addr = "" + road.getText().toString() + county.getText().toString() + postCode.getText().toString();
+		    	Uri uri = Uri.parse(addr);
+		    	Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 		    	startActivity(intent);
         }	
 		}).show();		
