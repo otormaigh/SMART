@@ -59,11 +59,11 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
         setContentView(R.layout.activity_appointment_calendar);
         listView = (ListView)findViewById(R.id.list);
         clinicName = (TextView)findViewById(R.id.clinic_name);
-        dateInList = (Button)findViewById(R.id.button2);
+        dateInList = (Button)findViewById(R.id.date_button);
         dateInList.setText(dfDateOnlyOther.format(daySelected));
-        prevWeek = (Button)findViewById(R.id.button1);
+        prevWeek = (Button)findViewById(R.id.prev_button);
         prevWeek.setOnClickListener(new ButtonClick());
-        nextWeek = (Button)findViewById(R.id.button3);
+        nextWeek = (Button)findViewById(R.id.next_button);
         nextWeek.setOnClickListener(new ButtonClick());
         
         
@@ -80,7 +80,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
     private class ButtonClick implements View.OnClickListener {
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.button1:
+                case R.id.prev_button:
                 	Log.d("MYLOG", "daySelected: " + daySelected.toLocaleString());
                 	c.setTime(daySelected);
                 	Log.d("MYLOG", "day was: " + c.getTime());
@@ -91,7 +91,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
                 	adapter.notifyDataSetChanged();
                 	new LongOperation().execute((String[]) null);
                     break;
-                case R.id.button3:
+                case R.id.next_button:
                 	Log.d("MYLOG", "daySelected: " + daySelected.toLocaleString());
                 	c.setTime(daySelected);
                 	Log.d("MYLOG", "day was: " + c.getTime());
