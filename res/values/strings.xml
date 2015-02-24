@@ -172,6 +172,8 @@
     <string name="phone_call">Phone Call</string>
     <string name="sms">Send SMS</string>
     <string name="email">Email</string>
+    <string name="user_address_title">Google Maps</string>
+    <string name="user_address_message">Are you sure you want to go to Google Maps?</string>
     <string name="cancel">Cancel</string>
 
     <!-- CONTACT DETAILS -->
