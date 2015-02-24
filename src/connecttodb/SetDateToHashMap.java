@@ -5,9 +5,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 
+import models.Appointments_model;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.util.Log;
 
 public class SetDateToHashMap {
 	private ArrayList<JSONObject> jsonValues = new ArrayList<JSONObject>();
@@ -30,6 +34,8 @@ public class SetDateToHashMap {
 		try {
 			jsonNew = new JSONObject(response);
 			JSONArray query = jsonNew.getJSONArray("appointments");
+			Appointments_model.getSingletonIntance().setAppointmentArrayToHashMap(query);
+			Log.d("singleton", "appointment singleton: " + Appointments_model.getSingletonIntance().getAppointmentArrayToHashMap().get("2015-03-24"));
 			for (int i = 0; i < query.length(); i++)
 				jsonValues.add(query.getJSONObject(i));
 			    jsonValues = sortDates(jsonValues);
@@ -37,7 +43,6 @@ public class SetDateToHashMap {
 				idArray = new ArrayList<String>();
 				id = String.valueOf((jsonValues.get(i).getInt("id")));
 				date = (String) jsonValues.get(i).get("date");
-
 				if (dateHash.get(date) != null) {
 					idArray = dateHash.get(date);
 					idArray.add(id);
