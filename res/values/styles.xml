@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Application theme. -->
-    <style name="AppTheme" parent="AppBaseTheme">
+    <style name="AppTheme" parent="android:Theme.Material.Light">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
