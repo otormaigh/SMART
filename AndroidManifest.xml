@@ -78,6 +78,10 @@
             android:name=".AntiNatalActivity"
             android:label="@string/title_activity_anti_natal" >
         </activity>
+        <activity
+            android:name=".StockNote"
+            android:label="@string/title_activity_stock_note" >
+        </activity>
     </application>
 
 </manifest>
