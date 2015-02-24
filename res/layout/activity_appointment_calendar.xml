@@ -4,7 +4,7 @@
     android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/service_user"
+        android:id="@+id/clinic_name"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/padding_Xsmall"
