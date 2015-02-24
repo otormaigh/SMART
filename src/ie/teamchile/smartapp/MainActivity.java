@@ -38,7 +38,18 @@ public class MainActivity extends MenuInheritActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		if(Login_model.getToken().equals("")){
+			Log.d("MYLOG", "Token Empty");
+			setContentView(R.layout.activity_main);	
+		} else {
+			Log.d("MYLOG", "Token not Empty");
+			intent = new Intent(MainActivity.this, QuickMenuActivity.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+            				Intent.FLAG_ACTIVITY_CLEAR_TASK |
+            				Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(intent);
+			return;
+		}
 		
 		//testConn.testTheNetworkConnection();
 		//Log.d("MYLOG", "is 3g connected: " + testConn.is3GConnected());
@@ -76,7 +87,6 @@ public class MainActivity extends MenuInheritActivity {
 		protected String doInBackground(String... params) {
 			token = getToken.getToken(Login_model.getUsername(), Login_model.getPassword());
 			//token = getToken.getToken("team_chile", "smartappiscoming");
-			
             Log.d("MYLOG", "Token: " + token);
             Log.d("MYLOG", "Get Token: " + Login_model.getToken());
 			return null;

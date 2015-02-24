@@ -3,7 +3,7 @@ package models;
 public class Login_model {
 	private static String username;
 	private static String password;
-	private static String token;
+	private static String token = "";
 	private static int userId;
 
 	public Login_model() {
