@@ -40,9 +40,6 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 	private DateFormat dfTimeOnly = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());	
 	private ArrayList<JSONObject> aptsAtDate = new ArrayList<JSONObject>();
 	private ArrayList<String> aptList = new ArrayList<String>();	
-/*	private ArrayList<String> timeList = new ArrayList<String>();
-	private ArrayList<String> nameList = new ArrayList<String>();
-	private ArrayList<String> gestList = new ArrayList<String>();*/
 	private Calendar c = Calendar.getInstance();
 	private DateSorter ds = new DateSorter();
 	private SetDateToHashMap getDates = new SetDateToHashMap();
@@ -65,8 +62,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
         prevWeek.setOnClickListener(new ButtonClick());
         nextWeek = (Button)findViewById(R.id.button3);
         nextWeek.setOnClickListener(new ButtonClick());
-        
-        
+                
         c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         Log.d("MYLOG", "Date set to " + c.getTime());
 		
@@ -107,20 +103,14 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
     }
     public void setAptToList(ArrayList<JSONObject> aptsAtDate){
     	ArrayList<String> timeList = new ArrayList<String>();
-    	timeList.clear();
     	ArrayList<String> nameList = new ArrayList<String>();
-    	nameList.clear();
     	ArrayList<String> gestList = new ArrayList<String>();
-    	gestList.clear();
     	Log.d("MYLOG", "timeList without data: " + timeList);
         Log.d("MYLOG", "nameList without data: " + nameList);
         Log.d("MYLOG", "gestList without data: " + gestList);
         try {
             for (int i = 0; i < aptsAtDate.size(); i++) {
                 Integer clinic_id = (((JSONObject) ((JSONObject) aptsAtDate.get(i)).get("appointments")).getInt("clinic_id"));
-              /*  Log.d("MYLOG", "timeList: " + timeList);
-                Log.d("MYLOG", "nameList: " + nameList);
-                Log.d("MYLOG", "gestList: " + gestList);*/
                 if (clinic_id == hospitalSelected) {
                     name = ((JSONObject) ((JSONObject) ((JSONObject) aptsAtDate.get(i)).get("appointments")).get("service_user")).get("name");
                     time = ((JSONObject) ((JSONObject) aptsAtDate.get(i)).get("appointments")).get("time");
