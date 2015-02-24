@@ -164,16 +164,13 @@ public class ServiceUserActivity extends MenuInheritActivity {
 				break;
 			}
 		}
-
 		@Override
 		public void cancel() {
 		}
-
 		@Override
 		public void dismiss() {
 		}
 	}
-
 	public void usrContact() {
 		dialog = new Dialog(ServiceUserActivity.this);
 		dialog.setContentView(R.layout.user_contact_dialog_box);
@@ -188,7 +185,6 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		userCancel.setOnClickListener(new ButtonClick());
 		dialog.show();
 	}
-
 	private void kinContact() {
 		dialog = new Dialog(ServiceUserActivity.this);
 		dialog.setContentView(R.layout.kin_contact_dialog_box);
@@ -201,7 +197,6 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		kinCancel.setOnClickListener(new ButtonClick());
 		dialog.show();
 	}
-
 	public int getAge(String dob) {
 		try {
 			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
