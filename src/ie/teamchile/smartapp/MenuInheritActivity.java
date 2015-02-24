@@ -58,8 +58,8 @@ public class MenuInheritActivity extends Activity {
                             //login.setToken(null);
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                                    Intent.FLAG_ACTIVITY_CLEAR_TASK |
-                                    Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    		Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                                    		Intent.FLAG_ACTIVITY_NEW_TASK);
                             Toast.makeText(getApplicationContext(), "You are now logged out", Toast.LENGTH_SHORT).show();
                             startActivity(intent);
                         }
