@@ -123,9 +123,10 @@ public class ServiceUserActivity extends MenuInheritActivity {
 				Log.i("Send Email", "");
 				userEmail = "" + email.getText().toString();
 				
-				userEmailIntent = new Intent(Intent.ACTION_SEND_MULTIPLE);
-				userEmailIntent.setClassName("com.google.android.gm","com.google.android.gm.ComposeActivityGmail"); 
-				userEmailIntent.putExtra(Intent.EXTRA_EMAIL, "email");
+				userEmailIntent = new Intent(Intent.ACTION_SEND);
+				userEmailIntent.setClassName("com.google.android.gm","com.google.android.gm.ComposeActivityGmail");
+				userEmailIntent.setType("message/rfc822");
+				userEmailIntent.putExtra(android.content.Intent.EXTRA_EMAIL,new String[] {userEmail});
 				userEmailIntent.putExtra(Intent.EXTRA_SUBJECT, ""); 
 				userEmailIntent.putExtra(Intent.EXTRA_TEXT, ""); 
 				userEmailIntent.setType("plain/text"); 
