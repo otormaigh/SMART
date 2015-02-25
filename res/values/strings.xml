@@ -17,6 +17,7 @@
     <string name="title_activity_contact_details">Contact Details</string>
     <string name="title_activity_post_natal">Post Natal</string>
     <string name="title_activity_anti_natal">Anti Natal</string>
+    <string name="title_activity_stock_note">StockNote</string>
 
     <!-- MAIN SCREEN -->
     <string name="usernameDefault">team_chile</string>
@@ -72,7 +73,7 @@
     <!-- CLINICS OPTION SPINNER -->
     <string-array name="domino_dublin">
         <item>Select Clinic</item>
-        <item>NMH(OPD Location)</item>
+        <item>Evening Booking Clinic</item>
         <item>Leopardstown</item>
         <item>Dun laoghaire</item>
         <item>Churchtown</item>
@@ -181,17 +182,15 @@
     <string name="midwife_email">Email:</string>
     <string name="primary_number">Primary No. :</string>
     <string name="secondary_number">Secondary No. :</string>
-    <string name="title_activity_stock_note">StockNote</string>
-    
+        
     <!-- APPOINTMENT CALENDAR -->
-    <string name="clinic_title">Churchtown:</string>
+    <string name="clinic_title">Clinic Name</string>
     <string name="prev_button">Prev</string>
-    <string name="date_button">30/08/14</string>
-    <string name="next_button">Next</string>
-    
+    <string name="date_button">Date</string>
+    <string name="next_button">Next</string>    
     
     <!--  Stock Note -->
-    <string name="clinic_name">Churchtown</string>
+    <string name="clinic_name">Clinic Name</string>
     <string name="save_note">Save note</string>
 
 </resources>
