@@ -15,6 +15,8 @@ public class Appointments_model {
 	private static Appointments_model singleInstance;
 	private JSONArray appointmentArray = new JSONArray();
 	private HashMap<String, ArrayList<String>> dateHash = new HashMap<String, ArrayList<String>>();
+	private HashMap<String, String> idHash = new HashMap<String, String>();
+	private ArrayList<String> idList;
 	private AccessDBTable db = new AccessDBTable();
 	private String response;
 	private JSONArray query;
@@ -46,7 +48,8 @@ public class Appointments_model {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		setAppointmentArrayToHashMap(query);
+		setHashMapofDateID(query);
+		setHashMapofIdAppt(query);
 	}
 	public JSONArray getAppointmentArray() {
 		return appointmentArray;
@@ -54,10 +57,13 @@ public class Appointments_model {
 	public void setAppointmentArray(JSONArray appointmentArray) {
 		this.appointmentArray = appointmentArray;
 	}
-	public HashMap<String, ArrayList<String>> getAppointmentArrayToHashMap(){
-		return dateHash;
+	public HashMap<String, ArrayList<String>> getHashMapofDateID(){
+		return dateHash;				//return Hashmap of Date as Key, ID as Value
 	}
-	public void setAppointmentArrayToHashMap(JSONArray appointmentArray) {
+	public ArrayList<String> getIdAtDate(String query){
+		return dateHash.get(query);		// returns id at date 
+	}
+	public void setHashMapofDateID(JSONArray appointmentArray) {
 		ArrayList<JSONObject> jsonValues = new ArrayList<JSONObject>();
 		ArrayList<String> idArray;
 		HashMap<String, ArrayList<String>> dateHash = new HashMap<String, ArrayList<String>>();
@@ -85,14 +91,97 @@ public class Appointments_model {
 		}
 		this.dateHash = dateHash;
 	}
-	public String getId() {
-		return id;
+	public HashMap<String, String> getHashMapofIdAppt(){
+		return idHash;
 	}
-	public String getDate() {
+	public void setHashMapofIdAppt(JSONArray appointmentArray) {
+		ArrayList<JSONObject> jsonValues = new ArrayList<JSONObject>();
+		HashMap<String, String> idHash = new HashMap<String, String>();
+		String id;
+		String appt;
+		
+		try {
+			for (int i = 0; i < appointmentArray.length(); i++) {
+				jsonValues.add(appointmentArray.getJSONObject(i));
+				jsonValues = sortDates(jsonValues);
+			}	
+			for (int i = 0; i < jsonValues.size(); i++) {
+				id = String.valueOf((jsonValues.get(i).getInt("id")));
+				appt = jsonValues.get(i).toString();				
+				idHash.put(id, appt);
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		this.idHash = idHash;
+	}
+	public ArrayList<String> getIds(String dayToSearch) {
+		idList = new ArrayList<String>();
+		idList = dateHash.get(dayToSearch);
+		return idList;
+	}
+	public String getDate() {		
 		return date;
 	}
-	public String getTime() {
+	public ArrayList<String> getTime(ArrayList<?> idList) {
+		ArrayList<String> time = new ArrayList<String>();
+		JSONObject jsondude;
+		
+		for(int i = 0; i < idList.size(); i++ ){
+			try {
+				jsondude = new JSONObject(idHash.get(idList.get(i)));
+				time.add(jsondude.get("time").toString());				
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
 		return time;
+	}
+	public ArrayList<String> getName(ArrayList<?> idList){		
+		ArrayList<String> name = new ArrayList<String>();
+		JSONObject jsondude;
+		
+		for(int i = 0; i < idList.size(); i++ ){
+			try {
+				jsondude = new JSONObject(idHash.get(idList.get(i)));
+				name.add(((JSONObject) jsondude.get("service_user")).get("name").toString());				
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		return name;
+	}
+	public ArrayList<String> getGestation(ArrayList<?> idList){		
+		ArrayList<String> gest = new ArrayList<String>();
+		JSONObject jsondude;
+		
+		for(int i = 0; i < idList.size(); i++ ){
+			try {
+				jsondude = new JSONObject(idHash.get(idList.get(i)));
+				gest.add(((JSONObject) jsondude.get("service_user")).get("gestation").toString());				
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		return gest;
+	}
+	public ArrayList<String> getAppointmentDetails(ArrayList<?> idList){		
+		String time = null;
+		String name = null;
+		ArrayList<String> info = new ArrayList<String>();
+		JSONObject jsondude;
+		
+		for(int i = 0; i < idList.size(); i++ ){
+			try {
+				jsondude = new JSONObject(idHash.get(idList.get(i)));
+				time = (jsondude.get("time").toString());
+				name = (((JSONObject) jsondude.get("service_user")).get("name").toString());
+				info.add(time + " - - - - " + name);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		return info;
 	}
 	public String getServiceProvderrId() {
 		return serviceProvderId;
