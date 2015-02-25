@@ -6,8 +6,10 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Calendar;
 
-import utility.ConnectivityTester;
+import models.Appointments_model;
+import models.Clinics_model;
 import models.Login_model;
+import utility.ConnectivityTester;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -76,6 +78,8 @@ public class MainActivity extends MenuInheritActivity {
 
                 getCredentials();
 				new LongOperation().execute((String[]) null);
+				Appointments_model.getSingletonIntance().updateLocal();
+				Clinics_model.getSingletonIntance().updateLocal();	
 				Log.d("MYLOG", "Button Clicked");
 			}
 		}

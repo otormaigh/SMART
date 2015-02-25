@@ -9,6 +9,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.os.AsyncTask;
+import android.util.Log;
 import connecttodb.AccessDBTable;
 
 public class Appointments_model {
@@ -41,15 +43,32 @@ public class Appointments_model {
 		return singleInstance;
 	}
 	public void updateLocal(){		
-		try {
-			response = db.accessDB(Login_model.getToken(), "appointments");
-			jsonNew = new JSONObject(response);
-			query = jsonNew.getJSONArray("appointments");
-		} catch (JSONException e) {
-			e.printStackTrace();
+		new LongOperation().execute();
+	}
+	private class LongOperation extends AsyncTask<Void, Void, JSONArray> {
+		@Override
+		protected void onPreExecute() {
 		}
-		setHashMapofDateID(query);
-		setHashMapofIdAppt(query);
+		protected JSONArray doInBackground(Void... params) {
+			Log.d("singleton", "in updateLocal doInBackground");
+			try {
+				response = db.accessDB(Login_model.getToken(), "appointments");
+				jsonNew = new JSONObject(response);
+				query = jsonNew.getJSONArray("appointments");
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			Log.d("singleton", "query = " + query);
+			return query;
+		}
+		@Override
+		protected void onProgressUpdate(Void... values) {
+		}
+		@Override
+        protected void onPostExecute(JSONArray result) {
+			setHashMapofDateID(result);
+			setHashMapofIdAppt(result);
+        }
 	}
 	public JSONArray getAppointmentArray() {
 		return appointmentArray;
