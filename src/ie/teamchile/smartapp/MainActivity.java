@@ -6,8 +6,10 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Calendar;
 
-import utility.ConnectivityTester;
+import models.Appointments_model;
+import models.Clinics_model;
 import models.Login_model;
+import utility.ConnectivityTester;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -16,7 +18,6 @@ import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import connecttodb.GetToken;
@@ -73,13 +74,15 @@ public class MainActivity extends MenuInheritActivity {
 		public void onClick(View v) {
 			switch (v.getId()) {
                 case R.id.login:                	
-                //Intent intent = new Intent(MainActivity.this, QuickMenuActivity.class);
-                //startActivity(intent);
-				//login.setToken("0c325638d97faf29d71f");
-                pd = new ProgressDialog(MainActivity.this);
-                pd.setMessage("loading");
-                pd.show();
-                getCredentials();
+				// Intent intent = new Intent(MainActivity.this,
+				// QuickMenuActivity.class);
+				// startActivity(intent);
+				// login.setToken("0c325638d97faf29d71f");
+
+				pd = new ProgressDialog(MainActivity.this);
+				pd.setMessage("Logging In . . . .");
+				pd.show();
+				getCredentials();
 				new LongOperation().execute((String[]) null);
 				Log.d("MYLOG", "Button Clicked");
 			}
@@ -94,6 +97,7 @@ public class MainActivity extends MenuInheritActivity {
 			//token = getToken.getToken("team_chile", "smartappiscoming");
             Log.d("MYLOG", "Token: " + token);
             Log.d("MYLOG", "Get Token: " + Login_model.getToken());
+            
 			return null;
 		}
 		@Override
@@ -113,6 +117,9 @@ public class MainActivity extends MenuInheritActivity {
 	}
     private void checkCredentials(){    	
     	if (getToken.getResponseCode().equals("201")){
+    		Appointments_model.getSingletonIntance().updateLocal();
+			Clinics_model.getSingletonIntance().updateLocal();
+			
     		Toast.makeText(this, "Login Successful", Toast.LENGTH_LONG).show();
     		intent = new Intent(MainActivity.this, QuickMenuActivity.class);
 			startActivity(intent);
