@@ -26,7 +26,7 @@ public class AccessDBTable {
         this.table = table;
 		return accessDB();
 	}
-	private class LongOperation extends AsyncTask<String, Void, String> {
+/*	private class LongOperation extends AsyncTask<String, Void, String> {
 		@Override
 		protected void onPreExecute() {
 		}
@@ -39,7 +39,7 @@ public class AccessDBTable {
 		@Override
         protected void onPostExecute(String result) {
         }
-	}
+	}*/
 	private String accessDB() {
 		//Log.d("MYLOG", "In AccessDB");
 		//Log.d("MYLOG", "AccessDB Token: " + token);
