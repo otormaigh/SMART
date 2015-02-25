@@ -6,8 +6,10 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Calendar;
 
-import utility.ConnectivityTester;
+import models.Appointments_model;
+import models.Clinics_model;
 import models.Login_model;
+import utility.ConnectivityTester;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -16,7 +18,6 @@ import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import connecttodb.GetToken;
@@ -41,7 +42,8 @@ public class MainActivity extends MenuInheritActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if(Login_model.getToken().equals("")){
+		setContentView(R.layout.activity_main);	
+		/*if(Login_model.getToken().equals("")){
 			Log.d("MYLOG", "Token Empty");
 			setContentView(R.layout.activity_main);	
 		} else {
@@ -52,7 +54,7 @@ public class MainActivity extends MenuInheritActivity {
             				Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(intent);
 			return;
-		}
+		}*/
 		
 		//testConn.testTheNetworkConnection();
 		//Log.d("MYLOG", "is 3g connected: " + testConn.is3GConnected());
@@ -65,7 +67,6 @@ public class MainActivity extends MenuInheritActivity {
 		usernameTextView = (TextView) findViewById(R.id.username);
 		passwordTextView = (TextView) findViewById(R.id.password);
 		
-		
 		about = (TextView) findViewById(R.id.about);
 	    about.setMovementMethod(LinkMovementMethod.getInstance());
 	    
@@ -74,6 +75,7 @@ public class MainActivity extends MenuInheritActivity {
 		public void onClick(View v) {
 			switch (v.getId()) {
                 case R.id.login:                	
+
                 //Intent intent = new Intent(MainActivity.this, QuickMenuActivity.class);
                 //startActivity(intent);
 				//login.setToken("0c325638d97faf29d71f");
@@ -81,6 +83,17 @@ public class MainActivity extends MenuInheritActivity {
                     pd.setMessage("logging in");
                     pd.show();
                 getCredentials();
+
+				// Intent intent = new Intent(MainActivity.this,
+				// QuickMenuActivity.class);
+				// startActivity(intent);
+				// login.setToken("0c325638d97faf29d71f");
+
+				pd = new ProgressDialog(MainActivity.this);
+				pd.setMessage("Logging In . . . .");
+				pd.show();
+				getCredentials();
+
 				new LongOperation().execute((String[]) null);
 				Log.d("MYLOG", "Button Clicked");
 			}
@@ -95,7 +108,7 @@ public class MainActivity extends MenuInheritActivity {
 			//token = getToken.getToken("team_chile", "smartappiscoming");
             Log.d("MYLOG", "Token: " + token);
             Log.d("MYLOG", "Get Token: " + Login_model.getToken());
-        
+            
 			return null;
 		}
 		@Override
@@ -105,8 +118,6 @@ public class MainActivity extends MenuInheritActivity {
 		@Override
         protected void onPostExecute(String result) {
             checkCredentials();
-            
-            
         }
 	}
 	private void getCredentials() {
@@ -117,6 +128,9 @@ public class MainActivity extends MenuInheritActivity {
 	}
     private void checkCredentials(){    	
     	if (getToken.getResponseCode().equals("201")){
+    		Appointments_model.getSingletonIntance().updateLocal();
+			Clinics_model.getSingletonIntance().updateLocal();
+			
     		Toast.makeText(this, "Login Successful", Toast.LENGTH_LONG).show();
     		intent = new Intent(MainActivity.this, QuickMenuActivity.class);
 			startActivity(intent);
