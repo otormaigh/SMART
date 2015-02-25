@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 import models.Appointments_model;
 
@@ -34,8 +36,6 @@ public class SetDateToHashMap {
 		try {
 			jsonNew = new JSONObject(response);
 			JSONArray query = jsonNew.getJSONArray("appointments");
-			Appointments_model.getSingletonIntance().setAppointmentArrayToHashMap(query);
-			Log.d("singleton", "appointment singleton: " + Appointments_model.getSingletonIntance().getAppointmentArrayToHashMap().get("2015-03-24"));
 			for (int i = 0; i < query.length(); i++)
 				jsonValues.add(query.getJSONObject(i));
 			    jsonValues = sortDates(jsonValues);
