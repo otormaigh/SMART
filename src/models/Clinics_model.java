@@ -1,6 +1,25 @@
 package models;
 
-public class Clinics_model {
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import connecttodb.AccessDBTable;
+import android.os.AsyncTask;
+import android.util.Log;
+
+public class Clinics_model {	
+	private static Clinics_model singleInstance;
+	private JSONArray clinicsArray = new JSONArray();
+	private HashMap<String, String> idHash = new HashMap<String, String>();
+	private ArrayList<String> idList;
+	private AccessDBTable db = new AccessDBTable();
+	private String response;
+	private JSONArray query;
+	private JSONObject jsonNew;
 
 	private int id;
 	private String name;
@@ -12,7 +31,64 @@ public class Clinics_model {
 	private int appointmentIntervals;
 	private String days;
 
-	public Clinics_model() {
+	private Clinics_model() {
+	}	
+	public static Clinics_model getSingletonIntance() {
+		if(singleInstance == null) {
+			singleInstance = new Clinics_model();
+		}
+		return singleInstance;
+	}	
+	public void updateLocal(){		
+		new LongOperation().execute();
+	}
+	private class LongOperation extends AsyncTask<Void, Void, JSONArray> {
+		@Override
+		protected void onPreExecute() {
+		}
+		protected JSONArray doInBackground(Void... params) {
+			Log.d("singleton", "in updateLocal doInBackground");
+			try {
+				response = db.accessDB(Login_model.getToken(), "clinics");
+				jsonNew = new JSONObject(response);
+				query = jsonNew.getJSONArray("clinics");
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			Log.d("singleton", "query = " + query);
+			return query;
+		}
+		@Override
+		protected void onProgressUpdate(Void... values) {
+		}
+		@Override
+        protected void onPostExecute(JSONArray result) {
+			setHashMapofIdClinic(result);
+        }
+	}
+	public HashMap<String, String> getHashMapofIdClinic(){
+		return idHash;
+	}
+	public void setHashMapofIdClinic(JSONArray clinicArray) {
+		ArrayList<JSONObject> jsonValues = new ArrayList<JSONObject>();
+		HashMap<String, String> idHash = new HashMap<String, String>();
+		String id;
+		String clinic;
+		
+		try {
+			for (int i = 0; i < clinicArray.length(); i++) {
+				jsonValues.add(clinicArray.getJSONObject(i));
+			}	
+			for (int i = 0; i < jsonValues.size(); i++) {
+				id = String.valueOf((jsonValues.get(i).getInt("id")));
+				clinic = jsonValues.get(i).toString();			
+				idHash.put(id, clinic);
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		Log.d("singleton", "idhash of clinics: " + idHash);
+		this.idHash = idHash;
 	}
 
 	public int getId() {
@@ -23,7 +99,15 @@ public class Clinics_model {
 		id = newId;
 	}
 
-	public String getName() {
+	public String getName(String idToSearch) {
+		String name = "";
+		JSONObject jsondude;		
+		try {
+			jsondude = new JSONObject(idHash.get(idToSearch));
+			name = jsondude.get("name").toString();	
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 		return name;
 	}
 
@@ -39,16 +123,32 @@ public class Clinics_model {
 		address = newAddress;
 	}
 
-	public String getOpeningHours() {
-		return openingHours;
+	public String getOpeningHours(String idToSearch) {
+		String openingHour = "";
+		JSONObject jsondude;		
+		try {
+			jsondude = new JSONObject(idHash.get(idToSearch));
+			openingHour = jsondude.get("opening_time").toString();	
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return openingHour;
 	}
 
 	public void setOpeningHours(String newOpeningHours) {
 		openingHours = newOpeningHours;
 	}
 
-	public String getClosingHours() {
-		return closingHours;
+	public String getClosingHours(String idToSearch) {
+		String closingHour = "";
+		JSONObject jsondude;		
+		try {
+			jsondude = new JSONObject(idHash.get(idToSearch));
+			closingHour = jsondude.get("closing_time").toString();	
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return closingHour;
 	}
 
 	public void setClosingHours(String newClosingHours) {

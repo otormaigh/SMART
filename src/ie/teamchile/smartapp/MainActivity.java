@@ -65,7 +65,6 @@ public class MainActivity extends MenuInheritActivity {
 		usernameTextView = (TextView) findViewById(R.id.username);
 		passwordTextView = (TextView) findViewById(R.id.password);
 		
-		
 		about = (TextView) findViewById(R.id.about);
 	    about.setMovementMethod(LinkMovementMethod.getInstance());
 	    
@@ -77,9 +76,9 @@ public class MainActivity extends MenuInheritActivity {
                 //Intent intent = new Intent(MainActivity.this, QuickMenuActivity.class);
                 //startActivity(intent);
 				//login.setToken("0c325638d97faf29d71f");
-                	pd = new ProgressDialog(MainActivity.this);
-                    pd.setMessage("loading");
-                    pd.show();
+                pd = new ProgressDialog(MainActivity.this);
+                pd.setMessage("loading");
+                pd.show();
                 getCredentials();
 				new LongOperation().execute((String[]) null);
 				Log.d("MYLOG", "Button Clicked");
@@ -95,7 +94,6 @@ public class MainActivity extends MenuInheritActivity {
 			//token = getToken.getToken("team_chile", "smartappiscoming");
             Log.d("MYLOG", "Token: " + token);
             Log.d("MYLOG", "Get Token: " + Login_model.getToken());
-        
 			return null;
 		}
 		@Override
@@ -105,8 +103,6 @@ public class MainActivity extends MenuInheritActivity {
 		@Override
         protected void onPostExecute(String result) {
             checkCredentials();
-            
-            
         }
 	}
 	private void getCredentials() {
