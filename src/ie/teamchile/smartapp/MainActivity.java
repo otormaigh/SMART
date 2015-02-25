@@ -78,7 +78,7 @@ public class MainActivity extends MenuInheritActivity {
                 //startActivity(intent);
 				//login.setToken("0c325638d97faf29d71f");
                 	pd = new ProgressDialog(MainActivity.this);
-                    pd.setMessage("loading");
+                    pd.setMessage("logging in");
                     pd.show();
                 getCredentials();
 				new LongOperation().execute((String[]) null);
