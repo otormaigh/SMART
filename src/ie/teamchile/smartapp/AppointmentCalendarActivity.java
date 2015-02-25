@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import models.Appointments_model;
 import models.Login_model;
 
 import org.json.JSONException;
@@ -56,11 +57,11 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
         setContentView(R.layout.activity_appointment_calendar);
         listView = (ListView)findViewById(R.id.list);
         clinicName = (TextView)findViewById(R.id.clinic_name);
-        dateInList = (Button)findViewById(R.id.button2);
+        dateInList = (Button)findViewById(R.id.date_button);
         dateInList.setText(dfDateOnlyOther.format(daySelected));
-        prevWeek = (Button)findViewById(R.id.button1);
+        prevWeek = (Button)findViewById(R.id.prev_button);
         prevWeek.setOnClickListener(new ButtonClick());
-        nextWeek = (Button)findViewById(R.id.button3);
+        nextWeek = (Button)findViewById(R.id.next_button);
         nextWeek.setOnClickListener(new ButtonClick());
                 
         c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
@@ -76,7 +77,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
     private class ButtonClick implements View.OnClickListener {
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.button1:
+                case R.id.prev_button:
                 	Log.d("MYLOG", "daySelected: " + daySelected.toLocaleString());
                 	c.setTime(daySelected);
                 	Log.d("MYLOG", "day was: " + c.getTime());
@@ -87,7 +88,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
                 	adapter.notifyDataSetChanged();
                 	new LongOperation().execute((String[]) null);
                     break;
-                case R.id.button3:
+                case R.id.next_button:
                 	Log.d("MYLOG", "daySelected: " + daySelected.toLocaleString());
                 	c.setTime(daySelected);
                 	Log.d("MYLOG", "day was: " + c.getTime());
@@ -153,7 +154,31 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
             listView.setTextFilterEnabled(true);*/
             
             //listView = (ListView) findViewById(R.id.list);
-            adapter = new ListElementAdapter (AppointmentCalendarActivity.this, timeList, nameList, gestList);
+            //adapter = new ListElementAdapter (AppointmentCalendarActivity.this, timeList, nameList, gestList);
+            
+            ArrayList<String> timeSingle = new ArrayList<String>();
+        	ArrayList<String> nameSingle = new ArrayList<String>();
+        	ArrayList<String> gestSingle = new ArrayList<String>();
+        	String daySelectedStr = dfDateOnly.format(daySelected);
+            
+			Log.d("singleton", "getHashMapofDateID: " + Appointments_model.getSingletonIntance().getHashMapofDateID());
+			Log.d("singleton", "getHashMapofDateID: " + Appointments_model.getSingletonIntance().getHashMapofIdAppt());
+			ArrayList<String> listOfId = Appointments_model.getSingletonIntance().getIdAtDate(daySelectedStr);
+			
+			
+			timeSingle = Appointments_model.getSingletonIntance().getTime(listOfId);
+			Log.d("singleton", "getTime(listOfId)  " + Appointments_model.getSingletonIntance().getTime(listOfId));
+			nameSingle = Appointments_model.getSingletonIntance().getName(listOfId);
+			Log.d("singleton", "getName(listOfId)  " + Appointments_model.getSingletonIntance().getName(listOfId));
+			gestSingle = Appointments_model.getSingletonIntance().getGestation(listOfId);
+			Log.d("singleton", "getGestation(listOfId)  " + Appointments_model.getSingletonIntance().getGestation(listOfId));
+			
+			
+			Appointments_model.getSingletonIntance().getAppointmentDetails(listOfId);
+			Log.d("singleton", "getAppointmentDetails(listOfId)  " + Appointments_model.getSingletonIntance().getAppointmentDetails(listOfId));
+            
+			adapter = new ListElementAdapter (AppointmentCalendarActivity.this, timeSingle, nameSingle, gestSingle);
+			
             listView.setAdapter(adapter);
             //listView.setTextFilterEnabled(true);            
         } catch (JSONException | ParseException e) {
@@ -246,6 +271,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 			}			
 			daySelectedStr = dfDateOnly.format(daySelected);
 			aptsAtDate = getDates.setDateToHaspMap(Login_model.getToken(), daySelectedStr);
+			Appointments_model.getSingletonIntance().updateLocal();	
 			return aptsAtDate;
 		}
 		@Override
