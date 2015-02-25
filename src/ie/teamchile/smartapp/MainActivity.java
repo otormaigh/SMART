@@ -42,7 +42,8 @@ public class MainActivity extends MenuInheritActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if(Login_model.getToken().equals("")){
+		setContentView(R.layout.activity_main);	
+		/*if(Login_model.getToken().equals("")){
 			Log.d("MYLOG", "Token Empty");
 			setContentView(R.layout.activity_main);	
 		} else {
@@ -53,7 +54,7 @@ public class MainActivity extends MenuInheritActivity {
             				Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(intent);
 			return;
-		}
+		}*/
 		
 		//testConn.testTheNetworkConnection();
 		//Log.d("MYLOG", "is 3g connected: " + testConn.is3GConnected());
