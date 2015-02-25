@@ -122,7 +122,13 @@ public class ServiceUserActivity extends MenuInheritActivity {
 			case R.id.user_Send_Email:
 				Log.i("Send Email", "");
 				userEmail = "" + email.getText().toString();
-				userEmailIntent = new Intent(Intent.ACTION_SEND);
+				
+				userEmailIntent = new Intent(Intent.ACTION_SEND_MULTIPLE);
+				userEmailIntent.setClassName("com.google.android.gm","com.google.android.gm.ComposeActivityGmail"); 
+				userEmailIntent.putExtra(Intent.EXTRA_EMAIL, "email");
+				userEmailIntent.putExtra(Intent.EXTRA_SUBJECT, ""); 
+				userEmailIntent.putExtra(Intent.EXTRA_TEXT, ""); 
+				userEmailIntent.setType("plain/text"); 
 				try {
 					startActivity(userEmailIntent);
 				} catch (android.content.ActivityNotFoundException ex) {
@@ -206,6 +212,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		    public void onClick(DialogInterface dialoginterface, int i) {
 		    	String addr = "" + road.getText().toString() + county.getText().toString() + postCode.getText().toString();
 		    	Uri uri = Uri.parse(addr);
+		    	System.out.println(addr);
 		    	Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 		    	startActivity(intent);
         }	
