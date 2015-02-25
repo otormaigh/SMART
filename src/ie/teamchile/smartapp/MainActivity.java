@@ -8,6 +8,7 @@ import java.util.Calendar;
 
 import utility.ConnectivityTester;
 import models.Login_model;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import connecttodb.GetToken;
@@ -32,6 +34,7 @@ public class MainActivity extends MenuInheritActivity {
     private Logout logout = new Logout();
 	private GetToken getToken = new GetToken();
 	private Intent intent;
+	ProgressDialog pd;
 	private Calendar cal = Calendar.getInstance();
 	private ConnectivityTester testConn = new ConnectivityTester(this);
 
@@ -62,6 +65,7 @@ public class MainActivity extends MenuInheritActivity {
 		usernameTextView = (TextView) findViewById(R.id.username);
 		passwordTextView = (TextView) findViewById(R.id.password);
 		
+		
 		about = (TextView) findViewById(R.id.about);
 	    about.setMovementMethod(LinkMovementMethod.getInstance());
 	    
@@ -73,7 +77,9 @@ public class MainActivity extends MenuInheritActivity {
                 //Intent intent = new Intent(MainActivity.this, QuickMenuActivity.class);
                 //startActivity(intent);
 				//login.setToken("0c325638d97faf29d71f");
-
+                	pd = new ProgressDialog(MainActivity.this);
+                    pd.setMessage("loading");
+                    pd.show();
                 getCredentials();
 				new LongOperation().execute((String[]) null);
 				Log.d("MYLOG", "Button Clicked");
@@ -89,6 +95,7 @@ public class MainActivity extends MenuInheritActivity {
 			//token = getToken.getToken("team_chile", "smartappiscoming");
             Log.d("MYLOG", "Token: " + token);
             Log.d("MYLOG", "Get Token: " + Login_model.getToken());
+        
 			return null;
 		}
 		@Override
@@ -98,6 +105,8 @@ public class MainActivity extends MenuInheritActivity {
 		@Override
         protected void onPostExecute(String result) {
             checkCredentials();
+            
+            
         }
 	}
 	private void getCredentials() {
@@ -111,6 +120,7 @@ public class MainActivity extends MenuInheritActivity {
     		Toast.makeText(this, "Login Successful", Toast.LENGTH_LONG).show();
     		intent = new Intent(MainActivity.this, QuickMenuActivity.class);
 			startActivity(intent);
+			pd.dismiss();
     	} else
     		Toast.makeText(this, "Login Failed", Toast.LENGTH_LONG).show();
 	}
