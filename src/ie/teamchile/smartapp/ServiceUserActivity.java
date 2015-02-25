@@ -215,6 +215,8 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		    	Uri uri = Uri.parse(addr);
 		    	System.out.println(addr);
 		    	Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+		      intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+
 		    	startActivity(intent);
         }	
 		}).show();		
