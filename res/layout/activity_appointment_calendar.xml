@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/padding_Xsmall"
         android:gravity="center"
-        android:text="Clinic name"
+        android:text="@string/clinic_title"
         android:textSize="@dimen/text_medium" />
 
     <LinearLayout
@@ -18,29 +18,29 @@
         android:gravity="center_horizontal" >
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/prev_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Prev"
+            android:text="@string/prev_button"
             android:textSize="@dimen/text_Xsmall" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/date_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
             android:background="@color/lightBlue"
-            android:text="30/08/14"
+            android:text="@string/date_button"
             android:textSize="@dimen/text_Xsmall" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/next_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Next"
+            android:text="@string/next_button"
             android:textSize="@dimen/text_Xsmall" />
     </LinearLayout>
 
