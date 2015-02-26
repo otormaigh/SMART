@@ -21,7 +21,7 @@ public class AccessDBTable {
     private HttpURLConnection con;
     private BufferedReader in;
 
-	public String accessDB(String token, String table){
+	public String accessDB(String table){
 		this.token = token;
         this.table = table;
 		return accessDB();
