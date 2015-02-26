@@ -215,7 +215,7 @@
         android:id="@+id/button_parity"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:clickable="False"
+        android:clickable="true"
         android:onClick="onTableRowClick"
         android:background="@drawable/border"
         android:padding="5dip" >
@@ -239,7 +239,7 @@
         android:id="@+id/button_obshistory"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:clickable="False"
+        android:clickable="true"
         android:onClick="onTableRowClick"
         android:background="@drawable/border"
         android:padding="5dip" >
