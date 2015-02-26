@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TableRow;
 
-//This is a test comment
+//This is a test comment blah
 public class AntiNatalActivity extends MenuInheritActivity {
 	TableRow row1;
 	TableRow row2;
