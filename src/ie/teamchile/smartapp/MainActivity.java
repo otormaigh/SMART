@@ -135,7 +135,12 @@ public class MainActivity extends MenuInheritActivity {
 			ClinicSingleton.getSingletonIntance().updateLocal();
 			
     		Toast.makeText(this, "Login Successful", Toast.LENGTH_LONG).show();
+    		// update Singleton
     		UserSingleton.getUserSingleton().setLoggedIn(true);
+    		UserSingleton.getUserSingleton().setUsername(username);
+    		UserSingleton.getUserSingleton().setPassword(password);
+    		
+    		// show the quick menu
     		intent = new Intent(MainActivity.this, QuickMenuActivity.class);
 			startActivity(intent);
 			pd.dismiss();
