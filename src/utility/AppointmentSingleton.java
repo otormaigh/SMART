@@ -24,14 +24,9 @@ public class AppointmentSingleton {
 	private JSONArray query;
 	private JSONObject jsonNew;
 	
-	private String id;
-	private String date;
-	private String time;
-	private String serviceProvderId;
-	private String serviceUserId;
+	private String id, date, time, serviceProvderId, 
+				   serviceUserId, vistType, serviceOptionId;
 	private boolean priority;
-	private String vistType;
-	private String serviceOptionId;	
 		
 	private AppointmentSingleton() {
 	}
@@ -82,6 +77,13 @@ public class AppointmentSingleton {
 	public ArrayList<String> getIdAtDate(String query){
 		return dateHash.get(query);		// returns id at date 
 	}
+	/**
+	 * 
+	 * Takes in a JSONArray of appointments, iterates through it
+	 * parses out date and id and sets the to a HashMap of 
+	 * Date as Key and ArrayList of corresponding IDs as value
+	 * 
+	 */
 	public void setHashMapofDateID(JSONArray appointmentArray) {
 		ArrayList<JSONObject> jsonValues = new ArrayList<JSONObject>();
 		ArrayList<String> idArray;
@@ -113,6 +115,13 @@ public class AppointmentSingleton {
 	public HashMap<String, String> getHashMapofIdAppt(){
 		return idHash;
 	}
+	/**
+	 * 
+	 * Takes in a JSONArray of appointments, iterates through it
+	 * parses out id and appointment string and sets the to a 
+	 * HashMap of ID as Key and appointment string as value
+	 *  
+	 */
 	public void setHashMapofIdAppt(JSONArray appointmentArray) {
 		ArrayList<JSONObject> jsonValues = new ArrayList<JSONObject>();
 		HashMap<String, String> idHash = new HashMap<String, String>();
@@ -134,6 +143,13 @@ public class AppointmentSingleton {
 		}
 		this.idHash = idHash;
 	}
+	/**
+	 * 
+	 * Take in a day in yyyy-MM-dd format
+	 * searches that HashMap of Date/ID
+	 * and returns ID corresponding to that date
+	 * 
+	 */
 	public ArrayList<String> getIds(String dayToSearch) {
 		idList = new ArrayList<String>();
 		idList = dateHash.get(dayToSearch);
@@ -144,12 +160,12 @@ public class AppointmentSingleton {
 	}
 	public ArrayList<String> getTime(ArrayList<?> idList) { // get the specific id not list of. . 
 		ArrayList<String> time = new ArrayList<String>();
-		JSONObject jsondude;
+		JSONObject json;
 		
 		for(int i = 0; i < idList.size(); i++ ){
 			try {
-				jsondude = new JSONObject(idHash.get(idList.get(i)));
-				time.add(jsondude.get("time").toString());				
+				json = new JSONObject(idHash.get(idList.get(i)));
+				time.add(json.get("time").toString());				
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -158,12 +174,12 @@ public class AppointmentSingleton {
 	}
 	public ArrayList<String> getName(ArrayList<?> idList){		
 		ArrayList<String> name = new ArrayList<String>();
-		JSONObject jsondude;
+		JSONObject json;
 		
 		for(int i = 0; i < idList.size(); i++ ){
 			try {
-				jsondude = new JSONObject(idHash.get(idList.get(i)));
-				name.add(((JSONObject) jsondude.get("service_user")).get("name").toString());				
+				json = new JSONObject(idHash.get(idList.get(i)));
+				name.add(((JSONObject) json.get("service_user")).get("name").toString());				
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -172,29 +188,36 @@ public class AppointmentSingleton {
 	}
 	public ArrayList<String> getGestation(ArrayList<?> idList){		
 		ArrayList<String> gest = new ArrayList<String>();
-		JSONObject jsondude;
+		JSONObject json;
 		
 		for(int i = 0; i < idList.size(); i++ ){
 			try {
-				jsondude = new JSONObject(idHash.get(idList.get(i)));
-				gest.add(((JSONObject) jsondude.get("service_user")).get("gestation").toString());				
+				json = new JSONObject(idHash.get(idList.get(i)));
+				gest.add(((JSONObject) json.get("service_user")).get("gestation").toString());				
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 		}
 		return gest;
 	}
+	/**
+	 * 
+	 * Takes in an ArrayList of appointment ids and returns
+	 * time, name and gestation for each appointment wanted 
+	 * in an ArrayList of Strings
+	 * 
+	 */
 	public ArrayList<String> getAppointmentDetails(ArrayList<?> idList){		
 		String time = null;
 		String name = null;
 		ArrayList<String> info = new ArrayList<String>();
-		JSONObject jsondude;
+		JSONObject json;
 		
 		for(int i = 0; i < idList.size(); i++ ){
 			try {
-				jsondude = new JSONObject(idHash.get(idList.get(i)));
-				time = (jsondude.get("time").toString());
-				name = (((JSONObject) jsondude.get("service_user")).get("name").toString());
+				json = new JSONObject(idHash.get(idList.get(i)));
+				time = (json.get("time").toString());
+				name = (((JSONObject) json.get("service_user")).get("name").toString());
 				info.add(time + " - - - - " + name);
 			} catch (JSONException e) {
 				e.printStackTrace();
@@ -241,6 +264,13 @@ public class AppointmentSingleton {
 	public void setServiceOptionId(String ServiceOptionId) {
 		this.serviceOptionId = ServiceOptionId;
 	}
+	/**
+	 * 
+	 * takes in an ArrayLis of JSONObject and returns
+	 * an ArrayList of JSONObjects that is sorted in 
+	 * chronological order based on date and time.
+	 * 
+	 */
 	public ArrayList<JSONObject> sortDates(ArrayList<JSONObject> objToBeSorted) {
         Collections.sort(objToBeSorted, new Comparator<JSONObject>() {
             @Override
