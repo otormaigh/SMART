@@ -1,5 +1,7 @@
 package ie.teamchile.smartapp;
 
+import utility.ToastAlert;
+import utility.UserSingleton;
 import models.Login_model;
 import android.content.Intent;
 import android.os.Bundle;
@@ -52,5 +54,15 @@ public class QuickMenuActivity extends MenuInheritActivity {
                     break;
             }
         }
+    }
+    
+    @Override
+    public void onBackPressed() {
+    	if(UserSingleton.getUserSingleton().isLoggedIn()) {
+    		ToastAlert ta = new ToastAlert(getBaseContext(), 
+        			"  Already logged in, \n  Logout?");
+    	}else {
+    		
+    	}    	
     }
 }
