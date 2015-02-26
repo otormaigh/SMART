@@ -142,7 +142,7 @@ public class Appointments_model {
 	public String getDate() {		
 		return date;
 	}
-	public ArrayList<String> getTime(ArrayList<?> idList) {
+	public ArrayList<String> getTime(ArrayList<?> idList) { // get the specific id not list of. . 
 		ArrayList<String> time = new ArrayList<String>();
 		JSONObject jsondude;
 		
