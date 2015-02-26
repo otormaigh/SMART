@@ -1,5 +1,6 @@
 package ie.teamchile.smartapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -25,6 +26,8 @@ public class PostNatalActivity extends MenuInheritActivity {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
+            	Intent ab = new Intent(getApplicationContext(), QuickMenuActivity.class);
+            	startActivity(ab);
                 Log.e("Click ", "Row 5");
         	  }
         });
