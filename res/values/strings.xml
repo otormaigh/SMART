@@ -172,6 +172,8 @@
     <string name="phone_call">Phone Call</string>
     <string name="sms">Send SMS</string>
     <string name="email">Email</string>
+    <string name="user_address_title">Google Maps</string>
+    <string name="user_address_message">Are you sure you want to go to Google Maps?</string>
     <string name="cancel">Cancel</string>
 
     <!-- CONTACT DETAILS -->
@@ -191,5 +193,13 @@
     <!--  Stock Note -->
     <string name="clinic_name">Churchtown</string>
     <string name="save_note">Save note</string>
+    
+    <!-- POST NATAL -->
+    <string name="edd">EDD</string>
+    <string name="gestation">Gestation</string>
+    <string name="blood_group">Blood group</string>
+    <string name="rhesus">Rhesus</string>
+    <string name="parity">Parity</string>
+    <string name="obstretic_history">Obstretic history</string>
 
 </resources>
