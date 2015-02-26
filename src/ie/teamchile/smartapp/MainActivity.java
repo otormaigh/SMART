@@ -138,5 +138,9 @@ public class MainActivity extends MenuInheritActivity {
     	} else
     		Toast.makeText(this, "Login Failed", Toast.LENGTH_LONG).show();
 	}
+    @Override
+    public void onBackPressed() {
+    	Toast.makeText(this, "There's no going back ye hear?!!!", Toast.LENGTH_LONG).show();
+    }
 }
 
