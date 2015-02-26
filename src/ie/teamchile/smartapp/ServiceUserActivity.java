@@ -83,7 +83,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 			switch (v.getId()) {
 			case R.id.ante_natal:
 				Intent intent = new Intent(getApplicationContext(),
-						AntiNatalActivity.class);
+						MainActivityAnteNatal.class);
 				startActivity(intent);
 				break;
 			case R.id.post_natal:
