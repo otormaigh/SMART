@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,7 +28,8 @@ public class ServiceUserActivity extends MenuInheritActivity {
 	private Dialog dialog;
 	private Button bookAppointmentButton, userContact, next_of_kin_contact,
 			userPhoneCall, userSendSMS, userSendEmail, userCancel, userAddress,
-			kinPhoneCall, kinSendSMS, kinCancel, postNatal, antiNatal, userImage;
+			kinPhoneCall, kinSendSMS, kinCancel;
+	private ImageView antiNatal, postNatal, userImage;
 	private Date dobAsDate;
 	private Intent userCallIntent, userSmsIntent, userEmailIntent,
 			kinCallIntent, kinSmsIntent;
@@ -58,11 +60,11 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		userContact.setOnClickListener(new ButtonClick());
 		userAddress = (Button) findViewById(R.id.user_address);
 		userAddress.setOnClickListener(new ButtonClick());
-		antiNatal = (Button)findViewById(R.id.ante_natal);
+		antiNatal = (ImageView)findViewById(R.id.ante_natal);
 		antiNatal.setOnClickListener(new ButtonClick());
-		postNatal = (Button)findViewById(R.id.post_natal);
+		postNatal = (ImageView)findViewById(R.id.post_natal);
 		postNatal.setOnClickListener(new ButtonClick());
-		userImage = (Button)findViewById(R.id.user_image);
+		userImage = (ImageView)findViewById(R.id.user_image);
 		userImage.setOnClickListener(new ButtonClick());
 
 

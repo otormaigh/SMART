@@ -14,6 +14,7 @@
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />    
 
     <application
         android:allowBackup="false"
@@ -27,7 +28,6 @@
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -77,11 +77,8 @@
             android:name=".AntiNatalActivity"
             android:label="@string/title_activity_anti_natal" />
         <activity
-            android:name=".StockNote"
+            android:name=".StockNoteActivity"
             android:label="@string/title_activity_stock_note" >
-        </activity>
-
-           
+        </activity>          
     </application>
 </manifest>
-
