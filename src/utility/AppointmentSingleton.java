@@ -1,4 +1,4 @@
-package models;
+package utility;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,8 +13,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 import connecttodb.AccessDBTable;
 
-public class Appointments_model {
-	private static Appointments_model singleInstance;
+public class AppointmentSingleton {
+	private static AppointmentSingleton singleInstance;
 	private JSONArray appointmentArray = new JSONArray();
 	private HashMap<String, ArrayList<String>> dateHash = new HashMap<String, ArrayList<String>>();
 	private HashMap<String, String> idHash = new HashMap<String, String>();
@@ -33,12 +33,12 @@ public class Appointments_model {
 	private String vistType;
 	private String serviceOptionId;	
 		
-	private Appointments_model() {
+	private AppointmentSingleton() {
 	}
 	
-	public static Appointments_model getSingletonIntance() {
+	public static AppointmentSingleton getSingletonIntance() {
 		if(singleInstance == null) {
-			singleInstance = new Appointments_model();
+			singleInstance = new AppointmentSingleton();
 		}
 		return singleInstance;
 	}
@@ -52,7 +52,7 @@ public class Appointments_model {
 		protected JSONArray doInBackground(Void... params) {
 			Log.d("singleton", "in updateLocal doInBackground");
 			try {
-				response = db.accessDB(Login_model.getToken(), "appointments");
+				response = db.accessDB("appointments");
 				jsonNew = new JSONObject(response);
 				query = jsonNew.getJSONArray("appointments");
 			} catch (JSONException e) {
