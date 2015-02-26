@@ -10,6 +10,8 @@ import models.Appointments_model;
 import models.Clinics_model;
 import models.Login_model;
 import utility.ConnectivityTester;
+import utility.ToastAlert;
+import utility.UserSingleton;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -102,11 +104,12 @@ public class MainActivity extends MenuInheritActivity {
 	private class LongOperation extends AsyncTask<String, Void, String> {
 		@Override
 		protected void onPreExecute() {
+			ToastAlert ta = new ToastAlert(getBaseContext(), "Loading data. . . ");
 		}
 		protected String doInBackground(String... params) {
 			token = getToken.getToken(Login_model.getUsername(), Login_model.getPassword());
 			//token = getToken.getToken("team_chile", "smartappiscoming");
-            Log.d("MYLOG", "Token: " + token);
+			Log.d("MYLOG", "Token: " + token);
             Log.d("MYLOG", "Get Token: " + Login_model.getToken());
             
 			return null;
@@ -132,6 +135,7 @@ public class MainActivity extends MenuInheritActivity {
 			Clinics_model.getSingletonIntance().updateLocal();
 			
     		Toast.makeText(this, "Login Successful", Toast.LENGTH_LONG).show();
+    		UserSingleton.getUserSingleton().setLoggedIn(true);
     		intent = new Intent(MainActivity.this, QuickMenuActivity.class);
 			startActivity(intent);
 			pd.dismiss();
@@ -140,7 +144,13 @@ public class MainActivity extends MenuInheritActivity {
 	}
     @Override
     public void onBackPressed() {
-    	Toast.makeText(this, "There's no going back ye hear?!!!", Toast.LENGTH_LONG).show();
+    	if(UserSingleton.getUserSingleton().isLoggedIn()) {
+    		ToastAlert ta = new ToastAlert(getBaseContext(), 
+        			"  Already logged in, \n  logout?");
+    	}else {
+    		
+    	}
+    	
     }
 }
 
