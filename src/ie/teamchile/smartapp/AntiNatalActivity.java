@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TableRow;
 
+
 public class AntiNatalActivity extends MenuInheritActivity {
 	TableRow row1;
 	TableRow row2;
