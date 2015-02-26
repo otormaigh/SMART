@@ -8,6 +8,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import models.Appointments_model;
+import models.Clinics_model;
 import models.Login_model;
 
 import org.json.JSONException;
@@ -40,9 +42,6 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 	private DateFormat dfTimeOnly = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());	
 	private ArrayList<JSONObject> aptsAtDate = new ArrayList<JSONObject>();
 	private ArrayList<String> aptList = new ArrayList<String>();	
-/*	private ArrayList<String> timeList = new ArrayList<String>();
-	private ArrayList<String> nameList = new ArrayList<String>();
-	private ArrayList<String> gestList = new ArrayList<String>();*/
 	private Calendar c = Calendar.getInstance();
 	private DateSorter ds = new DateSorter();
 	private SetDateToHashMap getDates = new SetDateToHashMap();
@@ -60,13 +59,12 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
         listView = (ListView)findViewById(R.id.list);
         clinicName = (TextView)findViewById(R.id.clinic_name);
         dateInList = (Button)findViewById(R.id.date_button);
-        dateInList.setText(dfDateOnlyOther.format(daySelected));
+        //dateInList.setText(dfDateOnlyOther.format(daySelected));
         prevWeek = (Button)findViewById(R.id.prev_button);
         prevWeek.setOnClickListener(new ButtonClick());
         nextWeek = (Button)findViewById(R.id.next_button);
         nextWeek.setOnClickListener(new ButtonClick());
-        
-        
+                
         c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         Log.d("MYLOG", "Date set to " + c.getTime());
 		
@@ -75,7 +73,8 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
         Log.d("MYLOG", "hospital: " + hospitalSelected);
         Log.d("MYLOG", "week: " + weekSelected);
         Log.d("MYLOG", "day: " + daySelected);
-		new LongOperation().execute((String[]) null);
+		//new LongOperation().execute((String[]) null);
+        setAptToListSingle(daySelected);
     }
     private class ButtonClick implements View.OnClickListener {
         public void onClick(View v) {
@@ -89,7 +88,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
                 	daySelected = c.getTime();
                 	listView.setAdapter(null);
                 	adapter.notifyDataSetChanged();
-                	new LongOperation().execute((String[]) null);
+                	setAptToListSingle(daySelected);
                     break;
                 case R.id.next_button:
                 	Log.d("MYLOG", "daySelected: " + daySelected.toLocaleString());
@@ -100,27 +99,55 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
                 	daySelected = c.getTime();
                 	listView.setAdapter(null);
                 	adapter.notifyDataSetChanged();
-                	new LongOperation().execute((String[]) null);
+                	setAptToListSingle(daySelected);
                     break;
             }
         }
     }
-    public void setAptToList(ArrayList<JSONObject> aptsAtDate){
+    public void setAptToListSingle(Date daySelected){
+    	ArrayList<String> timeSingle = new ArrayList<String>();
+    	ArrayList<String> nameSingle = new ArrayList<String>();
+    	ArrayList<String> gestSingle = new ArrayList<String>();
+    	String daySelectedStr = dfDateOnly.format(daySelected);
+    	
+    	dateInList.setText(dfDateOnlyOther.format(daySelected));
+    	Log.d("singleton", "String.valueOf(hospitalSelected) " + String.valueOf(hospitalSelected));
+    	String nameOfClinic = Clinics_model.getSingletonIntance().getName(String.valueOf(hospitalSelected));
+    	clinicName.setText(nameOfClinic);
+    	String openingHours = Clinics_model.getSingletonIntance().getOpeningHours(String.valueOf(hospitalSelected));
+    	String closingHours = Clinics_model.getSingletonIntance().getClosingHours(String.valueOf(hospitalSelected));
+    	
+    	Log.d("singleton", "opening time: " + openingHours);
+    	Log.d("singleton", "closing time: " + closingHours);
+        
+		Log.d("singleton", "getHashMapofDateID: " + Appointments_model.getSingletonIntance().getHashMapofDateID());
+		Log.d("singleton", "getHashMapofDateID: " + Appointments_model.getSingletonIntance().getHashMapofIdAppt());
+		ArrayList<String> listOfId = Appointments_model.getSingletonIntance().getIdAtDate(daySelectedStr);		
+		
+		timeSingle = Appointments_model.getSingletonIntance().getTime(listOfId);
+		Log.d("singleton", "getTime(listOfId)  " + Appointments_model.getSingletonIntance().getTime(listOfId));
+		nameSingle = Appointments_model.getSingletonIntance().getName(listOfId);
+		Log.d("singleton", "getName(listOfId)  " + Appointments_model.getSingletonIntance().getName(listOfId));
+		gestSingle = Appointments_model.getSingletonIntance().getGestation(listOfId);
+		Log.d("singleton", "getGestation(listOfId)  " + Appointments_model.getSingletonIntance().getGestation(listOfId));		
+		
+		Appointments_model.getSingletonIntance().getAppointmentDetails(listOfId);
+		Log.d("singleton", "getAppointmentDetails(listOfId)  " + Appointments_model.getSingletonIntance().getAppointmentDetails(listOfId));
+        
+		adapter = new ListElementAdapter (AppointmentCalendarActivity.this, timeSingle, nameSingle, gestSingle);
+		
+        listView.setAdapter(adapter);
+    }
+    /*public void setAptToList(ArrayList<JSONObject> aptsAtDate){
     	ArrayList<String> timeList = new ArrayList<String>();
-    	timeList.clear();
     	ArrayList<String> nameList = new ArrayList<String>();
-    	nameList.clear();
     	ArrayList<String> gestList = new ArrayList<String>();
-    	gestList.clear();
     	Log.d("MYLOG", "timeList without data: " + timeList);
         Log.d("MYLOG", "nameList without data: " + nameList);
         Log.d("MYLOG", "gestList without data: " + gestList);
         try {
             for (int i = 0; i < aptsAtDate.size(); i++) {
                 Integer clinic_id = (((JSONObject) ((JSONObject) aptsAtDate.get(i)).get("appointments")).getInt("clinic_id"));
-              /*  Log.d("MYLOG", "timeList: " + timeList);
-                Log.d("MYLOG", "nameList: " + nameList);
-                Log.d("MYLOG", "gestList: " + gestList);*/
                 if (clinic_id == hospitalSelected) {
                     name = ((JSONObject) ((JSONObject) ((JSONObject) aptsAtDate.get(i)).get("appointments")).get("service_user")).get("name");
                     time = ((JSONObject) ((JSONObject) aptsAtDate.get(i)).get("appointments")).get("time");
@@ -158,18 +185,42 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
             Log.d("MYLOG", "timeList with data: " + timeList);
             Log.d("MYLOG", "nameList with data: " + nameList);
             Log.d("MYLOG", "gestList with data: " + gestList);
-            /*ArrayAdapter<String> adapter = new ArrayAdapter<String>(AppointmentCalendarActivity.this, R.layout.list_rows, R.id.date, aptList);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(AppointmentCalendarActivity.this, R.layout.list_rows, R.id.date, aptList);
             listView.setAdapter(adapter);
-            listView.setTextFilterEnabled(true);*/
+            listView.setTextFilterEnabled(true);
             
             //listView = (ListView) findViewById(R.id.list);
-            adapter = new ListElementAdapter (AppointmentCalendarActivity.this, timeList, nameList, gestList);
+            //adapter = new ListElementAdapter (AppointmentCalendarActivity.this, timeList, nameList, gestList);
+            
+            ArrayList<String> timeSingle = new ArrayList<String>();
+        	ArrayList<String> nameSingle = new ArrayList<String>();
+        	ArrayList<String> gestSingle = new ArrayList<String>();
+        	String daySelectedStr = dfDateOnly.format(daySelected);
+            
+			Log.d("singleton", "getHashMapofDateID: " + Appointments_model.getSingletonIntance().getHashMapofDateID());
+			Log.d("singleton", "getHashMapofDateID: " + Appointments_model.getSingletonIntance().getHashMapofIdAppt());
+			ArrayList<String> listOfId = Appointments_model.getSingletonIntance().getIdAtDate(daySelectedStr);
+			
+			
+			timeSingle = Appointments_model.getSingletonIntance().getTime(listOfId);
+			Log.d("singleton", "getTime(listOfId)  " + Appointments_model.getSingletonIntance().getTime(listOfId));
+			nameSingle = Appointments_model.getSingletonIntance().getName(listOfId);
+			Log.d("singleton", "getName(listOfId)  " + Appointments_model.getSingletonIntance().getName(listOfId));
+			gestSingle = Appointments_model.getSingletonIntance().getGestation(listOfId);
+			Log.d("singleton", "getGestation(listOfId)  " + Appointments_model.getSingletonIntance().getGestation(listOfId));
+			
+			
+			Appointments_model.getSingletonIntance().getAppointmentDetails(listOfId);
+			Log.d("singleton", "getAppointmentDetails(listOfId)  " + Appointments_model.getSingletonIntance().getAppointmentDetails(listOfId));
+            
+			adapter = new ListElementAdapter (AppointmentCalendarActivity.this, timeSingle, nameSingle, gestSingle);
+			
             listView.setAdapter(adapter);
             //listView.setTextFilterEnabled(true);            
         } catch (JSONException | ParseException e) {
             e.printStackTrace();
         }
-    }
+    }*/
     private class ListElementAdapter extends BaseAdapter {
 		Context context;
 		LayoutInflater layoutInflater;
@@ -227,7 +278,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
     public void setDaySelected(Date daySelected){
         this.daySelected = daySelected;
     }
-    public class LongOperation extends AsyncTask<String, Void, ArrayList<JSONObject>> {    
+    /*public class LongOperation extends AsyncTask<String, Void, ArrayList<JSONObject>> {    
     	//Date dayWanted;
     	String clinicNameFromDB = null;
     	String namefromDB = null;
@@ -256,6 +307,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 			}			
 			daySelectedStr = dfDateOnly.format(daySelected);
 			aptsAtDate = getDates.setDateToHaspMap(Login_model.getToken(), daySelectedStr);
+			Appointments_model.getSingletonIntance().updateLocal();	
 			return aptsAtDate;
 		}
 		@Override
@@ -271,5 +323,5 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 			Log.d("MYLOG", "result: " + result);
 			setAptToList(result);
 		}
-	}
+	}*/
 }
