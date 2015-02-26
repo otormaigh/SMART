@@ -1,5 +1,6 @@
 package ie.teamchile.smartapp;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,13 +18,15 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import models.Login_model;
+
 public class ServiceUserActivity extends MenuInheritActivity {
 	private TextView hospitalNumber, name, age, email, mobileNumber, road,
 			county, postCode, nextOfKinName, nextOfKinContactNumber;
 	private String dob, userCall, userSMS, userEmail, kinCall, kinSMS;
 	private Dialog dialog;
 	private Button bookAppointmentButton, userContact, next_of_kin_contact,
-			userPhoneCall, userSendSMS, userSendEmail, userCancel,
+			userPhoneCall, userSendSMS, userSendEmail, userCancel, userAddress,
 			kinPhoneCall, kinSendSMS, kinCancel;
 	private Date dobAsDate;
 	private Intent userCallIntent, userSmsIntent, userEmailIntent,
@@ -53,6 +56,8 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		next_of_kin_contact.setOnClickListener(new ButtonClick());
 		userContact = (Button) findViewById(R.id.user_contact);
 		userContact.setOnClickListener(new ButtonClick());
+		userAddress = (Button) findViewById(R.id.user_address);
+		userAddress.setOnClickListener(new ButtonClick());
 
 		hospitalNumber.setText(getIntent().getStringExtra("hospital_number"));
 		name.setText(getIntent().getStringExtra("name"));
@@ -79,6 +84,9 @@ public class ServiceUserActivity extends MenuInheritActivity {
 				break;
 			case R.id.next_of_kin_contact:
 				kinContact();
+				break;
+			case R.id.user_address:
+				userAddress();
 				break;
 			case R.id.user_Phone_Call:
 				Log.i("Make call", "");
@@ -185,6 +193,23 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		userCancel.setOnClickListener(new ButtonClick());
 		dialog.show();
 	}
+	
+	private void userAddress() {
+        new AlertDialog.Builder(this)
+        .setTitle(R.string.user_address_title)
+        .setMessage(R.string.user_address_message)
+        .setNegativeButton(R.string.No, new DialogInterface.OnClickListener() {
+		public void onClick(DialogInterface dialoginterface, int i) {
+		}}).setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener() {
+		    public void onClick(DialogInterface dialoginterface, int i) {
+		    	String address = "" + road+county+postCode.getText().toString();	
+		    	Uri uri = Uri.parse(address);
+		    	Intent intent = new Intent(android.content.Intent.ACTION_VIEW, uri);
+		    	startActivity(intent);
+        }	
+		}).show();		
+	}
+
 	private void kinContact() {
 		dialog = new Dialog(ServiceUserActivity.this);
 		dialog.setContentView(R.layout.kin_contact_dialog_box);
