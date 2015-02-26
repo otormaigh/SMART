@@ -25,7 +25,6 @@ import android.widget.Toast;
 import connecttodb.GetToken;
 import connecttodb.Logout;
 
-//This is a test comment on MainActivity
 
 public class MainActivity extends MenuInheritActivity {
 	private String token, username, password;
