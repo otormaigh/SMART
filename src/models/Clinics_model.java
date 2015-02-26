@@ -49,7 +49,9 @@ public class Clinics_model {
 		protected JSONArray doInBackground(Void... params) {
 			Log.d("singleton", "in updateLocal doInBackground");
 			try {
+				// read in full clinic list
 				response = db.accessDB(Login_model.getToken(), "clinics");
+				// parse response as JsonObject
 				jsonNew = new JSONObject(response);
 				query = jsonNew.getJSONArray("clinics");
 			} catch (JSONException e) {
@@ -72,8 +74,8 @@ public class Clinics_model {
 	public void setHashMapofIdClinic(JSONArray clinicArray) {
 		ArrayList<JSONObject> jsonValues = new ArrayList<JSONObject>();
 		HashMap<String, String> idHash = new HashMap<String, String>();
-		String id;
-		String clinic;
+		String id; // key
+		String clinic; // value
 		
 		try {
 			for (int i = 0; i < clinicArray.length(); i++) {
@@ -100,6 +102,10 @@ public class Clinics_model {
 	}
 
 	public String getName(String idToSearch) {
+		/**
+		 *  helper method to give back the name of the clinic
+		 *  in the ID's hashmap
+		 */
 		String name = "";
 		JSONObject jsondude;		
 		try {
@@ -124,6 +130,10 @@ public class Clinics_model {
 	}
 
 	public String getOpeningHours(String idToSearch) {
+		/**
+		 * helper to get the opening times from the 
+		 * HashMap of ID's
+		 */
 		String openingHour = "";
 		JSONObject jsondude;		
 		try {
