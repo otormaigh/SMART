@@ -6,9 +6,9 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Calendar;
 
-import models.Appointments_model;
-import models.Clinics_model;
 import models.Login_model;
+import utility.AppointmentSingleton;
+import utility.ClinicSingleton;
 import utility.ConnectivityTester;
 import utility.ToastAlert;
 import utility.UserSingleton;
@@ -131,8 +131,8 @@ public class MainActivity extends MenuInheritActivity {
 	}
     private void checkCredentials(){    	
     	if (getToken.getResponseCode().equals("201")){
-    		Appointments_model.getSingletonIntance().updateLocal();
-			Clinics_model.getSingletonIntance().updateLocal();
+    		AppointmentSingleton.getSingletonIntance().updateLocal();
+			ClinicSingleton.getSingletonIntance().updateLocal();
 			
     		Toast.makeText(this, "Login Successful", Toast.LENGTH_LONG).show();
     		UserSingleton.getUserSingleton().setLoggedIn(true);

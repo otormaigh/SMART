@@ -1,4 +1,4 @@
-package models;
+package utility;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,8 +11,8 @@ import connecttodb.AccessDBTable;
 import android.os.AsyncTask;
 import android.util.Log;
 
-public class Clinics_model {	
-	private static Clinics_model singleInstance;
+public class ClinicSingleton {	
+	private static ClinicSingleton singleInstance;
 	private JSONArray clinicsArray = new JSONArray();
 	private HashMap<String, String> idHash = new HashMap<String, String>();
 	private ArrayList<String> idList;
@@ -31,11 +31,11 @@ public class Clinics_model {
 	private int appointmentIntervals;
 	private String days;
 
-	private Clinics_model() {
+	private ClinicSingleton() {
 	}	
-	public static Clinics_model getSingletonIntance() {
+	public static ClinicSingleton getSingletonIntance() {
 		if(singleInstance == null) {
-			singleInstance = new Clinics_model();
+			singleInstance = new ClinicSingleton();
 		}
 		return singleInstance;
 	}	
@@ -50,7 +50,7 @@ public class Clinics_model {
 			Log.d("singleton", "in updateLocal doInBackground");
 			try {
 				// read in full clinic list
-				response = db.accessDB(Login_model.getToken(), "clinics");
+				response = db.accessDB("clinics");
 				// parse response as JsonObject
 				jsonNew = new JSONObject(response);
 				query = jsonNew.getJSONArray("clinics");
