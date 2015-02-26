@@ -15,6 +15,7 @@ import models.Login_model;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.ComponentCallbacks2;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -278,6 +279,15 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
     public void setDaySelected(Date daySelected){
         this.daySelected = daySelected;
     }
+    
+    @Override
+	public void onTrimMemory(int level) {
+		// TODO Auto-generated method stub
+		super.onTrimMemory(level);
+		if(level >= ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
+						
+		}
+	}
     /*public class LongOperation extends AsyncTask<String, Void, ArrayList<JSONObject>> {    
     	//Date dayWanted;
     	String clinicNameFromDB = null;
