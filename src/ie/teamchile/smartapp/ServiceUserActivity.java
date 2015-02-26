@@ -27,7 +27,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 	private Dialog dialog;
 	private Button bookAppointmentButton, userContact, next_of_kin_contact,
 			userPhoneCall, userSendSMS, userSendEmail, userCancel, userAddress,
-			kinPhoneCall, kinSendSMS, kinCancel;
+			kinPhoneCall, kinSendSMS, kinCancel, postNatal, antiNatal, userImage;
 	private Date dobAsDate;
 	private Intent userCallIntent, userSmsIntent, userEmailIntent,
 			kinCallIntent, kinSmsIntent;
@@ -58,6 +58,13 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		userContact.setOnClickListener(new ButtonClick());
 		userAddress = (Button) findViewById(R.id.user_address);
 		userAddress.setOnClickListener(new ButtonClick());
+		antiNatal = (Button)findViewById(R.id.ante_natal);
+		antiNatal.setOnClickListener(new ButtonClick());
+		postNatal = (Button)findViewById(R.id.post_natal);
+		postNatal.setOnClickListener(new ButtonClick());
+		userImage = (Button)findViewById(R.id.user_image);
+		userImage.setOnClickListener(new ButtonClick());
+
 
 		hospitalNumber.setText(getIntent().getStringExtra("hospital_number"));
 		name.setText(getIntent().getStringExtra("name"));
@@ -74,10 +81,25 @@ public class ServiceUserActivity extends MenuInheritActivity {
 	private class ButtonClick implements View.OnClickListener, DialogInterface {
 		public void onClick(View v) {
 			switch (v.getId()) {
-			case R.id.book_appointment:
-				Intent intent = new Intent(ServiceUserActivity.this,
-						AppointmentTypeSpinnerActivity.class);
+			case R.id.ante_natal:
+				Intent intent = new Intent(getApplicationContext(),
+						AntiNatalActivity.class);
 				startActivity(intent);
+				break;
+			case R.id.post_natal:
+				Intent intent1 = new Intent(getApplicationContext(),
+						PostNatalActivity.class);
+				startActivity(intent1);
+				break;
+			case R.id.user_image:
+				Intent intent3 = new Intent(getApplicationContext(),
+						ServiceUserActivity.class);
+				startActivity(intent3);
+				break;
+			case R.id.book_appointment:
+				Intent intent2 = new Intent(ServiceUserActivity.this,
+						AppointmentTypeSpinnerActivity.class);
+				startActivity(intent2);
 				break;
 			case R.id.user_contact:
 				usrContact();
@@ -215,6 +237,8 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		    	Uri uri = Uri.parse(addr);
 		    	System.out.println(addr);
 		    	Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+		      intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+
 		    	startActivity(intent);
         }	
 		}).show();		
