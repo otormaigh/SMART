@@ -1,6 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="ie.teamchile.smartapp.AntiNatalActivity" >
+    tools:context="ie.teamchile.smartapp.AnteNatalActivity" >
 
     <item
         android:id="@+id/action_settings"
