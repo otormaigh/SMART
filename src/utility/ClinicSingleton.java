@@ -33,20 +33,20 @@ public class ClinicSingleton {
 		return singleInstance;
 	}	
 	public void updateLocal(){		
-		new LongOperation().execute();
+		new LongOperation().execute("clinics");
 	}
-	private class LongOperation extends AsyncTask<Void, Void, JSONArray> {
+	private class LongOperation extends AsyncTask<String, Void, JSONArray> {
 		@Override
 		protected void onPreExecute() {
 		}
-		protected JSONArray doInBackground(Void... params) {
+		protected JSONArray doInBackground(String... params) {
 			Log.d("singleton", "in clinic updateLocal doInBackground");
 			try {
 				// read in full clinic list
-				response = db.accessDB("clinics");
+				response = db.accessDB(params[0]);
 				// parse response as JsonObject
 				jsonNew = new JSONObject(response);
-				query = jsonNew.getJSONArray("clinics");
+				query = jsonNew.getJSONArray(params[0]);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
