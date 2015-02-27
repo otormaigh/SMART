@@ -25,7 +25,6 @@ import android.widget.Toast;
 import connecttodb.GetToken;
 import connecttodb.Logout;
 
-
 public class MainActivity extends MenuInheritActivity {
 	private String token, username, password;
 	private Button loginButton;
@@ -37,7 +36,6 @@ public class MainActivity extends MenuInheritActivity {
     private Logout logout = new Logout();
 	private GetToken getToken = new GetToken();
 	private Intent intent;
-	ProgressDialog pd;
 	private Calendar cal = Calendar.getInstance();
 	private ConnectivityTester testConn = new ConnectivityTester(this);
 
@@ -81,9 +79,6 @@ public class MainActivity extends MenuInheritActivity {
                 //Intent intent = new Intent(MainActivity.this, QuickMenuActivity.class);
                 //startActivity(intent);
 				//login.setToken("0c325638d97faf29d71f");
-                	pd = new ProgressDialog(MainActivity.this);
-                    pd.setMessage("logging in");
-                    pd.show();
                 getCredentials();
 
 				// Intent intent = new Intent(MainActivity.this,
@@ -91,9 +86,7 @@ public class MainActivity extends MenuInheritActivity {
 				// startActivity(intent);
 				// login.setToken("0c325638d97faf29d71f");
 
-				pd = new ProgressDialog(MainActivity.this);
-				pd.setMessage("Logging In . . . .");
-				pd.show();
+				
 				getCredentials();
 
 				new LongOperation().execute((String[]) null);
@@ -102,8 +95,15 @@ public class MainActivity extends MenuInheritActivity {
 		}
 	}
 	private class LongOperation extends AsyncTask<String, Void, String> {
+		private ProgressDialog pd;
+
 		@Override
 		protected void onPreExecute() {
+			pd = new ProgressDialog(MainActivity.this);
+			pd.setMessage("Logging In . . . .");
+			pd.setIndeterminate(false);
+            pd.setCancelable(false);
+			pd.show();
 			ToastAlert ta = new ToastAlert(getBaseContext(), "Loading data. . . ");
 		}
 		protected String doInBackground(String... params) {
@@ -121,6 +121,7 @@ public class MainActivity extends MenuInheritActivity {
 		@Override
         protected void onPostExecute(String result) {
             checkCredentials();
+            pd.dismiss();
         }
 	}
 	private void getCredentials() {
@@ -138,10 +139,11 @@ public class MainActivity extends MenuInheritActivity {
     		UserSingleton.getUserSingleton().setLoggedIn(true);
     		intent = new Intent(MainActivity.this, QuickMenuActivity.class);
 			startActivity(intent);
-			pd.dismiss();
-    	} else
-    		Toast.makeText(this, "Login Failed", Toast.LENGTH_LONG).show();
-	}
+    	} else{
+    		Toast.makeText(this, "Login Failed", Toast.LENGTH_LONG).show();  
+    	}
+	} 
+    
     @Override
     public void onBackPressed() {
     	if(UserSingleton.getUserSingleton().isLoggedIn()) {
