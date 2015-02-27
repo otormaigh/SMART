@@ -118,9 +118,9 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
     	Log.d("singleton", "opening time: " + openingHours);
     	Log.d("singleton", "closing time: " + closingHours);
         
-		Log.d("singleton", "getHashMapofDateID: " + AppointmentSingleton.getSingletonIntance().getHashMapofDateID());
-		Log.d("singleton", "getHashMapofDateID: " + AppointmentSingleton.getSingletonIntance().getHashMapofIdAppt());
-		ArrayList<String> listOfId = AppointmentSingleton.getSingletonIntance().getIdAtDate(daySelectedStr);		
+		//Log.d("singleton", "getHashMapofDateID: " + AppointmentSingleton.getSingletonIntance().getHashMapofDateID());
+		//Log.d("singleton", "getHashMapofDateID: " + AppointmentSingleton.getSingletonIntance().getHashMapofIdAppt());
+		ArrayList<String> listOfId = AppointmentSingleton.getSingletonIntance().getIds(String.valueOf(hospitalSelected), daySelectedStr);		
 		
 		timeSingle = AppointmentSingleton.getSingletonIntance().getTime(listOfId);
 		Log.d("singleton", "getTime(listOfId)  " + AppointmentSingleton.getSingletonIntance().getTime(listOfId));
@@ -258,6 +258,10 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 			TextView timeText = (TextView) convertView.findViewById(R.id.time);
 			TextView nameText = (TextView) convertView.findViewById(R.id.name);
 			TextView gestText = (TextView) convertView.findViewById(R.id.gestation);
+			
+			
+			//String openingTime = ClinicSingleton.getSingletonIntance().getOpeningHours(hospitalSelected);		
+			
 			timeText.setText(aptTime.get(position));
 			nameText.setText(aptName.get(position));
 			gestText.setText(aptGest.get(position));
@@ -276,50 +280,4 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
     public void setDaySelected(Date daySelected){
         this.daySelected = daySelected;
     }
-    /*public class LongOperation extends AsyncTask<String, Void, ArrayList<JSONObject>> {    
-    	//Date dayWanted;
-    	String clinicNameFromDB = null;
-    	String namefromDB = null;
-    	String fromDB = null;
-    	JSONObject jsonFromDB = null;
-    	String daySelectedStr = null;
-    	DateSorter ds = new DateSorter();
-    	SetDateToHashMap getDates = new SetDateToHashMap();
-    	private AccessDBTable table = new AccessDBTable();
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			//dayWanted = AppointmentCalendarActivity.this.daySelected;
-		}
-		protected ArrayList<JSONObject> doInBackground(String... params) {
-			try {
-				fromDB = table.accessDB(Login_model.getToken(), "clinics/" + hospitalSelected);
-				jsonFromDB = new JSONObject(fromDB);				
-				namefromDB = jsonFromDB.getJSONArray("clinics").getJSONObject(0).getString("name");
-				
-				Log.d("MYLOG", "-------------------------");
-				Log.d("MYLOG", "clinicName before: " + namefromDB);
-				Log.d("MYLOG", "-------------------------");
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}			
-			daySelectedStr = dfDateOnly.format(daySelected);
-			aptsAtDate = getDates.setDateToHaspMap(Login_model.getToken(), daySelectedStr);
-			AppointmentSingleton.getSingletonIntance().updateLocal();	
-			return aptsAtDate;
-		}
-		@Override
-		protected void onProgressUpdate(Void... values) {
-		}
-		@Override
-        protected void onPostExecute(ArrayList<JSONObject> result) {	
-			super.onPostExecute(result);
-			clinicName.setText(namefromDB);
-			Log.d("MYLOG", "-------------------------");
-			Log.d("MYLOG", "clinicName after: " + namefromDB);
-			Log.d("MYLOG", "-------------------------");
-			Log.d("MYLOG", "result: " + result);
-			setAptToList(result);
-		}
-	}*/
 }
