@@ -17,6 +17,7 @@ public class AppointmentSingleton {
 	private static AppointmentSingleton singleInstance;
 	private JSONArray appointmentArray = new JSONArray();
 	private HashMap<String, ArrayList<String>> dateHash = new HashMap<String, ArrayList<String>>();
+	HashMap<String, HashMap<String, ArrayList<String>>> clinicIDHash = new HashMap<String, HashMap<String, ArrayList<String>>>();
 	private HashMap<String, String> idHash = new HashMap<String, String>();
 	private ArrayList<String> idList;
 	private AccessDBTable db = new AccessDBTable();
@@ -24,7 +25,7 @@ public class AppointmentSingleton {
 	private JSONArray query;
 	private JSONObject jsonNew;
 	
-	private String id, date, time, serviceProvderId, 
+	private String id, clinicId, date, time, serviceProvderId, 
 				   serviceUserId, vistType, serviceOptionId;
 	private boolean priority;
 		
@@ -45,7 +46,7 @@ public class AppointmentSingleton {
 		protected void onPreExecute() {
 		}
 		protected JSONArray doInBackground(Void... params) {
-			Log.d("singleton", "in updateLocal doInBackground");
+			Log.d("singleton", "in appointment updateLocal doInBackground");
 			try {
 				response = db.accessDB("appointments");
 				jsonNew = new JSONObject(response);
@@ -61,7 +62,7 @@ public class AppointmentSingleton {
 		}
 		@Override
         protected void onPostExecute(JSONArray result) {
-			setHashMapofDateID(result);
+			setHashMapofClinicDateID(result);
 			setHashMapofIdAppt(result);
         }
 	}
@@ -71,7 +72,7 @@ public class AppointmentSingleton {
 	public void setAppointmentArray(JSONArray appointmentArray) {
 		this.appointmentArray = appointmentArray;
 	}
-	public HashMap<String, ArrayList<String>> getHashMapofDateID(){
+	public HashMap<String, ArrayList<String>> getHashMapofClinicDateID(){
 		return dateHash;				//return Hashmap of Date as Key, ID as Value
 	}
 	public ArrayList<String> getIdAtDate(String query){
@@ -84,11 +85,11 @@ public class AppointmentSingleton {
 	 * Date as Key and ArrayList of corresponding IDs as value
 	 * 
 	 */
-	public void setHashMapofDateID(JSONArray appointmentArray) {
+	public void setHashMapofClinicDateID(JSONArray appointmentArray) {
 		ArrayList<JSONObject> jsonValues = new ArrayList<JSONObject>();
 		ArrayList<String> idArray;
-		HashMap<String, ArrayList<String>> dateHash = new HashMap<String, ArrayList<String>>();
-		
+		HashMap<String, ArrayList<String>> dateHash;
+		HashMap<String, HashMap<String, ArrayList<String>>> clinicIDHash = new HashMap<String, HashMap<String, ArrayList<String>>>();
 		try {
 			for (int i = 0; i < appointmentArray.length(); i++) {
 				jsonValues.add(appointmentArray.getJSONObject(i));
@@ -96,21 +97,30 @@ public class AppointmentSingleton {
 			}	
 			for (int i = 0; i < jsonValues.size(); i++) {
 				idArray = new ArrayList<String>();
+				dateHash = new HashMap<String, ArrayList<String>>();
+				
+				clinicId = String.valueOf((jsonValues.get(i).getInt("clinic_id")));
 				id = String.valueOf((jsonValues.get(i).getInt("id")));
 				date = (String) jsonValues.get(i).get("date");
-				if (dateHash.get(date) != null) {
-					idArray = dateHash.get(date);
+				if (clinicIDHash.get(clinicId) != null) {
+					dateHash = clinicIDHash.get(clinicId);
+					if (dateHash.get(date) != null) {
+						idArray = dateHash.get(date);
+					}
 					idArray.add(id);
 					dateHash.put(date, idArray);
+					clinicIDHash.put(clinicId, dateHash);
 				} else {
 					idArray.add(id);
 					dateHash.put(date, idArray);
+					clinicIDHash.put(clinicId, dateHash);
 				}
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		this.dateHash = dateHash;
+		Log.d("singleton", "clinicIDHash: " + clinicIDHash.toString());
+		this.clinicIDHash = clinicIDHash;
 	}
 	public HashMap<String, String> getHashMapofIdAppt(){
 		return idHash;
@@ -150,9 +160,9 @@ public class AppointmentSingleton {
 	 * and returns ID corresponding to that date
 	 * 
 	 */
-	public ArrayList<String> getIds(String dayToSearch) {
+	public ArrayList<String> getIds(String clinicIdTosearch, String dayToSearch) {
 		idList = new ArrayList<String>();
-		idList = dateHash.get(dayToSearch);
+		idList = clinicIDHash.get(clinicIdTosearch).get(dayToSearch);
 		return idList;
 	}
 	public String getDate() {		
