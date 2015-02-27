@@ -29,7 +29,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 	private Button bookAppointmentButton, userContact, next_of_kin_contact,
 			userPhoneCall, userSendSMS, userSendEmail, userCancel, userAddress,
 			kinPhoneCall, kinSendSMS, kinCancel;
-	private ImageView antiNatal, postNatal, userImage;
+	private ImageView anteNatal, postNatal, userImage;
 	private Date dobAsDate;
 	private Intent userCallIntent, userSmsIntent, userEmailIntent,
 			kinCallIntent, kinSmsIntent;
@@ -52,6 +52,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		postCode = (TextView) findViewById(R.id.post_code);
 		nextOfKinName = (TextView) findViewById(R.id.next_of_kin_name);
 		nextOfKinContactNumber = (TextView) findViewById(R.id.next_of_kin_contact_number);
+		
 		bookAppointmentButton = (Button) findViewById(R.id.book_appointment);
 		bookAppointmentButton.setOnClickListener(new ButtonClick());
 		next_of_kin_contact = (Button) findViewById(R.id.next_of_kin_contact);
@@ -60,8 +61,8 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		userContact.setOnClickListener(new ButtonClick());
 		userAddress = (Button) findViewById(R.id.user_address);
 		userAddress.setOnClickListener(new ButtonClick());
-		antiNatal = (ImageView)findViewById(R.id.ante_natal);
-		antiNatal.setOnClickListener(new ButtonClick());
+		anteNatal = (ImageView)findViewById(R.id.ante_natal);
+		anteNatal.setOnClickListener(new ButtonClick());
 		postNatal = (ImageView)findViewById(R.id.post_natal);
 		postNatal.setOnClickListener(new ButtonClick());
 		userImage = (ImageView)findViewById(R.id.user_image);
@@ -84,23 +85,19 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.ante_natal:
-				Intent intent = new Intent(getApplicationContext(),
-						MainActivityAnteNatal.class);
+				Intent intent = new Intent(getApplicationContext(), AnteNatalActivity.class);
 				startActivity(intent);
 				break;
 			case R.id.post_natal:
-				Intent intent1 = new Intent(getApplicationContext(),
-						PostNatalActivity.class);
+				Intent intent1 = new Intent(getApplicationContext(), PostNatalActivity.class);
 				startActivity(intent1);
 				break;
 			case R.id.user_image:
-				Intent intent3 = new Intent(getApplicationContext(),
-						ServiceUserActivity.class);
+				Intent intent3 = new Intent(getApplicationContext(), ServiceUserActivity.class);
 				startActivity(intent3);
 				break;
 			case R.id.book_appointment:
-				Intent intent2 = new Intent(ServiceUserActivity.this,
-						AppointmentTypeSpinnerActivity.class);
+				Intent intent2 = new Intent(ServiceUserActivity.this, AppointmentTypeSpinnerActivity.class);
 				startActivity(intent2);
 				break;
 			case R.id.user_contact:
