@@ -40,7 +40,7 @@ public class ClinicSingleton {
 		protected void onPreExecute() {
 		}
 		protected JSONArray doInBackground(Void... params) {
-			Log.d("singleton", "in updateLocal doInBackground");
+			Log.d("singleton", "in clinic updateLocal doInBackground");
 			try {
 				// read in full clinic list
 				response = db.accessDB("clinics");
@@ -71,9 +71,19 @@ public class ClinicSingleton {
 		String clinic; // value
 		
 		try {
-			for (int i = 0; i < clinicArray.length(); i++) {		//possibly redundant with iterator 
-				jsonValues.add(clinicArray.getJSONObject(i));		//after this need to test
+			/**
+			 * iterates through input JSONArray
+			 * parses JSONObjects from JSONArray
+			 * puts them into an ArrayList of JSONObjects
+			 */
+			for (int i = 0; i < clinicArray.length(); i++) {		 
+				jsonValues.add(clinicArray.getJSONObject(i));		
 			}	
+			/**
+			 * iterates through ArrayList
+			 * parses out id and clinic String
+			 * sets to a HashMap of ID as Key and Clinic String as value
+			 */
 			for (int i = 0; i < jsonValues.size(); i++) {
 				id = String.valueOf((jsonValues.get(i).getInt("id")));
 				clinic = jsonValues.get(i).toString();			
@@ -125,6 +135,10 @@ public class ClinicSingleton {
 	}
 
 	public String getClosingHours(String idToSearch) {
+		/**
+		 * helper to get the closing times from the 
+		 * HashMap of ID's
+		 */
 		JSONObject json;		
 		try {
 			json = new JSONObject(idHash.get(idToSearch));
@@ -143,7 +157,18 @@ public class ClinicSingleton {
 		return type;
 	}
 
-	public int getAppointmentIntervals() {
+	public int getAppointmentIntervals(String idToSearch) {
+		/**
+		 * helper to get the closing times from the 
+		 * HashMap of ID's
+		 */
+		JSONObject json;		
+		try {
+			json = new JSONObject(idHash.get(idToSearch));
+			appointmentIntervals = (int) json.get("appointment_interval");	
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 		return appointmentIntervals;
 	}
 
