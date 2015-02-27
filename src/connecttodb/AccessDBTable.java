@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import models.Login_model;
+import utility.UserSingleton;
 import Enums.CredentialsEnum;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -22,7 +22,7 @@ public class AccessDBTable {
     private BufferedReader in;
 
 	public String accessDB(String table){
-		this.token = token;
+		token = UserSingleton.getUserSingleton().getToken();
         this.table = table;
 		return accessDB();
 	}
