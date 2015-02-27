@@ -4,6 +4,8 @@ public class UserSingleton {
 	private static UserSingleton user;
 	private String username;
 	private String password;
+	private String token;
+	private int id;
 	private boolean isLoggedIn;
 
 	public static UserSingleton getUserSingleton() {
@@ -28,6 +30,21 @@ public class UserSingleton {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+	public int getID() {
+		return id;
+	}
+
+	public void setID(int id) {
+		this.id = id;
+	}
 
 	public boolean isLoggedIn() {
 		return isLoggedIn;
@@ -36,5 +53,4 @@ public class UserSingleton {
 	public void setLoggedIn(boolean isLoggedIn) {
 		this.isLoggedIn = isLoggedIn;
 	}
-
 }

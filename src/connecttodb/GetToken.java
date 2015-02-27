@@ -7,11 +7,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
-import models.Login_model;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import utility.UserSingleton;
 import Enums.CredentialsEnum;
 import android.util.Log;
 
@@ -21,7 +20,6 @@ public class GetToken {
 	private String responseCode = null;
 	private int id, ch;
 	private HttpURLConnection httpcon;
-	private Login_model login = new Login_model();
 	private JSONObject credentials = new JSONObject();
 	private JSONObject jsonLogin = new JSONObject();
 	private JSONObject json = new JSONObject();
@@ -74,15 +72,15 @@ public class GetToken {
 			json = new JSONObject(st);
 			strToken = (String) ((JSONObject) json.get("login")).get("token");
 			id = (Integer) ((JSONObject) json.get("login")).get("id");
-			login.setUserId(id);
-			login.setToken(strToken);
+			UserSingleton.getUserSingleton().setID(id);
+			UserSingleton.getUserSingleton().setToken(strToken);
 			
-			Log.d("MYLOG", "id: " + Login_model.getUserId());
+			Log.d("MYLOG", "id: " + UserSingleton.getUserSingleton().getID());
+			Log.d("MYLOG", "token: " + UserSingleton.getUserSingleton().getToken());
 			Log.d("MYLOG", "sb.toString(): " + sb.toString());
 			Log.d("MYLOG", "Response Code: " + httpcon.getResponseCode());
 			
 			httpcon.disconnect();
-			return strToken;
 		} catch (IOException | JSONException e) {
 			e.printStackTrace();
 		}
