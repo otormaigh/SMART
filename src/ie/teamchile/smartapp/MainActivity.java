@@ -1,12 +1,8 @@
 
 package ie.teamchile.smartapp;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.Calendar;
 
-import models.Login_model;
 import utility.AppointmentSingleton;
 import utility.ClinicSingleton;
 import utility.ConnectivityTester;
@@ -23,18 +19,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import connecttodb.GetToken;
-import connecttodb.Logout;
-
 
 public class MainActivity extends MenuInheritActivity {
-	private String token, username, password;
+	private String username, password;
 	private Button loginButton;
 	private TextView usernameTextView, passwordTextView, about;
-	private Connection c = null;
-	private Statement stmt = null;
-	private ResultSet rs = null;
-	private Login_model login = new Login_model();
-    private Logout logout = new Logout();
 	private GetToken getToken = new GetToken();
 	private Intent intent;
 	ProgressDialog pd;
@@ -76,8 +65,7 @@ public class MainActivity extends MenuInheritActivity {
     private class ButtonClick implements View.OnClickListener {
 		public void onClick(View v) {
 			switch (v.getId()) {
-                case R.id.login:                	
-
+                case R.id.login:            	
                 //Intent intent = new Intent(MainActivity.this, QuickMenuActivity.class);
                 //startActivity(intent);
 				//login.setToken("0c325638d97faf29d71f");
@@ -107,10 +95,8 @@ public class MainActivity extends MenuInheritActivity {
 			ToastAlert ta = new ToastAlert(getBaseContext(), "Loading data. . . ");
 		}
 		protected String doInBackground(String... params) {
-			token = getToken.getToken(Login_model.getUsername(), Login_model.getPassword());
-			//token = getToken.getToken("team_chile", "smartappiscoming");
-			Log.d("MYLOG", "Token: " + token);
-            Log.d("MYLOG", "Get Token: " + Login_model.getToken());
+			getToken.getToken(username, password);
+			//getToken.getToken("team_chile", "smartappiscoming");
             
 			return null;
 		}
@@ -126,16 +112,14 @@ public class MainActivity extends MenuInheritActivity {
 	private void getCredentials() {
 		username = usernameTextView.getText().toString();
 		password = passwordTextView.getText().toString();
-		login.setUsername(username);
-		login.setPassword(password);
 	}
     private void checkCredentials(){    	
     	if (getToken.getResponseCode().equals("201")){
+    		Toast.makeText(this, "Login Successful", Toast.LENGTH_LONG).show();
+    		// update Singleton
     		AppointmentSingleton.getSingletonIntance().updateLocal();
 			ClinicSingleton.getSingletonIntance().updateLocal();
 			
-    		Toast.makeText(this, "Login Successful", Toast.LENGTH_LONG).show();
-    		// update Singleton
     		UserSingleton.getUserSingleton().setLoggedIn(true);
     		UserSingleton.getUserSingleton().setUsername(username);
     		UserSingleton.getUserSingleton().setPassword(password);
@@ -147,15 +131,12 @@ public class MainActivity extends MenuInheritActivity {
     	} else
     		Toast.makeText(this, "Login Failed", Toast.LENGTH_LONG).show();
 	}
-    @Override
+/*    @Override
     public void onBackPressed() {
     	if(UserSingleton.getUserSingleton().isLoggedIn()) {
     		ToastAlert ta = new ToastAlert(getBaseContext(), 
         			"  Already logged in, \n  logout?");
-    	}else {
-    		
-    	}
-    	
-    }
+    	}else {    		
+    	}    	
+    }*/
 }
-

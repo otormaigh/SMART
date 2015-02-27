@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 import connecttodb.AccessDBTable;
-import models.Login_model;
 
 public class ContactDetailsActivity extends MenuInheritActivity {
 
@@ -19,7 +18,6 @@ public class ContactDetailsActivity extends MenuInheritActivity {
 	private String seconaryNumber;
 	private String primaryNumber;
 	private TextView nameTextView;
-	private Login_model login=new Login_model();
 	private AccessDBTable database=new AccessDBTable();
 	private String email;
 	private String name;
@@ -51,7 +49,7 @@ public class ContactDetailsActivity extends MenuInheritActivity {
 		@Override
 		protected String doInBackground(Void... params) {
 			Log.d("MYLOG", "ServiceProviderSearch DoInBackground");
-			String dbQuery = database.accessDB(Login_model.getToken(), "service_providers");
+			String dbQuery = database.accessDB("service_providers");
 			try {
 				json = new JSONObject(dbQuery);
 				query = json.getJSONArray("service_providers");
