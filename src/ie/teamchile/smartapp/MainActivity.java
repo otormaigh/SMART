@@ -65,23 +65,23 @@ public class MainActivity extends MenuInheritActivity {
     private class ButtonClick implements View.OnClickListener {
 		public void onClick(View v) {
 			switch (v.getId()) {
-                case R.id.login:            	
-                //Intent intent = new Intent(MainActivity.this, QuickMenuActivity.class);
-                //startActivity(intent);
-				//login.setToken("0c325638d97faf29d71f");
+                case R.id.login:              	
+					//Intent intent = new Intent(MainActivity.this, QuickMenuActivity.class);
+                	//startActivity(intent);
+					//login.setToken("0c325638d97faf29d71f");
                 	pd = new ProgressDialog(MainActivity.this);
                     pd.setMessage("logging in");
                     pd.show();
-                getCredentials();
+                	getCredentials();
 
-				// Intent intent = new Intent(MainActivity.this,
-				// QuickMenuActivity.class);
-				// startActivity(intent);
-				// login.setToken("0c325638d97faf29d71f");
+					// Intent intent = new Intent(MainActivity.this,
+					// QuickMenuActivity.class);
+					// startActivity(intent);
+					// login.setToken("0c325638d97faf29d71f");
 
-				pd = new ProgressDialog(MainActivity.this);
-				pd.setMessage("Logging In . . . .");
-				pd.show();
+					pd = new ProgressDialog(MainActivity.this);
+					pd.setMessage("Logging In . . . .");
+					pd.show();
 				getCredentials();
 
 				new LongOperation().execute((String[]) null);
@@ -131,12 +131,12 @@ public class MainActivity extends MenuInheritActivity {
     	} else
     		Toast.makeText(this, "Login Failed", Toast.LENGTH_LONG).show();
 	}
-/*    @Override
+    @Override
     public void onBackPressed() {
     	if(UserSingleton.getUserSingleton().isLoggedIn()) {
     		ToastAlert ta = new ToastAlert(getBaseContext(), 
         			"  Already logged in, \n  logout?");
     	}else {    		
     	}    	
-    }*/
+    }
 }
