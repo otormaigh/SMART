@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-import models.Login_model;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,7 +33,6 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 	ResultSet rs;
 	JSONObject json;
 	JSONArray query;
-	Login_model login = new Login_model();
 	AccessDBTable dbTable = new AccessDBTable();
 
 	@Override
@@ -52,8 +49,6 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 		searchResult2.setOnClickListener(new ButtonClick());
 		searchResult3 = (Button) findViewById(R.id.search_result_3);
 		searchResult3.setOnClickListener(new ButtonClick());
-
-        token = login.getToken();
 	}
 	private class ButtonClick implements View.OnClickListener {
 		public void onClick(View v) {
@@ -103,7 +98,7 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 		}
 		protected String doInBackground(String... params) {
 			Log.d("MYLOG", "ServiceUserSearch DoInBackground");
-			String dbQuery = dbTable.accessDB(token, "service_users");
+			String dbQuery = dbTable.accessDB("service_users");
 			try {
 				json = new JSONObject(dbQuery);
 				query = json.getJSONArray("service_users");

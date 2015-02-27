@@ -19,8 +19,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import models.Login_model;
-
 public class ServiceUserActivity extends MenuInheritActivity {
 	private TextView hospitalNumber, name, age, email, mobileNumber, road,
 			county, postCode, nextOfKinName, nextOfKinContactNumber;

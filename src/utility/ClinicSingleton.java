@@ -71,9 +71,9 @@ public class ClinicSingleton {
 		String clinic; // value
 		
 		try {
-			/*for (int i = 0; i < clinicArray.length(); i++) {		//possibly redundant with iterator 
+			for (int i = 0; i < clinicArray.length(); i++) {		//possibly redundant with iterator 
 				jsonValues.add(clinicArray.getJSONObject(i));		//after this need to test
-			}	*/
+			}	
 			for (int i = 0; i < jsonValues.size(); i++) {
 				id = String.valueOf((jsonValues.get(i).getInt("id")));
 				clinic = jsonValues.get(i).toString();			

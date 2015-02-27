@@ -1,6 +1,5 @@
 package ie.teamchile.smartapp;
 
-import models.Login_model;
 import utility.ToastAlert;
 import utility.UserSingleton;
 import android.app.admin.DevicePolicyManager;
@@ -35,9 +34,7 @@ public class QuickMenuActivity extends MenuInheritActivity {
         todaysAppointments.setOnClickListener(new ButtonClick());
         isViewVisible = true;
 
-        Login_model login = new Login_model();
         Log.d("MYLOG", "Before Other get token");
-        Log.d("MYLOG", "Other get token: " + Login_model.getToken());
     }
     private class ButtonClick implements View.OnClickListener {
         public void onClick(View v) {
