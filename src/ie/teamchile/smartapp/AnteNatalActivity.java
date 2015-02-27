@@ -6,8 +6,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TableRow;
 
-//This is a test comment
-public class AntiNatalActivity extends MenuInheritActivity {
+public class AnteNatalActivity extends MenuInheritActivity {
 	TableRow row1;
 	TableRow row2;
 	TableRow row3;
@@ -18,7 +17,7 @@ public class AntiNatalActivity extends MenuInheritActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_anti_natal);
+		setContentView(R.layout.activity_ante_natal);
 		row5 = (TableRow) findViewById(R.id.button_parity);
 		row6 = (TableRow) findViewById(R.id.button_obshistory);
         
