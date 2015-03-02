@@ -80,7 +80,7 @@
             android:label="@string/title_activity_stock_note" >
         </activity>
         <activity
-            android:name=".ObstreticHistoryActivity"
+            android:name=".ObstetricHistoryActivity"
             android:label="@string/title_activity_obstretic_history" >
         </activity>
         <activity
