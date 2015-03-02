@@ -90,7 +90,6 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
                 	c.add(Calendar.DAY_OF_YEAR, -7);
                 	Log.d("MYLOG", "day is: " + c.getTime());
                 	daySelected = c.getTime();
-                	listView.setAdapter(null);
                 	adapter.notifyDataSetChanged();
                 	setAptToListSingle(daySelected);
                     break;
@@ -101,13 +100,22 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
                 	c.add(Calendar.DAY_OF_YEAR, 7);
                 	Log.d("MYLOG", "day is: " + c.getTime());
                 	daySelected = c.getTime();
-                	listView.setAdapter(null);
                 	adapter.notifyDataSetChanged();
                 	setAptToListSingle(daySelected);
                     break;
             }
         }
     }
+/*    public void updateList(){
+    	Log.d("MYLOG", "daySelected: " + daySelected.toLocaleString());
+    	c.setTime(daySelected);
+    	Log.d("MYLOG", "day was: " + c.getTime());
+    	c.add(Calendar.DAY_OF_YEAR, 7);
+    	Log.d("MYLOG", "day is: " + c.getTime());
+    	daySelected = c.getTime();
+    	adapter.notifyDataSetChanged();
+    	setAptToListSingle(daySelected);
+    }*/
     public void setAptToListSingle(Date daySelected){
     	ArrayList<String> timeSingle = new ArrayList<String>();
     	ArrayList<String> nameSingle = new ArrayList<String>();

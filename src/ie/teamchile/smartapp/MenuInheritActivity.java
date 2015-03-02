@@ -1,6 +1,7 @@
 
 package ie.teamchile.smartapp;
 
+import utility.AppointmentSingleton;
 import utility.UserSingleton;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -62,6 +63,10 @@ public class MenuInheritActivity extends Activity {
                 }).show();
             case R.id.menu_item2:
                 System.out.println("Item 2 was selected!");
+                AppointmentSingleton.getSingletonIntance().updateLocal();
+//            case R.id.menu_item3:
+//            	AppointmentCalendarActivity appt = new AppointmentCalendarActivity();
+//              appt.updateList();
         }
         return super.onOptionsItemSelected(item);
     }
