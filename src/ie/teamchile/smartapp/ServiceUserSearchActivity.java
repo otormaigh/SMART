@@ -24,10 +24,8 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 	private Button search, searchResult1, searchResult2,searchResult3;
 	private String hospitalNumber, name, dob, email, mobileNumber, road,
             county, postCode, nextOfKinName, nextOfKinContactNumber;
-	private String enteredSearch, first, gestation;
-	private int arrayPos, arrayPos2;
-    private String token, pregID;
-
+	private String enteredSearch, first;
+	private int arrayPos;
 	Connection c;
 	Statement stmt;
 	ResultSet rs;
@@ -71,8 +69,6 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 				intent.putExtra("post_code", postCode);
 				intent.putExtra("next_of_kin_name", nextOfKinName);
 				intent.putExtra("next_of_kin_phone", nextOfKinContactNumber);
-				
-				intent.putExtra("Gestation", gestation);
 		        startActivity(intent);
 				break;
 			case R.id.search_result_2:
@@ -100,7 +96,7 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 		}
 		protected String doInBackground(String... params) {
 			Log.d("MYLOG", "ServiceUserSearch DoInBackground");
-			String dbQuery = dbTable.accessDB("service_users");
+			String dbQuery = dbTable.accessDB("service_users,");
 			try {
 				json = new JSONObject(dbQuery);
 				query = json.getJSONArray("service_users");
@@ -117,20 +113,6 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 				postCode = (((JSONObject) ((JSONObject) query.get(arrayPos)).get("personal_fields")).get("home_post_code")).toString();
 				nextOfKinName = (((JSONObject) ((JSONObject) query.get(arrayPos)).get("personal_fields")).get("next_of_kin_name")).toString();
 				nextOfKinContactNumber = (((JSONObject) ((JSONObject) query.get(arrayPos)).get("personal_fields")).get("next_of_kin_phone")).toString();
-				//gestation = (((JSONObject) ((JSONObject) query.get(arrayPos)).get("personal_fields")).get("gestation")).toString();				
-				
-				pregID = ((JSONObject) query.get(arrayPos)).getJSONArray("pregnancy_ids").toString();
-
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			String dbQuery2 = dbTable.accessDB("pregnancies/" + pregID);
-			try {
-				json2 = new JSONObject(dbQuery2);
-				query2 = json2.getJSONArray("pregnancies");
-
-				gestation = ((JSONObject) query.get(0)).get("gestation").toString();
-
 
 			} catch (JSONException e) {
 				e.printStackTrace();
@@ -156,7 +138,6 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
             ServiceUserSearchActivity.this.nextOfKinName = nextOfKinName.toString();
             ServiceUserSearchActivity.this.nextOfKinContactNumber = nextOfKinContactNumber.toString();
             
-            ServiceUserSearchActivity.this.gestation = gestation.toString();
 		}
 	}
 }
