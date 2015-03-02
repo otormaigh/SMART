@@ -26,7 +26,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingTop="@dimen/padding_small"  >
+            android:paddingTop="@dimen/padding_small" >
 
             <TextView
                 android:layout_width="fill_parent"
@@ -142,25 +142,24 @@
                 android:layout_height="150dp"
                 android:gravity="center" />
         </LinearLayout>
-        
+
         <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="@dimen/padding_medium"
-        android:paddingBottom="@dimen/padding_medium"
-        android:paddingLeft="@dimen/padding_medium"
-        android:paddingRight="@dimen/padding_medium" >
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/padding_medium"
+            android:paddingLeft="@dimen/padding_medium"
+            android:paddingRight="@dimen/padding_medium"
+            android:paddingTop="@dimen/padding_medium" >
 
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/lightBlue"
-        android:gravity="center"
-        android:text="@string/history_notebutton"
-        android:textSize="@dimen/text_medium" />
-
-</LinearLayout>
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/lightBlue"
+                android:gravity="center"
+                android:text="@string/history_notebutton"
+                android:textSize="@dimen/text_medium" />
+        </LinearLayout>
     </LinearLayout>
 
 </ScrollView>
