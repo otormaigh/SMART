@@ -20,12 +20,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
 import connecttodb.AccessDBTable;
 import connecttodb.DateSorter;
 import connecttodb.SetDateToHashMap;
@@ -51,6 +54,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 	private AccessDBTable table = new AccessDBTable();
 	private String clinicOpening, clinicClosing;
 	private int appointmentInterval;
+	private ArrayList<String> listOfId;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +63,6 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
         listView = (ListView)findViewById(R.id.list);
         clinicName = (TextView)findViewById(R.id.clinic_name);
         dateInList = (Button)findViewById(R.id.date_button);
-        //dateInList.setText(dfDateOnlyOther.format(daySelected));
         prevWeek = (Button)findViewById(R.id.prev_button);
         prevWeek.setOnClickListener(new ButtonClick());
         nextWeek = (Button)findViewById(R.id.next_button);
@@ -77,7 +80,6 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
         Log.d("MYLOG", "hospital: " + hospitalSelected);
         Log.d("MYLOG", "week: " + weekSelected);
         Log.d("MYLOG", "day: " + daySelected);
-		//new LongOperation().execute((String[]) null);
         setAptToListSingle(daySelected);
     }
     private class ButtonClick implements View.OnClickListener {
@@ -127,7 +129,8 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
     	String nameOfClinic = ClinicSingleton.getSingletonIntance().getName(String.valueOf(hospitalSelected));
     	clinicName.setText(nameOfClinic);
     	
-		ArrayList<String> listOfId = AppointmentSingleton.getSingletonIntance().getIds(String.valueOf(hospitalSelected), daySelectedStr);		
+		listOfId = AppointmentSingleton.getSingletonIntance()
+									 .getIds(String.valueOf(hospitalSelected), daySelectedStr);		
 		
 		if (listOfId == null || listOfId.isEmpty()) {
 			timeSingle.add("---------");
@@ -136,14 +139,19 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 		} else {
 
 			timeSingle = AppointmentSingleton.getSingletonIntance().getTime(listOfId);
-			Log.d("singleton", "getTime(listOfId)  " + AppointmentSingleton.getSingletonIntance().getTime(listOfId));
+			Log.d("singleton", "getTime(listOfId)  " + 
+						 AppointmentSingleton.getSingletonIntance().getTime(listOfId));
 			nameSingle = AppointmentSingleton.getSingletonIntance().getName(listOfId);
-			Log.d("singleton", "getName(listOfId)  " + AppointmentSingleton.getSingletonIntance().getName(listOfId));
+			Log.d("singleton", "getName(listOfId)  " + 
+						 AppointmentSingleton.getSingletonIntance().getName(listOfId));
 			gestSingle = AppointmentSingleton.getSingletonIntance().getGestation(listOfId);
-			Log.d("singleton", "getGestation(listOfId)  " + AppointmentSingleton.getSingletonIntance().getGestation(listOfId));
+			Log.d("singleton", "getGestation(listOfId)  " + 
+						 AppointmentSingleton.getSingletonIntance().getGestation(listOfId));
 
-			Log.d("appointment", "first appointment equals opening: " + timeSingle.get(0).equals(clinicOpening));
-			Log.d("appointment", "last appointment eqauls closing: " + timeSingle.get((timeSingle.size() - 1)).equals(clinicClosing));
+			Log.d("appointment", "first appointment equals opening: " + 
+						 timeSingle.get(0).equals(clinicOpening));
+			Log.d("appointment", "last appointment eqauls closing: " + 
+						 timeSingle.get((timeSingle.size() - 1)).equals(clinicClosing));
 			try {
 				openingAsDate = dfTimeOnly.parse(String.valueOf(clinicOpening));
 				closingAsDate = dfTimeOnly.parse(String.valueOf(clinicClosing));
@@ -174,6 +182,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 						timeSingle.add(i + 1, "----------");
 						nameSingle.add(i + 1, "Free Slot");
 						gestSingle.add(i + 1, "----------");
+						listOfId.add(i + 1, "0");
 					}
 				} catch (ParseException e) {
 					e.printStackTrace();
@@ -183,115 +192,36 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 				timeSingle.add(0, "---------");
 				nameSingle.add(0, "Free Slot");
 				gestSingle.add(0, "---------");
+				listOfId.add(0, "0");
+				
 			}
 
 			if (!timeSingle.get((timeSingle.size() - 1)).equals(clinicClosing)) {
 				timeSingle.add("---------");
 				nameSingle.add("Free Slot");
 				gestSingle.add("---------");
+				listOfId.add("0");
 			}
-			AppointmentSingleton.getSingletonIntance().getAppointmentDetails(
-					listOfId);
-			Log.d("singleton", "getAppointmentDetails(listOfId)  " + AppointmentSingleton.getSingletonIntance().getAppointmentDetails(listOfId));
+			//AppointmentSingleton.getSingletonIntance().getAppointmentDetails(listOfId);
+			//Log.d("singleton", "getAppointmentDetails(listOfId)  " + AppointmentSingleton.getSingletonIntance().getAppointmentDetails(listOfId));
 		}
 		adapter = new ListElementAdapter (AppointmentCalendarActivity.this, timeSingle, nameSingle, gestSingle);
 		
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new OnItemListener());
     }
-    /*public void setAptToList(ArrayList<JSONObject> aptsAtDate){
-    	ArrayList<String> timeList = new ArrayList<String>();
-    	ArrayList<String> nameList = new ArrayList<String>();
-    	ArrayList<String> gestList = new ArrayList<String>();
-    	Log.d("MYLOG", "timeList without data: " + timeList);
-        Log.d("MYLOG", "nameList without data: " + nameList);
-        Log.d("MYLOG", "gestList without data: " + gestList);
-        try {
-            for (int i = 0; i < aptsAtDate.size(); i++) {
-                Integer clinic_id = (((JSONObject) ((JSONObject) aptsAtDate.get(i)).get("appointments")).getInt("clinic_id"));
-                if (clinic_id == hospitalSelected) {
-                    name = ((JSONObject) ((JSONObject) ((JSONObject) aptsAtDate.get(i)).get("appointments")).get("service_user")).get("name");
-                    time = ((JSONObject) ((JSONObject) aptsAtDate.get(i)).get("appointments")).get("time");
-                    gestation = ((JSONObject) ((JSONObject) ((JSONObject) aptsAtDate.get(i)).get("appointments")).get("service_user")).get("gestation");
-                    //get closing time
-                    //check if last appointment is 15 minutes before closing time
-                    //if yes put in free slot after appointment
-
-                    if(i == 0){
-                    	timeList.add("----------");
-                    	nameList.add("Free Slot");
-                    	gestList.add("----------");
-                    } else {
-                        Object timeFirst = ((JSONObject) ((JSONObject) aptsAtDate.get(i-1)).get("appointments")).get("time");
-                        Date timeA = dfTimeOnly.parse(String.valueOf(timeFirst));
-                        Date timeB = dfTimeOnly.parse(String.valueOf(time));
-                        c.setTime(timeA);
-                        c.add(Calendar.MINUTE, 15);
-                        if(!(c.getTime().equals(timeB))){
-                        	timeList.add("----------");
-                        	nameList.add("Free Slot");
-                        	gestList.add("----------");
-                        	
-                        	timeList.add(time.toString());
-                        	nameList.add(name.toString());
-                        	gestList.add(gestation.toString());                        	
-                        } else {                        	
-                        	timeList.add(time.toString());
-                        	nameList.add(name.toString());
-                        	gestList.add(gestation.toString());
-                        }
-                    }
-                }
-            }
-            Log.d("MYLOG", "timeList with data: " + timeList);
-            Log.d("MYLOG", "nameList with data: " + nameList);
-            Log.d("MYLOG", "gestList with data: " + gestList);
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(AppointmentCalendarActivity.this, R.layout.list_rows, R.id.date, aptList);
-            listView.setAdapter(adapter);
-            listView.setTextFilterEnabled(true);
-            
-            //listView = (ListView) findViewById(R.id.list);
-            //adapter = new ListElementAdapter (AppointmentCalendarActivity.this, timeList, nameList, gestList);
-            
-            ArrayList<String> timeSingle = new ArrayList<String>();
-        	ArrayList<String> nameSingle = new ArrayList<String>();
-        	ArrayList<String> gestSingle = new ArrayList<String>();
-        	String daySelectedStr = dfDateOnly.format(daySelected);
-            
-			Log.d("singleton", "getHashMapofDateID: " + AppointmentSingleton.getSingletonIntance().getHashMapofDateID());
-			Log.d("singleton", "getHashMapofDateID: " + AppointmentSingleton.getSingletonIntance().getHashMapofIdAppt());
-			ArrayList<String> listOfId = AppointmentSingleton.getSingletonIntance().getIdAtDate(daySelectedStr);
-			
-			
-			timeSingle = AppointmentSingleton.getSingletonIntance().getTime(listOfId);
-			Log.d("singleton", "getTime(listOfId)  " + AppointmentSingleton.getSingletonIntance().getTime(listOfId));
-			nameSingle = AppointmentSingleton.getSingletonIntance().getName(listOfId);
-			Log.d("singleton", "getName(listOfId)  " + AppointmentSingleton.getSingletonIntance().getName(listOfId));
-			gestSingle = AppointmentSingleton.getSingletonIntance().getGestation(listOfId);
-			Log.d("singleton", "getGestation(listOfId)  " + AppointmentSingleton.getSingletonIntance().getGestation(listOfId));
-			
-			
-			AppointmentSingleton.getSingletonIntance().getAppointmentDetails(listOfId);
-			Log.d("singleton", "getAppointmentDetails(listOfId)  " + AppointmentSingleton.getSingletonIntance().getAppointmentDetails(listOfId));
-            
-			adapter = new ListElementAdapter (AppointmentCalendarActivity.this, timeSingle, nameSingle, gestSingle);
-			
-            listView.setAdapter(adapter);
-            //listView.setTextFilterEnabled(true);            
-        } catch (JSONException | ParseException e) {
-            e.printStackTrace();
-        }
-    }*/
     private class ListElementAdapter extends BaseAdapter {
 		Context context;
 		LayoutInflater layoutInflater;
 		int position;
-		ArrayList<String> aptTime, aptName, aptGest;
+		ArrayList<String> aptTime, aptName, aptGest, idList;
 
 		@Override
 		public void notifyDataSetChanged() {
 			super.notifyDataSetChanged();
 		}
-		public ListElementAdapter(Context context, ArrayList<String> aptTime, ArrayList<String> aptName, ArrayList<String> aptGest) {
+		public ListElementAdapter(Context context, ArrayList<String> aptTime, 
+								  ArrayList<String> aptName, ArrayList<String> aptGest) {
 			super();
 			Log.d("MYLOG", "daySelected: " + daySelected.toLocaleString());
 			Log.d("MYLOG", "List Adapter Called");
@@ -299,6 +229,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 			this.aptTime = aptTime;
 			this.aptName = aptName;
 			this.aptGest = aptGest;
+			this.idList = idList;
 			layoutInflater = LayoutInflater.from(context);
 		}
 		@Override
@@ -326,7 +257,31 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 			gestText.setText(aptGest.get(position));
 			return convertView;
 		}
+		
 	}
+    
+    private class OnItemListener implements OnItemClickListener {
+    	//ArrayList<String> listId = listOfId;
+		@Override
+		public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+				long arg3) {
+			Log.d("appointmentClick", "appointment id: " + listOfId.get(position));			
+			/*switch (position) {
+			case 0:
+				Log.d("appointmentClick", "item 0 selected");
+				break;
+			case 1:
+				Log.d("appointmentClick", "item 1 selected");
+				break;
+			case 2:
+				Log.d("appointmentClick", "item 2 selected");
+				break;
+			}		*/	
+			
+		}		
+    	
+    }
+    
     public void setRegionSelected(int regionSelected){
     	AppointmentCalendarActivity.regionSelected = regionSelected;
     }
