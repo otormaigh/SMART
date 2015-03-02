@@ -1,4 +1,4 @@
-package models;
+package utility;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,10 +13,11 @@ import android.os.AsyncTask;
 import android.util.Log;
 import connecttodb.AccessDBTable;
 
-public class Appointments_model {
-	private static Appointments_model singleInstance;
+public class AppointmentSingleton {
+	private static AppointmentSingleton singleInstance;
 	private JSONArray appointmentArray = new JSONArray();
 	private HashMap<String, ArrayList<String>> dateHash = new HashMap<String, ArrayList<String>>();
+	HashMap<String, HashMap<String, ArrayList<String>>> clinicIDHash = new HashMap<String, HashMap<String, ArrayList<String>>>();
 	private HashMap<String, String> idHash = new HashMap<String, String>();
 	private ArrayList<String> idList;
 	private AccessDBTable db = new AccessDBTable();
@@ -24,37 +25,32 @@ public class Appointments_model {
 	private JSONArray query;
 	private JSONObject jsonNew;
 	
-	private String id;
-	private String date;
-	private String time;
-	private String serviceProvderId;
-	private String serviceUserId;
+	private String id, clinicId, date, time, serviceProvderId, 
+				   serviceUserId, vistType, serviceOptionId;
 	private boolean priority;
-	private String vistType;
-	private String serviceOptionId;	
 		
-	private Appointments_model() {
+	private AppointmentSingleton() {
 	}
 	
-	public static Appointments_model getSingletonIntance() {
+	public static AppointmentSingleton getSingletonIntance() {
 		if(singleInstance == null) {
-			singleInstance = new Appointments_model();
+			singleInstance = new AppointmentSingleton();
 		}
 		return singleInstance;
 	}
 	public void updateLocal(){		
-		new LongOperation().execute();
+		new LongOperation().execute("appointments");
 	}
-	private class LongOperation extends AsyncTask<Void, Void, JSONArray> {
+	private class LongOperation extends AsyncTask<String, Void, JSONArray> {
 		@Override
 		protected void onPreExecute() {
 		}
-		protected JSONArray doInBackground(Void... params) {
-			Log.d("singleton", "in updateLocal doInBackground");
+		protected JSONArray doInBackground(String... params) {
+			Log.d("singleton", "in appointment updateLocal doInBackground");
 			try {
-				response = db.accessDB(Login_model.getToken(), "appointments");
+				response = db.accessDB(params[0]);
 				jsonNew = new JSONObject(response);
-				query = jsonNew.getJSONArray("appointments");
+				query = jsonNew.getJSONArray(params[0]);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -66,7 +62,7 @@ public class Appointments_model {
 		}
 		@Override
         protected void onPostExecute(JSONArray result) {
-			setHashMapofDateID(result);
+			setHashMapofClinicDateID(result);
 			setHashMapofIdAppt(result);
         }
 	}
@@ -76,17 +72,24 @@ public class Appointments_model {
 	public void setAppointmentArray(JSONArray appointmentArray) {
 		this.appointmentArray = appointmentArray;
 	}
-	public HashMap<String, ArrayList<String>> getHashMapofDateID(){
+	public HashMap<String, ArrayList<String>> getHashMapofClinicDateID(){
 		return dateHash;				//return Hashmap of Date as Key, ID as Value
 	}
 	public ArrayList<String> getIdAtDate(String query){
 		return dateHash.get(query);		// returns id at date 
 	}
-	public void setHashMapofDateID(JSONArray appointmentArray) {
+	/**
+	 * 
+	 * Takes in a JSONArray of appointments, iterates through it
+	 * parses out date and id and sets the to a HashMap of 
+	 * Date as Key and ArrayList of corresponding IDs as value
+	 * 
+	 */
+	public void setHashMapofClinicDateID(JSONArray appointmentArray) {
 		ArrayList<JSONObject> jsonValues = new ArrayList<JSONObject>();
 		ArrayList<String> idArray;
-		HashMap<String, ArrayList<String>> dateHash = new HashMap<String, ArrayList<String>>();
-		
+		HashMap<String, ArrayList<String>> dateHash;
+		HashMap<String, HashMap<String, ArrayList<String>>> clinicIDHash = new HashMap<String, HashMap<String, ArrayList<String>>>();
 		try {
 			for (int i = 0; i < appointmentArray.length(); i++) {
 				jsonValues.add(appointmentArray.getJSONObject(i));
@@ -94,25 +97,41 @@ public class Appointments_model {
 			}	
 			for (int i = 0; i < jsonValues.size(); i++) {
 				idArray = new ArrayList<String>();
+				dateHash = new HashMap<String, ArrayList<String>>();
+				
+				clinicId = String.valueOf((jsonValues.get(i).getInt("clinic_id")));
 				id = String.valueOf((jsonValues.get(i).getInt("id")));
 				date = (String) jsonValues.get(i).get("date");
-				if (dateHash.get(date) != null) {
-					idArray = dateHash.get(date);
+				if (clinicIDHash.get(clinicId) != null) {
+					dateHash = clinicIDHash.get(clinicId);
+					if (dateHash.get(date) != null) {
+						idArray = dateHash.get(date);
+					}
 					idArray.add(id);
 					dateHash.put(date, idArray);
+					clinicIDHash.put(clinicId, dateHash);
 				} else {
 					idArray.add(id);
 					dateHash.put(date, idArray);
+					clinicIDHash.put(clinicId, dateHash);
 				}
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		this.dateHash = dateHash;
+		Log.d("singleton", "clinicIDHash: " + clinicIDHash.toString());
+		this.clinicIDHash = clinicIDHash;
 	}
 	public HashMap<String, String> getHashMapofIdAppt(){
 		return idHash;
 	}
+	/**
+	 * 
+	 * Takes in a JSONArray of appointments, iterates through it
+	 * parses out id and appointment string and sets the to a 
+	 * HashMap of ID as Key and appointment string as value
+	 *  
+	 */
 	public void setHashMapofIdAppt(JSONArray appointmentArray) {
 		ArrayList<JSONObject> jsonValues = new ArrayList<JSONObject>();
 		HashMap<String, String> idHash = new HashMap<String, String>();
@@ -134,22 +153,29 @@ public class Appointments_model {
 		}
 		this.idHash = idHash;
 	}
-	public ArrayList<String> getIds(String dayToSearch) {
+	/**
+	 * 
+	 * Take in a day in yyyy-MM-dd format
+	 * searches that HashMap of Date/ID
+	 * and returns ID corresponding to that date
+	 * 
+	 */
+	public ArrayList<String> getIds(String clinicIdTosearch, String dayToSearch) {
 		idList = new ArrayList<String>();
-		idList = dateHash.get(dayToSearch);
+		idList = clinicIDHash.get(clinicIdTosearch).get(dayToSearch);
 		return idList;
 	}
 	public String getDate() {		
 		return date;
 	}
-	public ArrayList<String> getTime(ArrayList<?> idList) { // get the specific id not list of. . 
+	public ArrayList<String> getTime(ArrayList<?> idList) { // get the specific id not list of???
 		ArrayList<String> time = new ArrayList<String>();
-		JSONObject jsondude;
+		JSONObject json;
 		
 		for(int i = 0; i < idList.size(); i++ ){
 			try {
-				jsondude = new JSONObject(idHash.get(idList.get(i)));
-				time.add(jsondude.get("time").toString());				
+				json = new JSONObject(idHash.get(idList.get(i)));
+				time.add(json.get("time").toString());				
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -158,12 +184,12 @@ public class Appointments_model {
 	}
 	public ArrayList<String> getName(ArrayList<?> idList){		
 		ArrayList<String> name = new ArrayList<String>();
-		JSONObject jsondude;
+		JSONObject json;
 		
 		for(int i = 0; i < idList.size(); i++ ){
 			try {
-				jsondude = new JSONObject(idHash.get(idList.get(i)));
-				name.add(((JSONObject) jsondude.get("service_user")).get("name").toString());				
+				json = new JSONObject(idHash.get(idList.get(i)));
+				name.add(((JSONObject) json.get("service_user")).get("name").toString());				
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -172,29 +198,36 @@ public class Appointments_model {
 	}
 	public ArrayList<String> getGestation(ArrayList<?> idList){		
 		ArrayList<String> gest = new ArrayList<String>();
-		JSONObject jsondude;
+		JSONObject json;
 		
 		for(int i = 0; i < idList.size(); i++ ){
 			try {
-				jsondude = new JSONObject(idHash.get(idList.get(i)));
-				gest.add(((JSONObject) jsondude.get("service_user")).get("gestation").toString());				
+				json = new JSONObject(idHash.get(idList.get(i)));
+				gest.add(((JSONObject) json.get("service_user")).get("gestation").toString());				
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 		}
 		return gest;
 	}
+	/**
+	 * 
+	 * Takes in an ArrayList of appointment ids and returns
+	 * time, name and gestation for each appointment wanted 
+	 * in an ArrayList of Strings
+	 * 
+	 */
 	public ArrayList<String> getAppointmentDetails(ArrayList<?> idList){		
 		String time = null;
 		String name = null;
 		ArrayList<String> info = new ArrayList<String>();
-		JSONObject jsondude;
+		JSONObject json;
 		
 		for(int i = 0; i < idList.size(); i++ ){
 			try {
-				jsondude = new JSONObject(idHash.get(idList.get(i)));
-				time = (jsondude.get("time").toString());
-				name = (((JSONObject) jsondude.get("service_user")).get("name").toString());
+				json = new JSONObject(idHash.get(idList.get(i)));
+				time = (json.get("time").toString());
+				name = (((JSONObject) json.get("service_user")).get("name").toString());
 				info.add(time + " - - - - " + name);
 			} catch (JSONException e) {
 				e.printStackTrace();
@@ -214,6 +247,7 @@ public class Appointments_model {
 	public String getVistType() {
 		return vistType;
 	}
+	
 	public String getServiceOptionId() {
 		return serviceOptionId;
 	}
@@ -241,6 +275,13 @@ public class Appointments_model {
 	public void setServiceOptionId(String ServiceOptionId) {
 		this.serviceOptionId = ServiceOptionId;
 	}
+	/**
+	 * 
+	 * takes in an ArrayLis of JSONObject and returns
+	 * an ArrayList of JSONObjects that is sorted in 
+	 * chronological order based on date and time.
+	 * 
+	 */
 	public ArrayList<JSONObject> sortDates(ArrayList<JSONObject> objToBeSorted) {
         Collections.sort(objToBeSorted, new Comparator<JSONObject>() {
             @Override
