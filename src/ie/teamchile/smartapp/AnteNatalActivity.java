@@ -1,7 +1,7 @@
 package ie.teamchile.smartapp;
 
+
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TableRow;
@@ -14,23 +14,31 @@ public class AnteNatalActivity extends MenuInheritActivity {
 	TableRow row4;
 	TableRow row5;
 	TableRow row6;
-	private TextView gestation;
+	private TextView age;
+	private TextView nameAntiNatal;
+	
 
+
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_ante_natal);
 		row5 = (TableRow) findViewById(R.id.button_parity);
 		row6 = (TableRow) findViewById(R.id.button_obshistory);
-		gestation = (TextView) findViewById(R.id.gestation);
+		age = (TextView)findViewById(R.id.age);
+		nameAntiNatal = (TextView)findViewById(R.id.name_anti_natal);
 
-		gestation.setText(getIntent().getStringExtra("gestation"));
+		age.setText(getIntent().getStringExtra("age"));
+		nameAntiNatal.setText(getIntent().getStringExtra("name"));
+	
+
 
         row5.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                Log.e("Click ", "Row 5");
+               
         	  }
         });
         
@@ -38,8 +46,8 @@ public class AnteNatalActivity extends MenuInheritActivity {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                Log.e("Click ", "Row 6");
         	  }
         });
 	}
+
 }
