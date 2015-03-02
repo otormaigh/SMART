@@ -7,12 +7,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import models.Appointments_model;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import utility.AppointmentSingleton;
 import android.util.Log;
 
 public class SetDateToHashMap {
@@ -25,14 +24,13 @@ public class SetDateToHashMap {
 	private String response, id, date, token, dateToBeSearched;
 	private String tableURL = "appointments/";
 	
-	public ArrayList<JSONObject> setDateToHaspMap(String token, String dateToBeSearched){
-		this.token = token;
+	public ArrayList<JSONObject> setDateToHaspMap(String dateToBeSearched){
 		this.dateToBeSearched = dateToBeSearched;
 		return searchForDate();
 	}
 	private ArrayList<JSONObject> searchForDate() {
 		db = new AccessDBTable();
-		response = db.accessDB(token, "appointments");
+		response = db.accessDB("appointments");
 		try {
 			jsonNew = new JSONObject(response);
 			JSONArray query = jsonNew.getJSONArray("appointments");
@@ -61,7 +59,7 @@ public class SetDateToHashMap {
 		for(int i = 0; i < listOfIDs.size(); i++){
 			JSONObject aptAsJson;
 			try {
-				aptAsJson = new JSONObject(db.accessDB(token, (tableURL + listOfIDs.get(i))));
+				aptAsJson = new JSONObject(db.accessDB(tableURL + listOfIDs.get(i)));
 				aptsAtDate.add(aptAsJson);
 			} catch (JSONException e) {
 				e.printStackTrace();

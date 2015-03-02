@@ -9,7 +9,7 @@ public class DataHolder {
 	private DataHolder() {
 	}
 
-	private static synchronized DataHolder getInstance() {
+	public static synchronized DataHolder getInstance() {
 		if (dataHolder == null) {
 			dataHolder = new DataHolder();
 		}
