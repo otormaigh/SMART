@@ -17,7 +17,7 @@ public class AppointmentSingleton {
 	private static AppointmentSingleton singleInstance;
 	private JSONArray appointmentArray = new JSONArray();
 	private HashMap<String, ArrayList<String>> dateHash = new HashMap<String, ArrayList<String>>();
-	HashMap<String, HashMap<String, ArrayList<String>>> clinicIDHash = new HashMap<String, HashMap<String, ArrayList<String>>>();
+	private HashMap<String, HashMap<String, ArrayList<String>>> clinicIDHash = new HashMap<String, HashMap<String, ArrayList<String>>>();
 	private HashMap<String, String> idHash = new HashMap<String, String>();
 	private ArrayList<String> idList;
 	private AccessDBTable db = new AccessDBTable();
@@ -246,8 +246,7 @@ public class AppointmentSingleton {
 	}
 	public String getVistType() {
 		return vistType;
-	}
-	
+	}	
 	public String getServiceOptionId() {
 		return serviceOptionId;
 	}
