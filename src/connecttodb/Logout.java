@@ -6,7 +6,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
-import models.Login_model;
+import utility.UserSingleton;
 import Enums.CredentialsEnum;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -24,7 +24,6 @@ public class Logout {
 	private HttpURLConnection httpcon;
 	private InputStream is;
 	private StringBuffer sb;
-	private Login_model login = new Login_model();
 	
 	public int doLogout(String token) {
 		this.token = token;
@@ -89,7 +88,7 @@ public class Logout {
             Integer authCodeOk = Integer.valueOf(200);
             if(unauthCode.equals(result)){
             	Log.d("MYLOG", "logout successful");
-            	login.setToken("");
+            	UserSingleton.getUserSingleton().setToken("");
             } else if (authCodeOk.equals(result)){
                 Log.d("MYLOG", "logout unsuccessful");
                 new LongOperation().execute();	

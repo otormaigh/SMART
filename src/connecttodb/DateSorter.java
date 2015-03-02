@@ -8,8 +8,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 
-import models.Login_model;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,7 +31,7 @@ public class DateSorter {
 	private ArrayList<JSONObject> dateSorter() {
 		Log.d("MYLOG", "queryDate: " + queryDate);
 		AccessDBTable accessDB = new AccessDBTable();
-		response = accessDB.accessDB(Login_model.getToken(), "appointments");
+		response = accessDB.accessDB("appointments");
 
 		// put the response at a JSONObject
 		try {
