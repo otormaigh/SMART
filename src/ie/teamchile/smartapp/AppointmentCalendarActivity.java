@@ -33,7 +33,7 @@ import connecttodb.SetDateToHashMap;
 public class AppointmentCalendarActivity extends MenuInheritActivity {
 	private static int regionSelected, hospitalSelected, weekSelected;
 	private static Date daySelected;
-	private Date day = null;
+	private Date day = null, openingAsDate = null, closingAsDate = null;
 	private DateFormat df = new SimpleDateFormat("yyyy-MM-dd - HH:mm:ss", Locale.getDefault());
 	private DateFormat dfDateOnly = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 	private DateFormat dfDateOnlyOther = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
@@ -49,6 +49,8 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 	private TextView clinicName;
 	private Button dateInList, prevWeek, nextWeek;
 	private AccessDBTable table = new AccessDBTable();
+	private String clinicOpening, clinicClosing;
+	private int appointmentInterval;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +64,10 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
         prevWeek.setOnClickListener(new ButtonClick());
         nextWeek = (Button)findViewById(R.id.next_button);
         nextWeek.setOnClickListener(new ButtonClick());
+        
+        clinicOpening = ClinicSingleton.getSingletonIntance().getOpeningHours(String.valueOf(hospitalSelected));
+		clinicClosing = ClinicSingleton.getSingletonIntance().getClosingHours(String.valueOf(hospitalSelected));
+		appointmentInterval = ClinicSingleton.getSingletonIntance().getAppointmentIntervals(String.valueOf(hospitalSelected));
                 
         c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         Log.d("MYLOG", "Date set to " + c.getTime());
@@ -112,14 +118,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
     	Log.d("singleton", "String.valueOf(hospitalSelected) " + String.valueOf(hospitalSelected));
     	String nameOfClinic = ClinicSingleton.getSingletonIntance().getName(String.valueOf(hospitalSelected));
     	clinicName.setText(nameOfClinic);
-    	String openingHours = ClinicSingleton.getSingletonIntance().getOpeningHours(String.valueOf(hospitalSelected));
-    	String closingHours = ClinicSingleton.getSingletonIntance().getClosingHours(String.valueOf(hospitalSelected));
     	
-    	Log.d("singleton", "opening time: " + openingHours);
-    	Log.d("singleton", "closing time: " + closingHours);
-        
-		//Log.d("singleton", "getHashMapofDateID: " + AppointmentSingleton.getSingletonIntance().getHashMapofDateID());
-		//Log.d("singleton", "getHashMapofDateID: " + AppointmentSingleton.getSingletonIntance().getHashMapofIdAppt());
 		ArrayList<String> listOfId = AppointmentSingleton.getSingletonIntance().getIds(String.valueOf(hospitalSelected), daySelectedStr);		
 		
 		timeSingle = AppointmentSingleton.getSingletonIntance().getTime(listOfId);
@@ -127,8 +126,57 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 		nameSingle = AppointmentSingleton.getSingletonIntance().getName(listOfId);
 		Log.d("singleton", "getName(listOfId)  " + AppointmentSingleton.getSingletonIntance().getName(listOfId));
 		gestSingle = AppointmentSingleton.getSingletonIntance().getGestation(listOfId);
-		Log.d("singleton", "getGestation(listOfId)  " + AppointmentSingleton.getSingletonIntance().getGestation(listOfId));		
+		Log.d("singleton", "getGestation(listOfId)  " + AppointmentSingleton.getSingletonIntance().getGestation(listOfId));	
 		
+		Log.d("appointment", "first appointment equals opening: " + timeSingle.get(0).equals(clinicOpening));
+		Log.d("appointment", "last appointment eqauls closing: " + timeSingle.get((timeSingle.size() - 1)).equals(clinicClosing));
+		try {
+			openingAsDate = dfTimeOnly.parse(String.valueOf(clinicOpening));
+			closingAsDate = dfTimeOnly.parse(String.valueOf(clinicClosing));
+		} catch (ParseException e1) {
+			e1.printStackTrace();
+		}
+		
+		for (int i = 0; i < timeSingle.size() - 1; i++) {
+			String timeFirst;
+			String timeSecond;
+			Date timeA = null;
+			Date timeB = null;
+			try {
+				timeFirst = timeSingle.get(i);
+				timeSecond = timeSingle.get(i + 1);
+				timeA = dfTimeOnly.parse(String.valueOf(timeFirst));
+				timeB = dfTimeOnly.parse(String.valueOf(timeSecond));
+				Log.d("appointment", "timeA: " + timeA);
+				Log.d("appointment", "timeB: " + timeB);
+				c.setTime(timeA);
+				Log.d("appointment", "c.getTime: " + c.getTime());
+
+				c.add(Calendar.MINUTE, appointmentInterval);
+				Log.d("appointment", "c.getTime plus interval: " + c.getTime());
+				Log.d("appointment", "timeB after timeA plus interval: "
+						+ timeB.equals(c.getTime()));
+				if (!timeB.equals(c.getTime())) {
+					Log.d("appointment", "Free Slot Here");
+					timeSingle.add(i + 1, "----------");
+					nameSingle.add(i + 1, "Free Slot");
+					gestSingle.add(i + 1, "----------");
+				}
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
+		if (!timeSingle.get(0).equals(clinicOpening)) {
+			timeSingle.add(0, "---------");
+			nameSingle.add(0, "Free Slot");
+			gestSingle.add(0, "---------");
+		}
+
+		if (!timeSingle.get((timeSingle.size() - 1)).equals(clinicClosing)) {
+			timeSingle.add("---------");
+			nameSingle.add("Free Slot");
+			gestSingle.add("---------");
+		}
 		AppointmentSingleton.getSingletonIntance().getAppointmentDetails(listOfId);
 		Log.d("singleton", "getAppointmentDetails(listOfId)  " + AppointmentSingleton.getSingletonIntance().getAppointmentDetails(listOfId));
         
@@ -258,9 +306,6 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 			TextView timeText = (TextView) convertView.findViewById(R.id.time);
 			TextView nameText = (TextView) convertView.findViewById(R.id.name);
 			TextView gestText = (TextView) convertView.findViewById(R.id.gestation);
-			
-			
-			//String openingTime = ClinicSingleton.getSingletonIntance().getOpeningHours(hospitalSelected);		
 			
 			timeText.setText(aptTime.get(position));
 			nameText.setText(aptName.get(position));
