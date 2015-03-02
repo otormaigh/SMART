@@ -22,7 +22,7 @@ import java.util.Date;
 public class ServiceUserActivity extends MenuInheritActivity {
 	private TextView hospitalNumber, name, age, email, mobileNumber, road,
 			county, postCode, nextOfKinName, nextOfKinContactNumber;
-	private String dob, userCall, userSMS, userEmail, kinCall, kinSMS;
+	private String dob, userCall, userSMS, userEmail, kinCall, kinSMS, gestation;
 	private Dialog dialog;
 	private Button bookAppointmentButton, userContact, next_of_kin_contact,
 			userPhoneCall, userSendSMS, userSendEmail, userCancel, userAddress,
@@ -50,6 +50,8 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		postCode = (TextView) findViewById(R.id.post_code);
 		nextOfKinName = (TextView) findViewById(R.id.next_of_kin_name);
 		nextOfKinContactNumber = (TextView) findViewById(R.id.next_of_kin_contact_number);
+
+		
 		
 		bookAppointmentButton = (Button) findViewById(R.id.book_appointment);
 		bookAppointmentButton.setOnClickListener(new ButtonClick());
@@ -84,6 +86,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 			switch (v.getId()) {
 			case R.id.ante_natal:
 				Intent intent = new Intent(getApplicationContext(), AnteNatalActivity.class);
+				intent.putExtra("Gestation", gestation);
 				startActivity(intent);
 				break;
 			case R.id.post_natal:
