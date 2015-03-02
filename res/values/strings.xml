@@ -199,13 +199,17 @@
     <string name="parity">Parity</string>
     <string name="obstretic_history">Obstretic history</string>
     <string name="title_activity_obstretic_history">ObstreticHistory</string>
-    
+
     <!-- OBSTRETIC HISTORY -->
     <string name="patient_name">Sarah MacLachlann-Murphy</string>
     <string name="history_notebutton">Add note to history</string>
     <string name="add_note">Add a note...</string>
+    <string name="title_activity_parity_details">Parity_details</string>
     
-    
-    
+    <!-- PARITY DETAILS -->
+    <string name="date_of_birth">Date of birth</string>
+    <string name="sex">Sex</string>
+    <string name="weight">Weight</string>
+    <string name="mode_of_birth">Mode of birth</string>
 
 </resources>
