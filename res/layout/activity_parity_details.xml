@@ -22,7 +22,7 @@
                 android:text="@string/patient_name"
                 android:textSize="@dimen/text_medium" />
         </LinearLayout>
-        
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
                 android:text="parity 2+1"
                 android:textSize="@dimen/text_Xsmall" />
         </LinearLayout>
-        
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -49,64 +49,63 @@
                 android:text="@string/date_of_birth"
                 android:textSize="@dimen/text_small" />
         </LinearLayout>
-        
-        <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/padding_medium"
-        android:gravity="bottom"
-        android:orientation="vertical" >
-    
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:clickable="False"
-        android:onClick="onTableRowClick"
-        android:background="@drawable/border"
-        android:padding="5dip" >
- 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textSize="@dimen/text_small"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    </TableRow>
-      <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:clickable="False"
-        android:onClick="onTableRowClick"
-        android:background="@drawable/border"
-        android:padding="5dip" >
- 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text=""
-            android:textSize="@dimen/text_small"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-        
-        </TableRow>
-      <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:clickable="False"
-        android:onClick="onTableRowClick"
-        android:background="@drawable/border"
-        android:padding="5dip" >
- 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text=""
-            android:textSize="@dimen/text_small"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-        
-        </TableRow>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/padding_medium"
+            android:gravity="bottom"
+            android:orientation="vertical" >
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:clickable="False"
+                android:onClick="onTableRowClick"
+                android:padding="5dip" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/text_small" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:clickable="False"
+                android:onClick="onTableRowClick"
+                android:padding="5dip" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text=""
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/text_small" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:clickable="False"
+                android:onClick="onTableRowClick"
+                android:padding="5dip" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text=""
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/text_small" />
+            </TableRow>
         </LinearLayout>
-        
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -120,64 +119,63 @@
                 android:text="@string/gestation"
                 android:textSize="@dimen/text_small" />
         </LinearLayout>
-        
-        <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/padding_medium"
-        android:gravity="bottom"
-        android:orientation="vertical" >
-    
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:clickable="False"
-        android:onClick="onTableRowClick"
-        android:background="@drawable/border"
-        android:padding="5dip" >
- 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textSize="@dimen/text_small"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    </TableRow>
-      <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:clickable="False"
-        android:onClick="onTableRowClick"
-        android:background="@drawable/border"
-        android:padding="5dip" >
- 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text=""
-            android:textSize="@dimen/text_small"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-        
-        </TableRow>
-      <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:clickable="False"
-        android:onClick="onTableRowClick"
-        android:background="@drawable/border"
-        android:padding="5dip" >
- 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text=""
-            android:textSize="@dimen/text_small"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-        
-        </TableRow>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/padding_medium"
+            android:gravity="bottom"
+            android:orientation="vertical" >
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:clickable="False"
+                android:onClick="onTableRowClick"
+                android:padding="5dip" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/text_small" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:clickable="False"
+                android:onClick="onTableRowClick"
+                android:padding="5dip" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text=""
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/text_small" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:clickable="False"
+                android:onClick="onTableRowClick"
+                android:padding="5dip" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text=""
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/text_small" />
+            </TableRow>
         </LinearLayout>
-        
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -191,64 +189,63 @@
                 android:text="@string/sex"
                 android:textSize="@dimen/text_small" />
         </LinearLayout>
-        
-        <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/padding_medium"
-        android:gravity="bottom"
-        android:orientation="vertical" >
-    
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:clickable="False"
-        android:onClick="onTableRowClick"
-        android:background="@drawable/border"
-        android:padding="5dip" >
- 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textSize="@dimen/text_small"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    </TableRow>
-      <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:clickable="False"
-        android:onClick="onTableRowClick"
-        android:background="@drawable/border"
-        android:padding="5dip" >
- 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text=""
-            android:textSize="@dimen/text_small"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-        
-        </TableRow>
-      <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:clickable="False"
-        android:onClick="onTableRowClick"
-        android:background="@drawable/border"
-        android:padding="5dip" >
- 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text=""
-            android:textSize="@dimen/text_small"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-        
-        </TableRow>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/padding_medium"
+            android:gravity="bottom"
+            android:orientation="vertical" >
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:clickable="False"
+                android:onClick="onTableRowClick"
+                android:padding="5dip" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/text_small" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:clickable="False"
+                android:onClick="onTableRowClick"
+                android:padding="5dip" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text=""
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/text_small" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:clickable="False"
+                android:onClick="onTableRowClick"
+                android:padding="5dip" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text=""
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/text_small" />
+            </TableRow>
         </LinearLayout>
-        
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -262,64 +259,63 @@
                 android:text="@string/weight"
                 android:textSize="@dimen/text_small" />
         </LinearLayout>
-        
-        <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/padding_medium"
-        android:gravity="bottom"
-        android:orientation="vertical" >
-    
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:clickable="False"
-        android:onClick="onTableRowClick"
-        android:background="@drawable/border"
-        android:padding="5dip" >
- 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textSize="@dimen/text_small"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    </TableRow>
-      <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:clickable="False"
-        android:onClick="onTableRowClick"
-        android:background="@drawable/border"
-        android:padding="5dip" >
- 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text=""
-            android:textSize="@dimen/text_small"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-        
-        </TableRow>
-      <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:clickable="False"
-        android:onClick="onTableRowClick"
-        android:background="@drawable/border"
-        android:padding="5dip" >
- 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text=""
-            android:textSize="@dimen/text_small"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-        
-        </TableRow>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/padding_medium"
+            android:gravity="bottom"
+            android:orientation="vertical" >
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:clickable="False"
+                android:onClick="onTableRowClick"
+                android:padding="5dip" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/text_small" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:clickable="False"
+                android:onClick="onTableRowClick"
+                android:padding="5dip" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text=""
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/text_small" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:clickable="False"
+                android:onClick="onTableRowClick"
+                android:padding="5dip" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text=""
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/text_small" />
+            </TableRow>
         </LinearLayout>
-        
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -333,65 +329,62 @@
                 android:text="@string/mode_of_birth"
                 android:textSize="@dimen/text_small" />
         </LinearLayout>
-        
+
         <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/padding_medium"
-        android:gravity="bottom"
-        android:orientation="vertical" >
-    
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:clickable="False"
-        android:onClick="onTableRowClick"
-        android:background="@drawable/border"
-        android:padding="5dip" >
- 
-        <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text=""
-            android:textSize="@dimen/text_small"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:layout_marginBottom="@dimen/padding_medium"
+            android:gravity="bottom"
+            android:orientation="vertical" >
 
-    </TableRow>
-      <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:clickable="False"
-        android:onClick="onTableRowClick"
-        android:background="@drawable/border"
-        android:padding="5dip" >
- 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text=""
-            android:textSize="@dimen/text_small"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-        
-        </TableRow>
-      <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:clickable="False"
-        android:onClick="onTableRowClick"
-        android:background="@drawable/border"
-        android:padding="5dip" >
- 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text=""
-            android:textSize="@dimen/text_small"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-        
-        </TableRow>
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:clickable="False"
+                android:onClick="onTableRowClick"
+                android:padding="5dip" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/text_small" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:clickable="False"
+                android:onClick="onTableRowClick"
+                android:padding="5dip" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text=""
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/text_small" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:clickable="False"
+                android:onClick="onTableRowClick"
+                android:padding="5dip" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text=""
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/text_small" />
+            </TableRow>
         </LinearLayout>
-        
-
-</LinearLayout>
+    </LinearLayout>
 
 </ScrollView>
