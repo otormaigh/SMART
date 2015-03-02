@@ -63,37 +63,9 @@
                 android:background="@drawable/border"
                 android:padding="5dip" >
 
-                <TextView
+                <ListView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=""
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_small" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/border"
-                android:padding="5dip" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text=""
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_small" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/border"
-                android:padding="5dip" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
                     android:text=""
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textSize="@dimen/text_small" />
@@ -127,37 +99,9 @@
                 android:background="@drawable/border"
                 android:padding="5dip" >
 
-                <TextView
+                <ListView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=""
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_small" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/border"
-                android:padding="5dip" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text=""
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_small" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/border"
-                android:padding="5dip" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
                     android:text=""
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textSize="@dimen/text_small" />
@@ -191,37 +135,9 @@
                 android:background="@drawable/border"
                 android:padding="5dip" >
 
-                <TextView
+                <ListView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=""
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_small" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/border"
-                android:padding="5dip" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text=""
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_small" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/border"
-                android:padding="5dip" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
                     android:text=""
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textSize="@dimen/text_small" />
@@ -255,37 +171,9 @@
                 android:background="@drawable/border"
                 android:padding="5dip" >
 
-                <TextView
+                <ListView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=""
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_small" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/border"
-                android:padding="5dip" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text=""
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_small" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/border"
-                android:padding="5dip" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
                     android:text=""
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textSize="@dimen/text_small" />
@@ -319,37 +207,9 @@
                 android:background="@drawable/border"
                 android:padding="5dip" >
 
-                <TextView
+                <ListView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=""
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_small" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/border"
-                android:padding="5dip" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text=""
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_small" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/border"
-                android:padding="5dip" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
                     android:text=""
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textSize="@dimen/text_small" />
