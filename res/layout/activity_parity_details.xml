@@ -61,8 +61,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border"
-                android:clickable="False"
-                android:onClick="onTableRowClick"
                 android:padding="5dip" >
 
                 <TextView
@@ -77,8 +75,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border"
-                android:clickable="False"
-                android:onClick="onTableRowClick"
                 android:padding="5dip" >
 
                 <TextView
@@ -93,8 +89,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border"
-                android:clickable="False"
-                android:onClick="onTableRowClick"
                 android:padding="5dip" >
 
                 <TextView
@@ -131,8 +125,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border"
-                android:clickable="False"
-                android:onClick="onTableRowClick"
                 android:padding="5dip" >
 
                 <TextView
@@ -147,8 +139,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border"
-                android:clickable="False"
-                android:onClick="onTableRowClick"
                 android:padding="5dip" >
 
                 <TextView
@@ -163,8 +153,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border"
-                android:clickable="False"
-                android:onClick="onTableRowClick"
                 android:padding="5dip" >
 
                 <TextView
@@ -201,8 +189,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border"
-                android:clickable="False"
-                android:onClick="onTableRowClick"
                 android:padding="5dip" >
 
                 <TextView
@@ -217,8 +203,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border"
-                android:clickable="False"
-                android:onClick="onTableRowClick"
                 android:padding="5dip" >
 
                 <TextView
@@ -233,8 +217,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border"
-                android:clickable="False"
-                android:onClick="onTableRowClick"
                 android:padding="5dip" >
 
                 <TextView
@@ -271,8 +253,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border"
-                android:clickable="False"
-                android:onClick="onTableRowClick"
                 android:padding="5dip" >
 
                 <TextView
@@ -287,8 +267,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border"
-                android:clickable="False"
-                android:onClick="onTableRowClick"
                 android:padding="5dip" >
 
                 <TextView
@@ -303,8 +281,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border"
-                android:clickable="False"
-                android:onClick="onTableRowClick"
                 android:padding="5dip" >
 
                 <TextView
@@ -341,8 +317,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border"
-                android:clickable="False"
-                android:onClick="onTableRowClick"
                 android:padding="5dip" >
 
                 <TextView
@@ -357,8 +331,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border"
-                android:clickable="False"
-                android:onClick="onTableRowClick"
                 android:padding="5dip" >
 
                 <TextView
@@ -373,8 +345,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border"
-                android:clickable="False"
-                android:onClick="onTableRowClick"
                 android:padding="5dip" >
 
                 <TextView
