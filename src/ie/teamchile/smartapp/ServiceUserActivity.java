@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,16 +14,25 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import connecttodb.AccessDBTable;
+
 public class ServiceUserActivity extends MenuInheritActivity {
-	private TextView hospitalNumber, name, age, email, mobileNumber, road,
+	private TextView hospitalNumber,name,  age, email, mobileNumber, road,
 			county, postCode, nextOfKinName, nextOfKinContactNumber;
-	private String dob, userCall, userSMS, userEmail, kinCall, kinSMS, gestation;
+	private String dob, userCall, userSMS, userEmail, kinCall, kinSMS;
 	private Dialog dialog;
 	private Button bookAppointmentButton, userContact, next_of_kin_contact,
 			userPhoneCall, userSendSMS, userSendEmail, userCancel, userAddress,
@@ -32,7 +42,8 @@ public class ServiceUserActivity extends MenuInheritActivity {
 	private Intent userCallIntent, userSmsIntent, userEmailIntent,
 			kinCallIntent, kinSmsIntent;
 	private Calendar cal = Calendar.getInstance();
-
+	private String nameToAnte, ageToAnte;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -67,6 +78,9 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		postNatal.setOnClickListener(new ButtonClick());
 		userImage = (ImageView)findViewById(R.id.user_image);
 		userImage.setOnClickListener(new ButtonClick());
+		
+		nameToAnte = getIntent().getStringExtra("name");
+		ageToAnte = Integer.toString(getAge(dob));
 
 
 		hospitalNumber.setText(getIntent().getStringExtra("hospital_number"));
@@ -86,7 +100,8 @@ public class ServiceUserActivity extends MenuInheritActivity {
 			switch (v.getId()) {
 			case R.id.ante_natal:
 				Intent intent = new Intent(getApplicationContext(), AnteNatalActivity.class);
-				intent.putExtra("Gestation", gestation);
+				intent.putExtra("name", nameToAnte);
+				intent.putExtra("age", ageToAnte);
 				startActivity(intent);
 				break;
 			case R.id.post_natal:
