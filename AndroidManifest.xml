@@ -76,15 +76,15 @@
             android:name=".AntiNatalActivity"
             android:label="@string/title_activity_anti_natal" />
         <activity
-            android:name=".StockNote"
+            android:name=".StockNoteActivity"
             android:label="@string/title_activity_stock_note" >
         </activity>
         <activity
-            android:name=".ObstreticHistory"
+            android:name=".ObstreticHistoryActivity"
             android:label="@string/title_activity_obstretic_history" >
         </activity>
         <activity
-            android:name=".Parity_details"
+            android:name=".Parity_detailsActivity"
             android:label="@string/title_activity_parity_details" >
         </activity>
     </application>
