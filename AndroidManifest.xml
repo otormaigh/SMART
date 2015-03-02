@@ -83,6 +83,10 @@
             android:name=".ObstreticHistory"
             android:label="@string/title_activity_obstretic_history" >
         </activity>
+        <activity
+            android:name=".Parity_details"
+            android:label="@string/title_activity_parity_details" >
+        </activity>
     </application>
 
 </manifest>
