@@ -261,25 +261,30 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 	}
     
     private class OnItemListener implements OnItemClickListener {
-    	//ArrayList<String> listId = listOfId;
-		@Override
-		public void onItemClick(AdapterView<?> arg0, View arg1, int position,
-				long arg3) {
-			Log.d("appointmentClick", "appointment id: " + listOfId.get(position));			
-			/*switch (position) {
-			case 0:
-				Log.d("appointmentClick", "item 0 selected");
-				break;
-			case 1:
-				Log.d("appointmentClick", "item 1 selected");
-				break;
-			case 2:
-				Log.d("appointmentClick", "item 2 selected");
-				break;
-			}		*/	
-			
-		}		
     	
+    	//ArrayList<String> listId = listOfId;
+    	Intent intent;
+		@Override
+		public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+			Log.d("appointmentClick", "appointment id: " + listOfId.get(position));	
+			
+			//confirmAppt.displayAppointmentDetails();
+			String details = AppointmentSingleton.getSingletonIntance().getAppointmentDetails(listOfId.get(position));
+			Log.d("appointmentClick", "details: " + details);
+			String nameFromDB = AppointmentSingleton.getSingletonIntance().getName(listOfId.get(position));
+			Log.d("appointmentClick", "name: " + nameFromDB);
+			String timeFromDB = AppointmentSingleton.getSingletonIntance().getTime(listOfId.get(position));
+			Log.d("appointmentClick", "time: " + timeFromDB);
+			String dateFromDB = AppointmentSingleton.getSingletonIntance().getDate(listOfId.get(position));
+			Log.d("appointmentClick", "date: " + dateFromDB);			
+	        
+			intent = new Intent(AppointmentCalendarActivity.this, ConfirmAppointmentActivity.class);
+			intent.putExtra("details", details);
+			intent.putExtra("name", nameFromDB);
+			intent.putExtra("time", timeFromDB);
+			intent.putExtra("date", dateFromDB);
+        	startActivity(intent);			
+		}		    	
     }
     
     public void setRegionSelected(int regionSelected){
