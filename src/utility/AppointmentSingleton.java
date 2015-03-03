@@ -182,6 +182,28 @@ public class AppointmentSingleton {
 		}
 		return time;
 	}
+	public String getTime(String id){		
+		String time = null;
+		JSONObject json;
+		try {
+			json = new JSONObject(idHash.get(id));
+			time = json.get("time").toString();				
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return time;
+	}
+	public String getDate(String id) {
+		String date = null;
+		JSONObject json;
+		try {
+			json = new JSONObject(idHash.get(id));
+			date = json.get("date").toString();				
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return date;
+	}
 	public ArrayList<String> getName(ArrayList<?> idList){		
 		ArrayList<String> name = new ArrayList<String>();
 		JSONObject json;
@@ -193,6 +215,17 @@ public class AppointmentSingleton {
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
+		}
+		return name;
+	}
+	public String getName(String id){		
+		String name = null;
+		JSONObject json;
+		try {
+			json = new JSONObject(idHash.get(id));
+			name = ((JSONObject) json.get("service_user")).get("name").toString();				
+		} catch (JSONException e) {
+			e.printStackTrace();
 		}
 		return name;
 	}
@@ -235,7 +268,23 @@ public class AppointmentSingleton {
 		}
 		return info;
 	}
+	public String getAppointmentDetails(String id){		
+		String time = null;
+		String name = null;
+		String info = null;
+		JSONObject json;
+		try {
+			json = new JSONObject(idHash.get(id));
+			time = json.get("time").toString();	
+			name = (((JSONObject) json.get("service_user")).get("name").toString());
+			info = (time + " - - - - " + name);	
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return info;
+	}
 	public String getServiceProvderrId() {
+		
 		return serviceProvderId;
 	}
 	public String getServiceUserId() {
@@ -252,13 +301,7 @@ public class AppointmentSingleton {
 	}
 	public void setId(String newId) {
 		this.id = newId;
-	}
-	public void setDate(String newDate) {
-		this.date = newDate;
-	}
-	public void settime(String newTime) {
-		this.time = newTime;
-	}
+	}	
 	public void setserviceProvderId(String newServiceProvderId) {
 		this.serviceProvderId = newServiceProvderId;
 	}
