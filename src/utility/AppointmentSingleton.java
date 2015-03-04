@@ -294,6 +294,20 @@ public class AppointmentSingleton {
 		}
 		return clinicID;
 	}
+	public ArrayList<String> getClinicID(ArrayList<?> idList){		
+		ArrayList<String> clinicID = new ArrayList<String>();
+		JSONObject json;
+		
+		for(int i = 0; i < idList.size(); i++ ){
+			try {
+				json = new JSONObject(idHash.get(idList.get(i)));
+				clinicID.add(json.get("clinic_id").toString());				
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		return clinicID;
+	}
 	public String getServiceProvderrId() {
 		
 		return serviceProvderId;
