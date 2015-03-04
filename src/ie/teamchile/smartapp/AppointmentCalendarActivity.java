@@ -13,10 +13,13 @@ import org.json.JSONObject;
 
 import utility.AppointmentSingleton;
 import utility.ClinicSingleton;
+import utility.ServiceUserSingleton;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.test.ServiceTestCase;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,7 +43,8 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 	private DateFormat df = new SimpleDateFormat("yyyy-MM-dd - HH:mm:ss", Locale.getDefault());
 	private DateFormat dfDateOnly = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 	private DateFormat dfDateOnlyOther = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-	private DateFormat dfTimeOnly = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());	
+	private DateFormat dfTimeOnly = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+	private DateFormat dfDateWithMonthName = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());	
 	private ArrayList<JSONObject> aptsAtDate = new ArrayList<JSONObject>();
 	private ArrayList<String> aptList = new ArrayList<String>();	
 	private Calendar c = Calendar.getInstance();
@@ -55,6 +59,11 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 	private String clinicOpening, clinicClosing;
 	private int appointmentInterval;
 	private ArrayList<String> listOfId;
+	private Intent intent;
+	private ProgressDialog pd;
+	private AccessDBTable db = new AccessDBTable();
+	private String response;
+	private JSONObject jsonNew;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,8 +138,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
     	String nameOfClinic = ClinicSingleton.getSingletonIntance().getName(String.valueOf(hospitalSelected));
     	clinicName.setText(nameOfClinic);
     	
-		listOfId = AppointmentSingleton.getSingletonIntance()
-									 .getIds(String.valueOf(hospitalSelected), daySelectedStr);		
+		listOfId = AppointmentSingleton.getSingletonIntance().getIds(String.valueOf(hospitalSelected), daySelectedStr);		
 		
 		if (listOfId == null || listOfId.isEmpty()) {
 			timeSingle.add("---------");
@@ -260,10 +268,8 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 		
 	}
     
-    private class OnItemListener implements OnItemClickListener {
-    	
+    private class OnItemListener implements OnItemClickListener {    	
     	//ArrayList<String> listId = listOfId;
-    	Intent intent;
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 			Log.d("appointmentClick", "appointment id: " + listOfId.get(position));	
@@ -272,21 +278,76 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 			String details = AppointmentSingleton.getSingletonIntance().getAppointmentDetails(listOfId.get(position));
 			Log.d("appointmentClick", "details: " + details);
 			String nameFromDB = AppointmentSingleton.getSingletonIntance().getName(listOfId.get(position));
-			Log.d("appointmentClick", "name: " + nameFromDB);
 			String timeFromDB = AppointmentSingleton.getSingletonIntance().getTime(listOfId.get(position));
-			Log.d("appointmentClick", "time: " + timeFromDB);
 			String dateFromDB = AppointmentSingleton.getSingletonIntance().getDate(listOfId.get(position));
-			Log.d("appointmentClick", "date: " + dateFromDB);			
+			
+			try {
+				dateFromDB = dfDateWithMonthName.format(dfDateOnly.parse(dateFromDB));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			
+			String clinicIDFromDB = AppointmentSingleton.getSingletonIntance().getClinicID(listOfId.get(position));	
+			String clinicNameFromDB = ClinicSingleton.getSingletonIntance().getName(clinicIDFromDB);
+			int durationFromDB = ClinicSingleton.getSingletonIntance().getAppointmentIntervals(clinicIDFromDB);
+			String serviceUserID = AppointmentSingleton.getSingletonIntance().getServiceUserID(listOfId.get(position));
+			
+			Log.d("singleton", "db string: " + "service_users" + "/" + serviceUserID);
+			new LongOperation(AppointmentCalendarActivity.this).execute("service_users" + "/" + serviceUserID);
+			//ServiceUserSingleton.getSingletonIntance().getInfoByID(serviceUserID, AppointmentCalendarActivity.this);
+			//ServiceUserSingleton.getSingletonIntance().updateLocal();
+			//String hospitalNumberFromDB = ServiceUserSingleton.getSingletonIntance().getHospitalNumber();
+			//Log.d("singleton", "hospitalNumber: " + hospitalNumberFromDB);
 	        
 			intent = new Intent(AppointmentCalendarActivity.this, ConfirmAppointmentActivity.class);
 			intent.putExtra("details", details);
 			intent.putExtra("name", nameFromDB);
 			intent.putExtra("time", timeFromDB);
 			intent.putExtra("date", dateFromDB);
-        	startActivity(intent);			
+			intent.putExtra("clinicName", clinicNameFromDB);
+			intent.putExtra("duration", String.valueOf(durationFromDB));
+        	//startActivity(intent);			
 		}		    	
     }
-    
+    private class LongOperation extends AsyncTask<String, Void, JSONObject> {
+		private Context context;
+		
+		public LongOperation(Context context){
+			this.context = context;
+		}
+		@Override
+		protected void onPreExecute() {
+			pd = new ProgressDialog(context);
+            pd.setMessage("Fetching Information");
+            pd.show();
+		}
+		protected JSONObject doInBackground(String... params) {
+			Log.d("singleton", "in service users updateLocal doInBackground");
+			try {
+				response = db.accessDB(params[0]);
+				jsonNew = new JSONObject(response);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			Log.d("singleton", "query = " + jsonNew);
+			return jsonNew;
+		}
+		@Override
+		protected void onProgressUpdate(Void... values) {
+		}
+		@Override
+        protected void onPostExecute(JSONObject result) {
+			//queryResult = result;
+			String hospitalNumber = ServiceUserSingleton.getSingletonIntance().getHospitalNumber(result);
+			String email = ServiceUserSingleton.getSingletonIntance().getEmail(result);
+			String mobile = ServiceUserSingleton.getSingletonIntance().getMobileNumber(result);;
+			intent.putExtra("hospitalNumber", hospitalNumber);
+			intent.putExtra("email", email);
+			intent.putExtra("mobile", mobile);
+			pd.dismiss();
+			startActivity(intent);	
+        }
+	}
     public void setRegionSelected(int regionSelected){
     	AppointmentCalendarActivity.regionSelected = regionSelected;
     }

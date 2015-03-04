@@ -11,7 +11,9 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/padding_Xsmall"
-        android:text="@string/service_user" />
+        android:text="@string/service_user"
+        android:textStyle="bold"
+        android:textSize="@dimen/text_small" />
 
     <TextView
         android:id="@+id/service_user_db"
@@ -24,7 +26,9 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/padding_small"
-        android:text="@string/hospital_number" />
+        android:text="@string/hospital_number"
+        android:textStyle="bold"
+        android:textSize="@dimen/text_small" />
 
     <TextView
         android:id="@+id/hospital_number_db"
@@ -37,7 +41,9 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/padding_small"
-        android:text="@string/appointment_clinic" />
+        android:text="@string/appointment_clinic"
+        android:textStyle="bold"
+        android:textSize="@dimen/text_small" />
 
     <TextView
         android:id="@+id/appointment_clinic_db"
@@ -50,7 +56,9 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/padding_small"
-        android:text="@string/appointment_date" />
+        android:text="@string/appointment_date"
+        android:textStyle="bold"
+        android:textSize="@dimen/text_small" />
 
     <TextView
         android:id="@+id/appointment_date_db"
@@ -63,7 +71,9 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/padding_small"
-        android:text="@string/appointment_time" />
+        android:text="@string/appointment_time"
+        android:textStyle="bold"
+        android:textSize="@dimen/text_small" />
 
     <TextView
         android:id="@+id/appointment_time_db"
@@ -76,7 +86,9 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/padding_small"
-        android:text="@string/duration" />
+        android:text="@string/duration"
+        android:textStyle="bold"
+        android:textSize="@dimen/text_small" />
 
     <TextView
         android:id="@+id/duration_db"
@@ -89,7 +101,9 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/padding_small"
-        android:text="@string/email_to" />
+        android:text="@string/email_to"
+        android:textStyle="bold"
+        android:textSize="@dimen/text_small" />
 
     <TextView
         android:id="@+id/email_to_db"
@@ -102,7 +116,9 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/padding_small"
-        android:text="@string/sms_to" />
+        android:text="@string/sms_to" 
+        android:textStyle="bold"
+        android:textSize="@dimen/text_small"/>
 
     <TextView
         android:id="@+id/sms_to_db"
