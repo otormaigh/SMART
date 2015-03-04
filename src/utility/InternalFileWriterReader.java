@@ -24,6 +24,8 @@ public class InternalFileWriterReader {
 	 * getFilesDir returns a file representing 
 	 * the internal directory on the device. Writes text to
 	 * this file and reads text back as required
+	 * <uses-permission android:name="android.permission.WRITE_MEDIA_STORAGE" />
+    	<uses-permission android:name="android.permission.READ_MEDIA_STORAGE" />
 	 */
 
 	public InternalFileWriterReader(Context context, 
