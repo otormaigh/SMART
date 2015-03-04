@@ -7,6 +7,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,10 +23,12 @@ public class ToastAlert{
 	    toastLayout.setBackgroundColor(Color.BLUE);
 	    ImageView image = new ImageView(context);
 	    TextView tv = new TextView(context);
+	    ProgressBar pb = new ProgressBar(context);
 	    tv.setTextColor(Color.WHITE);
 	    tv.setText(message);
 	    image.setImageResource(R.drawable.ic_launcher);
 	    ImageToast.setGravity(Gravity.TOP, 0, 0);
+	    toastLayout.addView(pb);
 	    toastLayout.addView(tv);
 	    toastLayout.addView(image);
 	    ImageToast.setView(toastLayout);
