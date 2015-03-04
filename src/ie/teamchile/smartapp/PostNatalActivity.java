@@ -17,23 +17,5 @@ public class PostNatalActivity extends MenuInheritActivity {
 		TableRow row5 = (TableRow) findViewById(R.id.button_parity);
 		TableRow row6 = (TableRow) findViewById(R.id.button_obshistory);
         
-        row5.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-            	Intent ab = new Intent(getApplicationContext(), QuickMenuActivity.class);
-            	startActivity(ab);
-                Log.e("Click ", "Row 5");
-        	  }
-        });
-        
-        row6.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                Log.e("Click ", "Row 6");
-        	  }
-        });
-
-
 	}
 }
