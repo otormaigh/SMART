@@ -1,5 +1,6 @@
 package ie.teamchile.smartapp;
 
+import utility.InternalFileWriterReader;
 import utility.ToastAlert;
 import utility.UserSingleton;
 import android.app.admin.DevicePolicyManager;
@@ -8,7 +9,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 
 public class QuickMenuActivity extends MenuInheritActivity {
@@ -35,7 +35,9 @@ public class QuickMenuActivity extends MenuInheritActivity {
         isViewVisible = true;
 
         Log.d("MYLOG", "Before Other get token");
+        
     }
+    
     private class ButtonClick implements View.OnClickListener {
         public void onClick(View v) {
             switch (v.getId()) {
