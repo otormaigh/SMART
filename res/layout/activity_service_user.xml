@@ -93,7 +93,6 @@
             android:layout_height="50dp"
             android:layout_marginLeft="@dimen/padding_medium"
             android:layout_marginRight="@dimen/padding_medium"
-            android:clickable="true"
             android:src="@drawable/ic_action_person" />
 
         <LinearLayout
@@ -105,7 +104,6 @@
                 android:id="@+id/post_natal"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:clickable="true"
                 android:src="@drawable/ic_action_forward" />
 
             <TextView
