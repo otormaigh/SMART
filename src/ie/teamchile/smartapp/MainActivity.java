@@ -115,7 +115,7 @@ public class MainActivity extends MenuInheritActivity {
 	}
     private void checkCredentials(){    	
     	if (getToken.getResponseCode().equals("201")){
-    		Toast.makeText(this, "Login Successful", Toast.LENGTH_LONG).show();
+    		Toast.makeText(this, "Welcome " + username, Toast.LENGTH_LONG).show();
     		// update Singleton
     		AppointmentSingleton.getSingletonIntance().updateLocal();
 			ClinicSingleton.getSingletonIntance().updateLocal();

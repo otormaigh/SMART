@@ -78,7 +78,6 @@
         <activity
             android:name=".StockNoteActivity"
             android:label="@string/title_activity_stock_note" >
-
         </activity>
         <activity
             android:name=".ObstreticHistoryActivity"
@@ -89,6 +88,4 @@
             android:label="@string/title_activity_parity_details" >
         </activity>
     </application>
-
-
 </manifest>
