@@ -283,12 +283,31 @@ public class AppointmentSingleton {
 		}
 		return info;
 	}
+	public String getClinicID(String id){
+		String clinicID = null;
+		JSONObject json;
+		try {
+			json = new JSONObject(idHash.get(id));
+			clinicID = json.get("clinic_id").toString();
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return clinicID;
+	}
 	public String getServiceProvderrId() {
 		
 		return serviceProvderId;
 	}
-	public String getServiceUserId() {
-		return serviceUserId;
+	public String getServiceUserID(String id) {
+		String serivceUserID = null;
+		JSONObject json;
+		try {
+			json = new JSONObject(idHash.get(id));
+			serivceUserID = json.get("service_user_id").toString();
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return serivceUserID;
 	}
 	public Boolean getPriority() {
 		return priority;
