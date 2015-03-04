@@ -6,6 +6,7 @@ import java.util.Calendar;
 import utility.AppointmentSingleton;
 import utility.ClinicSingleton;
 import utility.ConnectivityTester;
+import utility.InternalFileWriterReader;
 import utility.ToastAlert;
 import utility.UserSingleton;
 import android.app.ProgressDialog;
