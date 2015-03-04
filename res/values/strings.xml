@@ -191,7 +191,7 @@
     <string name="clinic_name">Clinic Name</string>
     <string name="save_note">Save note</string>
 
-    <!-- POST NATAL -->
+    <!-- ANTE NATAL -->
     <string name="edd">EDD</string>
     <string name="gestation">Gestation</string>
     <string name="blood_group">Blood group</string>
@@ -211,5 +211,22 @@
     <string name="sex">Sex</string>
     <string name="weight">Weight</string>
     <string name="mode_of_birth">Mode of birth</string>
+    
+    <!-- POST NATAL -->
+    <string name="mother_info">Mother</string>
+    <string name="birth_mode">Birth Mode</string>
+    <string name="perineum">perineum</string>
+    <string name="anti_d">Anti D</string>
+    <string name="midwives_notes">Midwives Notes</string>
+    <string name="baby_info">Baby</string>
+    <string name="delivery_date">Date of delivery</string>
+    <string name="delivery_time">Time of delivery</string>
+    <string name="days_sinceBirth">Days since birth</string>
+    <string name="sex_of_baby">Sex of baby</string>
+    <string name="birth_weight">Birth Weight(kg)</string>
+    <string name="vit_k">VitK</string>
+    <string name="baby_hearing">Hearing</string>
+    <string name="baby_feeding">Feeding</string>
+    <string name="nbst">NBST</string>
 
 </resources>
