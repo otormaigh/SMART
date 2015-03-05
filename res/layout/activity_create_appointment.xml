@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="${relativePackage}.${activityClass}">
+
+    <TextView
+        android:id="@+id/text_service_user"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_Xsmall"
+        android:text="@string/service_user"
+        android:textStyle="bold"
+        android:textSize="@dimen/text_small" />
+
+    <EditText
+        android:id="@+id/edit_service_user"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_Xsmall" 
+        android:inputType="textPersonName" 
+        android:hint="Enter Here" />
+
+    <TextView
+        android:id="@+id/text_appointment_clinic"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_small"
+        android:text="@string/appointment_clinic"
+        android:textStyle="bold"
+        android:textSize="@dimen/text_small" />
+
+    <EditText
+        android:id="@+id/edit_appointment_clinic"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_Xsmall" 
+        android:inputType="text" 
+        android:hint="Enter Here" />
+
+    <TextView
+        android:id="@+id/text_appointment_date"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_small"
+        android:text="@string/appointment_date"
+        android:textStyle="bold"
+        android:textSize="@dimen/text_small" />
+
+    <EditText
+        android:id="@+id/edit_appointment_date"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_Xsmall" 
+        android:inputType="date" 
+        android:hint="Enter Here" />
+
+    <TextView
+        android:id="@+id/text_appointment_time"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_small"
+        android:text="@string/appointment_time"
+        android:textStyle="bold"
+        android:textSize="@dimen/text_small" />
+
+    <EditText
+        android:id="@+id/edit_appointment_time"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_Xsmall" 
+        android:inputType="time" 
+        android:hint="Enter Here" />
+
+    <TextView
+        android:id="@+id/text_duration"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_small"
+        android:text="@string/duration"
+        android:textStyle="bold"
+        android:textSize="@dimen/text_small" />
+
+    <EditText
+        android:id="@+id/edit_duration"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_Xsmall" 
+        android:inputType="number" 
+        android:hint="Enter Here" />
+
+    <Button
+        android:id="@+id/confirm_appointment"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_medium"
+        android:background="@color/blue"
+        android:text="@string/confirm_appointment" />
+
+</LinearLayout>
