@@ -1,5 +1,7 @@
 package utility;
 
+import ie.teamchile.smartapp.MainActivity;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -9,6 +11,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import connecttodb.AccessDBTable;
@@ -56,7 +60,7 @@ import connecttodb.AccessDBTable;
  * sortDates
  * getClinicID
  * getDate
- * getID
+ * getAppointmentID
  * TODO: getLinks
  * getPriority
  * getServiceOptionID
@@ -82,10 +86,6 @@ public class AppointmentSingleton {
 	private JSONArray query;
 	private JSONObject jsonNew;
 	
-	private String id, clinicId, date, time, serviceProvderId, 
-				   serviceUserId, vistType, serviceOptionId;
-	private boolean priority;
-	
 	private AppointmentSingleton() {
 	}
 	
@@ -96,7 +96,7 @@ public class AppointmentSingleton {
 		return singleInstance;
 	}
 	
-	public void updateLocal(){		
+	public void updateLocal(){
 		new LongOperation().execute("appointments");
 	}
 	
@@ -139,6 +139,7 @@ public class AppointmentSingleton {
 		ArrayList<String> idArray = new ArrayList<String>();
 		HashMap<String, ArrayList<String>> dateIDHash;
 		HashMap<String, HashMap<String, ArrayList<String>>> clinicDateIDHash = new HashMap<String, HashMap<String, ArrayList<String>>>();
+		String clinicId, date, id;
 		try {
 			for (int i = 0; i < appointmentArray.length(); i++) {
 				jsonValues.add(appointmentArray.getJSONObject(i));
@@ -260,7 +261,7 @@ public class AppointmentSingleton {
 	}
 	
 	public String getClinicID(String id){
-		String clinicID = null;
+		String clinicID = new String();
 		JSONObject json;
 		try {
 			json = new JSONObject(idHash.get(id));
@@ -287,7 +288,7 @@ public class AppointmentSingleton {
 	}
 	
 	public String getDate(String id) {
-		String date = null;
+		String date = new String();
 		JSONObject json;
 		try {
 			json = new JSONObject(idHash.get(id));
@@ -314,7 +315,7 @@ public class AppointmentSingleton {
 	}
 	
 	public String getAppointmentID(String id) {
-		String apptID = null;
+		String apptID = new String();
 		JSONObject json;
 		try {
 			json = new JSONObject(idHash.get(id));
@@ -325,14 +326,12 @@ public class AppointmentSingleton {
 		return apptID;
 	}
 	
-	// TODO getter method for links
-	/**  
+	/**TODO getter method for links	  
 	  "links": {
             "service_options": "/appointments/64/service_options", 
             "service_provider": "service_providers/14", 
             "service_user": "service_users/1"
-        }, 
-
+        },
 	*/
 	
 	public ArrayList<String> getPriority(ArrayList<String> idList) {
@@ -351,7 +350,7 @@ public class AppointmentSingleton {
 	}
 	
 	public String getPriority(String id) {
-		String priority = null;
+		String priority = new String();
 		JSONObject json;
 		try {
 			json = new JSONObject(idHash.get(id));
@@ -378,7 +377,7 @@ public class AppointmentSingleton {
 	}
 	
 	public String getServiceOptionID(String id) {
-		String serviceOptionID = null;
+		String serviceOptionID = new String();
 		JSONObject json;
 		try {
 			json = new JSONObject(idHash.get(id));
@@ -405,7 +404,7 @@ public class AppointmentSingleton {
 	}
 	
 	public String getServiceProviderID(String id) {
-		String serviceProviderID = null;
+		String serviceProviderID = new String();
 		JSONObject json;
 		try {
 			json = new JSONObject(idHash.get(id));
@@ -432,7 +431,7 @@ public class AppointmentSingleton {
 	}
 	
 	public String getGestation(String id){		
-		String gest = null;
+		String gest = new String();
 		JSONObject json;
 		try {
 			json = new JSONObject(idHash.get(id));
@@ -459,7 +458,7 @@ public class AppointmentSingleton {
 	}
 	
 	public String getName(String id){		
-		String name = null;
+		String name = new String();
 		JSONObject json;
 		try {
 			json = new JSONObject(idHash.get(id));
@@ -486,7 +485,7 @@ public class AppointmentSingleton {
 	}
 	
 	public String getServiceUserID(String id) {
-		String serviceUserID = null;
+		String serviceUserID = new String();
 		JSONObject json;
 		try {
 			json = new JSONObject(idHash.get(id));
@@ -513,7 +512,7 @@ public class AppointmentSingleton {
 	}
 	
 	public String getTime(String id){		
-		String time = null;
+		String time = new String();
 		JSONObject json;
 		try {
 			json = new JSONObject(idHash.get(id));
@@ -540,7 +539,7 @@ public class AppointmentSingleton {
 	}
 	
 	public String getVisitLogs(String id){		
-		String visitLogs = null;
+		String visitLogs = new String();
 		JSONObject json;
 		try {
 			json = new JSONObject(idHash.get(id));
@@ -567,7 +566,7 @@ public class AppointmentSingleton {
 	}
 	
 	public String getVisitType(String id){		
-		String visitType = null;
+		String visitType = new String();
 		JSONObject json;
 		try {
 			json = new JSONObject(idHash.get(id));
