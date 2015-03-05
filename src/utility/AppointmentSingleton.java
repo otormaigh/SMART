@@ -28,7 +28,6 @@ public class AppointmentSingleton {
 	private String id, clinicId, date, time, serviceProvderId, 
 				   serviceUserId, vistType, serviceOptionId;
 	private boolean priority;
-		
 	private AppointmentSingleton() {
 	}
 	

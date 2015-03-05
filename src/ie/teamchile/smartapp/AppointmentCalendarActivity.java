@@ -286,7 +286,6 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
         	startActivity(intent);			
 		}		    	
     }
-    
     public void setRegionSelected(int regionSelected){
     	AppointmentCalendarActivity.regionSelected = regionSelected;
     }
