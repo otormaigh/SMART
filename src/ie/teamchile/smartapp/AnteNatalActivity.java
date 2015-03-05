@@ -1,40 +1,57 @@
 package ie.teamchile.smartapp;
 
+
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.TableRow;
+
+import android.widget.ImageView;
+import android.widget.TextView;
 
 public class AnteNatalActivity extends MenuInheritActivity {
-	TableRow row1;
-	TableRow row2;
-	TableRow row3;
-	TableRow row4;
-	TableRow row5;
-	TableRow row6;
+	private TextView age;
+	private TextView nameAntiNatal, gestationAntiNatal, parityAntiNatal
+	                ,deliveryTime, bloodGroup, rhesus, obstetricHistory;
+private ImageView userImage;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_ante_natal);
-		row5 = (TableRow) findViewById(R.id.button_parity);
-		row6 = (TableRow) findViewById(R.id.button_obshistory);
-        
-        row5.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                Log.e("Click ", "Row 5");
-        	  }
-        });
-        
-        row6.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                Log.e("Click ", "Row 6");
-        	  }
-        });
+		
+		userImage = (ImageView)findViewById(R.id.user_image_anti_natal);
+		userImage.setOnClickListener(new AntiNatalOptions());
+		
+		age = (TextView)findViewById(R.id.age_ante_natal);
+		nameAntiNatal = (TextView)findViewById(R.id.name_anti_natal);
+		gestationAntiNatal = (TextView)findViewById(R.id.gestation);
+		parityAntiNatal = (TextView)findViewById(R.id.parity);
+		deliveryTime = (TextView)findViewById(R.id.deliveryTime);
+		bloodGroup = (TextView)findViewById(R.id.blood_group);
+		rhesus = (TextView)findViewById(R.id.rhesus);
+		obstetricHistory = (TextView)findViewById(R.id.obstetric_history_ante_natal);
+		
+		
+	
+		//age.setText("27");
+		age.setText(getIntent().getStringExtra("age"));
+		nameAntiNatal.setText(getIntent().getStringExtra("name"));
+		gestationAntiNatal.setText(getIntent().getStringExtra("gestation"));
+		parityAntiNatal.setText(getIntent().getStringExtra("parity"));
+		deliveryTime.setText(getIntent().getStringExtra("deliveryDate"));
+		bloodGroup.setText(getIntent().getStringExtra("bloodGroup"));
+		rhesus.setText(getIntent().getStringExtra("rhesus"));
+		obstetricHistory.setText(getIntent().getStringExtra("obstetricHistory"));
 	}
+
+	private class AntiNatalOptions implements View.OnClickListener {
+		public void onClick(View v) {
+			switch (v.getId()) {
+			case R.id.user_image_anti_natal:
+				Intent intent = new Intent(AnteNatalActivity.this, ServiceUserActivity.class);
+				startActivity(intent);
+				break;
+			}
+		}
+	 }
 }

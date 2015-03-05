@@ -20,19 +20,21 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class ServiceUserActivity extends MenuInheritActivity {
-	private TextView hospitalNumber, name, age, email, mobileNumber, road,
-			county, postCode, nextOfKinName, nextOfKinContactNumber;
+	private TextView hospitalNumber,name,  age, email, mobileNumber, road,
+			county, postCode, nextOfKinName, nextOfKinContactNumber, gestation, parity;
 	private String dob, userCall, userSMS, userEmail, kinCall, kinSMS;
 	private Dialog dialog;
 	private Button bookAppointmentButton, userContact, next_of_kin_contact,
 			userPhoneCall, userSendSMS, userSendEmail, userCancel, userAddress,
 			kinPhoneCall, kinSendSMS, kinCancel;
+	
 	private ImageView anteNatal, postNatal, userImage;
-	private Date dobAsDate;
+	private Date dobAsDate, eddAsDate;
 	private Intent userCallIntent, userSmsIntent, userEmailIntent,
 			kinCallIntent, kinSmsIntent;
 	private Calendar cal = Calendar.getInstance();
-
+	private String nameToAnte, ageToAnte, gestationAnti, parityAnte, deliveryDate, bloodGroup, rhesus, ageAnteNatal, obstetricHistory;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -84,6 +86,14 @@ public class ServiceUserActivity extends MenuInheritActivity {
 			switch (v.getId()) {
 			case R.id.ante_natal:
 				Intent intent = new Intent(getApplicationContext(), AnteNatalActivity.class);
+				intent.putExtra("name", nameToAnte);
+				intent.putExtra("age", Integer.toString(getAge(dob)));
+				intent.putExtra("gestation", gestationAnti);
+				intent.putExtra("parity", parityAnte);
+				intent.putExtra("deliveryDate", deliveryDate);
+				intent.putExtra("bloodGroup", bloodGroup);
+				intent.putExtra("rhesus", rhesus);
+				intent.putExtra("obstetricHistory", obstetricHistory);
 				startActivity(intent);
 				break;
 			case R.id.post_natal:
@@ -281,6 +291,23 @@ public class ServiceUserActivity extends MenuInheritActivity {
 				result--;
 			}
 		}
+		return result;
+	}
+	
+	public int getDeliveryDate(String edd){
+		try{
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		eddAsDate = df.parse(edd);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		cal.setTime(eddAsDate);
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH);
+		int day = cal.get(Calendar.DAY_OF_YEAR);
+		Date date = new Date();
+		int result = day+month+year;
+	
 		return result;
 	}
 }
