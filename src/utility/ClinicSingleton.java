@@ -7,9 +7,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import connecttodb.AccessDBTable;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import connecttodb.AccessDBTable;
 
 public class ClinicSingleton {	
 	private static ClinicSingleton singleInstance;
@@ -19,6 +21,7 @@ public class ClinicSingleton {
 	private String response;
 	private JSONArray query;
 	private JSONObject jsonNew;
+	private ProgressDialog pd;
 
 	private int id, appointmentIntervals;
 	private String name, address, openingHour, closingHour,
@@ -26,18 +29,25 @@ public class ClinicSingleton {
 
 	private ClinicSingleton() {
 	}	
-	public static ClinicSingleton getSingletonIntance() {
+	public static synchronized ClinicSingleton getSingletonIntance() {
 		if(singleInstance == null) {
 			singleInstance = new ClinicSingleton();
 		}
 		return singleInstance;
 	}	
-	public void updateLocal(){		
-		new LongOperation().execute("clinics");
+	public void updateLocal(Context context){		
+		new LongOperation(context).execute("clinics");
 	}
 	private class LongOperation extends AsyncTask<String, Void, JSONArray> {
+		private Context context;
+		public LongOperation(Context context){
+			this.context = context;
+		}
 		@Override
 		protected void onPreExecute() {
+			pd = new ProgressDialog(context);
+			pd.setMessage("Logging In . . . .");
+			pd.show();
 		}
 		protected JSONArray doInBackground(String... params) {
 			Log.d("singleton", "in clinic updateLocal doInBackground");
@@ -59,6 +69,7 @@ public class ClinicSingleton {
 		@Override
         protected void onPostExecute(JSONArray result) {
 			setHashMapofIdClinic(result);
+			pd.dismiss();
         }
 	}
 	public HashMap<String, String> getHashMapofIdClinic(){
@@ -99,7 +110,23 @@ public class ClinicSingleton {
 	public int getId() {
 		return id;
 	}
-
+	public String getIDFromName(String name){
+		JSONObject json;
+		String nameFromDB = "";
+		for(int i = 1; i <= idHash.size(); i++){
+			try {
+				json = new JSONObject(idHash.get(String.valueOf(i)));			
+				nameFromDB = json.get("name").toString();	
+			
+			if(nameFromDB.equals(name)){
+				return String.valueOf(i);
+			}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
 	public String getName(String idToSearch) {
 		/**
 		 *  helper method to give back the name of the clinic
