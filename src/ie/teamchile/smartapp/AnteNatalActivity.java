@@ -17,7 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class AnteNatalActivity extends MenuInheritActivity {
-	private TextView age;
+	private TextView ageAnte;
 	private TextView nameAntiNatal, gestationAntiNatal, parityAntiNatal
 	                ,deliveryTime, bloodGroup, rhesus, obstetricHistory;
 	private ImageView userImage;
@@ -31,7 +31,7 @@ public class AnteNatalActivity extends MenuInheritActivity {
 		userImage = (ImageView)findViewById(R.id.user_image_anti_natal);
 		userImage.setOnClickListener(new AntiNatalOptions());
 		
-		age = (TextView)findViewById(R.id.age_ante_natal);
+		ageAnte = (TextView)findViewById(R.id.age_ante_natal);
 		nameAntiNatal = (TextView)findViewById(R.id.name_anti_natal);
 		gestationAntiNatal = (TextView)findViewById(R.id.gestation);
 		parityAntiNatal = (TextView)findViewById(R.id.parity);
@@ -42,19 +42,28 @@ public class AnteNatalActivity extends MenuInheritActivity {
 		
 		
 	
-		//age.setText("27");
-		//age.setText(getIntent().getStringExtra("age"));
-		//nameAntiNatal.setText(getIntent().getStringExtra("name"));
 		
 		
-		//gestationAntiNatal.setText(getIntent().getStringExtra("gestation"));
+		
+		String name = ServiceUserSingleton.getSingletonIntance().getName();
 		parityAntiNatal.setText(ServiceUserSingleton.getSingletonIntance().getParity());
+		gestationAntiNatal.setText(ServiceUserSingleton.getSingletonIntance().getGestation());
+		rhesus.setText(ServiceUserSingleton.getSingletonIntance().getRhesus());
+		bloodGroup.setText(ServiceUserSingleton.getSingletonIntance().getBloodGroup());
+		deliveryTime.setText(ServiceUserSingleton.getSingletonIntance().getEstimatedDeliveryDate());
+	
+
+		
+
+		ServiceUserActivity aa = new ServiceUserActivity();
+		String age = ServiceUserSingleton.getSingletonIntance().getAge();
+		int anteNatalAge = aa.getAge(age);
+		String theAge = String.valueOf(anteNatalAge);
+		
+		ageAnte.setText(theAge);
+		nameAntiNatal.setText(name);
 		
 		
-		//deliveryTime.setText(getIntent().getStringExtra("deliveryDate"));
-		//bloodGroup.setText(getIntent().getStringExtra("bloodGroup"));
-		//rhesus.setText(getIntent().getStringExtra("rhesus"));
-		//obstetricHistory.setText(getIntent().getStringExtra("obstetricHistory"));
 	}
 
 	private class AntiNatalOptions implements View.OnClickListener {

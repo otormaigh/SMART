@@ -18,6 +18,86 @@ public class ServiceUserSingleton {
 	public void setPatientInfo(JSONObject query){
 		this.query = query;
 	}
+	
+	public String getName() {
+		String name = null;
+		try {
+			JSONObject jObj = (JSONObject) query.getJSONArray("service_users").get(0);
+			name = ((JSONObject) jObj.get("personal_fields")).get("name").toString();	
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return name;
+	}
+	
+	public String getAge() {
+		String age = null;
+		try {
+			JSONObject jObj = (JSONObject) query.getJSONArray("service_users").get(0);
+			age = ((JSONObject) jObj.get("personal_fields")).get("dob").toString();	
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return age;
+	}
+
+	
+	public String getAddress() {
+		String address = null;
+		try {
+			JSONObject jObj = (JSONObject) query.getJSONArray("service_users").get(0);
+			address = ((JSONObject) jObj.get("personal_fields")).get("home_address").toString();	
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return address;
+	}
+	
+	public String getCounty() {
+		String county = null;
+		try {
+			JSONObject jObj = (JSONObject) query.getJSONArray("service_users").get(0);
+			county = ((JSONObject) jObj.get("personal_fields")).get("home_county").toString();	
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return county;
+	}
+	
+	public String getPostCode() {
+		String postCode = null;
+		try {
+			JSONObject jObj = (JSONObject) query.getJSONArray("service_users").get(0);
+			postCode = ((JSONObject) jObj.get("personal_fields")).get("home_post_code").toString();	
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return postCode;
+	}
+	
+	public String getKinName() {
+		String kinName = null;
+		try {
+			JSONObject jObj = (JSONObject) query.getJSONArray("service_users").get(0);
+			kinName = ((JSONObject) jObj.get("personal_fields")).get("next_of_kin_name").toString();	
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return kinName;
+	}
+	
+	public String getKinMobileNumber() {
+		String kinMobileNumber = null;
+		try {
+			JSONObject jObj = (JSONObject) query.getJSONArray("service_users").get(0);
+			kinMobileNumber = ((JSONObject) jObj.get("personal_fields")).get("next_of_kin_phone").toString();	
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return kinMobileNumber;
+	}
+
+
 	public String getHospitalNumber() {
 		String hospitalNumber = null;
 		try {
@@ -60,5 +140,57 @@ public class ServiceUserSingleton {
 		}
 		return parity;
 	}
+	
+	public String getRhesus() {
+		String rhesus = null;
+		try {
+			JSONObject jObj = (JSONObject) query.getJSONArray("service_users").get(0);
+			rhesus = ((JSONObject) jObj.get("clinical_fields")).get("rhesus").toString();	
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return rhesus;
+	}
+	
+	public String getBloodGroup() {
+		String bloodGroup = null;
+		try {
+			JSONObject jObj = (JSONObject) query.getJSONArray("service_users").get(0);
+			bloodGroup = ((JSONObject) jObj.get("clinical_fields")).get("blood_group").toString();	
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return bloodGroup;
+	}
+
+
+	
+	public String getGestation() {
+		String gestation = null;
+
+		try {
+			JSONObject jObj = (JSONObject) query.getJSONArray("pregnancies").get(0);
+			gestation = jObj.getString("gestation");
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return gestation;
+	}
+	
+	public String getEstimatedDeliveryDate() {
+		String edd = null;
+
+		try {
+			JSONObject jObj = (JSONObject) query.getJSONArray("pregnancies").get(0);
+			edd = jObj.getString("estimated_delivery_date");
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return edd;
+	}
+
+
 }
 
