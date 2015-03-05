@@ -1,18 +1,12 @@
 package utility;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.util.Log;
 import connecttodb.AccessDBTable;
 
 public class ServiceUserSingleton {
 	private static ServiceUserSingleton singleInstance;
-	private AccessDBTable db = new AccessDBTable();
-	private String response;
-	//private JSONArray query;
-	private JSONObject jsonNew, queryResult;
 
 	private ServiceUserSingleton() {
 	}
