@@ -1,10 +1,18 @@
 package ie.teamchile.smartapp;
 
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import connecttodb.AccessDBTable;
+import utility.ServiceUserSingleton;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,7 +20,8 @@ public class AnteNatalActivity extends MenuInheritActivity {
 	private TextView age;
 	private TextView nameAntiNatal, gestationAntiNatal, parityAntiNatal
 	                ,deliveryTime, bloodGroup, rhesus, obstetricHistory;
-private ImageView userImage;
+	private ImageView userImage;
+	private String parity;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,14 +43,18 @@ private ImageView userImage;
 		
 	
 		//age.setText("27");
-		age.setText(getIntent().getStringExtra("age"));
-		nameAntiNatal.setText(getIntent().getStringExtra("name"));
-		gestationAntiNatal.setText(getIntent().getStringExtra("gestation"));
-		parityAntiNatal.setText(getIntent().getStringExtra("parity"));
-		deliveryTime.setText(getIntent().getStringExtra("deliveryDate"));
-		bloodGroup.setText(getIntent().getStringExtra("bloodGroup"));
-		rhesus.setText(getIntent().getStringExtra("rhesus"));
-		obstetricHistory.setText(getIntent().getStringExtra("obstetricHistory"));
+		//age.setText(getIntent().getStringExtra("age"));
+		//nameAntiNatal.setText(getIntent().getStringExtra("name"));
+		
+		
+		//gestationAntiNatal.setText(getIntent().getStringExtra("gestation"));
+		parityAntiNatal.setText(ServiceUserSingleton.getSingletonIntance().getParity());
+		
+		
+		//deliveryTime.setText(getIntent().getStringExtra("deliveryDate"));
+		//bloodGroup.setText(getIntent().getStringExtra("bloodGroup"));
+		//rhesus.setText(getIntent().getStringExtra("rhesus"));
+		//obstetricHistory.setText(getIntent().getStringExtra("obstetricHistory"));
 	}
 
 	private class AntiNatalOptions implements View.OnClickListener {

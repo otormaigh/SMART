@@ -2,9 +2,12 @@ package ie.teamchile.smartapp;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +21,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import connecttodb.AccessDBTable;
+import utility.ServiceUserSingleton;
 
 public class ServiceUserActivity extends MenuInheritActivity {
 	private TextView hospitalNumber,name,  age, email, mobileNumber, road,
@@ -53,6 +62,14 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		nextOfKinName = (TextView) findViewById(R.id.next_of_kin_name);
 		nextOfKinContactNumber = (TextView) findViewById(R.id.next_of_kin_contact_number);
 		
+		String hospitalNumberStr = ServiceUserSingleton.getSingletonIntance().getHospitalNumber();
+		String emailStr = ServiceUserSingleton.getSingletonIntance().getEmail();
+		String mobileStr = ServiceUserSingleton.getSingletonIntance().getMobileNumber();
+		
+		hospitalNumber.setText(hospitalNumberStr);
+		email.setText(emailStr);
+		mobileNumber.setText(mobileStr);
+		
 		bookAppointmentButton = (Button) findViewById(R.id.book_appointment);
 		bookAppointmentButton.setOnClickListener(new ButtonClick());
 		next_of_kin_contact = (Button) findViewById(R.id.next_of_kin_contact);
@@ -68,17 +85,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		userImage = (ImageView)findViewById(R.id.user_image);
 		userImage.setOnClickListener(new ButtonClick());
 
-
-		hospitalNumber.setText(getIntent().getStringExtra("hospital_number"));
-		name.setText(getIntent().getStringExtra("name"));
-		age.setText(Integer.toString(getAge(dob)));
-		email.setText(getIntent().getStringExtra("email"));
-		mobileNumber.setText(getIntent().getStringExtra("mobile_number"));
-		road.setText(getIntent().getStringExtra("road"));
-		county.setText(getIntent().getStringExtra("county"));
-		postCode.setText(getIntent().getStringExtra("post_code"));
-		nextOfKinName.setText(getIntent().getStringExtra("next_of_kin_name"));
-		nextOfKinContactNumber.setText(getIntent().getStringExtra("next_of_kin_phone"));
+	
 	}
 
 	private class ButtonClick implements View.OnClickListener, DialogInterface {
@@ -86,14 +93,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 			switch (v.getId()) {
 			case R.id.ante_natal:
 				Intent intent = new Intent(getApplicationContext(), AnteNatalActivity.class);
-				intent.putExtra("name", nameToAnte);
-				intent.putExtra("age", Integer.toString(getAge(dob)));
-				intent.putExtra("gestation", gestationAnti);
-				intent.putExtra("parity", parityAnte);
-				intent.putExtra("deliveryDate", deliveryDate);
-				intent.putExtra("bloodGroup", bloodGroup);
-				intent.putExtra("rhesus", rhesus);
-				intent.putExtra("obstetricHistory", obstetricHistory);
+				//new LongOperation(ServiceUserActivity.this).execute("service_users");
 				startActivity(intent);
 				break;
 			case R.id.post_natal:
