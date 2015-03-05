@@ -138,7 +138,8 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
     	String nameOfClinic = ClinicSingleton.getSingletonIntance().getName(String.valueOf(hospitalSelected));
     	clinicName.setText(nameOfClinic);
     	
-		listOfId = AppointmentSingleton.getSingletonIntance().getIds(String.valueOf(hospitalSelected), daySelectedStr);		
+		listOfId = AppointmentSingleton.getSingletonIntance()
+									 .getIds(String.valueOf(hospitalSelected), daySelectedStr);		
 		
 		if (listOfId == null || listOfId.isEmpty()) {
 			timeSingle.add("---------");
@@ -268,8 +269,10 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 		
 	}
     
-    private class OnItemListener implements OnItemClickListener {    	
+    private class OnItemListener implements OnItemClickListener {
+    	
     	//ArrayList<String> listId = listOfId;
+    	Intent intent;
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 			Log.d("appointmentClick", "appointment id: " + listOfId.get(position));	
@@ -278,7 +281,9 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 			String details = AppointmentSingleton.getSingletonIntance().getAppointmentDetails(listOfId.get(position));
 			Log.d("appointmentClick", "details: " + details);
 			String nameFromDB = AppointmentSingleton.getSingletonIntance().getName(listOfId.get(position));
+			Log.d("appointmentClick", "name: " + nameFromDB);
 			String timeFromDB = AppointmentSingleton.getSingletonIntance().getTime(listOfId.get(position));
+			Log.d("appointmentClick", "time: " + timeFromDB);
 			String dateFromDB = AppointmentSingleton.getSingletonIntance().getDate(listOfId.get(position));
 			
 			try {
