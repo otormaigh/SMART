@@ -211,8 +211,6 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 				gestSingle.add("---------");
 				listOfId.add("0");
 			}
-			//AppointmentSingleton.getSingletonIntance().getAppointmentDetails(listOfId);
-			//Log.d("singleton", "getAppointmentDetails(listOfId)  " + AppointmentSingleton.getSingletonIntance().getAppointmentDetails(listOfId));
 		}
 		adapter = new ListElementAdapter (AppointmentCalendarActivity.this, timeSingle, nameSingle, gestSingle);
 		
@@ -270,48 +268,43 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 	}
     
     private class OnItemListener implements OnItemClickListener {
-    	
-    	//ArrayList<String> listId = listOfId;
-    	Intent intent;
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 			Log.d("appointmentClick", "appointment id: " + listOfId.get(position));	
-			
-			//confirmAppt.displayAppointmentDetails();
-			String details = AppointmentSingleton.getSingletonIntance().getAppointmentDetails(listOfId.get(position));
-			Log.d("appointmentClick", "details: " + details);
-			String nameFromDB = AppointmentSingleton.getSingletonIntance().getName(listOfId.get(position));
-			Log.d("appointmentClick", "name: " + nameFromDB);
-			String timeFromDB = AppointmentSingleton.getSingletonIntance().getTime(listOfId.get(position));
-			Log.d("appointmentClick", "time: " + timeFromDB);
-			String dateFromDB = AppointmentSingleton.getSingletonIntance().getDate(listOfId.get(position));
-			
-			try {
-				dateFromDB = dfDateWithMonthName.format(dfDateOnly.parse(dateFromDB));
-			} catch (ParseException e) {
-				e.printStackTrace();
+			if(listOfId.get(position).equals("0")){
+				intent = new Intent(AppointmentCalendarActivity.this, CreateAppointmentActivity.class);
+				startActivity(intent);
+			} else {
+
+				//confirmAppt.displayAppointmentDetails();
+				String details = AppointmentSingleton.getSingletonIntance().getAppointmentDetails(listOfId.get(position));
+				Log.d("appointmentClick", "details: " + details);
+				String nameFromDB = AppointmentSingleton.getSingletonIntance().getName(listOfId.get(position));
+				String timeFromDB = AppointmentSingleton.getSingletonIntance().getTime(listOfId.get(position));
+				String dateFromDB = AppointmentSingleton.getSingletonIntance().getDate(listOfId.get(position));
+				
+				try {
+					dateFromDB = dfDateWithMonthName.format(dfDateOnly.parse(dateFromDB));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				
+				String clinicIDFromDB = AppointmentSingleton.getSingletonIntance().getClinicID(listOfId.get(position));	
+				String clinicNameFromDB = ClinicSingleton.getSingletonIntance().getName(clinicIDFromDB);
+				int durationFromDB = ClinicSingleton.getSingletonIntance().getAppointmentIntervals(clinicIDFromDB);
+				String serviceUserID = AppointmentSingleton.getSingletonIntance().getServiceUserID(listOfId.get(position));
+				
+				Log.d("singleton", "db string: " + "service_users" + "/" + serviceUserID);
+				new LongOperation(AppointmentCalendarActivity.this).execute("service_users" + "/" + serviceUserID);
+		        
+				intent = new Intent(AppointmentCalendarActivity.this, ConfirmAppointmentActivity.class);
+				intent.putExtra("details", details);
+				intent.putExtra("name", nameFromDB);
+				intent.putExtra("time", timeFromDB);
+				intent.putExtra("date", dateFromDB);
+				intent.putExtra("clinicName", clinicNameFromDB);
+				intent.putExtra("duration", String.valueOf(durationFromDB));
 			}
-			
-			String clinicIDFromDB = AppointmentSingleton.getSingletonIntance().getClinicID(listOfId.get(position));	
-			String clinicNameFromDB = ClinicSingleton.getSingletonIntance().getName(clinicIDFromDB);
-			int durationFromDB = ClinicSingleton.getSingletonIntance().getAppointmentIntervals(clinicIDFromDB);
-			String serviceUserID = AppointmentSingleton.getSingletonIntance().getServiceUserID(listOfId.get(position));
-			
-			Log.d("singleton", "db string: " + "service_users" + "/" + serviceUserID);
-			new LongOperation(AppointmentCalendarActivity.this).execute("service_users" + "/" + serviceUserID);
-			//ServiceUserSingleton.getSingletonIntance().getInfoByID(serviceUserID, AppointmentCalendarActivity.this);
-			//ServiceUserSingleton.getSingletonIntance().updateLocal();
-			//String hospitalNumberFromDB = ServiceUserSingleton.getSingletonIntance().getHospitalNumber();
-			//Log.d("singleton", "hospitalNumber: " + hospitalNumberFromDB);
-	        
-			intent = new Intent(AppointmentCalendarActivity.this, ConfirmAppointmentActivity.class);
-			intent.putExtra("details", details);
-			intent.putExtra("name", nameFromDB);
-			intent.putExtra("time", timeFromDB);
-			intent.putExtra("date", dateFromDB);
-			intent.putExtra("clinicName", clinicNameFromDB);
-			intent.putExtra("duration", String.valueOf(durationFromDB));
-        	//startActivity(intent);			
 		}		    	
     }
     private class LongOperation extends AsyncTask<String, Void, JSONObject> {
