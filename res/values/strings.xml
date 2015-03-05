@@ -19,6 +19,8 @@
     <string name="title_activity_anti_natal">Anti Natal</string>
     <string name="title_activity_stock_note">StockNote</string>
     <string name="title_activity_create_appointment">Create Appointment Activity</string>
+   	<string name="title_activity_parity_details">Parity_details</string>
+    <string name="title_activity_obstretic_history">ObstreticHistory</string>
 
     <!-- MAIN SCREEN -->
     <string name="main_logo"> main_logo</string>
@@ -200,18 +202,23 @@
     <string name="rhesus">Rhesus</string>
     <string name="parity">Parity</string>
     <string name="obstretic_history">Obstretic history</string>
-    <string name="title_activity_obstretic_history">ObstreticHistory</string>
-
+    
     <!-- OBSTRETIC HISTORY -->
     <string name="patient_name">Sarah MacLachlann-Murphy</string>
     <string name="history_notebutton">Add note to history</string>
-    <string name="add_note">Add a note...</string>
-    <string name="title_activity_parity_details">Parity_details</string>
+    <string name="add_note">Add a note</string>
     
     <!-- PARITY DETAILS -->
     <string name="date_of_birth">Date of birth</string>
     <string name="sex">Sex</string>
     <string name="weight">Weight</string>
     <string name="mode_of_birth">Mode of birth</string>
+    
+    <!-- CREATE APPOINTMENT -->
+    <string-array name="visit_type_list">
+        <item>Select Visit Type</item>
+        <item>Ante-Natal</item>
+        <item>Post-Natal</item>
+    </string-array>
 
 </resources>
