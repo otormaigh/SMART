@@ -95,31 +95,7 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 			String dbQuery = dbTable.accessDB(params[0]);
 			try {
 				json = new JSONObject(dbQuery);
-				//query = json.getJSONArray("service_users");
-				//query2 = json.getJSONArray("pregnancies");
 				
-				//arrayPos = getObjects(query, "name", enteredSearch);
-
-				//first = (((JSONObject) ((JSONObject) query.get(arrayPos)).get("personal_fields")).get("name")).toString();
-				//hospitalNumber = (((JSONObject) query.get(arrayPos)).get("hospital_number")).toString();
-                //name = (((JSONObject) ((JSONObject) query.get(arrayPos)).get("personal_fields")).get("name")).toString();
-                //dob = (((JSONObject) ((JSONObject) query.get(arrayPos)).get("personal_fields")).get("dob")).toString();
-				//email = (((JSONObject) ((JSONObject) query.get(arrayPos)).get("personal_fields")).get("email")).toString();
-				//mobileNumber = (((JSONObject) ((JSONObject) query.get(arrayPos)).get("personal_fields")).get("mobile_phone")).toString();
-				//road = (((JSONObject) ((JSONObject) query.get(arrayPos)).get("personal_fields")).get("home_address")).toString();
-				//county = (((JSONObject) ((JSONObject) query.get(arrayPos)).get("personal_fields")).get("home_county")).toString();
-				//postCode = (((JSONObject) ((JSONObject) query.get(arrayPos)).get("personal_fields")).get("home_post_code")).toString();
-				//nextOfKinName = (((JSONObject) ((JSONObject) query.get(arrayPos)).get("personal_fields")).get("next_of_kin_name")).toString();
-				//nextOfKinContactNumber = (((JSONObject) ((JSONObject) query.get(arrayPos)).get("personal_fields")).get("next_of_kin_phone")).toString();
-
-				//gestation = ((JSONObject) query2.get(0)).get("gestation").toString();
-				//deliveryDate = ((JSONObject) query2.get(0)).get("estimated_delivery_date").toString();
-				//String parity = ServiceUserSingleton.getSingletonIntance().getParity(query.get(arrayPos));
-				
-				//bloodGroup = (((JSONObject) ((JSONObject) query.get(arrayPos)).get("clinical_fields")).get("blood_group")).toString();
-				//rhesus = (((JSONObject) ((JSONObject) query.get(arrayPos)).get("clinical_fields")).get("rhesus")).toString();
-				//obstetricHistory = (((JSONObject) ((JSONObject) query.get(arrayPos)).get("clinical_fields")).get("previous_obstetric_history")).toString();
-
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
