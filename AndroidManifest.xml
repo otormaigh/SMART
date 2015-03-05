@@ -21,7 +21,6 @@
         android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -80,5 +79,13 @@
             android:name=".StockNoteActivity"
             android:label="@string/title_activity_stock_note" >
         </activity>          
+        <activity
+            android:name=".ObstreticHistoryActivity"
+            android:label="@string/title_activity_obstretic_history" >
+        </activity>
+        <activity
+            android:name=".ParityDetailsActivity"
+            android:label="@string/title_activity_parity_details" >
+        </activity>
     </application>
 </manifest>

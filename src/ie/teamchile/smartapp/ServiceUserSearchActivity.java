@@ -23,7 +23,8 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 	private EditText searchParams;
 	private Button search, searchResult1, searchResult2,searchResult3;
 	private String hospitalNumber, name, dob, email, mobileNumber, road,
-            county, postCode, nextOfKinName, nextOfKinContactNumber;
+            county, postCode, nextOfKinName, nextOfKinContactNumber, gestation, parity,deliveryDate, bloodGroup, rhesus,
+            obstetricHistory;
 	private String enteredSearch, first;
 	private int arrayPos;
     private String token;
@@ -32,7 +33,7 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 	Statement stmt;
 	ResultSet rs;
 	JSONObject json;
-	JSONArray query;
+	JSONArray query, query2, query3;
 	AccessDBTable dbTable = new AccessDBTable();
 
 	@Override
@@ -64,6 +65,8 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 				intent.putExtra("hospital_number", hospitalNumber);
                 intent.putExtra("name", name);
                 intent.putExtra("dob", dob);
+                intent.putExtra("gestation", gestation);
+                intent.putExtra("parity", parity);
                 intent.putExtra("email", email);
 				intent.putExtra("mobile_number", mobileNumber);
 				intent.putExtra("road", road);
@@ -71,6 +74,10 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 				intent.putExtra("post_code", postCode);
 				intent.putExtra("next_of_kin_name", nextOfKinName);
 				intent.putExtra("next_of_kin_phone", nextOfKinContactNumber);
+				intent.putExtra("deliveryDate", deliveryDate);
+				intent.putExtra("bloodGroup", bloodGroup);
+				intent.putExtra("rhesus", rhesus);
+                intent.putExtra("obstetricHistory", obstetricHistory);
 		        startActivity(intent);
 				break;
 			case R.id.search_result_2:
@@ -102,6 +109,8 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 			try {
 				json = new JSONObject(dbQuery);
 				query = json.getJSONArray("service_users");
+				query2 = json.getJSONArray("pregnancies");
+				
 				arrayPos = getObjects(query, "name", enteredSearch);
 
 				first = (((JSONObject) ((JSONObject) query.get(arrayPos)).get("personal_fields")).get("name")).toString();
@@ -115,6 +124,18 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 				postCode = (((JSONObject) ((JSONObject) query.get(arrayPos)).get("personal_fields")).get("home_post_code")).toString();
 				nextOfKinName = (((JSONObject) ((JSONObject) query.get(arrayPos)).get("personal_fields")).get("next_of_kin_name")).toString();
 				nextOfKinContactNumber = (((JSONObject) ((JSONObject) query.get(arrayPos)).get("personal_fields")).get("next_of_kin_phone")).toString();
+
+				gestation = ((JSONObject) query2.get(0)).get("gestation").toString();
+				deliveryDate = ((JSONObject) query2.get(0)).get("estimated_delivery_date").toString();
+				
+				
+				parity = (((JSONObject) ((JSONObject) query.get(arrayPos)).get("clinical_fields")).get("parity")).toString();
+				bloodGroup = (((JSONObject) ((JSONObject) query.get(arrayPos)).get("clinical_fields")).get("blood_group")).toString();
+				rhesus = (((JSONObject) ((JSONObject) query.get(arrayPos)).get("clinical_fields")).get("rhesus")).toString();
+				obstetricHistory = (((JSONObject) ((JSONObject) query.get(arrayPos)).get("clinical_fields")).get("previous_obstetric_history")).toString();
+
+
+			
 
 			} catch (JSONException e) {
 				e.printStackTrace();
@@ -139,6 +160,15 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
             ServiceUserSearchActivity.this.postCode = postCode.toString();
             ServiceUserSearchActivity.this.nextOfKinName = nextOfKinName.toString();
             ServiceUserSearchActivity.this.nextOfKinContactNumber = nextOfKinContactNumber.toString();
+            ServiceUserSearchActivity.this.gestation = gestation.toString();
+            ServiceUserSearchActivity.this.parity=parity.toString();
+            ServiceUserSearchActivity.this.deliveryDate=deliveryDate.toString();
+            ServiceUserSearchActivity.this.bloodGroup=bloodGroup.toString();
+            ServiceUserSearchActivity.this.rhesus=rhesus.toString();
+            ServiceUserSearchActivity.this.obstetricHistory=obstetricHistory.toString();
+
+
+            
 		}
 	}
 }
