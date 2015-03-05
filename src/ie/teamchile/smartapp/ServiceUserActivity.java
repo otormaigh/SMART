@@ -29,7 +29,7 @@ import connecttodb.AccessDBTable;
 import utility.ServiceUserSingleton;
 
 public class ServiceUserActivity extends MenuInheritActivity {
-	private TextView hospitalNumber,name,  age, email, mobileNumber, road,
+	private TextView hospitalNumber,name,  ageServiceUser, email, mobileNumber, road,
 			county, postCode, nextOfKinName, nextOfKinContactNumber, gestation, parity;
 	private String dob, userCall, userSMS, userEmail, kinCall, kinSMS;
 	private Dialog dialog;
@@ -53,7 +53,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 
 		hospitalNumber = (TextView) findViewById(R.id.hospital_number);
 		name = (TextView) findViewById(R.id.name);
-		age = (TextView) findViewById(R.id.age);
+		ageServiceUser = (TextView) findViewById(R.id.age);
 		email = (TextView) findViewById(R.id.email);
 		mobileNumber = (TextView) findViewById(R.id.mobile_number);
 		road = (TextView) findViewById(R.id.road);
@@ -61,14 +61,43 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		postCode = (TextView) findViewById(R.id.post_code);
 		nextOfKinName = (TextView) findViewById(R.id.next_of_kin_name);
 		nextOfKinContactNumber = (TextView) findViewById(R.id.next_of_kin_contact_number);
+		gestation = (TextView) findViewById(R.id.g);
+		parity = (TextView)findViewById(R.id.p);
+
+		String age = ServiceUserSingleton.getSingletonIntance().getAge();
+		int anteNatalAge = getAge(age);
+		String theAge = String.valueOf(anteNatalAge);
 		
+		ageServiceUser.setText(theAge);
 		String hospitalNumberStr = ServiceUserSingleton.getSingletonIntance().getHospitalNumber();
 		String emailStr = ServiceUserSingleton.getSingletonIntance().getEmail();
 		String mobileStr = ServiceUserSingleton.getSingletonIntance().getMobileNumber();
+		String nameStr = ServiceUserSingleton.getSingletonIntance().getName();
+		String kinName = ServiceUserSingleton.getSingletonIntance().getKinName();
+		String kinMobile = ServiceUserSingleton.getSingletonIntance().getKinMobileNumber();
+		String roadStr = ServiceUserSingleton.getSingletonIntance().getAddress();
+		String countyStr = ServiceUserSingleton.getSingletonIntance().getCounty();
+		String postCodeStr = ServiceUserSingleton.getSingletonIntance().getPostCode();
+		String gestationStr = ServiceUserSingleton.getSingletonIntance().getGestation();
+		String parityStr = ServiceUserSingleton.getSingletonIntance().getParity();
+
+
+
+
+
+
+		name.setText(nameStr);
 		
 		hospitalNumber.setText(hospitalNumberStr);
 		email.setText(emailStr);
 		mobileNumber.setText(mobileStr);
+		road.setText(roadStr);
+		county.setText(countyStr);
+		postCode.setText(postCodeStr);
+		nextOfKinName.setText(kinName);
+		nextOfKinContactNumber.setText(kinMobile);
+		gestation.setText(gestationStr);
+		parity.setText(parityStr);
 		
 		bookAppointmentButton = (Button) findViewById(R.id.book_appointment);
 		bookAppointmentButton.setOnClickListener(new ButtonClick());
@@ -97,7 +126,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 				startActivity(intent);
 				break;
 			case R.id.post_natal:
-				Intent intent1 = new Intent(getApplicationContext(), PostNatalActivity.class);
+				Intent intent1 = new Intent(ServiceUserActivity.this, PostNatalActivity.class);
 				startActivity(intent1);
 				break;
 			case R.id.user_image:
