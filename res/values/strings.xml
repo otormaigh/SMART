@@ -19,6 +19,8 @@
     <string name="title_activity_anti_natal">Anti Natal</string>
     <string name="title_activity_stock_note">StockNote</string>
     <string name="title_activity_create_appointment">Create Appointment Activity</string>
+   	<string name="title_activity_parity_details">Parity_details</string>
+    <string name="title_activity_obstretic_history">ObstreticHistory</string>
 
     <!-- MAIN SCREEN -->
     <string name="main_logo"> main_logo</string>
@@ -181,32 +183,25 @@
     <string name="midwife_email">Email:</string>
     <string name="primary_number">Primary No. :</string>
     <string name="secondary_number">Secondary No. :</string>
-
+        
     <!-- APPOINTMENT CALENDAR -->
     <string name="clinic_title">Clinic Name</string>
     <string name="prev_button">Prev</string>
     <string name="date_button">Date</string>
-    <string name="next_button">Next</string>
-
-    <!-- Stock Note -->
+    <string name="next_button">Next</string>    
+    
+    <!--  Stock Note -->
     <string name="clinic_name">Clinic Name</string>
     <string name="save_note">Save note</string>
-
     
-    <!-- POST NATAL -->
-    <string name="age">Age</string>
-
-
     <!-- ANTE NATAL -->
+	<string name="age">Age</string>
     <string name="edd">EDD</string>
     <string name="gestation">Gestation</string>
     <string name="blood_group">Blood group</string>
     <string name="rhesus">Rhesus</string>
     <string name="parity">Parity</string>
     <string name="obstretic_history">Obstretic history</string>
-    <string name="title_activity_obstretic_history">ObstreticHistory</string>
-
-
   
     <!-- PARITY DETAILS -->
     <string name="date_of_birth">Date of birth</string>
@@ -234,9 +229,13 @@
     <!-- OBSTRETIC HISTORY -->
     <string name="patient_name">Sarah MacLachlann-Murphy</string>
     <string name="history_notebutton">Add note to history</string>
-    <string name="add_note">Add a note...</string>
-    <string name="title_activity_parity_details">Parity_details</string>
-    
-  
+    <string name="add_note">Add a note</string>
+
+ 	<!-- CREATE APPOINTMENT -->
+    <string-array name="visit_type_list">
+        <item>Select Visit Type</item>
+        <item>Ante-Natal</item>
+        <item>Post-Natal</item>
+    </string-array>
 
 </resources>
