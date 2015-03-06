@@ -1,6 +1,5 @@
 package ie.teamchile.smartapp;
 
-import utility.InternalFileWriterReader;
 import utility.ToastAlert;
 import utility.UserSingleton;
 import android.app.admin.DevicePolicyManager;
