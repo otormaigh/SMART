@@ -102,10 +102,13 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		userContact.setOnClickListener(new ButtonClick());
 		userAddress = (Button) findViewById(R.id.user_address);
 		userAddress.setOnClickListener(new ButtonClick());
+		
 		anteNatal = (ImageView)findViewById(R.id.ante_natal);
 		anteNatal.setOnClickListener(new ButtonClick());
+		
 		postNatal = (ImageView)findViewById(R.id.post_natal);
 		postNatal.setOnClickListener(new ButtonClick());
+		
 		userImage = (ImageView)findViewById(R.id.user_image);
 		userImage.setOnClickListener(new ButtonClick());
 	
@@ -115,7 +118,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.ante_natal:
-				Intent intent = new Intent(getApplicationContext(), AnteNatalActivity.class);
+				Intent intent = new Intent(ServiceUserActivity.this, AnteNatalActivity.class);
 				//new LongOperation(ServiceUserActivity.this).execute("service_users");
 				startActivity(intent);
 				break;
