@@ -63,26 +63,15 @@ public class MainActivity extends MenuInheritActivity {
 	    about.setMovementMethod(LinkMovementMethod.getInstance());
 	    
 	}
-    private class ButtonClick implements View.OnClickListener {
+
+	private class ButtonClick implements View.OnClickListener {
 		public void onClick(View v) {
 			switch (v.getId()) {
-                case R.id.login:              	
-					//Intent intent = new Intent(MainActivity.this, QuickMenuActivity.class);
-                	//startActivity(intent);
-					//login.setToken("0c325638d97faf29d71f");
-                	pd = new ProgressDialog(MainActivity.this);
-                    pd.setMessage("logging in");
-                    pd.show();
-                	getCredentials();
-
-					// Intent intent = new Intent(MainActivity.this,
-					// QuickMenuActivity.class);
-					// startActivity(intent);
-					// login.setToken("0c325638d97faf29d71f");
-
-					pd = new ProgressDialog(MainActivity.this);
-					pd.setMessage("Logging In . . . .");
-					pd.show();
+			case R.id.login:
+				// Intent intent = new Intent(MainActivity.this,
+				// QuickMenuActivity.class);
+				// startActivity(intent);
+				// login.setToken("0c325638d97faf29d71f");
 				getCredentials();
 
 				new LongOperation().execute((String[]) null);
@@ -116,28 +105,30 @@ public class MainActivity extends MenuInheritActivity {
 	}
     private void checkCredentials(){    	
     	if (getToken.getResponseCode().equals("201")){
-    		Toast.makeText(this, "Login Successful", Toast.LENGTH_LONG).show();
+    		
     		// update Singleton
-    		AppointmentSingleton.getSingletonIntance().updateLocal();
-			ClinicSingleton.getSingletonIntance().updateLocal();
+    		AppointmentSingleton.getIntance().updateLocal();
+			ClinicSingleton.getSingletonIntance().updateLocal(this);
 			
     		UserSingleton.getUserSingleton().setLoggedIn(true);
     		UserSingleton.getUserSingleton().setUsername(username);
-    		UserSingleton.getUserSingleton().setPassword(password);
+    		UserSingleton.getUserSingleton().setPassword(password); 
     		
+    		Toast.makeText(this, "Welcome " + username, Toast.LENGTH_LONG).show();
+
     		// show the quick menu
     		intent = new Intent(MainActivity.this, QuickMenuActivity.class);
 			startActivity(intent);
-			pd.dismiss();
     	} else
     		Toast.makeText(this, "Login Failed", Toast.LENGTH_LONG).show();
 	}
     @Override
     public void onBackPressed() {
-    	if(UserSingleton.getUserSingleton().isLoggedIn()) {
-    		ToastAlert ta = new ToastAlert(getBaseContext(), 
-        			"  Already logged in, \n  logout?");
-    	}else {    		
-    	}    	
+		if (UserSingleton.getUserSingleton().isLoggedIn()) {
+			ToastAlert ta = new ToastAlert(getBaseContext(),
+					"Already logged in, \n  logout?");
+		} else {
+			finish();
+		}   	
     }
 }

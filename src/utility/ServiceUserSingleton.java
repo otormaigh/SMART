@@ -1,18 +1,11 @@
 package utility;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.util.Log;
-import connecttodb.AccessDBTable;
-
 public class ServiceUserSingleton {
 	private static ServiceUserSingleton singleInstance;
-	private AccessDBTable db = new AccessDBTable();
-	private String response;
-	//private JSONArray query;
-	private JSONObject jsonNew, queryResult;
+	private JSONObject query;
 
 	private ServiceUserSingleton() {
 	}
@@ -22,56 +15,10 @@ public class ServiceUserSingleton {
 		}
 		return singleInstance;
 	}
-	/*public void updateLocal(){
-		new LongOperation().execute("service_users");
+	public void setPatientInfo(JSONObject query){
+		this.query = query;
 	}
-	public void getInfoByID(String id, Context context){
-		new LongOperation(context).execute("service_users" + "/" + id);
-	}
-	public void getInfoByName(String name){		
-		new LongOperation().execute("service_users" + "?name=" + name);
-	}
-	public void getInfoByDOB(String dob){		
-		new LongOperation().execute("service_users" + "?dob=" + dob);
-	}
-	public void getInfoByHospitalNumber(String HospitalNumber){		
-		new LongOperation().execute("service_users" + "?hospital_number=" + HospitalNumber);
-	}
-	private class LongOperation extends AsyncTask<String, Void, JSONObject> {
-		private Context context;
-		private ProgressDialog pd;
-		public LongOperation(Context context){
-			this.context = context;
-		}
-		@Override
-		protected void onPreExecute() {
-			pd = new ProgressDialog(context);
-            pd.setMessage("Fetching Information");
-            pd.show();
-		}
-		protected JSONObject doInBackground(String... params) {
-			Log.d("singleton", "in service users updateLocal doInBackground");
-			try {
-				response = db.accessDB(params[0]);
-				jsonNew = new JSONObject(response);
-				//query = jsonNew.getJSONArray(params[0]);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			Log.d("singleton", "query = " + jsonNew);
-			return jsonNew;
-		}
-		@Override
-		protected void onProgressUpdate(Void... values) {
-		}
-		@Override
-        protected void onPostExecute(JSONObject result) {
-			queryResult = result;
-			Log.d("singleton", "result = " + result);
-			pd.dismiss();
-        }
-	}*/
-	public String getHospitalNumber(JSONObject query) {
+	public String getHospitalNumber() {
 		String hospitalNumber = null;
 		try {
 			JSONObject jObj = (JSONObject) query.getJSONArray("service_users").get(0);
@@ -81,7 +28,7 @@ public class ServiceUserSingleton {
 		}
 		return hospitalNumber;
 	}
-	public String getEmail(JSONObject query) {
+	public String getEmail() {
 		String email = null;
 		try {
 			JSONObject jObj = (JSONObject) query.getJSONArray("service_users").get(0);
@@ -91,7 +38,7 @@ public class ServiceUserSingleton {
 		}
 		return email;
 	}
-	public String getMobileNumber(JSONObject query) {
+	public String getMobileNumber() {
 		String mobile = null;
 		try {
 			JSONObject jObj = (JSONObject) query.getJSONArray("service_users").get(0);
@@ -100,5 +47,18 @@ public class ServiceUserSingleton {
 			e.printStackTrace();
 		}
 		return mobile;
+		
+	}
+	
+	public String getParity() {
+		String parity = null;
+		try {
+			JSONObject jObj = (JSONObject) query.getJSONArray("service_users").get(0);
+			parity = ((JSONObject) jObj.get("clinical_fields")).get("parity").toString();	
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return parity;
 	}
 }
+
