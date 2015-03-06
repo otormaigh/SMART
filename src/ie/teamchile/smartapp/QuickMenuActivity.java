@@ -32,9 +32,8 @@ public class QuickMenuActivity extends MenuInheritActivity {
         todaysAppointments = (Button) findViewById(R.id.todays_appointments);
         todaysAppointments.setOnClickListener(new ButtonClick());
         isViewVisible = true;
-
-        Log.d("MYLOG", "Before Other get token");
         
+        Log.d("MYLOG", "Before Other get token");
     }
     
     private class ButtonClick implements View.OnClickListener {

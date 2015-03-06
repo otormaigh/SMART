@@ -29,7 +29,7 @@ import connecttodb.AccessDBTable;
 import utility.ServiceUserSingleton;
 
 public class ServiceUserActivity extends MenuInheritActivity {
-	private TextView hospitalNumber,name,  ageServiceUser, email, mobileNumber, road,
+	private TextView hospitalNumber,name, ageServiceUser, email, mobileNumber, road,
 			county, postCode, nextOfKinName, nextOfKinContactNumber, gestation, parity;
 	private String dob, userCall, userSMS, userEmail, kinCall, kinSMS;
 	private Dialog dialog;
@@ -53,7 +53,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 
 		hospitalNumber = (TextView) findViewById(R.id.hospital_number);
 		name = (TextView) findViewById(R.id.name);
-		ageServiceUser = (TextView) findViewById(R.id.age);
+		ageServiceUser=(TextView) findViewById(R.id.age);
 		email = (TextView) findViewById(R.id.email);
 		mobileNumber = (TextView) findViewById(R.id.mobile_number);
 		road = (TextView) findViewById(R.id.road);
@@ -64,22 +64,22 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		gestation = (TextView) findViewById(R.id.g);
 		parity = (TextView)findViewById(R.id.p);
 
-		String age = ServiceUserSingleton.getSingletonIntance().getAge();
+		String age = ServiceUserSingleton.getInstance().getAge();
 		int anteNatalAge = getAge(age);
 		String theAge = String.valueOf(anteNatalAge);
 		
 		ageServiceUser.setText(theAge);
-		String hospitalNumberStr = ServiceUserSingleton.getSingletonIntance().getHospitalNumber();
-		String emailStr = ServiceUserSingleton.getSingletonIntance().getEmail();
-		String mobileStr = ServiceUserSingleton.getSingletonIntance().getMobileNumber();
-		String nameStr = ServiceUserSingleton.getSingletonIntance().getName();
-		String kinName = ServiceUserSingleton.getSingletonIntance().getKinName();
-		String kinMobile = ServiceUserSingleton.getSingletonIntance().getKinMobileNumber();
-		String roadStr = ServiceUserSingleton.getSingletonIntance().getAddress();
-		String countyStr = ServiceUserSingleton.getSingletonIntance().getCounty();
-		String postCodeStr = ServiceUserSingleton.getSingletonIntance().getPostCode();
-		String gestationStr = ServiceUserSingleton.getSingletonIntance().getGestation();
-		String parityStr = ServiceUserSingleton.getSingletonIntance().getParity();
+		String hospitalNumberStr = ServiceUserSingleton.getInstance().getHospitalNumber();
+		String emailStr = ServiceUserSingleton.getInstance().getEmail();
+		String mobileStr = ServiceUserSingleton.getInstance().getMobileNumber();
+		String nameStr = ServiceUserSingleton.getInstance().getName();
+		String kinName = ServiceUserSingleton.getInstance().getKinName();
+		String kinMobile = ServiceUserSingleton.getInstance().getKinMobileNumber();
+		String roadStr = ServiceUserSingleton.getInstance().getAddress();
+		String countyStr = ServiceUserSingleton.getInstance().getCounty();
+		String postCodeStr = ServiceUserSingleton.getInstance().getPostCode();
+		String gestationStr = ServiceUserSingleton.getInstance().getGestation();
+		String parityStr = ServiceUserSingleton.getInstance().getParity();
 
 		name.setText(nameStr);
 		
