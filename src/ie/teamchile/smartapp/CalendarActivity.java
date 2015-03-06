@@ -1,6 +1,7 @@
 package ie.teamchile.smartapp;
 
 import android.os.Bundle;
+import android.util.Log;
 
 
 public class CalendarActivity extends MenuInheritActivity {

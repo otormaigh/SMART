@@ -7,9 +7,44 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import connecttodb.AccessDBTable;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import connecttodb.AccessDBTable;
+
+
+/*
+"clinics": [
+            {
+                "address": "Leopardstown Shopping Centre, Unit 12, Ballyogan Road, Dublin 18", 
+                "announcement_ids": [], 
+                "appointment_interval": 15, 
+                "closing_time": "15:00:00", 
+                "days": {
+                    "friday": false, 
+                    "monday": false, 
+                    "saturday": false, 
+                    "sunday": false, 
+                    "thursday": false, 
+                    "tuesday": true, 
+                    "wednesday": false
+                }, 
+                "id": 2, 
+                "links": {
+                    "announcements": "announcements", 
+                    "service_options": "/service_options"
+                }, 
+                "name": "Leopardstown", 
+                "opening_time": "09:00:00", 
+                "recurrence": "weekly", 
+                "service_option_ids": [
+                    1
+                ], 
+                "type": "booking"
+            }
+        ]
+*/
 
 public class ClinicSingleton {	
 	private static ClinicSingleton singleInstance;
@@ -19,25 +54,29 @@ public class ClinicSingleton {
 	private String response;
 	private JSONArray query;
 	private JSONObject jsonNew;
-
-	private int id, appointmentIntervals;
-	private String name, address, openingHour, closingHour,
-				   recurrence, type, days;
+	private ProgressDialog pd;
 
 	private ClinicSingleton() {
 	}	
-	public static ClinicSingleton getSingletonIntance() {
+	public static synchronized ClinicSingleton getInstance() {
 		if(singleInstance == null) {
 			singleInstance = new ClinicSingleton();
 		}
 		return singleInstance;
 	}	
-	public void updateLocal(){		
-		new LongOperation().execute("clinics");
+	public void updateLocal(Context context){		
+		new LongOperation(context).execute("clinics");
 	}
 	private class LongOperation extends AsyncTask<String, Void, JSONArray> {
+		private Context context;
+		public LongOperation(Context context){
+			this.context = context;
+		}
 		@Override
 		protected void onPreExecute() {
+			pd = new ProgressDialog(context);
+			pd.setMessage("Logging In . . . .");
+			pd.show();
 		}
 		protected JSONArray doInBackground(String... params) {
 			Log.d("singleton", "in clinic updateLocal doInBackground");
@@ -59,11 +98,10 @@ public class ClinicSingleton {
 		@Override
         protected void onPostExecute(JSONArray result) {
 			setHashMapofIdClinic(result);
+			pd.dismiss();
         }
 	}
-	public HashMap<String, String> getHashMapofIdClinic(){
-		return idHash;
-	}
+	
 	public void setHashMapofIdClinic(JSONArray clinicArray) {
 		jsonValues = new ArrayList<JSONObject>();
 		idHash = new HashMap<String, String>();
@@ -93,18 +131,115 @@ public class ClinicSingleton {
 			e.printStackTrace();
 		}
 		Log.d("singleton", "idhash of clinics: " + idHash);
-		//this.idHash = idHash;
+		this.idHash = idHash;
+	}
+	
+	public HashMap<String, String> getHashMapofIdClinic(){
+		return idHash;
 	}
 
-	public int getId() {
-		return id;
-	}
+	public String getIDFromName(String name) {
+		JSONObject json;
+		String nameFromDB = "";
+		for (int i = 1; i <= idHash.size(); i++) {
+			try {
+				json = new JSONObject(idHash.get(String.valueOf(i)));
+				nameFromDB = json.get("name").toString();
 
-	public String getName(String idToSearch) {
-		/**
-		 *  helper method to give back the name of the clinic
-		 *  in the ID's hashmap
-		 */
+				if (nameFromDB.equals(name)) {
+					return String.valueOf(i);
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+	
+	public String getAddress(String idToSearch) {
+		String address = null;
+		JSONObject json;		
+		try {
+			json = new JSONObject(idHash.get(idToSearch));
+			address = json.get("address").toString();	
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return address;
+	}
+	
+	public String getAnnouncementID(String idToSearch) {
+		String announcementID = null;
+		JSONObject json;		
+		try {
+			json = new JSONObject(idHash.get(idToSearch));
+			announcementID = json.get("announcement_ids").toString();	
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return announcementID;
+	}
+	
+	public String getAppointmentIntervals(String idToSearch) {
+		String appointmentInterval = null;
+		JSONObject json;		
+		try {
+			json = new JSONObject(idHash.get(idToSearch));
+			appointmentInterval = json.get("appointment_interval").toString();	
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return appointmentInterval;
+	}
+	
+	public String getClosingTime(String idToSearch) {
+		String closingTime = null;
+		JSONObject json;		
+		try {
+			json = new JSONObject(idHash.get(idToSearch));
+			closingTime = json.get("closing_time").toString();	
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return closingTime;
+	}
+	
+	public String getDays(String idToSearch) {
+		String days = null;
+		JSONObject json;		
+		try {
+			json = new JSONObject(idHash.get(idToSearch));
+			days = json.get("days").toString();	
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return days;
+	}
+	
+	public String getClinicID(String idToSearch) {
+		String clinicId = null;
+		JSONObject json;		
+		try {
+			json = new JSONObject(idHash.get(idToSearch));
+			clinicId = json.get("id").toString();	
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return clinicId;
+	}
+	
+	/**
+	 * 
+	 * TODO: create getter for links
+	 *  "links": {
+     *           "announcements": "announcements", 
+     *           "service_options": "/service_options"
+     *       }, 
+     *       
+	 */
+	
+	public String getClinicName(String idToSearch) {
+		String name = null;
 		JSONObject json;		
 		try {
 			json = new JSONObject(idHash.get(idToSearch));
@@ -114,65 +249,52 @@ public class ClinicSingleton {
 		}
 		return name;
 	}
-
-	public String getAddress() {
-		return address;
-	}
-
+	
 	public String getOpeningHours(String idToSearch) {
-		/**
-		 * helper to get the opening times from the 
-		 * HashMap of ID's
-		 */
+		String openingTime = null;
 		JSONObject json;		
 		try {
 			json = new JSONObject(idHash.get(idToSearch));
-			openingHour = json.get("opening_time").toString();	
+			openingTime = json.get("opening_time").toString();	
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		return openingHour;
+		return openingTime;
 	}
-
-	public String getClosingHours(String idToSearch) {
-		/**
-		 * helper to get the closing times from the 
-		 * HashMap of ID's
-		 */
+	
+	public String getRecurrence(String idToSearch) {
+		String recurrence = null;
 		JSONObject json;		
 		try {
 			json = new JSONObject(idHash.get(idToSearch));
-			closingHour = json.get("closing_time").toString();	
+			recurrence = json.get("recurrence").toString();	
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		return closingHour;
-	}
-
-	public String getRecurrence() {
 		return recurrence;
 	}
 
-	public String getType() {
-		return type;
-	}
-
-	public int getAppointmentIntervals(String idToSearch) {
-		/**
-		 * helper to get the closing times from the 
-		 * HashMap of ID's
-		 */
+	public String getServiceOptionID(String idToSearch) {
+		String serviceOptionID = null;
 		JSONObject json;		
 		try {
 			json = new JSONObject(idHash.get(idToSearch));
-			appointmentIntervals = (int) json.get("appointment_interval");	
+			serviceOptionID = json.get("service_option_ids").toString();	
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		return appointmentIntervals;
+		return serviceOptionID;
 	}
 
-	public String getDays() {
-		return days;
+	public String getClinicType(String idToSearch) {
+		String type = null;
+		JSONObject json;		
+		try {
+			json = new JSONObject(idHash.get(idToSearch));
+			type = json.get("type").toString();	
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return type;
 	}
 }
