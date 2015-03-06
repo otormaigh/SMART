@@ -85,7 +85,7 @@ public class AppointmentSingleton {
 	private AppointmentSingleton() {
 	}
 	
-	public static synchronized AppointmentSingleton getIntance() {
+	public static synchronized AppointmentSingleton getInstance() {
 		if(singleInstance == null) {
 			singleInstance = new AppointmentSingleton();
 		}
