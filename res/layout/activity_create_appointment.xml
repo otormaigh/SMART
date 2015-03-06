@@ -87,13 +87,11 @@
             android:textSize="@dimen/text_small"
             android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/edit_duration"
+        <Spinner
+            android:id="@+id/visit_duration_spinner"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_Xsmall"
-            android:hint="Enter Here"
-            android:inputType="number" />
+            android:entries="@array/visit_duration_list" />
 
         <TextView
             android:id="@+id/text_priority"
@@ -104,13 +102,12 @@
             android:textSize="@dimen/text_small"
             android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/edit_priority"
+        <Spinner
+            android:id="@+id/visit_priority_spinner"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_Xsmall"
-            android:hint="Enter Here"
-            android:inputType="text" />
+            android:entries="@array/visit_priority_list" />
+
 
         <TextView
             android:id="@+id/text_visit_type"
@@ -120,14 +117,12 @@
             android:text="Visit Type"
             android:textSize="@dimen/text_small"
             android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/edit_visit_type"
+        
+        <Spinner
+            android:id="@+id/visit_type_spinner"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_Xsmall"
-            android:hint="Enter Here"
-            android:inputType="text" />
+            android:entries="@array/visit_type_list" />
 
         <Button
             android:id="@+id/btn_confirm_appointment"
