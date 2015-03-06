@@ -330,7 +330,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 		}
 		@Override
         protected void onPostExecute(JSONObject result) {
-			//queryResult = result;
+			ServiceUserSingleton.getInstance().setPatientInfo(result);
 			String hospitalNumber = ServiceUserSingleton.getInstance().getHospitalNumber();
 			String email = ServiceUserSingleton.getInstance().getEmail();
 			String mobile = ServiceUserSingleton.getInstance().getMobileNumber();
