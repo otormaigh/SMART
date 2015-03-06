@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class CreateAppointmentActivity extends Activity {
+public class CreateAppointmentActivity extends MenuInheritActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
