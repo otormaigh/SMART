@@ -37,9 +37,9 @@ public class CreateAppointmentActivity extends Activity {
         appointmentClinic = (TextView) findViewById(R.id.edit_appointment_clinic);
         apptDate = (TextView)findViewById(R.id.edit_appointment_date);
         apptTime = (TextView)findViewById(R.id.edit_appointment_time);
-        apptDuration = (TextView)findViewById(R.id.edit_duration);
-        apptPriority = (TextView)findViewById(R.id.edit_priority);
-        apptVisitType = (TextView)findViewById(R.id.edit_visit_type);
+        //apptDuration = (TextView)findViewById(R.id.edit_duration);
+        //apptPriority = (TextView)findViewById(R.id.edit_priority);
+        //apptVisitType = (TextView)findViewById(R.id.edit_visit_type);
         confirmAppointment = (Button) findViewById(R.id.btn_confirm_appointment);
         confirmAppointment.setOnClickListener(new ButtonClick());
 	}

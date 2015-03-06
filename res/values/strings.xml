@@ -232,10 +232,18 @@
     <string name="add_note">Add a note</string>
 
  	<!-- CREATE APPOINTMENT -->
+ 	<string-array name="visit_duration_list">
+        <item>Select Visit Duration</item>
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+    </string-array>
+    <string-array name="visit_priority_list">
+        <item>Select Visit Priority</item>
+        <item>Scheduled</item>
+    </string-array>
     <string-array name="visit_type_list">
         <item>Select Visit Type</item>
         <item>Ante-Natal</item>
         <item>Post-Natal</item>
-    </string-array>
-
+ 	</string-array>
 </resources>
