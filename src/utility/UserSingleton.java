@@ -7,11 +7,11 @@ public class UserSingleton {
 	private String token;
 	private int id;
 	private boolean isLoggedIn;
-	
+	//
 	private UserSingleton(){
 	}
 	
-	public static UserSingleton getUserSingleton() {
+	public static synchronized UserSingleton getUserSingleton() {
 		if(user == null) {
 			user = new UserSingleton();
 		}
