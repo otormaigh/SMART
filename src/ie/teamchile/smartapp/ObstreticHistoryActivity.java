@@ -5,11 +5,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivityAnteNatal extends Activity {
+public class ObstreticHistoryActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main_activity_ante_natal);
+		setContentView(R.layout.activity_obstretic_history);
 	}
 }

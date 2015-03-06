@@ -13,34 +13,90 @@ import android.os.AsyncTask;
 import android.util.Log;
 import connecttodb.AccessDBTable;
 
+/* {
+    "appointments": {
+        "clinic_id": 4, 
+        "date": "2015-03-05", 
+        "id": 64, 
+        "links": {
+            "service_options": "/appointments/64/service_options", 
+            "service_provider": "service_providers/14", 
+            "service_user": "service_users/1"
+        }, 
+        "priority": "scheduled", 
+        "service_option_ids": [], 
+        "service_provider_id": 14, 
+        "service_user": {
+            "gestation": null, 
+            "id": 1, 
+            "name": "Shannon Mercury"
+        }, 
+        "service_user_id": 1, 
+        "time": "10:15:00", 
+        "visit_logs": [], 
+        "visit_type": "post-natal"
+    }
+}
+*/
+
+/**
+ * 
+ * @author Elliot
+ * 
+ * Methods available.
+ * All can be used with either ArrayList<String> of Appointment IDs
+ * or just a single Appointment ID
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ * 
+ * updateLocal
+ * setHashMapofClinicDateID
+ * setHashMapofIdAppt
+ * getListOfIDs
+ * sortDates
+ * getClinicID
+ * getDate
+ * getAppointmentID
+ * TODO: getLinks
+ * getPriority
+ * getServiceOptionID
+ * getServiceProviderID
+ * getGestation
+ * getName
+ * getServiceUserID
+ * getTime
+ * getVisitLogs
+ * getVisitType
+ * 
+ *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ */
+
 public class AppointmentSingleton {
 	private static AppointmentSingleton singleInstance;
-	private JSONArray appointmentArray = new JSONArray();
-	private HashMap<String, ArrayList<String>> dateHash = new HashMap<String, ArrayList<String>>();
-	private HashMap<String, HashMap<String, ArrayList<String>>> clinicIDHash = new HashMap<String, HashMap<String, ArrayList<String>>>();
-	private HashMap<String, String> idHash = new HashMap<String, String>();
+	private HashMap<String, HashMap<String, ArrayList<String>>> clinicIDHash;
+	private HashMap<String, String> idHash;
 	private ArrayList<String> idList;
 	private AccessDBTable db = new AccessDBTable();
 	private String response;
 	private JSONArray query;
 	private JSONObject jsonNew;
 	
-	private String id, clinicId, date, time, serviceProvderId, 
-				   serviceUserId, vistType, serviceOptionId;
-	private boolean priority;
-		
 	private AppointmentSingleton() {
 	}
 	
-	public static AppointmentSingleton getSingletonIntance() {
+	public static synchronized AppointmentSingleton getIntance() {
 		if(singleInstance == null) {
 			singleInstance = new AppointmentSingleton();
 		}
 		return singleInstance;
 	}
-	public void updateLocal(){		
+	
+	public void updateLocal(){
 		new LongOperation().execute("appointments");
 	}
+	
+	//Get full appointment table from database
 	private class LongOperation extends AsyncTask<String, Void, JSONArray> {
 		@Override
 		protected void onPreExecute() {
@@ -66,18 +122,7 @@ public class AppointmentSingleton {
 			setHashMapofIdAppt(result);
         }
 	}
-	public JSONArray getAppointmentArray() {
-		return appointmentArray;
-	}
-	public void setAppointmentArray(JSONArray appointmentArray) {
-		this.appointmentArray = appointmentArray;
-	}
-	public HashMap<String, ArrayList<String>> getHashMapofClinicDateID(){
-		return dateHash;				//return Hashmap of Date as Key, ID as Value
-	}
-	public ArrayList<String> getIdAtDate(String query){
-		return dateHash.get(query);		// returns id at date 
-	}
+	
 	/**
 	 * 
 	 * Takes in a JSONArray of appointments, iterates through it
@@ -87,9 +132,10 @@ public class AppointmentSingleton {
 	 */
 	public void setHashMapofClinicDateID(JSONArray appointmentArray) {
 		ArrayList<JSONObject> jsonValues = new ArrayList<JSONObject>();
-		ArrayList<String> idArray;
-		HashMap<String, ArrayList<String>> dateHash;
-		HashMap<String, HashMap<String, ArrayList<String>>> clinicIDHash = new HashMap<String, HashMap<String, ArrayList<String>>>();
+		ArrayList<String> idArray = new ArrayList<String>();
+		HashMap<String, ArrayList<String>> dateIDHash;
+		HashMap<String, HashMap<String, ArrayList<String>>> clinicDateIDHash = new HashMap<String, HashMap<String, ArrayList<String>>>();
+		String clinicId, date, id;
 		try {
 			for (int i = 0; i < appointmentArray.length(); i++) {
 				jsonValues.add(appointmentArray.getJSONObject(i));
@@ -97,34 +143,32 @@ public class AppointmentSingleton {
 			}	
 			for (int i = 0; i < jsonValues.size(); i++) {
 				idArray = new ArrayList<String>();
-				dateHash = new HashMap<String, ArrayList<String>>();
+				dateIDHash = new HashMap<String, ArrayList<String>>();
 				
 				clinicId = String.valueOf((jsonValues.get(i).getInt("clinic_id")));
 				id = String.valueOf((jsonValues.get(i).getInt("id")));
 				date = (String) jsonValues.get(i).get("date");
-				if (clinicIDHash.get(clinicId) != null) {
-					dateHash = clinicIDHash.get(clinicId);
-					if (dateHash.get(date) != null) {
-						idArray = dateHash.get(date);
+				if (clinicDateIDHash.get(clinicId) != null) {
+					dateIDHash = clinicDateIDHash.get(clinicId);
+					if (dateIDHash.get(date) != null) {
+						idArray = dateIDHash.get(date);
 					}
 					idArray.add(id);
-					dateHash.put(date, idArray);
-					clinicIDHash.put(clinicId, dateHash);
+					dateIDHash.put(date, idArray);
+					clinicDateIDHash.put(clinicId, dateIDHash);
 				} else {
 					idArray.add(id);
-					dateHash.put(date, idArray);
-					clinicIDHash.put(clinicId, dateHash);
+					dateIDHash.put(date, idArray);
+					clinicDateIDHash.put(clinicId, dateIDHash);
 				}
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		Log.d("singleton", "clinicIDHash: " + clinicIDHash.toString());
-		this.clinicIDHash = clinicIDHash;
+		Log.d("singleton", "clinicIDHash: " + clinicDateIDHash.toString());
+		this.clinicIDHash = clinicDateIDHash;
 	}
-	public HashMap<String, String> getHashMapofIdAppt(){
-		return idHash;
-	}
+	
 	/**
 	 * 
 	 * Takes in a JSONArray of appointments, iterates through it
@@ -153,206 +197,22 @@ public class AppointmentSingleton {
 		}
 		this.idHash = idHash;
 	}
+	
 	/**
 	 * 
-	 * Take in a day in yyyy-MM-dd format
-	 * searches that HashMap of Date/ID
-	 * and returns ID corresponding to that date
+	 * Take in a clinic id and day in yyyy-MM-dd format
+	 * searches that HashMap of Clinic/Date/ID
+	 * and returns Appointment ID corresponding to that date
 	 * 
 	 */
-	public ArrayList<String> getIds(String clinicIdTosearch, String dayToSearch) {
+	public ArrayList<String> getListOfIDs(String clinicIdTosearch, String dayToSearch) {
 		idList = new ArrayList<String>();
 		idList = clinicIDHash.get(clinicIdTosearch).get(dayToSearch);
 		return idList;
-	}
-	public String getDate() {		
-		return date;
-	}
-	public ArrayList<String> getTime(ArrayList<?> idList) { // get the specific id not list of???
-		ArrayList<String> time = new ArrayList<String>();
-		JSONObject json;
-		
-		for(int i = 0; i < idList.size(); i++ ){
-			try {
-				json = new JSONObject(idHash.get(idList.get(i)));
-				time.add(json.get("time").toString());				
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-		}
-		return time;
-	}
-	public String getTime(String id){		
-		String time = null;
-		JSONObject json;
-		try {
-			json = new JSONObject(idHash.get(id));
-			time = json.get("time").toString();				
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return time;
-	}
-	public String getDate(String id) {
-		String date = null;
-		JSONObject json;
-		try {
-			json = new JSONObject(idHash.get(id));
-			date = json.get("date").toString();				
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return date;
-	}
-	public ArrayList<String> getName(ArrayList<?> idList){		
-		ArrayList<String> name = new ArrayList<String>();
-		JSONObject json;
-		
-		for(int i = 0; i < idList.size(); i++ ){
-			try {
-				json = new JSONObject(idHash.get(idList.get(i)));
-				name.add(((JSONObject) json.get("service_user")).get("name").toString());				
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-		}
-		return name;
-	}
-	public String getName(String id){		
-		String name = null;
-		JSONObject json;
-		try {
-			json = new JSONObject(idHash.get(id));
-			name = ((JSONObject) json.get("service_user")).get("name").toString();				
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return name;
-	}
-	public ArrayList<String> getGestation(ArrayList<?> idList){		
-		ArrayList<String> gest = new ArrayList<String>();
-		JSONObject json;
-		
-		for(int i = 0; i < idList.size(); i++ ){
-			try {
-				json = new JSONObject(idHash.get(idList.get(i)));
-				gest.add(((JSONObject) json.get("service_user")).get("gestation").toString());				
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-		}
-		return gest;
-	}
+	}	
 	/**
 	 * 
-	 * Takes in an ArrayList of appointment ids and returns
-	 * time, name and gestation for each appointment wanted 
-	 * in an ArrayList of Strings
-	 * 
-	 */
-	public ArrayList<String> getAppointmentDetails(ArrayList<?> idList){		
-		String time = null;
-		String name = null;
-		ArrayList<String> info = new ArrayList<String>();
-		JSONObject json;
-		
-		for(int i = 0; i < idList.size(); i++ ){
-			try {
-				json = new JSONObject(idHash.get(idList.get(i)));
-				time = (json.get("time").toString());
-				name = (((JSONObject) json.get("service_user")).get("name").toString());
-				info.add(time + " - - - - " + name);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-		}
-		return info;
-	}
-	public String getAppointmentDetails(String id){		
-		String time = null;
-		String name = null;
-		String info = null;
-		JSONObject json;
-		try {
-			json = new JSONObject(idHash.get(id));
-			time = json.get("time").toString();	
-			name = (((JSONObject) json.get("service_user")).get("name").toString());
-			info = (time + " - - - - " + name);	
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return info;
-	}
-	public String getClinicID(String id){
-		String clinicID = null;
-		JSONObject json;
-		try {
-			json = new JSONObject(idHash.get(id));
-			clinicID = json.get("clinic_id").toString();
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return clinicID;
-	}
-	public ArrayList<String> getClinicID(ArrayList<?> idList){		
-		ArrayList<String> clinicID = new ArrayList<String>();
-		JSONObject json;
-		
-		for(int i = 0; i < idList.size(); i++ ){
-			try {
-				json = new JSONObject(idHash.get(idList.get(i)));
-				clinicID.add(json.get("clinic_id").toString());				
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-		}
-		return clinicID;
-	}
-	public String getServiceProvderrId() {
-		
-		return serviceProvderId;
-	}
-	public String getServiceUserID(String id) {
-		String serivceUserID = null;
-		JSONObject json;
-		try {
-			json = new JSONObject(idHash.get(id));
-			serivceUserID = json.get("service_user_id").toString();
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return serivceUserID;
-	}
-	public Boolean getPriority() {
-		return priority;
-	}
-	public String getVistType() {
-		return vistType;
-	}	
-	public String getServiceOptionId() {
-		return serviceOptionId;
-	}
-	public void setId(String newId) {
-		this.id = newId;
-	}	
-	public void setserviceProvderId(String newServiceProvderId) {
-		this.serviceProvderId = newServiceProvderId;
-	}
-	public void setServiceUserId(String serviceUserId) {
-		this.serviceUserId = serviceUserId;
-	}
-	public void setPriority(boolean Priority) {
-		this.priority = Priority;
-	}
-	public void setVistType(String VistType) {
-		this.vistType = VistType;
-	}
-	public void setServiceOptionId(String ServiceOptionId) {
-		this.serviceOptionId = ServiceOptionId;
-	}
-	/**
-	 * 
-	 * takes in an ArrayLis of JSONObject and returns
+	 * takes in an ArrayList of JSONObject and returns
 	 * an ArrayList of JSONObjects that is sorted in 
 	 * chronological order based on date and time.
 	 * 
@@ -380,4 +240,336 @@ public class AppointmentSingleton {
         });
         return objToBeSorted;
     }
+	
+	public ArrayList<String> getClinicID(ArrayList<?> idList) { // get the specific id not list of???
+		ArrayList<String> clinicID = new ArrayList<String>();
+		JSONObject json;
+		
+		for(int i = 0; i < idList.size(); i++ ){
+			try {
+				json = new JSONObject(idHash.get(idList.get(i)));
+				clinicID.add(json.get("clinic_id").toString());				
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		return clinicID;
+	}
+	
+	public String getClinicID(String id){
+		String clinicID = new String();
+		JSONObject json;
+		try {
+			json = new JSONObject(idHash.get(id));
+			clinicID = json.get("clinic_id").toString();
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return clinicID;
+	}
+	
+	public ArrayList<String> getDate(ArrayList<String> idList) {
+		ArrayList<String> date = new ArrayList<String>();
+		JSONObject json;
+		
+		for(int i = 0; i < idList.size(); i++ ){
+			try {
+				json = new JSONObject(idHash.get(idList.get(i)));
+				date.add(json.get("date").toString());				
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		return date;
+	}
+	
+	public String getDate(String id) {
+		String date = new String();
+		JSONObject json;
+		try {
+			json = new JSONObject(idHash.get(id));
+			date = json.get("date").toString();				
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return date;
+	}
+	
+	public ArrayList<String> getAppointmentID(ArrayList<String> idList) {
+		ArrayList<String> apptID = new ArrayList<String>();
+		JSONObject json;
+		
+		for(int i = 0; i < idList.size(); i++ ){
+			try {
+				json = new JSONObject(idHash.get(idList.get(i)));
+				apptID.add(json.get("id").toString());				
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		return apptID;
+	}
+	
+	public String getAppointmentID(String id) {
+		String apptID = new String();
+		JSONObject json;
+		try {
+			json = new JSONObject(idHash.get(id));
+			apptID = json.get("id").toString();				
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return apptID;
+	}
+	
+	/**TODO getter method for links	  
+	  "links": {
+            "service_options": "/appointments/64/service_options", 
+            "service_provider": "service_providers/14", 
+            "service_user": "service_users/1"
+        },
+	*/
+	
+	public ArrayList<String> getPriority(ArrayList<String> idList) {
+		ArrayList<String> priority = new ArrayList<String>();
+		JSONObject json;
+		
+		for(int i = 0; i < idList.size(); i++ ){
+			try {
+				json = new JSONObject(idHash.get(idList.get(i)));
+				priority.add(json.get("priority").toString());				
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		return priority;
+	}
+	
+	public String getPriority(String id) {
+		String priority = new String();
+		JSONObject json;
+		try {
+			json = new JSONObject(idHash.get(id));
+			priority = json.get("priority").toString();				
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return priority;
+	}
+	
+	public ArrayList<String> getServiceOptionID(ArrayList<String> idList) {
+		ArrayList<String> serviceOptionID = new ArrayList<String>();
+		JSONObject json;
+		
+		for(int i = 0; i < idList.size(); i++ ){
+			try {
+				json = new JSONObject(idHash.get(idList.get(i)));
+				serviceOptionID.add(json.get("service_option_ids").toString());				
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		return serviceOptionID;
+	}
+	
+	public String getServiceOptionID(String id) {
+		String serviceOptionID = new String();
+		JSONObject json;
+		try {
+			json = new JSONObject(idHash.get(id));
+			serviceOptionID = json.get("service_option_ids").toString();				
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return serviceOptionID;
+	}	
+	
+	public ArrayList<String> getServiceProviderID(ArrayList<String> idList) {
+		ArrayList<String> serviceProviderID = new ArrayList<String>();
+		JSONObject json;
+		
+		for(int i = 0; i < idList.size(); i++ ){
+			try {
+				json = new JSONObject(idHash.get(idList.get(i)));
+				serviceProviderID.add(json.get("service_provider_id").toString());				
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		return serviceProviderID;
+	}
+	
+	public String getServiceProviderID(String id) {
+		String serviceProviderID = new String();
+		JSONObject json;
+		try {
+			json = new JSONObject(idHash.get(id));
+			serviceProviderID = json.get("service_provider_id").toString();				
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return serviceProviderID;
+	}
+	
+	public ArrayList<String> getGestation(ArrayList<?> idList){		
+		ArrayList<String> gest = new ArrayList<String>();
+		JSONObject json;
+		
+		for(int i = 0; i < idList.size(); i++ ){
+			try {
+				json = new JSONObject(idHash.get(idList.get(i)));
+				gest.add(((JSONObject) json.get("service_user")).get("gestation").toString());				
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		return gest;
+	}
+	
+	public String getGestation(String id){		
+		String gest = new String();
+		JSONObject json;
+		try {
+			json = new JSONObject(idHash.get(id));
+			gest = ((JSONObject) json.get("service_user")).get("gestation").toString();				
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return gest;
+	}
+	
+	public ArrayList<String> getName(ArrayList<String> idList){		
+		ArrayList<String> name = new ArrayList<String>();
+		JSONObject json;
+		
+		for(int i = 0; i < idList.size(); i++ ){
+			try {
+				json = new JSONObject(idHash.get(idList.get(i)));
+				name.add(((JSONObject) json.get("service_user")).get("name").toString());				
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		return name;
+	}
+	
+	public String getName(String id){		
+		String name = new String();
+		JSONObject json;
+		try {
+			json = new JSONObject(idHash.get(id));
+			name = ((JSONObject) json.get("service_user")).get("name").toString();				
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return name;
+	}
+	
+	public ArrayList<String> getServiceUserID(ArrayList<String> idList) {
+		ArrayList<String> serviceUserID = new ArrayList<String>();
+		JSONObject json;
+		
+		for(int i = 0; i < idList.size(); i++ ){
+			try {
+				json = new JSONObject(idHash.get(idList.get(i)));
+				serviceUserID.add(json.get("service_user_id").toString());				
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		return serviceUserID;
+	}
+	
+	public String getServiceUserID(String id) {
+		String serviceUserID = new String();
+		JSONObject json;
+		try {
+			json = new JSONObject(idHash.get(id));
+			serviceUserID = json.get("service_user_id").toString();				
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return serviceUserID;
+	}
+	
+	public ArrayList<String> getTime(ArrayList<?> idList) {
+		ArrayList<String> time = new ArrayList<String>();
+		JSONObject json;
+		
+		for(int i = 0; i < idList.size(); i++ ){
+			try {
+				json = new JSONObject(idHash.get(idList.get(i)));
+				time.add(json.get("time").toString());				
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		return time;
+	}
+	
+	public String getTime(String id){		
+		String time = new String();
+		JSONObject json;
+		try {
+			json = new JSONObject(idHash.get(id));
+			time = json.get("time").toString();				
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return time;
+	}
+	
+	public ArrayList<String> getVisitLogs(ArrayList<?> idList) {
+		ArrayList<String> visitLogs = new ArrayList<String>();
+		JSONObject json;
+		
+		for(int i = 0; i < idList.size(); i++ ){
+			try {
+				json = new JSONObject(idHash.get(idList.get(i)));
+				visitLogs.add(json.get("visit_logs").toString());				
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		return visitLogs;
+	}
+	
+	public String getVisitLogs(String id){		
+		String visitLogs = new String();
+		JSONObject json;
+		try {
+			json = new JSONObject(idHash.get(id));
+			visitLogs = json.get("visit_logs").toString();				
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return visitLogs;
+	}
+	
+	public ArrayList<String> getVisitType(ArrayList<?> idList) {
+		ArrayList<String> visitType = new ArrayList<String>();
+		JSONObject json;
+		
+		for(int i = 0; i < idList.size(); i++ ){
+			try {
+				json = new JSONObject(idHash.get(idList.get(i)));
+				visitType.add(json.get("visit_type").toString());				
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		return visitType;
+	}
+	
+	public String getVisitType(String id){		
+		String visitType = new String();
+		JSONObject json;
+		try {
+			json = new JSONObject(idHash.get(id));
+			visitType = json.get("visit_type").toString();				
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return visitType;
+	}
 }
