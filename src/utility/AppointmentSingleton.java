@@ -9,6 +9,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import connecttodb.AccessDBTable;
@@ -81,6 +83,7 @@ public class AppointmentSingleton {
 	private String response;
 	private JSONArray query;
 	private JSONObject jsonNew;
+	private ProgressDialog pd;
 	
 	private AppointmentSingleton() {
 	}
@@ -92,14 +95,21 @@ public class AppointmentSingleton {
 		return singleInstance;
 	}
 	
-	public void updateLocal(){
-		new LongOperation().execute("appointments");
+	public void updateLocal(Context context){
+		new LongOperation(context).execute("appointments");
 	}
 	
 	//Get full appointment table from database
 	private class LongOperation extends AsyncTask<String, Void, JSONArray> {
+		private Context context;
+		public LongOperation(Context context){
+			this.context = context;
+		}
 		@Override
 		protected void onPreExecute() {
+			pd = new ProgressDialog(context);
+			pd.setMessage("Updating Appointments");
+			pd.show();
 		}
 		protected JSONArray doInBackground(String... params) {
 			Log.d("singleton", "in appointment updateLocal doInBackground");
@@ -120,6 +130,7 @@ public class AppointmentSingleton {
         protected void onPostExecute(JSONArray result) {
 			setHashMapofClinicDateID(result);
 			setHashMapofIdAppt(result);
+			pd.dismiss();
         }
 	}
 	
