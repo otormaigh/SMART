@@ -74,7 +74,7 @@ public class ClinicSingleton {
 		@Override
 		protected void onPreExecute() {
 			pd = new ProgressDialog(context);
-			pd.setMessage("Logging In . . . .");
+			pd.setMessage("Updating Clinics");
 			pd.show();
 		}
 		protected JSONArray doInBackground(String... params) {

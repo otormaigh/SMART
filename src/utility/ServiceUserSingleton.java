@@ -41,6 +41,18 @@ public class ServiceUserSingleton {
 		}
 		return hospitalNumber;
 	}
+	
+	public String getServiceUserID() {
+		String serviceUserID = null;
+		try {
+			JSONObject jObj = (JSONObject) query.getJSONArray("service_users").get(0);
+			serviceUserID = jObj.get("id").toString();	
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return serviceUserID;
+	}
+	
 	public String getEmail() {
 		String email = null;
 		try {
