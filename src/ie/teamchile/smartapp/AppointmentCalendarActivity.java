@@ -77,9 +77,9 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
         nextWeek = (Button)findViewById(R.id.next_button);
         nextWeek.setOnClickListener(new ButtonClick());
         
-        clinicOpening = ClinicSingleton.getSingletonIntance().getOpeningHours(String.valueOf(hospitalSelected));
-		clinicClosing = ClinicSingleton.getSingletonIntance().getClosingHours(String.valueOf(hospitalSelected));
-		appointmentInterval = ClinicSingleton.getSingletonIntance().getAppointmentIntervals(String.valueOf(hospitalSelected));
+        clinicOpening = ClinicSingleton.getInstance().getOpeningHours(String.valueOf(hospitalSelected));
+		clinicClosing = ClinicSingleton.getInstance().getClosingTime(String.valueOf(hospitalSelected));
+		appointmentInterval = Integer.parseInt(ClinicSingleton.getInstance().getAppointmentIntervals(String.valueOf(hospitalSelected)));
                 
         c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         Log.d("MYLOG", "Date set to " + c.getTime());
@@ -135,11 +135,11 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
     	
     	dateInList.setText(dfDateOnlyOther.format(daySelected));
     	Log.d("singleton", "String.valueOf(hospitalSelected) " + String.valueOf(hospitalSelected));
-    	String nameOfClinic = ClinicSingleton.getSingletonIntance().getName(String.valueOf(hospitalSelected));
+    	String nameOfClinic = ClinicSingleton.getInstance().getClinicName(String.valueOf(hospitalSelected));
     	clinicName.setText(nameOfClinic);
     	
-		listOfId = AppointmentSingleton.getSingletonIntance()
-									 .getIds(String.valueOf(hospitalSelected), daySelectedStr);		
+		listOfId = AppointmentSingleton.getInstance()
+									 .getListOfIDs(String.valueOf(hospitalSelected), daySelectedStr);		
 		
 		if (listOfId == null || listOfId.isEmpty()) {
 			timeSingle.add("---------");
@@ -147,15 +147,15 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 			gestSingle.add("---------");
 		} else {
 
-			timeSingle = AppointmentSingleton.getSingletonIntance().getTime(listOfId);
+			timeSingle = AppointmentSingleton.getInstance().getTime(listOfId);
 			Log.d("singleton", "getTime(listOfId)  " + 
-						 AppointmentSingleton.getSingletonIntance().getTime(listOfId));
-			nameSingle = AppointmentSingleton.getSingletonIntance().getName(listOfId);
+						 AppointmentSingleton.getInstance().getTime(listOfId));
+			nameSingle = AppointmentSingleton.getInstance().getName(listOfId);
 			Log.d("singleton", "getName(listOfId)  " + 
-						 AppointmentSingleton.getSingletonIntance().getName(listOfId));
-			gestSingle = AppointmentSingleton.getSingletonIntance().getGestation(listOfId);
+						 AppointmentSingleton.getInstance().getName(listOfId));
+			gestSingle = AppointmentSingleton.getInstance().getGestation(listOfId);
 			Log.d("singleton", "getGestation(listOfId)  " + 
-						 AppointmentSingleton.getSingletonIntance().getGestation(listOfId));
+						 AppointmentSingleton.getInstance().getGestation(listOfId));
 
 			Log.d("appointment", "first appointment equals opening: " + 
 						 timeSingle.get(0).equals(clinicOpening));
@@ -275,13 +275,9 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 				intent = new Intent(AppointmentCalendarActivity.this, CreateAppointmentActivity.class);
 				startActivity(intent);
 			} else {
-
-				//confirmAppt.displayAppointmentDetails();
-				String details = AppointmentSingleton.getSingletonIntance().getAppointmentDetails(listOfId.get(position));
-				Log.d("appointmentClick", "details: " + details);
-				String nameFromDB = AppointmentSingleton.getSingletonIntance().getName(listOfId.get(position));
-				String timeFromDB = AppointmentSingleton.getSingletonIntance().getTime(listOfId.get(position));
-				String dateFromDB = AppointmentSingleton.getSingletonIntance().getDate(listOfId.get(position));
+				String nameFromDB = AppointmentSingleton.getInstance().getName(listOfId.get(position));
+				String timeFromDB = AppointmentSingleton.getInstance().getTime(listOfId.get(position));
+				String dateFromDB = AppointmentSingleton.getInstance().getDate(listOfId.get(position));
 				
 				try {
 					dateFromDB = dfDateWithMonthName.format(dfDateOnly.parse(dateFromDB));
@@ -289,16 +285,15 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 					e.printStackTrace();
 				}
 				
-				String clinicIDFromDB = AppointmentSingleton.getSingletonIntance().getClinicID(listOfId.get(position));	
-				String clinicNameFromDB = ClinicSingleton.getSingletonIntance().getName(clinicIDFromDB);
-				int durationFromDB = ClinicSingleton.getSingletonIntance().getAppointmentIntervals(clinicIDFromDB);
-				String serviceUserID = AppointmentSingleton.getSingletonIntance().getServiceUserID(listOfId.get(position));
+				String clinicIDFromDB = AppointmentSingleton.getInstance().getClinicID(listOfId.get(position));	
+				String clinicNameFromDB = ClinicSingleton.getInstance().getClinicName(clinicIDFromDB);
+				int durationFromDB = Integer.parseInt(ClinicSingleton.getInstance().getAppointmentIntervals(clinicIDFromDB));
+				String serviceUserID = AppointmentSingleton.getInstance().getServiceUserID(listOfId.get(position));
 				
 				Log.d("singleton", "db string: " + "service_users" + "/" + serviceUserID);
 				new LongOperation(AppointmentCalendarActivity.this).execute("service_users" + "/" + serviceUserID);
 		        
 				intent = new Intent(AppointmentCalendarActivity.this, ConfirmAppointmentActivity.class);
-				intent.putExtra("details", details);
 				intent.putExtra("name", nameFromDB);
 				intent.putExtra("time", timeFromDB);
 				intent.putExtra("date", dateFromDB);
@@ -336,9 +331,9 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 		@Override
         protected void onPostExecute(JSONObject result) {
 			//queryResult = result;
-			String hospitalNumber = ServiceUserSingleton.getSingletonIntance().getHospitalNumber();
-			String email = ServiceUserSingleton.getSingletonIntance().getEmail();
-			String mobile = ServiceUserSingleton.getSingletonIntance().getMobileNumber();
+			String hospitalNumber = ServiceUserSingleton.getInstance().getHospitalNumber();
+			String email = ServiceUserSingleton.getInstance().getEmail();
+			String mobile = ServiceUserSingleton.getInstance().getMobileNumber();
 			intent.putExtra("hospitalNumber", hospitalNumber);
 			intent.putExtra("email", email);
 			intent.putExtra("mobile", mobile);

@@ -54,7 +54,7 @@ public class PostAppointment {
 		this.priority = priority;
 		this.visitType = visitType;
 		
-		this.clinicID = ClinicSingleton.getSingletonIntance().getIDFromName(clinicName);
+		this.clinicID = ClinicSingleton.getInstance().getIDFromName(clinicName);
 		Log.d("appoitnment", "clinicID: " + clinicID);
 		
 		return PostAppointment();
