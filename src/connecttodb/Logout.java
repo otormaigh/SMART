@@ -89,6 +89,7 @@ public class Logout {
             if(unauthCode.equals(result)){
             	Log.d("MYLOG", "logout successful");
             	UserSingleton.getUserSingleton().setToken("");
+            	UserSingleton.getUserSingleton().setLoggedIn(false);
             } else if (authCodeOk.equals(result)){
                 Log.d("MYLOG", "logout unsuccessful");
                 new LongOperation().execute();	
