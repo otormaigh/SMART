@@ -9,14 +9,27 @@ public class ServiceUserSingleton {
 
 	private ServiceUserSingleton() {
 	}
+	
 	public static ServiceUserSingleton getInstance() {
+
 		if(singleInstance == null) {
 			singleInstance = new ServiceUserSingleton();
 		}
 		return singleInstance;
 	}
+	
 	public void setPatientInfo(JSONObject query){
 		this.query = query;
+	}
+	public String getName() {
+		String name = null;
+		try {
+			JSONObject jObj = (JSONObject) query.getJSONArray("service_users").get(0);
+			name = ((JSONObject) jObj.get("personal_fields")).get("name").toString();	
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return name;
 	}
 	public String getHospitalNumber() {
 		String hospitalNumber = null;
@@ -46,8 +59,7 @@ public class ServiceUserSingleton {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		return mobile;
-		
+		return mobile;		
 	}
 	
 	public String getParity() {
@@ -61,4 +73,3 @@ public class ServiceUserSingleton {
 		return parity;
 	}
 }
-
