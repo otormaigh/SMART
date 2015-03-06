@@ -57,7 +57,7 @@ public class ClinicSingleton {
 
 	private ClinicSingleton() {
 	}	
-	public static synchronized ClinicSingleton getSingletonIntance() {
+	public static synchronized ClinicSingleton getInstance() {
 		if(singleInstance == null) {
 			singleInstance = new ClinicSingleton();
 		}

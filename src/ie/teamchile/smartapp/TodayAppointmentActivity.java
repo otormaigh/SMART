@@ -13,7 +13,7 @@ public class TodayAppointmentActivity extends ListActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		values = AppointmentSingleton.getSingletonIntance().getIds("4", "2015-03-05");
+		values = AppointmentSingleton.getInstance().getListOfIDs("4", "2015-03-05");
 		if(values.size() == 0 || values == null) {
 			values = new ArrayList<String>();
 			values.add("Not appointments today");

@@ -108,7 +108,7 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 		@Override
 		protected void onPostExecute(JSONObject result) {
             Log.d("MYLOG", "onPostExecute");
-            ServiceUserSingleton.getSingletonIntance().setPatientInfo(result);
+            ServiceUserSingleton.getInstance().setPatientInfo(result);
             pd.dismiss();
             /*
 			 * if result from database is empty (chcek if null) toast to say no query found
