@@ -62,9 +62,9 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		nextOfKinName = (TextView) findViewById(R.id.next_of_kin_name);
 		nextOfKinContactNumber = (TextView) findViewById(R.id.next_of_kin_contact_number);
 		
-		String hospitalNumberStr = ServiceUserSingleton.getSingletonIntance().getHospitalNumber();
-		String emailStr = ServiceUserSingleton.getSingletonIntance().getEmail();
-		String mobileStr = ServiceUserSingleton.getSingletonIntance().getMobileNumber();
+		String hospitalNumberStr = ServiceUserSingleton.getInstance().getHospitalNumber();
+		String emailStr = ServiceUserSingleton.getInstance().getEmail();
+		String mobileStr = ServiceUserSingleton.getInstance().getMobileNumber();
 		
 		hospitalNumber.setText(hospitalNumberStr);
 		email.setText(emailStr);

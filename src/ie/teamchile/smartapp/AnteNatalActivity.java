@@ -48,7 +48,7 @@ public class AnteNatalActivity extends MenuInheritActivity {
 		
 		
 		//gestationAntiNatal.setText(getIntent().getStringExtra("gestation"));
-		parityAntiNatal.setText(ServiceUserSingleton.getSingletonIntance().getParity());
+		parityAntiNatal.setText(ServiceUserSingleton.getInstance().getParity());
 		
 		
 		//deliveryTime.setText(getIntent().getStringExtra("deliveryDate"));

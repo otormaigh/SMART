@@ -9,7 +9,7 @@ public class ServiceUserSingleton {
 
 	private ServiceUserSingleton() {
 	}
-	public static ServiceUserSingleton getSingletonIntance() {
+	public static ServiceUserSingleton getInstance() {
 		if(singleInstance == null) {
 			singleInstance = new ServiceUserSingleton();
 		}

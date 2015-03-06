@@ -108,7 +108,7 @@ public class MainActivity extends MenuInheritActivity {
     		
     		// update Singleton
     		AppointmentSingleton.getInstance().updateLocal();
-			ClinicSingleton.getSingletonIntance().updateLocal(this);
+			ClinicSingleton.getInstance().updateLocal(this);
 			
     		UserSingleton.getUserSingleton().setLoggedIn(true);
     		UserSingleton.getUserSingleton().setUsername(username);
