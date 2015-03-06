@@ -11,7 +11,7 @@ public class UserSingleton {
 	private UserSingleton(){
 	}
 	
-	public static UserSingleton getUserSingleton() {
+	public static synchronized UserSingleton getUserSingleton() {
 		if(user == null) {
 			user = new UserSingleton();
 		}
