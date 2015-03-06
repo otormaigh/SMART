@@ -23,7 +23,6 @@
         android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -71,16 +70,31 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".TodayAppointmentActivity"
-            android:label="@string/title_activity_today_appointment" />
+            android:label="@string/title_activity_today_appointment" 
+            android:screenOrientation="portrait" />
         <activity
             android:name=".PostNatalActivity"
-            android:label="@string/title_activity_post_natal" />
+            android:label="@string/title_activity_post_natal" 
+            android:screenOrientation="portrait" />
         <activity
             android:name=".AnteNatalActivity"
-            android:label="@string/title_activity_anti_natal" />
+            android:label="@string/title_activity_anti_natal" 
+            android:screenOrientation="portrait" />
         <activity
             android:name=".StockNoteActivity"
-            android:label="@string/title_activity_stock_note" >
-        </activity>          
+            android:label="@string/title_activity_stock_note"
+			android:screenOrientation="portrait" />
+        <activity
+            android:name=".ObstreticHistoryActivity"
+            android:label="@string/title_activity_obstretic_history" 
+			android:screenOrientation="portrait" />
+        <activity
+            android:name=".ParityDetailsActivity"
+            android:label="@string/title_activity_parity_details" 
+			android:screenOrientation="portrait" />
+		<activity
+            android:name=".CreateAppointmentActivity"
+            android:label="@string/title_activity_create_appointment"
+            android:screenOrientation="portrait" />
     </application>
 </manifest>
