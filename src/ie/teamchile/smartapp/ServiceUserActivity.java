@@ -81,11 +81,6 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		String gestationStr = ServiceUserSingleton.getSingletonIntance().getGestation();
 		String parityStr = ServiceUserSingleton.getSingletonIntance().getParity();
 
-
-
-
-
-
 		name.setText(nameStr);
 		
 		hospitalNumber.setText(hospitalNumberStr);
@@ -113,7 +108,6 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		postNatal.setOnClickListener(new ButtonClick());
 		userImage = (ImageView)findViewById(R.id.user_image);
 		userImage.setOnClickListener(new ButtonClick());
-
 	
 	}
 
