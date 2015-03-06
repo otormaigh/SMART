@@ -18,6 +18,9 @@
     <string name="title_activity_post_natal">Post Natal</string>
     <string name="title_activity_anti_natal">Anti Natal</string>
     <string name="title_activity_stock_note">StockNote</string>
+    <string name="title_activity_create_appointment">Create Appointment Activity</string>
+   	<string name="title_activity_parity_details">Parity_details</string>
+    <string name="title_activity_obstretic_history">ObstreticHistory</string>
 
     <!-- MAIN SCREEN -->
     <string name="main_logo"> main_logo</string>
@@ -191,12 +194,48 @@
     <string name="clinic_name">Clinic Name</string>
     <string name="save_note">Save note</string>
     
-    <!-- POST NATAL -->
+    <!-- ANTE NATAL -->
+	<string name="age">Age</string>
     <string name="edd">EDD</string>
     <string name="gestation">Gestation</string>
     <string name="blood_group">Blood group</string>
     <string name="rhesus">Rhesus</string>
     <string name="parity">Parity</string>
     <string name="obstretic_history">Obstretic history</string>
+  
+    <!-- PARITY DETAILS -->
+    <string name="date_of_birth">Date of birth</string>
+    <string name="sex">Sex</string>
+    <string name="weight">Weight</string>
+    <string name="mode_of_birth">Mode of birth</string>
+    
+    <!-- POST NATAL -->
+    <string name="mother_info">Mother</string>
+    <string name="birth_mode">Birth Mode</string>
+    <string name="perineum">perineum</string>
+    <string name="anti_d">Anti D</string>
+    <string name="midwives_notes">Midwives Notes</string>
+    <string name="baby_info">Baby</string>
+    <string name="delivery_date">Date of delivery</string>
+    <string name="delivery_time">Time of delivery</string>
+    <string name="days_sinceBirth">Days since birth</string>
+    <string name="sex_of_baby">Sex of baby</string>
+    <string name="birth_weight">Birth Weight(kg)</string>
+    <string name="vit_k">VitK</string>
+    <string name="baby_hearing">Hearing</string>
+    <string name="baby_feeding">Feeding</string>
+    <string name="nbst">NBST</string>
+
+    <!-- OBSTRETIC HISTORY -->
+    <string name="patient_name">Sarah MacLachlann-Murphy</string>
+    <string name="history_notebutton">Add note to history</string>
+    <string name="add_note">Add a note</string>
+
+ 	<!-- CREATE APPOINTMENT -->
+    <string-array name="visit_type_list">
+        <item>Select Visit Type</item>
+        <item>Ante-Natal</item>
+        <item>Post-Natal</item>
+    </string-array>
 
 </resources>
