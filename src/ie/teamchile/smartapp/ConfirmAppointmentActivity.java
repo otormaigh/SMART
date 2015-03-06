@@ -1,18 +1,17 @@
 package ie.teamchile.smartapp;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 
 public class ConfirmAppointmentActivity extends MenuInheritActivity {
 	private TextView userName, hospitalNumber, appointmentClinic, apptDate, apptTime,
 					 duration, email, sms;
-	private String details;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm_appointment);
+        
         userName = (TextView)findViewById(R.id.service_user_db);
         hospitalNumber = (TextView) findViewById(R.id.hospital_number_db);
         appointmentClinic = (TextView) findViewById(R.id.appointment_clinic_db);

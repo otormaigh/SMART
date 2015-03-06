@@ -137,15 +137,15 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
     	Log.d("singleton", "String.valueOf(hospitalSelected) " + String.valueOf(hospitalSelected));
     	String nameOfClinic = ClinicSingleton.getInstance().getClinicName(String.valueOf(hospitalSelected));
     	clinicName.setText(nameOfClinic);
-    	
 		listOfId = AppointmentSingleton.getInstance()
-									 .getListOfIDs(String.valueOf(hospitalSelected), daySelectedStr);		
+									 .getListOfIDs(String.valueOf(hospitalSelected), daySelectedStr);
 		
 		if (listOfId == null || listOfId.isEmpty()) {
 			timeSingle.add("---------");
 			nameSingle.add("Free Slot");
 			gestSingle.add("---------");
 		} else {
+
 
 			timeSingle = AppointmentSingleton.getInstance().getTime(listOfId);
 			Log.d("singleton", "getTime(listOfId)  " + 
