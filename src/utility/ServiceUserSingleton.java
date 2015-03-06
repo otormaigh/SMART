@@ -141,6 +141,18 @@ public class ServiceUserSingleton {
 		return parity;
 	}
 	
+	public String getObstreticHistory() {
+		String obh = null;
+		try {
+			JSONObject jObj = (JSONObject) query.getJSONArray("service_users").get(0);
+			obh = ((JSONObject) jObj.get("clinical_fields")).get("previous_obstetric_history").toString();	
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return obh;
+	}
+
+	
 	public String getRhesus() {
 		String rhesus = null;
 		try {
