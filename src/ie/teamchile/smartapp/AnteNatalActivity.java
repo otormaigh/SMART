@@ -4,7 +4,6 @@ package ie.teamchile.smartapp;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import connecttodb.AccessDBTable;
 import utility.ServiceUserSingleton;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -39,16 +38,16 @@ public class AnteNatalActivity extends MenuInheritActivity {
 		rhesus = (TextView)findViewById(R.id.rhesus);
 		obstetricHistory = (TextView)findViewById(R.id.obstetric_history_ante_natal);
 	
-		String name = ServiceUserSingleton.getSingletonIntance().getName();
-		parityAntiNatal.setText(ServiceUserSingleton.getSingletonIntance().getParity());
-		gestationAntiNatal.setText(ServiceUserSingleton.getSingletonIntance().getGestation());
-		rhesus.setText(ServiceUserSingleton.getSingletonIntance().getRhesus());
-		bloodGroup.setText(ServiceUserSingleton.getSingletonIntance().getBloodGroup());
-		deliveryTime.setText(ServiceUserSingleton.getSingletonIntance().getEstimatedDeliveryDate());
-		obstetricHistory.setText(ServiceUserSingleton.getSingletonIntance().getObstreticHistory());
+		String name = ServiceUserSingleton.getInstance().getName();
+		parityAntiNatal.setText(ServiceUserSingleton.getInstance().getParity());
+		gestationAntiNatal.setText(ServiceUserSingleton.getInstance().getGestation());
+		rhesus.setText(ServiceUserSingleton.getInstance().getRhesus());
+		bloodGroup.setText(ServiceUserSingleton.getInstance().getBloodGroup());
+		deliveryTime.setText(ServiceUserSingleton.getInstance().getEstimatedDeliveryDate());
+		obstetricHistory.setText(ServiceUserSingleton.getInstance().getObstreticHistory());
 
 		ServiceUserActivity aa = new ServiceUserActivity();
-		String age = ServiceUserSingleton.getSingletonIntance().getAge();
+		String age = ServiceUserSingleton.getInstance().getAge();
 		int anteNatalAge = aa.getAge(age);
 		String theAge = String.valueOf(anteNatalAge);
 		
