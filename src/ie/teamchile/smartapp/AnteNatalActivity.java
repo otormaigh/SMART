@@ -21,7 +21,6 @@ public class AnteNatalActivity extends MenuInheritActivity {
 	private TextView nameAntiNatal, gestationAntiNatal, parityAntiNatal
 	                ,deliveryTime, bloodGroup, rhesus, obstetricHistory;
 	private ImageView userImage;
-	private String parity;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
