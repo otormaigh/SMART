@@ -1,5 +1,6 @@
 package ie.teamchile.smartapp;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -19,14 +20,16 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import connecttodb.AccessDBTable;
 import connecttodb.PostAppointment;
 
-public class CreateAppointmentActivity extends Activity {
-	private SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss", Locale.getDefault());
+public class CreateAppointmentActivity extends MenuInheritActivity {
+	private SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+	private SimpleDateFormat sdfMinute = new SimpleDateFormat("mm", Locale.getDefault());
 	private TextView userName, appointmentClinic, apptDate, apptTime,
 	 				 apptDuration, apptPriority, apptVisitType;
 	private Button confirmAppointment;
@@ -35,13 +38,15 @@ public class CreateAppointmentActivity extends Activity {
 	private PostAppointment postAppt = new PostAppointment();
 	private AccessDBTable db = new AccessDBTable();
 	private String response, clinicIDStr; 
-	private int clinicID;
+	private int clinicID, appointmentIntervalAsInt;
 	private JSONObject jsonNew;
 	private ProgressDialog pd;
-	private Calendar c;
+	private Calendar c = Calendar.getInstance();
 	private ArrayList<String> timeList = new ArrayList<String>();
+	private ArrayList<String> durationList = new ArrayList<String>();
 	private String timeBefore, timeAfter;
-	private Date beforeAsDate, afterAsDate;
+	private Date beforeAsDate, afterAsDate, afterAsDateMinusInterval;
+	private String appointmentInterval;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +68,61 @@ public class CreateAppointmentActivity extends Activity {
         visitClinicSpinner = (Spinner) findViewById(R.id.visit_clinic_spinner);
         visitClinicSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
         
+        Log.d("postAppointment", "time now: " + c.getTime());
+        
         clinicIDStr = getIntent().getStringExtra("clinicID");
         Log.d("postAppointment", "clinicIDStr: "+ clinicIDStr);
         clinicID = Integer.parseInt(clinicIDStr);
+
+        appointmentInterval = ClinicSingleton.getInstance().getAppointmentIntervals(clinicIDStr);
+        timeBefore = getIntent().getStringExtra("timeBefore");
+        timeAfter = getIntent().getStringExtra("timeAfter");       
+        
+        Log.d("postAppointment", "timeBefore: " + timeBefore);
+		Log.d("postAppointment", "timeAfter: " + timeAfter);
+		
+		setTimeSpinner();
+		setClinicSpinner();
+		setDurationSpinner();
+	}
+	private void setDurationSpinner(){
+		durationList.add(appointmentInterval + " minutes");
+		durationList.add(String.valueOf(appointmentIntervalAsInt + appointmentIntervalAsInt) + " minutes");
+		
+		visitDurationSpinner = (Spinner) findViewById(R.id.visit_duration_spinner);
+	    ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, durationList);
+	    myArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+	    visitDurationSpinner.setAdapter(myArrayAdapter);
+	}
+	private void setTimeSpinner(){
+        try {
+        	appointmentIntervalAsInt = Integer.parseInt(appointmentInterval);
+        	beforeAsDate = sdf.parse(timeBefore);
+			afterAsDate = sdf.parse(timeAfter);
+			
+			c.setTime(afterAsDate);
+			c.add(Calendar.MINUTE, - appointmentIntervalAsInt);			
+			afterAsDateMinusInterval = c.getTime();
+			Log.d("postAppointment", "afterAsDateMinusInterval: " + afterAsDateMinusInterval);
+			
+			while(beforeAsDate.before(afterAsDateMinusInterval)){
+				Log.d("postAppointment", "beforeAsDate: " + beforeAsDate);
+				Log.d("postAppointment", "afterAsDate: " + afterAsDate);
+				c.setTime(beforeAsDate);
+				c.add(Calendar.MINUTE, appointmentIntervalAsInt);
+				beforeAsDate = c.getTime();
+				timeList.add(sdf.format(c.getTime()));
+			}
+			Log.d("postAppointment", "timeList: " + timeList);
+		    visitTimeSpinner = (Spinner) findViewById(R.id.visit_time_spinner);
+		    ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, timeList);
+		    myArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		    visitTimeSpinner.setAdapter(myArrayAdapter);		    
+        } catch (ParseException e) {
+			e.printStackTrace();
+		}
+	}
+	private void setClinicSpinner(){
         if(clinicID < 7){
         	visitClinicSpinner.setSelection(clinicID);
         	clinicID = clinicID;
@@ -76,51 +133,17 @@ public class CreateAppointmentActivity extends Activity {
     		clinicID = clinicID - 1;     
     		visitClinicSpinner.setSelection(clinicID - 1);
     	}
-        
-/*        
-        timeBefore = getIntent().getStringExtra("timeBefore");
-        timeAfter = getIntent().getStringExtra("timeAfter");
-        
-        Log.d("postAppointment", "timeBefore: " + timeBefore);
-		Log.d("postAppointment", "timeAfter: " + timeAfter);
-        
-        try {
-        	beforeAsDate = sdf.parse(timeBefore);
-			afterAsDate = sdf.parse(timeAfter);			
-			
-			while(beforeAsDate.before(afterAsDate)){
-				Log.d("postAppointment", "beforeAsDate: " + beforeAsDate);
-				Log.d("postAppointment", "afterAsDate: " + afterAsDate);
-				c.setTime(beforeAsDate);
-				c.add(Calendar.MINUTE, 15);
-				timeList.add(sdf.format(c.getTime()));
-			}
-			Log.d("postAppointment", "timeList: " + timeList);
-		    visitTimeSpinner = (Spinner) findViewById(R.id.visit_time_spinner);
-		    ArrayAdapter myArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, timeList);
-		    myArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		    visitTimeSpinner.setAdapter(myArrayAdapter);
-		    
-        } catch (ParseException e) {
-			e.printStackTrace();
-		}*/
 	}
 	private class ButtonClick implements View.OnClickListener {
         public void onClick(View v) {
             switch (v.getId()) {
             case R.id.btn_confirm_appointment:
             	name = userName.getText().toString();
-            	//clinic = appointmentClinic.getText().toString();
-            	date = apptDate.getText().toString();
-            	//time = apptTime.getText().toString();
-            	//duration = apptDuration.getText().toString();
-            	//priority = apptPriority.getText().toString();
-            	//visitType = apptVisitType.getText().toString();
             	
             	Log.d("appointment", "name: " + name + "\nclinic: " +  clinic  + "\nclinic id: " + clinicID + "\nDate: " + date + 
             						 "\nTime: " + time + "\nDuration: " + duration + "\nPriority: " + priority +
             						 "\nVisit Type: " + visitType);
-            	new LongOperation(CreateAppointmentActivity.this).execute("service_users?name=" + name);
+            	//new LongOperation(CreateAppointmentActivity.this).execute("service_users?name=" + name);
             	
             	Log.d("postAppointment", "clinicID: " + clinicID);
             	Log.d("postAppointment", "clinicName: " + ClinicSingleton.getInstance().getClinicName(String.valueOf(clinicID)));
@@ -173,19 +196,7 @@ public class CreateAppointmentActivity extends Activity {
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             switch (parent.getId()) {
                 case R.id.visit_duration_spinner:
-                    switch (position) {
-                    case 0:
-                    	//Select visit duration
-                    	break;
-                    case 1:
-                    	duration = "15";
-                    	//15 minutes
-                    	break;
-                    case 2:
-                    	duration = "30";
-                    	//30 minutes
-                    	break;
-                    }
+                    duration = durationList.get(position);
                     break;
                 case R.id.visit_type_spinner:
                     switch (position) {
@@ -214,23 +225,7 @@ public class CreateAppointmentActivity extends Activity {
                     }
                     break;
                 case R.id.visit_time_spinner:
-                    switch (position) {
-                    case 0:
-                    	//Select Visit Time
-                    	break;
-                    case 1:
-                    	time = "10:45:00";
-                    	break;
-                    case 2:
-                    	time = "11:00:00";
-                    	break;
-                    case 3:
-                    	time = "11:15:00";
-                    	break;
-                    case 4:
-                    	time = "11:30:00";
-                    	break;
-                    }
+                    time = timeList.get(position);
                     break;
                 case R.id.visit_clinic_spinner:
                 	if(position < 7){
