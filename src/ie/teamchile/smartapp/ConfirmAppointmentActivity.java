@@ -1,5 +1,6 @@
 package ie.teamchile.smartapp;
 
+import utility.ServiceUserSingleton;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -21,13 +22,17 @@ public class ConfirmAppointmentActivity extends MenuInheritActivity {
         email = (TextView)findViewById(R.id.email_to_db);
         sms = (TextView)findViewById(R.id.sms_to_db);
         
+        String hospitalNumberStr = ServiceUserSingleton.getInstance().getHospitalNumber();
+		String emailStr = ServiceUserSingleton.getInstance().getEmail();
+		String mobileStr = ServiceUserSingleton.getInstance().getMobileNumber();
+        
         userName.setText(getIntent().getStringExtra("name"));
-        hospitalNumber.setText(getIntent().getStringExtra("hospitalNumber"));
+        hospitalNumber.setText(hospitalNumberStr);
         appointmentClinic.setText(getIntent().getStringExtra("clinicName"));
         apptDate.setText(getIntent().getStringExtra("date"));
         apptTime.setText(getIntent().getStringExtra("time"));
         duration.setText(getIntent().getStringExtra("duration") + " minutes");
-        email.setText(getIntent().getStringExtra("email"));
-        sms.setText(getIntent().getStringExtra("mobile"));
+        email.setText(emailStr);
+        sms.setText(mobileStr);
     }
 }
