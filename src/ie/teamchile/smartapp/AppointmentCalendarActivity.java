@@ -37,8 +37,10 @@ import connecttodb.DateSorter;
 import connecttodb.SetDateToHashMap;
 
 public class AppointmentCalendarActivity extends MenuInheritActivity {
-	private static int regionSelected, hospitalSelected, weekSelected;
-	private static Date daySelected;
+	private static int regionSelected;
+	protected static int hospitalSelected;
+	private static int weekSelected;
+	protected static Date daySelected;
 	private Date day = null, openingAsDate = null, closingAsDate = null;
 	private DateFormat df = new SimpleDateFormat("yyyy-MM-dd - HH:mm:ss", Locale.getDefault());
 	private DateFormat dfDateOnly = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
@@ -273,8 +275,8 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 			if(listOfId.get(position).equals("0")){
 				intent = new Intent(AppointmentCalendarActivity.this, CreateAppointmentActivity.class);
 				if(listOfId.size() == 1){
-					intent.putExtra("clinicID", String.valueOf(hospitalSelected));
-					intent.putExtra("daySelected", daySelected);
+					//intent.putExtra("clinicSelected", String.valueOf(hospitalSelected));
+					//intent.putExtra("daySelected", dfDateOnly.format(daySelected));
 					Log.d("postAppointment", "String.valueOf(hospitalSelected) "+ String.valueOf(hospitalSelected));
 					startActivity(intent);
 				} else if(listOfId.size() > 0 && listOfId.get(position - 1) != null && listOfId.get(position + 1) != null){
