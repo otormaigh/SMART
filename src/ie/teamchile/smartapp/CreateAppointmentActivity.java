@@ -1,5 +1,11 @@
 package ie.teamchile.smartapp;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -12,55 +18,112 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import connecttodb.AccessDBTable;
 import connecttodb.PostAppointment;
 
 public class CreateAppointmentActivity extends Activity {
+	private SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss", Locale.getDefault());
 	private TextView userName, appointmentClinic, apptDate, apptTime,
 	 				 apptDuration, apptPriority, apptVisitType;
 	private Button confirmAppointment;
+	private Spinner visitTimeSpinner, visitDurationSpinner, visitTypeSpinner, visitPrioritySpinner, visitClinicSpinner;
 	private String name, clinic, date, time, duration, priority, visitType;
 	private PostAppointment postAppt = new PostAppointment();
 	private AccessDBTable db = new AccessDBTable();
-	private String response, clinicID;
+	private String response, clinicIDStr; 
+	private int clinicID;
 	private JSONObject jsonNew;
 	private ProgressDialog pd;
-
+	private Calendar c;
+	private ArrayList<String> timeList = new ArrayList<String>();
+	private String timeBefore, timeAfter;
+	private Date beforeAsDate, afterAsDate;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_create_appointment);
 		
         userName = (TextView)findViewById(R.id.edit_service_user);
-        appointmentClinic = (TextView) findViewById(R.id.edit_appointment_clinic);
         apptDate = (TextView)findViewById(R.id.edit_appointment_date);
-        apptTime = (TextView)findViewById(R.id.edit_appointment_time);
-        //apptDuration = (TextView)findViewById(R.id.edit_duration);
-        //apptPriority = (TextView)findViewById(R.id.edit_priority);
-        //apptVisitType = (TextView)findViewById(R.id.edit_visit_type);
         confirmAppointment = (Button) findViewById(R.id.btn_confirm_appointment);
         confirmAppointment.setOnClickListener(new ButtonClick());
+        visitTimeSpinner = (Spinner) findViewById(R.id.visit_time_spinner);
+        visitTimeSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
+        visitDurationSpinner = (Spinner) findViewById(R.id.visit_duration_spinner);
+        visitDurationSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
+        visitTypeSpinner = (Spinner) findViewById(R.id.visit_type_spinner);
+        visitTypeSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
+        visitPrioritySpinner = (Spinner) findViewById(R.id.visit_priority_spinner);
+        visitPrioritySpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
+        visitClinicSpinner = (Spinner) findViewById(R.id.visit_clinic_spinner);
+        visitClinicSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
+        
+        clinicIDStr = getIntent().getStringExtra("clinicID");
+        Log.d("postAppointment", "clinicIDStr: "+ clinicIDStr);
+        clinicID = Integer.parseInt(clinicIDStr);
+        if(clinicID < 7){
+        	visitClinicSpinner.setSelection(clinicID);
+        	clinicID = clinicID;
+    	} else if(clinicID == 7){
+    		clinicID = 6;        
+    		visitClinicSpinner.setSelection(6);
+    	} else if(clinicID > 7){
+    		clinicID = clinicID - 1;     
+    		visitClinicSpinner.setSelection(clinicID - 1);
+    	}
+        
+/*        
+        timeBefore = getIntent().getStringExtra("timeBefore");
+        timeAfter = getIntent().getStringExtra("timeAfter");
+        
+        Log.d("postAppointment", "timeBefore: " + timeBefore);
+		Log.d("postAppointment", "timeAfter: " + timeAfter);
+        
+        try {
+        	beforeAsDate = sdf.parse(timeBefore);
+			afterAsDate = sdf.parse(timeAfter);			
+			
+			while(beforeAsDate.before(afterAsDate)){
+				Log.d("postAppointment", "beforeAsDate: " + beforeAsDate);
+				Log.d("postAppointment", "afterAsDate: " + afterAsDate);
+				c.setTime(beforeAsDate);
+				c.add(Calendar.MINUTE, 15);
+				timeList.add(sdf.format(c.getTime()));
+			}
+			Log.d("postAppointment", "timeList: " + timeList);
+		    visitTimeSpinner = (Spinner) findViewById(R.id.visit_time_spinner);
+		    ArrayAdapter myArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, timeList);
+		    myArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		    visitTimeSpinner.setAdapter(myArrayAdapter);
+		    
+        } catch (ParseException e) {
+			e.printStackTrace();
+		}*/
 	}
 	private class ButtonClick implements View.OnClickListener {
         public void onClick(View v) {
             switch (v.getId()) {
             case R.id.btn_confirm_appointment:
             	name = userName.getText().toString();
-            	clinic = appointmentClinic.getText().toString();
-            	clinicID = ClinicSingleton.getInstance().getIDFromName(clinic);
+            	//clinic = appointmentClinic.getText().toString();
             	date = apptDate.getText().toString();
-            	time = apptTime.getText().toString();
-            	duration = apptDuration.getText().toString();
-            	priority = apptPriority.getText().toString();
-            	visitType = apptVisitType.getText().toString();
+            	//time = apptTime.getText().toString();
+            	//duration = apptDuration.getText().toString();
+            	//priority = apptPriority.getText().toString();
+            	//visitType = apptVisitType.getText().toString();
             	
             	Log.d("appointment", "name: " + name + "\nclinic: " +  clinic  + "\nclinic id: " + clinicID + "\nDate: " + date + 
             						 "\nTime: " + time + "\nDuration: " + duration + "\nPriority: " + priority +
             						 "\nVisit Type: " + visitType);
-            	
             	new LongOperation(CreateAppointmentActivity.this).execute("service_users?name=" + name);
+            	
+            	Log.d("postAppointment", "clinicID: " + clinicID);
+            	Log.d("postAppointment", "clinicName: " + ClinicSingleton.getInstance().getClinicName(String.valueOf(clinicID)));
             	break;
             }
         }
@@ -77,17 +140,19 @@ public class CreateAppointmentActivity extends Activity {
 			pd = new ProgressDialog(context);
             pd.setMessage("Creating Appointment");
             pd.show();
+            //clinicID = ClinicSingleton.getInstance().getIDFromName(clinic);
+            clinicIDStr = String.valueOf(clinicID);
+            
 		}
 		protected JSONObject doInBackground(String... params) {
 			try {
 				String dbQuery = db.accessDB(params[0]);
-
 				json = new JSONObject(dbQuery);
 
 				ServiceUserSingleton.getInstance().setPatientInfo(json);
 				String userID = ServiceUserSingleton.getInstance().getServiceUserID();
 				
-				postAppt.postAppointment(userID, clinicID, date, time, duration,
+				postAppt.postAppointment(userID, clinicIDStr, date, time, duration,
 						priority, visitType);
 
 			} catch (JSONException e) {
@@ -103,4 +168,84 @@ public class CreateAppointmentActivity extends Activity {
 			pd.dismiss();
         }
 	}
+    private class MySpinnerOnItemSelectedListener implements AdapterView.OnItemSelectedListener {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            switch (parent.getId()) {
+                case R.id.visit_duration_spinner:
+                    switch (position) {
+                    case 0:
+                    	//Select visit duration
+                    	break;
+                    case 1:
+                    	duration = "15";
+                    	//15 minutes
+                    	break;
+                    case 2:
+                    	duration = "30";
+                    	//30 minutes
+                    	break;
+                    }
+                    break;
+                case R.id.visit_type_spinner:
+                    switch (position) {
+                    case 0:
+                    	//Select Visit Type
+                    	break;
+                    case 1:
+                    	//Ante-Natal
+                    	visitType = "ante-natal";
+                    	break;
+                    case 2:
+                    	//Post-Natal
+                    	visitType = "post-natal";
+                    	break;
+                    }
+                    break;
+                case R.id.visit_priority_spinner:
+                    switch (position) {
+                    case 0:
+                    	//Select Visit Priority
+                    	break;
+                    case 1:
+                    	priority = "scheduled";
+                    	//Scheduled
+                    	break;
+                    }
+                    break;
+                case R.id.visit_time_spinner:
+                    switch (position) {
+                    case 0:
+                    	//Select Visit Time
+                    	break;
+                    case 1:
+                    	time = "10:45:00";
+                    	break;
+                    case 2:
+                    	time = "11:00:00";
+                    	break;
+                    case 3:
+                    	time = "11:15:00";
+                    	break;
+                    case 4:
+                    	time = "11:30:00";
+                    	break;
+                    }
+                    break;
+                case R.id.visit_clinic_spinner:
+                	if(position < 7){
+                		clinicID = position;
+                	} else if(position == 7){
+                		clinicID = 6;                		
+                	} else if(position > 7){
+                		clinicID = position - 1;                		
+                	}
+                	break;
+            }
+        }
+
+		@Override
+		public void onNothingSelected(AdapterView<?> arg0) {			
+		}
+    }
 }
