@@ -274,6 +274,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 				intent = new Intent(AppointmentCalendarActivity.this, CreateAppointmentActivity.class);
 				if(listOfId.size() == 1){
 					intent.putExtra("clinicID", String.valueOf(hospitalSelected));
+					intent.putExtra("daySelected", daySelected);
 					Log.d("postAppointment", "String.valueOf(hospitalSelected) "+ String.valueOf(hospitalSelected));
 					startActivity(intent);
 				} else if(listOfId.size() > 0 && listOfId.get(position - 1) != null && listOfId.get(position + 1) != null){
