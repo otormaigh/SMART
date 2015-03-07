@@ -85,6 +85,8 @@ public class AppointmentSingleton {
 	private JSONObject jsonNew;
 	private ProgressDialog pd;
 	
+	private String clinicID;
+	
 	private AppointmentSingleton() {
 	}
 	
@@ -251,6 +253,12 @@ public class AppointmentSingleton {
         });
         return objToBeSorted;
     }
+	public String getAppointmentString(String id){
+		return idHash.get(id);
+	}
+	public void setClinicID(String clinicID){
+		this.clinicID = clinicID;
+	}
 	
 	public ArrayList<String> getClinicID(ArrayList<?> idList) { // get the specific id not list of???
 		ArrayList<String> clinicID = new ArrayList<String>();
