@@ -12,36 +12,39 @@ import org.json.JSONObject;
 
 import utility.ClinicSingleton;
 import utility.ServiceUserSingleton;
-import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import connecttodb.AccessDBTable;
 import connecttodb.PostAppointment;
 
 public class CreateAppointmentActivity extends MenuInheritActivity {
-	private SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
-	private SimpleDateFormat sdfMinute = new SimpleDateFormat("mm", Locale.getDefault());
-	private TextView userName, appointmentClinic, apptDate, apptTime,
-	 				 apptDuration, apptPriority, apptVisitType;
+	private SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+	private SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+	private EditText userName, apptDate;
+	private TextView appText;
 	private Button confirmAppointment;
 	private Spinner visitTimeSpinner, visitDurationSpinner, visitTypeSpinner, visitPrioritySpinner, visitClinicSpinner;
 	private String name, clinic, date, time, duration, priority, visitType;
 	private PostAppointment postAppt = new PostAppointment();
 	private AccessDBTable db = new AccessDBTable();
-	private String response, clinicIDStr; 
+	private String clinicIDStr; 
 	private int clinicID, appointmentIntervalAsInt;
-	private JSONObject jsonNew;
 	private ProgressDialog pd;
-	private Calendar c = Calendar.getInstance();
+	private Calendar c, myCalendar;
 	private ArrayList<String> timeList = new ArrayList<String>();
 	private ArrayList<String> durationList = new ArrayList<String>();
 	private String timeBefore, timeAfter;
@@ -53,8 +56,11 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_create_appointment);
 		
-        userName = (TextView)findViewById(R.id.edit_service_user);
-        apptDate = (TextView)findViewById(R.id.edit_appointment_date);
+		c = Calendar.getInstance();
+		myCalendar = Calendar.getInstance();
+		
+        userName = (EditText)findViewById(R.id.edit_service_user);
+        apptDate = (EditText)findViewById(R.id.edit_appointment_date);
         confirmAppointment = (Button) findViewById(R.id.btn_confirm_appointment);
         confirmAppointment.setOnClickListener(new ButtonClick());
         visitTimeSpinner = (Spinner) findViewById(R.id.visit_time_spinner);
@@ -84,6 +90,30 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 		setTimeSpinner();
 		setClinicSpinner();
 		setDurationSpinner();
+		createDatePicker();
+	}
+
+	private void createDatePicker() {
+		final DatePickerDialog.OnDateSetListener pickerDate = new DatePickerDialog.OnDateSetListener() {
+			@Override
+			public void onDateSet(DatePicker view, int year, int monthOfYear,
+					int dayOfMonth) {
+				myCalendar.set(Calendar.YEAR, year);
+				myCalendar.set(Calendar.MONTH, monthOfYear);
+				myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+				Log.d("postAppointment", "datePicker: " + myCalendar.getTime());
+				Log.d("postAppointment", "datePicker formatted: " + sdfDate.format(myCalendar.getTime()));
+				apptDate.setText(sdfDate.format(myCalendar.getTime()));
+			}
+		};
+		apptDate.setOnClickListener(new OnClickListener() {
+	        @Override
+	        public void onClick(View v) {
+	            new DatePickerDialog(CreateAppointmentActivity.this, pickerDate, myCalendar
+	                    .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+	                    myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+	        }
+	    });
 	}
 	private void setDurationSpinner(){
 		durationList.add(appointmentInterval + " minutes");
@@ -97,8 +127,8 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 	private void setTimeSpinner(){
         try {
         	appointmentIntervalAsInt = Integer.parseInt(appointmentInterval);
-        	beforeAsDate = sdf.parse(timeBefore);
-			afterAsDate = sdf.parse(timeAfter);
+        	beforeAsDate = sdfTime.parse(timeBefore);
+			afterAsDate = sdfTime.parse(timeAfter);
 			
 			c.setTime(afterAsDate);
 			c.add(Calendar.MINUTE, - appointmentIntervalAsInt);			
@@ -111,7 +141,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 				c.setTime(beforeAsDate);
 				c.add(Calendar.MINUTE, appointmentIntervalAsInt);
 				beforeAsDate = c.getTime();
-				timeList.add(sdf.format(c.getTime()));
+				timeList.add(sdfTime.format(c.getTime()));
 			}
 			Log.d("postAppointment", "timeList: " + timeList);
 		    visitTimeSpinner = (Spinner) findViewById(R.id.visit_time_spinner);
@@ -148,7 +178,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
             	Log.d("postAppointment", "clinicID: " + clinicID);
             	Log.d("postAppointment", "clinicName: " + ClinicSingleton.getInstance().getClinicName(String.valueOf(clinicID)));
             	break;
-            }
+            } 
         }
 	}
     private class LongOperation extends AsyncTask<String, Void, JSONObject> {
