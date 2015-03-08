@@ -1,6 +1,5 @@
 package ie.teamchile.smartapp;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -76,6 +75,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
         Log.d("postAppointment", "time now: " + c.getTime());
 
 		myCalendar.setTime(AppointmentCalendarActivity.daySelected);
+		editDate.setText(sdfDateMonthName.format(AppointmentCalendarActivity.daySelected));
 
         clinicID = AppointmentCalendarActivity.hospitalSelected;
         appointmentInterval = ClinicSingleton.getInstance().getAppointmentIntervals(String.valueOf(clinicID));

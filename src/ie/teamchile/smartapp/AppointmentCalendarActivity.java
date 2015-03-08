@@ -41,7 +41,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 	protected static int hospitalSelected;
 	private static int weekSelected;
 	protected static Date daySelected;
-	private Date day = null, openingAsDate = null, closingAsDate = null;
+	private Date day = null, openingAsDate, closingAsDate;
 	private DateFormat df = new SimpleDateFormat("yyyy-MM-dd - HH:mm:ss", Locale.getDefault());
 	private DateFormat dfDateOnly = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 	private DateFormat dfDateOnlyOther = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
@@ -50,6 +50,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 	private ArrayList<JSONObject> aptsAtDate = new ArrayList<JSONObject>();
 	private ArrayList<String> aptList = new ArrayList<String>();	
 	private Calendar c = Calendar.getInstance();
+	private Calendar myCalendar = Calendar.getInstance();
 	private DateSorter ds = new DateSorter();
 	private SetDateToHashMap getDates = new SetDateToHashMap();
 	private ListView listView;
@@ -83,6 +84,13 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
         clinicOpening = ClinicSingleton.getInstance().getOpeningHours(String.valueOf(hospitalSelected));
 		clinicClosing = ClinicSingleton.getInstance().getClosingTime(String.valueOf(hospitalSelected));
 		appointmentInterval = Integer.parseInt(ClinicSingleton.getInstance().getAppointmentIntervals(String.valueOf(hospitalSelected)));
+		
+		try {
+			openingAsDate = dfTimeOnly.parse(String.valueOf(clinicOpening));
+			closingAsDate = dfTimeOnly.parse(String.valueOf(clinicClosing));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
                 
         c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         Log.d("MYLOG", "Date set to " + c.getTime());
@@ -161,12 +169,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 
 			Log.d("appointment", "first appointment equals opening: " + timeSingle.get(0).equals(clinicOpening));
 			Log.d("appointment", "last appointment eqauls closing: " + timeSingle.get((timeSingle.size() - 1)).equals(clinicClosing));
-			try {
-				openingAsDate = dfTimeOnly.parse(String.valueOf(clinicOpening));
-				closingAsDate = dfTimeOnly.parse(String.valueOf(clinicClosing));
-			} catch (ParseException e1) {
-				e1.printStackTrace();
-			}
+			
 
 			for (int i = 0; i < timeSingle.size() - 1; i++) {
 				String timeFirst;
@@ -275,10 +278,29 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 			if(listOfId.get(position).equals("0")){
 				intent = new Intent(AppointmentCalendarActivity.this, CreateAppointmentActivity.class);
 				if(listOfId.size() == 1){
-					//intent.putExtra("clinicSelected", String.valueOf(hospitalSelected));
-					//intent.putExtra("daySelected", dfDateOnly.format(daySelected));
-					Log.d("postAppointment", "String.valueOf(hospitalSelected) "+ String.valueOf(hospitalSelected));
+					myCalendar.setTime(openingAsDate);
+					myCalendar.add(Calendar.MINUTE, - appointmentInterval);
+					intent.putExtra("timeBefore", dfTimeOnly.format(myCalendar.getTime()));
+					
+					myCalendar.setTime(closingAsDate);
+					myCalendar.add(Calendar.MINUTE, appointmentInterval);
+					intent.putExtra("timeAfter", dfTimeOnly.format(myCalendar.getTime()));
 					startActivity(intent);
+				} else if(listOfId.size() > 0 && position == 0){
+					myCalendar.setTime(openingAsDate);
+					myCalendar.add(Calendar.MINUTE, - appointmentInterval);
+					intent.putExtra("timeBefore", dfTimeOnly.format(myCalendar.getTime()));
+					
+					timeAfter = AppointmentSingleton.getInstance().getTime(listOfId.get(position + 1));
+					intent.putExtra("timeAfter", timeAfter);
+				} else if(listOfId.size() > 0 && position == listOfId.size() - 1){
+					timeBefore = AppointmentSingleton.getInstance().getTime(listOfId.get(position - 1));
+					Log.d("postAppointment", "timeBefore: " + timeBefore);
+					intent.putExtra("timeBefore", timeBefore);
+
+					myCalendar.setTime(closingAsDate);
+					myCalendar.add(Calendar.MINUTE, appointmentInterval);
+					intent.putExtra("timeAfter", dfTimeOnly.format(myCalendar.getTime()));					
 				} else if(listOfId.size() > 0 && listOfId.get(position - 1) != null && listOfId.get(position + 1) != null){
 					timeBefore = AppointmentSingleton.getInstance().getTime(listOfId.get(position - 1));
 					timeAfter = AppointmentSingleton.getInstance().getTime(listOfId.get(position + 1));
