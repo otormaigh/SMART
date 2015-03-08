@@ -115,8 +115,10 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 			 * set this to button text
 			 */
     		String name = ServiceUserSingleton.getInstance().getName();
-
-            searchResult1.setText(name);   
+            searchResult1.setText(name); 
+            if(name == null){
+            	searchResult1.setText("No search results found");
+            }
 		}
 	}
 }

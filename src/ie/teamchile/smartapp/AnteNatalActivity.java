@@ -1,6 +1,8 @@
 package ie.teamchile.smartapp;
 
 
+import java.sql.Date;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -19,7 +21,7 @@ public class AnteNatalActivity extends MenuInheritActivity {
 	private TextView ageAnte;
 	private TextView nameAntiNatal, gestationAntiNatal, parityAntiNatal
 	                ,deliveryTime, bloodGroup, rhesus, obstetricHistory;
-	private ImageView userImage;
+	private ImageView userImage, postNatal;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,10 @@ public class AnteNatalActivity extends MenuInheritActivity {
 		
 		userImage = (ImageView)findViewById(R.id.user_image_anti_natal);
 		userImage.setOnClickListener(new AntiNatalOptions());
+		
+		postNatal = (ImageView)findViewById(R.id.post_natal_from_ante_natal);
+		postNatal.setOnClickListener(new AntiNatalOptions());
+
 		
 		ageAnte = (TextView)findViewById(R.id.age_ante_natal);
 		nameAntiNatal = (TextView)findViewById(R.id.name_anti_natal);
@@ -43,17 +49,17 @@ public class AnteNatalActivity extends MenuInheritActivity {
 		gestationAntiNatal.setText(ServiceUserSingleton.getInstance().getGestation());
 		rhesus.setText(ServiceUserSingleton.getInstance().getRhesus());
 		bloodGroup.setText(ServiceUserSingleton.getInstance().getBloodGroup());
-		deliveryTime.setText(ServiceUserSingleton.getInstance().getEstimatedDeliveryDate());
-		obstetricHistory.setText(ServiceUserSingleton.getInstance().getObstreticHistory());
-
 		ServiceUserActivity aa = new ServiceUserActivity();
+		String edd = ServiceUserSingleton.getInstance().getEstimatedDeliveryDate();
+		deliveryTime.setText(aa.getEstimateDeliveryDate(edd));
+
 		String age = ServiceUserSingleton.getInstance().getAge();
 		int anteNatalAge = aa.getAge(age);
 		String theAge = String.valueOf(anteNatalAge);
+
 		
 		ageAnte.setText(theAge);
 		nameAntiNatal.setText(name);
-
 	}
 
 	private class AntiNatalOptions implements View.OnClickListener {
@@ -63,7 +69,11 @@ public class AnteNatalActivity extends MenuInheritActivity {
 				Intent intent = new Intent(AnteNatalActivity.this, ServiceUserActivity.class);
 				startActivity(intent);
 				break;
+			case R.id.post_natal_from_ante_natal:
+				Intent intent1 = new Intent(AnteNatalActivity.this, PostNatalActivity.class);
+				startActivity(intent1);
+				break;
 			}
 		}
-	 }
+	}
 }
