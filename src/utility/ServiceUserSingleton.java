@@ -1,5 +1,9 @@
 package utility;
 
+import android.annotation.SuppressLint;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -111,6 +115,7 @@ public class ServiceUserSingleton {
 		}
 		return hospitalNumber;
 	}
+	
 	public String getEmail() {
 		String email = null;
 		try {
@@ -121,6 +126,7 @@ public class ServiceUserSingleton {
 		}
 		return email;
 	}
+	
 	public String getMobileNumber() {
 		String mobile = null;
 		try {
@@ -203,6 +209,137 @@ public class ServiceUserSingleton {
 			e.printStackTrace();
 		}
 		return edd;
+	}
+	
+	public String getPerineum() {
+		String perineum = null;
+
+		try {
+			JSONObject jObj = (JSONObject) query.getJSONArray("pregnancies").get(0);
+			perineum = jObj.getString("perineum");
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return perineum;
+	}
+	
+	public String getBirthMode() {
+		String birthMode = null;
+
+		try {
+			JSONObject jObj = (JSONObject) query.getJSONArray("pregnancies").get(0);
+			birthMode = jObj.getString("birth_mode");
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		return birthMode;
+	}
+	
+	public String getAntiD() {
+		String anti = null;
+
+		try {
+			JSONObject jObj = (JSONObject) query.getJSONArray("pregnancies").get(0);
+			anti = jObj.getString("anti_d");
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return anti;
+	}
+	
+	public String getFeeding() {
+		String feeding = null;
+
+		try {
+			JSONObject jObj = (JSONObject) query.getJSONArray("pregnancies").get(0);
+			feeding = jObj.getString("feeding");
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return feeding;
+	}
+
+	public String getGender() {
+		String gender = null;
+
+		try {
+			JSONObject jObj = (JSONObject) query.getJSONArray("babies").get(0);
+			gender = jObj.getString("gender");
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return gender;
+	}
+	
+	public String getDeliveryDate(){
+		String deliveryDate = null;
+		try {
+			JSONObject jObj = (JSONObject) query.getJSONArray("babies").get(0);
+			deliveryDate = jObj.getString("delivery_date_time");
+			
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		return deliveryDate;
+	}
+	
+
+	public String getWeight() {
+		String weight = null;
+
+		try {
+			JSONObject jObj = (JSONObject) query.getJSONArray("babies").get(0);
+			weight = jObj.getString("weight");
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return weight;
+	}
+	
+	public String getVitaminK() {
+		String vitamin = null;
+
+		try {
+			JSONObject jObj = (JSONObject) query.getJSONArray("babies").get(0);
+			vitamin = jObj.getString("vitamin_k");
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return vitamin;
+	}
+	
+	public String getHearing() {
+		String hearing = null;
+
+		try {
+			JSONObject jObj = (JSONObject) query.getJSONArray("babies").get(0);
+			hearing = jObj.getString("hearing");
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return hearing;
+	}
+	
+	public String getNBST() {
+		String nbst = null;
+
+		try {
+			JSONObject jObj = (JSONObject) query.getJSONArray("babies").get(0);
+			nbst = jObj.getString("newborn_screening_test");
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return nbst;
 	}
 
 

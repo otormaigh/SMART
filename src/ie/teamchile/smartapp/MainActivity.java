@@ -27,7 +27,7 @@ public class MainActivity extends MenuInheritActivity {
 	private TextView usernameTextView, passwordTextView, about;
 	private GetToken getToken = new GetToken();
 	private Intent intent;
-	ProgressDialog pd;
+	private ProgressDialog pd;
 	private Calendar cal = Calendar.getInstance();
 	private ConnectivityTester testConn = new ConnectivityTester(this);
 

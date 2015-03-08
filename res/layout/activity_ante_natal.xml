@@ -59,7 +59,7 @@
             android:orientation="vertical" >
 
             <ImageView
-                android:id="@+id/post_natal"
+                android:id="@+id/post_natal_from_ante_natal"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:src="@drawable/ic_action_forward" />
