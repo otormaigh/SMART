@@ -3,13 +3,13 @@ package ie.teamchile.smartapp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import utility.ServiceUserSingleton;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 
 
 public class PostNatalActivity extends MenuInheritActivity {
@@ -25,6 +25,7 @@ public class PostNatalActivity extends MenuInheritActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_post_natal);
+
 	    name = (TextView)findViewById(R.id.name_post_natal);
 		userImage = (ImageView)findViewById(R.id.user_image_post_natal);
 		userImage.setOnClickListener(new postNatalOptions());
@@ -91,6 +92,7 @@ public class PostNatalActivity extends MenuInheritActivity {
 		int days = ab.getNoOfDays(currentDate, dateOfDelivery);
 		String noOfDays  = String.valueOf(days);
 		daysSinceBirth.setText(noOfDays);
+
 	}
 	
 	private class postNatalOptions implements View.OnClickListener {
