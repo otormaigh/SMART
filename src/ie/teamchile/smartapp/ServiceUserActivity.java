@@ -1,13 +1,17 @@
 package ie.teamchile.smartapp;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
+import utility.ServiceUserSingleton;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,18 +19,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import connecttodb.AccessDBTable;
-import utility.ServiceUserSingleton;
 
 public class ServiceUserActivity extends MenuInheritActivity {
 	private TextView hospitalNumber,name, ageServiceUser, email, mobileNumber, road,
@@ -320,20 +312,67 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		return result;
 	}
 	
-	public int getDeliveryDate(String edd){
+	public String getEstimateDeliveryDate(String edd){
+
+			 // *** note that it's "yyyy-MM-dd hh:mm:ss" not "yyyy-mm-dd hh:mm:ss"  
+	        SimpleDateFormat dt = new SimpleDateFormat("yyyy-mm-dd");
+	        Date date;
+	        String ed = null;
+			try{
+				date = dt.parse(edd);
+				// *** same for the format String below
+		        SimpleDateFormat dt1 = new SimpleDateFormat("dd MMMM yyyy");
+		        ed = dt1.format(date);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		    return ed;
+	}
+	
+	public String getDeliveryDate(String edd){
+
+       SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+       Date date;
+       String dateOfDevelivery = null;
 		try{
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-		eddAsDate = df.parse(edd);
+			date = dt.parse(edd);
+			// *** same for the format String below
+	        SimpleDateFormat dt1 = new SimpleDateFormat("dd MMMM yyyy");
+	        dateOfDevelivery = dt1.format(date);
 		} catch (ParseException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		cal.setTime(eddAsDate);
-		int year = cal.get(Calendar.YEAR);
-		int month = cal.get(Calendar.MONTH);
-		int day = cal.get(Calendar.DAY_OF_YEAR);
-		Date date = new Date();
-		int result = day+month+year;
+
+	    return dateOfDevelivery;
+	}
 	
-		return result;
+	
+	
+	public String getDeliveryTime(String edd) {
+		String deliveryTime = null;
+		Date date;
+        SimpleDateFormat dti = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+        SimpleDateFormat fd = new SimpleDateFormat("HH:mm a");
+  	  try {
+  		  date = dti.parse(edd);
+  		 
+  		  deliveryTime = fd.format(date);
+		  date = dti.parse(edd);
+		
+	} catch (ParseException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+       return deliveryTime;
+	}
+	
+
+    public int getNoOfDays(Date now, Date past){
+
+        now = cal.getTime();
+        return (int)((now.getTime() - past.getTime()) / (1000 * 60 * 60 * 24)); 
 	}
 }
