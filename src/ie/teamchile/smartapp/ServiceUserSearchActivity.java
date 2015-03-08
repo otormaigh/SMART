@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 import connecttodb.AccessDBTable;
 
 public class ServiceUserSearchActivity extends MenuInheritActivity {
@@ -117,7 +118,8 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
     		String name = ServiceUserSingleton.getInstance().getName();
             searchResult1.setText(name); 
             if(name == null){
-            	searchResult1.setText("No search results found");
+            	Toast.makeText(getApplicationContext(), "No search result found", Toast.LENGTH_LONG).show();
+            	searchResult1.setText("No results found");
             }
 		}
 	}
