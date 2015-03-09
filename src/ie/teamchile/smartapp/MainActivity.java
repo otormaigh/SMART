@@ -8,7 +8,7 @@ import utility.ClinicSingleton;
 import utility.ConnectivityTester;
 import utility.InternalFileWriterReader;
 import utility.ToastAlert;
-import utility.UserSingleton;
+import utility.ServiceProviderSingleton;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -110,9 +110,9 @@ public class MainActivity extends MenuInheritActivity {
     		AppointmentSingleton.getInstance().updateLocal(this);
 			ClinicSingleton.getInstance().updateLocal(this);
 			
-    		UserSingleton.getUserSingleton().setLoggedIn(true);
-    		UserSingleton.getUserSingleton().setUsername(username);
-    		UserSingleton.getUserSingleton().setPassword(password); 
+    		ServiceProviderSingleton.getUserSingleton().setLoggedIn(true);
+    		ServiceProviderSingleton.getUserSingleton().setUsername(username);
+    		ServiceProviderSingleton.getUserSingleton().setPassword(password); 
     		
     		Toast.makeText(this, "Welcome " + username, Toast.LENGTH_LONG).show();
 
@@ -124,7 +124,7 @@ public class MainActivity extends MenuInheritActivity {
 	}
     @Override
     public void onBackPressed() {
-		if (UserSingleton.getUserSingleton().isLoggedIn()) {
+		if (ServiceProviderSingleton.getUserSingleton().isLoggedIn()) {
 			ToastAlert ta = new ToastAlert(getBaseContext(),
 					"Already logged in, \n  logout?");
 		} else {

@@ -10,15 +10,15 @@ import java.net.URLEncoder;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import utility.UserSingleton;
+import utility.ServiceProviderSingleton;
 import Enums.CredentialsEnum;
 import android.util.Log;
 
 public class GetToken {
-	private String username, password, strToken, st;
+	private String username, password, strToken, st, id;
 	private String loginUrl, encodeType;
 	private String responseCode = null;
-	private int id, ch;
+	private int ch;
 	private HttpURLConnection httpcon;
 	private JSONObject credentials = new JSONObject();
 	private JSONObject jsonLogin = new JSONObject();
@@ -71,12 +71,12 @@ public class GetToken {
 			// create JSON Object to get Token using token key
 			json = new JSONObject(st);
 			strToken = (String) ((JSONObject) json.get("login")).get("token");
-			id = (Integer) ((JSONObject) json.get("login")).get("id");
-			UserSingleton.getUserSingleton().setID(id);
-			UserSingleton.getUserSingleton().setToken(strToken);
+			id = String.valueOf((Integer) ((JSONObject) json.get("login")).get("id"));
+			ServiceProviderSingleton.getUserSingleton().setID(id);
+			ServiceProviderSingleton.getUserSingleton().setToken(strToken);
 			
-			Log.d("MYLOG", "id: " + UserSingleton.getUserSingleton().getID());
-			Log.d("MYLOG", "token: " + UserSingleton.getUserSingleton().getToken());
+			Log.d("MYLOG", "id: " + ServiceProviderSingleton.getUserSingleton().getID());
+			Log.d("MYLOG", "token: " + ServiceProviderSingleton.getUserSingleton().getToken());
 			Log.d("MYLOG", "sb.toString(): " + sb.toString());
 			Log.d("MYLOG", "Response Code: " + httpcon.getResponseCode());
 			
