@@ -68,8 +68,8 @@ public class MyAdapter extends BaseAdapter {
 			text2.setText(AppointmentSingleton.getInstance().getVisitType(appointments.get(position)));
 			text1.setText(getReadableDate(AppointmentSingleton.getInstance().getDate(appointments).get(position)) + " at " + 
 					AppointmentSingleton.getInstance().getTime(appointments).get(position));
-			text3.setText(String.valueOf(UserSingleton.getUserSingleton().getID()));
-			String myId = String.valueOf(UserSingleton.getUserSingleton().getID());
+			text3.setText(ServiceProviderSingleton.getInstance().getID());
+			String myId = ServiceProviderSingleton.getInstance().getID();
 			ToastAlert ta = new ToastAlert(context, "Appointments for Service User: " + myId);
 
 		}else {

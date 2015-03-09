@@ -72,11 +72,11 @@ public class GetToken {
 			json = new JSONObject(st);
 			strToken = (String) ((JSONObject) json.get("login")).get("token");
 			id = String.valueOf((Integer) ((JSONObject) json.get("login")).get("id"));
-			ServiceProviderSingleton.getUserSingleton().setID(id);
-			ServiceProviderSingleton.getUserSingleton().setToken(strToken);
+			ServiceProviderSingleton.getInstance().setID(id);
+			ServiceProviderSingleton.getInstance().setToken(strToken);
 			
-			Log.d("MYLOG", "id: " + ServiceProviderSingleton.getUserSingleton().getID());
-			Log.d("MYLOG", "token: " + ServiceProviderSingleton.getUserSingleton().getToken());
+			Log.d("MYLOG", "id: " + ServiceProviderSingleton.getInstance().getID());
+			Log.d("MYLOG", "token: " + ServiceProviderSingleton.getInstance().getToken());
 			Log.d("MYLOG", "sb.toString(): " + sb.toString());
 			Log.d("MYLOG", "Response Code: " + httpcon.getResponseCode());
 			

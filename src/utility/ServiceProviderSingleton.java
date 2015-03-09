@@ -11,7 +11,7 @@ public class ServiceProviderSingleton {
 	private ServiceProviderSingleton(){
 	}
 	
-	public static synchronized ServiceProviderSingleton getUserSingleton() {
+	public static synchronized ServiceProviderSingleton getInstance() {
 		if(user == null) {
 			user = new ServiceProviderSingleton();
 		}

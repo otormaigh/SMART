@@ -203,7 +203,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 				json = new JSONObject(dbQuery);
 
 				ServiceUserSingleton.getInstance().setPatientInfo(json);
-				String userID = ServiceUserSingleton.getInstance().getServiceUserID();
+				String userID = ServiceUserSingleton.getInstance().getID();
 				
 				postAppt.postAppointment(userID, clinicIDStr, apptDate, time, duration,
 						priority, visitType);
