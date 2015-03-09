@@ -88,8 +88,8 @@ public class Logout {
             Integer authCodeOk = Integer.valueOf(200);
             if(unauthCode.equals(result)){
             	Log.d("MYLOG", "logout successful");
-            	ServiceProviderSingleton.getUserSingleton().setToken("");
-            	ServiceProviderSingleton.getUserSingleton().setLoggedIn(false);
+            	ServiceProviderSingleton.getInstance().setToken("");
+            	ServiceProviderSingleton.getInstance().setLoggedIn(false);
             } else if (authCodeOk.equals(result)){
                 Log.d("MYLOG", "logout unsuccessful");
                 new LongOperation().execute();	

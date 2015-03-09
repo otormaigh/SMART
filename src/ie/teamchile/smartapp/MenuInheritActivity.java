@@ -43,14 +43,14 @@ public class MenuInheritActivity extends Activity {
                 }}).setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialoginterface, int i) {
                         Log.d("MYLOG", "Logout button pressed");
-                        if (ServiceProviderSingleton.getUserSingleton().getToken() == "") {
+                        if (ServiceProviderSingleton.getInstance().getToken() == "") {
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
                                     Intent.FLAG_ACTIVITY_CLEAR_TASK |
                                     Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                         } else {
-                            logout.doLogout(ServiceProviderSingleton.getUserSingleton().getToken());
+                            logout.doLogout(ServiceProviderSingleton.getInstance().getToken());
                             //login.setToken(null);
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
