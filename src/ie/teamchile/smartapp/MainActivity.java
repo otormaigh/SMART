@@ -110,9 +110,9 @@ public class MainActivity extends MenuInheritActivity {
     		AppointmentSingleton.getInstance().updateLocal(this);
 			ClinicSingleton.getInstance().updateLocal(this);
 			
-    		ServiceProviderSingleton.getUserSingleton().setLoggedIn(true);
-    		ServiceProviderSingleton.getUserSingleton().setUsername(username);
-    		ServiceProviderSingleton.getUserSingleton().setPassword(password); 
+    		ServiceProviderSingleton.getInstance().setLoggedIn(true);
+    		ServiceProviderSingleton.getInstance().setUsername(username);
+    		ServiceProviderSingleton.getInstance().setPassword(password); 
     		
     		Toast.makeText(this, "Welcome " + username, Toast.LENGTH_LONG).show();
 
@@ -124,7 +124,7 @@ public class MainActivity extends MenuInheritActivity {
 	}
     @Override
     public void onBackPressed() {
-		if (ServiceProviderSingleton.getUserSingleton().isLoggedIn()) {
+		if (ServiceProviderSingleton.getInstance().isLoggedIn()) {
 			ToastAlert ta = new ToastAlert(getBaseContext(),
 					"Already logged in, \n  logout?");
 		} else {

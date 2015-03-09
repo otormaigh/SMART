@@ -22,7 +22,7 @@ public class AccessDBTable {
     private BufferedReader in;
 
 	public String accessDB(String table){
-		token = ServiceProviderSingleton.getUserSingleton().getToken();
+		token = ServiceProviderSingleton.getInstance().getToken();
         this.table = table;
 		return accessDB();
 	}
