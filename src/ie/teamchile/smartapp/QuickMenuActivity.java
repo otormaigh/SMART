@@ -3,7 +3,7 @@ package ie.teamchile.smartapp;
 import utility.AppointmentSingleton;
 import utility.InternalFileWriterReader;
 import utility.ToastAlert;
-import utility.UserSingleton;
+import utility.ServiceProviderSingleton;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentCallbacks2;
 import android.content.Intent;
@@ -64,7 +64,7 @@ public class QuickMenuActivity extends MenuInheritActivity {
     
     @Override
     public void onBackPressed() {
-    	if(UserSingleton.getUserSingleton().isLoggedIn()) {
+    	if(ServiceProviderSingleton.getUserSingleton().isLoggedIn()) {
     		ToastAlert ta = new ToastAlert(getBaseContext(), 
         			"  Already logged in, \n  Logout?");
     	}else {
@@ -76,8 +76,8 @@ public class QuickMenuActivity extends MenuInheritActivity {
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
-		System.out.println(UserSingleton.getUserSingleton().getUsername() + " " +
-				UserSingleton.getUserSingleton().getPassword());
+		System.out.println(ServiceProviderSingleton.getUserSingleton().getUsername() + " " +
+				ServiceProviderSingleton.getUserSingleton().getPassword());
 	}
 	
 	@Override
