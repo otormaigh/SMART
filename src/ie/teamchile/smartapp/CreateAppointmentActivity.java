@@ -101,7 +101,6 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 				myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 				Log.d("postAppointment", "datePicker: " + myCalendar.getTime());
 				Log.d("postAppointment", "datePicker formatted: " + sdfDate.format(myCalendar.getTime()));
-				apptDate = sdfDate.format(myCalendar.getTime());
 				editDate.setText(sdfDateMonthName.format(myCalendar.getTime()));
 			}
 		};
@@ -168,10 +167,13 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
             switch (v.getId()) {
             case R.id.btn_confirm_appointment:
             	name = userName.getText().toString();
+            	//apptDate = editDate.getText().toString();
+            	apptDate = sdfDate.format(myCalendar.getTime());
             	
             	Log.d("appointment", "name: " + name + "\nclinic: " +  clinic  + "\nclinic id: " + clinicID + "\nDate: " + apptDate + 
             						 "\nTime: " + time + "\nDuration: " + duration + "\nPriority: " + priority +
             						 "\nVisit Type: " + visitType);
+            	
             	new LongOperation(CreateAppointmentActivity.this).execute("service_users?name=" + name);
             	
             	Log.d("postAppointment", "clinicID: " + clinicID);

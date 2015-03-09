@@ -19,6 +19,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.test.ServiceTestCase;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -114,6 +115,17 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
                 	daySelected = c.getTime();
                 	setAptToListSingle(daySelected);
                 	adapter.notifyDataSetChanged();
+                	//prevWeek.setEnabled(false); 
+                	CountDownTimer prevTimer = new CountDownTimer(5000, 1000) {						
+						@Override
+						public void onTick(long millisUntilFinished) {	
+							prevWeek.setEnabled(false);
+						}						
+						@Override
+						public void onFinish() {	
+							prevWeek.setEnabled(true);
+						}
+					};
                     break;
                 case R.id.next_button:
                 	Log.d("MYLOG", "daySelected: " + daySelected.toLocaleString());
@@ -124,6 +136,17 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
                 	daySelected = c.getTime();
                 	setAptToListSingle(daySelected);
                 	adapter.notifyDataSetChanged();
+                	//nextWeek.setEnabled(false);
+                	CountDownTimer nextTimer = new CountDownTimer(5000, 1000) {						
+						@Override
+						public void onTick(long millisUntilFinished) {	
+							nextWeek.setEnabled(false);
+						}						
+						@Override
+						public void onFinish() {	
+							nextWeek.setEnabled(true);
+						}
+					};
                     break;
             }
         }
@@ -143,9 +166,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
     	ArrayList<String> nameSingle = new ArrayList<String>();
     	ArrayList<String> gestSingle = new ArrayList<String>();
     	//listOfId = new ArrayList<String>();
-    	String daySelectedStr = dfDateOnly.format(daySelected);
-    	prevWeek.setEnabled(false); 
-    	nextWeek.setEnabled(false); 
+    	String daySelectedStr = dfDateOnly.format(daySelected); 
     	
     	dateInList.setText(dfDateOnlyOther.format(daySelected));
     	Log.d("singleton", "String.valueOf(hospitalSelected) " + String.valueOf(hospitalSelected));
@@ -265,8 +286,8 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 			nameText.setText(aptName.get(position));
 			gestText.setText(aptGest.get(position));
 			
-			prevWeek.setEnabled(true); 
-	    	nextWeek.setEnabled(true); 	    	
+			//prevWeek.setEnabled(true); 
+	    	//nextWeek.setEnabled(true); 	    	
 			return convertView;
 		}
 	}
@@ -280,11 +301,9 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 				if(listOfId.size() == 1){
 					myCalendar.setTime(openingAsDate);
 					myCalendar.add(Calendar.MINUTE, - appointmentInterval);
-					intent.putExtra("timeBefore", dfTimeOnly.format(myCalendar.getTime()));
 					
-					myCalendar.setTime(closingAsDate);
-					myCalendar.add(Calendar.MINUTE, appointmentInterval);
-					intent.putExtra("timeAfter", dfTimeOnly.format(myCalendar.getTime()));
+					intent.putExtra("timeBefore", dfTimeOnly.format(myCalendar.getTime()));
+					intent.putExtra("timeAfter", clinicClosing);
 					startActivity(intent);
 				} else if(listOfId.size() > 0 && position == 0){
 					myCalendar.setTime(openingAsDate);
@@ -296,11 +315,9 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 				} else if(listOfId.size() > 0 && position == listOfId.size() - 1){
 					timeBefore = AppointmentSingleton.getInstance().getTime(listOfId.get(position - 1));
 					Log.d("postAppointment", "timeBefore: " + timeBefore);
+					
 					intent.putExtra("timeBefore", timeBefore);
-
-					myCalendar.setTime(closingAsDate);
-					myCalendar.add(Calendar.MINUTE, appointmentInterval);
-					intent.putExtra("timeAfter", dfTimeOnly.format(myCalendar.getTime()));					
+					intent.putExtra("timeAfter", clinicClosing);					
 				} else if(listOfId.size() > 0 && listOfId.get(position - 1) != null && listOfId.get(position + 1) != null){
 					timeBefore = AppointmentSingleton.getInstance().getTime(listOfId.get(position - 1));
 					timeAfter = AppointmentSingleton.getInstance().getTime(listOfId.get(position + 1));
