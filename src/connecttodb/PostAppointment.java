@@ -48,12 +48,12 @@ public class PostAppointment {
 	public String postAppointment(String ServiceUserID, String clinicID, String date, String time, 
 								  String duration, String priority, String visitType){
 		encodeType = encode.toString();
-		token = ServiceProviderSingleton.getUserSingleton().getToken();
+		token = ServiceProviderSingleton.getInstance().getToken();
 		this.ServiceUserID = ServiceUserID;
 		this.date = date;
 		this.time = time;
 		this.duration = duration;
-		this.serviceProviderID = ServiceProviderSingleton.getUserSingleton().getID();
+		this.serviceProviderID = ServiceProviderSingleton.getInstance().getID();
 		this.priority = priority;
 		this.visitType = visitType;
 		this.clinicID = clinicID;

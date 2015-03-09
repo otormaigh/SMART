@@ -64,7 +64,7 @@ public class QuickMenuActivity extends MenuInheritActivity {
     
     @Override
     public void onBackPressed() {
-    	if(ServiceProviderSingleton.getUserSingleton().isLoggedIn()) {
+    	if(ServiceProviderSingleton.getInstance().isLoggedIn()) {
     		ToastAlert ta = new ToastAlert(getBaseContext(), 
         			"  Already logged in, \n  Logout?");
     	}else {
@@ -76,8 +76,8 @@ public class QuickMenuActivity extends MenuInheritActivity {
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
-		System.out.println(ServiceProviderSingleton.getUserSingleton().getUsername() + " " +
-				ServiceProviderSingleton.getUserSingleton().getPassword());
+		System.out.println(ServiceProviderSingleton.getInstance().getUsername() + " " +
+				ServiceProviderSingleton.getInstance().getPassword());
 	}
 	
 	@Override

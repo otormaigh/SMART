@@ -7,8 +7,6 @@ import java.util.Locale;
 
 import utility.AppointmentSingleton;
 import utility.MyAdapter;
-import utility.RotateThread;
-import utility.ToastAlert;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Intent;
@@ -60,9 +58,6 @@ public class TodayAppointmentActivity extends ListActivity {
 			
 		});
 		myDialog.show();
-		// rotate the image
-		RotateThread thread = new RotateThread(iv);
-		thread.run();
 	}
 	
 	private class ButtonClicker implements OnClickListener {
