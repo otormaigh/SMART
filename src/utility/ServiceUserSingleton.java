@@ -183,8 +183,6 @@ public class ServiceUserSingleton {
 		return bloodGroup;
 	}
 
-
-	
 	public String getGestation() {
 		String gestation = null;
 
@@ -341,6 +339,4 @@ public class ServiceUserSingleton {
 		}
 		return nbst;
 	}
-
-
 }
