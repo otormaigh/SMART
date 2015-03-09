@@ -6,7 +6,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
-import utility.UserSingleton;
+import utility.ServiceProviderSingleton;
 import Enums.CredentialsEnum;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -88,8 +88,8 @@ public class Logout {
             Integer authCodeOk = Integer.valueOf(200);
             if(unauthCode.equals(result)){
             	Log.d("MYLOG", "logout successful");
-            	UserSingleton.getUserSingleton().setToken("");
-            	UserSingleton.getUserSingleton().setLoggedIn(false);
+            	ServiceProviderSingleton.getUserSingleton().setToken("");
+            	ServiceProviderSingleton.getUserSingleton().setLoggedIn(false);
             } else if (authCodeOk.equals(result)){
                 Log.d("MYLOG", "logout unsuccessful");
                 new LongOperation().execute();	
