@@ -71,7 +71,6 @@ public class MyAdapter extends BaseAdapter {
 			text3.setText(String.valueOf(UserSingleton.getUserSingleton().getID()));
 			String myId = String.valueOf(UserSingleton.getUserSingleton().getID());
 			ToastAlert ta = new ToastAlert(context, "Appointments for Service User: " + myId);
-
 		}else {
 			view = convertView;
 		}
