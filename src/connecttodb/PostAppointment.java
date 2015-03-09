@@ -12,7 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import utility.ClinicSingleton;
-import utility.UserSingleton;
+import utility.ServiceProviderSingleton;
 import Enums.CredentialsEnum;
 import android.util.Log;
 
@@ -48,12 +48,12 @@ public class PostAppointment {
 	public String postAppointment(String ServiceUserID, String clinicID, String date, String time, 
 								  String duration, String priority, String visitType){
 		encodeType = encode.toString();
-		token = UserSingleton.getUserSingleton().getToken();
+		token = ServiceProviderSingleton.getUserSingleton().getToken();
 		this.ServiceUserID = ServiceUserID;
 		this.date = date;
 		this.time = time;
 		this.duration = duration;
-		this.serviceProviderID = String.valueOf(UserSingleton.getUserSingleton().getID());
+		this.serviceProviderID = ServiceProviderSingleton.getUserSingleton().getID();
 		this.priority = priority;
 		this.visitType = visitType;
 		this.clinicID = clinicID;
@@ -71,8 +71,8 @@ public class PostAppointment {
 			infoJson.put("priority", priority);
 			infoJson.put("visit_type", visitType);
 			appointmentJson.put("appointment", infoJson);
-			Log.d("postAppointment", "appointmentJson: " + appointmentJson);
 			
+			Log.d("postAppointment", "appointmentJson: " + appointmentJson);
 			Log.d("postAppointment", "appointmentJson: " + appointmentJson.toString());
 
 			httpcon = (HttpURLConnection) ((new URL(url).openConnection()));
