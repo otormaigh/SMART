@@ -71,26 +71,13 @@ public class JsonParseHelper {
 	public JsonParseHelper() {		
 	}
 	
-	private void jsonParseHelper(JSONObject json, String tableName, String tableKey) {		
+	public void jsonParseHelper(JSONObject json, String tableName, String tableKey) {		
 		this.json = json;
 		this.tableName = tableName;
 		this.tableKey = tableKey;
 	}
-	
-	public void thing() throws JSONException{
-		ArrayList<String> idList = AppointmentSingleton.getInstance().getListOfIDs("2", "2015-03-17");
-		JSONObject newJson;
-		for(int i = 0; i < idList.size(); i++){
-			String apptStr = AppointmentSingleton.getInstance().getAppointmentString(String.valueOf(i));
-			newJson = new JSONObject(apptStr);
-			jsonParseHelper(newJson, "appointments", "clinic_id");
-			//AppointmentSingleton.getInstance().getClinicID();
-			jsonParseHelper(newJson, "clinics", "address");
-			//ClinicSingleton.getInstance().getAddress();
-		}
-	}
 
-	public void pasrser() throws JSONException{
+	public void parser() throws JSONException{ 
 		switch (tableName) {
 		case APPOINTMENTS:
 			switch (tableKey) {
@@ -104,10 +91,23 @@ public class JsonParseHelper {
 			switch (tableKey) {
 			case ADDRESS:
 				address = json.get("address").toString();
-				AppointmentSingleton.getInstance().setClinicID(address);
+				//ClinicSingleton.getInstance().setAddress(address);
 				break;
 			}
 			break;
 		}			
+	}
+	
+	public void thing() throws JSONException{
+		ArrayList<String> idList = AppointmentSingleton.getInstance().getListOfIDs("2", "2015-03-17");
+		JSONObject newJson;
+		for(int i = 0; i < idList.size(); i++){
+			String apptStr = AppointmentSingleton.getInstance().getAppointmentString(String.valueOf(i));
+			newJson = new JSONObject(apptStr);
+			jsonParseHelper(newJson, "appointments", "clinic_id");
+			//AppointmentSingleton.getInstance().getClinicID();
+			jsonParseHelper(newJson, "clinics", "address");
+			//ClinicSingleton.getInstance().getAddress();
+		}
 	}
 }
