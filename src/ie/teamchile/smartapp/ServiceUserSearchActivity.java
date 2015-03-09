@@ -25,13 +25,7 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 
 	private EditText searchParams;
 	private Button search, searchResult1, searchResult2,searchResult3;
-	private String hospitalNumber, name, dob, email, mobileNumber, road,
-            county, postCode, nextOfKinName, nextOfKinContactNumber, gestation, parity,deliveryDate, bloodGroup, rhesus,
-            obstetricHistory;
-	private String enteredSearch, first;
-	private int arrayPos;
-    private String token;
-
+	private String enteredSearch;
 	Connection c;
 	Statement stmt;
 	ResultSet rs;
@@ -39,9 +33,6 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 	JSONArray query, query2, query3;
 	AccessDBTable dbTable = new AccessDBTable();
 	private ProgressDialog pd;
-	private Intent intent;
-	private String response;
-	private JSONObject jsonNew;
 	private AccessDBTable db = new AccessDBTable();
 
 	@Override
