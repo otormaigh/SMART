@@ -2,7 +2,7 @@
 package ie.teamchile.smartapp;
 
 import utility.AppointmentSingleton;
-import utility.UserSingleton;
+import utility.ServiceProviderSingleton;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -43,14 +43,14 @@ public class MenuInheritActivity extends Activity {
                 }}).setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialoginterface, int i) {
                         Log.d("MYLOG", "Logout button pressed");
-                        if (UserSingleton.getUserSingleton().getToken() == "") {
+                        if (ServiceProviderSingleton.getUserSingleton().getToken() == "") {
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
                                     Intent.FLAG_ACTIVITY_CLEAR_TASK |
                                     Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                         } else {
-                            logout.doLogout(UserSingleton.getUserSingleton().getToken());
+                            logout.doLogout(ServiceProviderSingleton.getUserSingleton().getToken());
                             //login.setToken(null);
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
