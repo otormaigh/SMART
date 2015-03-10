@@ -115,17 +115,16 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
                 	daySelected = c.getTime();
                 	setAptToListSingle(daySelected);
                 	adapter.notifyDataSetChanged();
-                	//prevWeek.setEnabled(false); 
-                	CountDownTimer prevTimer = new CountDownTimer(5000, 1000) {						
+                	prevWeek.setEnabled(false);
+                	CountDownTimer prevTimer = new CountDownTimer(1000, 1000) {						
 						@Override
-						public void onTick(long millisUntilFinished) {	
-							prevWeek.setEnabled(false);
+						public void onTick(long millisUntilFinished) {								
 						}						
 						@Override
 						public void onFinish() {	
 							prevWeek.setEnabled(true);
 						}
-					};
+					}.start();
                     break;
                 case R.id.next_button:
                 	Log.d("MYLOG", "daySelected: " + daySelected.toLocaleString());
@@ -136,17 +135,16 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
                 	daySelected = c.getTime();
                 	setAptToListSingle(daySelected);
                 	adapter.notifyDataSetChanged();
-                	//nextWeek.setEnabled(false);
-                	CountDownTimer nextTimer = new CountDownTimer(5000, 1000) {						
+                	nextWeek.setEnabled(false);
+                	CountDownTimer nextTimer = new CountDownTimer(1000, 1000) {						
 						@Override
-						public void onTick(long millisUntilFinished) {	
-							nextWeek.setEnabled(false);
+						public void onTick(long millisUntilFinished) {								
 						}						
 						@Override
 						public void onFinish() {	
 							nextWeek.setEnabled(true);
 						}
-					};
+					}.start();
                     break;
             }
         }
