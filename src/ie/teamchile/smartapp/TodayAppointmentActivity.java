@@ -49,7 +49,6 @@ public class TodayAppointmentActivity extends ListActivity {
 				try {
 					json = new JSONObject(access.accessDB(params[0]));
 				} catch (JSONException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				return json;
@@ -57,17 +56,15 @@ public class TodayAppointmentActivity extends ListActivity {
 	
 			@Override
 			protected void onPreExecute() {
-				// TODO Auto-generated method stub
 				super.onPreExecute();
 				ToastAlert ta = new ToastAlert(TodayAppointmentActivity.this, "Processing. . . ", false);
 			}
 	
 			@Override
 			protected void onPostExecute(JSONObject result) {
-				// TODO Auto-generated method stub
 				super.onPostExecute(result);
 				ServiceUserSingleton.getInstance().setPatientInfo(result);
-				address = ServiceUserSingleton.getInstance().getAddress();
+				address = ServiceUserSingleton.getInstance().getUserHomeAddress().get(0);
 
 				values = AppointmentSingleton.getInstance().getListOfIDs("2", date);
 				MyAdapter adapter = new MyAdapter(TodayAppointmentActivity.this, values);
@@ -76,7 +73,6 @@ public class TodayAppointmentActivity extends ListActivity {
 	
 			@Override
 			protected void onProgressUpdate(Void... values) {
-				// TODO Auto-generated method stub
 				super.onProgressUpdate(values);
 			}			
 		}

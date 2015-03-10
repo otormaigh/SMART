@@ -153,27 +153,24 @@ public class MainActivity extends MenuInheritActivity {
 
 		@Override
 		protected void onPreExecute() {
-			// TODO Auto-generated method stub
 			super.onPreExecute();
 		}
 
 		@Override
 		protected void onPostExecute(String result) {
-			// TODO Auto-generated method stub
 			super.onPostExecute(result);
 			JSONObject jobj = null;
 			try {
 				jobj = new JSONObject(result);
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			ServiceUserSingleton.getInstance().setPatientInfo(jobj);
+			Log.d("MYLOG", "getUserName(): " + ServiceUserSingleton.getInstance().getUserName().get(0));
 		}
 
 		@Override
 		protected void onProgressUpdate(Void... values) {
-			// TODO Auto-generated method stub
 			super.onProgressUpdate(values);
 		}
     	

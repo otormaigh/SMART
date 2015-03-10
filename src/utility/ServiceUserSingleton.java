@@ -1,6 +1,6 @@
 package utility;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -9,9 +9,9 @@ import android.os.AsyncTask;
 import connecttodb.AccessDBTable;
 
 public class ServiceUserSingleton {
-	private boolean isReady = false;
 	private static ServiceUserSingleton singleInstance;
 	private JSONObject query;
+	private JsonParseHelper help = new JsonParseHelper();
 
 	private ServiceUserSingleton() {
 	}
@@ -27,336 +27,186 @@ public class ServiceUserSingleton {
 	public void setPatientInfo(JSONObject query){
 		this.query = query;
 	}
-	public String getName() {
-		String name = null;
-		try {
-			JSONObject jObj = (JSONObject) query.getJSONArray("service_users").get(0);
-			name = ((JSONObject) jObj.get("personal_fields")).get("name").toString();	
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return name;
+	
+	public List<String> getBabyBirthOutcome(){
+		return help.jsonParseHelper(query, "service_users", "babies", "birth_outcome");
 	}
 	
-	public String getID() {
-		String serviceUserID = null;
-		try {
-			JSONObject jObj = (JSONObject) query.getJSONArray("service_users").get(0);
-			serviceUserID = jObj.get("id").toString();	
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return serviceUserID;
+	public List<String> getBabyDeliveryDateTime(){
+		return help.jsonParseHelper(query, "service_users", "babies", "delivery_date_time");
 	}
 	
-	public String getAge() {
-		String age = null;
-		try {
-			JSONObject jObj = (JSONObject) query.getJSONArray("service_users").get(0);
-			age = ((JSONObject) jObj.get("personal_fields")).get("dob").toString();	
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return age;
-	}
-
-	
-	public String getAddress() {
-		String address = null;
-		try {
-			JSONObject jObj = (JSONObject) query.getJSONArray("service_users").get(0);
-			address = ((JSONObject) jObj.get("personal_fields")).get("home_address").toString();	
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return address;
+	public List<String> getBabyGender(){
+		return help.jsonParseHelper(query, "service_users", "babies", "gender");
 	}
 	
-	public String getCounty() {
-		String county = null;
-		try {
-			JSONObject jObj = (JSONObject) query.getJSONArray("service_users").get(0);
-			county = ((JSONObject) jObj.get("personal_fields")).get("home_county").toString();	
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return county;
+	public List<String> getBabyHearing(){
+		return help.jsonParseHelper(query, "service_users", "babies", "hearing");
 	}
 	
-	public String getPostCode() {
-		String postCode = null;
-		try {
-			JSONObject jObj = (JSONObject) query.getJSONArray("service_users").get(0);
-			postCode = ((JSONObject) jObj.get("personal_fields")).get("home_post_code").toString();	
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return postCode;
+	public List<String> getBabyHospitalNumber(){
+		return help.jsonParseHelper(query, "service_users", "babies", "hospital_number");
 	}
 	
-	public String getKinName() {
-		String kinName = null;
-		try {
-			JSONObject jObj = (JSONObject) query.getJSONArray("service_users").get(0);
-			kinName = ((JSONObject) jObj.get("personal_fields")).get("next_of_kin_name").toString();	
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return kinName;
+	public List<String> getBabyID(){
+		return help.jsonParseHelper(query, "service_users", "babies", "id");
 	}
 	
-	public String getKinMobileNumber() {
-		String kinMobileNumber = null;
-		try {
-			JSONObject jObj = (JSONObject) query.getJSONArray("service_users").get(0);
-			kinMobileNumber = ((JSONObject) jObj.get("personal_fields")).get("next_of_kin_phone").toString();	
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return kinMobileNumber;
-	}
-
-
-	public String getHospitalNumber() {
-		String hospitalNumber = null;
-		try {
-			JSONObject jObj = (JSONObject) query.getJSONArray("service_users").get(0);
-			hospitalNumber = jObj.get("hospital_number").toString();	
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return hospitalNumber;
+	public List<String> getBabyName(){
+		return help.jsonParseHelper(query, "service_users", "babies", "name");
 	}
 	
-	public String getEmail() {
-		String email = null;
-		try {
-			JSONObject jObj = (JSONObject) query.getJSONArray("service_users").get(0);
-			email = ((JSONObject) jObj.get("personal_fields")).get("email").toString();	
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return email;
+	public List<String> getBabyNewBornScreeningTest(){
+		return help.jsonParseHelper(query, "service_users", "babies", "newborn_screening_test");
 	}
 	
-	public String getMobileNumber() {
-		String mobile = null;
-		try {
-			JSONObject jObj = (JSONObject) query.getJSONArray("service_users").get(0);
-			mobile = ((JSONObject) jObj.get("personal_fields")).get("mobile_phone").toString();	
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return mobile;		
+	public List<String> getBabyPregnancyID(){
+		return help.jsonParseHelper(query, "service_users", "babies", "pregnancy_id");
 	}
 	
-	public String getParity() {
-		String parity = null;
-		try {
-			JSONObject jObj = (JSONObject) query.getJSONArray("service_users").get(0);
-			parity = ((JSONObject) jObj.get("clinical_fields")).get("parity").toString();	
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return parity;
+	public List<String> getBabyVitK(){
+		return help.jsonParseHelper(query, "service_users", "babies", "vitamin_k");
 	}
 	
-	public String getObstreticHistory() {
-		String obh = null;
-		try {
-			JSONObject jObj = (JSONObject) query.getJSONArray("service_users").get(0);
-			obh = ((JSONObject) jObj.get("clinical_fields")).get("previous_obstetric_history").toString();	
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return obh;
-	}
-
-	
-	public String getRhesus() {
-		String rhesus = null;
-		try {
-			JSONObject jObj = (JSONObject) query.getJSONArray("service_users").get(0);
-			rhesus = ((JSONObject) jObj.get("clinical_fields")).get("rhesus").toString();	
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return rhesus;
+	public List<String> getBabyWeight(){
+		return help.jsonParseHelper(query, "service_users", "babies", "weight");
 	}
 	
-	public String getBloodGroup() {
-		String bloodGroup = null;
-		try {
-			JSONObject jObj = (JSONObject) query.getJSONArray("service_users").get(0);
-			bloodGroup = ((JSONObject) jObj.get("clinical_fields")).get("blood_group").toString();	
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return bloodGroup;
-	}
-
-
-	
-	public String getGestation() {
-		String gestation = null;
-
-		try {
-			JSONObject jObj = (JSONObject) query.getJSONArray("pregnancies").get(0);
-			gestation = jObj.getString("gestation");
-
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return gestation;
+	public List<String> getPregnancyAdditionalInfo(){
+		return help.jsonParseHelper(query, "service_users", "pregnancies", "additional_info");
 	}
 	
-	public String getEstimatedDeliveryDate() {
-		String edd = null;
-
-		try {
-			JSONObject jObj = (JSONObject) query.getJSONArray("pregnancies").get(0);
-			edd = jObj.getString("estimated_delivery_date");
-
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return edd;
+	public List<String> getPregnancyAntiD(){
+		return help.jsonParseHelper(query, "service_users", "pregnancies", "anti_d");
 	}
 	
-	public String getPerineum() {
-		String perineum = null;
-
-		try {
-			JSONObject jObj = (JSONObject) query.getJSONArray("pregnancies").get(0);
-			perineum = jObj.getString("perineum");
-
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return perineum;
+	public List<String> getPregnancyBabyIDs(){
+		return help.jsonParseHelper(query, "service_users", "pregnancies", "baby_ids");
 	}
 	
-	public String getBirthMode() {
-		String birthMode = null;
-
-		try {
-			JSONObject jObj = (JSONObject) query.getJSONArray("pregnancies").get(0);
-			birthMode = jObj.getString("birth_mode");
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		
-		return birthMode;
+	public List<String> getPregnancyBirthMode(){
+		return help.jsonParseHelper(query, "service_users", "pregnancies", "birth_mode");
 	}
 	
-	public String getAntiD() {
-		String anti = null;
-
-		try {
-			JSONObject jObj = (JSONObject) query.getJSONArray("pregnancies").get(0);
-			anti = jObj.getString("anti_d");
-
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return anti;
+	public List<String> getPregnancyCreatedAt(){
+		return help.jsonParseHelper(query, "service_users", "pregnancies", "created_at");
 	}
 	
-	public String getFeeding() {
-		String feeding = null;
-
-		try {
-			JSONObject jObj = (JSONObject) query.getJSONArray("pregnancies").get(0);
-			feeding = jObj.getString("feeding");
-
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return feeding;
-	}
-
-	public String getGender() {
-		String gender = null;
-
-		try {
-			JSONObject jObj = (JSONObject) query.getJSONArray("babies").get(0);
-			gender = jObj.getString("gender");
-
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return gender;
+	public List<String> getPregnancyEstimatedDeliveryDate(){
+		return help.jsonParseHelper(query, "service_users", "pregnancies", "estimated_delivery_date");
 	}
 	
-	public String getDeliveryDate(){
-		String deliveryDate = null;
-		try {
-			JSONObject jObj = (JSONObject) query.getJSONArray("babies").get(0);
-			deliveryDate = jObj.getString("delivery_date_time");
-			
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		
-		return deliveryDate;
+	public List<String> getPregnancyFeeding(){
+		return help.jsonParseHelper(query, "service_users", "pregnancies", "feeding");
 	}
 	
-
-	public String getWeight() {
-		String weight = null;
-
-		try {
-			JSONObject jObj = (JSONObject) query.getJSONArray("babies").get(0);
-			weight = jObj.getString("weight");
-
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return weight;
+	public List<String> getPregnancyGestation(){
+		return help.jsonParseHelper(query, "service_users", "pregnancies", "gestation");
 	}
 	
-	public String getVitaminK() {
-		String vitamin = null;
-
-		try {
-			JSONObject jObj = (JSONObject) query.getJSONArray("babies").get(0);
-			vitamin = jObj.getString("vitamin_k");
-
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return vitamin;
+	public List<String> getPregnancyID(){
+		return help.jsonParseHelper(query, "service_users", "pregnancies", "id");
 	}
 	
-	public String getHearing() {
-		String hearing = null;
-
-		try {
-			JSONObject jObj = (JSONObject) query.getJSONArray("babies").get(0);
-			hearing = jObj.getString("hearing");
-
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return hearing;
+	public List<String> getPregnancyLastMenstrualPeriod(){
+		return help.jsonParseHelper(query, "service_users", "pregnancies", "last_menstrual_period");
 	}
 	
-	public String getNBST() {
-		String nbst = null;
-
-		try {
-			JSONObject jObj = (JSONObject) query.getJSONArray("babies").get(0);
-			nbst = jObj.getString("newborn_screening_test");
-
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return nbst;
+	public List<String> getPregnancyPerineum(){
+		return help.jsonParseHelper(query, "service_users", "pregnancies", "perineum");
+	}
+	
+	public List<String> getPregnancyServiceUserID(){
+		return help.jsonParseHelper(query, "service_users", "pregnancies", "service_user_id");
+	}
+	
+	public List<String> getUserBabyIDs(){
+		return help.jsonParseHelper(query, "service_users", "service_users", "baby_ids");
+	}
+	
+	public List<String> getUserBloodGroup(){
+		return help.jsonParseHelper(query, "service_users", "service_users", "clinical_fields", "blood_group");
+	}
+	
+	public List<String> getUserBMI(){
+		return help.jsonParseHelper(query, "service_users", "service_users", "clinical_fields", "bmi");
+	}
+	
+	public List<String> getUserParity(){
+		return help.jsonParseHelper(query, "service_users", "service_users", "clinical_fields", "parity");
+	}
+	
+	public List<String> getUserPreviousObstetricHistory(){
+		return help.jsonParseHelper(query, "service_users", "service_users", "clinical_fields", "previous_obstetric_history");
+	}
+	
+	public List<String> getUserRhesus(){
+		return help.jsonParseHelper(query, "service_users", "service_users", "clinical_fields", "rhesus");
+	}
+	
+	public List<String> getUserHospitalNumber(){
+		return help.jsonParseHelper(query, "service_users", "service_users", "hospital_number");
+	}
+	
+	public List<String> getUserID(){
+		return help.jsonParseHelper(query, "service_users", "service_users", "id");
+	}
+	
+	public List<String> getUserDirections(){
+		return help.jsonParseHelper(query, "service_users", "service_users", "personal_fields", "directions");
+	}
+	
+	public List<String> getUserDOB(){
+		return help.jsonParseHelper(query, "service_users", "service_users", "personal_fields", "dob");
+	}
+	
+	public List<String> getUserEmail(){
+		return help.jsonParseHelper(query, "service_users", "service_users", "personal_fields", "email");
+	}
+	
+	public List<String> getUserHomeAddress(){
+		return help.jsonParseHelper(query, "service_users", "service_users", "personal_fields", "home_address");
+	}
+	
+	public List<String> getUserHomeCounty(){
+		return help.jsonParseHelper(query, "service_users", "service_users", "personal_fields", "home_county");
+	}
+	
+	public List<String> getUserHomePhone(){
+		return help.jsonParseHelper(query, "service_users", "service_users", "personal_fields", "home_phone");
+	}
+	
+	public List<String> getUserHomePostCode(){
+		return help.jsonParseHelper(query, "service_users", "service_users", "personal_fields", "home_post_code");
+	}
+	
+	public List<String> getUserHomeType(){
+		return help.jsonParseHelper(query, "service_users", "service_users", "personal_fields", "home_type");
+	}
+	
+	public List<String> getUserMobilePhone(){
+		return help.jsonParseHelper(query, "service_users", "service_users", "personal_fields", "mobile_phone");
+	}
+	
+	public List<String> getUserName(){
+		return help.jsonParseHelper(query, "service_users", "service_users", "personal_fields", "name");
+	}
+	
+	public List<String> getUserNextOfKinName(){
+		return help.jsonParseHelper(query, "service_users", "service_users", "personal_fields", "next_of_kin_name");
+	}
+	
+	public List<String> getUserNextOfKinPhone(){
+		return help.jsonParseHelper(query, "service_users", "service_users", "personal_fields", "next_of_kin_phone");
+	}
+	
+	public List<String> getPregnancyIDs(){
+		return help.jsonParseHelper(query, "service_users", "service_users", "pregnancy_ids");
 	}
 	
 	public void getPatientInfo(String apptId) {
 		String id = AppointmentSingleton.getInstance().getServiceUserID(apptId);
-		String tableName = "service_users/"+id;
+		String tableName = "service_users/" + id;
 		new ServiceUserGetter().execute(tableName);
 	}
 	
@@ -370,19 +220,16 @@ public class ServiceUserSingleton {
 
 		@Override
 		protected void onPreExecute() {
-			// TODO Auto-generated method stub
 			super.onPreExecute();
 		}
 
 		@Override
 		protected void onPostExecute(String result) {
-			// TODO Auto-generated method stub
 			super.onPostExecute(result);
 			JSONObject json = null;
 			try {
 				json = new JSONObject(result);
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			ServiceUserSingleton.getInstance().setPatientInfo(json);
@@ -390,16 +237,7 @@ public class ServiceUserSingleton {
 
 		@Override
 		protected void onProgressUpdate(Void... values) {
-			// TODO Auto-generated method stub
 			super.onProgressUpdate(values);
 		}		
-	}
-
-	public boolean isReady() {
-		return isReady;
-	}
-
-	public void setReady(boolean isReady) {
-		this.isReady = isReady;
 	}
 }

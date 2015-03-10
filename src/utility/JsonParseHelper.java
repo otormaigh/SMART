@@ -20,7 +20,6 @@ public class JsonParseHelper {
 	private static final String SERVICE_USERS = "service_users";
 	private static final String CLINICAL_FIELDS = "clinical_fields";
 	private static final String PERSONAL_FIELDS = "personal_fields";
-	private JSONObject jsonThing;
 	
 	public JsonParseHelper() {		
 	}
@@ -64,6 +63,12 @@ public class JsonParseHelper {
 					JSONArray jArrayPreg = json.getJSONArray(PREGNANCIES);
 					for(int i = 0; i < jArrayPreg.length(); i++){
 						returnedList.add(((JSONObject) jArrayPreg.get(i)).get(tableKey).toString());
+					}
+					return returnedList;
+				case SERVICE_USERS:
+					JSONArray jArrayUser = json.getJSONArray(SERVICE_USERS);
+					for(int i = 0; i < jArrayUser.length(); i++){
+						returnedList.add(((JSONObject) jArrayUser.get(i)).get(tableKey).toString());
 					}
 					return returnedList;
 				}
