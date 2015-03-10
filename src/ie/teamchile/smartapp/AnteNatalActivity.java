@@ -30,23 +30,8 @@ public class AnteNatalActivity extends MenuInheritActivity {
 		bloodGroup = (TextView)findViewById(R.id.blood_group);
 		rhesus = (TextView)findViewById(R.id.rhesus);
 		obstetricHistory = (TextView)findViewById(R.id.obstetric_history_ante_natal);
-		
-		
-	
-		//age.setText("27");
-		//age.setText(getIntent().getStringExtra("age"));
-		//nameAntiNatal.setText(getIntent().getStringExtra("name"));
-		
-		
-		//gestationAntiNatal.setText(getIntent().getStringExtra("gestation"));
 
-		parityAntiNatal.setText(ServiceUserSingleton.getInstance().getParity());
-
-		
-		//deliveryTime.setText(getIntent().getStringExtra("deliveryDate"));
-		//bloodGroup.setText(getIntent().getStringExtra("bloodGroup"));
-		//rhesus.setText(getIntent().getStringExtra("rhesus"));
-		//obstetricHistory.setText(getIntent().getStringExtra("obstetricHistory"));
+		parityAntiNatal.setText(ServiceUserSingleton.getInstance().getUserParity().get(0));
 	}
 
 	private class AntiNatalOptions implements View.OnClickListener {
