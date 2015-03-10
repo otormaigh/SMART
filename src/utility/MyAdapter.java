@@ -13,7 +13,9 @@ import java.util.Locale;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -127,6 +129,16 @@ public class MyAdapter extends BaseAdapter {
 				@Override
 				public void onFinish() {
 					dialog.setTitle(ServiceUserSingleton.getInstance().getAddress());
+					callBtn.setOnClickListener(new OnClickListener() {
+
+						@Override
+						public void onClick(View v) {
+							Intent i = new Intent(Intent.ACTION_CALL);
+							String phone = ServiceUserSingleton.getInstance().getMobileNumber();
+							i.setData(Uri.parse("tel: " + phone));
+							context.startActivity(i);							
+						}
+					});
 					dialog.show();		
 					v.setBackgroundColor(Color.TRANSPARENT);
 				}				
