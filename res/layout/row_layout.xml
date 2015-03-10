@@ -6,7 +6,7 @@
     
     <ImageView
         android:id="@+id/avatar"
-        android:src="@drawable/ic_launcher"
+        android:src="@drawable/calendar"
         android:scaleType="centerCrop"
         android:layout_marginLeft="8dip"
         android:layout_gravity="center_vertical"
