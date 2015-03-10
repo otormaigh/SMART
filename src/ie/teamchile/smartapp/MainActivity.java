@@ -3,12 +3,15 @@ package ie.teamchile.smartapp;
 
 import java.util.Calendar;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import utility.AppointmentSingleton;
 import utility.ClinicSingleton;
 import utility.ConnectivityTester;
-import utility.InternalFileWriterReader;
-import utility.ToastAlert;
 import utility.ServiceProviderSingleton;
+import utility.ServiceUserSingleton;
+import utility.ToastAlert;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -19,6 +22,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import connecttodb.AccessDBTable;
 import connecttodb.GetToken;
 
 public class MainActivity extends MenuInheritActivity {
@@ -82,7 +86,7 @@ public class MainActivity extends MenuInheritActivity {
 	private class LongOperation extends AsyncTask<String, Void, String> {
 		@Override
 		protected void onPreExecute() {
-			ToastAlert ta = new ToastAlert(getBaseContext(), "Loading data. . . ");
+			ToastAlert ta = new ToastAlert(getBaseContext(), "Loading data. . . ", false);
 		}
 		protected String doInBackground(String... params) {
 			getToken.getToken(username, password);
@@ -103,32 +107,75 @@ public class MainActivity extends MenuInheritActivity {
 		username = usernameTextView.getText().toString();
 		password = passwordTextView.getText().toString();
 	}
-    private void checkCredentials(){    	
-    	if (getToken.getResponseCode().equals("201")){
-    		
-    		// update Singleton
-    		AppointmentSingleton.getInstance().updateLocal(this);
-			ClinicSingleton.getInstance().updateLocal(this);
-			
-    		ServiceProviderSingleton.getInstance().setLoggedIn(true);
-    		ServiceProviderSingleton.getInstance().setUsername(username);
-    		ServiceProviderSingleton.getInstance().setPassword(password); 
-    		
-    		Toast.makeText(this, "Welcome " + username, Toast.LENGTH_LONG).show();
+    private void checkCredentials(){    
+    	if(getToken.getResponseCode() != null && !getToken.getResponseCode().isEmpty()) {
+    		if (getToken.getResponseCode().equals("201")){
+        		
+        		// update Singleton
+        		AppointmentSingleton.getInstance().updateLocal(this);
+    			ClinicSingleton.getInstance().updateLocal(this);
+    			
+        		ServiceProviderSingleton.getInstance().setLoggedIn(true);
+        		ServiceProviderSingleton.getInstance().setUsername(username);
+        		ServiceProviderSingleton.getInstance().setPassword(password); 
+        		
+        		Toast.makeText(this, "Welcome " + username, Toast.LENGTH_LONG).show();
+        		new AnotherLongTask().execute("service_users/1");
 
-    		// show the quick menu
-    		intent = new Intent(MainActivity.this, QuickMenuActivity.class);
-			startActivity(intent);
-    	} else
-    		Toast.makeText(this, "Login Failed", Toast.LENGTH_LONG).show();
+        		// show the quick menu
+        		intent = new Intent(MainActivity.this, QuickMenuActivity.class);
+    			startActivity(intent);
+        	} else
+        		Toast.makeText(this, "Login Failed", Toast.LENGTH_LONG).show();
+    	}else {
+    		ToastAlert ta = new ToastAlert(MainActivity.this, "Poor Internet Activity \nPlease check your settings", true);
+    	}
 	}
+    
     @Override
     public void onBackPressed() {
 		if (ServiceProviderSingleton.getInstance().isLoggedIn()) {
 			ToastAlert ta = new ToastAlert(getBaseContext(),
-					"Already logged in, \n  logout?");
+					"Already logged in, \n  logout?", false);
 		} else {
 			finish();
 		}   	
+    }
+    
+    public class AnotherLongTask extends AsyncTask<String, Void, String> {
+
+		@Override
+		protected String doInBackground(String... params) {
+			AccessDBTable access = new AccessDBTable();
+			String theResult = access.accessDB(params[0]);
+			return theResult;
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+			JSONObject jobj = null;
+			try {
+				jobj = new JSONObject(result);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			ServiceUserSingleton.getInstance().setPatientInfo(jobj);
+		}
+
+		@Override
+		protected void onProgressUpdate(Void... values) {
+			// TODO Auto-generated method stub
+			super.onProgressUpdate(values);
+		}
+    	
     }
 }
