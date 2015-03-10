@@ -13,7 +13,7 @@ import java.util.Locale;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.os.AsyncTask;
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,6 +28,8 @@ public class MyAdapter extends BaseAdapter {
 	private LayoutInflater inflater;
 	private Context context;
 	private String address;
+	private boolean isReady = false;
+	private Button callBtn, cancelBtn;
 	Dialog dialog;
 
 
@@ -37,10 +39,10 @@ public class MyAdapter extends BaseAdapter {
 		inflater = LayoutInflater.from(context);	
 		dialog = new Dialog(context);
 		dialog.setContentView(R.layout.custom_alert);
-		Button button = (Button)dialog.findViewById(R.id.buttonAlert);
-		button.setText("Call");
-		Button button2 = (Button)dialog.findViewById(R.id.buttonAlert2);
-		button2.setText("Cancel");
+		callBtn = (Button)dialog.findViewById(R.id.buttonAlert);
+		callBtn.setText("Call");
+		cancelBtn = (Button)dialog.findViewById(R.id.buttonAlert2);
+		cancelBtn.setText("Cancel");
 	}
 
 	@Override
@@ -72,11 +74,11 @@ public class MyAdapter extends BaseAdapter {
 			TextView text3 = (TextView)view.findViewById(R.id.appt_info);
 			ImageView iv = (ImageView)view.findViewById(R.drawable.ic_launcher);
 			String id = getItem(position);
-			text2.setText(ServiceUserSingleton.getInstance().getID());
+			text2.setText(AppointmentSingleton.getInstance().getName(appointments.get(position)));
 			text1.setText(getReadableDate(AppointmentSingleton.getInstance().getDate(appointments).get(position)) + " at " + 
-					AppointmentSingleton.getInstance().getTime(appointments).get(position));
-			text3.setText(ServiceProviderSingleton.getInstance().getID());
-			String myId = ServiceProviderSingleton.getInstance().getID();
+					removeTheSeconds(AppointmentSingleton.getInstance().getTime(appointments).get(position)));
+			text3.setText(AppointmentSingleton.getInstance().getGestation(appointments.get(position)));
+
 		}else {
 			view = convertView;
 		}
@@ -96,9 +98,13 @@ public class MyAdapter extends BaseAdapter {
 		return reformattedStr;
 	}
 	
+	private String removeTheSeconds(String time) {
+		String truncTime = time.substring(0, time.length() - 3);
+		return truncTime;
+	}
+	
 	private class ClickButtonListener implements OnClickListener {
 		private int position;
-
 		
 		public ClickButtonListener(int position) {
 			this.position = position;
@@ -106,8 +112,23 @@ public class MyAdapter extends BaseAdapter {
 
 		@Override
 		public void onClick(View v) {
-			dialog.setTitle(ServiceUserSingleton.getInstance().getAddress());
-			dialog.show();						
+			ServiceUserSingleton.getInstance().getPatientInfo(appointments.get(position));
+			isReady = ServiceUserSingleton.getInstance().isReady();
+			ToastAlert ta = new ToastAlert(context, "Loading data. . . ");
+			
+			CountDownTimer timer = new CountDownTimer(1000, 1000) {
+
+				@Override
+				public void onTick(long millisUntilFinished) {
+					// TODO Auto-generated method stub					
+				}
+
+				@Override
+				public void onFinish() {
+					dialog.setTitle(ServiceUserSingleton.getInstance().getAddress());
+					dialog.show();				
+				}				
+			}.start();
 		}		
 	}
 }

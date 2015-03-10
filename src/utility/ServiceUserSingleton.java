@@ -1,9 +1,15 @@
 package utility;
 
+import java.util.ArrayList;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.os.AsyncTask;
+import connecttodb.AccessDBTable;
+
 public class ServiceUserSingleton {
+	private boolean isReady = false;
 	private static ServiceUserSingleton singleInstance;
 	private JSONObject query;
 
@@ -346,5 +352,54 @@ public class ServiceUserSingleton {
 			e.printStackTrace();
 		}
 		return nbst;
+	}
+	
+	public void getPatientInfo(String apptId) {
+		String id = AppointmentSingleton.getInstance().getServiceUserID(apptId);
+		String tableName = "service_users/"+id;
+		new ServiceUserGetter().execute(tableName);
+	}
+	
+	private class ServiceUserGetter extends AsyncTask<String, Void, String> {
+
+		@Override
+		protected String doInBackground(String... params) {
+			AccessDBTable access = new AccessDBTable();
+			return access.accessDB(params[0]);
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+			JSONObject json = null;
+			try {
+				json = new JSONObject(result);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			ServiceUserSingleton.getInstance().setPatientInfo(json);
+		}
+
+		@Override
+		protected void onProgressUpdate(Void... values) {
+			// TODO Auto-generated method stub
+			super.onProgressUpdate(values);
+		}		
+	}
+
+	public boolean isReady() {
+		return isReady;
+	}
+
+	public void setReady(boolean isReady) {
+		this.isReady = isReady;
 	}
 }

@@ -28,16 +28,16 @@ public class TodayAppointmentActivity extends ListActivity {
 	private ArrayList<String>addresses = new ArrayList<String>();
 	private Calendar cal;
 	private String address;
+	private String date;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		new LongOperation().execute("service_users/1");
+		new LongOperation().execute("service_users/2");
 		cal = Calendar.getInstance();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.UK);
-		String date = sdf.format(cal.getTime());
-		values = new ArrayList<String>();	
-		
+		date = sdf.format(cal.getTime());
+		values = new ArrayList<String>();			
 	}
 	
 	private class LongOperation extends AsyncTask<String, Void, JSONObject> {
@@ -68,10 +68,9 @@ public class TodayAppointmentActivity extends ListActivity {
 				super.onPostExecute(result);
 				ServiceUserSingleton.getInstance().setPatientInfo(result);
 				address = ServiceUserSingleton.getInstance().getAddress();
-				ToastAlert ta = new ToastAlert(TodayAppointmentActivity.this, address );
 
 				if(values != null)
-					values = AppointmentSingleton.getInstance().getListOfIDs("4", "2015-03-05");
+					values = AppointmentSingleton.getInstance().getListOfIDs("2", date);
 				MyAdapter adapter = new MyAdapter(TodayAppointmentActivity.this, values);
 				setListAdapter(adapter);
 			}
