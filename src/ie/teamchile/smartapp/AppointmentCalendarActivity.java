@@ -82,9 +82,9 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
         nextWeek = (Button)findViewById(R.id.next_button);
         nextWeek.setOnClickListener(new ButtonClick());
         
-        clinicOpening = ClinicSingleton.getInstance().getOpeningHours(String.valueOf(hospitalSelected));
+        clinicOpening = ClinicSingleton.getInstance().getOpeningTime(String.valueOf(hospitalSelected));
 		clinicClosing = ClinicSingleton.getInstance().getClosingTime(String.valueOf(hospitalSelected));
-		appointmentInterval = Integer.parseInt(ClinicSingleton.getInstance().getAppointmentIntervals(String.valueOf(hospitalSelected)));
+		appointmentInterval = Integer.parseInt(ClinicSingleton.getInstance().getAppointmentInterval(String.valueOf(hospitalSelected)));
 		
 		try {
 			openingAsDate = dfTimeOnly.parse(String.valueOf(clinicOpening));
@@ -186,11 +186,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 			nameSingle = AppointmentSingleton.getInstance().getName(listOfId);
 			Log.d("singleton", "getName(listOfId)  " + AppointmentSingleton.getInstance().getName(listOfId));
 			gestSingle = AppointmentSingleton.getInstance().getGestation(listOfId);
-			Log.d("singleton", "getGestation(listOfId)  " + AppointmentSingleton.getInstance().getGestation(listOfId));
-
-			Log.d("appointment", "first appointment equals opening: " + timeSingle.get(0).equals(clinicOpening));
-			Log.d("appointment", "last appointment eqauls closing: " + timeSingle.get((timeSingle.size() - 1)).equals(clinicClosing));
-			
+			Log.d("singleton", "getGestation(listOfId)  " + AppointmentSingleton.getInstance().getGestation(listOfId));			
 
 			for (int i = 0; i < timeSingle.size() - 1; i++) {
 				String timeFirst;
@@ -344,7 +340,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 				
 				String clinicIDFromDB = AppointmentSingleton.getInstance().getClinicID(listOfId.get(position));	
 				String clinicNameFromDB = ClinicSingleton.getInstance().getClinicName(clinicIDFromDB);
-				int durationFromDB = Integer.parseInt(ClinicSingleton.getInstance().getAppointmentIntervals(clinicIDFromDB));
+				int durationFromDB = Integer.parseInt(ClinicSingleton.getInstance().getAppointmentInterval(clinicIDFromDB));
 				String serviceUserID = AppointmentSingleton.getInstance().getServiceUserID(listOfId.get(position));
 				
 				Log.d("singleton", "db string: " + "service_users" + "/" + serviceUserID);
