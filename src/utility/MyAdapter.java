@@ -1,5 +1,10 @@
 package utility;
 
+/**
+ * Custom Base Adapter Class
+ * Barry Dempsey 10.03.15
+ */
+
 import ie.teamchile.smartapp.R;
 
 import java.text.SimpleDateFormat;
@@ -8,6 +13,7 @@ import java.util.Locale;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,6 +27,7 @@ public class MyAdapter extends BaseAdapter {
 	private ArrayList<String>appointments;
 	private LayoutInflater inflater;
 	private Context context;
+	private String address;
 	Dialog dialog;
 
 
@@ -65,12 +72,11 @@ public class MyAdapter extends BaseAdapter {
 			TextView text3 = (TextView)view.findViewById(R.id.appt_info);
 			ImageView iv = (ImageView)view.findViewById(R.drawable.ic_launcher);
 			String id = getItem(position);
-			text2.setText(AppointmentSingleton.getInstance().getVisitType(appointments.get(position)));
+			text2.setText(ServiceUserSingleton.getInstance().getID());
 			text1.setText(getReadableDate(AppointmentSingleton.getInstance().getDate(appointments).get(position)) + " at " + 
 					AppointmentSingleton.getInstance().getTime(appointments).get(position));
 			text3.setText(ServiceProviderSingleton.getInstance().getID());
 			String myId = ServiceProviderSingleton.getInstance().getID();
-			ToastAlert ta = new ToastAlert(context, "Appointments for Service User: " + myId);
 		}else {
 			view = convertView;
 		}
@@ -100,7 +106,7 @@ public class MyAdapter extends BaseAdapter {
 
 		@Override
 		public void onClick(View v) {
-			dialog.setTitle("Appointment ID " + appointments.get(position));
+			dialog.setTitle(ServiceUserSingleton.getInstance().getAddress());
 			dialog.show();						
 		}		
 	}
