@@ -9,6 +9,7 @@ import ie.teamchile.smartapp.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import android.app.Dialog;
@@ -122,19 +123,18 @@ public class MyAdapter extends BaseAdapter {
 			CountDownTimer timer = new CountDownTimer(1000, 1000) {
 
 				@Override
-				public void onTick(long millisUntilFinished) {
-					// TODO Auto-generated method stub					
+				public void onTick(long millisUntilFinished) {			
 				}
 
 				@Override
 				public void onFinish() {
-					dialog.setTitle(ServiceUserSingleton.getInstance().getAddress());
+					dialog.setTitle(ServiceUserSingleton.getInstance().getUserHomeAddress().toString());
 					callBtn.setOnClickListener(new OnClickListener() {
 
 						@Override
 						public void onClick(View v) {
 							Intent i = new Intent(Intent.ACTION_CALL);
-							String phone = ServiceUserSingleton.getInstance().getMobileNumber();
+							String phone = ServiceUserSingleton.getInstance().getUserMobilePhone().get(0);
 							i.setData(Uri.parse("tel: " + phone));
 							context.startActivity(i);							
 						}
