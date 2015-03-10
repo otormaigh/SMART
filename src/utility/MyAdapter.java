@@ -13,6 +13,7 @@ import java.util.Locale;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -111,10 +112,10 @@ public class MyAdapter extends BaseAdapter {
 		}
 
 		@Override
-		public void onClick(View v) {
+		public void onClick(final View v) {
 			ServiceUserSingleton.getInstance().getPatientInfo(appointments.get(position));
-			isReady = ServiceUserSingleton.getInstance().isReady();
-			ToastAlert ta = new ToastAlert(context, "Loading data. . . ");
+			ToastAlert ta = new ToastAlert(context, "Loading data. . . ", false);
+			v.setBackgroundColor(Color.GRAY);
 			
 			CountDownTimer timer = new CountDownTimer(1000, 1000) {
 
@@ -126,7 +127,8 @@ public class MyAdapter extends BaseAdapter {
 				@Override
 				public void onFinish() {
 					dialog.setTitle(ServiceUserSingleton.getInstance().getAddress());
-					dialog.show();				
+					dialog.show();		
+					v.setBackgroundColor(Color.TRANSPARENT);
 				}				
 			}.start();
 		}		
