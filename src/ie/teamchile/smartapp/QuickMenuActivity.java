@@ -66,7 +66,7 @@ public class QuickMenuActivity extends MenuInheritActivity {
     public void onBackPressed() {
     	if(ServiceProviderSingleton.getInstance().isLoggedIn()) {
     		ToastAlert ta = new ToastAlert(getBaseContext(), 
-        			"  Already logged in, \n  Logout?");
+        			"  Already logged in, \n  Logout?", false);
     	}else {
     		
     	}    	
@@ -106,7 +106,7 @@ public class QuickMenuActivity extends MenuInheritActivity {
 		super.onTrimMemory(level);
 		if(level >= ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
 			isViewVisible = false;
-			ToastAlert ta = new ToastAlert(getBaseContext(), "View is now hidden");				
+			ToastAlert ta = new ToastAlert(getBaseContext(), "View is now hidden", false);				
 		}
 	}
 }
