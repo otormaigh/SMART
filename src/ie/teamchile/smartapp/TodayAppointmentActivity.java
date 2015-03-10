@@ -69,12 +69,7 @@ public class TodayAppointmentActivity extends ListActivity {
 				ServiceUserSingleton.getInstance().setPatientInfo(result);
 				address = ServiceUserSingleton.getInstance().getAddress();
 
-				if(values != null && !values.isEmpty())
-					values = AppointmentSingleton.getInstance().getListOfIDs("2", "2015-03-17");
-				else {
-					ToastAlert ta = new ToastAlert(TodayAppointmentActivity.this, 
-							"No Appointments Today!", false);
-				}
+				values = AppointmentSingleton.getInstance().getListOfIDs("2", date);
 				MyAdapter adapter = new MyAdapter(TodayAppointmentActivity.this, values);
 				setListAdapter(adapter);
 			}
