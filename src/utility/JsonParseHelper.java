@@ -1,113 +1,102 @@
 package utility;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/* {
-"appointments": {
-    "clinic_id": 4, 
-    "date": "2015-03-05", 
-    "id": 64, 
-    "links": {
-        "service_options": "/appointments/64/service_options", 
-        "service_provider": "service_providers/14", 
-        "service_user": "service_users/1"
-    }, 
-    "priority": "scheduled", 
-    "service_option_ids": [], 
-    "service_provider_id": 14, 
-    "service_user": {
-        "gestation": null, 
-        "id": 1, 
-        "name": "Shannon Mercury"
-    }, 
-    "service_user_id": 1, 
-    "time": "10:15:00", 
-    "visit_logs": [], 
-    "visit_type": "post-natal"
-	}
-}
-"clinics": [
-    {
-        "address": "Leopardstown Shopping Centre, Unit 12, Ballyogan Road, Dublin 18", 
-        "announcement_ids": [], 
-        "appointment_interval": 15, 
-        "closing_time": "15:00:00", 
-        "days": {
-            "friday": false, 
-            "monday": false, 
-            "saturday": false, 
-            "sunday": false, 
-            "thursday": false, 
-            "tuesday": true, 
-            "wednesday": false
-        }, 
-        "id": 2, 
-        "links": {
-            "announcements": "announcements", 
-            "service_options": "/service_options"
-        }, 
-        "name": "Leopardstown", 
-        "opening_time": "09:00:00", 
-        "recurrence": "weekly", 
-        "service_option_ids": [
-            1
-        ], 
-        "type": "booking"
-    }
-]
-*/
-
 public class JsonParseHelper {
 	private static final String APPOINTMENTS = "appointments";
+	private static final String ID = "id";
+	private static final String SERVICE_USER = "service_user";
+	private static final String SERVICE_USER_GESTATION = "gestation";
+	private static final String SERVICE_USER_ID = "service_user_id";
+	private static final String NAME = "name";
 	private static final String CLINICS = "clinics";
-	private static final String CLINIC_ID = "clinic_id";
-	private static final String ADDRESS = "address";
-	private JSONObject json;
-	private String tableName, tableKey, clinicID, address;
+	private static final String BABIES = "babies";	
+	private static final String PREGNANCIES = "pregnancies";	
+	private static final String SERVICE_USERS = "service_users";
+	private static final String CLINICAL_FIELDS = "clinical_fields";
+	private static final String PERSONAL_FIELDS = "personal_fields";
+	private JSONObject jsonThing;
 	
 	public JsonParseHelper() {		
 	}
 	
-	public void jsonParseHelper(JSONObject json, String tableName, String tableKey) {		
-		this.json = json;
-		this.tableName = tableName;
-		this.tableKey = tableKey;
+	public String jsonParseHelper(JSONObject json, String tableName, String tableKey) {
+		try {
+			switch (tableName) {
+			case APPOINTMENTS:
+				switch (tableKey) {
+				case SERVICE_USER_GESTATION:
+					return ((JSONObject) json.get(SERVICE_USER)).get(SERVICE_USER_GESTATION).toString();
+				case SERVICE_USER_ID: 
+					return ((JSONObject) json.get(SERVICE_USER)).get(ID).toString();
+				case NAME:
+					return ((JSONObject) json.get(SERVICE_USER)).get(NAME).toString();
+				default:
+					return json.get(tableKey).toString();
+				}
+			case CLINICS:
+				return json.get(tableKey).toString();
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
-	public void parser() throws JSONException{ 
-		switch (tableName) {
-		case APPOINTMENTS:
-			switch (tableKey) {
-			case CLINIC_ID:
-				clinicID = json.get("clinic_id").toString();
-				AppointmentSingleton.getInstance().setClinicID(clinicID);
-				break;
+	public List<String> jsonParseHelper(JSONObject json, String tableName, String subTable, String tableKey) {
+		List<String> returnedList = new ArrayList<String>();
+		try {
+			switch (tableName) {
+			case SERVICE_USERS:
+				switch (subTable) {
+				case BABIES:
+					JSONArray jArrayBaby = json.getJSONArray(BABIES);
+					for(int i = 0; i < jArrayBaby.length(); i++){
+						returnedList.add(((JSONObject) jArrayBaby.get(i)).get(tableKey).toString());
+					}
+					return returnedList;
+				case PREGNANCIES:
+					JSONArray jArrayPreg = json.getJSONArray(PREGNANCIES);
+					for(int i = 0; i < jArrayPreg.length(); i++){
+						returnedList.add(((JSONObject) jArrayPreg.get(i)).get(tableKey).toString());
+					}
+					return returnedList;
+				}
 			}
-			break;
-		case CLINICS:
-			switch (tableKey) {
-			case ADDRESS:
-				address = json.get("address").toString();
-				//ClinicSingleton.getInstance().setAddress(address);
-				break;
-			}
-			break;
-		}			
-	}
-	
-	public void thing() throws JSONException{
-		ArrayList<String> idList = AppointmentSingleton.getInstance().getListOfIDs("2", "2015-03-17");
-		JSONObject newJson;
-		for(int i = 0; i < idList.size(); i++){
-			String apptStr = AppointmentSingleton.getInstance().getAppointmentString(String.valueOf(i));
-			newJson = new JSONObject(apptStr);
-			jsonParseHelper(newJson, "appointments", "clinic_id");
-			//AppointmentSingleton.getInstance().getClinicID();
-			jsonParseHelper(newJson, "clinics", "address");
-			//ClinicSingleton.getInstance().getAddress();
+		} catch (JSONException e) {
+			e.printStackTrace();
 		}
+		return null;
 	}
+	public List<String> jsonParseHelper(JSONObject json, String tableName, String subTable, String subSubTable, String tableKey) {
+		List<String> returnedList = new ArrayList<String>();
+		try {
+			switch (tableName) {
+			case SERVICE_USERS:
+				JSONArray jArrayUser = json.getJSONArray(SERVICE_USERS);
+				for(int i = 0; i < jArrayUser.length(); i++){
+					switch (subTable) {
+					case SERVICE_USERS:
+						switch(subSubTable){
+						case CLINICAL_FIELDS:
+							returnedList.add(((JSONObject) jArrayUser.get(i)).getJSONObject(CLINICAL_FIELDS).get(tableKey).toString());
+							break;
+						case PERSONAL_FIELDS:
+							returnedList.add(((JSONObject) jArrayUser.get(i)).getJSONObject(PERSONAL_FIELDS).get(tableKey).toString());
+							break;
+						}
+					}
+				}
+				return returnedList;
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}	
 }
