@@ -1,5 +1,12 @@
 package utility;
 
+/**
+ * Rotate Utility class
+ * provides rotation animation
+ * on ImageView
+ * Barry Dempsey 10.03.15
+ */
+
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
