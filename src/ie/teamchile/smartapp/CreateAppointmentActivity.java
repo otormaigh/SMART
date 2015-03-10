@@ -78,7 +78,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 		editDate.setText(sdfDateMonthName.format(AppointmentCalendarActivity.daySelected));
 
         clinicID = AppointmentCalendarActivity.hospitalSelected;
-        appointmentInterval = ClinicSingleton.getInstance().getAppointmentIntervals(String.valueOf(clinicID));
+        appointmentInterval = ClinicSingleton.getInstance().getAppointmentInterval(String.valueOf(clinicID));
         timeBefore = getIntent().getStringExtra("timeBefore");
         timeAfter = getIntent().getStringExtra("timeAfter");       
         
