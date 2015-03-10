@@ -59,7 +59,7 @@ public class TodayAppointmentActivity extends ListActivity {
 			protected void onPreExecute() {
 				// TODO Auto-generated method stub
 				super.onPreExecute();
-				ToastAlert ta = new ToastAlert(TodayAppointmentActivity.this, "Processing. . . ");
+				ToastAlert ta = new ToastAlert(TodayAppointmentActivity.this, "Processing. . . ", false);
 			}
 	
 			@Override
