@@ -3,12 +3,15 @@ package ie.teamchile.smartapp;
 
 import java.util.Calendar;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import utility.AppointmentSingleton;
 import utility.ClinicSingleton;
 import utility.ConnectivityTester;
-import utility.InternalFileWriterReader;
-import utility.ToastAlert;
 import utility.ServiceProviderSingleton;
+import utility.ServiceUserSingleton;
+import utility.ToastAlert;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -19,6 +22,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import connecttodb.AccessDBTable;
 import connecttodb.GetToken;
 
 public class MainActivity extends MenuInheritActivity {
@@ -115,6 +119,7 @@ public class MainActivity extends MenuInheritActivity {
     		ServiceProviderSingleton.getInstance().setPassword(password); 
     		
     		Toast.makeText(this, "Welcome " + username, Toast.LENGTH_LONG).show();
+    		new AnotherLongTask().execute("service_users/1");
 
     		// show the quick menu
     		intent = new Intent(MainActivity.this, QuickMenuActivity.class);
@@ -130,5 +135,42 @@ public class MainActivity extends MenuInheritActivity {
 		} else {
 			finish();
 		}   	
+    }
+    
+    public class AnotherLongTask extends AsyncTask<String, Void, String> {
+
+		@Override
+		protected String doInBackground(String... params) {
+			AccessDBTable access = new AccessDBTable();
+			String theResult = access.accessDB(params[0]);
+			return theResult;
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+			JSONObject jobj = null;
+			try {
+				jobj = new JSONObject(result);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			ServiceUserSingleton.getInstance().setPatientInfo(jobj);
+		}
+
+		@Override
+		protected void onProgressUpdate(Void... values) {
+			// TODO Auto-generated method stub
+			super.onProgressUpdate(values);
+		}
+    	
     }
 }
