@@ -1,5 +1,10 @@
 package utility;
 
+/**
+ * Custom Base Adapter Class
+ * Barry Dempsey 10.03.15
+ */
+
 import ie.teamchile.smartapp.R;
 
 import java.text.SimpleDateFormat;
@@ -8,6 +13,10 @@ import java.util.Locale;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.net.Uri;
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,6 +30,9 @@ public class MyAdapter extends BaseAdapter {
 	private ArrayList<String>appointments;
 	private LayoutInflater inflater;
 	private Context context;
+	private String address;
+	private boolean isReady = false;
+	private Button callBtn, cancelBtn;
 	Dialog dialog;
 
 
@@ -30,10 +42,10 @@ public class MyAdapter extends BaseAdapter {
 		inflater = LayoutInflater.from(context);	
 		dialog = new Dialog(context);
 		dialog.setContentView(R.layout.custom_alert);
-		Button button = (Button)dialog.findViewById(R.id.buttonAlert);
-		button.setText("Call");
-		Button button2 = (Button)dialog.findViewById(R.id.buttonAlert2);
-		button2.setText("Cancel");
+		callBtn = (Button)dialog.findViewById(R.id.buttonAlert);
+		callBtn.setText("Call");
+		cancelBtn = (Button)dialog.findViewById(R.id.buttonAlert2);
+		cancelBtn.setText("Cancel");
 	}
 
 	@Override
@@ -65,12 +77,11 @@ public class MyAdapter extends BaseAdapter {
 			TextView text3 = (TextView)view.findViewById(R.id.appt_info);
 			ImageView iv = (ImageView)view.findViewById(R.drawable.ic_launcher);
 			String id = getItem(position);
-			text2.setText(AppointmentSingleton.getInstance().getVisitType(appointments.get(position)));
+			text2.setText(AppointmentSingleton.getInstance().getName(appointments.get(position)));
 			text1.setText(getReadableDate(AppointmentSingleton.getInstance().getDate(appointments).get(position)) + " at " + 
-					AppointmentSingleton.getInstance().getTime(appointments).get(position));
-			text3.setText(ServiceProviderSingleton.getInstance().getID());
-			String myId = ServiceProviderSingleton.getInstance().getID();
-			ToastAlert ta = new ToastAlert(context, "Appointments for Service User: " + myId);
+					removeTheSeconds(AppointmentSingleton.getInstance().getTime(appointments).get(position)));
+			text3.setText(AppointmentSingleton.getInstance().getGestation(appointments.get(position)));
+
 		}else {
 			view = convertView;
 		}
@@ -90,18 +101,48 @@ public class MyAdapter extends BaseAdapter {
 		return reformattedStr;
 	}
 	
+	private String removeTheSeconds(String time) {
+		String truncTime = time.substring(0, time.length() - 3);
+		return truncTime;
+	}
+	
 	private class ClickButtonListener implements OnClickListener {
 		private int position;
-
 		
 		public ClickButtonListener(int position) {
 			this.position = position;
 		}
 
 		@Override
-		public void onClick(View v) {
-			dialog.setTitle("Appointment ID " + appointments.get(position));
-			dialog.show();						
+		public void onClick(final View v) {
+			ServiceUserSingleton.getInstance().getPatientInfo(appointments.get(position));
+			ToastAlert ta = new ToastAlert(context, "Loading data. . . ", false);
+			v.setBackgroundColor(Color.GRAY);
+			
+			CountDownTimer timer = new CountDownTimer(1000, 1000) {
+
+				@Override
+				public void onTick(long millisUntilFinished) {
+					// TODO Auto-generated method stub					
+				}
+
+				@Override
+				public void onFinish() {
+					dialog.setTitle(ServiceUserSingleton.getInstance().getAddress());
+					callBtn.setOnClickListener(new OnClickListener() {
+
+						@Override
+						public void onClick(View v) {
+							Intent i = new Intent(Intent.ACTION_CALL);
+							String phone = ServiceUserSingleton.getInstance().getMobileNumber();
+							i.setData(Uri.parse("tel: " + phone));
+							context.startActivity(i);							
+						}
+					});
+					dialog.show();		
+					v.setBackgroundColor(Color.TRANSPARENT);
+				}				
+			}.start();
 		}		
 	}
 }
