@@ -30,7 +30,7 @@ import android.widget.TextView;
 
 	  		list = (ListView)findViewById(R.id.notes);
 	  		list.setAdapter(adapter);
-	  		obsHistory = ServiceUserSingleton.getInstance().getObstreticHistory();
+	  		obsHistory = ServiceUserSingleton.getInstance().getUserPreviousObstetricHistory().get(0);
 	  		//time = ServiceUserSingleton.getInstance().getCreatedTime();
 	  		//items.add(time);
 	  		 items.add(obsHistory);
