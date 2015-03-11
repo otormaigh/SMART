@@ -1,12 +1,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal" >
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
 
     <ListView
-        android:id="@+id/list"
+        android:id="@+id/notes"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="284dp"
+        android:layout_weight="0.52" >
     </ListView>
+
+    <EditText
+        android:id="@+id/editField"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border"
+        android:hint="Enter Note here" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/blue"
+        android:text="Add note to history" />
 
 </LinearLayout>

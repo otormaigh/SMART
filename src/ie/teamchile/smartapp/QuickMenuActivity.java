@@ -2,6 +2,7 @@ package ie.teamchile.smartapp;
 
 import utility.AppointmentSingleton;
 import utility.InternalFileWriterReader;
+
 import utility.ToastAlert;
 import utility.ServiceProviderSingleton;
 import android.app.admin.DevicePolicyManager;
@@ -35,6 +36,7 @@ public class QuickMenuActivity extends MenuInheritActivity {
         todaysAppointments = (Button) findViewById(R.id.todays_appointments);
         todaysAppointments.setOnClickListener(new ButtonClick());
         isViewVisible = true;
+
 
         Log.d("MYLOG", "Before Other get token");
     }
