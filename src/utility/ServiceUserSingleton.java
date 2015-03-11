@@ -25,7 +25,6 @@ public class ServiceUserSingleton {
 	public void setPatientInfo(JSONObject query){
 		this.query = query;
 	}
-	
 	public String getName() {
 		String name = null;
 		try {
@@ -36,6 +35,7 @@ public class ServiceUserSingleton {
 		}
 		return name;
 	}
+	
 	
 	public String getAge() {
 		String age = null;
@@ -148,6 +148,7 @@ public class ServiceUserSingleton {
 		}
 		return parity;
 	}
+
 	
 	public String getObstreticHistory() {
 		String obh = null;
@@ -182,6 +183,19 @@ public class ServiceUserSingleton {
 		}
 		return bloodGroup;
 	}
+	
+	
+	public String getCreatedTime() {
+		String createdTime = null;
+		try {
+			JSONObject jObj = (JSONObject) query.getJSONArray("pregnancies").get(0);
+			createdTime = jObj.getString("created_at");
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return createdTime;
+	}
+
 
 	public String getGestation() {
 		String gestation = null;
@@ -339,4 +353,5 @@ public class ServiceUserSingleton {
 		}
 		return nbst;
 	}
+
 }

@@ -1,5 +1,8 @@
 package ie.teamchile.smartapp;
 
+import utility.AppointmentSingleton;
+import utility.InternalFileWriterReader;
+
 import utility.ToastAlert;
 import utility.UserSingleton;
 import android.app.admin.DevicePolicyManager;
@@ -9,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class QuickMenuActivity extends MenuInheritActivity {
     private Button patientInfo;
@@ -22,7 +26,7 @@ public class QuickMenuActivity extends MenuInheritActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quick_menu);
-
+        
         patientInfo = (Button) findViewById(R.id.patientInfo);
         patientInfo.setOnClickListener(new ButtonClick());
         bookAppointment = (Button) findViewById(R.id.bookAppointment);
@@ -32,7 +36,8 @@ public class QuickMenuActivity extends MenuInheritActivity {
         todaysAppointments = (Button) findViewById(R.id.todays_appointments);
         todaysAppointments.setOnClickListener(new ButtonClick());
         isViewVisible = true;
-        
+
+
         Log.d("MYLOG", "Before Other get token");
     }
     

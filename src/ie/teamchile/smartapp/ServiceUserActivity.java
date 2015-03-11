@@ -35,7 +35,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 			kinCallIntent, kinSmsIntent;
 	private Calendar cal = Calendar.getInstance();
 	private String nameToAnte, ageToAnte, gestationAnti, parityAnte, deliveryDate, bloodGroup, rhesus, ageAnteNatal, obstetricHistory;
-	
+	private double grams;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -60,6 +60,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		int anteNatalAge = getAge(age);
 		String theAge = String.valueOf(anteNatalAge);
 		
+
 		ageServiceUser.setText(theAge);
 		String hospitalNumberStr = ServiceUserSingleton.getInstance().getHospitalNumber();
 		String emailStr = ServiceUserSingleton.getInstance().getEmail();
@@ -74,6 +75,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		String parityStr = ServiceUserSingleton.getInstance().getParity();
 
 		name.setText(nameStr);
+
 		
 		hospitalNumber.setText(hospitalNumberStr);
 		email.setText(emailStr);
@@ -375,4 +377,10 @@ public class ServiceUserActivity extends MenuInheritActivity {
         now = cal.getTime();
         return (int)((now.getTime() - past.getTime()) / (1000 * 60 * 60 * 24)); 
 	}
+    
+    public double getGramsToKg(double grams){
+    	double kg = 0.0;
+    	kg = grams/1000;
+    	return kg;
+    }
 }

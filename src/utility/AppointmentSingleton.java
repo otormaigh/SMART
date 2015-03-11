@@ -71,7 +71,7 @@ import connecttodb.AccessDBTable;
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
- 
+
 
 public class AppointmentSingleton {
 	private static AppointmentSingleton singleInstance;

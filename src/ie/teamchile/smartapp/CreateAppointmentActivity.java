@@ -3,6 +3,7 @@ package ie.teamchile.smartapp;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+
 import utility.ServiceUserSingleton;
 import android.app.Activity;
 import android.content.Context;
@@ -16,6 +17,7 @@ import connecttodb.AccessDBTable;
 import connecttodb.PostAppointment;
 
 public class CreateAppointmentActivity extends MenuInheritActivity {
+
 	private TextView userName, appointmentClinic, apptDate, apptTime,
 	 				 apptDuration, apptPriority, apptVisitType;
 	private Button confirmAppointment;
