@@ -16,6 +16,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
 
+
             
         </LinearLayout>
 
@@ -94,6 +95,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="start"
+                android:textStyle="bold"
                 android:paddingTop="@dimen/padding_small"
                 android:text="@string/mother_info"
                 android:textSize="@dimen/text_small" />
@@ -117,13 +119,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
-            android:textSize="@dimen/text_small"
+            android:textSize="@dimen/text_Xsmall"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="end"
+            android:textStyle="bold"
             android:textSize="@dimen/text_Xsmall"
             android:text="@string/birth_mode"
             android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -140,13 +143,14 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text=""
-            android:textSize="@dimen/text_small"
+            android:textSize="@dimen/text_Xsmall"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:gravity="end"
+            android:textStyle="bold"
             android:textSize="@dimen/text_Xsmall"
             android:text="@string/perineum"
             android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -163,13 +167,14 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text=""
-            android:textSize="@dimen/text_small"
+            android:textSize="@dimen/text_Xsmall"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:gravity="end"
+            android:textStyle="bold"
             android:textSize="@dimen/text_Xsmall"
             android:text="@string/anti_d"
             android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -218,6 +223,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="start"
+                android:textStyle="bold"
                 android:paddingTop="@dimen/padding_medium"
                 android:text="@string/baby_info"
                 android:textSize="@dimen/text_small" />
@@ -241,13 +247,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
-            android:textSize="@dimen/text_small"
+            android:textSize="@dimen/text_Xsmall"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="end"
+            android:textStyle="bold"
             android:textSize="@dimen/text_Xsmall"
             android:text="@string/delivery_date"
             android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -264,13 +271,14 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text=""
-            android:textSize="@dimen/text_small"
+            android:textSize="@dimen/text_Xsmall"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:gravity="end"
+            android:textStyle="bold"
             android:textSize="@dimen/text_Xsmall"
             android:text="@string/delivery_time"
             android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -287,13 +295,14 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text=""
-            android:textSize="@dimen/text_small"
+            android:textSize="@dimen/text_Xsmall"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:gravity="end"
+            android:textStyle="bold"
             android:textSize="@dimen/text_Xsmall"
             android:text="@string/days_sinceBirth"
             android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -317,6 +326,7 @@
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:gravity="end"
+            android:textStyle="bold"
             android:textSize="@dimen/text_Xsmall"
             android:text="@string/sex_of_baby"
             android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -334,13 +344,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
-            android:textSize="@dimen/text_small"
+            android:textSize="@dimen/text_Xsmall"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="end"
+            android:textStyle="bold"
             android:textSize="@dimen/text_Xsmall"
             android:text="@string/birth_weight"
             android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -357,13 +368,14 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text=""
-            android:textSize="@dimen/text_small"
+            android:textSize="@dimen/text_Xsmall"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:gravity="end"
+            android:textStyle="bold"
             android:textSize="@dimen/text_Xsmall"
             android:text="@string/vit_k"
             android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -380,13 +392,14 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text=""
-            android:textSize="@dimen/text_small"
+            android:textSize="@dimen/text_Xsmall"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:gravity="end"
+            android:textStyle="bold"
             android:textSize="@dimen/text_Xsmall"
             android:text="@string/baby_hearing"
             android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -410,6 +423,7 @@
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:gravity="end"
+            android:textStyle="bold"
             android:text="@string/baby_feeding"
             android:textSize="@dimen/text_Xsmall"
             android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -434,6 +448,7 @@
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:gravity="end"
+            android:textStyle="bold"
             android:text="@string/nbst"
             android:textSize="@dimen/text_Xsmall"
             android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -442,5 +457,5 @@
 
 </LinearLayout>
 </LinearLayout>
-
-    </ScrollView>
+</ScrollView> 
+ 
