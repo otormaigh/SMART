@@ -19,7 +19,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.test.ServiceTestCase;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -163,12 +162,11 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
     	ArrayList<String> timeSingle = new ArrayList<String>();
     	ArrayList<String> nameSingle = new ArrayList<String>();
     	ArrayList<String> gestSingle = new ArrayList<String>();
-    	//listOfId = new ArrayList<String>();
-    	String daySelectedStr = dfDateOnly.format(daySelected); 
+    	String daySelectedStr = dfDateOnly.format(daySelected);
     	
     	dateInList.setText(dfDateOnlyOther.format(daySelected));
     	Log.d("singleton", "String.valueOf(hospitalSelected) " + String.valueOf(hospitalSelected));
-    	String nameOfClinic = ClinicSingleton.getInstance().getClinicName(String.valueOf(hospitalSelected));
+    	String nameOfClinic = ClinicSingleton.getSingletonIntance().getName(String.valueOf(hospitalSelected));
     	clinicName.setText(nameOfClinic);
 		listOfId = AppointmentSingleton.getInstance().getListOfIDs(String.valueOf(hospitalSelected), daySelectedStr);
 		
@@ -278,10 +276,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 			
 			timeText.setText(aptTime.get(position));
 			nameText.setText(aptName.get(position));
-			gestText.setText(aptGest.get(position));
-			
-			//prevWeek.setEnabled(true); 
-	    	//nextWeek.setEnabled(true); 	    	
+			gestText.setText(aptGest.get(position));    	
 			return convertView;
 		}
 	}
@@ -345,6 +340,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 				new LongOperation(AppointmentCalendarActivity.this).execute("service_users" + "/" + serviceUserID);
 		        
 				intent = new Intent(AppointmentCalendarActivity.this, ConfirmAppointmentActivity.class);
+				intent.putExtra("details", details);
 				intent.putExtra("name", nameFromDB);
 				intent.putExtra("time", timeFromDB);
 				intent.putExtra("date", dateFromDB);

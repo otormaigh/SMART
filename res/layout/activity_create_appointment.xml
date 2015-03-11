@@ -104,7 +104,6 @@
             android:layout_height="wrap_content"
             android:entries="@array/visit_priority_list" />
 
-
         <TextView
             android:id="@+id/text_visit_type"
             android:layout_width="fill_parent"

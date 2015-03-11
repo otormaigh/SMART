@@ -1,13 +1,17 @@
 package ie.teamchile.smartapp;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
+import utility.ServiceUserSingleton;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,20 +20,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import connecttodb.AccessDBTable;
-import utility.ServiceUserSingleton;
-
 public class ServiceUserActivity extends MenuInheritActivity {
-	private TextView hospitalNumber,name,  age, email, mobileNumber, road,
+	private TextView hospitalNumber,name, ageServiceUser, email, mobileNumber, road,
 			county, postCode, nextOfKinName, nextOfKinContactNumber, gestation, parity;
 	private String dob, userCall, userSMS, userEmail, kinCall, kinSMS;
 	private Dialog dialog;
@@ -43,7 +35,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 			kinCallIntent, kinSmsIntent;
 	private Calendar cal = Calendar.getInstance();
 	private String nameToAnte, ageToAnte, gestationAnti, parityAnte, deliveryDate, bloodGroup, rhesus, ageAnteNatal, obstetricHistory;
-	
+	private double grams;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -53,7 +45,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 
 		hospitalNumber = (TextView) findViewById(R.id.hospital_number);
 		name = (TextView) findViewById(R.id.name);
-		age = (TextView) findViewById(R.id.age);
+		ageServiceUser=(TextView) findViewById(R.id.age);
 		email = (TextView) findViewById(R.id.email);
 		mobileNumber = (TextView) findViewById(R.id.mobile_number);
 		road = (TextView) findViewById(R.id.road);
@@ -61,14 +53,40 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		postCode = (TextView) findViewById(R.id.post_code);
 		nextOfKinName = (TextView) findViewById(R.id.next_of_kin_name);
 		nextOfKinContactNumber = (TextView) findViewById(R.id.next_of_kin_contact_number);
+		gestation = (TextView) findViewById(R.id.g);
+		parity = (TextView)findViewById(R.id.p);
+
+		String age = ServiceUserSingleton.getInstance().getAge();
+		int anteNatalAge = getAge(age);
+		String theAge = String.valueOf(anteNatalAge);
 		
-		String hospitalNumberStr = ServiceUserSingleton.getInstance().getUserHospitalNumber().get(0);
-		String emailStr = ServiceUserSingleton.getInstance().getUserEmail().get(0);
-		String mobileStr = ServiceUserSingleton.getInstance().getUserMobilePhone().get(0);
+
+		ageServiceUser.setText(theAge);
+		String hospitalNumberStr = ServiceUserSingleton.getInstance().getHospitalNumber();
+		String emailStr = ServiceUserSingleton.getInstance().getEmail();
+		String mobileStr = ServiceUserSingleton.getInstance().getMobileNumber();
+		String nameStr = ServiceUserSingleton.getInstance().getName();
+		String kinName = ServiceUserSingleton.getInstance().getKinName();
+		String kinMobile = ServiceUserSingleton.getInstance().getKinMobileNumber();
+		String roadStr = ServiceUserSingleton.getInstance().getAddress();
+		String countyStr = ServiceUserSingleton.getInstance().getCounty();
+		String postCodeStr = ServiceUserSingleton.getInstance().getPostCode();
+		String gestationStr = ServiceUserSingleton.getInstance().getGestation();
+		String parityStr = ServiceUserSingleton.getInstance().getParity();
+
+		name.setText(nameStr);
+
 		
 		hospitalNumber.setText(hospitalNumberStr);
 		email.setText(emailStr);
 		mobileNumber.setText(mobileStr);
+		road.setText(roadStr);
+		county.setText(countyStr);
+		postCode.setText(postCodeStr);
+		nextOfKinName.setText(kinName);
+		nextOfKinContactNumber.setText(kinMobile);
+		gestation.setText(gestationStr);
+		parity.setText(parityStr);
 		
 		bookAppointmentButton = (Button) findViewById(R.id.book_appointment);
 		bookAppointmentButton.setOnClickListener(new ButtonClick());
@@ -78,13 +96,15 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		userContact.setOnClickListener(new ButtonClick());
 		userAddress = (Button) findViewById(R.id.user_address);
 		userAddress.setOnClickListener(new ButtonClick());
+		
 		anteNatal = (ImageView)findViewById(R.id.ante_natal);
 		anteNatal.setOnClickListener(new ButtonClick());
+		
 		postNatal = (ImageView)findViewById(R.id.post_natal);
 		postNatal.setOnClickListener(new ButtonClick());
+		
 		userImage = (ImageView)findViewById(R.id.user_image);
 		userImage.setOnClickListener(new ButtonClick());
-
 	
 	}
 
@@ -92,12 +112,12 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.ante_natal:
-				Intent intent = new Intent(getApplicationContext(), AnteNatalActivity.class);
+				Intent intent = new Intent(ServiceUserActivity.this, AnteNatalActivity.class);
 				//new LongOperation(ServiceUserActivity.this).execute("service_users");
 				startActivity(intent);
 				break;
 			case R.id.post_natal:
-				Intent intent1 = new Intent(getApplicationContext(), PostNatalActivity.class);
+				Intent intent1 = new Intent(ServiceUserActivity.this, PostNatalActivity.class);
 				startActivity(intent1);
 				break;
 			case R.id.user_image:
@@ -294,20 +314,73 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		return result;
 	}
 	
-	public int getDeliveryDate(String edd){
+	public String getEstimateDeliveryDate(String edd){
+
+			 // *** note that it's "yyyy-MM-dd hh:mm:ss" not "yyyy-mm-dd hh:mm:ss"  
+	        SimpleDateFormat dt = new SimpleDateFormat("yyyy-mm-dd");
+	        Date date;
+	        String ed = null;
+			try{
+				date = dt.parse(edd);
+				// *** same for the format String below
+		        SimpleDateFormat dt1 = new SimpleDateFormat("dd MMMM yyyy");
+		        ed = dt1.format(date);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		    return ed;
+	}
+	
+	public String getDeliveryDate(String edd){
+
+       SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+       Date date;
+       String dateOfDevelivery = null;
 		try{
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-		eddAsDate = df.parse(edd);
+			date = dt.parse(edd);
+			// *** same for the format String below
+	        SimpleDateFormat dt1 = new SimpleDateFormat("dd MMMM yyyy");
+	        dateOfDevelivery = dt1.format(date);
 		} catch (ParseException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		cal.setTime(eddAsDate);
-		int year = cal.get(Calendar.YEAR);
-		int month = cal.get(Calendar.MONTH);
-		int day = cal.get(Calendar.DAY_OF_YEAR);
-		Date date = new Date();
-		int result = day+month+year;
-	
-		return result;
+
+	    return dateOfDevelivery;
 	}
+	
+	
+	
+	public String getDeliveryTime(String edd) {
+		String deliveryTime = null;
+		Date date;
+        SimpleDateFormat dti = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+        SimpleDateFormat fd = new SimpleDateFormat("HH:mm a");
+  	  try {
+  		  date = dti.parse(edd);
+  		 
+  		  deliveryTime = fd.format(date);
+		  date = dti.parse(edd);
+		
+	} catch (ParseException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+       return deliveryTime;
+	}
+	
+
+    public int getNoOfDays(Date now, Date past){
+
+        now = cal.getTime();
+        return (int)((now.getTime() - past.getTime()) / (1000 * 60 * 60 * 24)); 
+	}
+    
+    public double getGramsToKg(double grams){
+    	double kg = 0.0;
+    	kg = grams/1000;
+    	return kg;
+    }
 }
