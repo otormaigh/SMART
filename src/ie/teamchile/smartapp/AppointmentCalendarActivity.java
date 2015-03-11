@@ -19,6 +19,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.test.ServiceTestCase;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -166,7 +167,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
     	
     	dateInList.setText(dfDateOnlyOther.format(daySelected));
     	Log.d("singleton", "String.valueOf(hospitalSelected) " + String.valueOf(hospitalSelected));
-    	String nameOfClinic = ClinicSingleton.getSingletonIntance().getName(String.valueOf(hospitalSelected));
+    	String nameOfClinic = ClinicSingleton.getInstance().getClinicName(String.valueOf(hospitalSelected));
     	clinicName.setText(nameOfClinic);
 		listOfId = AppointmentSingleton.getInstance().getListOfIDs(String.valueOf(hospitalSelected), daySelectedStr);
 		
@@ -340,7 +341,6 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 				new LongOperation(AppointmentCalendarActivity.this).execute("service_users" + "/" + serviceUserID);
 		        
 				intent = new Intent(AppointmentCalendarActivity.this, ConfirmAppointmentActivity.class);
-				intent.putExtra("details", details);
 				intent.putExtra("name", nameFromDB);
 				intent.putExtra("time", timeFromDB);
 				intent.putExtra("date", dateFromDB);
