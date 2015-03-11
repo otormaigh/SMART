@@ -13,7 +13,6 @@ import android.os.AsyncTask;
 import android.util.Log;
 import connecttodb.AccessDBTable;
 
-
 /*
 "clinics": [
             {
