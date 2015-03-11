@@ -33,6 +33,9 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 	JSONArray query, query2, query3;
 	AccessDBTable dbTable = new AccessDBTable();
 	private ProgressDialog pd;
+	private Intent intent;
+	private String response;
+	private JSONObject jsonNew;
 	private AccessDBTable db = new AccessDBTable();
 
 	@Override
@@ -50,7 +53,6 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 		searchResult3 = (Button) findViewById(R.id.search_result_3);
 		searchResult3.setOnClickListener(new ButtonClick());
 	}
-	
 	private class ButtonClick implements View.OnClickListener {
 		public void onClick(View v) {
 			switch (v.getId()) {
@@ -109,7 +111,7 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 			 * if not empty do getSinglton.getName
 			 * set this to button text
 			 */
-    		String name = ServiceUserSingleton.getInstance().getName();
+    		String name = ServiceUserSingleton.getInstance().getUserName().get(0);
             searchResult1.setText(name); 
             if(name == null){
             	Toast.makeText(getApplicationContext(), "No search result found", Toast.LENGTH_LONG).show();

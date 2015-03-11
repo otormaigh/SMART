@@ -6,9 +6,8 @@ import java.util.Calendar;
 import utility.AppointmentSingleton;
 import utility.ClinicSingleton;
 import utility.ConnectivityTester;
-import utility.InternalFileWriterReader;
+import utility.ServiceProviderSingleton;
 import utility.ToastAlert;
-import utility.UserSingleton;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -27,7 +26,7 @@ public class MainActivity extends MenuInheritActivity {
 	private TextView usernameTextView, passwordTextView, about;
 	private GetToken getToken = new GetToken();
 	private Intent intent;
-	private ProgressDialog pd;
+	ProgressDialog pd;
 	private Calendar cal = Calendar.getInstance();
 	private ConnectivityTester testConn = new ConnectivityTester(this);
 
@@ -63,8 +62,7 @@ public class MainActivity extends MenuInheritActivity {
 	    about.setMovementMethod(LinkMovementMethod.getInstance());
 	    
 	}
-
-	private class ButtonClick implements View.OnClickListener {
+    private class ButtonClick implements View.OnClickListener {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.login:
@@ -82,7 +80,7 @@ public class MainActivity extends MenuInheritActivity {
 	private class LongOperation extends AsyncTask<String, Void, String> {
 		@Override
 		protected void onPreExecute() {
-			ToastAlert ta = new ToastAlert(getBaseContext(), "Loading data. . . ");
+			ToastAlert ta = new ToastAlert(getBaseContext(), "Loading data. . . ", false);
 		}
 		protected String doInBackground(String... params) {
 			getToken.getToken(username, password);
@@ -103,32 +101,34 @@ public class MainActivity extends MenuInheritActivity {
 		username = usernameTextView.getText().toString();
 		password = passwordTextView.getText().toString();
 	}
-    private void checkCredentials(){    	
-    	if (getToken.getResponseCode().equals("201")){
-    		
-    		// update Singleton
-    		AppointmentSingleton.getInstance().updateLocal();
-			ClinicSingleton.getInstance().updateLocal(this);
-			
-    		UserSingleton.getUserSingleton().setLoggedIn(true);
-    		UserSingleton.getUserSingleton().setUsername(username);
-    		UserSingleton.getUserSingleton().setPassword(password); 
-    		
-    		Toast.makeText(this, "Welcome " + username, Toast.LENGTH_LONG).show();
-
-    		// show the quick menu
-    		intent = new Intent(MainActivity.this, QuickMenuActivity.class);
-			startActivity(intent);
-    	} else
-    		Toast.makeText(this, "Login Failed", Toast.LENGTH_LONG).show();
+    private void checkCredentials(){    
+    	if(getToken.getResponseCode() != null && !getToken.getResponseCode().isEmpty()) {
+    		if (getToken.getResponseCode().equals("201")){
+        		
+        		// update Singleton
+        		AppointmentSingleton.getInstance().updateLocal(this);
+    			ClinicSingleton.getInstance().updateLocal(this);
+    			
+        		ServiceProviderSingleton.getInstance().setLoggedIn(true);
+        		ServiceProviderSingleton.getInstance().setUsername(username);
+        		ServiceProviderSingleton.getInstance().setPassword(password); 
+        		
+        		Toast.makeText(this, "Welcome " + username, Toast.LENGTH_LONG).show();
+        		// show the quick menu
+        		intent = new Intent(MainActivity.this, QuickMenuActivity.class);
+    			startActivity(intent);
+        	} else
+        		Toast.makeText(this, "Login Failed", Toast.LENGTH_LONG).show();
+    	}else {
+    		ToastAlert ta = new ToastAlert(MainActivity.this, "Poor Internet Activity \nPlease check your settings", true);
+    	}
 	}
     @Override
     public void onBackPressed() {
-		if (UserSingleton.getUserSingleton().isLoggedIn()) {
-			ToastAlert ta = new ToastAlert(getBaseContext(),
-					"Already logged in, \n  logout?");
-		} else {
-			finish();
-		}   	
+    	if(ServiceProviderSingleton.getInstance().isLoggedIn()) {
+    		ToastAlert ta = new ToastAlert(getBaseContext(), "Already logged in, \n  logout?", true);
+    	}else { 
+			finish();   		
+    	}    	
     }
 }

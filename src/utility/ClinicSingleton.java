@@ -47,9 +47,10 @@ import connecttodb.AccessDBTable;
 
 public class ClinicSingleton {	
 	private static ClinicSingleton singleInstance;
-	private HashMap<String, String> idHash;
+	private HashMap<String, JSONObject> idHash;
 	private ArrayList<JSONObject> jsonValues;
 	private AccessDBTable db = new AccessDBTable();
+	private JsonParseHelper help = new JsonParseHelper();
 	private String response;
 	private JSONArray query;
 	private JSONObject jsonNew;
@@ -74,7 +75,7 @@ public class ClinicSingleton {
 		@Override
 		protected void onPreExecute() {
 			pd = new ProgressDialog(context);
-			pd.setMessage("Logging In . . . .");
+			pd.setMessage("Updating Clinics");
 			pd.show();
 		}
 		protected JSONArray doInBackground(String... params) {
@@ -103,9 +104,9 @@ public class ClinicSingleton {
 	
 	public void setHashMapofIdClinic(JSONArray clinicArray) {
 		jsonValues = new ArrayList<JSONObject>();
-		idHash = new HashMap<String, String>();
+		idHash = new HashMap<String, JSONObject>();
 		String id; // key
-		String clinic; // value
+		JSONObject clinic; // value
 		
 		try {
 			/**
@@ -123,7 +124,7 @@ public class ClinicSingleton {
 			 */
 			for (int i = 0; i < jsonValues.size(); i++) {
 				id = String.valueOf((jsonValues.get(i).getInt("id")));
-				clinic = jsonValues.get(i).toString();			
+				clinic = jsonValues.get(i);			
 				idHash.put(id, clinic);
 			}
 		} catch (JSONException e) {
@@ -133,7 +134,7 @@ public class ClinicSingleton {
 		this.idHash = idHash;
 	}
 	
-	public HashMap<String, String> getHashMapofIdClinic(){
+	public HashMap<String, JSONObject> getHashMapofIdClinic(){
 		return idHash;
 	}
 
@@ -142,7 +143,7 @@ public class ClinicSingleton {
 		String nameFromDB = "";
 		for (int i = 1; i <= idHash.size(); i++) {
 			try {
-				json = new JSONObject(idHash.get(String.valueOf(i)));
+				json = idHash.get(String.valueOf(i));
 				nameFromDB = json.get("name").toString();
 
 				if (nameFromDB.equals(name)) {
@@ -155,145 +156,72 @@ public class ClinicSingleton {
 		return null;
 	}
 	
-	public String getAddress(String idToSearch) {
-		String address = null;
-		JSONObject json;		
-		try {
-			json = new JSONObject(idHash.get(idToSearch));
-			address = json.get("address").toString();	
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return address;
+	public String getAddress(String id){
+		JSONObject json = idHash.get(id);
+		return help.jsonParseHelper(json, "clinics", "address");
 	}
 	
-	public String getAnnouncementID(String idToSearch) {
-		String announcementID = null;
-		JSONObject json;		
-		try {
-			json = new JSONObject(idHash.get(idToSearch));
-			announcementID = json.get("announcement_ids").toString();	
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return announcementID;
+	public String getAnnouncementID(String id){
+		JSONObject json = idHash.get(id);
+		return help.jsonParseHelper(json, "clinics", "announcement_ids");
 	}
 	
-	public String getAppointmentIntervals(String idToSearch) {
-		String appointmentInterval = null;
-		JSONObject json;		
-		try {
-			json = new JSONObject(idHash.get(idToSearch));
-			appointmentInterval = json.get("appointment_interval").toString();	
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return appointmentInterval;
+	public String getAppointmentInterval(String id){
+		JSONObject json = idHash.get(id);
+		return help.jsonParseHelper(json, "clinics", "appointment_interval");
+	}
+
+	public String getClosingTime(String id){
+		JSONObject json = idHash.get(id);
+		return help.jsonParseHelper(json, "clinics", "closing_time");
 	}
 	
-	public String getClosingTime(String idToSearch) {
-		String closingTime = null;
-		JSONObject json;		
-		try {
-			json = new JSONObject(idHash.get(idToSearch));
-			closingTime = json.get("closing_time").toString();	
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return closingTime;
+	public String getDays(String id){
+		JSONObject json = idHash.get(id);
+		return help.jsonParseHelper(json, "clinics", "days");
 	}
 	
-	public String getDays(String idToSearch) {
-		String days = null;
-		JSONObject json;		
-		try {
-			json = new JSONObject(idHash.get(idToSearch));
-			days = json.get("days").toString();	
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return days;
-	}
-	
-	public String getClinicID(String idToSearch) {
-		String clinicId = null;
-		JSONObject json;		
-		try {
-			json = new JSONObject(idHash.get(idToSearch));
-			clinicId = json.get("id").toString();	
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return clinicId;
+	public String getClinicID(String id){
+		JSONObject json = idHash.get(id);
+		return help.jsonParseHelper(json, "clinics", "id");
 	}
 	
 	/**
 	 * 
-	 * TODO: create getter for links
+	 * TODO: do something with links
 	 *  "links": {
      *           "announcements": "announcements", 
      *           "service_options": "/service_options"
      *       }, 
      *       
 	 */
-	
-	public String getClinicName(String idToSearch) {
-		String name = null;
-		JSONObject json;		
-		try {
-			json = new JSONObject(idHash.get(idToSearch));
-			name = json.get("name").toString();	
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return name;
+	public String getLinks(String id){
+		JSONObject json = idHash.get(id);
+		return help.jsonParseHelper(json, "clinics", "links");
 	}
 	
-	public String getOpeningHours(String idToSearch) {
-		String openingTime = null;
-		JSONObject json;		
-		try {
-			json = new JSONObject(idHash.get(idToSearch));
-			openingTime = json.get("opening_time").toString();	
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return openingTime;
+	public String getClinicName(String id){
+		JSONObject json = idHash.get(id);
+		return help.jsonParseHelper(json, "clinics", "name");
 	}
 	
-	public String getRecurrence(String idToSearch) {
-		String recurrence = null;
-		JSONObject json;		
-		try {
-			json = new JSONObject(idHash.get(idToSearch));
-			recurrence = json.get("recurrence").toString();	
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return recurrence;
+	public String getOpeningTime(String id){
+		JSONObject json = idHash.get(id);
+		return help.jsonParseHelper(json, "clinics", "opening_time");
+	}
+	
+	public String getRecurrence(String id){
+		JSONObject json = idHash.get(id);
+		return help.jsonParseHelper(json, "clinics", "recurrence");
+	}
+	
+	public String getServiceOptionIDs(String id){
+		JSONObject json = idHash.get(id);
+		return help.jsonParseHelper(json, "clinics", "service_option_ids");
 	}
 
-	public String getServiceOptionID(String idToSearch) {
-		String serviceOptionID = null;
-		JSONObject json;		
-		try {
-			json = new JSONObject(idHash.get(idToSearch));
-			serviceOptionID = json.get("service_option_ids").toString();	
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return serviceOptionID;
-	}
-
-	public String getClinicType(String idToSearch) {
-		String type = null;
-		JSONObject json;		
-		try {
-			json = new JSONObject(idHash.get(idToSearch));
-			type = json.get("type").toString();	
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return type;
+	public String getClinicType(String id){
+		JSONObject json = idHash.get(id);
+		return help.jsonParseHelper(json, "clinics", "type");
 	}
 }

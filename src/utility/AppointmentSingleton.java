@@ -9,6 +9,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import connecttodb.AccessDBTable;
@@ -72,16 +74,17 @@ import connecttodb.AccessDBTable;
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
 
-
 public class AppointmentSingleton {
 	private static AppointmentSingleton singleInstance;
 	private HashMap<String, HashMap<String, ArrayList<String>>> clinicIDHash;
-	private HashMap<String, String> idHash;
+	private HashMap<String, JSONObject> idHash;
 	private ArrayList<String> idList;
 	private AccessDBTable db = new AccessDBTable();
+	private JsonParseHelper help = new JsonParseHelper();
 	private String response;
 	private JSONArray query;
 	private JSONObject jsonNew;
+	private ProgressDialog pd;
 	
 	private AppointmentSingleton() {
 	}
@@ -93,14 +96,21 @@ public class AppointmentSingleton {
 		return singleInstance;
 	}
 	
-	public void updateLocal(){
-		new LongOperation().execute("appointments");
+	public void updateLocal(Context context){
+		new LongOperation(context).execute("appointments");
 	}
 	
 	//Get full appointment table from database
 	private class LongOperation extends AsyncTask<String, Void, JSONArray> {
+		private Context context;
+		public LongOperation(Context context){
+			this.context = context;
+		}
 		@Override
 		protected void onPreExecute() {
+			pd = new ProgressDialog(context);
+			pd.setMessage("Updating Appointments");
+			pd.show();
 		}
 		protected JSONArray doInBackground(String... params) {
 			Log.d("singleton", "in appointment updateLocal doInBackground");
@@ -121,6 +131,7 @@ public class AppointmentSingleton {
         protected void onPostExecute(JSONArray result) {
 			setHashMapofClinicDateID(result);
 			setHashMapofIdAppt(result);
+			pd.dismiss();
         }
 	}
 	
@@ -179,9 +190,9 @@ public class AppointmentSingleton {
 	 */
 	public void setHashMapofIdAppt(JSONArray appointmentArray) {
 		ArrayList<JSONObject> jsonValues = new ArrayList<JSONObject>();
-		HashMap<String, String> idHash = new HashMap<String, String>();
+		HashMap<String, JSONObject> idHash = new HashMap<String, JSONObject>();
 		String id;
-		String appt;
+		JSONObject appt;
 		
 		try {
 			for (int i = 0; i < appointmentArray.length(); i++) {
@@ -190,7 +201,7 @@ public class AppointmentSingleton {
 			}	
 			for (int i = 0; i < jsonValues.size(); i++) {
 				id = String.valueOf((jsonValues.get(i).getInt("id")));
-				appt = jsonValues.get(i).toString();				
+				appt = jsonValues.get(i);				
 				idHash.put(id, appt);
 			}
 		} catch (JSONException e) {
@@ -242,334 +253,195 @@ public class AppointmentSingleton {
         return objToBeSorted;
     }
 	
-	public ArrayList<String> getClinicID(ArrayList<?> idList) { // get the specific id not list of???
-		ArrayList<String> clinicID = new ArrayList<String>();
-		JSONObject json;
-		
-		for(int i = 0; i < idList.size(); i++ ){
-			try {
-				json = new JSONObject(idHash.get(idList.get(i)));
-				clinicID.add(json.get("clinic_id").toString());				
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-		}
-		return clinicID;
+	public JSONObject getAppointmentString(String id){
+		return idHash.get(id);
 	}
 	
 	public String getClinicID(String id){
-		String clinicID = new String();
-		JSONObject json;
-		try {
-			json = new JSONObject(idHash.get(id));
-			clinicID = json.get("clinic_id").toString();
-		} catch (JSONException e) {
-			e.printStackTrace();
+		JSONObject json = idHash.get(id);
+		return help.jsonParseHelper(json, "appointments", "clinic_id");
+	}
+	
+	public ArrayList<String> getClinicID(ArrayList<String> idList){
+		ArrayList<String> clinicID = new ArrayList<String>();
+		for(int i = 0; i < idList.size(); i++ ){
+			JSONObject json = idHash.get(idList.get(i));
+			clinicID.add(help.jsonParseHelper(json, "appointments", "clinic_id"));
 		}
 		return clinicID;
 	}
+
+	public String getDate(String id){
+		JSONObject json = idHash.get(id);
+		return help.jsonParseHelper(json, "appointments", "date");
+	}
 	
-	public ArrayList<String> getDate(ArrayList<String> idList) {
+	public ArrayList<String> getDate(ArrayList<String> idList){
 		ArrayList<String> date = new ArrayList<String>();
-		JSONObject json;
-		
 		for(int i = 0; i < idList.size(); i++ ){
-			try {
-				json = new JSONObject(idHash.get(idList.get(i)));
-				date.add(json.get("date").toString());				
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+			JSONObject json = idHash.get(idList.get(i));
+			date.add(help.jsonParseHelper(json, "appointments", "date"));
 		}
 		return date;
 	}
-	
-	public String getDate(String id) {
-		String date = new String();
-		JSONObject json;
-		try {
-			json = new JSONObject(idHash.get(id));
-			date = json.get("date").toString();				
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return date;
+
+	public String getAppointmentID(String id){
+		JSONObject json = idHash.get(id);
+		return help.jsonParseHelper(json, "appointments", "appointment_id");
 	}
 	
-	public ArrayList<String> getAppointmentID(ArrayList<String> idList) {
-		ArrayList<String> apptID = new ArrayList<String>();
-		JSONObject json;
-		
+	public ArrayList<String> getAppointmentID(ArrayList<String> idList){
+		ArrayList<String> appointmentID = new ArrayList<String>();
 		for(int i = 0; i < idList.size(); i++ ){
-			try {
-				json = new JSONObject(idHash.get(idList.get(i)));
-				apptID.add(json.get("id").toString());				
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+			JSONObject json = idHash.get(idList.get(i));
+			appointmentID.add(help.jsonParseHelper(json, "appointments", "appointment_id"));
 		}
-		return apptID;
+		return appointmentID;
 	}
 	
-	public String getAppointmentID(String id) {
-		String apptID = new String();
-		JSONObject json;
-		try {
-			json = new JSONObject(idHash.get(id));
-			apptID = json.get("id").toString();				
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return apptID;
-	}
-	
-	/**TODO getter method for links	  
+	/**TODO do something with links	  
 	  "links": {
             "service_options": "/appointments/64/service_options", 
             "service_provider": "service_providers/14", 
             "service_user": "service_users/1"
         },
 	*/
+	public String getLinks(String id){
+		JSONObject json = idHash.get(id);
+		return help.jsonParseHelper(json, "appointments", "links");
+	}
 	
-	public ArrayList<String> getPriority(ArrayList<String> idList) {
+	public ArrayList<String> getLinks(ArrayList<String> idList){
+		ArrayList<String> links = new ArrayList<String>();
+		for(int i = 0; i < idList.size(); i++ ){
+			JSONObject json = idHash.get(idList.get(i));
+			links.add(help.jsonParseHelper(json, "appointments", "links"));
+		}
+		return links;
+	}
+	
+	public String getPriority(String id){
+		JSONObject json = idHash.get(id);
+		return help.jsonParseHelper(json, "appointments", "priority");
+	}
+	
+	public ArrayList<String> getPriority(ArrayList<String> idList){
 		ArrayList<String> priority = new ArrayList<String>();
-		JSONObject json;
-		
 		for(int i = 0; i < idList.size(); i++ ){
-			try {
-				json = new JSONObject(idHash.get(idList.get(i)));
-				priority.add(json.get("priority").toString());				
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+			JSONObject json = idHash.get(idList.get(i));
+			priority.add(help.jsonParseHelper(json, "appointments", "priority"));
 		}
 		return priority;
 	}
 	
-	public String getPriority(String id) {
-		String priority = new String();
-		JSONObject json;
-		try {
-			json = new JSONObject(idHash.get(id));
-			priority = json.get("priority").toString();				
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return priority;
+	public String getServiceOptionID(String id){
+		JSONObject json = idHash.get(id);
+		return help.jsonParseHelper(json, "appointments", "service_option_ids");
 	}
 	
-	public ArrayList<String> getServiceOptionID(ArrayList<String> idList) {
+	public ArrayList<String> getServiceOptionID(ArrayList<String> idList){
 		ArrayList<String> serviceOptionID = new ArrayList<String>();
-		JSONObject json;
-		
 		for(int i = 0; i < idList.size(); i++ ){
-			try {
-				json = new JSONObject(idHash.get(idList.get(i)));
-				serviceOptionID.add(json.get("service_option_ids").toString());				
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+			JSONObject json = idHash.get(idList.get(i));
+			serviceOptionID.add(help.jsonParseHelper(json, "appointments", "service_option_ids"));
 		}
 		return serviceOptionID;
 	}
 	
-	public String getServiceOptionID(String id) {
-		String serviceOptionID = new String();
-		JSONObject json;
-		try {
-			json = new JSONObject(idHash.get(id));
-			serviceOptionID = json.get("service_option_ids").toString();				
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return serviceOptionID;
-	}	
+	public String getServiceProviderID(String id){
+		JSONObject json = idHash.get(id);
+		return help.jsonParseHelper(json, "appointments", "service_provider_id");
+	}
 	
-	public ArrayList<String> getServiceProviderID(ArrayList<String> idList) {
+	public ArrayList<String> getServiceProviderID(ArrayList<String> idList){
 		ArrayList<String> serviceProviderID = new ArrayList<String>();
-		JSONObject json;
-		
 		for(int i = 0; i < idList.size(); i++ ){
-			try {
-				json = new JSONObject(idHash.get(idList.get(i)));
-				serviceProviderID.add(json.get("service_provider_id").toString());				
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+			JSONObject json = idHash.get(idList.get(i));
+			serviceProviderID.add(help.jsonParseHelper(json, "appointments", "service_provider_id"));
 		}
 		return serviceProviderID;
 	}
 	
-	public String getServiceProviderID(String id) {
-		String serviceProviderID = new String();
-		JSONObject json;
-		try {
-			json = new JSONObject(idHash.get(id));
-			serviceProviderID = json.get("service_provider_id").toString();				
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return serviceProviderID;
+	public String getGestation(String id){
+		JSONObject json = idHash.get(id);
+		return help.jsonParseHelper(json, "appointments", "gestation");
 	}
 	
-	public ArrayList<String> getGestation(ArrayList<?> idList){		
-		ArrayList<String> gest = new ArrayList<String>();
-		JSONObject json;
-		
+	public ArrayList<String> getGestation(ArrayList<String> idList){
+		ArrayList<String> gestation = new ArrayList<String>();
 		for(int i = 0; i < idList.size(); i++ ){
-			try {
-				json = new JSONObject(idHash.get(idList.get(i)));
-				gest.add(((JSONObject) json.get("service_user")).get("gestation").toString());				
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+			JSONObject json = idHash.get(idList.get(i));
+			gestation.add(help.jsonParseHelper(json, "appointments", "gestation"));
 		}
-		return gest;
+		return gestation;
 	}
 	
-	public String getGestation(String id){		
-		String gest = new String();
-		JSONObject json;
-		try {
-			json = new JSONObject(idHash.get(id));
-			gest = ((JSONObject) json.get("service_user")).get("gestation").toString();				
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return gest;
+	public String getServiceUserID(String id){
+		JSONObject json = idHash.get(id);
+		return help.jsonParseHelper(json, "appointments", "service_user_id");
 	}
 	
-	public ArrayList<String> getName(ArrayList<String> idList){		
-		ArrayList<String> name = new ArrayList<String>();
-		JSONObject json;
-		
-		for(int i = 0; i < idList.size(); i++ ){
-			try {
-				json = new JSONObject(idHash.get(idList.get(i)));
-				name.add(((JSONObject) json.get("service_user")).get("name").toString());				
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-		}
-		return name;
-	}
-	
-	public String getName(String id){		
-		String name = new String();
-		JSONObject json;
-		try {
-			json = new JSONObject(idHash.get(id));
-			name = ((JSONObject) json.get("service_user")).get("name").toString();				
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return name;
-	}
-	
-	public ArrayList<String> getServiceUserID(ArrayList<String> idList) {
+	public ArrayList<String> getServiceUserID(ArrayList<String> idList){
 		ArrayList<String> serviceUserID = new ArrayList<String>();
-		JSONObject json;
-		
 		for(int i = 0; i < idList.size(); i++ ){
-			try {
-				json = new JSONObject(idHash.get(idList.get(i)));
-				serviceUserID.add(json.get("service_user_id").toString());				
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+			JSONObject json = idHash.get(idList.get(i));
+			serviceUserID.add(help.jsonParseHelper(json, "appointments", "service_user_id"));
 		}
 		return serviceUserID;
 	}
-	
-	public String getServiceUserID(String id) {
-		String serviceUserID = new String();
-		JSONObject json;
-		try {
-			json = new JSONObject(idHash.get(id));
-			serviceUserID = json.get("service_user_id").toString();				
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return serviceUserID;
+
+	public String getName(String id){
+		JSONObject json = idHash.get(id);
+		return help.jsonParseHelper(json, "appointments", "name");
 	}
 	
-	public ArrayList<String> getTime(ArrayList<?> idList) {
+	public ArrayList<String> getName(ArrayList<String> idList){
+		ArrayList<String> name = new ArrayList<String>();
+		for(int i = 0; i < idList.size(); i++ ){
+			JSONObject json = idHash.get(idList.get(i));
+			name.add(help.jsonParseHelper(json, "appointments", "name"));
+		}
+		return name;
+	}
+	
+	public String getTime(String id){
+		JSONObject json = idHash.get(id);
+		return help.jsonParseHelper(json, "appointments", "time");
+	}
+	
+	public ArrayList<String> getTime(ArrayList<String> idList){
 		ArrayList<String> time = new ArrayList<String>();
-		JSONObject json;
-		
 		for(int i = 0; i < idList.size(); i++ ){
-			try {
-				json = new JSONObject(idHash.get(idList.get(i)));
-				time.add(json.get("time").toString());				
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+			JSONObject json = idHash.get(idList.get(i));
+			time.add(help.jsonParseHelper(json, "appointments", "time"));
 		}
 		return time;
 	}
 	
-	public String getTime(String id){		
-		String time = new String();
-		JSONObject json;
-		try {
-			json = new JSONObject(idHash.get(id));
-			time = json.get("time").toString();				
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return time;
+	public String getVisitLogs(String id){
+		JSONObject json = idHash.get(id);
+		return help.jsonParseHelper(json, "appointments", "visit_logs");
 	}
 	
-	public ArrayList<String> getVisitLogs(ArrayList<?> idList) {
+	public ArrayList<String> getVisitLogs(ArrayList<String> idList){
 		ArrayList<String> visitLogs = new ArrayList<String>();
-		JSONObject json;
-		
 		for(int i = 0; i < idList.size(); i++ ){
-			try {
-				json = new JSONObject(idHash.get(idList.get(i)));
-				visitLogs.add(json.get("visit_logs").toString());				
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+			JSONObject json = idHash.get(idList.get(i));
+			visitLogs.add(help.jsonParseHelper(json, "appointments", "visit_logs"));
 		}
 		return visitLogs;
 	}
 	
-	public String getVisitLogs(String id){		
-		String visitLogs = new String();
-		JSONObject json;
-		try {
-			json = new JSONObject(idHash.get(id));
-			visitLogs = json.get("visit_logs").toString();				
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return visitLogs;
+	public String getVisitType(String id){
+		JSONObject json = idHash.get(id);
+		return help.jsonParseHelper(json, "appointments", "visit_type");
 	}
 	
-	public ArrayList<String> getVisitType(ArrayList<?> idList) {
+	public ArrayList<String> getVisitType(ArrayList<String> idList){
 		ArrayList<String> visitType = new ArrayList<String>();
-		JSONObject json;
-		
 		for(int i = 0; i < idList.size(); i++ ){
-			try {
-				json = new JSONObject(idHash.get(idList.get(i)));
-				visitType.add(json.get("visit_type").toString());				
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-		}
-		return visitType;
-	}
-	
-	public String getVisitType(String id){		
-		String visitType = new String();
-		JSONObject json;
-		try {
-			json = new JSONObject(idHash.get(id));
-			visitType = json.get("visit_type").toString();				
-		} catch (JSONException e) {
-			e.printStackTrace();
+			JSONObject json = idHash.get(idList.get(i));
+			visitType.add(help.jsonParseHelper(json, "appointments", "visit_type"));
 		}
 		return visitType;
 	}
