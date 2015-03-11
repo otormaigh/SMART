@@ -12,6 +12,7 @@ import utility.ConnectivityTester;
 import utility.ServiceProviderSingleton;
 import utility.ServiceUserSingleton;
 import utility.ToastAlert;
+import utility.UserSingleton;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -67,8 +68,7 @@ public class MainActivity extends MenuInheritActivity {
 	    about.setMovementMethod(LinkMovementMethod.getInstance());
 	    
 	}
-
-	private class ButtonClick implements View.OnClickListener {
+    private class ButtonClick implements View.OnClickListener {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.login:
@@ -120,8 +120,6 @@ public class MainActivity extends MenuInheritActivity {
         		ServiceProviderSingleton.getInstance().setPassword(password); 
         		
         		Toast.makeText(this, "Welcome " + username, Toast.LENGTH_LONG).show();
-        		new AnotherLongTask().execute("service_users/1");
-
         		// show the quick menu
         		intent = new Intent(MainActivity.this, QuickMenuActivity.class);
     			startActivity(intent);
@@ -131,48 +129,13 @@ public class MainActivity extends MenuInheritActivity {
     		ToastAlert ta = new ToastAlert(MainActivity.this, "Poor Internet Activity \nPlease check your settings", true);
     	}
 	}
-    
     @Override
     public void onBackPressed() {
-		if (ServiceProviderSingleton.getInstance().isLoggedIn()) {
-			ToastAlert ta = new ToastAlert(getBaseContext(),
-					"Already logged in, \n  logout?", false);
-		} else {
-			finish();
-		}   	
-    }
-    
-    public class AnotherLongTask extends AsyncTask<String, Void, String> {
-
-		@Override
-		protected String doInBackground(String... params) {
-			AccessDBTable access = new AccessDBTable();
-			String theResult = access.accessDB(params[0]);
-			return theResult;
-		}
-
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-		}
-
-		@Override
-		protected void onPostExecute(String result) {
-			super.onPostExecute(result);
-			JSONObject jobj = null;
-			try {
-				jobj = new JSONObject(result);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			ServiceUserSingleton.getInstance().setPatientInfo(jobj);
-			Log.d("MYLOG", "getUserName(): " + ServiceUserSingleton.getInstance().getUserName().get(0));
-		}
-
-		@Override
-		protected void onProgressUpdate(Void... values) {
-			super.onProgressUpdate(values);
-		}
-    	
+    	if(UserSingleton.getUserSingleton().isLoggedIn()) {
+    		ToastAlert ta = new ToastAlert(getBaseContext(), 
+        			"  Already logged in, \n  logout?");
+    	}else { 
+			finish();   		
+    	}    	
     }
 }

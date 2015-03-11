@@ -18,19 +18,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 import connecttodb.AccessDBTable;
 
 public class ServiceUserSearchActivity extends MenuInheritActivity {
 
 	private EditText searchParams;
 	private Button search, searchResult1, searchResult2,searchResult3;
-	private String hospitalNumber, name, dob, email, mobileNumber, road,
-            county, postCode, nextOfKinName, nextOfKinContactNumber, gestation, parity,deliveryDate, bloodGroup, rhesus,
-            obstetricHistory;
-	private String enteredSearch, first;
-	private int arrayPos;
-    private String token;
-
+	private String enteredSearch;
 	Connection c;
 	Statement stmt;
 	ResultSet rs;
@@ -94,8 +89,9 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 			Log.d("MYLOG", "ServiceUserSearch DoInBackground");
 			String dbQuery = dbTable.accessDB(params[0]);
 			try {
-				json = new JSONObject(dbQuery);
-				
+
+				json = new JSONObject(dbQuery);		
+
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -115,8 +111,12 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 			 * if not empty do getSinglton.getName
 			 * set this to button text
 			 */
-            //searchResult1.setText(ServiceUserSingleton.getSingltetonInstance().getName());
-           
+    		String name = ServiceUserSingleton.getInstance().getName();
+            searchResult1.setText(name); 
+            if(name == null){
+            	Toast.makeText(getApplicationContext(), "No search result found", Toast.LENGTH_LONG).show();
+            	searchResult1.setText("No results found");
+            }
 		}
 	}
 }
