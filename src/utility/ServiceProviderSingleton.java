@@ -1,19 +1,19 @@
 package utility;
 
-public class UserSingleton {
-	private static UserSingleton user;
+public class ServiceProviderSingleton {
+	private static ServiceProviderSingleton user;
 	private String username;
 	private String password;
 	private String token;
-	private int id;
+	private String id;
 	private boolean isLoggedIn;
-	//
-	private UserSingleton(){
+	
+	private ServiceProviderSingleton(){
 	}
 	
-	public static synchronized UserSingleton getUserSingleton() {
+	public static synchronized ServiceProviderSingleton getInstance() {
 		if(user == null) {
-			user = new UserSingleton();
+			user = new ServiceProviderSingleton();
 		}
 		return user;
 	}
@@ -41,11 +41,11 @@ public class UserSingleton {
 	public void setToken(String token) {
 		this.token = token;
 	}
-	public int getID() {
+	public String getID() {
 		return id;
 	}
 
-	public void setID(int id) {
+	public void setID(String id) {
 		this.id = id;
 	}
 

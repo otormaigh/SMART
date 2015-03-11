@@ -3,14 +3,14 @@ package ie.teamchile.smartapp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+
 import utility.ServiceUserSingleton;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-
 
 public class PostNatalActivity extends MenuInheritActivity {
 	
@@ -44,49 +44,50 @@ public class PostNatalActivity extends MenuInheritActivity {
 		feeding = (TextView)findViewById(R.id.feeding);
 		nbst = (TextView)findViewById(R.id.nbst);
 		
-		String perineumStr = ServiceUserSingleton.getInstance().getPerineum();
+		String perineumStr = ServiceUserSingleton.getInstance().getPregnancyPerineum().get(0);
 		perineum.setText(perineumStr);
 		
 		
-		String birthModeStr = ServiceUserSingleton.getInstance().getBirthMode();
+		String birthModeStr = ServiceUserSingleton.getInstance().getPregnancyBirthMode().get(0);
 		birth_mode.setText(birthModeStr);
+	
+		// need to search by baby id in pregnancy and get info based on baby id
 		
-		String genderStr = ServiceUserSingleton.getInstance().getGender();
+		String genderStr = ServiceUserSingleton.getInstance().getBabyGender().get(0);
 		sex_of_baby.setText(genderStr);
 		
-		
-		String weightStr = ServiceUserSingleton.getInstance().getWeight();
+		String weightStr = ServiceUserSingleton.getInstance().getBabyWeight().get(0);
 		double grams =  Double.parseDouble(weightStr);
 		double kg = ab.getGramsToKg(grams);
 		String theGrams = String.valueOf(kg);
 		birth_weight.setText(theGrams);
 		
 		
-		String vitaminStr = ServiceUserSingleton.getInstance().getVitaminK();
+		String vitaminStr = ServiceUserSingleton.getInstance().getBabyVitK().get(0);
 		vitK.setText(vitaminStr);
 		
-		String hearingStr = ServiceUserSingleton.getInstance().getHearing();
+		String hearingStr = ServiceUserSingleton.getInstance().getBabyHearing().get(0);
 		hearing.setText(hearingStr);
 		
-		String anti_dStr = ServiceUserSingleton.getInstance().getAntiD();
+		String anti_dStr = ServiceUserSingleton.getInstance().getPregnancyAntiD().get(0);
 		anti_d.setText(anti_dStr);
 		
-		String feedingStr = ServiceUserSingleton.getInstance().getFeeding();
+		String feedingStr = ServiceUserSingleton.getInstance().getPregnancyFeeding().get(0);
 		feeding.setText(feedingStr);
 		
-		String nameStr = ServiceUserSingleton.getInstance().getName();
+		String nameStr = ServiceUserSingleton.getInstance().getUserName().get(0);
 		name.setText(nameStr);
 		
-		String nbstStr = ServiceUserSingleton.getInstance().getNBST();
+		String nbstStr = ServiceUserSingleton.getInstance().getBabyNewBornScreeningTest().get(0);
 		nbst.setText(nbstStr);
 		
-		String deliveryDateStr = ServiceUserSingleton.getInstance().getDeliveryDate();
+		String deliveryDateStr = ServiceUserSingleton.getInstance().getBabyDeliveryDateTime().get(0);
 		deliveryDate.setText(ab.getDeliveryDate(deliveryDateStr));
 		
-		String deliveryTimeStr = ServiceUserSingleton.getInstance().getDeliveryDate();
+		String deliveryTimeStr = ServiceUserSingleton.getInstance().getBabyDeliveryDateTime().get(0);
 		deliveryTime.setText(ab.getDeliveryTime(deliveryTimeStr));
 	
-		String noOfDaysStr = ServiceUserSingleton.getInstance().getDeliveryDate();
+		String noOfDaysStr = ServiceUserSingleton.getInstance().getBabyDeliveryDateTime().get(0);
 		
 		try {
 			dateOfDelivery = formatter.parse(noOfDaysStr);

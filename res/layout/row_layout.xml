@@ -6,7 +6,7 @@
     
     <ImageView
         android:id="@+id/avatar"
-        android:src="@drawable/ic_launcher"
+        android:src="@drawable/calendar"
         android:scaleType="centerCrop"
         android:layout_marginLeft="8dip"
         android:layout_gravity="center_vertical"
@@ -33,24 +33,24 @@
     	    android:layout_weight="1.0" />
 
     	<TextView
-    	    android:id="@+id/latest_message"
+    	    android:id="@+id/appt_type"
     	    android:layout_width="wrap_content"
     	    android:layout_height="wrap_content"
     	    android:ellipsize="end"
     	    android:maxLines="1"
     	    android:text="Subtitle text"
-    	    android:textAppearance="@android:style/TextAppearance.Small"
+    	    android:textAppearance="@android:style/TextAppearance.Medium"
     	    android:layout_weight="1.0" />
     	
-    	<Button 
+    	<TextView
+    	    android:id="@+id/appt_info"
     	    android:layout_width="wrap_content"
     	    android:layout_height="wrap_content"
-    	    android:id="@+id/detailBtn"
-    	    android:layout_weight="1.0"
-    	    android:text="Details"/>
+    	    android:ellipsize="end"
+    	    android:maxLines="1"
+    	    android:text="Subtitle text"
+    	    android:textAppearance="@android:style/TextAppearance.Medium"
+    	    android:layout_weight="1.0" />
 
     </LinearLayout>
-    
-    
-
 </LinearLayout>

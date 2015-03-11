@@ -4,7 +4,7 @@ import utility.AppointmentSingleton;
 import utility.InternalFileWriterReader;
 
 import utility.ToastAlert;
-import utility.UserSingleton;
+import utility.ServiceProviderSingleton;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentCallbacks2;
 import android.content.Intent;
@@ -66,9 +66,9 @@ public class QuickMenuActivity extends MenuInheritActivity {
     
     @Override
     public void onBackPressed() {
-    	if(UserSingleton.getUserSingleton().isLoggedIn()) {
+    	if(ServiceProviderSingleton.getInstance().isLoggedIn()) {
     		ToastAlert ta = new ToastAlert(getBaseContext(), 
-        			"  Already logged in, \n  Logout?");
+        			"  Already logged in, \n  Logout?", false);
     	}else {
     		
     	}    	
@@ -78,8 +78,8 @@ public class QuickMenuActivity extends MenuInheritActivity {
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
-		System.out.println(UserSingleton.getUserSingleton().getUsername() + " " +
-				UserSingleton.getUserSingleton().getPassword());
+		System.out.println(ServiceProviderSingleton.getInstance().getUsername() + " " +
+				ServiceProviderSingleton.getInstance().getPassword());
 	}
 	
 	@Override
@@ -108,7 +108,7 @@ public class QuickMenuActivity extends MenuInheritActivity {
 		super.onTrimMemory(level);
 		if(level >= ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
 			isViewVisible = false;
-			ToastAlert ta = new ToastAlert(getBaseContext(), "View is now hidden");				
+			ToastAlert ta = new ToastAlert(getBaseContext(), "View is now hidden", false);				
 		}
 	}
 }

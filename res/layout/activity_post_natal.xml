@@ -454,8 +454,6 @@
             android:textAppearance="?android:attr/textAppearanceLarge" />
         
         </TableRow>
-
 </LinearLayout>
 </LinearLayout>
-</ScrollView> 
- 
+</ScrollView>  
