@@ -3,16 +3,11 @@ package ie.teamchile.smartapp;
 
 import java.util.Calendar;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import utility.AppointmentSingleton;
 import utility.ClinicSingleton;
 import utility.ConnectivityTester;
 import utility.ServiceProviderSingleton;
-import utility.ServiceUserSingleton;
 import utility.ToastAlert;
-import utility.UserSingleton;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -23,7 +18,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import connecttodb.AccessDBTable;
 import connecttodb.GetToken;
 
 public class MainActivity extends MenuInheritActivity {
@@ -131,9 +125,8 @@ public class MainActivity extends MenuInheritActivity {
 	}
     @Override
     public void onBackPressed() {
-    	if(UserSingleton.getUserSingleton().isLoggedIn()) {
-    		ToastAlert ta = new ToastAlert(getBaseContext(), 
-        			"  Already logged in, \n  logout?");
+    	if(ServiceProviderSingleton.getInstance().isLoggedIn()) {
+    		ToastAlert ta = new ToastAlert(getBaseContext(), "Already logged in, \n  logout?", true);
     	}else { 
 			finish();   		
     	}    	

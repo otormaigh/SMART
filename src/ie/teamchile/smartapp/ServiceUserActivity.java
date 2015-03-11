@@ -56,23 +56,23 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		gestation = (TextView) findViewById(R.id.g);
 		parity = (TextView)findViewById(R.id.p);
 
-		String age = ServiceUserSingleton.getInstance().getAge();
-		int anteNatalAge = getAge(age);
+		String dob = ServiceUserSingleton.getInstance().getUserDOB().get(0);
+		int anteNatalAge = getAge(dob);
 		String theAge = String.valueOf(anteNatalAge);
 		
 
 		ageServiceUser.setText(theAge);
-		String hospitalNumberStr = ServiceUserSingleton.getInstance().getHospitalNumber();
-		String emailStr = ServiceUserSingleton.getInstance().getEmail();
-		String mobileStr = ServiceUserSingleton.getInstance().getMobileNumber();
-		String nameStr = ServiceUserSingleton.getInstance().getName();
-		String kinName = ServiceUserSingleton.getInstance().getKinName();
-		String kinMobile = ServiceUserSingleton.getInstance().getKinMobileNumber();
-		String roadStr = ServiceUserSingleton.getInstance().getAddress();
-		String countyStr = ServiceUserSingleton.getInstance().getCounty();
-		String postCodeStr = ServiceUserSingleton.getInstance().getPostCode();
-		String gestationStr = ServiceUserSingleton.getInstance().getGestation();
-		String parityStr = ServiceUserSingleton.getInstance().getParity();
+		String hospitalNumberStr = ServiceUserSingleton.getInstance().getUserHospitalNumber().get(0);
+		String emailStr = ServiceUserSingleton.getInstance().getUserEmail().get(0);
+		String mobileStr = ServiceUserSingleton.getInstance().getUserMobilePhone().get(0);
+		String nameStr = ServiceUserSingleton.getInstance().getUserName().get(0);
+		String kinName = ServiceUserSingleton.getInstance().getUserNextOfKinName().get(0);
+		String kinMobile = ServiceUserSingleton.getInstance().getUserNextOfKinPhone().get(0);
+		String roadStr = ServiceUserSingleton.getInstance().getUserHomeAddress().get(0);
+		String countyStr = ServiceUserSingleton.getInstance().getUserHomeCounty().get(0);
+		String postCodeStr = ServiceUserSingleton.getInstance().getUserHomePostCode().get(0);
+		String gestationStr = ServiceUserSingleton.getInstance().getPregnancyGestation().get(0);
+		String parityStr = ServiceUserSingleton.getInstance().getUserParity().get(0);
 
 		name.setText(nameStr);
 
