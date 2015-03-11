@@ -2,7 +2,7 @@
 package ie.teamchile.smartapp;
 
 import utility.AppointmentSingleton;
-import utility.UserSingleton;
+import utility.ServiceProviderSingleton;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -43,14 +43,14 @@ public class MenuInheritActivity extends Activity {
                 }}).setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialoginterface, int i) {
                         Log.d("MYLOG", "Logout button pressed");
-                        if (UserSingleton.getUserSingleton().getToken() == "") {
+                        if (ServiceProviderSingleton.getInstance().getToken() == "") {
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
                                     Intent.FLAG_ACTIVITY_CLEAR_TASK |
                                     Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                         } else {
-                            logout.doLogout(UserSingleton.getUserSingleton().getToken());
+                            logout.doLogout(ServiceProviderSingleton.getInstance().getToken());
                             //login.setToken(null);
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
@@ -61,12 +61,14 @@ public class MenuInheritActivity extends Activity {
                         }
                     }
                 }).show();
+                break;
             case R.id.menu_item2:
                 System.out.println("Item 2 was selected!");
-                AppointmentSingleton.getInstance().updateLocal();
+                AppointmentSingleton.getInstance().updateLocal(this);
 //            case R.id.menu_item3:
 //            	AppointmentCalendarActivity appt = new AppointmentCalendarActivity();
 //              appt.updateList();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

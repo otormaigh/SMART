@@ -41,26 +41,21 @@ public class AnteNatalActivity extends MenuInheritActivity {
 	
 		obstetricHistory.setOnClickListener(new AntiNatalOptions());
 	
-		String name = ServiceUserSingleton.getInstance().getName();
-		parityAntiNatal.setText(ServiceUserSingleton.getInstance().getParity());
-		gestationAntiNatal.setText(ServiceUserSingleton.getInstance().getGestation());
-		rhesus.setText(ServiceUserSingleton.getInstance().getRhesus());
-		bloodGroup.setText(ServiceUserSingleton.getInstance().getBloodGroup());
+		String name = ServiceUserSingleton.getInstance().getUserName().get(0);
+		parityAntiNatal.setText(ServiceUserSingleton.getInstance().getUserParity().get(0));
+		gestationAntiNatal.setText(ServiceUserSingleton.getInstance().getPregnancyGestation().get(0));
+		rhesus.setText(ServiceUserSingleton.getInstance().getUserRhesus().get(0));
+		bloodGroup.setText(ServiceUserSingleton.getInstance().getUserBloodGroup().get(0));
 		ServiceUserActivity aa = new ServiceUserActivity();
-		String edd = ServiceUserSingleton.getInstance().getEstimatedDeliveryDate();
+		String edd = ServiceUserSingleton.getInstance().getPregnancyEstimatedDeliveryDate().get(0);
 		deliveryTime.setText(aa.getEstimateDeliveryDate(edd));
 
-		String age = ServiceUserSingleton.getInstance().getAge();
-		int anteNatalAge = aa.getAge(age);
+		String dob = ServiceUserSingleton.getInstance().getUserDOB().get(0);
+		int anteNatalAge = aa.getAge(dob);
 		String theAge = String.valueOf(anteNatalAge);
 
 		ageAnte.setText(theAge);
 		nameAntiNatal.setText(name);
-
-		
-		//gestationAntiNatal.setText(getIntent().getStringExtra("gestation"));
-
-		parityAntiNatal.setText(ServiceUserSingleton.getInstance().getParity());
 	}
 
 
