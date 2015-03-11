@@ -54,8 +54,13 @@ public class PostNatalActivity extends MenuInheritActivity {
 		String genderStr = ServiceUserSingleton.getInstance().getGender();
 		sex_of_baby.setText(genderStr);
 		
+		
 		String weightStr = ServiceUserSingleton.getInstance().getWeight();
-		birth_weight.setText(weightStr);
+		double grams =  Double.parseDouble(weightStr);
+		double kg = ab.getGramsToKg(grams);
+		String theGrams = String.valueOf(kg);
+		birth_weight.setText(theGrams);
+		
 		
 		String vitaminStr = ServiceUserSingleton.getInstance().getVitaminK();
 		vitK.setText(vitaminStr);

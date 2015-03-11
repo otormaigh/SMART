@@ -50,6 +50,7 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 		searchResult3 = (Button) findViewById(R.id.search_result_3);
 		searchResult3.setOnClickListener(new ButtonClick());
 	}
+	
 	private class ButtonClick implements View.OnClickListener {
 		public void onClick(View v) {
 			switch (v.getId()) {
@@ -86,7 +87,9 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 			Log.d("MYLOG", "ServiceUserSearch DoInBackground");
 			String dbQuery = dbTable.accessDB(params[0]);
 			try {
+
 				json = new JSONObject(dbQuery);		
+
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}

@@ -18,6 +18,7 @@ public class TodayAppointmentActivity extends ListActivity {
 			values = new ArrayList<String>();
 			values.add("Not appointments today");
 		}
+
 		MyAdapter adapter = new MyAdapter(this, values);
 		setListAdapter(adapter);
 	}	
