@@ -11,7 +11,6 @@ import org.json.JSONObject;
 
 import utility.ServiceProviderSingleton;
 import Enums.CredentialsEnum;
-import android.os.AsyncTask;
 import android.util.Log;
 
 public class AccessDBTable {
@@ -30,9 +29,6 @@ public class AccessDBTable {
 		return accessDB();
 	}
 	private JSONObject accessDB() {
-		//Log.d("MYLOG", "In AccessDB");
-		//Log.d("MYLOG", "AccessDB Token: " + token);
-		//Log.d("MYLOG", "AccessDB TableURL: " + tableURL);
 		try {
 			obj = new URL(url + table);
 			con = (HttpURLConnection) obj.openConnection();

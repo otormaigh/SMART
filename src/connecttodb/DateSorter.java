@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Locale;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,12 +18,12 @@ import android.util.Log;
 public class DateSorter {
 	private ArrayList<JSONObject> jsonValues = new ArrayList<JSONObject>();
 	private ArrayList<JSONObject> appointmentsThatDay = new ArrayList<JSONObject>();
-	private DateFormat df = new SimpleDateFormat("yyyy-MM-dd - HH:mm:ss");
-	private DateFormat dfDateOnly = new SimpleDateFormat("yyyy-MM-dd");
+	private DateFormat df = new SimpleDateFormat("yyyy-MM-dd - HH:mm:ss", Locale.getDefault());
+	private DateFormat dfDateOnly = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 	private JSONObject json;
 	private JSONArray query;
 	private Date dbDate, queryDate, jsonDate;
-	private String response, valA, valB;
+	private String valA, valB;
 	private int comp;
 
 	public  ArrayList<JSONObject> dateSorter(Date queryDate) {	
@@ -35,7 +36,6 @@ public class DateSorter {
 
 		// put the response at a JSONObject
 		try {
-			//jsonNew = new JSONObject(response);
 			query = json.getJSONArray("appointments");
 			for (int i = 0; i < query.length(); i++)
 				jsonValues.add(query.getJSONObject(i));
