@@ -19,7 +19,7 @@ public class DateSorter {
 	private ArrayList<JSONObject> appointmentsThatDay = new ArrayList<JSONObject>();
 	private DateFormat df = new SimpleDateFormat("yyyy-MM-dd - HH:mm:ss");
 	private DateFormat dfDateOnly = new SimpleDateFormat("yyyy-MM-dd");
-	private JSONObject jsonNew;
+	private JSONObject json;
 	private JSONArray query;
 	private Date dbDate, queryDate, jsonDate;
 	private String response, valA, valB;
@@ -31,12 +31,12 @@ public class DateSorter {
 	private ArrayList<JSONObject> dateSorter() {
 		Log.d("MYLOG", "queryDate: " + queryDate);
 		AccessDBTable accessDB = new AccessDBTable();
-		response = accessDB.accessDB("appointments");
+		json = accessDB.accessDB("appointments");
 
 		// put the response at a JSONObject
 		try {
-			jsonNew = new JSONObject(response);
-			query = jsonNew.getJSONArray("appointments");
+			//jsonNew = new JSONObject(response);
+			query = json.getJSONArray("appointments");
 			for (int i = 0; i < query.length(); i++)
 				jsonValues.add(query.getJSONObject(i));
 		} catch (JSONException e) {

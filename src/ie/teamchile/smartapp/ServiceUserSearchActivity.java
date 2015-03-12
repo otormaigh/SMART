@@ -87,14 +87,7 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 		}
 		protected JSONObject doInBackground(String... params) {
 			Log.d("MYLOG", "ServiceUserSearch DoInBackground");
-			String dbQuery = dbTable.accessDB(params[0]);
-			try {
-
-				json = new JSONObject(dbQuery);		
-
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+			json = dbTable.accessDB(params[0]);
 			return json;
 		}
 		@Override
