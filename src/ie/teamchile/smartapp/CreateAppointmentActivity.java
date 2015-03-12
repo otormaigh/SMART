@@ -200,19 +200,13 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
             
 		}
 		protected JSONObject doInBackground(String... params) {
-			try {
-				String dbQuery = db.accessDB(params[0]);
-				json = new JSONObject(dbQuery);
+			json = db.accessDB(params[0]);
 
-				ServiceUserSingleton.getInstance().setPatientInfo(json);
-				String userID = ServiceUserSingleton.getInstance().getUserID().get(0);
-				
-				postAppt.postAppointment(userID, clinicIDStr, apptDate, time, duration,
-						priority, visitType);
-
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+			ServiceUserSingleton.getInstance().setPatientInfo(json);
+			String userID = ServiceUserSingleton.getInstance().getUserID().get(0);
+			
+			postAppt.postAppointment(userID, clinicIDStr, apptDate, time, duration,
+					priority, visitType);
 			return null;
 		}
 		@Override

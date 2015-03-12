@@ -25,9 +25,8 @@ public class ServiceOptionSingleton {
 	private Map<String, JSONObject> idMap;
 	private List<JSONObject> jsonValues;
 	private ProgressDialog pd;
-	private JSONObject jsonNew;
+	private JSONObject json;
 	private JSONArray query;
-	private String response;
 	
 	private ServiceOptionSingleton() {
 	}	
@@ -57,9 +56,8 @@ public class ServiceOptionSingleton {
 		protected JSONArray doInBackground(String... params) {
 			Log.d("singleton", "in service options updateLocal doInBackground");
 			try {
-				response = db.accessDB(params[0]);
-				jsonNew = new JSONObject(response);
-				query = jsonNew.getJSONArray(params[0]);
+				json = db.accessDB(params[0]);
+				query = json.getJSONArray(params[0]);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}

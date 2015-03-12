@@ -6,6 +6,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import utility.ServiceProviderSingleton;
 import Enums.CredentialsEnum;
 import android.os.AsyncTask;
@@ -21,12 +24,12 @@ public class AccessDBTable {
     private HttpURLConnection con;
     private BufferedReader in;
 
-	public String accessDB(String table){
+	public JSONObject accessDB(String table){
 		token = ServiceProviderSingleton.getInstance().getToken();
         this.table = table;
 		return accessDB();
 	}
-	private String accessDB() {
+	private JSONObject accessDB() {
 		//Log.d("MYLOG", "In AccessDB");
 		//Log.d("MYLOG", "AccessDB Token: " + token);
 		//Log.d("MYLOG", "AccessDB TableURL: " + tableURL);
@@ -50,8 +53,11 @@ public class AccessDBTable {
 				response.append(inputLine);
 			}
 			in.close();
-			//Log.d("MYLOG", "response.toString(): " + response.toString());
-			return response.toString();
+			try {
+				return new JSONObject(response.toString());
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

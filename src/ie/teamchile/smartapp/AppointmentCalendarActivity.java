@@ -67,7 +67,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 	private ProgressDialog pd;
 	private AccessDBTable db = new AccessDBTable();
 	private String response;
-	private JSONObject jsonNew;
+	private JSONObject json;
 	private String timeBefore, timeAfter;
 	
     @Override
@@ -363,14 +363,9 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 		}
 		protected JSONObject doInBackground(String... params) {
 			Log.d("singleton", "in service users updateLocal doInBackground");
-			try {
-				response = db.accessDB(params[0]);
-				jsonNew = new JSONObject(response);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			Log.d("singleton", "query = " + jsonNew);
-			return jsonNew;
+			json = db.accessDB(params[0]);
+			Log.d("singleton", "query = " + json);
+			return json;
 		}
 		@Override
 		protected void onProgressUpdate(Void... values) {
