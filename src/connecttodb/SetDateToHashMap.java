@@ -19,7 +19,7 @@ public class SetDateToHashMap {
 	private ArrayList<JSONObject> aptsAtDate = new ArrayList<JSONObject>();
 	private ArrayList<String> idArray;
 	private HashMap<String, ArrayList<String>> dateHash = new HashMap<String, ArrayList<String>>();
-	private JSONObject jsonNew;
+	private JSONObject json;
 	private AccessDBTable db;
 	private String response, id, date, token, dateToBeSearched;
 	private String tableURL = "appointments/";
@@ -30,10 +30,9 @@ public class SetDateToHashMap {
 	}
 	private ArrayList<JSONObject> searchForDate() {
 		db = new AccessDBTable();
-		response = db.accessDB("appointments");
+		json = db.accessDB("appointments");
 		try {
-			jsonNew = new JSONObject(response);
-			JSONArray query = jsonNew.getJSONArray("appointments");
+			JSONArray query = json.getJSONArray("appointments");
 			for (int i = 0; i < query.length(); i++)
 				jsonValues.add(query.getJSONObject(i));
 			    jsonValues = sortDates(jsonValues);
@@ -58,12 +57,8 @@ public class SetDateToHashMap {
 	private ArrayList<JSONObject> getDateForID(ArrayList<String> listOfIDs){
 		for(int i = 0; i < listOfIDs.size(); i++){
 			JSONObject aptAsJson;
-			try {
-				aptAsJson = new JSONObject(db.accessDB(tableURL + listOfIDs.get(i)));
-				aptsAtDate.add(aptAsJson);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+			aptAsJson = db.accessDB(tableURL + listOfIDs.get(i));
+			aptsAtDate.add(aptAsJson);
 		}
 		return aptsAtDate;
 	}
