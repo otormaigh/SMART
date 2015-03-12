@@ -38,8 +38,8 @@ import connecttodb.DateSorter;
 import connecttodb.SetDateToHashMap;
 
 public class AppointmentCalendarActivity extends MenuInheritActivity {
-	private static int regionSelected;
-	protected static int hospitalSelected;
+	private static int serviceOptionSelected;
+	protected static int clinicSelected;
 	private static int weekSelected;
 	protected static Date daySelected;
 	private Date day = null, openingAsDate, closingAsDate;
@@ -82,9 +82,9 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
         nextWeek = (Button)findViewById(R.id.next_button);
         nextWeek.setOnClickListener(new ButtonClick());
         
-        clinicOpening = ClinicSingleton.getInstance().getOpeningTime(String.valueOf(hospitalSelected));
-		clinicClosing = ClinicSingleton.getInstance().getClosingTime(String.valueOf(hospitalSelected));
-		appointmentInterval = Integer.parseInt(ClinicSingleton.getInstance().getAppointmentInterval(String.valueOf(hospitalSelected)));
+        clinicOpening = ClinicSingleton.getInstance().getOpeningTime(String.valueOf(clinicSelected));
+		clinicClosing = ClinicSingleton.getInstance().getClosingTime(String.valueOf(clinicSelected));
+		appointmentInterval = Integer.parseInt(ClinicSingleton.getInstance().getAppointmentInterval(String.valueOf(clinicSelected)));
 		
 		try {
 			openingAsDate = dfTimeOnly.parse(String.valueOf(clinicOpening));
@@ -97,8 +97,8 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
         Log.d("MYLOG", "Date set to " + c.getTime());
 		
 		Log.d("MYLOG", "selectOption");
-        Log.d("MYLOG", "region: " + regionSelected);
-        Log.d("MYLOG", "hospital: " + hospitalSelected);
+        Log.d("MYLOG", "region: " + serviceOptionSelected);
+        Log.d("MYLOG", "hospital: " + clinicSelected);
         Log.d("MYLOG", "week: " + weekSelected);
         Log.d("MYLOG", "day: " + daySelected);
         setAptToListSingle(daySelected);
@@ -166,10 +166,10 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
     	String daySelectedStr = dfDateOnly.format(daySelected);
     	
     	dateInList.setText(dfDateOnlyOther.format(daySelected));
-    	Log.d("singleton", "String.valueOf(hospitalSelected) " + String.valueOf(hospitalSelected));
-    	String nameOfClinic = ClinicSingleton.getInstance().getClinicName(String.valueOf(hospitalSelected));
+    	Log.d("singleton", "String.valueOf(clinicSelected) " + String.valueOf(clinicSelected));
+    	String nameOfClinic = ClinicSingleton.getInstance().getClinicName(String.valueOf(clinicSelected));
     	clinicName.setText(nameOfClinic);
-		listOfId = AppointmentSingleton.getInstance().getListOfIDs(String.valueOf(hospitalSelected), daySelectedStr);
+		listOfId = AppointmentSingleton.getInstance().getListOfIDs(String.valueOf(clinicSelected), daySelectedStr);
 		
 		if (listOfId == null || listOfId.isEmpty()) {
 			timeSingle.add("---------");
@@ -317,8 +317,8 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 					intent.putExtra("timeBefore", timeBefore);
 					intent.putExtra("timeAfter", timeAfter);
 				}
-				intent.putExtra("clinicID", String.valueOf(hospitalSelected));
-				Log.d("postAppointment", "String.valueOf(hospitalSelected) "+ String.valueOf(hospitalSelected));
+				intent.putExtra("clinicID", String.valueOf(clinicSelected));
+				Log.d("postAppointment", "String.valueOf(clinicSelected) "+ String.valueOf(clinicSelected));
 				startActivity(intent);
 				
 			} else {
@@ -382,11 +382,11 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 			startActivity(intent);	
         }
 	}
-    public void setRegionSelected(int regionSelected){
-    	AppointmentCalendarActivity.regionSelected = regionSelected;
+    public void setServiceOptionSelected(int serviceOptionSelected){
+    	AppointmentCalendarActivity.serviceOptionSelected = serviceOptionSelected;
     }
-    public void setHospitalSelected(int hospitalSelected){
-    	AppointmentCalendarActivity.hospitalSelected = hospitalSelected;
+    public void setClinicSelected(int clinicSelected){
+    	AppointmentCalendarActivity.clinicSelected = clinicSelected;
     }
     public void setWeekSelected(int weekSelected){
     	AppointmentCalendarActivity.weekSelected = weekSelected;
