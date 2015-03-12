@@ -6,6 +6,7 @@ import java.util.Calendar;
 import utility.AppointmentSingleton;
 import utility.ClinicSingleton;
 import utility.ConnectivityTester;
+import utility.ServiceOptionSingleton;
 import utility.ServiceProviderSingleton;
 import utility.ToastAlert;
 import android.app.ProgressDialog;
@@ -108,6 +109,7 @@ public class MainActivity extends MenuInheritActivity {
         		// update Singleton
         		AppointmentSingleton.getInstance().updateLocal(this);
     			ClinicSingleton.getInstance().updateLocal(this);
+    			ServiceOptionSingleton.getInstance().updateLocal(this);
     			
         		ServiceProviderSingleton.getInstance().setLoggedIn(true);
         		ServiceProviderSingleton.getInstance().setUsername(username);
