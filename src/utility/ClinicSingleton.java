@@ -51,9 +51,8 @@ public class ClinicSingleton {
 	private ArrayList<JSONObject> jsonValues;
 	private AccessDBTable db = new AccessDBTable();
 	private JsonParseHelper help = new JsonParseHelper();
-	private String response;
 	private JSONArray query;
-	private JSONObject jsonNew;
+	private JSONObject json;
 	private ProgressDialog pd;
 
 	private ClinicSingleton() {
@@ -81,11 +80,8 @@ public class ClinicSingleton {
 		protected JSONArray doInBackground(String... params) {
 			Log.d("singleton", "in clinic updateLocal doInBackground");
 			try {
-				// read in full clinic list
-				response = db.accessDB(params[0]);
-				// parse response as JsonObject
-				jsonNew = new JSONObject(response);
-				query = jsonNew.getJSONArray(params[0]);
+				json = db.accessDB(params[0]);
+				query = json.getJSONArray(params[0]);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}

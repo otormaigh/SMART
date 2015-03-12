@@ -45,12 +45,7 @@ public class TodayAppointmentActivity extends ListActivity {
 			@Override
 			protected JSONObject doInBackground(String... params) {
 				AccessDBTable access = new AccessDBTable();
-				JSONObject json = null;
-				try {
-					json = new JSONObject(access.accessDB(params[0]));
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
+				JSONObject json = access.accessDB(params[0]);
 				return json;
 			}
 	
