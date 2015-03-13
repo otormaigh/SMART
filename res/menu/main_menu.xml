@@ -6,10 +6,9 @@
     <item 
         android:id="@+id/menu_item2"
         android:title="Sync"/>
-<!--
+
 	<item 
         android:id="@+id/menu_item3"
         android:title="Update List"/>
--->  
     
 </menu>
