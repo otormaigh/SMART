@@ -7,16 +7,18 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
+import utility.AppointmentSingleton;
 import utility.ClinicSingleton;
 import utility.ServiceUserSingleton;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -48,6 +50,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 	private String timeBefore, timeAfter;
 	private Date beforeAsDate, afterAsDate, afterAsDateMinusInterval;
 	private String appointmentInterval;
+	private AppointmentCalendarActivity passOptions = new AppointmentCalendarActivity();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -171,12 +174,14 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
             	name = userName.getText().toString();
             	//apptDate = editDate.getText().toString();
             	apptDate = sdfDate.format(myCalendar.getTime());
-            	
+            	passOptions.setDaySelected(myCalendar.getTime());
+            	           	
             	Log.d("appointment", "name: " + name + "\nclinic: " +  clinic  + "\nclinic id: " + clinicID + "\nDate: " + apptDate + 
             						 "\nTime: " + time + "\nDuration: " + duration + "\nPriority: " + priority +
             						 "\nVisit Type: " + visitType);
             	
             	new LongOperation(CreateAppointmentActivity.this).execute("service_users?name=" + name);
+            	AppointmentSingleton.getInstance().updateLocal(CreateAppointmentActivity.this);
             	
             	Log.d("postAppointment", "clinicID: " + clinicID);
             	Log.d("postAppointment", "clinicName: " + ClinicSingleton.getInstance().getClinicName(String.valueOf(clinicID)));
@@ -214,7 +219,19 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 		}
 		@Override
         protected void onPostExecute(JSONObject result) {
-			pd.dismiss();
+			AppointmentSingleton.getInstance().updateLocal(CreateAppointmentActivity.this);
+			CountDownTimer timer = new CountDownTimer(2000, 2000) {						
+				@Override
+				public void onTick(long millisUntilFinished) {								
+				}						
+				@Override
+				public void onFinish() {
+					Intent intent = new Intent(CreateAppointmentActivity.this, AppointmentCalendarActivity.class);
+		        	startActivity(intent);
+				}
+			};
+			timer.start();
+			pd.dismiss();			        		
         }
 	}
     private class MySpinnerOnItemSelectedListener implements AdapterView.OnItemSelectedListener {
