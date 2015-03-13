@@ -179,6 +179,9 @@ public class AppointmentSingleton {
 		Log.d("singleton", "clinicIDHash: " + clinicDateIDHash.toString());
 		this.clinicIDHash = clinicDateIDHash;
 	}
+	public HashMap<String, HashMap<String, ArrayList<String>>> getHashMapofClinicDateID(){
+		return clinicIDHash;
+	}
 	
 	/**
 	 * 
