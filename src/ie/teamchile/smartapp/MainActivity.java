@@ -9,6 +9,7 @@ import utility.ConnectivityTester;
 import utility.ServiceOptionSingleton;
 import utility.ServiceProviderSingleton;
 import utility.ToastAlert;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -21,7 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import connecttodb.GetToken;
 
-public class MainActivity extends MenuInheritActivity {
+public class MainActivity extends Activity {
 	private String username, password;
 	private Button loginButton;
 	private TextView usernameTextView, passwordTextView, about;

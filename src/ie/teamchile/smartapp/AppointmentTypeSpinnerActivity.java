@@ -26,8 +26,7 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
     private int serviceOptionSelected, clinicSelected, weekSelected;
 	private Date daySelected;
     private Calendar c;
-    
-    AppointmentCalendarActivity passOptions = new AppointmentCalendarActivity();
+    private AppointmentCalendarActivity passOptions = new AppointmentCalendarActivity();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

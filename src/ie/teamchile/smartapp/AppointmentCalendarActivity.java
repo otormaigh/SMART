@@ -78,6 +78,8 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
         nextWeek = (Button)findViewById(R.id.next_button);
         nextWeek.setOnClickListener(new ButtonClick());
         
+        Log.d("bugs", "appointment map: " + AppointmentSingleton.getInstance().getHashMapofClinicDateID());
+        
         clinicOpening = ClinicSingleton.getInstance().getOpeningTime(String.valueOf(clinicSelected));
 		clinicClosing = ClinicSingleton.getInstance().getClosingTime(String.valueOf(clinicSelected));
 		appointmentInterval = Integer.parseInt(ClinicSingleton.getInstance().getAppointmentInterval(String.valueOf(clinicSelected)));
@@ -110,7 +112,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
                 	Log.d("bugs", "prev day is: " + c.getTime());
                 	daySelected = c.getTime();
                 	setAptToListSingle(c.getTime());
-                	adapter.notifyDataSetChanged();
+                	//adapter.notifyDataSetChanged();
                 	prevWeek.setEnabled(false);
                 	nextWeek.setEnabled(false);
                 	CountDownTimer prevTimer = new CountDownTimer(500, 500) {						
@@ -122,7 +124,8 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 							prevWeek.setEnabled(true);
 							nextWeek.setEnabled(true);
 						}
-					}.start();
+					};
+					prevTimer.start();
                 	break;
                 case R.id.next_button:
                 	Log.d("bugs", "next daySelected: " + daySelected.toLocaleString());
@@ -132,7 +135,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
                 	Log.d("bugs", "next day is: " + c.getTime());
                 	daySelected = c.getTime();
                 	setAptToListSingle(c.getTime());
-                	adapter.notifyDataSetChanged();
+                	//adapter.notifyDataSetChanged();
                 	nextWeek.setEnabled(false);
                 	prevWeek.setEnabled(false);
                 	CountDownTimer nextTimer = new CountDownTimer(500, 500) {						
@@ -144,28 +147,22 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 							nextWeek.setEnabled(true);
 							prevWeek.setEnabled(true);
 						}
-					}.start();
+					};
+					nextTimer.start();
                     break;
             }
         }
     }
-/*    public void updateList(){
-    	Log.d("MYLOG", "daySelected: " + daySelected.toLocaleString());
-    	c.setTime(daySelected);
-    	Log.d("MYLOG", "day was: " + c.getTime());
-    	c.add(Calendar.DAY_OF_YEAR, 7);
-    	Log.d("MYLOG", "day is: " + c.getTime());
-    	daySelected = c.getTime();
-    	adapter.notifyDataSetChanged();
+    public void updateList(){
     	setAptToListSingle(daySelected);
-    }*/
+    }
     
     public ArrayList<String> removeZeros(ArrayList<String> badList){
     	if(badList != null){
 	    	for(int i = 0; i < badList.size(); i ++){
 				if(badList.get(i).equals("0")){
 					badList.remove("0");
-					Log.d("bugs", "listofID remover zero: " + badList);				
+					Log.d("bugs", "listofID remove zero: " + badList);				
 				}
 			}
     	}
@@ -259,9 +256,9 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 		Log.d("bugs", "listofID after populate: " + listOfId);
 		
 		
-		adapter = new ListElementAdapter (AppointmentCalendarActivity.this, timeSingle, nameSingle, gestSingle);	
+		adapter = new ListElementAdapter (AppointmentCalendarActivity.this, timeSingle, nameSingle, gestSingle);
         listView.setAdapter(adapter);
-        //adapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();
         listView.setOnItemClickListener(new OnItemListener());
     }
     private class ListElementAdapter extends BaseAdapter {
@@ -274,6 +271,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 		public void notifyDataSetChanged() {
 			super.notifyDataSetChanged();
 		}
+		
 		public ListElementAdapter(Context context, ArrayList<String> aptTime, 
 								  ArrayList<String> aptName, ArrayList<String> aptGest) {
 			super();
