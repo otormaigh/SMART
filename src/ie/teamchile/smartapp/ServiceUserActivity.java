@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import utility.ServiceUserSingleton;
 import android.app.AlertDialog;
@@ -21,7 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class ServiceUserActivity extends MenuInheritActivity {
-	private TextView hospitalNumber,name, ageServiceUser, email, mobileNumber, road,
+	private TextView hospitalNumber,name,ageServiceUser, email, mobileNumber, road,
 			county, postCode, nextOfKinName, nextOfKinContactNumber, gestation, parity;
 	private String dob, userCall, userSMS, userEmail, kinCall, kinSMS;
 	private Dialog dialog;
@@ -107,6 +108,13 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		userImage.setOnClickListener(new ButtonClick());
 	
 	}
+	
+	public void onBackPressed(){
+		Intent goToServiceUser = new Intent(ServiceUserActivity.this, QuickMenuActivity	.class);
+		startActivity(goToServiceUser);
+		
+	}
+
 
 	private class ButtonClick implements View.OnClickListener, DialogInterface {
 		public void onClick(View v) {
@@ -379,8 +387,8 @@ public class ServiceUserActivity extends MenuInheritActivity {
 	}
     
     public double getGramsToKg(double grams){
-    	double kg = 0.0;
-    	kg = grams/1000;
-    	return kg;
+	    	double kg = 0.0;
+	    	kg = grams/1000;
+	    	return kg;
     }
 }

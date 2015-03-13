@@ -20,7 +20,8 @@
          android:dividerHeight="20.0sp"
         android:layout_weight="0.52" >
     </ListView>
-
+    
+    
     <EditText
         android:id="@+id/editField"
         android:layout_width="fill_parent"

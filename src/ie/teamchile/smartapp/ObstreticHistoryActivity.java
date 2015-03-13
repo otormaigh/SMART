@@ -12,13 +12,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 
   public class ObstreticHistoryActivity extends MenuInheritActivity {
-	  private ArrayList<String>items = new ArrayList<String>(); ;
+	  private ArrayList<String>items = new ArrayList<String>();
+	  public static final String defaultObsHistory = "NEED_SUGGESTION";
 	  private Button enter;
 	  private EditText edit;
 	  private ListView list;
-	  private String obsHistory,item, Obsname, Obsdate;
+	  private String obsHistory, item, Obsname,Obsdate;
 	  private TextView name, date;
-	//private String time;
+      //private String time;
 	  	@Override
 	  	protected void onCreate(Bundle savedInstanceState) {
 	  		super.onCreate(savedInstanceState);
@@ -39,24 +40,25 @@ import android.widget.TextView;
 	  		name.setText(Obsname);
 
 	  		obsHistory = ServiceUserSingleton.getInstance().getUserPreviousObstetricHistory().get(0);
-
-	  		//time = ServiceUserSingleton.getInstance().getCreatedTime();
-	  		//items.add(time);
+           
+	  		 //time = ServiceUserSingleton.getInstance().getCreatedTime();
+	  		 //items.add(time);
 	  		 items.add(obsHistory);
+		     if(items.contains(defaultObsHistory)){
+	  	        items.removeAll(items);
+		     }
 	  	     enter.setOnClickListener(new View.OnClickListener() {
 	  		   
 	  		        @Override
 	  		        public void onClick(View v) {
 	  		            // TODO Auto-generated method stub
 	  		        	item = edit.getText().toString();
-	  		        	if (item != null && item.trim().length() > 0) {
+	  		         if (item != null && item.trim().length() > 0) {
 	  		        	adapter.notifyDataSetChanged();
 	  		            items.add(item);
 	  		            edit.setText(null);
 	  		        	}
 	          }
-	  		            //Toast.makeText(null, item, Toast.LENGTH_SHORT).show();//Problem here
-	  		        
 	  		    });
 	  	}
   }

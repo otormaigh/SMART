@@ -19,7 +19,6 @@
             android:gravity="center"
             android:text="Name" />
     </LinearLayout>
-    
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -69,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:text="Post Natal" />
         </LinearLayout>
-  </LinearLayout>
+    </LinearLayout>
     <!-- 2 columns -->
 
     <LinearLayout
@@ -78,7 +77,8 @@
         android:layout_marginBottom="@dimen/padding_medium"
         android:gravity="bottom"
         android:orientation="vertical" >
-       <TableRow
+
+        <TableRow
             android:id="@+id/button_age"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -87,7 +87,7 @@
             android:padding="5dip" >
 
             <TextView
-                android:id="@+id/age_ante_natal"                
+                android:id="@+id/age_ante_natal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType=""
@@ -99,11 +99,11 @@
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:text="@string/age"
-                android:textStyle="bold"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="@dimen/text_Xsmall"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:textStyle="bold" />
         </TableRow>
-        
+
         <TableRow
             android:id="@+id/button_EDD"
             android:layout_width="fill_parent"
@@ -113,7 +113,7 @@
             android:padding="5dip" >
 
             <TextView
-                android:id="@+id/deliveryTime"                
+                android:id="@+id/deliveryTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType=""
@@ -124,10 +124,10 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="end"
-                android:textStyle="bold"
-                android:textSize="@dimen/text_Xsmall"
                 android:text="@string/edd"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="@dimen/text_Xsmall"
+                android:textStyle="bold" />
         </TableRow>
 
         <TableRow
@@ -150,10 +150,10 @@
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
                 android:gravity="end"
-                android:textStyle="bold"
-                android:textSize="@dimen/text_Xsmall"
                 android:text="@string/gestation"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="@dimen/text_Xsmall"
+                android:textStyle="bold" />
         </TableRow>
 
         <TableRow
@@ -176,10 +176,10 @@
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
                 android:gravity="end"
-                android:textStyle="bold"
-                android:textSize="@dimen/text_Xsmall"
                 android:text="@string/blood_group"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="@dimen/text_Xsmall"
+                android:textStyle="bold" />
         </TableRow>
 
         <TableRow
@@ -202,10 +202,10 @@
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
                 android:gravity="end"
-                android:textStyle="bold"
-                android:textSize="@dimen/text_Xsmall"
                 android:text="@string/rhesus"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="@dimen/text_Xsmall"
+                android:textStyle="bold" />
         </TableRow>
 
         <TableRow
@@ -215,9 +215,16 @@
             android:background="@drawable/border"
             android:clickable="False"
             android:padding="5dip" >
+            
+             <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:orientation="horizontal" >
+            
 
             <TextView
-                android:id="@+id/parity"
+                android:id="@+id/parity_ante_natal"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text=""
@@ -228,44 +235,51 @@
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
                 android:gravity="end"
-                android:textStyle="bold"
-                android:textSize="@dimen/text_Xsmall"
                 android:text="@string/parity"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="@dimen/text_Xsmall"
+                android:textStyle="bold" />
+            
+            
+            <ImageView
+                    android:id="@+id/midwives_notes"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:adjustViewBounds="true"
+                    android:gravity="end"
+                    android:src="@drawable/forward_arrow" />
+            </LinearLayout>
         </TableRow>
 
-      <TableRow
-        android:id="@+id/obstretic_history"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/border"
-        android:padding="5dip" >
-            
-          
-       <LinearLayout
+        <TableRow
+            android:id="@+id/obstretic_history"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:gravity="end"
-            android:orientation="horizontal" >
+            android:background="@drawable/border"
+            android:padding="5dip" >
 
-        <TextView
-            
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/obstretic_history"
-            android:textStyle="bold"
-            android:gravity="top"
-            android:textSize="@dimen/text_Xsmall"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-            <ImageView
-                android:id="@+id/midwives_notes"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:adjustViewBounds="true"
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
                 android:gravity="end"
-                android:src="@drawable/forward_arrow" />
-</LinearLayout>
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="top"
+                    android:text="@string/obstretic_history"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/text_Xsmall"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:adjustViewBounds="true"
+                    android:gravity="end"
+                    android:src="@drawable/forward_arrow" />
+            </LinearLayout>
         </TableRow>
     </LinearLayout>
 </LinearLayout>

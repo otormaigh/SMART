@@ -24,7 +24,7 @@ import connecttodb.AccessDBTable;
 public class ServiceUserSearchActivity extends MenuInheritActivity {
 
 	private EditText searchParams;
-	private Button search, searchResult1, searchResult2,searchResult3;
+	private Button search, searchResult1, searchResult2, searchResult3;
 	private String enteredSearch;
 	Connection c;
 	Statement stmt;
@@ -89,7 +89,6 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 			Log.d("MYLOG", "ServiceUserSearch DoInBackground");
 			String dbQuery = dbTable.accessDB(params[0]);
 			try {
-
 				json = new JSONObject(dbQuery);		
 
 			} catch (JSONException e) {
