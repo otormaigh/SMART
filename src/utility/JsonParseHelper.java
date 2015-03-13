@@ -21,7 +21,8 @@ public class JsonParseHelper {
 	private static final String CLINICAL_FIELDS = "clinical_fields";
 	private static final String PERSONAL_FIELDS = "personal_fields";
 	
-	public JsonParseHelper() {		
+	public JsonParseHelper(){
+		
 	}
 	
 	public String jsonParseHelper(JSONObject json, String tableName, String tableKey) {
