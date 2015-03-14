@@ -171,7 +171,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
             switch (v.getId()) {
             case R.id.btn_confirm_appointment:
             	name = userName.getText().toString();
-            	apptDate = editDate.getText().toString();
+            	//apptDate = editDate.getText().toString();
             	apptDate = sdfDate.format(myCalendar.getTime());
             	passOptions.setDaySelected(myCalendar.getTime());
             	           	
