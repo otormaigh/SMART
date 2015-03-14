@@ -80,7 +80,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 		myCalendar.setTime(AppointmentCalendarActivity.daySelected);
 		editDate.setText(sdfDateMonthName.format(AppointmentCalendarActivity.daySelected));
 
-        clinicID = AppointmentCalendarActivity.clinicSelected;
+		clinicID = Integer.parseInt(getIntent().getStringExtra("clinicID"));
         appointmentInterval = ClinicSingleton.getInstance().getAppointmentInterval(String.valueOf(clinicID));
         timeBefore = getIntent().getStringExtra("timeBefore");
         timeAfter = getIntent().getStringExtra("timeAfter");       
@@ -97,8 +97,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 	private void createDatePicker() {
 		final DatePickerDialog.OnDateSetListener pickerDate = new DatePickerDialog.OnDateSetListener() {
 			@Override
-			public void onDateSet(DatePicker view, int year, int monthOfYear,
-					int dayOfMonth) {
+			public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 				myCalendar.set(Calendar.YEAR, year);
 				myCalendar.set(Calendar.MONTH, monthOfYear);
 				myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
