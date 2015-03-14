@@ -25,7 +25,7 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 
 	private EditText searchParams;
 	private Button search, searchResult1, searchResult2, searchResult3;
-	private String enteredSearch;
+	private String enteredSearch, name;
 	Connection c;
 	Statement stmt;
 	ResultSet rs;
@@ -74,7 +74,7 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 		}
 	}
 
-	public class LongOperation extends AsyncTask<String, Void, JSONObject> {
+	private class LongOperation extends AsyncTask<String, Void, JSONObject> {
 		private Context context;
 		
 		LongOperation(Context context){
@@ -100,17 +100,15 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
             Log.d("MYLOG", "onPostExecute");
             ServiceUserSingleton.getInstance().setPatientInfo(result);
             pd.dismiss();
+                name = ServiceUserSingleton.getInstance().getUserName().get(0);
+      
             /*
 			 * if result from database is empty (chcek if null) toast to say no query found
 			 * if not empty do getSinglton.getName
 			 * set this to button text
 			 */
-    		String name = ServiceUserSingleton.getInstance().getUserName().get(0);
-            searchResult1.setText(name); 
-            if(name == null){
-            	Toast.makeText(getApplicationContext(), "No search result found", Toast.LENGTH_LONG).show();
-            	searchResult1.setText("No results found");
-            }
+           
+            searchResult1.setText(name);
 		}
 	}
 }
