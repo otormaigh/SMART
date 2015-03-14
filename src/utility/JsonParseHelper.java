@@ -52,6 +52,27 @@ public class JsonParseHelper {
 		}
 		return null;
 	}
+	
+	public List<String> jsonParseHelperList(JSONObject json, String tableName, String tableKey) {
+		JSONArray jArray = new JSONArray();
+		List<String> returnedList = new ArrayList<String>();
+		try {
+			switch (tableName) {
+			case SERVICE_OPTIONS:
+				switch (tableKey) {
+				default:
+					jArray = json.getJSONArray(tableKey);
+					for(int i = 0; i < jArray.length(); i++){
+						returnedList.add(String.valueOf(jArray.getInt(i)));
+					}
+					return returnedList;
+				}
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}		
+		return null;		
+	}
 
 	public List<String> jsonParseHelper(JSONObject json, String tableName, String subTable, String tableKey) {
 		List<String> returnedList = new ArrayList<String>();

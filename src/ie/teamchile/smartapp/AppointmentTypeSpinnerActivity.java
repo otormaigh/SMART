@@ -1,9 +1,12 @@
 package ie.teamchile.smartapp;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import utility.ClinicSingleton;
 import utility.ServiceOptionSingleton;
@@ -17,15 +20,15 @@ import android.widget.Button;
 import android.widget.Spinner;
 
 public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
+	private SimpleDateFormat sdfDay = new SimpleDateFormat("E", Locale.getDefault());
     private Spinner appointmentSpinner, serviceOptionSpinner, visitOptionSpinner, clinicSpinner, weekSpinner, daySpinner;
     private Button appointmentCalendar;
-    private ArrayAdapter<CharSequence> appointmentAdapter, visitAdapter, weekAdapter, dayAdapter;
-    private ArrayAdapter<String> serviceOptionAdapter, clinicAdapter;
-    private List<String> nameList;
-    private List<Integer> idList;
+    private ArrayAdapter<CharSequence> appointmentAdapter, visitAdapter, weekAdapter;
+    private ArrayAdapter<String> serviceOptionAdapter, clinicAdapter, dayAdapter;
+    private List<String> nameList, idList;
     private int serviceOptionSelected, clinicSelected, weekSelected;
-	private Date daySelected;
-    private Calendar c;
+	private Date daySelected, dayOfWeek;
+    private Calendar c = Calendar.getInstance();
     private AppointmentCalendarActivity passOptions = new AppointmentCalendarActivity();
 
     @Override
@@ -33,7 +36,6 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appointment_type_spinner);
         
-        c = Calendar.getInstance();
         c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         Log.d("MYLOG", "Date set to " + c.getTime());       
         
@@ -66,10 +68,10 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
         weekSpinner.setAdapter(weekAdapter);
 
         daySpinner = (Spinner) findViewById(R.id.day_spinner);
-        daySpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
+/*        daySpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
         dayAdapter = ArrayAdapter.createFromResource(this, R.array.days, R.layout.spinner_layout);
         dayAdapter.setDropDownViewResource(R.layout.spinner_layout);
-        daySpinner.setAdapter(dayAdapter);
+        daySpinner.setAdapter(dayAdapter);*/
 
         appointmentCalendar = (Button) findViewById(R.id.appointment_calendar_button);
         appointmentCalendar.setOnClickListener(new ButtonClick());
@@ -116,9 +118,9 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
 		List<String> clinicNames = new ArrayList<String>();
 		clinicNames.add("Select Clinic");
 		
-		if(idList != null || !idList.isEmpty()){
+		if(idList != null){
 			for(int i = 0; i < idList.size(); i++){
-				clinicNames.add(ClinicSingleton.getInstance().getClinicName(idList.get(i).toString()));
+				clinicNames.add(ClinicSingleton.getInstance().getClinicName(idList.get(i)));
 			}			
 		}
 
@@ -126,6 +128,19 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
         clinicAdapter = new ArrayAdapter<String>(this, R.layout.spinner_layout, clinicNames);
         clinicAdapter.setDropDownViewResource(R.layout.spinner_layout);
         clinicSpinner.setAdapter(clinicAdapter);
+	}
+	
+	private void setDaySpinner(List<String> days){
+		for(int i = 0; i < days.size(); i++){
+			String thing = Character.toString(days.get(i).charAt(0)).toUpperCase() + days.get(i).substring(1);
+			days.set(i, thing);
+		}
+		days.add(0, "Select Day");
+		
+		daySpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
+        dayAdapter = new ArrayAdapter<String>(this, R.layout.spinner_layout, days);
+        dayAdapter.setDropDownViewResource(R.layout.spinner_layout);
+        daySpinner.setAdapter(dayAdapter);
 	}
 	
     private class MySpinnerOnItemSelectedListener implements AdapterView.OnItemSelectedListener {
@@ -192,7 +207,7 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
                             break;
                         default:
                         	weekSpinner.setVisibility(View.VISIBLE);
-                        	clinicSelected = idList.get(position - 1);
+                        	clinicSelected = Integer.parseInt(idList.get(position - 1));
                         	weekSpinner.setSelection(0);
                     }
                     break;                    
@@ -210,8 +225,27 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
                             Log.d("MYLOG", "Week " + position + " selected");
                     		c.add(Calendar.DAY_OF_YEAR, 7 * position);
                 			Log.d("MYLOG", "Plus " + (7 * position)  + " days is: " + c.getTime());	
-                            daySpinner.setVisibility(View.VISIBLE);
-                            daySpinner.setSelection(0);
+                			daySelected = c.getTime();
+                            
+                            if(ClinicSingleton.getInstance().getTrueDays(String.valueOf(clinicSelected)).size() > 1){
+                        		setDaySpinner(ClinicSingleton.getInstance().getTrueDays(String.valueOf(clinicSelected)));
+                        		daySpinner.setVisibility(View.VISIBLE);
+                                daySpinner.setSelection(0);
+                        	} else {
+                        		try {
+									dayOfWeek = sdfDay.parse(ClinicSingleton.getInstance().getTrueDays(String.valueOf(clinicSelected)).get(0));
+									c.setTime(dayOfWeek);
+									int dayAsInt = c.get(Calendar.DAY_OF_WEEK);
+									c.setTime(daySelected);
+									c.set(Calendar.DAY_OF_WEEK, dayAsInt);
+									Log.d("bugs", "day selected: " + daySpinner.getSelectedItem().toString());
+									Log.d("bugs", "day selected: " + c.getTime());
+									daySelected = c.getTime();
+								} catch (ParseException e) {
+									e.printStackTrace();
+								}
+                        		appointmentCalendar.setVisibility(View.VISIBLE);
+                        	}
                         	break;
                     }
                     break;
@@ -220,8 +254,24 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
                         case 0:
                             appointmentCalendar.setVisibility(View.GONE);
                             break;
+                        default:
+							try {
+								dayOfWeek = sdfDay.parse(daySpinner.getSelectedItem().toString());
+								c.setTime(dayOfWeek);
+								int dayAsInt = c.get(Calendar.DAY_OF_WEEK);
+								c.setTime(daySelected);
+								c.set(Calendar.DAY_OF_WEEK, dayAsInt);
+								Log.d("bugs", "day selected: " + daySpinner.getSelectedItem().toString());
+								Log.d("bugs", "day selected: " + c.getTime());
+								appointmentCalendar.setVisibility(View.VISIBLE);
+								daySelected = c.getTime();
+							} catch (ParseException e) {
+								e.printStackTrace();
+							}
+                        	break;/*
                         case 1:     //Monday
                         	Log.d("MYLOG", "Monday selected");
+                        	String monday = "MONDAY";
                     		c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
                     		Log.d("MYLOG", "" + c.getTime());
                 			daySelected = c.getTime();  
@@ -282,7 +332,7 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
                     		
                 			Log.d("MYLOG", "day from spinner: " + daySelected);
                             appointmentCalendar.setVisibility(View.VISIBLE);
-                            break;
+                            break;*/
                     }
                     break;
             }
