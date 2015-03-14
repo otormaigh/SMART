@@ -65,8 +65,6 @@ public class AnteNatalActivity extends MenuInheritActivity {
 		
 	}
 
-
-
 	private class AntiNatalOptions implements View.OnClickListener {
 		public void onClick(View v) {
 			switch (v.getId()) {
