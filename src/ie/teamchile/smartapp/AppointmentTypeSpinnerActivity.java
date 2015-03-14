@@ -234,13 +234,7 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
                         	} else {
                         		try {
 									dayOfWeek = sdfDay.parse(ClinicSingleton.getInstance().getTrueDays(String.valueOf(clinicSelected)).get(0));
-									c.setTime(dayOfWeek);
-									int dayAsInt = c.get(Calendar.DAY_OF_WEEK);
-									c.setTime(daySelected);
-									c.set(Calendar.DAY_OF_WEEK, dayAsInt);
-									Log.d("bugs", "day selected: " + daySpinner.getSelectedItem().toString());
-									Log.d("bugs", "day selected: " + c.getTime());
-									daySelected = c.getTime();
+									addDayToTime(dayOfWeek);
 								} catch (ParseException e) {
 									e.printStackTrace();
 								}
@@ -257,95 +251,26 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
                         default:
 							try {
 								dayOfWeek = sdfDay.parse(daySpinner.getSelectedItem().toString());
-								c.setTime(dayOfWeek);
-								int dayAsInt = c.get(Calendar.DAY_OF_WEEK);
-								c.setTime(daySelected);
-								c.set(Calendar.DAY_OF_WEEK, dayAsInt);
-								Log.d("bugs", "day selected: " + daySpinner.getSelectedItem().toString());
-								Log.d("bugs", "day selected: " + c.getTime());
-								appointmentCalendar.setVisibility(View.VISIBLE);
-								daySelected = c.getTime();
+								addDayToTime(dayOfWeek);
 							} catch (ParseException e) {
 								e.printStackTrace();
 							}
-                        	break;/*
-                        case 1:     //Monday
-                        	Log.d("MYLOG", "Monday selected");
-                        	String monday = "MONDAY";
-                    		c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-                    		Log.d("MYLOG", "" + c.getTime());
-                			daySelected = c.getTime();  
-                			
-                			Log.d("MYLOG", "day from spinner: " + daySelected);
-                            appointmentCalendar.setVisibility(View.VISIBLE);
-                            break;
-                        case 2:     //Tuesday
-                        	Log.d("MYLOG", "Tuesday selected");
-                    		c.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
-                    		Log.d("MYLOG", "" + c.getTime());
-                    		daySelected = c.getTime();  
-                    		
-                			Log.d("MYLOG", "day from spinner: " + daySelected);
-                            appointmentCalendar.setVisibility(View.VISIBLE);
-                            break;
-                        case 3:     //Wednesday
-                        	Log.d("MYLOG", "Wednesday selected");
-                    		c.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
-                    		Log.d("MYLOG", "" + c.getTime());                    		
-                    		daySelected = c.getTime();  
-                    		
-                			Log.d("MYLOG", "day from spinner: " + daySelected);
-                            appointmentCalendar.setVisibility(View.VISIBLE);
-                            break;
-                        case 4:     //Thursday
-                        	Log.d("MYLOG", "Thursday selected");
-                    		c.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
-                    		Log.d("MYLOG", "" + c.getTime());
-                    		daySelected = c.getTime();  
-                    		
-                			Log.d("MYLOG", "day from spinner: " + daySelected);
-                            appointmentCalendar.setVisibility(View.VISIBLE);
-                            break;
-                        case 5:     //Friday
-                        	Log.d("MYLOG", "Friday selected");
-                    		c.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
-                    		Log.d("MYLOG", "" + c.getTime());
-                    		daySelected = c.getTime();  
-                    		
-                			Log.d("MYLOG", "day from spinner: " + daySelected);
-                            appointmentCalendar.setVisibility(View.VISIBLE);
-                            break;
-                        case 6:     //Saturday
-                        	Log.d("MYLOG", "Saturday selected");
-                    		c.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
-                    		Log.d("MYLOG", "" + c.getTime());
-                    		daySelected = c.getTime();  
-                    		
-                			Log.d("MYLOG", "day from spinner: " + daySelected);
-                            appointmentCalendar.setVisibility(View.VISIBLE);
-                            break;
-                        case 7:     //Sunday
-                        	Log.d("MYLOG", "Sunday selected");
-                    		c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-                    		Log.d("MYLOG", "" + c.getTime());
-                    		daySelected = c.getTime();  
-                    		
-                			Log.d("MYLOG", "day from spinner: " + daySelected);
-                            appointmentCalendar.setVisibility(View.VISIBLE);
-                            break;*/
+                        	break;
                     }
                     break;
             }
-            //setOptionsSelected(region, hospital, week, day);
-            //if today is Wednesday hide spinners for Week 1 Day Monday, Tuesday
-            //Today is Tuesday 10/02/15
-            //if region 1, hospital 1, week 1, day 3
-            //show appointments for Wednesday 11/02 in Domino Dublin, NMH (OPD Location)
-            //if region 3, hospital 2, week 5, day 4
-            //show appointments for Thursday 5/03 in ETH Dublin, Dun Laoghaire
         }
         @Override
         public void onNothingSelected(AdapterView<?> parent) {
         }
+    }
+    
+    public void addDayToTime(Date dayOfWeek){
+    	c.setTime(dayOfWeek);
+		int dayAsInt = c.get(Calendar.DAY_OF_WEEK);
+		c.setTime(daySelected);
+		c.set(Calendar.DAY_OF_WEEK, dayAsInt);
+		appointmentCalendar.setVisibility(View.VISIBLE);
+		daySelected = c.getTime();
     }
 }

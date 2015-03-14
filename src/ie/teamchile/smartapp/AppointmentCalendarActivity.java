@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import utility.AppointmentSingleton;
 import utility.ClinicSingleton;
 import utility.ServiceUserSingleton;
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -23,10 +24,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.TextView;
 import connecttodb.AccessDBTable;
@@ -41,7 +44,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 	private DateFormat dfDateOnly = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 	private DateFormat dfDateOnlyOther = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 	private DateFormat dfTimeOnly = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
-	private DateFormat dfDateWithMonthName = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
+	private DateFormat dfDateWithMonthName = new SimpleDateFormat("dd MMM", Locale.getDefault());
 	private ArrayList<String> timeSingle, gestSingle, nameSingle;	
 	private ArrayList<String> listOfId = new ArrayList<String>();
 	private Calendar c = Calendar.getInstance(), myCalendar = Calendar.getInstance();
@@ -90,7 +93,9 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 		Log.d("MYLOG", "week: " + weekSelected);
 		Log.d("MYLOG", "day: " + daySelected);
         setAptToListSingle(daySelected);
+        createDatePicker();
     }
+    
     private class ButtonClick implements View.OnClickListener {
         public void onClick(View v) {
             switch (v.getId()) {
@@ -143,13 +148,38 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
     	return badList;
     }
     
+	private void createDatePicker() {
+		myCalendar.setTime(daySelected);
+		final DatePickerDialog.OnDateSetListener pickerDate = new DatePickerDialog.OnDateSetListener() {
+			@Override
+			public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+				myCalendar.set(Calendar.YEAR, year);
+				myCalendar.set(Calendar.MONTH, monthOfYear);
+				myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+				Log.d("postAppointment", "datePicker: " + myCalendar.getTime());
+				Log.d("postAppointment", "datePicker formatted: " + dfDateOnly.format(myCalendar.getTime()));
+				dateInList.setText(dfDateWithMonthName.format(myCalendar.getTime()));
+	            setAptToListSingle(myCalendar.getTime());
+			}
+		};
+		dateInList.setOnClickListener(new OnClickListener() {
+	        @Override
+	        public void onClick(View v) {
+	            new DatePickerDialog(AppointmentCalendarActivity.this, pickerDate, myCalendar
+	                    .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+	                    myCalendar.get(Calendar.DAY_OF_MONTH)).show();	            
+	        }
+	    });
+	}
+    
     public void setAptToListSingle(Date dateSelected){
     	timeSingle = new ArrayList<String>();
     	nameSingle = new ArrayList<String>();
     	gestSingle = new ArrayList<String>();
+    	daySelected = dateSelected;
     	dateSelectedStr = dfDateOnly.format(dateSelected);
     	
-    	dateInList.setText(dfDateOnlyOther.format(dateSelected));
+    	dateInList.setText(dfDateWithMonthName.format(dateSelected));
     	nameOfClinic = ClinicSingleton.getInstance().getClinicName(String.valueOf(clinicSelected));
     	clinicName.setText(nameOfClinic);    	
 		listOfId = AppointmentSingleton.getInstance().getListOfIDs(String.valueOf(clinicSelected), dateSelectedStr);		
