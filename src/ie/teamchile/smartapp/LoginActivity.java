@@ -22,7 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import connecttodb.GetToken;
 
-public class MainActivity extends Activity {
+public class LoginActivity extends Activity {
 	private String username, password;
 	private Button loginButton;
 	private TextView usernameTextView, passwordTextView, about;
@@ -41,7 +41,7 @@ public class MainActivity extends Activity {
 			setContentView(R.layout.activity_main);	
 		} else {
 			Log.d("MYLOG", "Token not Empty");
-			intent = new Intent(MainActivity.this, QuickMenuActivity.class);
+			intent = new Intent(LoginActivity.this, QuickMenuActivity.class);
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
             				Intent.FLAG_ACTIVITY_CLEAR_TASK |
             				Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -68,7 +68,7 @@ public class MainActivity extends Activity {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.login:
-				// Intent intent = new Intent(MainActivity.this,
+				// Intent intent = new Intent(LoginActivity.this,
 				// QuickMenuActivity.class);
 				// startActivity(intent);
 				// login.setToken("0c325638d97faf29d71f");
@@ -118,12 +118,12 @@ public class MainActivity extends Activity {
         		
         		Toast.makeText(this, "Welcome " + username, Toast.LENGTH_LONG).show();
         		// show the quick menu
-        		intent = new Intent(MainActivity.this, QuickMenuActivity.class);
+        		intent = new Intent(LoginActivity.this, QuickMenuActivity.class);
     			startActivity(intent);
         	} else
         		Toast.makeText(this, "Login Failed", Toast.LENGTH_LONG).show();
     	}else {
-    		ToastAlert ta = new ToastAlert(MainActivity.this, "Poor Internet Activity \nPlease check your settings", true);
+    		ToastAlert ta = new ToastAlert(LoginActivity.this, "Poor Internet Activity \nPlease check your settings", true);
     	}
 	}
     @Override
