@@ -105,7 +105,7 @@ public class MainActivity extends MenuInheritActivity {
     private void checkCredentials(){    
     	if(getToken.getResponseCode() != null && !getToken.getResponseCode().isEmpty()) {
     		if (getToken.getResponseCode().equals("201")){
-        		
+    			
         		// update Singleton
         		AppointmentSingleton.getInstance().updateLocal(this);
     			ClinicSingleton.getInstance().updateLocal(this);
@@ -114,14 +114,14 @@ public class MainActivity extends MenuInheritActivity {
         		ServiceProviderSingleton.getInstance().setLoggedIn(true);
         		ServiceProviderSingleton.getInstance().setUsername(username);
         		ServiceProviderSingleton.getInstance().setPassword(password); 
-        		
         		Toast.makeText(this, "Welcome " + username, Toast.LENGTH_LONG).show();
+        		
         		// show the quick menu
         		intent = new Intent(MainActivity.this, QuickMenuActivity.class);
     			startActivity(intent);
         	} else
-        		passwordTextView.setText(null);
         		Toast.makeText(this, "Login Failed", Toast.LENGTH_LONG).show();
+    		    passwordTextView.setText(null);
     	}else {
     		ToastAlert ta = new ToastAlert(MainActivity.this, "Poor Internet Activity \nPlease check your settings", true);
     	}
