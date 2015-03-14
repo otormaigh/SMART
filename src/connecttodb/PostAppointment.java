@@ -3,7 +3,6 @@ package connecttodb;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -11,7 +10,6 @@ import java.net.URLEncoder;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import utility.ClinicSingleton;
 import utility.ServiceProviderSingleton;
 import Enums.CredentialsEnum;
 import android.util.Log;
@@ -49,11 +47,11 @@ public class PostAppointment {
 								  String duration, String priority, String visitType){
 		encodeType = encode.toString();
 		token = ServiceProviderSingleton.getInstance().getToken();
+		serviceProviderID = ServiceProviderSingleton.getInstance().getID();
 		this.ServiceUserID = ServiceUserID;
 		this.date = date;
 		this.time = time;
 		this.duration = duration;
-		this.serviceProviderID = ServiceProviderSingleton.getInstance().getID();
 		this.priority = priority;
 		this.visitType = visitType;
 		this.clinicID = clinicID;

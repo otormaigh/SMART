@@ -8,10 +8,8 @@ import java.net.URLEncoder;
 
 import utility.ServiceProviderSingleton;
 import Enums.CredentialsEnum;
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 public class Logout {	
 	private static String url = CredentialsEnum.URL.toString();

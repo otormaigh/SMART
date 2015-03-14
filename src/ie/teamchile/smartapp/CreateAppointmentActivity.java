@@ -77,7 +77,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 		myCalendar.setTime(AppointmentCalendarActivity.daySelected);
 		editDate.setText(sdfDateMonthName.format(AppointmentCalendarActivity.daySelected));
 
-        clinicID = AppointmentCalendarActivity.hospitalSelected;
+        clinicID = AppointmentCalendarActivity.clinicSelected;
         appointmentInterval = ClinicSingleton.getInstance().getAppointmentInterval(String.valueOf(clinicID));
         timeBefore = getIntent().getStringExtra("timeBefore");
         timeAfter = getIntent().getStringExtra("timeAfter");       
@@ -118,8 +118,9 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 		durationList.add(String.valueOf(appointmentIntervalAsInt + appointmentIntervalAsInt) + " minutes");
 		
 		visitDurationSpinner = (Spinner) findViewById(R.id.visit_duration_spinner);
-	    ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, durationList);
+	    ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<String>(this, R.layout.spinner_layout, durationList);
 	    myArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+	    myArrayAdapter.setDropDownViewResource(R.layout.spinner_layout);
 	    visitDurationSpinner.setAdapter(myArrayAdapter);
 	}
 	private void setTimeSpinner(){
@@ -143,8 +144,9 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 			}
 			Log.d("postAppointment", "timeList: " + timeList);
 		    visitTimeSpinner = (Spinner) findViewById(R.id.visit_time_spinner);
-		    ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, timeList);
+		    ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<String>(this, R.layout.spinner_layout, timeList);
 		    myArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		    myArrayAdapter.setDropDownViewResource(R.layout.spinner_layout);
 		    visitTimeSpinner.setAdapter(myArrayAdapter);		    
         } catch (ParseException e) {
 			e.printStackTrace();
@@ -153,7 +155,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 	private void setClinicSpinner(){
         if(clinicID < 7){
         	visitClinicSpinner.setSelection(clinicID);
-        	clinicID = clinicID;
+        	//clinicID = clinicID;
     	} else if(clinicID == 7){
     		clinicID = 6;        
     		visitClinicSpinner.setSelection(6);
@@ -198,19 +200,13 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
             
 		}
 		protected JSONObject doInBackground(String... params) {
-			try {
-				String dbQuery = db.accessDB(params[0]);
-				json = new JSONObject(dbQuery);
+			json = db.accessDB(params[0]);
 
-				ServiceUserSingleton.getInstance().setPatientInfo(json);
-				String userID = ServiceUserSingleton.getInstance().getUserID().get(0);
-				
-				postAppt.postAppointment(userID, clinicIDStr, apptDate, time, duration,
-						priority, visitType);
-
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+			ServiceUserSingleton.getInstance().setPatientInfo(json);
+			String userID = ServiceUserSingleton.getInstance().getUserID().get(0);
+			
+			postAppt.postAppointment(userID, clinicIDStr, apptDate, time, duration,
+					priority, visitType);
 			return null;
 		}
 		@Override

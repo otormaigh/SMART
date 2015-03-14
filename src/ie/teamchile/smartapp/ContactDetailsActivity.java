@@ -49,9 +49,8 @@ public class ContactDetailsActivity extends MenuInheritActivity {
 		@Override
 		protected String doInBackground(Void... params) {
 			Log.d("MYLOG", "ServiceProviderSearch DoInBackground");
-			String dbQuery = database.accessDB("service_providers");
 			try {
-				json = new JSONObject(dbQuery);
+				json = database.accessDB("service_providers");
 				query = json.getJSONArray("service_providers");
 				arrayPos = getObjects(query, "id", "14");
 				

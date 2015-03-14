@@ -6,6 +6,7 @@ import java.util.Calendar;
 import utility.AppointmentSingleton;
 import utility.ClinicSingleton;
 import utility.ConnectivityTester;
+import utility.ServiceOptionSingleton;
 import utility.ServiceProviderSingleton;
 import utility.ToastAlert;
 import android.app.ProgressDialog;
@@ -108,6 +109,7 @@ public class MainActivity extends MenuInheritActivity {
         		// update Singleton
         		AppointmentSingleton.getInstance().updateLocal(this);
     			ClinicSingleton.getInstance().updateLocal(this);
+    			ServiceOptionSingleton.getInstance().updateLocal(this);
     			
         		ServiceProviderSingleton.getInstance().setLoggedIn(true);
         		ServiceProviderSingleton.getInstance().setUsername(username);
@@ -118,6 +120,7 @@ public class MainActivity extends MenuInheritActivity {
         		intent = new Intent(MainActivity.this, QuickMenuActivity.class);
     			startActivity(intent);
         	} else
+        		passwordTextView.setText(null);
         		Toast.makeText(this, "Login Failed", Toast.LENGTH_LONG).show();
     	}else {
     		ToastAlert ta = new ToastAlert(MainActivity.this, "Poor Internet Activity \nPlease check your settings", true);
