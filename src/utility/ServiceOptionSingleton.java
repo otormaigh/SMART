@@ -99,19 +99,9 @@ public class ServiceOptionSingleton {
 		return idMap;
 	}
 	
-	public List<Integer> getClinicIDs(String id){
+	public List<String> getClinicIDs(String id){
 		JSONObject json = idMap.get(id);
-		JSONArray jArray = new JSONArray();
-		ArrayList<Integer> clinicID = new ArrayList<Integer>();
-		try {
-			jArray = json.getJSONArray("clinic_ids");
-			for(int i = 0; i < jArray.length(); i++){
-				clinicID.add(jArray.getInt(i));
-			}
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return clinicID;
+		return help.jsonParseHelperList(json, "service_options", "clinic_ids");
 	}
 	
 	public String getID(String id){
