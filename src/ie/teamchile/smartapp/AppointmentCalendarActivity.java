@@ -39,6 +39,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 	private static int weekSelected;
 	protected static Date daySelected;
 	private Date day = null, openingAsDate, closingAsDate;
+	private String closingMinusInterval;
 	private DateFormat df = new SimpleDateFormat("yyyy-MM-dd - HH:mm:ss", Locale.getDefault());
 	private DateFormat dfDateOnly = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 	private DateFormat dfDateOnlyOther = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
@@ -84,12 +85,17 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 		clinicClosing = ClinicSingleton.getInstance().getClosingTime(String.valueOf(clinicSelected));
 		appointmentInterval = Integer.parseInt(ClinicSingleton.getInstance().getAppointmentInterval(String.valueOf(clinicSelected)));
 		
+		
 		try {
 			openingAsDate = dfTimeOnly.parse(String.valueOf(clinicOpening));
 			closingAsDate = dfTimeOnly.parse(String.valueOf(clinicClosing));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		
+		myCalendar.setTime(closingAsDate);
+		myCalendar.add(Calendar.MINUTE, (- appointmentInterval));
+		closingMinusInterval = dfTimeOnly.format(myCalendar.getTime());
                 
         c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         Log.d("MYLOG", "Date set to " + c.getTime());
@@ -115,7 +121,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
                 	//adapter.notifyDataSetChanged();
                 	prevWeek.setEnabled(false);
                 	nextWeek.setEnabled(false);
-                	CountDownTimer prevTimer = new CountDownTimer(500, 500) {						
+                	CountDownTimer prevTimer = new CountDownTimer(250, 250) {						
 						@Override
 						public void onTick(long millisUntilFinished) {								
 						}						
@@ -138,7 +144,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
                 	//adapter.notifyDataSetChanged();
                 	nextWeek.setEnabled(false);
                 	prevWeek.setEnabled(false);
-                	CountDownTimer nextTimer = new CountDownTimer(500, 500) {						
+                	CountDownTimer nextTimer = new CountDownTimer(250, 250) {						
 						@Override
 						public void onTick(long millisUntilFinished) {								
 						}						
@@ -241,8 +247,10 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 				gestSingle.add(0, "---------");
 				listOfId.add(0, "0");				
 			}
+			Log.d("bugs", "closingMinusInterval: " + closingMinusInterval);
+			Log.d("bugs", "last appt: " + (timeSingle.size() - 1));
 
-			if (!timeSingle.get((timeSingle.size() - 1)).equals(clinicClosing)) {
+			if (!timeSingle.get((timeSingle.size() - 1)).equals(closingMinusInterval)) {
 				timeSingle.add("---------");
 				nameSingle.add("Free Slot");
 				gestSingle.add("---------");
@@ -253,8 +261,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 		Log.d("bugs", "timeSingle after populate: " + timeSingle);
 		Log.d("bugs", "nameSingle after populate: " + nameSingle);
 		Log.d("bugs", "gestSingle after populate: " + gestSingle);
-		Log.d("bugs", "listofID after populate: " + listOfId);
-		
+		Log.d("bugs", "listofID after populate: " + listOfId);		
 		
 		adapter = new ListElementAdapter (AppointmentCalendarActivity.this, timeSingle, nameSingle, gestSingle);
         listView.setAdapter(adapter);
@@ -265,7 +272,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 		Context context;
 		LayoutInflater layoutInflater;
 		int position;
-		ArrayList<String> aptTime, aptName, aptGest, idList;
+		ArrayList<String> aptTime, aptName, aptGest;
 
 		@Override
 		public void notifyDataSetChanged() {
@@ -313,7 +320,8 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
     private class OnItemListener implements OnItemClickListener {
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-			Log.d("appointmentClick", "appointment id: " + listOfId.get(position));	
+			Log.d("bugs", "listOfId in onClick: " + listOfId);
+			Log.d("bugs", "appointment id: " + listOfId.get(position));	
 			if(listOfId.get(position).equals("0")){
 				intent = new Intent(AppointmentCalendarActivity.this, CreateAppointmentActivity.class);
 				if(listOfId.size() == 1){
@@ -367,13 +375,6 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 				
 				Log.d("singleton", "db string: " + "service_users" + "/" + serviceUserID);
 				new LongOperation(AppointmentCalendarActivity.this).execute("service_users" + "/" + serviceUserID);
-		        
-				for(int i = 0; i < listOfId.size(); i++){
-					if(listOfId.get(i).equals("0")){
-						listOfId.remove("0");
-						Log.d("bugs", "ListOfId: " + listOfId);
-					}
-				}
 				
 				intent = new Intent(AppointmentCalendarActivity.this, ConfirmAppointmentActivity.class);
 				intent.putExtra("name", nameFromDB);
@@ -384,6 +385,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 			}
 		}		    	
     }
+    
     private class LongOperation extends AsyncTask<String, Void, JSONObject> {
 		private Context context;
 		
