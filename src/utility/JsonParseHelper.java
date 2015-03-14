@@ -20,6 +20,8 @@ public class JsonParseHelper {
 	private static final String SERVICE_USERS = "service_users";
 	private static final String CLINICAL_FIELDS = "clinical_fields";
 	private static final String PERSONAL_FIELDS = "personal_fields";
+	private static final String SERVICE_OPTIONS = "service_options";
+	private static final String CLINIC_IDS = "clinic_ids";
 	
 	public JsonParseHelper(){
 		
@@ -41,6 +43,10 @@ public class JsonParseHelper {
 				}
 			case CLINICS:
 				return json.get(tableKey).toString();
+			case SERVICE_OPTIONS:
+			case CLINIC_IDS:
+				default:
+					return json.get(tableKey).toString();
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();

@@ -24,34 +24,9 @@
         android:entries="@array/visit_service_option" />
 
     <Spinner
-        android:id="@+id/domino_dublin_spinner"
+        android:id="@+id/clinic_spinner"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:entries="@array/domino_dublin" />
-
-    <Spinner
-        android:id="@+id/domino_wicklow_spinner"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:entries="@array/domino_wicklow" />
-
-    <Spinner
-        android:id="@+id/eth_dublin_spinner"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:entries="@array/eth" />
-
-    <Spinner
-        android:id="@+id/eth_wicklow_spinner"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:entries="@array/eth" />
-
-    <Spinner
-        android:id="@+id/satellite_spinner"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:entries="@array/satellite" />
+        android:layout_height="wrap_content" />
 
     <Spinner
         android:id="@+id/week_spinner"

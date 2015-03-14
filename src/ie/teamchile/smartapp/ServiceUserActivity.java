@@ -22,7 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class ServiceUserActivity extends MenuInheritActivity {
-	private TextView hospitalNumber,name,ageServiceUser, email, mobileNumber, road,
+	private TextView hospitalNumber,name, ageServiceUser, email, mobileNumber, road,
 			county, postCode, nextOfKinName, nextOfKinContactNumber, gestation, parity;
 	private String dob, userCall, userSMS, userEmail, kinCall, kinSMS;
 	private Dialog dialog;
@@ -110,8 +110,8 @@ public class ServiceUserActivity extends MenuInheritActivity {
 	}
 	
 	public void onBackPressed(){
-		Intent goToServiceUser = new Intent(ServiceUserActivity.this, QuickMenuActivity	.class);
-		startActivity(goToServiceUser);
+		Intent goToQuickMenu = new Intent(ServiceUserActivity.this, ServiceUserSearchActivity.class);
+		startActivity(goToQuickMenu);
 		
 	}
 
@@ -272,7 +272,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		    	Uri uri = Uri.parse(addr);
 		    	System.out.println(addr);
 		    	Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-		      intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+		        intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
 
 		    	startActivity(intent);
         }	

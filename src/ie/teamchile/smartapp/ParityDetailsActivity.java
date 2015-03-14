@@ -49,8 +49,8 @@ public class ParityDetailsActivity extends MenuInheritActivity {
         
 	   ArrayList<String> dobStr = new ArrayList<String>();
 	   
-		for(int i = 0; i < genderBaby.size(); i++){
-			dobStr.add(genderBaby.get(i) + "\n");
+		for(int i = 0; i < dobBaby.size(); i++){
+			dobStr.add(dobBaby.get(i) + "\n");
 		}
 
 
@@ -87,7 +87,7 @@ public class ParityDetailsActivity extends MenuInheritActivity {
 		public void notifyDataSetChanged() {
 			super.notifyDataSetChanged();
 		}
-		public ListElementAdapter(Context context, List<String> name, List<String>hospitalNuber, 
+		public ListElementAdapter(Context context, List<String> name, List<String>hospitalNumber, 
 				List<String>babyInformation, 
 				List<String>babyGender, 
 				List<String>gestation,

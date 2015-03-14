@@ -210,10 +210,10 @@ public class ServiceUserSingleton {
 		new ServiceUserGetter().execute(tableName);
 	}
 	
-	private class ServiceUserGetter extends AsyncTask<String, Void, String> {
+	private class ServiceUserGetter extends AsyncTask<String, Void, JSONObject> {
 
 		@Override
-		protected String doInBackground(String... params) {
+		protected JSONObject doInBackground(String... params) {
 			AccessDBTable access = new AccessDBTable();
 			return access.accessDB(params[0]);
 		}
@@ -224,15 +224,9 @@ public class ServiceUserSingleton {
 		}
 
 		@Override
-		protected void onPostExecute(String result) {
+		protected void onPostExecute(JSONObject result) {
 			super.onPostExecute(result);
-			JSONObject json = null;
-			try {
-				json = new JSONObject(result);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			ServiceUserSingleton.getInstance().setPatientInfo(json);
+			ServiceUserSingleton.getInstance().setPatientInfo(result);
 		}
 
 		@Override
