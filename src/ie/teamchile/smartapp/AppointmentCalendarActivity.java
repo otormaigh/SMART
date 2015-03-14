@@ -295,6 +295,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 					myCalendar.setTime(openingAsDate);
 					myCalendar.add(Calendar.MINUTE, - appointmentInterval);
 					
+					intent.putExtra("clinicID", String.valueOf(clinicSelected));
 					intent.putExtra("timeBefore", dfTimeOnly.format(myCalendar.getTime()));
 					intent.putExtra("timeAfter", clinicClosing);
 					startActivity(intent);
