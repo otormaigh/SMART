@@ -83,7 +83,7 @@ public class AppointmentSingleton {
 	private JsonParseHelper help = new JsonParseHelper();
 	private String response;
 	private JSONArray query;
-	private JSONObject jsonNew;
+	private JSONObject json;
 	private ProgressDialog pd;
 	
 	private AppointmentSingleton() {
@@ -115,9 +115,8 @@ public class AppointmentSingleton {
 		protected JSONArray doInBackground(String... params) {
 			Log.d("singleton", "in appointment updateLocal doInBackground");
 			try {
-				response = db.accessDB(params[0]);
-				jsonNew = new JSONObject(response);
-				query = jsonNew.getJSONArray(params[0]);
+				json = db.accessDB(params[0]);
+				query = json.getJSONArray(params[0]);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -179,6 +178,9 @@ public class AppointmentSingleton {
 		}
 		Log.d("singleton", "clinicIDHash: " + clinicDateIDHash.toString());
 		this.clinicIDHash = clinicDateIDHash;
+	}
+	public HashMap<String, HashMap<String, ArrayList<String>>> getHashMapofClinicDateID(){
+		return clinicIDHash;
 	}
 	
 	/**
