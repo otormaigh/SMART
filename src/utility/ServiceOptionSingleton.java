@@ -21,10 +21,8 @@ public class ServiceOptionSingleton {
 	private static ServiceOptionSingleton singleInstance;
 	private AccessDBTable db = new AccessDBTable();
 	private JsonParseHelper help = new JsonParseHelper();
-	private List<String> clinicIDs = new ArrayList<String>();;
 	private Map<String, JSONObject> idMap;
 	private List<JSONObject> jsonValues;
-	private ProgressDialog pd;
 	private JSONObject json;
 	private JSONArray query;
 	
@@ -38,20 +36,19 @@ public class ServiceOptionSingleton {
 		return singleInstance;
 	}	
 	
-	public void updateLocal(Context context){		
-		new LongOperation(context).execute("service_options");
+	public void updateLocal(Context context, ProgressDialog pd){		
+		new LongOperation(context, pd) .execute("service_options");
 	}
 	
 	private class LongOperation extends AsyncTask<String, Void, JSONArray> {
 		private Context context;
-		public LongOperation(Context context){
+		private ProgressDialog pd;
+		public LongOperation(Context context, ProgressDialog pd){
 			this.context = context;
+			this.pd = pd;
 		}
 		@Override
 		protected void onPreExecute() {
-			pd = new ProgressDialog(context);
-			pd.setMessage("Updating Service Options");
-			pd.show();
 		}
 		protected JSONArray doInBackground(String... params) {
 			Log.d("singleton", "in service options updateLocal doInBackground");

@@ -228,11 +228,6 @@
     <string name="add_note">Add a note</string>
 
  	<!-- CREATE APPOINTMENT -->
- 	<string-array name="visit_duration_list">
-        <item>Select Visit Duration</item>
-        <item>15 minutes</item>
-        <item>30 minutes</item>
-    </string-array>
     <string-array name="visit_priority_list">
         <item>Select Visit Priority</item>
         <item>Scheduled</item>
@@ -241,30 +236,5 @@
         <item>Select Visit Type</item>
         <item>Ante-Natal</item>
         <item>Post-Natal</item>
- 	</string-array>
- 	    <string-array name="visit_time_list">
-        <item>Select Visit Time</item>
-        <item>10:45:00</item>
-        <item>11:00:00</item>
-        <item>11:15:00</item>
-        <item>11:30:00</item>
- 	</string-array>
- 	
- 	<string-array name="clinic_name_list">
- 	    <item>Select Clinic</item>
- 	    <item>Evening Booking Clinic (Monday)</item>
- 	    <item>Leopardstown (Tuesday)</item>
- 	    <item>Dun Laoghaire (Wednesday)</item>
- 	    <item>Churchtown (Thursday)</item>
- 	    <item>NMH Clinic (Friday)</item>
- 	    <item>Greystones (Monday)</item>
- 	    <item>Greystones (Tuesday)</item>
- 	    <item>Kilmacanogue (Thursday)</item>
- 	    <item>Ballinteer (Monday)</item>
- 	    <item>Dun Laoghaire (Tuesday)</item>
- 	    <item>Greystones Satellite (Monday)</item>
- 	    <item>Arklow (Tuesday)</item>
- 	    <item>Newtownmountkennedy (Wednesday)</item>
- 	    <item>Bray (Thursday)</item>
  	</string-array>
 </resources>

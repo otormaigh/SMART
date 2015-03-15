@@ -23,8 +23,8 @@ import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
@@ -32,6 +32,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import connecttodb.AccessDBTable;
 
 public class AppointmentCalendarActivity extends MenuInheritActivity {
@@ -182,7 +183,14 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
     	dateInList.setText(dfDateWithMonthName.format(dateSelected));
     	nameOfClinic = ClinicSingleton.getInstance().getClinicName(String.valueOf(clinicSelected));
     	clinicName.setText(nameOfClinic);    	
-		listOfId = AppointmentSingleton.getInstance().getListOfIDs(String.valueOf(clinicSelected), dateSelectedStr);		
+    	
+    	if(AppointmentSingleton.getInstance().getHashMapofClinicDateID().containsKey(String.valueOf(clinicSelected))){
+    		Log.d("bugs", "map has key");
+    		listOfId = AppointmentSingleton.getInstance().getListOfIDs(String.valueOf(clinicSelected), dateSelectedStr);
+    	} else {
+    		Log.d("bugs", "map doenst have key");
+    		listOfId = new ArrayList<String>();
+    	}
 
 		if (listOfId == null || listOfId.isEmpty()) {
 			timeSingle.add("---------");
@@ -295,31 +303,26 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 					myCalendar.setTime(openingAsDate);
 					myCalendar.add(Calendar.MINUTE, - appointmentInterval);
 					
-					intent.putExtra("clinicID", String.valueOf(clinicSelected));
-					intent.putExtra("timeBefore", dfTimeOnly.format(myCalendar.getTime()));
-					intent.putExtra("timeAfter", clinicClosing);
-					startActivity(intent);
+					timeBefore = dfTimeOnly.format(myCalendar.getTime());
+					timeAfter = clinicClosing;
 				} 
 				else if(listOfId.size() > 0 && position == 0){
 					myCalendar.setTime(openingAsDate);
 					myCalendar.add(Calendar.MINUTE, - appointmentInterval);
-					intent.putExtra("timeBefore", dfTimeOnly.format(myCalendar.getTime()));
 					
+					timeBefore = dfTimeOnly.format(myCalendar.getTime());
 					timeAfter = AppointmentSingleton.getInstance().getTime(listOfId.get(position + 1));
-					intent.putExtra("timeAfter", timeAfter);
 				} 
 				else if(listOfId.size() > 0 && position == listOfId.size() - 1){
-					timeBefore = AppointmentSingleton.getInstance().getTime(listOfId.get(position - 1));
-					
-					intent.putExtra("timeBefore", timeBefore);
-					intent.putExtra("timeAfter", clinicClosing);					
+					timeBefore = AppointmentSingleton.getInstance().getTime(listOfId.get(position - 1));	
+					timeAfter = clinicClosing;
 				} 
 				else if(listOfId.size() > 0 && listOfId.get(position - 1) != null && listOfId.get(position + 1) != null){
 					timeBefore = AppointmentSingleton.getInstance().getTime(listOfId.get(position - 1));
 					timeAfter = AppointmentSingleton.getInstance().getTime(listOfId.get(position + 1));
-					intent.putExtra("timeBefore", timeBefore);
-					intent.putExtra("timeAfter", timeAfter);
 				}
+				intent.putExtra("timeBefore", timeBefore);
+				intent.putExtra("timeAfter", clinicClosing);
 				intent.putExtra("clinicID", String.valueOf(clinicSelected));
 				startActivity(intent);
 				
