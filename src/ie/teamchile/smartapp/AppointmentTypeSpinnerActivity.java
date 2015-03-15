@@ -68,10 +68,6 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
         weekSpinner.setAdapter(weekAdapter);
 
         daySpinner = (Spinner) findViewById(R.id.day_spinner);
-/*        daySpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
-        dayAdapter = ArrayAdapter.createFromResource(this, R.array.days, R.layout.spinner_layout);
-        dayAdapter.setDropDownViewResource(R.layout.spinner_layout);
-        daySpinner.setAdapter(dayAdapter);*/
 
         appointmentCalendar = (Button) findViewById(R.id.appointment_calendar_button);
         appointmentCalendar.setOnClickListener(new ButtonClick());

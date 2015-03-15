@@ -5,7 +5,6 @@ import java.util.Calendar;
 
 import utility.AppointmentSingleton;
 import utility.ClinicSingleton;
-import utility.ConnectivityTester;
 import utility.ServiceOptionSingleton;
 import utility.ServiceProviderSingleton;
 import utility.ToastAlert;
@@ -28,26 +27,15 @@ public class LoginActivity extends Activity {
 	private TextView usernameTextView, passwordTextView, about;
 	private GetToken getToken = new GetToken();
 	private Intent intent;
-	ProgressDialog pd;
+	private ProgressDialog pd;
+	private ToastAlert ta;
 	private Calendar cal = Calendar.getInstance();
-	private ConnectivityTester testConn = new ConnectivityTester(this);
+	//private ConnectivityTester testConn = new ConnectivityTester(this);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);	
-		/*if(Login_model.getToken().equals("")){
-			Log.d("MYLOG", "Token Empty");
-			setContentView(R.layout.activity_main);	
-		} else {
-			Log.d("MYLOG", "Token not Empty");
-			intent = new Intent(LoginActivity.this, QuickMenuActivity.class);
-			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
-            				Intent.FLAG_ACTIVITY_CLEAR_TASK |
-            				Intent.FLAG_ACTIVITY_NEW_TASK);
-			startActivity(intent);
-			return;
-		}*/
 		
 		//testConn.testTheNetworkConnection();
 		//Log.d("MYLOG", "is 3g connected: " + testConn.is3GConnected());
@@ -68,10 +56,6 @@ public class LoginActivity extends Activity {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.login:
-				// Intent intent = new Intent(LoginActivity.this,
-				// QuickMenuActivity.class);
-				// startActivity(intent);
-				// login.setToken("0c325638d97faf29d71f");
 				getCredentials();
 
 				new LongOperation().execute((String[]) null);
@@ -82,12 +66,10 @@ public class LoginActivity extends Activity {
 	private class LongOperation extends AsyncTask<String, Void, String> {
 		@Override
 		protected void onPreExecute() {
-			ToastAlert ta = new ToastAlert(getBaseContext(), "Loading data. . . ", false);
+			ta = new ToastAlert(getBaseContext(), "Loading data. . . ", false);
 		}
 		protected String doInBackground(String... params) {
-			getToken.getToken(username, password);
-			//getToken.getToken("team_chile", "smartappiscoming");
-            
+			getToken.getToken(username, password);            
 			return null;
 		}
 		@Override
@@ -106,30 +88,34 @@ public class LoginActivity extends Activity {
     private void checkCredentials(){    
     	if(getToken.getResponseCode() != null && !getToken.getResponseCode().isEmpty()) {
     		if (getToken.getResponseCode().equals("201")){
-        		
+    			
+    			pd = new ProgressDialog(LoginActivity.this);
+    			pd.setMessage("Updating Information");
+    			pd.show();
+    			
         		// update Singleton
         		AppointmentSingleton.getInstance().updateLocal(this);
     			ClinicSingleton.getInstance().updateLocal(this);
-    			ServiceOptionSingleton.getInstance().updateLocal(this);
+    			ServiceOptionSingleton.getInstance().updateLocal(this, pd);
     			
         		ServiceProviderSingleton.getInstance().setLoggedIn(true);
         		ServiceProviderSingleton.getInstance().setUsername(username);
         		ServiceProviderSingleton.getInstance().setPassword(password); 
         		
         		Toast.makeText(this, "Welcome " + username, Toast.LENGTH_LONG).show();
-        		// show the quick menu
+        		
         		intent = new Intent(LoginActivity.this, QuickMenuActivity.class);
-    			startActivity(intent);
+				startActivity(intent);
         	} else
         		Toast.makeText(this, "Login Failed", Toast.LENGTH_LONG).show();
     	}else {
-    		ToastAlert ta = new ToastAlert(LoginActivity.this, "Poor Internet Activity \nPlease check your settings", true);
+    		ta = new ToastAlert(LoginActivity.this, "Poor Internet Activity \nPlease check your settings", true);
     	}
 	}
     @Override
     public void onBackPressed() {
     	if(ServiceProviderSingleton.getInstance().isLoggedIn()) {
-    		ToastAlert ta = new ToastAlert(getBaseContext(), "Already logged in, \n  logout?", true);
+    		ta = new ToastAlert(getBaseContext(), "Already logged in, \n  logout?", true);
     	}else { 
 			finish();   		
     	}    	

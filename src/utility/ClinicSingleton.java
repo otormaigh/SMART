@@ -84,7 +84,7 @@ public class ClinicSingleton {
 		protected void onPreExecute() {
 			pd = new ProgressDialog(context);
 			pd.setMessage("Updating Clinics");
-			pd.show();
+			pd.show();				
 		}
 		protected JSONArray doInBackground(String... params) {
 			Log.d("singleton", "in clinic updateLocal doInBackground");
