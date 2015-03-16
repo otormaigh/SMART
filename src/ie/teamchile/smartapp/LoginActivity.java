@@ -81,10 +81,12 @@ public class LoginActivity extends Activity {
             checkCredentials();
         }
 	}
+	
 	private void getCredentials() {
 		username = usernameTextView.getText().toString();
 		password = passwordTextView.getText().toString();
 	}
+	
     private void checkCredentials(){    
     	if(getToken.getResponseCode() != null && !getToken.getResponseCode().isEmpty()) {
     		if (getToken.getResponseCode().equals("201")){
@@ -112,6 +114,7 @@ public class LoginActivity extends Activity {
     		ta = new ToastAlert(LoginActivity.this, "Poor Internet Activity \nPlease check your settings", true);
     	}
 	}
+    
     @Override
     public void onBackPressed() {
     	if(ServiceProviderSingleton.getInstance().isLoggedIn()) {

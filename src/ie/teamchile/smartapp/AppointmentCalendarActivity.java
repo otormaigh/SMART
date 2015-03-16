@@ -322,7 +322,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 					timeAfter = AppointmentSingleton.getInstance().getTime(listOfId.get(position + 1));
 				}
 				intent.putExtra("timeBefore", timeBefore);
-				intent.putExtra("timeAfter", clinicClosing);
+				intent.putExtra("timeAfter", timeAfter);
 				intent.putExtra("clinicID", String.valueOf(clinicSelected));
 				startActivity(intent);
 				
