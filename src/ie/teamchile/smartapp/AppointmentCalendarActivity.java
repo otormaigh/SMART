@@ -43,7 +43,6 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 				   dateSelectedStr, timeBefore, timeAfter, nameOfClinic;
 	private int appointmentInterval, dayOfWeek;
 	private DateFormat dfDateOnly = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-	private DateFormat dfDateOnlyOther = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 	private DateFormat dfTimeOnly = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
 	private DateFormat dfDateWithMonthName = new SimpleDateFormat("dd MMM", Locale.getDefault());
 	private ArrayList<String> timeSingle, gestSingle, nameSingle;	

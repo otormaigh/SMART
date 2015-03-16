@@ -64,12 +64,8 @@ public class MenuInheritActivity extends Activity {
                 }).show();
                 break;
             case R.id.menu_item2:
-                System.out.println("Item 2 was selected!");
                 AppointmentSingleton.getInstance().updateLocal(this);
-                break;/*
-            case R.id.menu_item3:            	
-            	appt.updateList();
-                break;*/
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
