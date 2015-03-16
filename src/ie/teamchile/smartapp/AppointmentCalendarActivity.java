@@ -41,7 +41,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 	private Date openingAsDate, closingAsDate;
 	private String clinicOpening, clinicClosing, closingMinusInterval,
 				   dateSelectedStr, timeBefore, timeAfter, nameOfClinic;
-	private int appointmentInterval;
+	private int appointmentInterval, dayOfWeek;
 	private DateFormat dfDateOnly = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 	private DateFormat dfDateOnlyOther = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 	private DateFormat dfTimeOnly = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
@@ -84,7 +84,9 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 		myCalendar.setTime(closingAsDate);
 		myCalendar.add(Calendar.MINUTE, (- appointmentInterval));
 		closingMinusInterval = dfTimeOnly.format(myCalendar.getTime());
-                
+       
+		c.setTime(daySelected);
+        dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
         c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         
 		Log.d("MYLOG", "Date set to " + c.getTime());		
@@ -159,8 +161,14 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 				myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 				Log.d("postAppointment", "datePicker: " + myCalendar.getTime());
 				Log.d("postAppointment", "datePicker formatted: " + dfDateOnly.format(myCalendar.getTime()));
-				dateInList.setText(dfDateWithMonthName.format(myCalendar.getTime()));
-	            setAptToListSingle(myCalendar.getTime());
+				Log.d("bugs", "c.getDay: " + dayOfWeek);
+				Log.d("bugs", "myCalendar.getDay: " + myCalendar.get(Calendar.DAY_OF_WEEK));
+				if(myCalendar.get(Calendar.DAY_OF_WEEK) == dayOfWeek){
+					dateInList.setText(dfDateWithMonthName.format(myCalendar.getTime()));
+					setAptToListSingle(myCalendar.getTime());					
+				} else {
+					Toast.makeText(AppointmentCalendarActivity.this, "Invalid day selected", Toast.LENGTH_LONG).show();
+				}
 			}
 		};
 		dateInList.setOnClickListener(new OnClickListener() {
