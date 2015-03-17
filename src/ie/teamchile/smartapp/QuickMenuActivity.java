@@ -7,7 +7,6 @@ import org.json.JSONObject;
 import connecttodb.AccessDBTable;
 import utility.AppointmentSingleton;
 import utility.ClinicSingleton;
-import utility.InternalFileWriterReader;
 import utility.ServiceOptionSingleton;
 import utility.ToastAlert;
 import utility.ServiceProviderSingleton;
@@ -20,7 +19,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 public class QuickMenuActivity extends MenuInheritActivity {
     private Button patientInfo;
