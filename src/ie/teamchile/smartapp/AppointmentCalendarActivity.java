@@ -96,6 +96,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 		Log.d("MYLOG", "week: " + weekSelected);
 		Log.d("MYLOG", "day: " + daySelected);
         setAptToListSingle(daySelected);
+        adapter.notifyDataSetChanged();
         createDatePicker();
     }
     
@@ -135,11 +136,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 		};
 		nextTimer.start();
     }
-    
-    public void updateList(){
-    	setAptToListSingle(daySelected);
-    }
-    
+        
     public ArrayList<String> removeZeros(ArrayList<String> badList){
     	if(badList != null){
 	    	for(int i = 0; i < badList.size(); i ++){
@@ -250,6 +247,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 			}
 		}				
 		adapter = new ListElementAdapter (AppointmentCalendarActivity.this, timeSingle, nameSingle, gestSingle);
+		adapter.notifyDataSetChanged();
         listView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         listView.setOnItemClickListener(new OnItemListener());
