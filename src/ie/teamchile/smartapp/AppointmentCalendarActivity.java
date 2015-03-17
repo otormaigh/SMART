@@ -45,6 +45,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 	private DateFormat dfDateOnly = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 	private DateFormat dfTimeOnly = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
 	private DateFormat dfDateWithMonthName = new SimpleDateFormat("dd MMM", Locale.getDefault());
+	private DateFormat dfDateWithMonthNameAndYear = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
 	private ArrayList<String> timeSingle, gestSingle, nameSingle;	
 	private ArrayList<String> listOfId = new ArrayList<String>();
 	private Calendar c = Calendar.getInstance(), myCalendar = Calendar.getInstance();
@@ -339,7 +340,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 				String dateFromDB = AppointmentSingleton.getInstance().getDate(listOfId.get(position));
 				
 				try {
-					dateFromDB = dfDateWithMonthName.format(dfDateOnly.parse(dateFromDB));
+					dateFromDB = dfDateWithMonthNameAndYear.format(dfDateOnly.parse(dateFromDB));
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}

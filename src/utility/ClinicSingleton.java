@@ -72,19 +72,19 @@ public class ClinicSingleton {
 	}	
 	
 	public void updateLocal(Context context){		
-		new LongOperation(context).execute("clinics");
+		new LongOperation().execute("clinics");
 	}
 	
 	private class LongOperation extends AsyncTask<String, Void, JSONArray> {
-		private Context context;
+		/*private Context context;
 		public LongOperation(Context context){
 			this.context = context;
-		}
+		}*/
 		@Override
 		protected void onPreExecute() {
-			pd = new ProgressDialog(context);
+			/*pd = new ProgressDialog(context);
 			pd.setMessage("Updating Clinics");
-			pd.show();				
+			pd.show();	*/			
 		}
 		protected JSONArray doInBackground(String... params) {
 			Log.d("singleton", "in clinic updateLocal doInBackground");
@@ -95,6 +95,7 @@ public class ClinicSingleton {
 				e.printStackTrace();
 			}
 			Log.d("singleton", "query = " + query);
+			setHashMapofIdClinic(query);
 			return query;
 		}
 		@Override
@@ -102,8 +103,7 @@ public class ClinicSingleton {
 		}
 		@Override
         protected void onPostExecute(JSONArray result) {
-			setHashMapofIdClinic(result);
-			pd.dismiss();
+			//pd.dismiss();
         }
 	}
 	
