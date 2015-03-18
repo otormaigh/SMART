@@ -4,24 +4,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.os.AsyncTask;
 import android.util.Log;
-import connecttodb.AccessDBTable;
 
 public class ServiceOptionSingleton {
 	private static ServiceOptionSingleton singleInstance;
-	private AccessDBTable db = new AccessDBTable();
 	private JsonParseHelper help = new JsonParseHelper();
 	private Map<String, JSONObject> idMap;
 	private List<JSONObject> jsonValues;
-	private JSONObject json;
-	private JSONArray query;
 	
 	private ServiceOptionSingleton() {
 	}	
@@ -33,42 +27,7 @@ public class ServiceOptionSingleton {
 		return singleInstance;
 	}	
 	
-	public void updateLocal(Context context, ProgressDialog pd){		
-		new LongOperation(context, pd) .execute("service_options");
-	}
-	
-	private class LongOperation extends AsyncTask<String, Void, JSONArray> {
-		private Context context;
-		private ProgressDialog pd;
-		public LongOperation(Context context, ProgressDialog pd){
-			this.context = context;
-			this.pd = pd;
-		}
-		@Override
-		protected void onPreExecute() {
-		}
-		protected JSONArray doInBackground(String... params) {
-			Log.d("singleton", "in service options updateLocal doInBackground");
-			try {
-				json = db.accessDB(params[0]);
-				query = json.getJSONArray(params[0]);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			Log.d("singleton", "query = " + query);
-			return query;
-		}
-		@Override
-		protected void onProgressUpdate(Void... values) {
-		}
-		@Override
-        protected void onPostExecute(JSONArray result) {
-			setMapOfID(result);
-			pd.dismiss();
-        }
-	}
-	
-	private void setMapOfID(JSONArray jArray){
+	public void setMapOfID(JSONArray jArray){
 		jsonValues = new ArrayList<JSONObject>();
 		idMap = new HashMap<String, JSONObject>();
 		String id; // key
