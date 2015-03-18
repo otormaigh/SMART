@@ -186,19 +186,15 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 		}
 		protected JSONObject doInBackground(String... params) {
 			Log.d("bugs", "userID start: " + userID);
+			
 			if(!prefs.getBoolean("reuse", false)){
 				json = db.accessDB(params[0]);
-
 				ServiceUserSingleton.getInstance().setPatientInfo(json);
-				userID = ServiceUserSingleton.getInstance().getUserID().get(0);	
+				userID = ServiceUserSingleton.getInstance().getUserID().get(0);
 			}
-			
-			Log.d("bugs", "userID mid: " + userID);
-			
-			//postAppt.postAppointment(userID, clinicIDStr, apptDate, time, duration,
-				//	priority, visitType);
+			postAppt.postAppointment(userID, clinicIDStr, apptDate, time, duration, priority, visitType);			
 			userID = "";
-			Log.d("bugs", "userID end: " + userID);
+			
 			return null;
 		}
 		@Override
@@ -206,7 +202,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 		}
 		@Override
         protected void onPostExecute(JSONObject result) {
-			/*AppointmentSingleton.getInstance().updateLocal(CreateAppointmentActivity.this);
+			AppointmentSingleton.getInstance().updateLocal(CreateAppointmentActivity.this);
 			CountDownTimer timer = new CountDownTimer(2000, 2000) {						
 				@Override
 				public void onTick(long millisUntilFinished) {								
@@ -217,7 +213,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 		        	startActivity(intent);
 				}
 			};
-			timer.start();*/
+			timer.start();
 			pd.dismiss();			        		
         }
 	}
