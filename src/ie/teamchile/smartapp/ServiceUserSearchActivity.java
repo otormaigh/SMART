@@ -104,12 +104,14 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 			 * if not empty do getSinglton.getName
 			 * set this to button text
 			 */
-    		String name = ServiceUserSingleton.getInstance().getUserName().get(0);
-            searchResult1.setText(name); 
-            if(name == null){
+            if(ServiceUserSingleton.getInstance().getUserName().size() != 0){
+            	String name = ServiceUserSingleton.getInstance().getUserName().get(0);
+            	searchResult1.setText(name);
+            } else {
             	Toast.makeText(getApplicationContext(), "No search result found", Toast.LENGTH_LONG).show();
             	searchResult1.setText("No results found");
             }
+            
 		}
 	}
 }
