@@ -42,7 +42,7 @@ public class LoginActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);	
+		setContentView(R.layout.activity_login);	
 		
 		//testConn.testTheNetworkConnection();
 		//Log.d("MYLOG", "is 3g connected: " + testConn.is3GConnected());
