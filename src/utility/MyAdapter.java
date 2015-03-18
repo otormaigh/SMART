@@ -18,6 +18,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -128,7 +129,7 @@ public class MyAdapter extends BaseAdapter {
 
 				@Override
 				public void onFinish() {
-					dialog.setTitle(ServiceUserSingleton.getInstance().getUserHomeAddress().toString());
+					dialog.setTitle(removeTheBrackets(ServiceUserSingleton.getInstance().getUserHomeAddress().toString()));
 					callBtn.setOnClickListener(new OnClickListener() {
 
 						@Override
@@ -144,5 +145,9 @@ public class MyAdapter extends BaseAdapter {
 				}				
 			}.start();
 		}		
+	}
+	
+	private String removeTheBrackets(String address) {
+		return address.substring(1, address.length()-1);
 	}
 }
