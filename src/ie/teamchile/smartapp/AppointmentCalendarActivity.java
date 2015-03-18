@@ -102,11 +102,16 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
     
     private class ButtonClick implements View.OnClickListener {
         public void onClick(View v) {
+        	/*myCalendar.setTime(daySelected);
+        	c.setTime(daySelected);
+        	createDatePicker();*/
             switch (v.getId()) {
                 case R.id.prev_button:
                 	c.setTime(daySelected);
                 	c.add(Calendar.DAY_OF_YEAR, -7);
                 	daySelected = c.getTime();
+                	myCalendar.setTime(daySelected);
+                	createDatePicker();
                 	setAptToListSingle(c.getTime());
                 	pauseButton();
                 	break;
@@ -114,6 +119,8 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
                 	c.setTime(daySelected);
                 	c.add(Calendar.DAY_OF_YEAR, 7);
                 	daySelected = c.getTime();
+                	myCalendar.setTime(daySelected);
+                	createDatePicker();
                 	setAptToListSingle(c.getTime());
                 	pauseButton();
                     break;
