@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="${relativePackage}.${activityClass}">
+    tools:context="${relativePackage}.${activityClass}" >
 
     <TextView
         android:layout_width="fill_parent"
@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingRight="@dimen/padding_Xsmall"
-        android:weightSum="1.0">
+        android:weightSum="1.0" >
 
         <EditText
             android:id="@+id/search_params"
@@ -25,16 +25,14 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.85"
             android:hint="@string/enter_search"
-            android:text="Nore Saturn"
             android:paddingTop="@dimen/padding_medium" />
-        
+
         <Button
             android:id="@+id/search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.15" 
-            android:text="@string/btn_search"/>
-
+            android:layout_weight="0.15"
+            android:text="@string/btn_search" />
     </LinearLayout>
 
     <TextView
@@ -42,23 +40,10 @@
         android:layout_height="wrap_content"
         android:text="@string/search_result" />
 
-    <Button
-        android:id="@+id/search_result_1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="" />
-
-    <Button
-        android:id="@+id/search_result_2"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="" />
-
-    <Button
-        android:id="@+id/search_result_3"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="" />
-
+    <ListView
+        android:id="@+id/search_results_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+    </ListView>
 
 </LinearLayout>

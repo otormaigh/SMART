@@ -121,15 +121,15 @@ public class AppointmentSingleton {
 				e.printStackTrace();
 			}
 			Log.d("singleton", "query = " + query);
+			setHashMapofClinicDateID(query);
+			setHashMapofIdAppt(query);
 			return query;
 		}
 		@Override
 		protected void onProgressUpdate(Void... values) {
 		}
 		@Override
-        protected void onPostExecute(JSONArray result) {
-			setHashMapofClinicDateID(result);
-			setHashMapofIdAppt(result);
+        protected void onPostExecute(JSONArray result) {			
 			pd.dismiss();
         }
 	}

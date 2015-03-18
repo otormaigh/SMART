@@ -41,11 +41,11 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 	private Date openingAsDate, closingAsDate;
 	private String clinicOpening, clinicClosing, closingMinusInterval,
 				   dateSelectedStr, timeBefore, timeAfter, nameOfClinic;
-	private int appointmentInterval;
+	private int appointmentInterval, dayOfWeek;
 	private DateFormat dfDateOnly = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-	private DateFormat dfDateOnlyOther = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 	private DateFormat dfTimeOnly = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
 	private DateFormat dfDateWithMonthName = new SimpleDateFormat("dd MMM", Locale.getDefault());
+	private DateFormat dfDateWithMonthNameAndYear = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
 	private ArrayList<String> timeSingle, gestSingle, nameSingle;	
 	private ArrayList<String> listOfId = new ArrayList<String>();
 	private Calendar c = Calendar.getInstance(), myCalendar = Calendar.getInstance();
@@ -84,7 +84,9 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 		myCalendar.setTime(closingAsDate);
 		myCalendar.add(Calendar.MINUTE, (- appointmentInterval));
 		closingMinusInterval = dfTimeOnly.format(myCalendar.getTime());
-                
+       
+		c.setTime(daySelected);
+        dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
         c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         
 		Log.d("MYLOG", "Date set to " + c.getTime());		
@@ -94,16 +96,22 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 		Log.d("MYLOG", "week: " + weekSelected);
 		Log.d("MYLOG", "day: " + daySelected);
         setAptToListSingle(daySelected);
+        adapter.notifyDataSetChanged();
         createDatePicker();
     }
     
     private class ButtonClick implements View.OnClickListener {
         public void onClick(View v) {
+        	/*myCalendar.setTime(daySelected);
+        	c.setTime(daySelected);
+        	createDatePicker();*/
             switch (v.getId()) {
                 case R.id.prev_button:
                 	c.setTime(daySelected);
                 	c.add(Calendar.DAY_OF_YEAR, -7);
                 	daySelected = c.getTime();
+                	myCalendar.setTime(daySelected);
+                	createDatePicker();
                 	setAptToListSingle(c.getTime());
                 	pauseButton();
                 	break;
@@ -111,6 +119,8 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
                 	c.setTime(daySelected);
                 	c.add(Calendar.DAY_OF_YEAR, 7);
                 	daySelected = c.getTime();
+                	myCalendar.setTime(daySelected);
+                	createDatePicker();
                 	setAptToListSingle(c.getTime());
                 	pauseButton();
                     break;
@@ -133,11 +143,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 		};
 		nextTimer.start();
     }
-    
-    public void updateList(){
-    	setAptToListSingle(daySelected);
-    }
-    
+        
     public ArrayList<String> removeZeros(ArrayList<String> badList){
     	if(badList != null){
 	    	for(int i = 0; i < badList.size(); i ++){
@@ -159,8 +165,14 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 				myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 				Log.d("postAppointment", "datePicker: " + myCalendar.getTime());
 				Log.d("postAppointment", "datePicker formatted: " + dfDateOnly.format(myCalendar.getTime()));
-				dateInList.setText(dfDateWithMonthName.format(myCalendar.getTime()));
-	            setAptToListSingle(myCalendar.getTime());
+				Log.d("bugs", "c.getDay: " + dayOfWeek);
+				Log.d("bugs", "myCalendar.getDay: " + myCalendar.get(Calendar.DAY_OF_WEEK));
+				if(myCalendar.get(Calendar.DAY_OF_WEEK) == dayOfWeek){
+					dateInList.setText(dfDateWithMonthName.format(myCalendar.getTime()));
+					setAptToListSingle(myCalendar.getTime());					
+				} else {
+					Toast.makeText(AppointmentCalendarActivity.this, "Invalid day selected", Toast.LENGTH_LONG).show();
+				}
 			}
 		};
 		dateInList.setOnClickListener(new OnClickListener() {
@@ -242,6 +254,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 			}
 		}				
 		adapter = new ListElementAdapter (AppointmentCalendarActivity.this, timeSingle, nameSingle, gestSingle);
+		adapter.notifyDataSetChanged();
         listView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         listView.setOnItemClickListener(new OnItemListener());
@@ -322,7 +335,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 					timeAfter = AppointmentSingleton.getInstance().getTime(listOfId.get(position + 1));
 				}
 				intent.putExtra("timeBefore", timeBefore);
-				intent.putExtra("timeAfter", clinicClosing);
+				intent.putExtra("timeAfter", timeAfter);
 				intent.putExtra("clinicID", String.valueOf(clinicSelected));
 				startActivity(intent);
 				
@@ -332,7 +345,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 				String dateFromDB = AppointmentSingleton.getInstance().getDate(listOfId.get(position));
 				
 				try {
-					dateFromDB = dfDateWithMonthName.format(dfDateOnly.parse(dateFromDB));
+					dateFromDB = dfDateWithMonthNameAndYear.format(dfDateOnly.parse(dateFromDB));
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
