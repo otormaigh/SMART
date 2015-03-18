@@ -17,6 +17,7 @@ import connecttodb.Logout;
 
 public class MenuInheritActivity extends Activity {
     private Logout logout = new Logout();
+    //private AppointmentCalendarActivity appt = new AppointmentCalendarActivity();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +45,7 @@ public class MenuInheritActivity extends Activity {
                     public void onClick(DialogInterface dialoginterface, int i) {
                         Log.d("MYLOG", "Logout button pressed");
                         if (ServiceProviderSingleton.getInstance().getToken() == "") {
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
                                     Intent.FLAG_ACTIVITY_CLEAR_TASK |
                                     Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -52,7 +53,7 @@ public class MenuInheritActivity extends Activity {
                         } else {
                             logout.doLogout(ServiceProviderSingleton.getInstance().getToken());
                             //login.setToken(null);
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
                                     		Intent.FLAG_ACTIVITY_CLEAR_TASK |
                                     		Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -65,10 +66,10 @@ public class MenuInheritActivity extends Activity {
             case R.id.menu_item2:
                 System.out.println("Item 2 was selected!");
                 AppointmentSingleton.getInstance().updateLocal(this);
-//            case R.id.menu_item3:
-//            	AppointmentCalendarActivity appt = new AppointmentCalendarActivity();
-//              appt.updateList();
-                break;
+                break;/*
+            case R.id.menu_item3:            	
+            	appt.updateList();
+                break;*/
         }
         return super.onOptionsItemSelected(item);
     }
