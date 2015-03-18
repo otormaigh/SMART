@@ -2,6 +2,9 @@ package utility;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,18 +57,24 @@ public class ClinicSingleton {
 	private JSONArray query;
 	private JSONObject json;
 	private ProgressDialog pd;
+	private String days[] = { "monday", "tuesday", "wednesday", "thursday",
+			"friday", "saturday", "sunday" };
+
 
 	private ClinicSingleton() {
 	}	
+	
 	public static synchronized ClinicSingleton getInstance() {
 		if(singleInstance == null) {
 			singleInstance = new ClinicSingleton();
 		}
 		return singleInstance;
 	}	
+	
 	public void updateLocal(Context context){		
 		new LongOperation(context).execute("clinics");
 	}
+	
 	private class LongOperation extends AsyncTask<String, Void, JSONArray> {
 		private Context context;
 		public LongOperation(Context context){
@@ -75,7 +84,7 @@ public class ClinicSingleton {
 		protected void onPreExecute() {
 			pd = new ProgressDialog(context);
 			pd.setMessage("Updating Clinics");
-			pd.show();
+			pd.show();				
 		}
 		protected JSONArray doInBackground(String... params) {
 			Log.d("singleton", "in clinic updateLocal doInBackground");
@@ -172,9 +181,33 @@ public class ClinicSingleton {
 		return help.jsonParseHelper(json, "clinics", "closing_time");
 	}
 	
-	public String getDays(String id){
+	public List<String> getDays(String id){
 		JSONObject json = idHash.get(id);
-		return help.jsonParseHelper(json, "clinics", "days");
+
+		try {
+			json.get("days");
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public List<String> getTrueDays(String id){
+		JSONObject json = idHash.get(id);
+		JSONObject otherJson = new JSONObject();
+		List<String> daysTrue = new ArrayList<String>();
+		try {
+			otherJson = json.getJSONObject("days");
+
+			for (int j = 0; j < days.length; j++) {
+				if (otherJson.getBoolean(days[j]) == true) {
+					daysTrue.add(days[j].toLowerCase(Locale.getDefault()));
+				}
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return daysTrue;
 	}
 	
 	public String getClinicID(String id){
