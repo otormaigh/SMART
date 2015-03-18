@@ -102,9 +102,6 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
     
     private class ButtonClick implements View.OnClickListener {
         public void onClick(View v) {
-        	/*myCalendar.setTime(daySelected);
-        	c.setTime(daySelected);
-        	createDatePicker();*/
             switch (v.getId()) {
                 case R.id.prev_button:
                 	c.setTime(daySelected);
@@ -340,7 +337,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 				startActivity(intent);
 				
 			} else {
-				String nameFromDB = AppointmentSingleton.getInstance().getName(listOfId.get(position));
+				/*String nameFromDB = AppointmentSingleton.getInstance().getName(listOfId.get(position));
 				String timeFromDB = AppointmentSingleton.getInstance().getTime(listOfId.get(position));
 				String dateFromDB = AppointmentSingleton.getInstance().getDate(listOfId.get(position));
 				
@@ -352,18 +349,18 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 				
 				String clinicIDFromDB = AppointmentSingleton.getInstance().getClinicID(listOfId.get(position));	
 				String clinicNameFromDB = ClinicSingleton.getInstance().getClinicName(clinicIDFromDB);
-				int durationFromDB = Integer.parseInt(ClinicSingleton.getInstance().getAppointmentInterval(clinicIDFromDB));
+				int durationFromDB = Integer.parseInt(ClinicSingleton.getInstance().getAppointmentInterval(clinicIDFromDB));*/
 				String serviceUserID = AppointmentSingleton.getInstance().getServiceUserID(listOfId.get(position));
 				
-				Log.d("singleton", "db string: " + "service_users" + "/" + serviceUserID);
+				Log.d("bugs", "db string: " + "service_users" + "/" + serviceUserID);
 				new LongOperation(AppointmentCalendarActivity.this).execute("service_users" + "/" + serviceUserID);
 				
-				intent = new Intent(AppointmentCalendarActivity.this, ConfirmAppointmentActivity.class);
-				intent.putExtra("name", nameFromDB);
+				intent = new Intent(AppointmentCalendarActivity.this, ServiceUserActivity.class);
+				/*intent.putExtra("name", nameFromDB);
 				intent.putExtra("time", timeFromDB);
 				intent.putExtra("date", dateFromDB);
 				intent.putExtra("clinicName", clinicNameFromDB);
-				intent.putExtra("duration", String.valueOf(durationFromDB));
+				intent.putExtra("duration", String.valueOf(durationFromDB));*/
 			}
 		}		    	
     }
