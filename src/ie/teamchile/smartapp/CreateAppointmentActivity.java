@@ -16,6 +16,7 @@ import utility.ToastAlert;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -59,7 +60,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 		
 		c = Calendar.getInstance();
 		myCalendar = Calendar.getInstance();
-		
+
         userName = (EditText)findViewById(R.id.edit_service_user);
         confirmAppointment = (Button) findViewById(R.id.btn_confirm_appointment);
         confirmAppointment.setOnClickListener(new ButtonClick());
@@ -71,6 +72,11 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
         visitTypeSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
         visitPrioritySpinner = (Spinner) findViewById(R.id.visit_priority_spinner);
         visitPrioritySpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
+        
+        SharedPreferences prefs = getSharedPreferences("SMART", MODE_PRIVATE);
+		if(prefs != null && prefs.getBoolean("reuse", true)) {
+			userName.setText(prefs.getString("web_content", null));
+		}
         
         textDate = (TextView)findViewById(R.id.visit_date_text);
         textClinic = (TextView)findViewById(R.id.visit_clinic_text);
