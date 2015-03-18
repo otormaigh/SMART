@@ -42,7 +42,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 	private String name, clinic, apptDate, time, duration, priority, visitType;
 	private PostAppointment postAppt = new PostAppointment();
 	private AccessDBTable db = new AccessDBTable();
-	private String clinicIDStr, daySelected, clinicName; 
+	private String clinicIDStr, daySelected, clinicName, userID = ""; 
 	private int clinicID, appointmentIntervalAsInt;
 	private ProgressDialog pd;
 	private Calendar c, myCalendar;
@@ -52,6 +52,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 	private Date beforeAsDate, afterAsDate, afterAsDateMinusInterval;
 	private String appointmentInterval;
 	private AppointmentCalendarActivity passOptions = new AppointmentCalendarActivity();
+	private SharedPreferences prefs;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +61,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 		
 		c = Calendar.getInstance();
 		myCalendar = Calendar.getInstance();
-
+		
         userName = (EditText)findViewById(R.id.edit_service_user);
         confirmAppointment = (Button) findViewById(R.id.btn_confirm_appointment);
         confirmAppointment.setOnClickListener(new ButtonClick());
@@ -73,9 +74,11 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
         visitPrioritySpinner = (Spinner) findViewById(R.id.visit_priority_spinner);
         visitPrioritySpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
         
-        SharedPreferences prefs = getSharedPreferences("SMART", MODE_PRIVATE);
-		if(prefs != null && prefs.getBoolean("reuse", true)) {
-			userName.setText(prefs.getString("web_content", null));
+        prefs = getSharedPreferences("SMART", MODE_PRIVATE);
+        
+		if(prefs != null && prefs.getBoolean("reuse", false)) {
+			userName.setText(prefs.getString("name", null));
+			userID = prefs.getString("id", null);
 		}
         
         textDate = (TextView)findViewById(R.id.visit_date_text);
@@ -165,6 +168,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
             } 
         }
 	}
+	
     private class LongOperation extends AsyncTask<String, Void, JSONObject> {
 		private Context context;
 		private JSONObject json;
@@ -181,13 +185,20 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
             
 		}
 		protected JSONObject doInBackground(String... params) {
-			json = db.accessDB(params[0]);
+			Log.d("bugs", "userID start: " + userID);
+			if(!prefs.getBoolean("reuse", false)){
+				json = db.accessDB(params[0]);
 
-			ServiceUserSingleton.getInstance().setPatientInfo(json);
-			String userID = ServiceUserSingleton.getInstance().getUserID().get(0);
+				ServiceUserSingleton.getInstance().setPatientInfo(json);
+				userID = ServiceUserSingleton.getInstance().getUserID().get(0);	
+			}
 			
-			postAppt.postAppointment(userID, clinicIDStr, apptDate, time, duration,
-					priority, visitType);
+			Log.d("bugs", "userID mid: " + userID);
+			
+			//postAppt.postAppointment(userID, clinicIDStr, apptDate, time, duration,
+				//	priority, visitType);
+			userID = "";
+			Log.d("bugs", "userID end: " + userID);
 			return null;
 		}
 		@Override
@@ -195,7 +206,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 		}
 		@Override
         protected void onPostExecute(JSONObject result) {
-			AppointmentSingleton.getInstance().updateLocal(CreateAppointmentActivity.this);
+			/*AppointmentSingleton.getInstance().updateLocal(CreateAppointmentActivity.this);
 			CountDownTimer timer = new CountDownTimer(2000, 2000) {						
 				@Override
 				public void onTick(long millisUntilFinished) {								
@@ -206,7 +217,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 		        	startActivity(intent);
 				}
 			};
-			timer.start();
+			timer.start();*/
 			pd.dismiss();			        		
         }
 	}

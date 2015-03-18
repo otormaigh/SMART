@@ -68,8 +68,7 @@ import connecttodb.AccessDBTable;
  * getServiceUserID
  * getTime
  * getVisitLogs
- * getVisitType
- * 
+ * getVisitType 
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
@@ -81,7 +80,6 @@ public class AppointmentSingleton {
 	private ArrayList<String> idList;
 	private AccessDBTable db = new AccessDBTable();
 	private JsonParseHelper help = new JsonParseHelper();
-	private String response;
 	private JSONArray query;
 	private JSONObject json;
 	private ProgressDialog pd;
@@ -157,8 +155,8 @@ public class AppointmentSingleton {
 				dateIDHash = new HashMap<String, ArrayList<String>>();
 				
 				clinicId = String.valueOf((jsonValues.get(i).getInt("clinic_id")));
-				id = String.valueOf((jsonValues.get(i).getInt("id")));
 				date = (String) jsonValues.get(i).get("date");
+				id = String.valueOf((jsonValues.get(i).getInt("id")));
 				if (clinicDateIDHash.get(clinicId) != null) {
 					dateIDHash = clinicDateIDHash.get(clinicId);
 					if (dateIDHash.get(date) != null) {
