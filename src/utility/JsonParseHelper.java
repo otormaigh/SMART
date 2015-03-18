@@ -94,8 +94,9 @@ public class JsonParseHelper {
 					return returnedList;
 				case SERVICE_USERS:
 					JSONArray jArrayUser = json.getJSONArray(SERVICE_USERS);
-					for(int i = 0; i < jArrayUser.length(); i++){
-						returnedList.add(((JSONObject) jArrayUser.get(i)).get(tableKey).toString());
+					for (int i = 0; i < jArrayUser.length(); i++) {
+						returnedList.add(((JSONObject) jArrayUser.get(i)).get(
+								tableKey).toString());
 					}
 					return returnedList;
 				}
