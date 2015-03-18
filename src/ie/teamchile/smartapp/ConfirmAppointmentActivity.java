@@ -23,7 +23,6 @@ public class ConfirmAppointmentActivity extends MenuInheritActivity {
         sms = (TextView)findViewById(R.id.sms_to_db);
         
         String hospitalNumberStr = ServiceUserSingleton.getInstance().getUserHospitalNumber().get(0);
-        //String hospitalNumberStr = "hahahahaha";
 		String emailStr = ServiceUserSingleton.getInstance().getUserEmail().get(0);
 		String mobileStr = ServiceUserSingleton.getInstance().getUserMobilePhone().get(0);
         

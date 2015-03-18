@@ -1,4 +1,3 @@
-
 package ie.teamchile.smartapp;
 
 import utility.AppointmentSingleton;
@@ -17,7 +16,7 @@ import connecttodb.Logout;
 
 public class MenuInheritActivity extends Activity {
     private Logout logout = new Logout();
-    //private AppointmentCalendarActivity appt = new AppointmentCalendarActivity();
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +32,7 @@ public class MenuInheritActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+    	
         switch (item.getItemId()) {
             case R.id.menu_item1:
                 //logout
@@ -41,19 +41,18 @@ public class MenuInheritActivity extends Activity {
                         .setMessage(R.string.Logout_dialog_message)
                         .setNegativeButton(R.string.No, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialoginterface, int i) {
+                	
                 }}).setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener() {
+                	Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                     public void onClick(DialogInterface dialoginterface, int i) {
                         Log.d("MYLOG", "Logout button pressed");
-                        if (ServiceProviderSingleton.getInstance().getToken() == "") {
-                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                                    Intent.FLAG_ACTIVITY_CLEAR_TASK |
-                                    Intent.FLAG_ACTIVITY_NEW_TASK);
+                        if (ServiceProviderSingleton.getInstance().isLoggedIn() == false) {                            
+                        	intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+		                            		Intent.FLAG_ACTIVITY_CLEAR_TASK |
+		                            		Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                         } else {
                             logout.doLogout(ServiceProviderSingleton.getInstance().getToken());
-                            //login.setToken(null);
-                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
                                     		Intent.FLAG_ACTIVITY_CLEAR_TASK |
                                     		Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -64,12 +63,8 @@ public class MenuInheritActivity extends Activity {
                 }).show();
                 break;
             case R.id.menu_item2:
-                System.out.println("Item 2 was selected!");
                 AppointmentSingleton.getInstance().updateLocal(this);
-                break;/*
-            case R.id.menu_item3:            	
-            	appt.updateList();
-                break;*/
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

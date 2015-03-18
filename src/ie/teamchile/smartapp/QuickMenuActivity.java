@@ -1,18 +1,24 @@
 package ie.teamchile.smartapp;
 
-import utility.AppointmentSingleton;
-import utility.InternalFileWriterReader;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import connecttodb.AccessDBTable;
+import utility.AppointmentSingleton;
+import utility.ClinicSingleton;
+import utility.ServiceOptionSingleton;
 import utility.ToastAlert;
 import utility.ServiceProviderSingleton;
+import android.app.ProgressDialog;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentCallbacks2;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 public class QuickMenuActivity extends MenuInheritActivity {
     private Button patientInfo;
@@ -20,12 +26,18 @@ public class QuickMenuActivity extends MenuInheritActivity {
     private Button calendar;
     private Button todaysAppointments;
     private boolean isViewVisible = false;
-    DevicePolicyManager deviceManager;
+    private DevicePolicyManager deviceManager;
+    private ProgressDialog pd;
+    private JSONObject json;
+	private JSONArray query;
+	private AccessDBTable db = new AccessDBTable();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quick_menu);
+        
+        new updateLocal().execute("appointments", "clinics", "service_options");
         
         patientInfo = (Button) findViewById(R.id.patientInfo);
         patientInfo.setOnClickListener(new ButtonClick());
@@ -36,7 +48,6 @@ public class QuickMenuActivity extends MenuInheritActivity {
         todaysAppointments = (Button) findViewById(R.id.todays_appointments);
         todaysAppointments.setOnClickListener(new ButtonClick());
         isViewVisible = true;
-
 
         Log.d("MYLOG", "Before Other get token");
     }
@@ -110,5 +121,41 @@ public class QuickMenuActivity extends MenuInheritActivity {
 			isViewVisible = false;
 			ToastAlert ta = new ToastAlert(getBaseContext(), "View is now hidden", false);				
 		}
+	}
+	
+	private class updateLocal extends AsyncTask<String, Void, JSONArray> {		
+		@Override
+		protected void onPreExecute() {
+			pd = new ProgressDialog(QuickMenuActivity.this);
+			pd.setMessage("Updating Information");
+			pd.show();
+		}
+		protected JSONArray doInBackground(String... params) {
+			Log.d("singleton", "in service options updateLocal doInBackground");
+			try {
+				json = db.accessDB(params[0]);
+				query = json.getJSONArray(params[0]);
+				AppointmentSingleton.getInstance().setHashMapofClinicDateID(query);
+				AppointmentSingleton.getInstance().setHashMapofIdAppt(query);
+				
+				json = db.accessDB(params[1]);
+				query = json.getJSONArray(params[1]);
+				ClinicSingleton.getInstance().setHashMapofIdClinic(query);
+				
+				json = db.accessDB(params[2]);
+				query = json.getJSONArray(params[2]);
+				ServiceOptionSingleton.getInstance().setMapOfID(query);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			return query;
+		}
+		@Override
+		protected void onProgressUpdate(Void... values) {
+		}
+		@Override
+        protected void onPostExecute(JSONArray result) {
+			pd.dismiss();
+        }
 	}
 }

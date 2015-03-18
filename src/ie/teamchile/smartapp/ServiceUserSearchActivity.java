@@ -3,6 +3,8 @@ package ie.teamchile.smartapp;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,9 +17,18 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import connecttodb.AccessDBTable;
 
@@ -26,6 +37,7 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 	private EditText searchParams;
 	private Button search, searchResult1, searchResult2, searchResult3;
 	private String enteredSearch;
+	 private ArrayList<String>searchResults = new ArrayList<String>();
 	Connection c;
 	Statement stmt;
 	ResultSet rs;
@@ -37,6 +49,9 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 	private String response;
 	private JSONObject jsonNew;
 	private AccessDBTable db = new AccessDBTable();
+	private ListView list;
+	ArrayAdapter<String> adapter;
+	private List<String> hospitalNumberList = new ArrayList<String>();
 	//private String name1="";
 	//private String name;
     //private String option1 = "service_users?name=";
@@ -52,12 +67,32 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 		searchParams = (EditText) findViewById(R.id.search_params);
 		search = (Button) findViewById(R.id.search);
 		search.setOnClickListener(new ButtonClick());
-		searchResult1 = (Button) findViewById(R.id.search_result_1);
-	    searchResult1.setOnClickListener(new ButtonClick());
-		searchResult2 = (Button) findViewById(R.id.search_result_2);
-		searchResult2.setOnClickListener(new ButtonClick());
-		searchResult3 = (Button) findViewById(R.id.search_result_3);
-		searchResult3.setOnClickListener(new ButtonClick());
+		
+		
+		//ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.search_results,
+  			//	R.id.search_result_button, searchResults);
+		
+		list = (ListView)findViewById(R.id.search_results_list);
+  		list.setOnItemClickListener(new onItemListener());
+  		//adapter.notifyDataSetChanged();
+	}
+	
+	private void createResultList(ArrayList<String> searchResults){
+		adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, searchResults);
+		adapter.notifyDataSetChanged();
+		list.setAdapter(adapter);
+    	adapter.notifyDataSetChanged();
+	}
+	
+	private class onItemListener implements OnItemClickListener{
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
+			new LongOperation(ServiceUserSearchActivity.this).execute("service_users?hospital_number=" + hospitalNumberList.get(position));
+			intent = new Intent(ServiceUserSearchActivity.this, ServiceUserActivity.class);
+	       
+		}
+	
 	}
 	
 	private class ButtonClick implements View.OnClickListener {
@@ -67,16 +102,13 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 				Log.d("MYLOG", "Search Button Pressed");
 				enteredSearch = searchParams.getText().toString();
 				new LongOperation(ServiceUserSearchActivity.this).execute("service_users?name=" + enteredSearch);
-	        break;
-			case R.id.search_result_1:
+				break;
+			case R.id.search_result_button:
 				Log.d("MYLOG", "First Result Button Pressed");
 				Intent intent = new Intent(ServiceUserSearchActivity.this, ServiceUserActivity.class);
 		        startActivity(intent);
 				break;
-			case R.id.search_result_2:
-				break;
-			case R.id.search_result_3:
-				break;
+	
 			}
 		}
 	}
@@ -95,7 +127,8 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 		}
 		protected JSONObject doInBackground(String... params) {
 			Log.d("MYLOG", "ServiceUserSearch DoInBackground");
-            json = dbTable.accessDB(params[0]);
+
+			json = dbTable.accessDB(params[0]);
 			return json;
 		}
 		@Override
@@ -107,22 +140,40 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
             Log.d("MYLOG", "onPostExecute");
             Log.d("bugs", "Result from on post " +result);
             ServiceUserSingleton.getInstance().setPatientInfo(result);
-            String name = ServiceUserSingleton.getInstance().getBabyName().get(0);
-            if(name!=null){
-            searchResult1.setText(name);
-            }else{
-            	searchResult1.setText("No results found");
-            	Toast.makeText(getApplicationContext(), "No search results found", Toast.LENGTH_SHORT).show();
-            }
-    		if(searchResult1.equals("No results found")){
-    			searchResult1.setOnClickListener(null);
-    		}
-    		else
-    			searchResult1.setOnClickListener(new ButtonClick());
+            Log.d("bugs", "fom single: " + ServiceUserSingleton.getInstance().getUserName());
 
-            
-            pd.dismiss();
-           }
+            /*
+			 * if result from database is empty (chcek if null) toast to say no query found
+			 * if not empty do getSinglton.getName
+			 * set this to button text
+			 */
+			if (intent != null) {
+				startActivity(intent);
+			} else {
+				searchResults.clear();
+				hospitalNumberList.clear();
+				if (ServiceUserSingleton.getInstance().getUserName().size() != 0) {
+					for (int i = 0; i < ServiceUserSingleton.getInstance().getUserName().size(); i++) {
+						String name = ServiceUserSingleton.getInstance()
+								.getUserName().get(i);
+						String hospitalNumber = ServiceUserSingleton
+								.getInstance().getUserHospitalNumber().get(i);
+						searchResults.add(name + " - " + hospitalNumber);
+						hospitalNumberList.add(hospitalNumber);
+						Log.d("bugs", "searchResults: " + searchResults);
+					}
+					createResultList(searchResults);
+					adapter.notifyDataSetChanged();
+				} else {
+ 					// searchResults.add("No results found");
+					Toast.makeText(getApplicationContext(),
+							"No search results found", Toast.LENGTH_SHORT)
+							.show();
+					// createResultList(searchResults);
+				}
+			}
+			pd.dismiss();
+		}
  
-		} 		
+		} 	
 }

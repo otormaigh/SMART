@@ -1,7 +1,10 @@
-
 package ie.teamchile.smartapp;
 
 import java.util.Calendar;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import utility.AppointmentSingleton;
 import utility.ClinicSingleton;
@@ -10,15 +13,18 @@ import utility.ServiceProviderSingleton;
 import utility.ToastAlert;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import connecttodb.AccessDBTable;
 import connecttodb.GetToken;
 
 public class LoginActivity extends Activity {
@@ -50,7 +56,6 @@ public class LoginActivity extends Activity {
 		
 		about = (TextView) findViewById(R.id.about);
 	    about.setMovementMethod(LinkMovementMethod.getInstance());
-	    
 	}
     private class ButtonClick implements View.OnClickListener {
 		public void onClick(View v) {
@@ -66,7 +71,7 @@ public class LoginActivity extends Activity {
 	private class LongOperation extends AsyncTask<String, Void, String> {
 		@Override
 		protected void onPreExecute() {
-			ta = new ToastAlert(getBaseContext(), "Loading data. . . ", false);
+			ta = new ToastAlert(getBaseContext(), "Logging In. . . ", false);
 		}
 		protected String doInBackground(String... params) {
 			getToken.getToken(username, password);            
@@ -81,38 +86,30 @@ public class LoginActivity extends Activity {
             checkCredentials();
         }
 	}
+	
 	private void getCredentials() {
 		username = usernameTextView.getText().toString();
 		password = passwordTextView.getText().toString();
 	}
+	
     private void checkCredentials(){    
     	if(getToken.getResponseCode() != null && !getToken.getResponseCode().isEmpty()) {
-    		if (getToken.getResponseCode().equals("201")){
-    			
-    			pd = new ProgressDialog(LoginActivity.this);
-    			pd.setMessage("Updating Information");
-    			pd.show();
-    			
-        		// update Singleton
-        		AppointmentSingleton.getInstance().updateLocal(this);
-    			ClinicSingleton.getInstance().updateLocal(this);
-    			ServiceOptionSingleton.getInstance().updateLocal(this, pd);
+    		if (getToken.getResponseCode().equals("201")){   			
     			
         		ServiceProviderSingleton.getInstance().setLoggedIn(true);
         		ServiceProviderSingleton.getInstance().setUsername(username);
         		ServiceProviderSingleton.getInstance().setPassword(password); 
         		
-        		Toast.makeText(this, "Welcome " + username, Toast.LENGTH_LONG).show();
+        		intent = new Intent(LoginActivity.this, QuickMenuActivity.class); 
+        		startActivity(intent);
         		
-        		intent = new Intent(LoginActivity.this, QuickMenuActivity.class);
-				startActivity(intent);
         	} else
         		Toast.makeText(this, "Login Failed", Toast.LENGTH_LONG).show();
-    		    passwordTextView.setText(null);
     	}else {
     		ta = new ToastAlert(LoginActivity.this, "Poor Internet Activity \nPlease check your settings", true);
     	}
 	}
+    
     @Override
     public void onBackPressed() {
     	if(ServiceProviderSingleton.getInstance().isLoggedIn()) {

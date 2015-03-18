@@ -4,17 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.os.AsyncTask;
 import android.util.Log;
-import connecttodb.AccessDBTable;
 
 /*
 "clinics": [
@@ -52,14 +47,9 @@ public class ClinicSingleton {
 	private static ClinicSingleton singleInstance;
 	private HashMap<String, JSONObject> idHash;
 	private ArrayList<JSONObject> jsonValues;
-	private AccessDBTable db = new AccessDBTable();
 	private JsonParseHelper help = new JsonParseHelper();
-	private JSONArray query;
-	private JSONObject json;
-	private ProgressDialog pd;
 	private String days[] = { "monday", "tuesday", "wednesday", "thursday",
 			"friday", "saturday", "sunday" };
-
 
 	private ClinicSingleton() {
 	}	
@@ -70,42 +60,6 @@ public class ClinicSingleton {
 		}
 		return singleInstance;
 	}	
-	
-	public void updateLocal(Context context){		
-		new LongOperation(context).execute("clinics");
-	}
-	
-	private class LongOperation extends AsyncTask<String, Void, JSONArray> {
-		private Context context;
-		public LongOperation(Context context){
-			this.context = context;
-		}
-		@Override
-		protected void onPreExecute() {
-			pd = new ProgressDialog(context);
-			pd.setMessage("Updating Clinics");
-			pd.show();				
-		}
-		protected JSONArray doInBackground(String... params) {
-			Log.d("singleton", "in clinic updateLocal doInBackground");
-			try {
-				json = db.accessDB(params[0]);
-				query = json.getJSONArray(params[0]);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			Log.d("singleton", "query = " + query);
-			return query;
-		}
-		@Override
-		protected void onProgressUpdate(Void... values) {
-		}
-		@Override
-        protected void onPostExecute(JSONArray result) {
-			setHashMapofIdClinic(result);
-			pd.dismiss();
-        }
-	}
 	
 	public void setHashMapofIdClinic(JSONArray clinicArray) {
 		jsonValues = new ArrayList<JSONObject>();
@@ -136,7 +90,6 @@ public class ClinicSingleton {
 			e.printStackTrace();
 		}
 		Log.d("singleton", "idhash of clinics: " + idHash);
-		this.idHash = idHash;
 	}
 	
 	public HashMap<String, JSONObject> getHashMapofIdClinic(){
