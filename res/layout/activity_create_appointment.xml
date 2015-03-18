@@ -35,12 +35,11 @@
             android:text="@string/appointment_clinic"
             android:textSize="@dimen/text_small"
             android:textStyle="bold" />
-
-        <Spinner
-            android:id="@+id/visit_clinic_spinner"
+        
+        <TextView
+            android:id="@+id/visit_clinic_text"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" 
-            android:entries="@array/clinic_name_list" />
+            android:layout_height="wrap_content" />            
 
         <TextView
             android:id="@+id/text_appointment_date"
@@ -50,14 +49,11 @@
             android:text="@string/appointment_date"
             android:textSize="@dimen/text_small"
             android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/edit_appointment_date"
+        
+		<TextView
+            android:id="@+id/visit_date_text"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_Xsmall"
-            android:hint="yyyy-mm-dd"
-            android:focusableInTouchMode="false" />
+            android:layout_height="wrap_content" />  
 
         <TextView
             android:id="@+id/text_appointment_time"
@@ -71,8 +67,7 @@
         <Spinner
             android:id="@+id/visit_time_spinner"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" 
-            android:entries="@array/visit_time_list" />
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/text_duration"
@@ -86,8 +81,7 @@
         <Spinner
             android:id="@+id/visit_duration_spinner"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/visit_duration_list" />
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/text_priority"

@@ -42,7 +42,9 @@ public class AnteNatalActivity extends MenuInheritActivity {
 		obstetricHistory.setOnClickListener(new AntiNatalOptions());
 	
 		String name = ServiceUserSingleton.getInstance().getUserName().get(0);
-		parityAntiNatal.setText(ServiceUserSingleton.getInstance().getUserParity().get(0));
+		String parityStr = ServiceUserSingleton.getInstance().getUserParity().get(0);
+		
+		parityAntiNatal.setText(parityStr);
 		gestationAntiNatal.setText(ServiceUserSingleton.getInstance().getPregnancyGestation().get(0));
 		rhesus.setText(ServiceUserSingleton.getInstance().getUserRhesus().get(0));
 		bloodGroup.setText(ServiceUserSingleton.getInstance().getUserBloodGroup().get(0));
