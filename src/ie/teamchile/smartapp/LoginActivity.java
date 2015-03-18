@@ -3,29 +3,20 @@ package ie.teamchile.smartapp;
 
 import java.util.Calendar;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import utility.AppointmentSingleton;
-import utility.ClinicSingleton;
-import utility.ServiceOptionSingleton;
 import utility.ServiceProviderSingleton;
 import utility.ToastAlert;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import connecttodb.AccessDBTable;
+
 import connecttodb.GetToken;
 
 public class LoginActivity extends Activity {
