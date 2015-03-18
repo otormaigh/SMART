@@ -25,7 +25,7 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 
 	private EditText searchParams;
 	private Button search, searchResult1, searchResult2, searchResult3;
-	private String enteredSearch, name;
+	private String enteredSearch;
 	Connection c;
 	Statement stmt;
 	ResultSet rs;
@@ -37,6 +37,12 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 	private String response;
 	private JSONObject jsonNew;
 	private AccessDBTable db = new AccessDBTable();
+	//private String name1="";
+	//private String name;
+    //private String option1 = "service_users?name=";
+   // private String option2 = "service_users?hospital_number=";
+    //private String option3 = "service_users?dob=";
+   
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,12 +53,13 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 		search = (Button) findViewById(R.id.search);
 		search.setOnClickListener(new ButtonClick());
 		searchResult1 = (Button) findViewById(R.id.search_result_1);
-		searchResult1.setOnClickListener(new ButtonClick());
+	    searchResult1.setOnClickListener(new ButtonClick());
 		searchResult2 = (Button) findViewById(R.id.search_result_2);
 		searchResult2.setOnClickListener(new ButtonClick());
 		searchResult3 = (Button) findViewById(R.id.search_result_3);
 		searchResult3.setOnClickListener(new ButtonClick());
 	}
+	
 	private class ButtonClick implements View.OnClickListener {
 		public void onClick(View v) {
 			switch (v.getId()) {
@@ -60,7 +67,7 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 				Log.d("MYLOG", "Search Button Pressed");
 				enteredSearch = searchParams.getText().toString();
 				new LongOperation(ServiceUserSearchActivity.this).execute("service_users?name=" + enteredSearch);
-				break;
+	        break;
 			case R.id.search_result_1:
 				Log.d("MYLOG", "First Result Button Pressed");
 				Intent intent = new Intent(ServiceUserSearchActivity.this, ServiceUserActivity.class);
@@ -74,7 +81,7 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 		}
 	}
 
-	private class LongOperation extends AsyncTask<String, Void, JSONObject> {
+	private class LongOperation extends AsyncTask<String, Void, JSONObject>{
 		private Context context;
 		
 		LongOperation(Context context){
@@ -98,17 +105,24 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 		@Override
 		protected void onPostExecute(JSONObject result) {
             Log.d("MYLOG", "onPostExecute");
+            Log.d("bugs", "Result from on post " +result);
             ServiceUserSingleton.getInstance().setPatientInfo(result);
-            pd.dismiss();
-                name = ServiceUserSingleton.getInstance().getUserName().get(0);
-      
-            /*
-			 * if result from database is empty (chcek if null) toast to say no query found
-			 * if not empty do getSinglton.getName
-			 * set this to button text
-			 */
-           
+            String name = ServiceUserSingleton.getInstance().getBabyName().get(0);
+            if(name!=null){
             searchResult1.setText(name);
-		}
-	}
+            }else{
+            	searchResult1.setText("No results found");
+            	Toast.makeText(getApplicationContext(), "No search results found", Toast.LENGTH_SHORT).show();
+            }
+    		if(searchResult1.equals("No results found")){
+    			searchResult1.setOnClickListener(null);
+    		}
+    		else
+    			searchResult1.setOnClickListener(new ButtonClick());
+
+            
+            pd.dismiss();
+           }
+ 
+		} 		
 }

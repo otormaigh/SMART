@@ -43,7 +43,9 @@ public class ParityDetailsActivity extends MenuInheritActivity {
 		List<String> dobBaby = ServiceUserSingleton.getInstance().getBabyDeliveryDateTime();
 		List<String> genderBaby = ServiceUserSingleton.getInstance().getBabyGender();
 		List<String> gestationBaby = ServiceUserSingleton.getInstance().getPregnancyGestation();
-		List<String> weightBaby = ServiceUserSingleton.getInstance().getBabyWeight();
+		
+		List<String>weightBaby = ServiceUserSingleton.getInstance().getBabyWeight();
+	
 		List<String> birthMode = ServiceUserSingleton.getInstance().getPregnancyBirthMode();
 		List<String> birthOutcome = ServiceUserSingleton.getInstance().getBabyBirthOutcome();
         
@@ -52,7 +54,7 @@ public class ParityDetailsActivity extends MenuInheritActivity {
 		for(int i = 0; i < dobBaby.size(); i++){
 			dobStr.add(dobBaby.get(i) + "\n");
 		}
-
+		  
 
         //textBabyDOB.setText(dobStr);
 		adapter = new ListElementAdapter(ParityDetailsActivity.this, nameBaby, hospitalNumber, dobStr
@@ -137,7 +139,7 @@ public class ParityDetailsActivity extends MenuInheritActivity {
 			hospitalNo.setText(hospitalNumber.get(position));
 			genderText.setText(babyGender.get(position));
 			gestationText.setText(gestation.get(position));
-			
+	
 			weightText.setText(weight.get(position));
 			modeText.setText(birthMode.get(position));
 			birthOutcomeParity.setText(birthOutcome.get(position));

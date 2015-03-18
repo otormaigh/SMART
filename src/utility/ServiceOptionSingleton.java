@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,10 +18,8 @@ public class ServiceOptionSingleton {
 	private static ServiceOptionSingleton singleInstance;
 	private AccessDBTable db = new AccessDBTable();
 	private JsonParseHelper help = new JsonParseHelper();
-	private List<String> clinicIDs = new ArrayList<String>();;
 	private Map<String, JSONObject> idMap;
 	private List<JSONObject> jsonValues;
-	private ProgressDialog pd;
 	private JSONObject json;
 	private JSONArray query;
 	
@@ -38,20 +33,19 @@ public class ServiceOptionSingleton {
 		return singleInstance;
 	}	
 	
-	public void updateLocal(Context context){		
-		new LongOperation(context).execute("service_options");
+	public void updateLocal(Context context, ProgressDialog pd){		
+		new LongOperation(context, pd) .execute("service_options");
 	}
 	
 	private class LongOperation extends AsyncTask<String, Void, JSONArray> {
 		private Context context;
-		public LongOperation(Context context){
+		private ProgressDialog pd;
+		public LongOperation(Context context, ProgressDialog pd){
 			this.context = context;
+			this.pd = pd;
 		}
 		@Override
 		protected void onPreExecute() {
-			pd = new ProgressDialog(context);
-			pd.setMessage("Updating Service Options");
-			pd.show();
 		}
 		protected JSONArray doInBackground(String... params) {
 			Log.d("singleton", "in service options updateLocal doInBackground");
@@ -99,19 +93,9 @@ public class ServiceOptionSingleton {
 		return idMap;
 	}
 	
-	public List<Integer> getClinicIDs(String id){
+	public List<String> getClinicIDs(String id){
 		JSONObject json = idMap.get(id);
-		JSONArray jArray = new JSONArray();
-		ArrayList<Integer> clinicID = new ArrayList<Integer>();
-		try {
-			jArray = json.getJSONArray("clinic_ids");
-			for(int i = 0; i < jArray.length(); i++){
-				clinicID.add(jArray.getInt(i));
-			}
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return clinicID;
+		return help.jsonParseHelperList(json, "service_options", "clinic_ids");
 	}
 	
 	public String getID(String id){
