@@ -44,7 +44,7 @@ public class ParityDetailsActivity extends MenuInheritActivity {
 		List<String> genderBaby = ServiceUserSingleton.getInstance().getBabyGender();
 		List<String> gestationBaby = ServiceUserSingleton.getInstance().getPregnancyGestation();
 		
-		List<String>weightBaby = ServiceUserSingleton.getInstance().getBabyWeight();
+		List<String> weightBaby = ServiceUserSingleton.getInstance().getBabyWeight();
 	
 		List<String> birthMode = ServiceUserSingleton.getInstance().getPregnancyBirthMode();
 		List<String> birthOutcome = ServiceUserSingleton.getInstance().getBabyBirthOutcome();
@@ -55,7 +55,12 @@ public class ParityDetailsActivity extends MenuInheritActivity {
 			dobStr.add(dobBaby.get(i) + "\n");
 		}
 		  
+		for(int i = 0; i < weightBaby.size(); i ++){
+			String kg = getGramsToKg(Integer.parseInt(weightBaby.get(i)));
+			weightBaby.set(i, kg);
+		}
 
+		
         //textBabyDOB.setText(dobStr);
 		adapter = new ListElementAdapter(ParityDetailsActivity.this, nameBaby, hospitalNumber, dobStr
 				, genderBaby, gestationBaby
@@ -64,6 +69,13 @@ public class ParityDetailsActivity extends MenuInheritActivity {
         //listView.setOnItemClickListener(new OnItemListener());
 		
 	}
+	
+    public String getGramsToKg(int grams){
+    	double kg = 0.0;
+    	kg = grams/1000.0;
+    	return String.valueOf(kg);
+    }
+    
 	public void onBackPressed(){
 		Intent goToServiceUser = new Intent(ParityDetailsActivity.this, ServiceUserActivity.class);
 		startActivity(goToServiceUser);
