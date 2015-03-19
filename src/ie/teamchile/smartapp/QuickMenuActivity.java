@@ -38,9 +38,9 @@ public class QuickMenuActivity extends MenuInheritActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quick_menu);
         
-        //if(AppointmentSingleton.getInstance() != null){
+        if(AppointmentSingleton.getInstance() != null){
         	new updateLocal().execute("appointments", "clinics", "service_options");        	
-       // }
+        }
         
         patientInfo = (Button) findViewById(R.id.patientInfo);
         patientInfo.setOnClickListener(new ButtonClick());
