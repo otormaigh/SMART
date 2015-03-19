@@ -83,7 +83,17 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 	      searchOption.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
 
 	     searchOption.setAdapter(adapter);
-	
+
+		
+		
+		//searchParams.setEnabled(true);
+		/*getWindow().setSoftInputMode(
+			    WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+			);*/
+
+		//ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.search_results,
+  			//	R.id.search_result_button, searchResults);
+
 		
 		list = (ListView)findViewById(R.id.search_results_list);
   		list.setOnItemClickListener(new onItemListener());
@@ -131,6 +141,7 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 	                case 1:
 	                	searchParams.setEnabled(true);
 	            		getWindow().setSoftInputMode(
+
 	            			    WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE
 	            			);
 	                	search.setEnabled(true);
