@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import utility.ServiceUserSingleton;
 import android.app.AlertDialog;
@@ -107,6 +108,13 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		userImage.setOnClickListener(new ButtonClick());
 	
 	}
+	
+	public void onBackPressed(){
+		Intent goToQuickMenu = new Intent(ServiceUserActivity.this, ServiceUserSearchActivity.class);
+		startActivity(goToQuickMenu);
+		
+	}
+
 
 	private class ButtonClick implements View.OnClickListener, DialogInterface {
 		public void onClick(View v) {
@@ -264,7 +272,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		    	Uri uri = Uri.parse(addr);
 		    	System.out.println(addr);
 		    	Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-		      intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+		        intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
 
 		    	startActivity(intent);
         }	
@@ -379,8 +387,8 @@ public class ServiceUserActivity extends MenuInheritActivity {
 	}
     
     public double getGramsToKg(double grams){
-    	double kg = 0.0;
-    	kg = grams/1000;
-    	return kg;
+	    	double kg = 0.0;
+	    	kg = grams/1000;
+	    	return kg;
     }
 }

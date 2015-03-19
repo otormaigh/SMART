@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+  
+   <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="Baby Name: "/>
+ 
+	     <TextView
+		    android:id="@+id/baby_name_parity" 
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:inputType="text"/>
+	  
+    
+ </LinearLayout>
+ 
+   
+   	      <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="Hospital Number: " />
+  
+
+	<TextView
+	    android:id="@+id/hospital_number_parity" 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:inputType="text"/>
+   
+   
+ </LinearLayout>
+   <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="Date of Birth: "/>
+ 
+ 
+      
+            
+		<TextView
+		    android:id="@+id/dob_parity" 
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:inputType="text"/>
+		</LinearLayout>
+
+   
+         
+          <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="Sex: "/>
+            
+   
+	<TextView
+	    android:id="@+id/gender_parity" 
+	    android:layout_width="match_parent"
+	     android:layout_height="wrap_content"
+	     android:inputType="text"/>
+	</LinearLayout>
+	
+        
+          <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="Gestation: "/>
+            
+          
+          
+	<TextView
+	    android:id="@+id/gestation_parity" 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:inputType="text"/>
+	</LinearLayout>
+	
+          	      <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="Mode Of Birth: "/>
+
+	<TextView
+	    android:id="@+id/mode_of_birth_parity" 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:inputType="text"/>
+	</LinearLayout>
+	
+	      <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="Birth Outcome: "/>
+  
+	<TextView
+	    android:id="@+id/birth_outcome_parity" 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:inputType="text"/>
+	</LinearLayout>
+	
+	    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="Weight (kg): "/>
+  
+	
+	
+	<TextView
+	    android:id="@+id/weight_parity" 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:inputType="text"/>
+	      </LinearLayout>
+	      
+	      
+	</LinearLayout>
