@@ -1,15 +1,27 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
+       android:layout_marginBottom="@dimen/padding_small"
+    android:layout_marginTop="@dimen/padding_small"
     android:orientation="vertical" >
+    
+    <TextView
+       android:id="@+id/obs_name"
+       android:layout_height="wrap_content"
+       android:layout_width="fill_parent"
+       android:gravity="center" />
 
     <ListView
         android:id="@+id/notes"
         android:layout_width="match_parent"
         android:layout_height="284dp"
+        android:paddingBottom="20dp"
+        android:divider="@android:color/transparent"
+         android:dividerHeight="20.0sp"
         android:layout_weight="0.52" >
     </ListView>
-
+    
+    
     <EditText
         android:id="@+id/editField"
         android:layout_width="fill_parent"
@@ -22,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@color/blue"
-        android:text="Add note to history" />
+ 
+        android:text="@string/add_note" />
 
 </LinearLayout>

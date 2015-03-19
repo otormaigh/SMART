@@ -3,8 +3,19 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-     android:orientation="vertical">
-     
+    android:orientation="vertical">
+   
+    
+    <TextView
+        android:id="@+id/obs_date"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:text="08/03/2015"
+        android:layout_height="wrap_content"
+        android:textSize="13dp"
+        android:textStyle="bold"/>
+    
+    
 <TextView
         android:id="@+id/textViewItem"
         android:layout_width="match_parent"

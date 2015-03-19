@@ -41,6 +41,7 @@
     <string name="todays_appointments">Today\'s Appointments</string>
 
     <!-- SPINNER TITLES -->
+    <string name="patient_search_options"> Select search option</string>
     <string name="appointment_type">Appointment Type</string>
     <string name="clinic_option">Clinic Option</string>
     <string name="visit_option">Visit Option</string>
@@ -62,6 +63,32 @@
     </string-array>
 
     <!-- CLINICS OPTION SPINNER -->
+
+    <string-array name="domino_dublin">
+        <item>Select Clinic</item>
+        <item>Evening Booking Clinic</item>
+        <item>Leopardstown</item> 
+    </string-array>
+    <string-array name="domino_wicklow">
+        <item>Select Clinic</item>
+        <item>Greystones (Monday)</item>
+        <item>Greystones (Tuesday)</item>
+        <item>Kilmacanogue</item>
+        <item>Home Visits</item>
+    </string-array>
+    <string-array name="eth">
+        <item>Select Clinic</item>
+        <item>Ballinteer</item>
+        <item>Dun laoghaire</item>
+    </string-array>
+    <string-array name="satellite">
+        <item>Select Clinic</item>
+        <item>Greystones</item>
+        <item>Arklow</item>
+        <item>Newtownmountkennedy</item>
+        <item>Bray</item>
+    </string-array>
+
     <string-array name="weeks">
         <item>Select Week</item>
         <item>Week 1</item>
@@ -182,6 +209,15 @@
     <string name="history_notebutton">Add note to history</string>
     <string name="add_note">Add a note</string>
 
+     	<!-- PATIENT SEARCH OPTIONS -->
+    <string-array name="patient_search_options">
+        <item>Select Search Option</item>
+        <item>Name</item>
+        <item>Hospital Number</item>
+        <item>DOB</item>
+    </string-array>
+    
+     
  	<!-- CREATE APPOINTMENT -->
     <string-array name="visit_priority_list">
         <item>Select Visit Priority</item>
