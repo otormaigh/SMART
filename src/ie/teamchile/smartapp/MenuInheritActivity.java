@@ -1,4 +1,3 @@
-
 package ie.teamchile.smartapp;
 
 import utility.AppointmentSingleton;
