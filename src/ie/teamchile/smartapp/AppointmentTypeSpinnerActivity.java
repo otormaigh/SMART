@@ -269,4 +269,5 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
 		appointmentCalendar.setVisibility(View.VISIBLE);
 		daySelected = c.getTime();
     }
+
 }
