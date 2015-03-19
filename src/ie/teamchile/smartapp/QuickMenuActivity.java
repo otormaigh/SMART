@@ -162,4 +162,5 @@ public class QuickMenuActivity extends MenuInheritActivity {
 			pd.dismiss();
         }
 	}
+
 }
