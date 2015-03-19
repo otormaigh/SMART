@@ -123,18 +123,36 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 	                case R.id.search_option:
 	                    switch (position) {
 	                case 0:
+	                	searchParams.setEnabled(false);
+	            		getWindow().setSoftInputMode(
+	            			    WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN
+	            			);
 	                	search.setEnabled(false);
 	                	//search.setClickable(true);
 	                	break;
 	                case 1:
+	                	searchParams.setEnabled(true);
+	            		getWindow().setSoftInputMode(
+	            			    WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
+	            			);
 	                	search.setEnabled(true);
 	                	searchUrl = option1;
 	                    break;
 	                case 2:
+	                	searchParams.setEnabled(true);
+	            		getWindow().setSoftInputMode(
+	            			    WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
+	            			);
+
 	                	search.setEnabled(true);
 	                	searchUrl = option2;
 	                	break;
 	                case 3:
+	                	searchParams.setEnabled(true);
+	            		getWindow().setSoftInputMode(
+	            			    WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
+	            			);
+
 	                	search.setEnabled(true);
 	                	searchUrl = option3;
 	                	break;
@@ -145,8 +163,7 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 
 			@Override
 			public void onNothingSelected(AdapterView<?> parent) {
-				// TODO Auto-generated method stub
-				
+				// TODO Auto-generated method stub	
 			}
 	   }
 	
