@@ -43,7 +43,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 	private String name, clinic, apptDate, time, duration, priority, visitType;
 	private PostAppointment postAppt = new PostAppointment();
 	private AccessDBTable db = new AccessDBTable();
-	private String clinicIDStr, daySelected, clinicName, userID = ""; 
+	private String clinicIDStr, clinicName, userID = ""; 
 	private int clinicID, appointmentIntervalAsInt;
 	private ProgressDialog pd;
 	private Calendar c, myCalendar;
@@ -174,7 +174,6 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
     private class LongOperation extends AsyncTask<String, Void, Boolean> {
 		private Context context;
 		private JSONObject json;
-		private Boolean changeActivity;
 		private Boolean userFound;
 		
 		public LongOperation(Context context){
