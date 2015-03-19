@@ -90,7 +90,7 @@
                 android:id="@+id/age_ante_natal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType=""
+               
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="@dimen/text_Xsmall" />
 
@@ -116,7 +116,7 @@
                 android:id="@+id/deliveryTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType=""
+               
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="@dimen/text_Xsmall" />
 
@@ -142,7 +142,7 @@
                 android:id="@+id/gestation"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text=""
+                
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="@dimen/text_Xsmall" />
 
@@ -168,7 +168,7 @@
                 android:id="@+id/blood_group"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text=""
+               
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="@dimen/text_Xsmall" />
 
@@ -194,7 +194,7 @@
                 android:id="@+id/rhesus"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text=""
+                
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="@dimen/text_Xsmall" />
 
@@ -217,37 +217,35 @@
             android:padding="5dip" >
             
          <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                android:orientation="horizontal" >
-            
+             android:layout_width="fill_parent"
+             android:layout_height="wrap_content"
+             android:gravity="end"
+             android:orientation="horizontal" >
 
-            <TextView
-                android:id="@+id/parity_ante_natal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="@dimen/text_Xsmall" />
+             <TextView
+                 android:id="@+id/parity_ante_natal"
+                 android:layout_width="275dp"
+                 android:layout_height="25dp"
+                 android:gravity="left"
+                 android:textAppearance="?android:attr/textAppearanceLarge"
+                 android:textSize="@dimen/text_Xsmall" />
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="match_parent"
-                android:gravity="end"
-                android:text="@string/parity"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="@dimen/text_Xsmall"
-                android:textStyle="bold" />
-            
-            
-            <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:adjustViewBounds="true"
-                    android:gravity="end"
-                    android:src="@drawable/forward_arrow" />
-            </LinearLayout>
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="match_parent"
+                 android:text="@string/parity"
+                 android:textAppearance="?android:attr/textAppearanceLarge"
+                 android:textSize="@dimen/text_Xsmall"
+                 android:textStyle="bold" />
+
+             <ImageView
+                 android:layout_width="25dp"
+                 android:layout_height="25dp"
+                 android:adjustViewBounds="true"
+                 android:gravity="end"
+                 android:src="@drawable/forward_arrow" />
+         </LinearLayout>
+
         </TableRow>
 
         <TableRow

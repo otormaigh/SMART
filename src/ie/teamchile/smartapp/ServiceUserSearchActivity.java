@@ -11,8 +11,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import utility.ServiceUserSingleton;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -20,6 +23,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -28,13 +33,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import connecttodb.AccessDBTable;
 
 public class ServiceUserSearchActivity extends MenuInheritActivity {
-
-	private EditText searchParams;
+   private EditText searchParams;
+	private Spinner searchOption;
 	private Button search, searchResult1, searchResult2, searchResult3;
 	private String enteredSearch;
 	 private ArrayList<String>searchResults = new ArrayList<String>();
@@ -52,11 +58,11 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 	private ListView list;
 	ArrayAdapter<String> adapter;
 	private List<String> hospitalNumberList = new ArrayList<String>();
-	//private String name1="";
-	//private String name;
-    //private String option1 = "service_users?name=";
-   // private String option2 = "service_users?hospital_number=";
-    //private String option3 = "service_users?dob=";
+	private String searchUrl="";
+    private String name;
+    private String option1 = "service_users?name=";
+    private String option2 = "service_users?hospital_number=";
+    private String option3 = "service_users?dob=";
    
 
 	@Override
@@ -64,13 +70,20 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_service_user_search);
 
+		searchOption = (Spinner) findViewById(R.id.search_option);
 		searchParams = (EditText) findViewById(R.id.search_params);
+
+		//searchParams.setOnClickListener(new ButtonClick());
 		search = (Button) findViewById(R.id.search);
 		search.setOnClickListener(new ButtonClick());
-		
-		
-		//ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.search_results,
-  			//	R.id.search_result_button, searchResults);
+		//search.setClickable(false);
+		//search.setVisibility(Button.GONE);
+		 ArrayAdapter adapter=ArrayAdapter.createFromResource(this, R.array.patient_search_options, android.R.layout.simple_spinner_item); 
+		 adapter.setDropDownViewResource(R.layout.spinner_layout);
+	      searchOption.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
+
+	     searchOption.setAdapter(adapter);
+	
 		
 		list = (ListView)findViewById(R.id.search_results_list);
   		list.setOnItemClickListener(new onItemListener());
@@ -84,6 +97,12 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
     	adapter.notifyDataSetChanged();
 	}
 	
+	public void onBackPressed(){
+		Intent goToQuickMenu = new Intent(ServiceUserSearchActivity.this, QuickMenuActivity.class );
+		startActivity(goToQuickMenu);
+		
+	}
+	
 	private class onItemListener implements OnItemClickListener{
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
@@ -95,13 +114,65 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 	
 	}
 	
+	   private class MySpinnerOnItemSelectedListener implements AdapterView.OnItemSelectedListener {
+	        @Override
+	        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+	            switch (parent.getId()) {
+	                case R.id.search_option:
+	                    switch (position) {
+	                case 0:
+	                	searchParams.setEnabled(false);
+	            		getWindow().setSoftInputMode(
+	            			    WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN
+	            			);
+	                	search.setEnabled(false);
+	                	//search.setClickable(true);
+	                	break;
+	                case 1:
+	                	searchParams.setEnabled(true);
+	            		getWindow().setSoftInputMode(
+	            			    WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE
+	            			);
+	                	search.setEnabled(true);
+	                	searchUrl = option1;
+	                    break;
+	                case 2:
+	                	searchParams.setEnabled(true);
+	            		getWindow().setSoftInputMode(
+	            			    WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE
+	            			);
+
+	                	search.setEnabled(true);
+	                	searchUrl = option2;
+	                	break;
+	                case 3:
+	                	searchParams.setEnabled(true);
+	            		getWindow().setSoftInputMode(
+	            			    WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE
+	            			);
+
+	                	search.setEnabled(true);
+	                	searchUrl = option3;
+	                	break;
+	                    
+	                    }
+	            }
+	        }
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+				// TODO Auto-generated method stub	
+			}
+	   }
+	
 	private class ButtonClick implements View.OnClickListener {
 		public void onClick(View v) {
 			switch (v.getId()) {
+			
 			case R.id.search:
 				Log.d("MYLOG", "Search Button Pressed");
 				enteredSearch = searchParams.getText().toString();
-				new LongOperation(ServiceUserSearchActivity.this).execute("service_users?name=" + enteredSearch);
+				new LongOperation(ServiceUserSearchActivity.this).execute(searchUrl + enteredSearch);
 				break;
 			case R.id.search_result_button:
 				Log.d("MYLOG", "First Result Button Pressed");
@@ -127,7 +198,6 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 		}
 		protected JSONObject doInBackground(String... params) {
 			Log.d("MYLOG", "ServiceUserSearch DoInBackground");
-
 			json = dbTable.accessDB(params[0]);
 			return json;
 		}
@@ -147,6 +217,7 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 			 * if not empty do getSinglton.getName
 			 * set this to button text
 			 */
+
 			if (intent != null) {
 				startActivity(intent);
 			} else {
@@ -163,9 +234,15 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 						Log.d("bugs", "searchResults: " + searchResults);
 					}
 					createResultList(searchResults);
-					adapter.notifyDataSetChanged();
+					InputMethodManager imm = 
+						    (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+						imm.hideSoftInputFromWindow(search.getWindowToken(), 0);
+
+					searchParams.setText(null);
+ 					adapter.notifyDataSetChanged();
 				} else {
  					// searchResults.add("No results found");
+					searchParams.setText(null);
 					Toast.makeText(getApplicationContext(),
 							"No search results found", Toast.LENGTH_SHORT)
 							.show();

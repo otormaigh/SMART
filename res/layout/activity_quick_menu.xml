@@ -7,12 +7,12 @@
     android:weightSum="4.0">
 
     <Button
-        android:id="@+id/patientInfo"
+        android:id="@+id/patientSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/padding_small"
         android:layout_weight="1.0"
-        android:text="@string/patient_info"
+        android:text="@string/patient_search"
         android:textSize="@dimen/text_large" />
 
     <Button
