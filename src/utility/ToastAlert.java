@@ -20,8 +20,7 @@ public class ToastAlert{
 	public ToastAlert(Context context, String message, boolean isWarning) {
 		this.isWarning = isWarning;
 		Toast ImageToast = new Toast(context);
-	    LinearLayout toastLayout = new LinearLayout(
-	            context);
+	    LinearLayout toastLayout = new LinearLayout(context);
 	    toastLayout.setOrientation(LinearLayout.HORIZONTAL);
 	    ImageView image = new ImageView(context);
 	    TextView tv = new TextView(context);
