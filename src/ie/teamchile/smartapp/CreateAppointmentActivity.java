@@ -28,6 +28,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 import connecttodb.AccessDBTable;
 import connecttodb.PostAppointment;
 
@@ -42,7 +43,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 	private String name, clinic, apptDate, time, duration, priority, visitType;
 	private PostAppointment postAppt = new PostAppointment();
 	private AccessDBTable db = new AccessDBTable();
-	private String clinicIDStr, daySelected, clinicName, userID = ""; 
+	private String clinicIDStr, clinicName, userID = ""; 
 	private int clinicID, appointmentIntervalAsInt;
 	private ProgressDialog pd;
 	private Calendar c, myCalendar;
@@ -69,10 +70,10 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
         visitTimeSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
         visitDurationSpinner = (Spinner) findViewById(R.id.visit_duration_spinner);
         visitDurationSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
-        visitTypeSpinner = (Spinner) findViewById(R.id.visit_type_spinner);
-        visitTypeSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
         visitPrioritySpinner = (Spinner) findViewById(R.id.visit_priority_spinner);
         visitPrioritySpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
+        visitTypeSpinner = (Spinner) findViewById(R.id.visit_type_spinner);
+        visitTypeSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
         
         prefs = getSharedPreferences("SMART", MODE_PRIVATE);
         
@@ -156,10 +157,11 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
             						 "\nTime: " + time + "\nDuration: " + duration + "\nPriority: " + priority +
             						 "\nVisit Type: " + visitType);
             	
-            	if(!name.isEmpty()) {
+            	if(!name.isEmpty() && visitPrioritySpinner.getSelectedItemPosition() != 0
+            					   && visitTypeSpinner.getSelectedItemPosition() != 0) {
             		new LongOperation(CreateAppointmentActivity.this).execute("service_users?name=" + name);
             	}else {
-            		ToastAlert ta = new ToastAlert(CreateAppointmentActivity.this, "Name can't be empty!", true);
+            		ToastAlert ta = new ToastAlert(CreateAppointmentActivity.this, "Cannot proceed, \nSome fields are empty!", true);
             	}
             	       	
             	Log.d("postAppointment", "clinicID: " + clinicID);
@@ -169,9 +171,10 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
         }
 	}
 	
-    private class LongOperation extends AsyncTask<String, Void, JSONObject> {
+    private class LongOperation extends AsyncTask<String, Void, Boolean> {
 		private Context context;
 		private JSONObject json;
+		private Boolean userFound;
 		
 		public LongOperation(Context context){
 			this.context = context;
@@ -184,36 +187,52 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
             clinicIDStr = String.valueOf(clinicID);
             
 		}
-		protected JSONObject doInBackground(String... params) {
+		protected Boolean doInBackground(String... params) {
 			Log.d("bugs", "userID start: " + userID);
 			
 			if(!prefs.getBoolean("reuse", false)){
 				json = db.accessDB(params[0]);
 				ServiceUserSingleton.getInstance().setPatientInfo(json);
-				userID = ServiceUserSingleton.getInstance().getUserID().get(0);
+				Log.d("bugs", "json: " + json);
+				Log.d("bugs", "singleton size: " + ServiceUserSingleton.getInstance().getUserID().size());
+				if(ServiceUserSingleton.getInstance().getUserID().size() > 0){
+					Log.d("bugs", "user found");
+					userID = ServiceUserSingleton.getInstance().getUserID().get(0);
+					userFound = true;
+				}else {
+					Log.d("bugs", "user not found");
+					userFound = false;
+				}
+				postAppt.postAppointment(userID, clinicIDStr, apptDate, time, duration, priority, visitType);
+			} else {
+				postAppt.postAppointment(userID, clinicIDStr, apptDate, time, duration, priority, visitType);
+				userFound = true;
 			}
-			postAppt.postAppointment(userID, clinicIDStr, apptDate, time, duration, priority, visitType);			
-			userID = "";
 			
-			return null;
+			return userFound;
 		}
 		@Override
 		protected void onProgressUpdate(Void... values) {
 		}
 		@Override
-        protected void onPostExecute(JSONObject result) {
-			AppointmentSingleton.getInstance().updateLocal(CreateAppointmentActivity.this);
-			CountDownTimer timer = new CountDownTimer(2000, 2000) {						
-				@Override
-				public void onTick(long millisUntilFinished) {								
-				}						
-				@Override
-				public void onFinish() {
-					Intent intent = new Intent(CreateAppointmentActivity.this, AppointmentCalendarActivity.class);
-		        	startActivity(intent);
-				}
-			};
-			timer.start();
+        protected void onPostExecute(Boolean result) {
+			if (result) {
+				AppointmentSingleton.getInstance().updateLocal(CreateAppointmentActivity.this);
+				CountDownTimer timer = new CountDownTimer(2000, 1000) {
+					@Override
+					public void onTick(long millisUntilFinished) {
+					}
+
+					@Override
+					public void onFinish() {
+						Intent intent = new Intent(CreateAppointmentActivity.this, AppointmentCalendarActivity.class);
+						startActivity(intent);
+					}
+				};
+				timer.start();
+			}else {
+				Toast.makeText(CreateAppointmentActivity.this, "No user found, try again", Toast.LENGTH_LONG).show();
+			}
 			pd.dismiss();			        		
         }
 	}
