@@ -14,6 +14,7 @@ import android.app.ProgressDialog;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentCallbacks2;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,7 +22,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class QuickMenuActivity extends MenuInheritActivity {
-    private Button patientInfo;
+    private Button patientSearch;
     private Button bookAppointment;
     private Button calendar;
     private Button todaysAppointments;
@@ -37,10 +38,12 @@ public class QuickMenuActivity extends MenuInheritActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quick_menu);
         
-        new updateLocal().execute("appointments", "clinics", "service_options");
+        if(AppointmentSingleton.getInstance() != null){
+        	new updateLocal().execute("appointments", "clinics", "service_options");        	
+        }
         
-        patientInfo = (Button) findViewById(R.id.patientInfo);
-        patientInfo.setOnClickListener(new ButtonClick());
+        patientSearch = (Button) findViewById(R.id.patientSearch);
+        patientSearch.setOnClickListener(new ButtonClick());
         bookAppointment = (Button) findViewById(R.id.bookAppointment);
         bookAppointment.setOnClickListener(new ButtonClick());
         calendar = (Button) findViewById(R.id.calendar);
@@ -48,14 +51,12 @@ public class QuickMenuActivity extends MenuInheritActivity {
         todaysAppointments = (Button) findViewById(R.id.todays_appointments);
         todaysAppointments.setOnClickListener(new ButtonClick());
         isViewVisible = true;
-
-        Log.d("MYLOG", "Before Other get token");
     }
     
     private class ButtonClick implements View.OnClickListener {
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.patientInfo:
+                case R.id.patientSearch:
                     Intent intentPatient = new Intent(QuickMenuActivity.this, ServiceUserSearchActivity.class);
                     startActivity(intentPatient);
                     break;
@@ -98,6 +99,9 @@ public class QuickMenuActivity extends MenuInheritActivity {
 		// TODO Auto-generated method stub
 		super.onResume();
 		isViewVisible = true;		
+		SharedPreferences.Editor prefs = getSharedPreferences("SMART", MODE_PRIVATE).edit();	
+    	prefs.putBoolean("reuse", false);
+		prefs.commit();
 	}
 
 	@Override
@@ -158,4 +162,5 @@ public class QuickMenuActivity extends MenuInheritActivity {
 			pd.dismiss();
         }
 	}
+
 }

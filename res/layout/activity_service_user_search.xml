@@ -19,6 +19,23 @@
         android:paddingRight="@dimen/padding_Xsmall"
         android:weightSum="1.0" >
 
+        <Spinner
+            android:id="@+id/search_option"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.85"
+            android:hint="@string/enter_search"
+            android:paddingTop="@dimen/padding_medium" />
+
+    </LinearLayout>
+    
+        <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingRight="@dimen/padding_Xsmall"
+        android:weightSum="1.0" >
+
         <EditText
             android:id="@+id/search_params"
             android:layout_width="wrap_content"
@@ -34,6 +51,7 @@
             android:layout_weight="0.15"
             android:text="@string/btn_search" />
     </LinearLayout>
+    
 
     <TextView
         android:layout_width="fill_parent"
