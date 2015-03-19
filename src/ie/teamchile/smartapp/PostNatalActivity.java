@@ -21,11 +21,11 @@ public class PostNatalActivity extends MenuInheritActivity {
 	ServiceUserActivity ab = new ServiceUserActivity();
 	Date dateOfDelivery = null;
 	Date currentDate = null;
+	private String F, M;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_post_natal);
-
 	    name = (TextView)findViewById(R.id.name_post_natal);
 		userImage = (ImageView)findViewById(R.id.user_image_post_natal);
 		userImage.setOnClickListener(new postNatalOptions());
@@ -47,7 +47,6 @@ public class PostNatalActivity extends MenuInheritActivity {
 		String perineumStr = ServiceUserSingleton.getInstance().getPregnancyPerineum().get(0);
 		perineum.setText(perineumStr);
 		
-		
 		String birthModeStr = ServiceUserSingleton.getInstance().getPregnancyBirthMode().get(0);
 		birth_mode.setText(birthModeStr);
 	
@@ -55,13 +54,12 @@ public class PostNatalActivity extends MenuInheritActivity {
 		
 		String genderStr = ServiceUserSingleton.getInstance().getBabyGender().get(0);
 		sex_of_baby.setText(genderStr);
-		
+
 		String weightStr = ServiceUserSingleton.getInstance().getBabyWeight().get(0);
 		double grams =  Double.parseDouble(weightStr);
 		double kg = ab.getGramsToKg(grams);
 		String theGrams = String.valueOf(kg);
 		birth_weight.setText(theGrams);
-		
 		
 		String vitaminStr = ServiceUserSingleton.getInstance().getBabyVitK().get(0);
 		vitK.setText(vitaminStr);
@@ -89,7 +87,7 @@ public class PostNatalActivity extends MenuInheritActivity {
 	
 		String noOfDaysStr = ServiceUserSingleton.getInstance().getBabyDeliveryDateTime().get(0);
 		
-		try {
+		try{
 			dateOfDelivery = formatter.parse(noOfDaysStr);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -98,12 +96,11 @@ public class PostNatalActivity extends MenuInheritActivity {
 		int days = ab.getNoOfDays(currentDate, dateOfDelivery);
 		String noOfDays  = String.valueOf(days);
 		daysSinceBirth.setText(noOfDays);
-
 	}
 	
-	private class postNatalOptions implements View.OnClickListener {
-		public void onClick(View v) {
-			switch (v.getId()) {
+	private class postNatalOptions implements View.OnClickListener{
+		public void onClick(View v){
+			switch (v.getId()){
 			case R.id.user_image_post_natal:
 				Intent intent = new Intent(PostNatalActivity.this, ServiceUserActivity.class);
 				startActivity(intent);
