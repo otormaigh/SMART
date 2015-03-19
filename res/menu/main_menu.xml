@@ -5,6 +5,5 @@
         android:title="Logout"/>    
     <item 
         android:id="@+id/menu_item2"
-
         android:title="Sync"/>    
 </menu>

@@ -36,11 +36,12 @@
     <string name="about_link"><a href="http://www.nmh.ie/about-us.8.html">About</a></string>
 
     <!-- QUICK MENU -->
-    <string name="patient_info">Patient Info</string>
+    <string name="patient_search">Search Patient</string>
     <string name="calendar">Calendar</string>
     <string name="todays_appointments">Today\'s Appointments</string>
 
     <!-- SPINNER TITLES -->
+    <string name="patient_search_options"> Select search option</string>
     <string name="appointment_type">Appointment Type</string>
     <string name="clinic_option">Clinic Option</string>
     <string name="visit_option">Visit Option</string>
@@ -53,16 +54,6 @@
         <item>Visits</item>
     </string-array>
 
-    <!-- SERVICE OPTIONS SPINNER -->
-    <string-array name="clinic_service_option">
-        <item>Select Service Option</item>
-        <item>Domino Dublin</item>
-        <item>Domino Wicklow</item>
-        <item>ETH Dublin</item>
-        <item>ETH Wicklow</item>
-        <item>Satellite</item>
-    </string-array>
-
     <!-- VISIT OPTIONS SPINNER -->
     <string-array name="visit_service_option">
         <item>Select Visit Option</item>
@@ -72,6 +63,7 @@
     </string-array>
 
     <!-- CLINICS OPTION SPINNER -->
+
     <string-array name="domino_dublin">
         <item>Select Clinic</item>
         <item>Evening Booking Clinic</item>
@@ -96,6 +88,7 @@
         <item>Newtownmountkennedy</item>
         <item>Bray</item>
     </string-array>
+
     <string-array name="weeks">
         <item>Select Week</item>
         <item>Week 1</item>
@@ -105,16 +98,6 @@
         <item>Week 5</item>
         <item>Week 6</item>
         <item>Week 7</item>
-    </string-array>
-    <string-array name="days">
-        <item>Select Day</item>
-        <item>Monday</item>
-        <item>Tuesday</item>
-        <item>Wednesday</item>
-        <item>Thursday</item>
-        <item>Friday</item>
-        <item>Saturday</item>
-        <item>Sunday</item>
     </string-array>
 
     <!-- SELECT TIME -->
@@ -134,7 +117,6 @@
     <string name="duration">Duration</string>
     <string name="email_to">Email to:</string>
     <string name="sms_to">SMS to:</string>
-    <string name="confirm_appointment">Confirm Appointment</string>
 
     <!-- SERVICE USERS -->
     <string name="ante_natal">Ante-Natal</string>
@@ -150,7 +132,7 @@
 
     <!-- SERVICE USER SEARCH -->
     <string name="ssr_title">Search by the service user\'s hospital number,
-        					 name and\/or dat of birth (@dd\/mm\/yyyy) \n
+        					 name and/or date of birth (@dd/mm/yyyy) \n
         					 You can combine search terms in one line if you like. \n
         					 Example: Mary Murphy @17/06/1976</string>
     <string name="enter_search">Enter Search Parameters</string>
@@ -227,6 +209,15 @@
     <string name="history_notebutton">Add note to history</string>
     <string name="add_note">Add a note</string>
 
+     	<!-- PATIENT SEARCH OPTIONS -->
+    <string-array name="patient_search_options">
+        <item>Select Search Option</item>
+        <item>Name</item>
+        <item>Hospital Number</item>
+        <item>DOB</item>
+    </string-array>
+    
+     
  	<!-- CREATE APPOINTMENT -->
     <string-array name="visit_priority_list">
         <item>Select Visit Priority</item>
@@ -237,5 +228,5 @@
         <item>Ante-Natal</item>
         <item>Post-Natal</item>
  	</string-array>
-
+ 	<string name="confirm_appointment">Confirm Appointment</string>
 </resources>

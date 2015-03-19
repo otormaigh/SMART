@@ -42,33 +42,37 @@ public class TodayAppointmentActivity extends ListActivity {
 	
 	private class LongOperation extends AsyncTask<String, Void, JSONObject> {
 			
-			@Override
-			protected JSONObject doInBackground(String... params) {
-				AccessDBTable access = new AccessDBTable();
-				JSONObject json = access.accessDB(params[0]);
-				return json;
-			}
-	
-			@Override
-			protected void onPreExecute() {
-				super.onPreExecute();
-				ToastAlert ta = new ToastAlert(TodayAppointmentActivity.this, "Processing. . . ", false);
-			}
-	
-			@Override
-			protected void onPostExecute(JSONObject result) {
-				super.onPostExecute(result);
-				ServiceUserSingleton.getInstance().setPatientInfo(result);
-				address = ServiceUserSingleton.getInstance().getUserHomeAddress().get(0);
-
-				values = AppointmentSingleton.getInstance().getListOfIDs("2", date);
-				MyAdapter adapter = new MyAdapter(TodayAppointmentActivity.this, values);
-				setListAdapter(adapter);
-			}
-	
-			@Override
-			protected void onProgressUpdate(Void... values) {
-				super.onProgressUpdate(values);
-			}			
+		@Override
+		protected JSONObject doInBackground(String... params) {
+			AccessDBTable access = new AccessDBTable();
+			JSONObject json = access.accessDB(params[0]);
+			return json;
 		}
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			ToastAlert ta = new ToastAlert(TodayAppointmentActivity.this, "Processing. . . ", false);
+		}
+
+		@Override
+		protected void onPostExecute(JSONObject result) {
+			super.onPostExecute(result);
+			ServiceUserSingleton.getInstance().setPatientInfo(result);
+			address = ServiceUserSingleton.getInstance().getUserHomeAddress().get(0);
+			values = AppointmentSingleton.getInstance().getListOfIDs("3", "2014-12-24");
+			
+			if(values == null || values.size() == 0) {
+				values = new ArrayList<String>();
+				values.add("No appointments today");
+			}
+			MyAdapter adapter = new MyAdapter(TodayAppointmentActivity.this, values);
+			setListAdapter(adapter);
+		}
+
+		@Override
+		protected void onProgressUpdate(Void... values) {
+			super.onProgressUpdate(values);
+		}			
+	}
 }
