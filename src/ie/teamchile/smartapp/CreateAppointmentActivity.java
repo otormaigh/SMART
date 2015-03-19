@@ -16,6 +16,7 @@ import utility.ToastAlert;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -41,7 +42,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 	private String name, clinic, apptDate, time, duration, priority, visitType;
 	private PostAppointment postAppt = new PostAppointment();
 	private AccessDBTable db = new AccessDBTable();
-	private String clinicIDStr, daySelected, clinicName; 
+	private String clinicIDStr, daySelected, clinicName, userID = ""; 
 	private int clinicID, appointmentIntervalAsInt;
 	private ProgressDialog pd;
 	private Calendar c, myCalendar;
@@ -51,6 +52,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 	private Date beforeAsDate, afterAsDate, afterAsDateMinusInterval;
 	private String appointmentInterval;
 	private AppointmentCalendarActivity passOptions = new AppointmentCalendarActivity();
+	private SharedPreferences prefs;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +73,13 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
         visitTypeSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
         visitPrioritySpinner = (Spinner) findViewById(R.id.visit_priority_spinner);
         visitPrioritySpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
+        
+        prefs = getSharedPreferences("SMART", MODE_PRIVATE);
+        
+		if(prefs != null && prefs.getBoolean("reuse", false)) {
+			userName.setText(prefs.getString("name", null));
+			userID = prefs.getString("id", null);
+		}
         
         textDate = (TextView)findViewById(R.id.visit_date_text);
         textClinic = (TextView)findViewById(R.id.visit_clinic_text);
@@ -159,6 +168,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
             } 
         }
 	}
+	
     private class LongOperation extends AsyncTask<String, Void, JSONObject> {
 		private Context context;
 		private JSONObject json;
@@ -175,13 +185,16 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
             
 		}
 		protected JSONObject doInBackground(String... params) {
-			json = db.accessDB(params[0]);
-
-			ServiceUserSingleton.getInstance().setPatientInfo(json);
-			String userID = ServiceUserSingleton.getInstance().getUserID().get(0);
+			Log.d("bugs", "userID start: " + userID);
 			
-			postAppt.postAppointment(userID, clinicIDStr, apptDate, time, duration,
-					priority, visitType);
+			if(!prefs.getBoolean("reuse", false)){
+				json = db.accessDB(params[0]);
+				ServiceUserSingleton.getInstance().setPatientInfo(json);
+				userID = ServiceUserSingleton.getInstance().getUserID().get(0);
+			}
+			postAppt.postAppointment(userID, clinicIDStr, apptDate, time, duration, priority, visitType);			
+			userID = "";
+			
 			return null;
 		}
 		@Override
