@@ -23,7 +23,8 @@ public class JsonParseHelper {
 	private static final String SERVICE_OPTIONS = "service_options";
 	private static final String CLINIC_IDS = "clinic_ids";
 	
-	public JsonParseHelper() {		
+	public JsonParseHelper(){
+		
 	}
 	
 	public String jsonParseHelper(JSONObject json, String tableName, String tableKey) {
