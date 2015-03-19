@@ -14,6 +14,7 @@ import android.app.ProgressDialog;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentCallbacks2;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,7 +38,9 @@ public class QuickMenuActivity extends MenuInheritActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quick_menu);
         
-        new updateLocal().execute("appointments", "clinics", "service_options");
+        //if(AppointmentSingleton.getInstance() != null){
+        	new updateLocal().execute("appointments", "clinics", "service_options");        	
+       // }
         
         patientInfo = (Button) findViewById(R.id.patientInfo);
         patientInfo.setOnClickListener(new ButtonClick());
@@ -48,8 +51,6 @@ public class QuickMenuActivity extends MenuInheritActivity {
         todaysAppointments = (Button) findViewById(R.id.todays_appointments);
         todaysAppointments.setOnClickListener(new ButtonClick());
         isViewVisible = true;
-
-        Log.d("MYLOG", "Before Other get token");
     }
     
     private class ButtonClick implements View.OnClickListener {
@@ -98,6 +99,9 @@ public class QuickMenuActivity extends MenuInheritActivity {
 		// TODO Auto-generated method stub
 		super.onResume();
 		isViewVisible = true;		
+		SharedPreferences.Editor prefs = getSharedPreferences("SMART", MODE_PRIVATE).edit();	
+    	prefs.putBoolean("reuse", false);
+		prefs.commit();
 	}
 
 	@Override
