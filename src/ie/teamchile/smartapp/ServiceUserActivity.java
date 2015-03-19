@@ -12,6 +12,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -42,7 +43,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_service_user);
 
-		dob = getIntent().getStringExtra("dob");
+		//dob = getIntent().getStringExtra("dob");
 
 		hospitalNumber = (TextView) findViewById(R.id.hospital_number);
 		name = (TextView) findViewById(R.id.name);
@@ -59,8 +60,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 
 		String dob = ServiceUserSingleton.getInstance().getUserDOB().get(0);
 		int anteNatalAge = getAge(dob);
-		String theAge = String.valueOf(anteNatalAge);
-		
+		String theAge = String.valueOf(anteNatalAge);		
 
 		ageServiceUser.setText(theAge);
 		String hospitalNumberStr = ServiceUserSingleton.getInstance().getUserHospitalNumber().get(0);
@@ -76,7 +76,6 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		String parityStr = ServiceUserSingleton.getInstance().getUserParity().get(0);
 
 		name.setText(nameStr);
-
 		
 		hospitalNumber.setText(hospitalNumberStr);
 		email.setText(emailStr);
@@ -105,8 +104,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		postNatal.setOnClickListener(new ButtonClick());
 		
 		userImage = (ImageView)findViewById(R.id.user_image);
-		userImage.setOnClickListener(new ButtonClick());
-	
+		userImage.setOnClickListener(new ButtonClick());	
 	}
 	
 	public void onBackPressed(){
@@ -133,6 +131,11 @@ public class ServiceUserActivity extends MenuInheritActivity {
 				startActivity(intent3);
 				break;
 			case R.id.book_appointment:
+				SharedPreferences.Editor prefs = getSharedPreferences("SMART", MODE_PRIVATE).edit();
+				prefs.putString("name", ServiceUserSingleton.getInstance().getUserName().get(0));
+				prefs.putString("id", ServiceUserSingleton.getInstance().getUserID().get(0));
+				prefs.putBoolean("reuse", true);
+				prefs.commit();
 				Intent intent2 = new Intent(ServiceUserActivity.this, AppointmentTypeSpinnerActivity.class);
 				startActivity(intent2);
 				break;
@@ -295,7 +298,6 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		try {
 			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 			dobAsDate = df.parse(dob);
-
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}

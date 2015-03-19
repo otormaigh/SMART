@@ -2,11 +2,14 @@ package ie.teamchile.smartapp;
 
 import utility.ServiceUserSingleton;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class ConfirmAppointmentActivity extends MenuInheritActivity {
 	private TextView userName, hospitalNumber, appointmentClinic, apptDate, apptTime,
 					 duration, email, sms;
+	private Button rebookAppointment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +24,8 @@ public class ConfirmAppointmentActivity extends MenuInheritActivity {
         duration = (TextView)findViewById(R.id.duration_db);
         email = (TextView)findViewById(R.id.email_to_db);
         sms = (TextView)findViewById(R.id.sms_to_db);
+        rebookAppointment = (Button)findViewById(R.id.book_appointment);
+        rebookAppointment.setOnClickListener(new ButtonClick());
         
         String hospitalNumberStr = ServiceUserSingleton.getInstance().getUserHospitalNumber().get(0);
 		String emailStr = ServiceUserSingleton.getInstance().getUserEmail().get(0);
@@ -34,5 +39,14 @@ public class ConfirmAppointmentActivity extends MenuInheritActivity {
         duration.setText(getIntent().getStringExtra("duration") + " minutes");
         email.setText(emailStr);
         sms.setText(mobileStr);
+    }
+    
+    private class ButtonClick implements View.OnClickListener {
+        public void onClick(View v) {
+            switch (v.getId()) {
+            case R.id.book_appointment:
+            	break;
+            }
+        }
     }
 }
