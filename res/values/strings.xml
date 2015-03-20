@@ -33,7 +33,6 @@
     <string name="tracker">Tracker</string>
     <string name="maternity_hospital">© National Maternity Hospital, Ireland</string>
     <string name="about">About</string>
-    <string name="about_link"><a href="http://www.nmh.ie/about-us.8.html">About</a></string>
 
     <!-- QUICK MENU -->
     <string name="patient_search">Search Patient</string>
