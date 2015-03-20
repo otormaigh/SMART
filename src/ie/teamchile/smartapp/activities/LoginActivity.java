@@ -13,6 +13,7 @@ import java.util.Calendar;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
@@ -50,16 +51,22 @@ public class LoginActivity extends Activity {
 		passwordTextView = (TextView) findViewById(R.id.password);
 		
 		about = (TextView) findViewById(R.id.about);
-	    about.setMovementMethod(LinkMovementMethod.getInstance());
+	    about.setOnClickListener(new ButtonClick());
 	}
     private class ButtonClick implements View.OnClickListener {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.login:
 				getCredentials();
-
 				new LongOperation().execute((String[]) null);
 				Log.d("MYLOG", "Button Clicked");
+				break;
+			case R.id.about:
+				Log.d("MYLOG", " About button Clicked");
+				Intent i = new Intent(Intent.ACTION_VIEW, 
+					       Uri.parse("http://www.nmh.ie/about-us.8.html"));
+					startActivity(i);
+				break;
 			}
 		}
 	}
