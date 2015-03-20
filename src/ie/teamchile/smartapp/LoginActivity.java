@@ -60,7 +60,7 @@ public class LoginActivity extends Activity {
 				break;
 			case R.id.about:
 				Log.d("MYLOG", "About link Clicked");
-				Intent goToAbout = new Intent(Intent.ACTION_VIEW,Uri.parse("http://www.nmh.ie"));
+				Intent goToAbout = new Intent(Intent.ACTION_VIEW,Uri.parse("http://www.nmh.ie/about-us.8.html"));
 				startActivity(goToAbout);	
 			}
 		}
