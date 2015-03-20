@@ -25,7 +25,6 @@ public class PostNatalActivity extends MenuInheritActivity {
 	ServiceUserActivity ab = new ServiceUserActivity();
 	Date dateOfDelivery = null;
 	Date currentDate = null;
-
 	private String sex_male = "ale";
 	private String sex_female = "emale";
 	@Override
@@ -123,3 +122,4 @@ public class PostNatalActivity extends MenuInheritActivity {
 		}
 	}
 }
+
