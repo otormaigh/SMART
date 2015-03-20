@@ -133,6 +133,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center|top"
+            android:linksClickable="true"
             android:text="@string/about"
             android:textColor="@color/blue"/>
            
