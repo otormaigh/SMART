@@ -129,7 +129,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 			c.add(Calendar.MINUTE, - appointmentIntervalAsInt);			
 			afterAsDateMinusInterval = c.getTime();
 			Log.d("postAppointment", "afterAsDateMinusInterval: " + afterAsDateMinusInterval);
-			
+			timeList.add("Select Time");
 			while(beforeAsDate.before(afterAsDateMinusInterval)){
 				Log.d("postAppointment", "beforeAsDate: " + beforeAsDate);
 				Log.d("postAppointment", "afterAsDate: " + afterAsDate);
@@ -245,8 +245,13 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             switch (parent.getId()) {
                 case R.id.visit_duration_spinner:
-                    duration = durationList.get(position);
-                    break;
+                	switch(position){
+                	case 0: 
+                		break;
+                	default:
+                	duration = durationList.get(position);
+                	break;
+                	}
                 case R.id.visit_type_spinner:
                     switch (position) {
                     case 0:
