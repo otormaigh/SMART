@@ -61,34 +61,7 @@
         <item>Visit 2</item>
         <item>Visit 3</item>
     </string-array>
-
-    <!-- CLINICS OPTION SPINNER -->
-
-    <string-array name="domino_dublin">
-        <item>Select Clinic</item>
-        <item>Evening Booking Clinic</item>
-        <item>Leopardstown</item> 
-    </string-array>
-    <string-array name="domino_wicklow">
-        <item>Select Clinic</item>
-        <item>Greystones (Monday)</item>
-        <item>Greystones (Tuesday)</item>
-        <item>Kilmacanogue</item>
-        <item>Home Visits</item>
-    </string-array>
-    <string-array name="eth">
-        <item>Select Clinic</item>
-        <item>Ballinteer</item>
-        <item>Dun laoghaire</item>
-    </string-array>
-    <string-array name="satellite">
-        <item>Select Clinic</item>
-        <item>Greystones</item>
-        <item>Arklow</item>
-        <item>Newtownmountkennedy</item>
-        <item>Bray</item>
-    </string-array>
-
+    
     <string-array name="weeks">
         <item>Select Week</item>
         <item>Week 1</item>
@@ -98,6 +71,9 @@
         <item>Week 5</item>
         <item>Week 6</item>
         <item>Week 7</item>
+        <item>Week 8</item>
+        <item>Week 9</item>
+        <item>Week 10</item>
     </string-array>
 
     <!-- SELECT TIME -->
