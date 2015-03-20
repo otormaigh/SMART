@@ -8,15 +8,16 @@ import utility.ToastAlert;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import connecttodb.GetToken;
 
 public class LoginActivity extends Activity {
@@ -47,16 +48,20 @@ public class LoginActivity extends Activity {
 		passwordTextView = (TextView) findViewById(R.id.password);
 		
 		about = (TextView) findViewById(R.id.about);
-	    about.setMovementMethod(LinkMovementMethod.getInstance());
+	    about.setOnClickListener(new ButtonClick());
 	}
     private class ButtonClick implements View.OnClickListener {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.login:
 				getCredentials();
-
 				new LongOperation().execute((String[]) null);
 				Log.d("MYLOG", "Button Clicked");
+				break;
+			case R.id.about:
+				Log.d("MYLOG", "About link Clicked");
+				Intent goToAbout = new Intent(Intent.ACTION_VIEW,Uri.parse("http://www.nmh.ie"));
+				startActivity(goToAbout);	
 			}
 		}
 	}

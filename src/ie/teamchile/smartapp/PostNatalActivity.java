@@ -21,7 +21,9 @@ public class PostNatalActivity extends MenuInheritActivity {
 	ServiceUserActivity ab = new ServiceUserActivity();
 	Date dateOfDelivery = null;
 	Date currentDate = null;
-	private String F, M;
+	private String sex_female = "emale";
+	private String sex_male = "ale";
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -51,9 +53,17 @@ public class PostNatalActivity extends MenuInheritActivity {
 		birth_mode.setText(birthModeStr);
 	
 		// need to search by baby id in pregnancy and get info based on baby id
-		
 		String genderStr = ServiceUserSingleton.getInstance().getBabyGender().get(0);
-		sex_of_baby.setText(genderStr);
+		
+		if(genderStr.equals("F")){
+			sex_of_baby.setText(genderStr+sex_female);
+		}
+		else if(genderStr.equalsIgnoreCase("M")){
+			sex_of_baby.setText(genderStr+sex_male);
+		}
+		else{
+			sex_of_baby.setText("N/A");
+		}
 
 		String weightStr = ServiceUserSingleton.getInstance().getBabyWeight().get(0);
 		double grams =  Double.parseDouble(weightStr);
@@ -71,7 +81,13 @@ public class PostNatalActivity extends MenuInheritActivity {
 		anti_d.setText(anti_dStr);
 		
 		String feedingStr = ServiceUserSingleton.getInstance().getPregnancyFeeding().get(0);
-		feeding.setText(feedingStr);
+		
+		if(feedingStr.equalsIgnoreCase("null")){
+			feeding.setText("N/A");
+		}
+		else{
+			feeding.setText(feedingStr);
+		}
 		
 		String nameStr = ServiceUserSingleton.getInstance().getUserName().get(0);
 		name.setText(nameStr);
