@@ -64,10 +64,10 @@ public class AnteNatalActivity extends MenuInheritActivity {
 		
 	}
 	
-	public void onBackPressed(){
-		Intent goToServiceUser = new Intent(AnteNatalActivity.this, ServiceUserActivity.class);
-		startActivity(goToServiceUser);
-		
+	@Override
+	protected void onNewIntent(Intent intent) {
+	    super.onNewIntent(intent);
+	    setIntent(intent);
 	}
 
 	private class AntiNatalOptions implements View.OnClickListener {

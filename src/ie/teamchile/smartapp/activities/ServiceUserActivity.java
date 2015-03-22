@@ -112,13 +112,6 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		userImage.setOnClickListener(new ButtonClick());	
 	}
 	
-	public void onBackPressed(){
-		Intent goToQuickMenu = new Intent(ServiceUserActivity.this, ServiceUserSearchActivity.class);
-		startActivity(goToQuickMenu);
-		
-	}
-
-
 	private class ButtonClick implements View.OnClickListener, DialogInterface {
 		public void onClick(View v) {
 			switch (v.getId()) {
@@ -250,6 +243,13 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		public void dismiss() {
 		}
 	}
+	
+	@Override
+	protected void onNewIntent(Intent intent) {
+	    super.onNewIntent(intent);
+	    setIntent(intent);
+	}
+	
 	public void usrContact() {
 		dialog = new Dialog(ServiceUserActivity.this);
 		dialog.setContentView(R.layout.user_contact_dialog_box);
