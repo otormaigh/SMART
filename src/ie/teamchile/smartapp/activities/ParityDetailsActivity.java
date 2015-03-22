@@ -1,18 +1,14 @@
 package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.R.id;
-import ie.teamchile.smartapp.R.layout;
 import ie.teamchile.smartapp.utility.ServiceUserSingleton;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,27 +87,16 @@ public class ParityDetailsActivity extends MenuInheritActivity {
 		Context context;
 		int position;
 		LayoutInflater layoutInflater;
-		List<String> babyInformation; 
-		List<String>hospitalNumber;
-		List<String> babyGender;
-		List<String> gestation;
-		List<String> weight;
-		List<String> name;
-		List<String> birthMode;
-		List<String> birthOutcome;
-		
+		List<String> babyInformation, hospitalNumber, babyGender, gestation,
+				 	 weight, name, birthMode, birthOutcome; 	
 
 		@Override
 		public void notifyDataSetChanged() {
 			super.notifyDataSetChanged();
 		}
 		public ListElementAdapter(Context context, List<String> name, List<String>hospitalNumber, 
-				List<String>babyInformation, 
-				List<String>babyGender, 
-				List<String>gestation,
-				List<String>weight,
-				List<String>birthMode, 
-				List<String>birthOutcome) {
+				List<String>babyInformation, List<String>babyGender, List<String>gestation,
+				List<String>weight, List<String>birthMode, List<String>birthOutcome) {
 			super();
 			
 			this.context = context;

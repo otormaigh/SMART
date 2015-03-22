@@ -1,7 +1,6 @@
 package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.R.layout;
 import ie.teamchile.smartapp.utility.AppointmentSingleton;
 import android.os.Bundle;
 import android.util.Log;
