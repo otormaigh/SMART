@@ -1,9 +1,6 @@
 package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.R.id;
-import ie.teamchile.smartapp.R.menu;
-import ie.teamchile.smartapp.R.string;
 import ie.teamchile.smartapp.connecttodb.Logout;
 import ie.teamchile.smartapp.utility.AppointmentSingleton;
 import ie.teamchile.smartapp.utility.ServiceProviderSingleton;
@@ -20,7 +17,6 @@ import android.widget.Toast;
 
 public class MenuInheritActivity extends Activity {
     private Logout logout = new Logout();
-    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
