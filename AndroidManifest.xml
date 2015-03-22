@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="15"
+        android:minSdkVersion="16"
         android:targetSdkVersion="22" />
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -49,12 +49,22 @@
             android:label="@string/title_activity_select_time"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activities.ServiceUserSearchActivity"
+            android:label="@string/title_activity_service_user_search"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activities.ServiceUserActivity"
             android:label="@string/title_activity_service_user"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.ServiceUserSearchActivity"
-            android:label="@string/title_activity_service_user_search"
+            android:name=".activities.PostNatalActivity"
+            android:label="@string/title_activity_post_natal"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.AnteNatalActivity"
+            android:label="@string/title_activity_anti_natal"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.ConfirmAppointmentActivity"
@@ -62,7 +72,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.AppointmentCalendarActivity"
-            android:label="@string/title_activity_appointment_calendar" 
+            android:label="@string/title_activity_appointment_calendar"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.ContactDetailsActivity"
@@ -72,13 +82,6 @@
             android:name=".activities.TodayAppointmentActivity"
             android:label="@string/title_activity_today_appointment"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".activities.PostNatalActivity"
-            android:label="@string/title_activity_post_natal"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activities.AnteNatalActivity"
-            android:label="@string/title_activity_anti_natal" />
         <activity
             android:name=".activities.StockNoteActivity"
             android:label="@string/title_activity_stock_note"
