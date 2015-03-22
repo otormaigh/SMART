@@ -1,8 +1,6 @@
 package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.R.id;
-import ie.teamchile.smartapp.R.layout;
 import ie.teamchile.smartapp.utility.ServiceUserSingleton;
 import android.os.Bundle;
 import android.view.View;

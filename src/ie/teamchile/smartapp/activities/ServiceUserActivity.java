@@ -1,17 +1,13 @@
 package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.R.id;
-import ie.teamchile.smartapp.R.layout;
-import ie.teamchile.smartapp.R.string;
 import ie.teamchile.smartapp.utility.ServiceUserSingleton;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
+import java.util.Locale;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -37,12 +33,10 @@ public class ServiceUserActivity extends MenuInheritActivity {
 			kinPhoneCall, kinSendSMS, kinCancel;
 	
 	private ImageView anteNatal, postNatal, userImage;
-	private Date dobAsDate, eddAsDate;
+	private Date dobAsDate;
 	private Intent userCallIntent, userSmsIntent, userEmailIntent,
 			kinCallIntent, kinSmsIntent;
 	private Calendar cal = Calendar.getInstance();
-	private String nameToAnte, ageToAnte, gestationAnti, parityAnte, deliveryDate, bloodGroup, rhesus, ageAnteNatal, obstetricHistory;
-	private double grams;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -300,7 +294,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 	}
 	public int getAge(String dob) {
 		try {
-			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 			dobAsDate = df.parse(dob);
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -331,13 +325,13 @@ public class ServiceUserActivity extends MenuInheritActivity {
 	public String getEstimateDeliveryDate(String edd){
 
 			 // *** note that it's "yyyy-MM-dd hh:mm:ss" not "yyyy-mm-dd hh:mm:ss"  
-	        SimpleDateFormat dt = new SimpleDateFormat("yyyy-mm-dd");
+	        SimpleDateFormat dt = new SimpleDateFormat("yyyy-mm-dd", Locale.getDefault());
 	        Date date;
 	        String ed = null;
 			try{
 				date = dt.parse(edd);
 				// *** same for the format String below
-		        SimpleDateFormat dt1 = new SimpleDateFormat("dd MMMM yyyy");
+		        SimpleDateFormat dt1 = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
 		        ed = dt1.format(date);
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
@@ -349,13 +343,13 @@ public class ServiceUserActivity extends MenuInheritActivity {
 	
 	public String getDeliveryDate(String edd){
 
-       SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+       SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault());
        Date date;
        String dateOfDevelivery = null;
 		try{
 			date = dt.parse(edd);
 			// *** same for the format String below
-	        SimpleDateFormat dt1 = new SimpleDateFormat("dd MMMM yyyy");
+	        SimpleDateFormat dt1 = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
 	        dateOfDevelivery = dt1.format(date);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -370,8 +364,8 @@ public class ServiceUserActivity extends MenuInheritActivity {
 	public String getDeliveryTime(String edd) {
 		String deliveryTime = null;
 		Date date;
-        SimpleDateFormat dti = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-        SimpleDateFormat fd = new SimpleDateFormat("HH:mm a");
+        SimpleDateFormat dti = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault());
+        SimpleDateFormat fd = new SimpleDateFormat("HH:mm a", Locale.getDefault());
   	  try {
   		  date = dti.parse(edd);
   		 
@@ -379,7 +373,6 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		  date = dti.parse(edd);
 		
 	} catch (ParseException e) {
-		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
        return deliveryTime;

@@ -1,8 +1,6 @@
 package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.R.id;
-import ie.teamchile.smartapp.R.layout;
 import ie.teamchile.smartapp.connecttodb.AccessDBTable;
 
 import org.json.JSONArray;
@@ -18,12 +16,8 @@ public class ContactDetailsActivity extends MenuInheritActivity {
 
 	private int arrayPos;
 	private JSONArray query;
-	private Object enteredSearch;
-	private String seconaryNumber;
-	private String primaryNumber;
 	private TextView nameTextView;
 	private AccessDBTable database=new AccessDBTable();
-	private String email;
 	private String name;
 	private JSONObject json;
 	@Override
