@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.ListActivity;
