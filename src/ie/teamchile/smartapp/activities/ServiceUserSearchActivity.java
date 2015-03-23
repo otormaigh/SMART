@@ -34,7 +34,7 @@ import android.widget.Toast;
 public class ServiceUserSearchActivity extends MenuInheritActivity {
 	private EditText searchParams;
 	private Spinner searchOption;
-	private Button search, searchResult1, searchResult2, searchResult3;
+	private Button search;
 	private String enteredSearch;
 	private ArrayList<String> searchResults = new ArrayList<String>();
 	Connection c;
@@ -49,14 +49,15 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 	private JSONObject jsonNew;
 	private AccessDBTable db = new AccessDBTable();
 	private ListView list;
-	ArrayAdapter<String> adapter;
-	ArrayAdapter<CharSequence> searchAdapter;
+	private ArrayAdapter<String> adapter;
+	private ArrayAdapter<CharSequence> searchAdapter;
 	private List<String> hospitalNumberList = new ArrayList<String>();
 	private String searchUrl = "";
 	private String name;
 	private String option1 = "service_users?name=";
 	private String option2 = "service_users?hospital_number=";
 	private String option3 = "service_users?dob=";
+	private InputMethodManager inputMgr;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -68,16 +69,15 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 
 		search = (Button) findViewById(R.id.search);
 		search.setOnClickListener(new ButtonClick());
-		searchAdapter = ArrayAdapter.createFromResource(this,
-				R.array.patient_search_options,
-				android.R.layout.simple_spinner_item);
+		searchAdapter = ArrayAdapter.createFromResource(this, R.array.patient_search_options, R.layout.spinner_layout);
 		searchAdapter.setDropDownViewResource(R.layout.spinner_layout);
-		searchOption
-				.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
+		searchOption.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
 		searchOption.setAdapter(searchAdapter);
 
 		list = (ListView) findViewById(R.id.search_results_list);
 		list.setOnItemClickListener(new onItemListener());
+		
+		inputMgr = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 	}
 
 	private void createResultList(ArrayList<String> searchResults) {
@@ -163,15 +163,11 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 
 			case R.id.search:
 				Log.d("MYLOG", "Search Button Pressed");
+				inputMgr.hideSoftInputFromWindow(searchParams.getWindowToken(), 0);
+				list.setAdapter(null);
 				enteredSearch = searchParams.getText().toString();
 				new LongOperation(ServiceUserSearchActivity.this)
 						.execute(searchUrl + enteredSearch);
-				break;
-			case R.id.search_result_button:
-				Log.d("MYLOG", "First Result Button Pressed");
-				Intent intent = new Intent(ServiceUserSearchActivity.this,
-						ServiceUserActivity.class);
-				startActivity(intent);
 				break;
 			}
 		}
@@ -220,6 +216,7 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 				startActivity(intent);
 			} else {
 				searchResults.clear();
+				searchAdapter.notifyDataSetChanged();
 				hospitalNumberList.clear();
 				if (ServiceUserSingleton.getInstance().getUserName().size() != 0) {
 					for (int i = 0; i < ServiceUserSingleton.getInstance()
