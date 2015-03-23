@@ -106,6 +106,12 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		userImage.setOnClickListener(new ButtonClick());	
 	}
 	
+	@Override
+	protected void onNewIntent(Intent intent) {
+	    super.onNewIntent(intent);
+	    setIntent(intent);
+	}
+	
 	private class ButtonClick implements View.OnClickListener, DialogInterface {
 		public void onClick(View v) {
 			switch (v.getId()) {
@@ -127,6 +133,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 				prefs.putString("id", ServiceUserSingleton.getInstance().getUserID().get(0));
 				prefs.putBoolean("reuse", true);
 				prefs.commit();
+				
 				Intent intent3 = new Intent(ServiceUserActivity.this, AppointmentTypeSpinnerActivity.class);
 				startActivity(intent3);
 				break;
@@ -238,12 +245,6 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		}
 	}
 	
-	@Override
-	protected void onNewIntent(Intent intent) {
-	    super.onNewIntent(intent);
-	    setIntent(intent);
-	}
-	
 	public void usrContact() {
 		dialog = new Dialog(ServiceUserActivity.this);
 		dialog.setContentView(R.layout.user_contact_dialog_box);
@@ -323,26 +324,23 @@ public class ServiceUserActivity extends MenuInheritActivity {
 	}
 	
 	public String getEstimateDeliveryDate(String edd){
-
-			 // *** note that it's "yyyy-MM-dd hh:mm:ss" not "yyyy-mm-dd hh:mm:ss"  
-	        SimpleDateFormat dt = new SimpleDateFormat("yyyy-mm-dd", Locale.getDefault());
-	        Date date;
-	        String ed = null;
-			try{
-				date = dt.parse(edd);
-				// *** same for the format String below
-		        SimpleDateFormat dt1 = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
-		        ed = dt1.format(date);
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-		    return ed;
+		 // *** note that it's "yyyy-MM-dd hh:mm:ss" not "yyyy-mm-dd hh:mm:ss"  
+        SimpleDateFormat dt = new SimpleDateFormat("yyyy-mm-dd", Locale.getDefault());
+        Date date;
+        String ed = null;
+		try{
+			date = dt.parse(edd);
+			// *** same for the format String below
+	        SimpleDateFormat dt1 = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
+	        ed = dt1.format(date);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    return ed;
 	}
 	
 	public String getDeliveryDate(String edd){
-
        SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault());
        Date date;
        String dateOfDevelivery = null;
@@ -357,9 +355,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		}
 
 	    return dateOfDevelivery;
-	}
-	
-	
+	}	
 	
 	public String getDeliveryTime(String edd) {
 		String deliveryTime = null;

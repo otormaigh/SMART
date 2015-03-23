@@ -70,18 +70,17 @@ public class ParityDetailsActivity extends MenuInheritActivity {
 		
 	}
 	
+	@Override
+	protected void onNewIntent(Intent intent) {
+	    super.onNewIntent(intent);
+	    setIntent(intent);
+	}
+	
     public String getGramsToKg(int grams){
     	double kg = 0.0;
     	kg = grams/1000.0;
     	return String.valueOf(kg);
     }
-    
-	public void onBackPressed(){
-		Intent goToServiceUser = new Intent(ParityDetailsActivity.this, ServiceUserActivity.class);
-		startActivity(goToServiceUser);
-		
-	}
-
 	
 	private class ListElementAdapter extends BaseAdapter {
 		Context context;
