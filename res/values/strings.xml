@@ -107,9 +107,11 @@
 
     <!-- SERVICE USER SEARCH -->
     <string name="ssr_title">Search by the service user\'s hospital number,
-        					 name and/or date of birth (@dd/mm/yyyy) \n
-        					 You can combine search terms in one line if you like. \n
+        					 name and/or date of birth (@dd/mm/yyyy)\n
+        					 You can combine search terms in one line if you like.\n
         					 Example: Mary Murphy @17/06/1976</string>
+	<string name="service_user_search_hint">From the drop down menu below, select the
+	    									type of query you would like to make.</string>	        					 
     <string name="enter_search">Enter Search Parameters</string>
     <string name="search_result">Search Results</string>
     <string name="btn_search">Search</string>
