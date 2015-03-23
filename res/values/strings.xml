@@ -16,7 +16,7 @@
     <string name="title_activity_today_appointment">Today Appointment</string>
     <string name="title_activity_contact_details">Contact Details</string>
     <string name="title_activity_post_natal">Post Natal</string>
-    <string name="title_activity_anti_natal">Anti Natal</string>
+    <string name="title_activity_anti_natal">Ante Natal</string>
     <string name="title_activity_stock_note">StockNote</string>
     <string name="title_activity_create_appointment">Create Appointment Activity</string>
    	<string name="title_activity_parity_details">Parity_details</string>
@@ -203,5 +203,5 @@
         <item>Ante-Natal</item>
         <item>Post-Natal</item>
  	</string-array>
- 	<string name="confirm_appointment">Confirm Appointment</string>
+ 	<string name="confirm_appointment">Book Appointment</string>
 </resources>
