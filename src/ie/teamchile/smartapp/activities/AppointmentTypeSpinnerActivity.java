@@ -157,6 +157,7 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
                             appointmentCalendar.setVisibility(View.GONE);
                             break;
                         case 1:     //Clinic
+                        	visitOptionSpinner.setVisibility(View.GONE);
                             serviceOptionSpinner.setVisibility(View.VISIBLE);
                             serviceOptionSpinner.setSelection(0);
                             break;
