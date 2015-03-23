@@ -67,6 +67,11 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activities.ParityDetailsActivity"
+            android:label="@string/title_activity_parity_details"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activities.ConfirmAppointmentActivity"
             android:label="@string/title_activity_confirm_appointment"
             android:screenOrientation="portrait" />
@@ -89,10 +94,6 @@
         <activity
             android:name=".activities.ObstreticHistoryActivity"
             android:label="@string/title_activity_obstretic_history"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activities.ParityDetailsActivity"
-            android:label="@string/title_activity_parity_details"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.CreateAppointmentActivityyDetailsActivity"
