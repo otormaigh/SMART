@@ -12,7 +12,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1.0"
-        android:orientation="vertical">
+        android:orientation="vertical" >
 
         <ImageView
             android:id="@+id/imageView"
@@ -88,6 +88,7 @@
             android:layout_weight="1.0"
             android:hint="@string/username"
             android:inputType="text"
+            android:textColor="@color/black"
             android:maxLines="1" />
 
         <EditText
@@ -100,6 +101,7 @@
             android:layout_weight="1.0"
             android:hint="@string/password"
             android:inputType="textPassword"
+            android:textColor="@color/black"
             android:maxLines="1" />
 
         <Button
