@@ -2,10 +2,15 @@ package ie.teamchile.smartapp.utility;
 
 import ie.teamchile.smartapp.connecttodb.AccessDBTable;
 
+import java.util.Date;
+import java.text.Format;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Locale;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -84,6 +89,8 @@ public class AppointmentSingleton {
 	private JSONArray query;
 	private JSONObject json;
 	private ProgressDialog pd;
+	private SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm:ss",Locale.getDefault());
+	private SimpleDateFormat sdfHHmm = new SimpleDateFormat("HH:mm:",Locale.getDefault());
 	
 	private AppointmentSingleton() {
 	}
@@ -407,14 +414,36 @@ public class AppointmentSingleton {
 	
 	public String getTime(String id){
 		JSONObject json = idHash.get(id);
-		return help.jsonParseHelper(json, "appointments", "time");
+		Date date = null;
+		String timefromdb;
+		String timeHHmm = null;
+		try {
+			timefromdb = help.jsonParseHelper(json, "appointments", "time");
+			date = sdfTime.parse(timefromdb);
+			timeHHmm = sdfHHmm.format(date);
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		return timeHHmm;
 	}
 	
 	public ArrayList<String> getTime(ArrayList<String> idList){
 		ArrayList<String> time = new ArrayList<String>();
+		Date date = null;
+		String timefromdb;
+		String timeHHmm = null;
 		for(int i = 0; i < idList.size(); i++ ){
 			JSONObject json = idHash.get(idList.get(i));
-			time.add(help.jsonParseHelper(json, "appointments", "time"));
+			try {
+				timefromdb = help.jsonParseHelper(json, "appointments", "time");
+				date = sdfTime.parse(timefromdb);
+				timeHHmm = sdfHHmm.format(date);
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			time.add(timeHHmm);
 		}
 		return time;
 	}
