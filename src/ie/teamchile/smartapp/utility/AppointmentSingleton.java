@@ -90,7 +90,7 @@ public class AppointmentSingleton {
 	private JSONObject json;
 	private ProgressDialog pd;
 	private SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm:ss",Locale.getDefault());
-	private SimpleDateFormat sdfHHmm = new SimpleDateFormat("HH:mm:",Locale.getDefault());
+	private SimpleDateFormat sdfHHmm = new SimpleDateFormat("HH:mm",Locale.getDefault());
 	
 	private AppointmentSingleton() {
 	}
