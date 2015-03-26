@@ -18,7 +18,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
 
 public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
@@ -253,5 +252,4 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
 		c.set(Calendar.DAY_OF_WEEK, dayAsInt);
 		daySelected = c.getTime();
     }
-
 }
