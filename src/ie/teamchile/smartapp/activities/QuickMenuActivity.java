@@ -40,7 +40,10 @@ public class QuickMenuActivity extends MenuInheritActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quick_menu);
         
-        if(AppointmentSingleton.getInstance() != null){
+        getActionBar().setDisplayHomeAsUpEnabled(false);
+        
+        Log.d("bugs", "updated: " + AppointmentSingleton.getInstance().getUpdated());
+        if(!AppointmentSingleton.getInstance().getUpdated()){
         	new updateLocal().execute("appointments", "clinics", "service_options");        	
         }
         
@@ -55,6 +58,12 @@ public class QuickMenuActivity extends MenuInheritActivity {
         isViewVisible = true;
     }
     
+	@Override
+	protected void onNewIntent(Intent intent) {
+	    super.onNewIntent(intent);
+	    setIntent(intent);
+	}
+	
     private class ButtonClick implements View.OnClickListener {
         public void onClick(View v) {
             switch (v.getId()) {
