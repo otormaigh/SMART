@@ -75,6 +75,7 @@ import android.util.Log;
  */
 
 public class AppointmentSingleton {
+	private boolean updated;
 	private static AppointmentSingleton singleInstance;
 	private HashMap<String, HashMap<String, ArrayList<String>>> clinicIDHash;
 	private HashMap<String, JSONObject> idHash;
@@ -95,7 +96,12 @@ public class AppointmentSingleton {
 		return singleInstance;
 	}
 	
+	public boolean getUpdated(){
+		return updated;
+	}
+	
 	public void updateLocal(Context context){
+		updated = true;
 		new LongOperation(context).execute("appointments");
 	}
 	
