@@ -27,6 +27,7 @@ public class ObstreticHistoryActivity extends MenuInheritActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list_layout);
+		
 		enter = (Button) findViewById(R.id.button1);
 		edit = (EditText) findViewById(R.id.editField);
 		name = (TextView) findViewById(R.id.obs_name);
