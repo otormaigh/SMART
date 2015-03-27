@@ -207,7 +207,7 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 					+ ServiceUserSingleton.getInstance().getUserName());
 
 			/*
-			 * if result from database is empty (chcek if null) toast to say no
+			 * if result from database is empty (check if null) toast to say no
 			 * query found if not empty do getSinglton.getName set this to
 			 * button text
 			 */
