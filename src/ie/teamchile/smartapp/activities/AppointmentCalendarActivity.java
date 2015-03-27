@@ -240,7 +240,6 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 						gestSingle.add(i + 1, "----------");
 						listOfId.add(i + 1, "0");
 					}
-
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
@@ -332,8 +331,10 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 					timeAfter = AppointmentSingleton.getInstance().getTime(listOfId.get(position + 1));
 				} 
 				else if(listOfId.size() > 0 && position == listOfId.size() - 1){
-					timeBefore = AppointmentSingleton.getInstance().getTime(listOfId.get(position - 1));	
-					timeAfter = clinicClosing;
+					timeBefore = AppointmentSingleton.getInstance().getTime(listOfId.get(position - 1));
+					myCalendar.setTime(closingAsDate);
+					myCalendar.add(Calendar.MINUTE, + appointmentInterval);
+					timeAfter = dfTimeOnly.format(myCalendar.getTime());
 				} 
 				else if(listOfId.size() > 0 && listOfId.get(position - 1) != null && listOfId.get(position + 1) != null){
 					timeBefore = AppointmentSingleton.getInstance().getTime(listOfId.get(position - 1));
