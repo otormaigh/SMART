@@ -1,19 +1,13 @@
 package ie.teamchile.smartapp.connecttodb;
 
-import ie.teamchile.smartapp.utility.AppointmentSingleton;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import android.util.Log;
 
 public class SetDateToHashMap {
 	private ArrayList<JSONObject> jsonValues = new ArrayList<JSONObject>();

@@ -1,8 +1,6 @@
 package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.R.id;
-import ie.teamchile.smartapp.R.layout;
 import ie.teamchile.smartapp.connecttodb.AccessDBTable;
 import ie.teamchile.smartapp.utility.AppointmentSingleton;
 import ie.teamchile.smartapp.utility.ClinicSingleton;

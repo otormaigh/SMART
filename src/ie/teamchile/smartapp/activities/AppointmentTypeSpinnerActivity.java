@@ -1,9 +1,6 @@
 package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.R.array;
-import ie.teamchile.smartapp.R.id;
-import ie.teamchile.smartapp.R.layout;
 import ie.teamchile.smartapp.utility.ClinicSingleton;
 import ie.teamchile.smartapp.utility.ServiceOptionSingleton;
 
@@ -133,7 +130,7 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
 	
 	private void setDaySpinner(List<String> days){
 		for(int i = 0; i < days.size(); i++){
-			String thing = Character.toString(days.get(i).charAt(0)).toUpperCase() + days.get(i).substring(1);
+			String thing = Character.toString(days.get(i).charAt(0)).toUpperCase(Locale.getDefault()) + days.get(i).substring(1);
 			days.set(i, thing);
 		}
 		days.add(0, "Select Day");
@@ -160,6 +157,7 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
                             appointmentCalendar.setVisibility(View.GONE);
                             break;
                         case 1:     //Clinic
+                        	visitOptionSpinner.setVisibility(View.GONE);
                             serviceOptionSpinner.setVisibility(View.VISIBLE);
                             serviceOptionSpinner.setSelection(0);
                             break;

@@ -4,7 +4,6 @@ import ie.teamchile.smartapp.connecttodb.AccessDBTable;
 
 import java.util.List;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.os.AsyncTask;
