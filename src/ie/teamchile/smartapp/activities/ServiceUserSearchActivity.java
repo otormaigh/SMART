@@ -245,7 +245,9 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 								.getUserName().get(i);
 						String hospitalNumber = ServiceUserSingleton
 								.getInstance().getUserHospitalNumber().get(i);
-						searchResults.add(name + " - " + hospitalNumber);
+						String dob =  ServiceUserSingleton.getInstance()
+								.getUserDOB().get(i);
+						searchResults.add(name + " - " + hospitalNumber + " - " + dob);
 						hospitalNumberList.add(hospitalNumber);
 						Log.d("bugs", "searchResults: " + searchResults);
 					}
