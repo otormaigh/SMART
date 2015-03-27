@@ -1,8 +1,6 @@
 package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.R.id;
-import ie.teamchile.smartapp.R.layout;
 import ie.teamchile.smartapp.connecttodb.AccessDBTable;
 import ie.teamchile.smartapp.utility.AppointmentSingleton;
 import ie.teamchile.smartapp.utility.ClinicSingleton;
@@ -48,8 +46,8 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 	private int appointmentInterval, dayOfWeek;
 	private DateFormat dfDateOnly = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 	private DateFormat dfTimeOnly = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+	private DateFormat dfHHmm = new SimpleDateFormat("HH:mm", Locale.getDefault());
 	private DateFormat dfDateWithMonthName = new SimpleDateFormat("dd MMM", Locale.getDefault());
-	private DateFormat dfDateWithMonthNameAndYear = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
 	private ArrayList<String> timeSingle, gestSingle, nameSingle;	
 	private ArrayList<String> listOfId = new ArrayList<String>();
 	private Calendar c = Calendar.getInstance(), myCalendar = Calendar.getInstance();

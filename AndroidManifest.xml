@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="15"
+        android:minSdkVersion="16"
         android:targetSdkVersion="22" />
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -28,7 +28,6 @@
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -49,12 +48,27 @@
             android:label="@string/title_activity_select_time"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activities.ServiceUserSearchActivity"
+            android:label="@string/title_activity_service_user_search"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activities.ServiceUserActivity"
             android:label="@string/title_activity_service_user"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.ServiceUserSearchActivity"
-            android:label="@string/title_activity_service_user_search"
+            android:name=".activities.PostNatalActivity"
+            android:label="@string/title_activity_post_natal"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.AnteNatalActivity"
+            android:label="@string/title_activity_anti_natal"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.ParityDetailsActivity"
+            android:label="@string/title_activity_parity_details"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.ConfirmAppointmentActivity"
@@ -62,7 +76,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.AppointmentCalendarActivity"
-            android:label="@string/title_activity_appointment_calendar" 
+            android:label="@string/title_activity_appointment_calendar"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.ContactDetailsActivity"
@@ -73,23 +87,12 @@
             android:label="@string/title_activity_today_appointment"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.PostNatalActivity"
-            android:label="@string/title_activity_post_natal"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activities.AnteNatalActivity"
-            android:label="@string/title_activity_anti_natal" />
-        <activity
             android:name=".activities.StockNoteActivity"
             android:label="@string/title_activity_stock_note"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.ObstreticHistoryActivity"
             android:label="@string/title_activity_obstretic_history"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activities.ParityDetailsActivity"
-            android:label="@string/title_activity_parity_details"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.CreateAppointmentActivityyDetailsActivity"
@@ -100,5 +103,4 @@
             android:label="@string/title_activity_create_appointment"
             android:screenOrientation="portrait" />
     </application>
-
 </manifest>

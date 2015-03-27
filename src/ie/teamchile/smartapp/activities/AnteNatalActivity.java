@@ -1,8 +1,6 @@
 package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.R.id;
-import ie.teamchile.smartapp.R.layout;
 import ie.teamchile.smartapp.utility.ServiceUserSingleton;
 import android.content.Intent;
 import android.os.Bundle;
@@ -64,10 +62,10 @@ public class AnteNatalActivity extends MenuInheritActivity {
 		
 	}
 	
-	public void onBackPressed(){
-		Intent goToServiceUser = new Intent(AnteNatalActivity.this, ServiceUserActivity.class);
-		startActivity(goToServiceUser);
-		
+	@Override
+	protected void onNewIntent(Intent intent) {
+	    super.onNewIntent(intent);
+	    setIntent(intent);
 	}
 
 	private class AntiNatalOptions implements View.OnClickListener {
