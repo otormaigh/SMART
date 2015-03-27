@@ -12,33 +12,30 @@
         android:paddingTop="@dimen/padding_medium"
         android:text="@string/service_user_search_hint"
         android:textSize="@dimen/text_small" />
-    
-	<Spinner
-	    android:id="@+id/search_option"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:hint="@string/enter_search" />
-    
-	<LinearLayout
-        android:layout_width="fill_parent"
+
+    <EditText
+        android:id="@+id/search_name"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="1.0" >
+        android:hint="Enter Name" />
 
-        <EditText
-            android:id="@+id/search_params"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.85"
-            android:hint="@string/enter_search"/>
+    <EditText
+        android:id="@+id/search_hospital_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Hospital Number" />
 
-        <Button
-            android:id="@+id/search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.15"
-            android:text="@string/btn_search" />
-    </LinearLayout>    
+    <EditText
+        android:id="@+id/search_dob"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter DOB" />
+
+    <Button
+        android:id="@+id/search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_search" />
 
     <TextView
         android:layout_width="fill_parent"
@@ -50,4 +47,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
     </ListView>
+
 </LinearLayout>

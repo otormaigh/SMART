@@ -6,6 +6,7 @@
     <!-- ACTIVITY TITLES -->
     <string name="title_activity_select_time">Select Time</string>
     <string name="title_activity_service_user">Service User</string>
+    <string name="title_activity_service_user_search">Service User Search</string>
     <string name="title_activity_db_info">DB Info</string>
     <string name="title_activity_http_client">Http Client</string>
     <string name="title_activity_appointment_type_spinner">Appointment Type Spinner</string>
@@ -101,7 +102,6 @@
     <string name="address">Address</string>
     <string name="next_of_kin">Next-of-kin</string>
     <string name="book_appointment">Book Appointment</string>
-    <string name="title_activity_service_user_search">Service User Search Activity</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
