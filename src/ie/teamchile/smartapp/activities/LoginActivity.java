@@ -2,8 +2,6 @@
 package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.R.id;
-import ie.teamchile.smartapp.R.layout;
 import ie.teamchile.smartapp.connecttodb.GetToken;
 import ie.teamchile.smartapp.utility.ServiceProviderSingleton;
 import ie.teamchile.smartapp.utility.ToastAlert;
@@ -11,12 +9,10 @@ import ie.teamchile.smartapp.utility.ToastAlert;
 import java.util.Calendar;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -29,7 +25,6 @@ public class LoginActivity extends Activity {
 	private TextView usernameTextView, passwordTextView, about;
 	private GetToken getToken = new GetToken();
 	private Intent intent;
-	private ProgressDialog pd;
 	private ToastAlert ta;
 	private Calendar cal = Calendar.getInstance();
 	//private ConnectivityTester testConn = new ConnectivityTester(this);

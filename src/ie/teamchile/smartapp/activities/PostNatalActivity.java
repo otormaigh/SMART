@@ -1,14 +1,11 @@
 package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.R.id;
-import ie.teamchile.smartapp.R.layout;
 import ie.teamchile.smartapp.utility.ServiceUserSingleton;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,7 +22,8 @@ public class PostNatalActivity extends MenuInheritActivity {
 	ServiceUserActivity ab = new ServiceUserActivity();
 	Date dateOfDelivery = null;
 	Date currentDate = null;
-	private String F, M;
+	private String sex_male = "ale";
+	private String sex_female = "emale";
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -57,7 +55,12 @@ public class PostNatalActivity extends MenuInheritActivity {
 		// need to search by baby id in pregnancy and get info based on baby id
 		
 		String genderStr = ServiceUserSingleton.getInstance().getBabyGender().get(0);
-		sex_of_baby.setText(genderStr);
+		if(genderStr.equalsIgnoreCase("M")){
+			sex_of_baby.setText(genderStr+sex_male);
+		}
+		else{
+			sex_of_baby.setText(genderStr+sex_female);
+		}
 
 		String weightStr = ServiceUserSingleton.getInstance().getBabyWeight().get(0);
 		double grams =  Double.parseDouble(weightStr);
@@ -114,5 +117,11 @@ public class PostNatalActivity extends MenuInheritActivity {
 				startActivity(intent2);
 			}
 		}
+	}
+	
+	@Override
+	protected void onNewIntent(Intent intent) {
+	    super.onNewIntent(intent);
+	    setIntent(intent);
 	}
 }
