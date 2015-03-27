@@ -64,6 +64,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appointment_calendar);
+        
         listView = (ListView)findViewById(R.id.list);
         clinicName = (TextView)findViewById(R.id.clinic_name);
         dateInList = (Button)findViewById(R.id.date_button);

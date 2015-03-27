@@ -28,6 +28,7 @@ public class PostNatalActivity extends MenuInheritActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_post_natal);
+		
 	    name = (TextView)findViewById(R.id.name_post_natal);
 		userImage = (ImageView)findViewById(R.id.user_image_post_natal);
 		userImage.setOnClickListener(new postNatalOptions());
