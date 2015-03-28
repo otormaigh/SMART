@@ -13,7 +13,6 @@ public class AnteNatalActivity extends MenuInheritActivity {
 	private TextView ageAnte;
 	private TextView nameAntiNatal, gestationAntiNatal, parityAntiNatal
 	                ,deliveryTime, bloodGroup, rhesus;
-	private ImageView userImage, postNatal;
 	private TableRow obstetricHistory, parity;
 
 
@@ -21,17 +20,10 @@ public class AnteNatalActivity extends MenuInheritActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_ante_natal);
-		
-		userImage = (ImageView)findViewById(R.id.user_image_anti_natal);
-		userImage.setOnClickListener(new AntiNatalOptions());
-		
-		postNatal = (ImageView)findViewById(R.id.post_natal_from_ante_natal);
-		postNatal.setOnClickListener(new AntiNatalOptions());
         parity = (TableRow)findViewById(R.id.button_parity);
         parity.setOnClickListener(new AntiNatalOptions());
 		
 		ageAnte = (TextView)findViewById(R.id.age_ante_natal);
-		nameAntiNatal = (TextView)findViewById(R.id.name_anti_natal);
 		gestationAntiNatal = (TextView)findViewById(R.id.gestation);
 		parityAntiNatal = (TextView)findViewById(R.id.parity_ante_natal);
 		deliveryTime = (TextView)findViewById(R.id.deliveryTime);
@@ -71,14 +63,6 @@ public class AnteNatalActivity extends MenuInheritActivity {
 	private class AntiNatalOptions implements View.OnClickListener {
 		public void onClick(View v) {
 			switch (v.getId()) {
-			case R.id.user_image_anti_natal:
-				Intent intent = new Intent(AnteNatalActivity.this, ServiceUserActivity.class);
-				startActivity(intent);
-				break;
-			case R.id.post_natal_from_ante_natal:
-				Intent intent1 = new Intent(AnteNatalActivity.this, PostNatalActivity.class);
-				startActivity(intent1);
-				break;
 			case R.id.obstretic_history:
 				Intent intent2 = new Intent(AnteNatalActivity.this, ObstreticHistoryActivity.class);
 				startActivity(intent2);
