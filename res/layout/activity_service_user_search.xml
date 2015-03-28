@@ -6,30 +6,27 @@
     android:orientation="vertical"
     tools:context="${relativePackage}.${activityClass}" >
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/padding_medium"
-        android:text="@string/service_user_search_hint"
-        android:textSize="@dimen/text_small" />
-
     <EditText
         android:id="@+id/search_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter Name" />
+        android:paddingTop="@dimen/padding_medium"
+        android:singleLine="true"
+        android:hint="@string/enter_name" />
 
     <EditText
         android:id="@+id/search_hospital_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter Hospital Number" />
+        android:singleLine="true"
+        android:hint="@string/enter_hospital_number" />
 
     <EditText
         android:id="@+id/search_dob"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter DOB" />
+        android:singleLine="true"
+        android:hint="@string/enter_dob" />
 
     <Button
         android:id="@+id/search"
