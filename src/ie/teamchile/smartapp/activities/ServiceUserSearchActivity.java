@@ -26,7 +26,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 public class ServiceUserSearchActivity extends MenuInheritActivity {
-	private EditText searchName, searchHospitalNumber, searchDOB;
+	private EditText searchName, searchHospitalNumber, 
+					 searchDOBDay, searchDOBMonth, searchDOBYear;
 	private Button search;
 	private ArrayList<String> searchResults = new ArrayList<String>();
 	private JSONObject json;
@@ -44,7 +45,9 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 
 		searchName = (EditText) findViewById(R.id.search_name);
 		searchHospitalNumber = (EditText) findViewById(R.id.search_hospital_number);
-		searchDOB = (EditText) findViewById(R.id.search_dob);
+		searchDOBDay = (EditText) findViewById(R.id.search_dob_day);
+		searchDOBMonth = (EditText) findViewById(R.id.search_dob_month);
+		searchDOBYear = (EditText) findViewById(R.id.search_dob_year);
 
 		search = (Button) findViewById(R.id.search);
 		search.setOnClickListener(new ButtonClick());
@@ -77,16 +80,28 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 				Log.d("MYLOG", "Search Button Pressed");
 				
 				String asyncQuery = "";
+				String dob = "";
 				
 				///service_users?name=nore%20saturn&hospital_number=T14234388"
 				
 				if(searchName.getText().toString().length() > 0 ||
 				   searchHospitalNumber.getText().toString().length() > 0 ||
-				   searchDOB.getText().toString().length() > 0){
+				   searchDOBDay.getText().toString().length() > 0 &&
+				   searchDOBMonth.getText().toString().length() > 0 &&
+				   searchDOBYear.getText().toString().length() > 0){
+					
+					if(searchDOBDay.getText().toString().length() > 0 &&
+				       searchDOBMonth.getText().toString().length() > 0 &&
+				       searchDOBYear.getText().toString().length() > 0){
+						
+						dob = searchDOBYear.getText() + "-" +
+							  searchDOBMonth.getText() + "-" + 
+							  searchDOBDay.getText();
+					}
 					
 					asyncQuery = "?name=" + searchName.getText() + 
 								 "&hospital_number=" + searchHospitalNumber.getText() + 
-								 "&dob=" + searchDOB.getText();
+								 "&dob=" + dob;
 					
 					asyncQuery = asyncQuery.replaceAll("\\s","%20");
 					
