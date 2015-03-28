@@ -29,11 +29,6 @@ public class PostNatalActivity extends MenuInheritActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_post_natal);
 		
-	    name = (TextView)findViewById(R.id.name_post_natal);
-		userImage = (ImageView)findViewById(R.id.user_image_post_natal);
-		userImage.setOnClickListener(new postNatalOptions());
-		anteNatal = (ImageView)findViewById(R.id.ante_natal_from_post_natal);
-		anteNatal.setOnClickListener(new postNatalOptions());
 		birth_mode = (TextView)findViewById(R.id.birth_mode);
 		perineum = (TextView)findViewById(R.id.perineum);
 		anti_d = (TextView)findViewById(R.id.anti_d);
@@ -104,20 +99,6 @@ public class PostNatalActivity extends MenuInheritActivity {
 		int days = ab.getNoOfDays(currentDate, dateOfDelivery);
 		String noOfDays  = String.valueOf(days);
 		daysSinceBirth.setText(noOfDays);
-	}
-	
-	private class postNatalOptions implements View.OnClickListener{
-		public void onClick(View v){
-			switch (v.getId()){
-			case R.id.user_image_post_natal:
-				Intent intent = new Intent(PostNatalActivity.this, ServiceUserActivity.class);
-				startActivity(intent);
-				break;
-			case R.id.ante_natal_from_post_natal:
-				Intent intent2 = new Intent(PostNatalActivity.this, AnteNatalActivity.class);
-				startActivity(intent2);
-			}
-		}
 	}
 	
 	@Override
