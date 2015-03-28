@@ -1,6 +1,10 @@
 package ie.teamchile.smartapp.utility;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -45,6 +49,8 @@ import android.util.Log;
 
 public class ClinicSingleton {	
 	private static ClinicSingleton singleInstance;
+	private DateFormat sdfTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+	private DateFormat sdfHHmm = new SimpleDateFormat("HH:mm", Locale.getDefault());
 	private HashMap<String, JSONObject> idHash;
 	private ArrayList<JSONObject> jsonValues;
 	private JsonParseHelper help = new JsonParseHelper();
@@ -131,7 +137,7 @@ public class ClinicSingleton {
 
 	public String getClosingTime(String id){
 		JSONObject json = idHash.get(id);
-		return help.jsonParseHelper(json, "clinics", "closing_time");
+		return removeSeconds(help.jsonParseHelper(json, "clinics", "closing_time"));
 	}
 	
 	public List<String> getDays(String id){
@@ -189,7 +195,7 @@ public class ClinicSingleton {
 	
 	public String getOpeningTime(String id){
 		JSONObject json = idHash.get(id);
-		return help.jsonParseHelper(json, "clinics", "opening_time");
+		return removeSeconds(help.jsonParseHelper(json, "clinics", "opening_time"));
 	}
 	
 	public String getRecurrence(String id){
@@ -205,5 +211,15 @@ public class ClinicSingleton {
 	public String getClinicType(String id){
 		JSONObject json = idHash.get(id);
 		return help.jsonParseHelper(json, "clinics", "type");
+	}
+	
+	public String removeSeconds(String time){
+		Date oldTime = null;
+		try {
+			oldTime = sdfTime.parse(time);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return sdfHHmm.format(oldTime);
 	}
 }
