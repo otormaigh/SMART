@@ -3,6 +3,7 @@ package ie.teamchile.smartapp.activities;
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.utility.ServiceUserSingleton;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -19,7 +20,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TableRow;
 import android.widget.TabHost.TabSpec;
@@ -27,29 +27,35 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class ServiceUserActivity extends MenuInheritActivity {
-	private TextView hospitalNumber, ageServiceUser, email, mobileNumber, road,
-			county, postCode, nextOfKinName, nextOfKinContactNumber, gestation, parity;
-	private String dob, userCall, userSMS, userEmail, kinCall, kinSMS;
+	private TextView anteAge, anteGestation, anteParity, anteDeliveryTime, anteBloodGroup, anteRhesus;
+	private TextView contactHospitalNumber, contactEmail, contactMobileNumber, contactRoad,
+					 contactCounty, contactPostCode, contactNextOfKinName, contactAge, 
+					 contactNextOfKinContactNumber, contactGestation, contactParity;
+	private TextView postBirthMode, postPerineum, postAntiD, postDeliveryDate, postDeliveryTime,
+					 postDaysSinceBirth, postBabyGender, postBirthWeight, postVitK, postHearing, 
+					 postFeeding, postNBST;
+	
+	private String dob, age, hospitalNumber, email, mobile, userName, kinName,  
+				   kinMobile, road, county, postCode, gestation, parity, estimtedDelivery,
+				   perineum, birthMode, babyGender, babyWeightGrams, babyWeightKg, 
+				   vitK, hearing, antiD, feeding, nbst, deliveryDateTime, daysSinceBirth,
+				   userCall, userSMS, userEmail, kinCall, kinSMS;
+	private double grams;
+	private String sex_male = "ale";
+	private String sex_female = "emale";
 	private Dialog dialog;
 	private Button bookAppointmentButton, userContact, next_of_kin_contact,
-			userPhoneCall, userSendSMS, userSendEmail, userCancel, userAddress,
-			kinPhoneCall, kinSendSMS, kinCancel;
-	private Date dobAsDate;
+				   userPhoneCall, userSendSMS, userSendEmail, userCancel, userAddress,
+				   kinPhoneCall, kinSendSMS, kinCancel;
+	private TableRow obstetricHistory, tableParity;
+	private DateFormat sdfDateTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault());
+	private DateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+	private DateFormat sdfMonthFullName = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
+	private DateFormat sdfAMPM = new SimpleDateFormat("HH:mm a", Locale.getDefault());
+	private Date dateOfDelivery = null, currentDate = null, dobAsDate;
 	private Intent userCallIntent, userSmsIntent, userEmailIntent,
 			kinCallIntent, kinSmsIntent;
 	private Calendar cal = Calendar.getInstance();
-	private TextView ageAnte;
-	private TextView gestationAntiNatal, parityAntiNatal
-	                ,deliveryTime, bloodGroup, rhesus;
-	private TableRow obstetricHistory, tableParity;
-	private TextView birth_mode, perineum, anti_d, deliveryDate, postDeliveryTime, daysSinceBirth, sex_of_baby, 
-    birth_weight, vitK, hearing, feeding, nbst;
-	private ImageView userImage, anteNatal;
-	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-	Date dateOfDelivery = null;
-	Date currentDate = null;
-	private String sex_male = "ale";
-	private String sex_female = "emale";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +63,6 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		setContentView(R.layout.activity_user_search_tabhost);
 		
 		TabHost tabHost = (TabHost)findViewById(android.R.id.tabhost);
-		
 		tabHost.setup();
 
         TabSpec tab1 = tabHost.newTabSpec("Ante");
@@ -76,162 +81,129 @@ public class ServiceUserActivity extends MenuInheritActivity {
         tabHost.addTab(tab3);
 
         tabHost.setCurrentTab(1);
-		//dob = getIntent().getStringExtra("dob");
 
-        // Contact tab //
-        
-		hospitalNumber = (TextView) findViewById(R.id.hospital_number);
-		ageServiceUser=(TextView) findViewById(R.id.age);
-		email = (TextView) findViewById(R.id.email);
-		mobileNumber = (TextView) findViewById(R.id.mobile_number);
-		road = (TextView) findViewById(R.id.road);
-		county = (TextView) findViewById(R.id.county);
-		postCode = (TextView) findViewById(R.id.post_code);
-		nextOfKinName = (TextView) findViewById(R.id.next_of_kin_name);
-		nextOfKinContactNumber = (TextView) findViewById(R.id.next_of_kin_contact_number);
-		gestation = (TextView) findViewById(R.id.g);
-		parity = (TextView)findViewById(R.id.p);
-
-		String dob = ServiceUserSingleton.getInstance().getUserDOB().get(0);
-		int anteNatalAge = getAge(dob);
-		String theAge = String.valueOf(anteNatalAge);		
-
-		ageServiceUser.setText(theAge);
-		String hospitalNumberStr = ServiceUserSingleton.getInstance().getUserHospitalNumber().get(0);
-		String emailStr = ServiceUserSingleton.getInstance().getUserEmail().get(0);
-		String mobileStr = ServiceUserSingleton.getInstance().getUserMobilePhone().get(0);
-		String nameStr = ServiceUserSingleton.getInstance().getUserName().get(0);
-		String kinName = ServiceUserSingleton.getInstance().getUserNextOfKinName().get(0);
-		String kinMobile = ServiceUserSingleton.getInstance().getUserNextOfKinPhone().get(0);
-		String roadStr = ServiceUserSingleton.getInstance().getUserHomeAddress().get(0);
-		String countyStr = ServiceUserSingleton.getInstance().getUserHomeCounty().get(0);
-		String postCodeStr = ServiceUserSingleton.getInstance().getUserHomePostCode().get(0);
-		String gestationStr = ServiceUserSingleton.getInstance().getPregnancyGestation().get(0);
-		String parityStr = ServiceUserSingleton.getInstance().getUserParity().get(0);
+        anteAge = (TextView)findViewById(R.id.age_ante_natal);
+		anteGestation = (TextView)findViewById(R.id.gestation);
+		anteParity = (TextView)findViewById(R.id.parity_ante_natal);
+		anteDeliveryTime = (TextView)findViewById(R.id.deliveryTime);
+		anteBloodGroup = (TextView)findViewById(R.id.blood_group);
+		anteRhesus = (TextView)findViewById(R.id.rhesus);
 		
-		setTitle(nameStr);
+		contactHospitalNumber = (TextView) findViewById(R.id.hospital_number);
+		contactAge = (TextView) findViewById(R.id.age);
+		contactEmail = (TextView) findViewById(R.id.email);
+		contactMobileNumber = (TextView) findViewById(R.id.mobile_number);
+		contactRoad = (TextView) findViewById(R.id.road);
+		contactCounty = (TextView) findViewById(R.id.county);
+		contactPostCode = (TextView) findViewById(R.id.post_code);
+		contactNextOfKinName = (TextView) findViewById(R.id.next_of_kin_name);
+		contactNextOfKinContactNumber = (TextView) findViewById(R.id.next_of_kin_contact_number);
+		contactGestation = (TextView) findViewById(R.id.g);
+		contactParity = (TextView)findViewById(R.id.p);
 		
-		hospitalNumber.setText(hospitalNumberStr);
-		email.setText(emailStr);
-		mobileNumber.setText(mobileStr);
-		road.setText(roadStr);
-		county.setText(countyStr);
-		postCode.setText(postCodeStr);
-		nextOfKinName.setText(kinName);
-		nextOfKinContactNumber.setText(kinMobile);
-		gestation.setText(gestationStr);
-		parity.setText(parityStr);
+		postBirthMode = (TextView)findViewById(R.id.birth_mode);
+		postPerineum = (TextView)findViewById(R.id.perineum);
+		postAntiD = (TextView)findViewById(R.id.anti_d);
+		postDeliveryDate = (TextView)findViewById(R.id.date_of_delivery);
+		postDeliveryTime = (TextView)findViewById(R.id.time_of_delivery);
+		postDaysSinceBirth = (TextView)findViewById(R.id.days_since_birth);
+		postBabyGender = (TextView)findViewById(R.id.sex_of_baby);
+		postBirthWeight = (TextView)findViewById(R.id.birth_weight);
+		postVitK = (TextView)findViewById(R.id.vitk);
+		postHearing = (TextView)findViewById(R.id.hearing);
+		postFeeding = (TextView)findViewById(R.id.feeding);
+		postNBST = (TextView)findViewById(R.id.nbst);
 		
-		bookAppointmentButton = (Button) findViewById(R.id.book_appointment);
-		bookAppointmentButton.setOnClickListener(new ButtonClick());
-		next_of_kin_contact = (Button) findViewById(R.id.next_of_kin_contact);
-		next_of_kin_contact.setOnClickListener(new ButtonClick());
 		userContact = (Button) findViewById(R.id.user_contact);
 		userContact.setOnClickListener(new ButtonClick());
 		userAddress = (Button) findViewById(R.id.user_address);
 		userAddress.setOnClickListener(new ButtonClick());	
+		next_of_kin_contact = (Button) findViewById(R.id.next_of_kin_contact);
+		next_of_kin_contact.setOnClickListener(new ButtonClick());
+		bookAppointmentButton = (Button) findViewById(R.id.book_appointment);
+		bookAppointmentButton.setOnClickListener(new ButtonClick());
 		
-		// Ante tab //
-        tableParity = (TableRow)findViewById(R.id.button_parity);
-        parity.setOnClickListener(new ButtonClick());
-		
-		ageAnte = (TextView)findViewById(R.id.age_ante_natal);
-		gestationAntiNatal = (TextView)findViewById(R.id.gestation);
-		parityAntiNatal = (TextView)findViewById(R.id.parity_ante_natal);
-		deliveryTime = (TextView)findViewById(R.id.deliveryTime);
-		bloodGroup = (TextView)findViewById(R.id.blood_group);
-		rhesus = (TextView)findViewById(R.id.rhesus);
-		
-		obstetricHistory = (TableRow)findViewById(R.id.obstretic_history);
-	
+		tableParity = (TableRow)findViewById(R.id.button_parity);
+		tableParity.setOnClickListener(new ButtonClick());
+
+		obstetricHistory = (TableRow) findViewById(R.id.obstretic_history);
 		obstetricHistory.setOnClickListener(new ButtonClick());
-	
-		String name = ServiceUserSingleton.getInstance().getUserName().get(0);
-		String parityStrAnte = ServiceUserSingleton.getInstance().getUserParity().get(0);
-		
-		parityAntiNatal.setText(parityStr);
-		gestationAntiNatal.setText(ServiceUserSingleton.getInstance().getPregnancyGestation().get(0));
-		rhesus.setText(ServiceUserSingleton.getInstance().getUserRhesus().get(0));
-		bloodGroup.setText(ServiceUserSingleton.getInstance().getUserBloodGroup().get(0));
-		ServiceUserActivity aa = new ServiceUserActivity();
-		String edd = ServiceUserSingleton.getInstance().getPregnancyEstimatedDeliveryDate().get(0);
-		deliveryTime.setText(aa.getEstimateDeliveryDate(edd));
 
-		String dobAnte = ServiceUserSingleton.getInstance().getUserDOB().get(0);
-		int anteNatalAgeAnte = aa.getAge(dob);
-		String theAgeAten = String.valueOf(anteNatalAge);
-
-		ageAnte.setText(theAge);
+		dob = ServiceUserSingleton.getInstance().getUserDOB().get(0);
+		age = String.valueOf(getAge(dob));	
 		
-		// Post Tab //
-		
-		birth_mode = (TextView)findViewById(R.id.birth_mode);
-		perineum = (TextView)findViewById(R.id.perineum);
-		anti_d = (TextView)findViewById(R.id.anti_d);
-		deliveryDate = (TextView)findViewById(R.id.date_of_delivery);
-		deliveryTime = (TextView)findViewById(R.id.time_of_delivery);
-		daysSinceBirth = (TextView)findViewById(R.id.days_since_birth);
-		sex_of_baby = (TextView)findViewById(R.id.sex_of_baby);
-		birth_weight = (TextView)findViewById(R.id.birth_weight);
-		vitK = (TextView)findViewById(R.id.vitk);
-		hearing = (TextView)findViewById(R.id.hearing);
-		feeding = (TextView)findViewById(R.id.feeding);
-		nbst = (TextView)findViewById(R.id.nbst);
-		
-		String perineumStr = ServiceUserSingleton.getInstance().getPregnancyPerineum().get(0);
-		perineum.setText(perineumStr);
-		
-		String birthModeStr = ServiceUserSingleton.getInstance().getPregnancyBirthMode().get(0);
-		birth_mode.setText(birthModeStr);
-	
-		// need to search by baby id in pregnancy and get info based on baby id
-		
-		String genderStr = ServiceUserSingleton.getInstance().getBabyGender().get(0);
-		if(genderStr.equalsIgnoreCase("M")){
-			sex_of_baby.setText(genderStr+sex_male);
-		}
-		else{
-			sex_of_baby.setText(genderStr+sex_female);
-		}
-
-		String weightStr = ServiceUserSingleton.getInstance().getBabyWeight().get(0);
-		double grams =  Double.parseDouble(weightStr);
-		double kg = getGramsToKg(grams);
-		String theGrams = String.valueOf(kg);
-		birth_weight.setText(theGrams);
-		
-		String vitaminStr = ServiceUserSingleton.getInstance().getBabyVitK().get(0);
-		vitK.setText(vitaminStr);
-		
-		String hearingStr = ServiceUserSingleton.getInstance().getBabyHearing().get(0);
-		hearing.setText(hearingStr);
-		
-		String anti_dStr = ServiceUserSingleton.getInstance().getPregnancyAntiD().get(0);
-		anti_d.setText(anti_dStr);
-		
-		String feedingStr = ServiceUserSingleton.getInstance().getPregnancyFeeding().get(0);
-		feeding.setText(feedingStr);
-		
-		String nbstStr = ServiceUserSingleton.getInstance().getBabyNewBornScreeningTest().get(0);
-		nbst.setText(nbstStr);
-		
-		String deliveryDateStr = ServiceUserSingleton.getInstance().getBabyDeliveryDateTime().get(0);
-		deliveryDate.setText(getDeliveryDate(deliveryDateStr));
-		
-		String deliveryTimeStr = ServiceUserSingleton.getInstance().getBabyDeliveryDateTime().get(0);
-		deliveryTime.setText(getDeliveryTime(deliveryTimeStr));
-	
-		String noOfDaysStr = ServiceUserSingleton.getInstance().getBabyDeliveryDateTime().get(0);
+		hospitalNumber = ServiceUserSingleton.getInstance().getUserHospitalNumber().get(0);
+		email = ServiceUserSingleton.getInstance().getUserEmail().get(0);
+		mobile = ServiceUserSingleton.getInstance().getUserMobilePhone().get(0);
+		userName = ServiceUserSingleton.getInstance().getUserName().get(0);
+		kinName = ServiceUserSingleton.getInstance().getUserNextOfKinName().get(0);
+		kinMobile = ServiceUserSingleton.getInstance().getUserNextOfKinPhone().get(0);
+		road = ServiceUserSingleton.getInstance().getUserHomeAddress().get(0);
+		county = ServiceUserSingleton.getInstance().getUserHomeCounty().get(0);
+		postCode = ServiceUserSingleton.getInstance().getUserHomePostCode().get(0);
+		perineum = ServiceUserSingleton.getInstance().getPregnancyPerineum().get(0);
+		birthMode = ServiceUserSingleton.getInstance().getPregnancyBirthMode().get(0);
+		babyGender = ServiceUserSingleton.getInstance().getBabyGender().get(0);
+		babyWeightGrams = ServiceUserSingleton.getInstance().getBabyWeight().get(0);
+		grams =  Double.parseDouble(babyWeightGrams);
+		babyWeightKg = String.valueOf(getGramsToKg(grams));
+		gestation = ServiceUserSingleton.getInstance().getPregnancyGestation().get(0);
+		parity = ServiceUserSingleton.getInstance().getUserParity().get(0);
+		estimtedDelivery = ServiceUserSingleton.getInstance().getPregnancyEstimatedDeliveryDate().get(0);
+		vitK = ServiceUserSingleton.getInstance().getBabyVitK().get(0);
+		hearing = ServiceUserSingleton.getInstance().getBabyHearing().get(0);
+		antiD = ServiceUserSingleton.getInstance().getPregnancyAntiD().get(0);
+		feeding = ServiceUserSingleton.getInstance().getPregnancyFeeding().get(0);
+		nbst = ServiceUserSingleton.getInstance().getBabyNewBornScreeningTest().get(0);
+		deliveryDateTime = ServiceUserSingleton.getInstance().getBabyDeliveryDateTime().get(0);
 		
 		try{
-			dateOfDelivery = formatter.parse(noOfDaysStr);
+			dateOfDelivery = sdfDateTime.parse(deliveryDateTime);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		int days = getNoOfDays(currentDate, dateOfDelivery);
-		String noOfDays  = String.valueOf(days);
-		daysSinceBirth.setText(noOfDays);
+		daysSinceBirth = String.valueOf(days);
+
+		setTitle(userName);
+		
+		anteParity.setText(parity);
+		anteGestation.setText(ServiceUserSingleton.getInstance().getPregnancyGestation().get(0));
+		anteRhesus.setText(ServiceUserSingleton.getInstance().getUserRhesus().get(0));
+		anteBloodGroup.setText(ServiceUserSingleton.getInstance().getUserBloodGroup().get(0));
+		anteDeliveryTime.setText(getEstimateDeliveryDate(estimtedDelivery));
+		anteAge.setText(age);
+		
+		contactAge.setText(age);
+		contactHospitalNumber.setText(hospitalNumber);
+		contactEmail.setText(email);
+		contactMobileNumber.setText(mobile);
+		contactRoad.setText(road);
+		contactCounty.setText(county);
+		contactPostCode.setText(postCode);
+		contactNextOfKinName.setText(kinName);
+		contactNextOfKinContactNumber.setText(kinMobile);
+		contactGestation.setText(gestation);
+		contactParity.setText(parity);	
+		
+		postVitK.setText(vitK);
+		postHearing.setText(hearing);
+		postAntiD.setText(antiD);
+		postFeeding.setText(feeding);
+		postNBST.setText(nbst);
+		postDeliveryDate.setText(getDeliveryDate(deliveryDateTime));
+		postDeliveryTime.setText(getDeliveryTime(deliveryDateTime));		
+		postPerineum.setText(perineum);		
+		postBirthMode.setText(birthMode);
+		postBirthWeight.setText(babyWeightKg);
+			
+		if(babyGender.equalsIgnoreCase("M")){
+			postBabyGender.setText(babyGender + sex_male);
+		}
+		else if (babyGender.equalsIgnoreCase("F")){
+			postBabyGender.setText(babyGender + sex_female);
+		}		
+		postDaysSinceBirth.setText(daysSinceBirth);
 	}
 	
 	@Override
@@ -250,8 +222,8 @@ public class ServiceUserActivity extends MenuInheritActivity {
 				prefs.putBoolean("reuse", true);
 				prefs.commit();
 				
-				Intent intent3 = new Intent(ServiceUserActivity.this, AppointmentTypeSpinnerActivity.class);
-				startActivity(intent3);
+				Intent intentBook = new Intent(ServiceUserActivity.this, AppointmentTypeSpinnerActivity.class);
+				startActivity(intentBook);
 				break;
 			case R.id.user_contact:
 				usrContact();
@@ -264,7 +236,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 				break;
 			case R.id.user_Phone_Call:
 				Log.i("Make call", "");
-				userCall = "tel:" + mobileNumber.getText().toString();
+				userCall = "tel:" + contactMobileNumber.getText().toString();
 				userCallIntent = new Intent(Intent.ACTION_DIAL,
 						Uri.parse(userCall));
 				try {
@@ -279,7 +251,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 				break;
 			case R.id.user_Send_SMS:
 				Log.i("Send SMS", "");
-				userSMS = "" + mobileNumber.getText().toString();
+				userSMS = "" + contactMobileNumber.getText().toString();
 				userSmsIntent = new Intent(Intent.ACTION_VIEW);
 				userSmsIntent.setType("vnd.android-dir/mms-sms");
 				userSmsIntent.putExtra("address", userSMS);
@@ -295,7 +267,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 				break;
 			case R.id.user_Send_Email:
 				Log.i("Send Email", "");
-				userEmail = "" + email.getText().toString();
+				userEmail = "" + contactEmail.getText().toString();
 				
 				userEmailIntent = new Intent(Intent.ACTION_SEND);
 				userEmailIntent.setClassName("com.google.android.gm","com.google.android.gm.ComposeActivityGmail");
@@ -316,7 +288,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 				break;
 			case R.id.kin_Phone_Call:
 				Log.i("Make call", "");
-				kinCall = "tel:" + nextOfKinContactNumber.getText().toString();
+				kinCall = "tel:" + contactNextOfKinContactNumber.getText().toString();
 				kinCallIntent = new Intent(Intent.ACTION_DIAL,
 						Uri.parse(kinCall));
 				try {
@@ -331,7 +303,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 				break;
 			case R.id.kin_Send_SMS:
 				Log.i("Send SMS", "");
-				kinSMS = "" + nextOfKinContactNumber.getText().toString();
+				kinSMS = "" + contactNextOfKinContactNumber.getText().toString();
 				kinSmsIntent = new Intent(Intent.ACTION_VIEW);
 				kinSmsIntent.setType("vnd.android-dir/mms-sms");
 				kinSmsIntent.putExtra("address", kinSMS);
@@ -352,12 +324,12 @@ public class ServiceUserActivity extends MenuInheritActivity {
 				dialog.cancel();
 				break;
 			/*case R.id.obstretic_history:
-				Intent intent5 = new Intent(AnteNatalActivity.this, ObstreticHistoryActivity.class);
-				startActivity(intent2);
-				break;
+				Intent intent5 = new Intent(ServiceUserActivity.this, ObstreticHistoryActivity.class);
+				startActivity(intent5);
+				break;*/
 			case R.id.button_parity:
-				Intent intent6 = new Intent(AnteNatalActivity.this, ParityDetailsActivity.class);
-				startActivity(intent3);*/
+				Intent intent6 = new Intent(ServiceUserActivity.this, ParityDetailsActivity.class);
+				startActivity(intent6);
 			}
 		}
 		@Override
@@ -388,17 +360,15 @@ public class ServiceUserActivity extends MenuInheritActivity {
         .setTitle(R.string.user_address_title)
         .setMessage(R.string.user_address_message)
         .setNegativeButton(R.string.No, new DialogInterface.OnClickListener() {
-		public void onClick(DialogInterface dialoginterface, int i) {
-			
+		public void onClick(DialogInterface dialoginterface, int i) {			
 		}})
 		.setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener() {
 		    public void onClick(DialogInterface dialoginterface, int i) {
-		    	String addr = "" + road.getText().toString() + county.getText().toString() + postCode.getText().toString();
+		    	String addr = "" + contactRoad.getText().toString() + contactCounty.getText().toString() + contactPostCode.getText().toString();
 		    	Uri uri = Uri.parse(addr);
 		    	System.out.println(addr);
 		    	Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 		        intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
-
 		    	startActivity(intent);
         }	
 		}).show();		
@@ -417,13 +387,11 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		dialog.show();
 	}
 	public int getAge(String dob) {
-		try {
-			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-			dobAsDate = df.parse(dob);
+		try {			
+			dobAsDate = sdfDate.parse(dob);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		// Calendar cal = Calendar.getInstance();
 		cal.setTime(dobAsDate);
 		int year = cal.get(Calendar.YEAR);
 		int month = cal.get(Calendar.MONTH);
@@ -447,58 +415,45 @@ public class ServiceUserActivity extends MenuInheritActivity {
 	}
 	
 	public String getEstimateDeliveryDate(String edd){
-		 // *** note that it's "yyyy-MM-dd hh:mm:ss" not "yyyy-mm-dd hh:mm:ss"  
-        SimpleDateFormat dt = new SimpleDateFormat("yyyy-mm-dd", Locale.getDefault());
         Date date;
         String ed = null;
 		try{
-			date = dt.parse(edd);
-			// *** same for the format String below
-	        SimpleDateFormat dt1 = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
-	        ed = dt1.format(date);
+			date = sdfDate.parse(edd);
+	        ed = sdfMonthFullName.format(date);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	    return ed;
 	}
 	
 	public String getDeliveryDate(String edd){
-       SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault());
        Date date;
        String dateOfDevelivery = null;
 		try{
-			date = dt.parse(edd);
-			// *** same for the format String below
-	        SimpleDateFormat dt1 = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
-	        dateOfDevelivery = dt1.format(date);
+			date = sdfDateTime.parse(edd);
+	        dateOfDevelivery = sdfMonthFullName.format(date);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	    return dateOfDevelivery;
 	}	
 	
 	public String getDeliveryTime(String edd) {
 		String deliveryTime = null;
 		Date date;
-        SimpleDateFormat dti = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault());
-        SimpleDateFormat fd = new SimpleDateFormat("HH:mm a", Locale.getDefault());
-  	  try {
-  		  date = dti.parse(edd);
-  		 
-  		  deliveryTime = fd.format(date);
-		  date = dti.parse(edd);
-		
-	} catch (ParseException e) {
-		e.printStackTrace();
-	}
-       return deliveryTime;
+		try {
+			date = sdfDateTime.parse(edd);
+
+			deliveryTime = sdfAMPM.format(date);
+			date = sdfDateTime.parse(edd);
+
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return deliveryTime;
 	}	
 
     public int getNoOfDays(Date now, Date past){
-
         now = cal.getTime();
         return (int)((now.getTime() - past.getTime()) / (1000 * 60 * 60 * 24)); 
 	}

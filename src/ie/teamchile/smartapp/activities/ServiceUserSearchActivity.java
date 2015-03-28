@@ -67,7 +67,7 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			new LongOperation(ServiceUserSearchActivity.this)
-				     .execute("service_users?hospital_number=" + hospitalNumberList.get(position));
+			.execute("service_users?hospital_number=" + hospitalNumberList.get(position));			
 			intent = new Intent(ServiceUserSearchActivity.this, ServiceUserActivity.class);
 		}
 	}
@@ -153,6 +153,7 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 			 */
 			try {
 				if (intent != null) {
+					ServiceUserSingleton.getInstance().setPatientInfo(result);
 					startActivity(intent);
 				} else {
 					searchResults.clear();
@@ -160,7 +161,6 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 					if (result.getJSONArray("service_users").length() != 0) {
 						for (int i = 0; i < result.getJSONArray("service_users").length(); i++) {
 							ServiceUserSingleton.getInstance().setPatientInfo(result);
-							
 							String name = ServiceUserSingleton.getInstance().getUserName().get(i);
 							String hospitalNumber = ServiceUserSingleton.getInstance().getUserHospitalNumber().get(i);
 							String dob = ServiceUserSingleton.getInstance().getUserDOB().get(i);
