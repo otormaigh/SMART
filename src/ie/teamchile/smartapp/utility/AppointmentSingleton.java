@@ -2,10 +2,15 @@ package ie.teamchile.smartapp.utility;
 
 import ie.teamchile.smartapp.connecttodb.AccessDBTable;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -78,6 +83,8 @@ public class AppointmentSingleton {
 	private boolean updated;
 	private static AppointmentSingleton singleInstance;
 	private HashMap<String, HashMap<String, ArrayList<String>>> clinicIDHash;
+	private DateFormat sdfTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+	private DateFormat sdfHHmm = new SimpleDateFormat("HH:mm", Locale.getDefault());
 	private HashMap<String, JSONObject> idHash;
 	private ArrayList<String> idList;
 	private AccessDBTable db = new AccessDBTable();
@@ -413,14 +420,14 @@ public class AppointmentSingleton {
 	
 	public String getTime(String id){
 		JSONObject json = idHash.get(id);
-		return help.jsonParseHelper(json, "appointments", "time");
+		return removeSeconds(help.jsonParseHelper(json, "appointments", "time"));
 	}
 	
 	public ArrayList<String> getTime(ArrayList<String> idList){
 		ArrayList<String> time = new ArrayList<String>();
 		for(int i = 0; i < idList.size(); i++ ){
 			JSONObject json = idHash.get(idList.get(i));
-			time.add(help.jsonParseHelper(json, "appointments", "time"));
+			time.add(removeSeconds(help.jsonParseHelper(json, "appointments", "time")));
 		}
 		return time;
 	}
@@ -451,5 +458,15 @@ public class AppointmentSingleton {
 			visitType.add(help.jsonParseHelper(json, "appointments", "visit_type"));
 		}
 		return visitType;
+	}
+	
+	public String removeSeconds(String time){
+		Date oldTime = null;
+		try {
+			oldTime = sdfTime.parse(time);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return sdfHHmm.format(oldTime);
 	}
 }
