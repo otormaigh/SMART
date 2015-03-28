@@ -45,8 +45,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 				   dateSelectedStr, timeBefore, timeAfter, nameOfClinic;
 	private int appointmentInterval, dayOfWeek;
 	private DateFormat dfDateOnly = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-	private DateFormat dfTimeOnly = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
-	private DateFormat dfHHmm = new SimpleDateFormat("HH:mm", Locale.getDefault());
+	private DateFormat dfTimeOnly = new SimpleDateFormat("HH:mm", Locale.getDefault());
 	private DateFormat dfDateWithMonthName = new SimpleDateFormat("dd MMM", Locale.getDefault());
 	private ArrayList<String> timeSingle, gestSingle, nameSingle;	
 	private ArrayList<String> listOfId = new ArrayList<String>();
@@ -205,7 +204,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
     	}
 
 		if (listOfId == null || listOfId.isEmpty()) {
-			timeSingle.add("-------------");
+			timeSingle.add("---------");
 			nameSingle.add("Free Slot");
 			gestSingle.add("---------");
 			listOfId = new ArrayList<String>();
@@ -235,7 +234,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 
 					if (!timeB.equals(c.getTime())) {
 						Log.d("appointment", "Free Slot Here");
-						timeSingle.add(i + 1, "-------------");
+						timeSingle.add(i + 1, "---------");
 						nameSingle.add(i + 1, "Free Slot");
 						gestSingle.add(i + 1, "----------");
 						listOfId.add(i + 1, "0");
@@ -245,13 +244,13 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 				}
 			}
 			if (!timeSingle.get(0).equals(clinicOpening)) {
-				timeSingle.add(0, "-------------");
+				timeSingle.add(0, "---------");
 				nameSingle.add(0, "Free Slot");
 				gestSingle.add(0, "---------");
 				listOfId.add(0, "0");				
 			}
 			if (!timeSingle.get((timeSingle.size() - 1)).equals(clinicClosing)) {
-				timeSingle.add("-------------");
+				timeSingle.add("---------");
 				nameSingle.add("Free Slot");
 				gestSingle.add("---------");
 				listOfId.add("0");
@@ -305,16 +304,11 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 			TextView gestText = (TextView) convertView.findViewById(R.id.gestation);
 			
 			
-			timeText.setText(removeTheSeconds(aptTime.get(position)));
+			timeText.setText(aptTime.get(position));
 			nameText.setText(aptName.get(position));
 			gestText.setText(aptGest.get(position));    	
 			return convertView;
 		}
-	}
-    
-    private String removeTheSeconds(String time) {
-		String truncTime = time.substring(0, time.length() - 3);
-		return truncTime;
 	}
     
     private class OnItemListener implements OnItemClickListener {

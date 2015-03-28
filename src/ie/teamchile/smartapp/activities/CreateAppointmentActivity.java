@@ -35,7 +35,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class CreateAppointmentActivity extends MenuInheritActivity {
-	private SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+	private SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm", Locale.getDefault());
 	private SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 	private SimpleDateFormat sdfDateMonthName = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
 	private EditText userName;
