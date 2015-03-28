@@ -28,6 +28,10 @@ public class ServiceUserSingleton {
 		this.query = query;
 	}
 	
+	public JSONObject getPatientInfo(){
+		return query;
+	}
+	
 	public List<String> getBabyBirthOutcome(){
 		return help.jsonParseHelper(query, "service_users", "babies", "birth_outcome");
 	}
