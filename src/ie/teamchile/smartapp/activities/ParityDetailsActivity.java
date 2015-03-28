@@ -38,7 +38,7 @@ public class ParityDetailsActivity extends MenuInheritActivity {
 		name.setText(patientName);
 		parity.setText(patientParity);
 		
-		List<String>nameBaby = ServiceUserSingleton.getInstance().getBabyName();
+		List<String> nameBaby = ServiceUserSingleton.getInstance().getBabyName();
 		List<String> hospitalNumber = ServiceUserSingleton.getInstance().getBabyHospitalNumber();
         
 		List<String> dobBaby = ServiceUserSingleton.getInstance().getBabyDeliveryDateTime();
@@ -51,7 +51,7 @@ public class ParityDetailsActivity extends MenuInheritActivity {
 		List<String> birthMode = ServiceUserSingleton.getInstance().getPregnancyBirthMode();
 		List<String> birthOutcome = ServiceUserSingleton.getInstance().getBabyBirthOutcome();
         
-	   ArrayList<String> dobStr = new ArrayList<String>();
+	    ArrayList<String> dobStr = new ArrayList<String>();
 	   
 		for(int i = 0; i < dobBaby.size(); i++){
 			dobStr.add(dobBaby.get(i) + "\n");
