@@ -9,6 +9,7 @@ import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +46,7 @@ public class ParityDetailsActivity extends MenuInheritActivity {
 		List<String> gestationBaby = ServiceUserSingleton.getInstance().getPregnancyGestation();
 		
 		List<String> weightBaby = ServiceUserSingleton.getInstance().getBabyWeight();
+		Log.d("bugs", "weightBaby" + weightBaby);
 	
 		List<String> birthMode = ServiceUserSingleton.getInstance().getPregnancyBirthMode();
 		List<String> birthOutcome = ServiceUserSingleton.getInstance().getBabyBirthOutcome();
