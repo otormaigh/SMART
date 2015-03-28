@@ -35,12 +35,13 @@ public class ServiceUserActivity extends MenuInheritActivity {
 					 postDaysSinceBirth, postBabyGender, postBirthWeight, postVitK, postHearing, 
 					 postFeeding, postNBST;
 	
-	private String dob, age, hospitalNumber, email, mobile, userName, kinName,  
+	private String dob = "", age = "", hospitalNumber, email, mobile, userName, kinName,  
 				   kinMobile, road, county, postCode, gestation, parity, estimtedDelivery,
-				   perineum, birthMode, babyGender, babyWeightGrams, babyWeightKg, 
+				   perineum, birthMode, babyGender, babyWeightGrams = "", babyWeightKg = "", 
 				   vitK, hearing, antiD, feeding, nbst, deliveryDateTime, daysSinceBirth,
 				   userCall, userSMS, userEmail, kinCall, kinSMS;
-	private double grams;
+	private int days = 0;
+	private double grams = 0.0;
 	private String sex_male = "ale";
 	private String sex_female = "emale";
 	private Dialog dialog;
@@ -52,7 +53,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 	private DateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 	private DateFormat sdfMonthFullName = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
 	private DateFormat sdfAMPM = new SimpleDateFormat("HH:mm a", Locale.getDefault());
-	private Date dateOfDelivery = null, currentDate = null, dobAsDate;
+	private Date dateOfDelivery = null, currentDate = null, dobAsDate = null;
 	private Intent userCallIntent, userSmsIntent, userEmailIntent,
 			kinCallIntent, kinSmsIntent;
 	private Calendar cal = Calendar.getInstance();
@@ -128,82 +129,85 @@ public class ServiceUserActivity extends MenuInheritActivity {
 
 		obstetricHistory = (TableRow) findViewById(R.id.obstretic_history);
 		obstetricHistory.setOnClickListener(new ButtonClick());
-
-		dob = ServiceUserSingleton.getInstance().getUserDOB().get(0);
-		age = String.valueOf(getAge(dob));	
-		
-		hospitalNumber = ServiceUserSingleton.getInstance().getUserHospitalNumber().get(0);
-		email = ServiceUserSingleton.getInstance().getUserEmail().get(0);
-		mobile = ServiceUserSingleton.getInstance().getUserMobilePhone().get(0);
-		userName = ServiceUserSingleton.getInstance().getUserName().get(0);
-		kinName = ServiceUserSingleton.getInstance().getUserNextOfKinName().get(0);
-		kinMobile = ServiceUserSingleton.getInstance().getUserNextOfKinPhone().get(0);
-		road = ServiceUserSingleton.getInstance().getUserHomeAddress().get(0);
-		county = ServiceUserSingleton.getInstance().getUserHomeCounty().get(0);
-		postCode = ServiceUserSingleton.getInstance().getUserHomePostCode().get(0);
-		perineum = ServiceUserSingleton.getInstance().getPregnancyPerineum().get(0);
-		birthMode = ServiceUserSingleton.getInstance().getPregnancyBirthMode().get(0);
-		babyGender = ServiceUserSingleton.getInstance().getBabyGender().get(0);
-		babyWeightGrams = ServiceUserSingleton.getInstance().getBabyWeight().get(0);
-		grams =  Double.parseDouble(babyWeightGrams);
-		babyWeightKg = String.valueOf(getGramsToKg(grams));
-		gestation = ServiceUserSingleton.getInstance().getPregnancyGestation().get(0);
-		parity = ServiceUserSingleton.getInstance().getUserParity().get(0);
-		estimtedDelivery = ServiceUserSingleton.getInstance().getPregnancyEstimatedDeliveryDate().get(0);
-		vitK = ServiceUserSingleton.getInstance().getBabyVitK().get(0);
-		hearing = ServiceUserSingleton.getInstance().getBabyHearing().get(0);
-		antiD = ServiceUserSingleton.getInstance().getPregnancyAntiD().get(0);
-		feeding = ServiceUserSingleton.getInstance().getPregnancyFeeding().get(0);
-		nbst = ServiceUserSingleton.getInstance().getBabyNewBornScreeningTest().get(0);
-		deliveryDateTime = ServiceUserSingleton.getInstance().getBabyDeliveryDateTime().get(0);
 		
 		try{
-			dateOfDelivery = sdfDateTime.parse(deliveryDateTime);
-		} catch (ParseException e) {
+			dob = ServiceUserSingleton.getInstance().getUserDOB().get(0);
+			if(!dob.equals("null")){
+				age = getAge(dob);					
+			}
+			hospitalNumber = ServiceUserSingleton.getInstance().getUserHospitalNumber().get(0);
+			email = ServiceUserSingleton.getInstance().getUserEmail().get(0);
+			mobile = ServiceUserSingleton.getInstance().getUserMobilePhone().get(0);
+			userName = ServiceUserSingleton.getInstance().getUserName().get(0);
+			kinName = ServiceUserSingleton.getInstance().getUserNextOfKinName().get(0);
+			kinMobile = ServiceUserSingleton.getInstance().getUserNextOfKinPhone().get(0);
+			road = ServiceUserSingleton.getInstance().getUserHomeAddress().get(0);
+			county = ServiceUserSingleton.getInstance().getUserHomeCounty().get(0);
+			postCode = ServiceUserSingleton.getInstance().getUserHomePostCode().get(0);
+			perineum = ServiceUserSingleton.getInstance().getPregnancyPerineum().get(0);
+			birthMode = ServiceUserSingleton.getInstance().getPregnancyBirthMode().get(0);
+			babyGender = ServiceUserSingleton.getInstance().getBabyGender().get(0);
+			babyWeightGrams = ServiceUserSingleton.getInstance().getBabyWeight().get(0);
+			if(!babyWeightGrams.equals("null")){
+				grams =  Double.parseDouble(babyWeightGrams);
+				babyWeightKg = String.valueOf(getGramsToKg(grams));
+			}
+			gestation = ServiceUserSingleton.getInstance().getPregnancyGestation().get(0);
+			parity = ServiceUserSingleton.getInstance().getUserParity().get(0);
+			estimtedDelivery = ServiceUserSingleton.getInstance().getPregnancyEstimatedDeliveryDate().get(0);
+			vitK = ServiceUserSingleton.getInstance().getBabyVitK().get(0);
+			hearing = ServiceUserSingleton.getInstance().getBabyHearing().get(0);
+			antiD = ServiceUserSingleton.getInstance().getPregnancyAntiD().get(0);
+			feeding = ServiceUserSingleton.getInstance().getPregnancyFeeding().get(0);
+			nbst = ServiceUserSingleton.getInstance().getBabyNewBornScreeningTest().get(0);
+			deliveryDateTime = ServiceUserSingleton.getInstance().getBabyDeliveryDateTime().get(0);		
+			if(!deliveryDateTime.equals("null")){
+				dateOfDelivery = sdfDateTime.parse(deliveryDateTime);
+				days = getNoOfDays(currentDate, dateOfDelivery);
+				daysSinceBirth = String.valueOf(days);
+			}
+			setTitle(userName);
+			
+			anteParity.setText(parity);
+			anteGestation.setText(ServiceUserSingleton.getInstance().getPregnancyGestation().get(0));
+			anteRhesus.setText(ServiceUserSingleton.getInstance().getUserRhesus().get(0));
+			anteBloodGroup.setText(ServiceUserSingleton.getInstance().getUserBloodGroup().get(0));
+			anteDeliveryTime.setText(getEstimateDeliveryDate(estimtedDelivery));
+			anteAge.setText(age);
+			
+			contactAge.setText(age);
+			contactHospitalNumber.setText(hospitalNumber);
+			contactEmail.setText(email);
+			contactMobileNumber.setText(mobile);
+			contactRoad.setText(road);
+			contactCounty.setText(county);
+			contactPostCode.setText(postCode);
+			contactNextOfKinName.setText(kinName);
+			contactNextOfKinContactNumber.setText(kinMobile);
+			contactGestation.setText(gestation);
+			contactParity.setText(parity);	
+			
+			postVitK.setText(vitK);
+			postHearing.setText(hearing);
+			postAntiD.setText(antiD);
+			postFeeding.setText(feeding);
+			postNBST.setText(nbst);
+			postDeliveryDate.setText(getDeliveryDate(deliveryDateTime));
+			postDeliveryTime.setText(getDeliveryTime(deliveryDateTime));		
+			postPerineum.setText(perineum);		
+			postBirthMode.setText(birthMode);
+			postBirthWeight.setText(babyWeightKg);
+				
+			if(babyGender.equalsIgnoreCase("M")){
+				postBabyGender.setText(babyGender + sex_male);
+			}
+			else if (babyGender.equalsIgnoreCase("F")){
+				postBabyGender.setText(babyGender + sex_female);
+			}		
+			postDaysSinceBirth.setText(daysSinceBirth);
+		} catch (ParseException | NullPointerException e){
 			e.printStackTrace();
 		}
-		int days = getNoOfDays(currentDate, dateOfDelivery);
-		daysSinceBirth = String.valueOf(days);
-
-		setTitle(userName);
-		
-		anteParity.setText(parity);
-		anteGestation.setText(ServiceUserSingleton.getInstance().getPregnancyGestation().get(0));
-		anteRhesus.setText(ServiceUserSingleton.getInstance().getUserRhesus().get(0));
-		anteBloodGroup.setText(ServiceUserSingleton.getInstance().getUserBloodGroup().get(0));
-		anteDeliveryTime.setText(getEstimateDeliveryDate(estimtedDelivery));
-		anteAge.setText(age);
-		
-		contactAge.setText(age);
-		contactHospitalNumber.setText(hospitalNumber);
-		contactEmail.setText(email);
-		contactMobileNumber.setText(mobile);
-		contactRoad.setText(road);
-		contactCounty.setText(county);
-		contactPostCode.setText(postCode);
-		contactNextOfKinName.setText(kinName);
-		contactNextOfKinContactNumber.setText(kinMobile);
-		contactGestation.setText(gestation);
-		contactParity.setText(parity);	
-		
-		postVitK.setText(vitK);
-		postHearing.setText(hearing);
-		postAntiD.setText(antiD);
-		postFeeding.setText(feeding);
-		postNBST.setText(nbst);
-		postDeliveryDate.setText(getDeliveryDate(deliveryDateTime));
-		postDeliveryTime.setText(getDeliveryTime(deliveryDateTime));		
-		postPerineum.setText(perineum);		
-		postBirthMode.setText(birthMode);
-		postBirthWeight.setText(babyWeightKg);
-			
-		if(babyGender.equalsIgnoreCase("M")){
-			postBabyGender.setText(babyGender + sex_male);
-		}
-		else if (babyGender.equalsIgnoreCase("F")){
-			postBabyGender.setText(babyGender + sex_female);
-		}		
-		postDaysSinceBirth.setText(daysSinceBirth);
 	}
 	
 	@Override
@@ -386,13 +390,13 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		kinCancel.setOnClickListener(new ButtonClick());
 		dialog.show();
 	}
-	public int getAge(String dob) {
+	public String getAge(String dob) {
 		try {			
 			dobAsDate = sdfDate.parse(dob);
-		} catch (ParseException e) {
+			cal.setTime(dobAsDate);
+		} catch (ParseException | NullPointerException e) {
 			e.printStackTrace();
 		}
-		cal.setTime(dobAsDate);
 		int year = cal.get(Calendar.YEAR);
 		int month = cal.get(Calendar.MONTH);
 		int day = cal.get(Calendar.DAY_OF_MONTH);
@@ -411,7 +415,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 				result--;
 			}
 		}
-		return result;
+		return String.valueOf(result);
 	}
 	
 	public String getEstimateDeliveryDate(String edd){

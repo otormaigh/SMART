@@ -161,7 +161,7 @@ public class ServiceUserSingleton {
 	}
 	
 	public List<String> getUserDOB(){
-		return help.jsonParseHelper(query, "service_users", "service_users", "personal_fields", "dob");
+		return checkIfNull(help.jsonParseHelper(query, "service_users", "service_users", "personal_fields", "dob"));
 	}
 	
 	public List<String> getUserEmail(){
@@ -237,5 +237,14 @@ public class ServiceUserSingleton {
 		protected void onProgressUpdate(Void... values) {
 			super.onProgressUpdate(values);
 		}		
+	}
+	
+	private List<String> checkIfNull(List<String> s){
+		for(int i = 0; i < s.size(); i++){
+			if (s.get(i).equals(null)){
+				s.set(i, "");
+			}		
+		}
+		return s;
 	}
 }
