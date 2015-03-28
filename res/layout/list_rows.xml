@@ -14,7 +14,8 @@
         android:layout_weight="0.8"
         android:gravity="start|center"
         android:textSize="@dimen/text_small" 
-        android:paddingLeft="@dimen/padding_Xsmall" />
+        android:paddingLeft="@dimen/padding_small"
+        android:paddingStart="@dimen/padding_small" />
 
     <TextView
         android:id="@+id/name"
