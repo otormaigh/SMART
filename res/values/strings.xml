@@ -111,7 +111,8 @@
     <string name="enter_dob">Enter DOB Here</string>
     <string name="search_result">Search Results</string>
     <string name="btn_search">Search</string>
-
+	<string name="dob">Date of Birth</string>
+	
     <!-- LOGOUT SESSION -->
     <string name="Yes"> Yes</string>
     <string name="No"> No</string>
