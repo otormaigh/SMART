@@ -8,6 +8,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import android.app.AlertDialog;
@@ -145,7 +146,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 			county = ServiceUserSingleton.getInstance().getUserHomeCounty().get(0);
 			postCode = ServiceUserSingleton.getInstance().getUserHomePostCode().get(0);
 			perineum = ServiceUserSingleton.getInstance().getPregnancyPerineum().get(0);
-			birthMode = ServiceUserSingleton.getInstance().getPregnancyBirthMode().get(0);
+			birthMode = formatArrayString(ServiceUserSingleton.getInstance().getPregnancyBirthMode().get(0));
 			babyGender = ServiceUserSingleton.getInstance().getBabyGender().get(0);
 			babyWeightGrams = ServiceUserSingleton.getInstance().getBabyWeight().get(0);
 			if(!babyWeightGrams.equals("null")){
@@ -471,5 +472,15 @@ public class ServiceUserActivity extends MenuInheritActivity {
 	    	double kg = 0.0;
 	    	kg = grams/1000;
 	    	return kg;
+    }
+    
+    private String formatArrayString(String toBeFormatted){
+    	String formatedString = toBeFormatted
+    		    .replace(",", "")  //remove the commas
+    		    .replace("[", "")  //remove the right bracket
+    		    .replace("]", "")  //remove the left bracket
+    		    .replace("\"", "")
+    		    .trim(); 
+    	return formatedString;
     }
 }
