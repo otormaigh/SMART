@@ -9,6 +9,7 @@ import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,14 +30,14 @@ public class ParityDetailsActivity extends MenuInheritActivity {
 		setContentView(R.layout.activity_parity_details);
 		
 		ListView parityList = (ListView)findViewById(R.id.parity_list);
-		name = (TextView)findViewById(R.id.parity_name);
 		babyName = (TextView)findViewById(R.id.baby_name_parity);
 		parity =(TextView)findViewById(R.id.parity_info);
 		
 		patientName = ServiceUserSingleton.getInstance().getUserName().get(0);
 		patientParity = ServiceUserSingleton.getInstance().getUserParity().get(0);
-		name.setText(patientName);
-		parity.setText(patientParity);
+		setTitle(patientName);
+		String parityDeats = "<b>Parity:</b> " + patientParity;
+		parity.setText(Html.fromHtml(parityDeats));
 		
 		List<String> nameBaby = ServiceUserSingleton.getInstance().getBabyName();
 		List<String> hospitalNumber = ServiceUserSingleton.getInstance().getBabyHospitalNumber();
@@ -61,11 +62,10 @@ public class ParityDetailsActivity extends MenuInheritActivity {
 			String kg = getGramsToKg(Integer.parseInt(weightBaby.get(i)));
 			weightBaby.set(i, kg);
 		}
-
 		
         //textBabyDOB.setText(dobStr);
-		adapter = new ListElementAdapter(ParityDetailsActivity.this, nameBaby, hospitalNumber, dobStr
-				, genderBaby, gestationBaby
+		adapter = new ListElementAdapter(ParityDetailsActivity.this, nameBaby, hospitalNumber,
+				 dobStr, genderBaby, gestationBaby
 				,weightBaby, birthMode, birthOutcome);
 		parityList.setAdapter(adapter);
         //listView.setOnItemClickListener(new OnItemListener());
