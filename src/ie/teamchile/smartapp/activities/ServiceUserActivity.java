@@ -168,6 +168,10 @@ public class ServiceUserActivity extends MenuInheritActivity {
 			}
 			setTitle(userName);
 			
+			if(parity.equals("0 + 0")){
+				tableParity.setEnabled(false);
+			}
+			
 			anteParity.setText(parity);
 			anteGestation.setText(ServiceUserSingleton.getInstance().getPregnancyGestation().get(0));
 			anteRhesus.setText(ServiceUserSingleton.getInstance().getUserRhesus().get(0));

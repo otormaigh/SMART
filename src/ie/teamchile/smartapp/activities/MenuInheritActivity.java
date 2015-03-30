@@ -16,7 +16,8 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 public class MenuInheritActivity extends Activity {
-    private Logout logout = new Logout();
+
+	private Logout logout = new Logout();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
