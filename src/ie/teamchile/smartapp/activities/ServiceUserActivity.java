@@ -163,7 +163,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 			deliveryDateTime = ServiceUserSingleton.getInstance().getBabyDeliveryDateTime().get(0);		
 			if(!deliveryDateTime.equals("null")){
 				dateOfDelivery = sdfDateTime.parse(deliveryDateTime);
-				days = getNoOfDays(currentDate, dateOfDelivery);
+				days = getNoOfDays(dateOfDelivery);
 				daysSinceBirth = String.valueOf(days);
 			}
 			setTitle(userName);
@@ -457,8 +457,9 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		return deliveryTime;
 	}	
 
-    public int getNoOfDays(Date now, Date past){
-        now = cal.getTime();
+    public int getNoOfDays(Date past){
+    	cal = Calendar.getInstance();
+        Date now = cal.getTime();
         return (int)((now.getTime() - past.getTime()) / (1000 * 60 * 60 * 24)); 
 	}
     
