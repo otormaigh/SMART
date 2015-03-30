@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -56,6 +57,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 	private Date dateOfDelivery = null, currentDate = null, dobAsDate = null;
 	private Intent userCallIntent, userSmsIntent, userEmailIntent,
 			kinCallIntent, kinSmsIntent;
+	private String[] tabs = { "Ante Natal", "Contact", "Post Natal" };
 	private Calendar cal = Calendar.getInstance();
 	
 	@Override
@@ -82,6 +84,8 @@ public class ServiceUserActivity extends MenuInheritActivity {
         tabHost.addTab(tab3);
 
         tabHost.setCurrentTab(1);
+        
+       
 
         anteAge = (TextView)findViewById(R.id.age_ante_natal);
 		anteGestation = (TextView)findViewById(R.id.gestation);
