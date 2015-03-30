@@ -232,7 +232,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 					c.setTime(timeA);
 					c.add(Calendar.MINUTE, appointmentInterval);
 
-					if (!timeB.equals(c.getTime())) {
+					if (!timeB.equals(c.getTime()) && !timeA.equals(timeB)) {
 						Log.d("appointment", "Free Slot Here");
 						timeSingle.add(i + 1, "---------");
 						nameSingle.add(i + 1, "Free Slot");
