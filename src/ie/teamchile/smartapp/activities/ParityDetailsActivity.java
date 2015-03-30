@@ -143,10 +143,20 @@ public class ParityDetailsActivity extends MenuInheritActivity {
 			gestationText.setText(gestation.get(position));
 	
 			weightText.setText(weight.get(position));
-			modeText.setText(birthMode.get(position));
+			modeText.setText(formatArrayString(birthMode.get(position)));
 			birthOutcomeParity.setText(birthOutcome.get(position));
 			//gestText.setText(gestationStr.get(position)); 
 			return convertView;			
 		}
 	}
+	
+    private String formatArrayString(String toBeFormatted){
+    	String formatedString = toBeFormatted
+    		    .replace(",", "")  //remove the commas
+    		    .replace("[", "")  //remove the right bracket
+    		    .replace("]", "")  //remove the left bracket
+    		    .replace("\"", "")
+    		    .trim(); 
+    	return formatedString;
+    }
 }
