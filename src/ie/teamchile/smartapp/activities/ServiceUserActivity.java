@@ -215,12 +215,6 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		}
 	}
 	
-	@Override
-	protected void onNewIntent(Intent intent) {
-	    super.onNewIntent(intent);
-	    setIntent(intent);
-	}
-	
 	private class ButtonClick implements View.OnClickListener, DialogInterface {
 		public void onClick(View v) {
 			switch (v.getId()) {
@@ -349,7 +343,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		}
 	}
 	
-	public void usrContact() {
+	private void usrContact() {
 		dialog = new Dialog(ServiceUserActivity.this);
 		dialog.setContentView(R.layout.user_contact_dialog_box);
 		dialog.setTitle(R.string.contact_dialog_message);
@@ -395,7 +389,8 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		kinCancel.setOnClickListener(new ButtonClick());
 		dialog.show();
 	}
-	public String getAge(String dob) {
+	
+	private String getAge(String dob) {
 		try {			
 			dobAsDate = sdfDate.parse(dob);
 			cal.setTime(dobAsDate);
@@ -423,7 +418,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		return String.valueOf(result);
 	}
 	
-	public String getEstimateDeliveryDate(String edd){
+	private String getEstimateDeliveryDate(String edd){
         Date date;
         String ed = null;
 		try{
@@ -435,7 +430,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 	    return ed;
 	}
 	
-	public String getDeliveryDate(String edd){
+	protected String getDeliveryDate(String edd){
        Date date;
        String dateOfDevelivery = null;
 		try{
@@ -447,7 +442,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 	    return dateOfDevelivery;
 	}	
 	
-	public String getDeliveryTime(String edd) {
+	private String getDeliveryTime(String edd) {
 		String deliveryTime = null;
 		Date date;
 		try {
@@ -462,13 +457,13 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		return deliveryTime;
 	}	
 
-    public int getNoOfDays(Date past){
+	private int getNoOfDays(Date past){
     	cal = Calendar.getInstance();
         Date now = cal.getTime();
         return (int)((now.getTime() - past.getTime()) / (1000 * 60 * 60 * 24)); 
 	}
     
-    public double getGramsToKg(double grams){
+    private double getGramsToKg(double grams){
 	    	double kg = 0.0;
 	    	kg = grams/1000;
 	    	return kg;
