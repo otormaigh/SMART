@@ -423,7 +423,7 @@ public class AppointmentSingleton {
 		return removeSeconds(help.jsonParseHelper(json, "appointments", "time"));
 	}
 	
-	public ArrayList<String> getTime(ArrayList<String> idList){
+	public ArrayList<String> getTime(ArrayList<String> idList) throws NullPointerException{
 		ArrayList<String> time = new ArrayList<String>();
 		for(int i = 0; i < idList.size(); i++ ){
 			JSONObject json = idHash.get(idList.get(i));
@@ -462,11 +462,13 @@ public class AppointmentSingleton {
 	
 	public String removeSeconds(String time){
 		Date oldTime = null;
+		String newTime = "";
 		try {
 			oldTime = sdfTime.parse(time);
+			newTime = sdfHHmm.format(oldTime);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		return sdfHHmm.format(oldTime);
+		return newTime;
 	}
 }
