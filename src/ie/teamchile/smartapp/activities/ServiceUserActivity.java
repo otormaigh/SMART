@@ -8,7 +8,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 import android.app.AlertDialog;
@@ -41,7 +40,6 @@ public class ServiceUserActivity extends MenuInheritActivity {
 				   perineum, birthMode, babyGender, babyWeightGrams = "", babyWeightKg = "", 
 				   vitK, hearing, antiD, feeding, nbst, deliveryDateTime, daysSinceBirth,
 				   userCall, userSMS, userEmail, kinCall, kinSMS;
-	private int days = 0;
 	private double grams = 0.0;
 	private String sex_male = "ale";
 	private String sex_female = "emale";
@@ -54,7 +52,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 	private DateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 	private DateFormat sdfMonthFullName = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
 	private DateFormat sdfAMPM = new SimpleDateFormat("HH:mm a", Locale.getDefault());
-	private Date dateOfDelivery = null, currentDate = null, dobAsDate = null;
+	private Date dobAsDate = null;
 	private Intent userCallIntent, userSmsIntent, userEmailIntent,
 			kinCallIntent, kinSmsIntent;
 	private Calendar cal = Calendar.getInstance();
@@ -163,9 +161,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 			nbst = ServiceUserSingleton.getInstance().getBabyNewBornScreeningTest().get(0);
 			deliveryDateTime = ServiceUserSingleton.getInstance().getBabyDeliveryDateTime().get(0);		
 			if(!deliveryDateTime.equals("null")){
-				dateOfDelivery = sdfDateTime.parse(deliveryDateTime);
-				days = getNoOfDays(dateOfDelivery);
-				daysSinceBirth = String.valueOf(days);
+				daysSinceBirth = getNoOfDays(deliveryDateTime);
 			}
 			setTitle(userName);
 			
@@ -210,7 +206,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 				postBabyGender.setText(babyGender + sex_female);
 			}		
 			postDaysSinceBirth.setText(daysSinceBirth);
-		} catch (ParseException | NullPointerException e){
+		} catch (NullPointerException e){
 			e.printStackTrace();
 		}
 	}
@@ -457,10 +453,18 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		return deliveryTime;
 	}	
 
-	private int getNoOfDays(Date past){
-    	cal = Calendar.getInstance();
-        Date now = cal.getTime();
-        return (int)((now.getTime() - past.getTime()) / (1000 * 60 * 60 * 24)); 
+	private String getNoOfDays(String dateOfDelivery){
+		int numOfDays = 0;
+		try {
+			Date dodAsDate = sdfDateTime.parse(deliveryDateTime);
+			cal = Calendar.getInstance();
+			Date now = cal.getTime();
+			numOfDays = (int)((now.getTime() - dodAsDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}		
+        
+        return String.valueOf(numOfDays);  
 	}
     
     private double getGramsToKg(double grams){
@@ -477,5 +481,9 @@ public class ServiceUserActivity extends MenuInheritActivity {
     		    .replace("\"", "")
     		    .trim(); 
     	return formatedString;
+    }
+    
+    private void postORAnte(){
+    	
     }
 }
