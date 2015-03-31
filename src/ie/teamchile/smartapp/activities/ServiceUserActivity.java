@@ -159,6 +159,9 @@ public class ServiceUserActivity extends MenuInheritActivity {
 			gestation = ServiceUserSingleton.getInstance().getPregnancyGestation().get(p);
 			parity = ServiceUserSingleton.getInstance().getUserParity().get(0);
 			estimtedDelivery = ServiceUserSingleton.getInstance().getPregnancyEstimatedDeliveryDate().get(p);
+			if(!estimtedDelivery.equals("null")){
+				getRecentPregnancy();
+			}
 			vitK = ServiceUserSingleton.getInstance().getBabyVitK().get(b);
 			hearing = ServiceUserSingleton.getInstance().getBabyHearing().get(b);
 			antiD = ServiceUserSingleton.getInstance().getPregnancyAntiD().get(p);
@@ -488,11 +491,11 @@ public class ServiceUserActivity extends MenuInheritActivity {
     		    .trim(); 
     	return formatedString;
     }
-    
+/*    
     private void postORAnte(){
     	
     }
-    
+*/
     private void getRecentBaby(){
     	List<String> babyDateTime = ServiceUserSingleton.getInstance().getBabyDeliveryDateTime();
     	List<Date> asDate = new ArrayList<Date>();
@@ -511,7 +514,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
     	List<Date> asDate = new ArrayList<Date>();
     	for(int i = 0; i < edd.size(); i++){
     		try {
-				asDate.add(sdfDateTime.parse(edd.get(i)));
+				asDate.add(sdfDate.parse(edd.get(i)));
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
