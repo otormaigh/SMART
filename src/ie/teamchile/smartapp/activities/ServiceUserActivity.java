@@ -6,8 +6,11 @@ import ie.teamchile.smartapp.utility.ServiceUserSingleton;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import android.app.AlertDialog;
@@ -21,8 +24,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TabHost;
-import android.widget.TableRow;
 import android.widget.TabHost.TabSpec;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,6 +59,8 @@ public class ServiceUserActivity extends MenuInheritActivity {
 	private Intent userCallIntent, userSmsIntent, userEmailIntent,
 			kinCallIntent, kinSmsIntent;
 	private Calendar cal = Calendar.getInstance();
+	private int b;		//position of most recent baby in list
+	private int p;		//position of most recent pregnancy in list
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -143,24 +148,25 @@ public class ServiceUserActivity extends MenuInheritActivity {
 			road = ServiceUserSingleton.getInstance().getUserHomeAddress().get(0);
 			county = ServiceUserSingleton.getInstance().getUserHomeCounty().get(0);
 			postCode = ServiceUserSingleton.getInstance().getUserHomePostCode().get(0);
-			perineum = ServiceUserSingleton.getInstance().getPregnancyPerineum().get(0);
-			birthMode = formatArrayString(ServiceUserSingleton.getInstance().getPregnancyBirthMode().get(0));
-			babyGender = ServiceUserSingleton.getInstance().getBabyGender().get(0);
-			babyWeightGrams = ServiceUserSingleton.getInstance().getBabyWeight().get(0);
+			perineum = ServiceUserSingleton.getInstance().getPregnancyPerineum().get(p);
+			birthMode = formatArrayString(ServiceUserSingleton.getInstance().getPregnancyBirthMode().get(p));
+			babyGender = ServiceUserSingleton.getInstance().getBabyGender().get(b);
+			babyWeightGrams = ServiceUserSingleton.getInstance().getBabyWeight().get(b);
 			if(!babyWeightGrams.equals("null")){
 				grams =  Double.parseDouble(babyWeightGrams);
 				babyWeightKg = String.valueOf(getGramsToKg(grams));
 			}
-			gestation = ServiceUserSingleton.getInstance().getPregnancyGestation().get(0);
+			gestation = ServiceUserSingleton.getInstance().getPregnancyGestation().get(p);
 			parity = ServiceUserSingleton.getInstance().getUserParity().get(0);
-			estimtedDelivery = ServiceUserSingleton.getInstance().getPregnancyEstimatedDeliveryDate().get(0);
-			vitK = ServiceUserSingleton.getInstance().getBabyVitK().get(0);
-			hearing = ServiceUserSingleton.getInstance().getBabyHearing().get(0);
-			antiD = ServiceUserSingleton.getInstance().getPregnancyAntiD().get(0);
-			feeding = ServiceUserSingleton.getInstance().getPregnancyFeeding().get(0);
-			nbst = ServiceUserSingleton.getInstance().getBabyNewBornScreeningTest().get(0);
-			deliveryDateTime = ServiceUserSingleton.getInstance().getBabyDeliveryDateTime().get(0);		
+			estimtedDelivery = ServiceUserSingleton.getInstance().getPregnancyEstimatedDeliveryDate().get(p);
+			vitK = ServiceUserSingleton.getInstance().getBabyVitK().get(b);
+			hearing = ServiceUserSingleton.getInstance().getBabyHearing().get(b);
+			antiD = ServiceUserSingleton.getInstance().getPregnancyAntiD().get(p);
+			feeding = ServiceUserSingleton.getInstance().getPregnancyFeeding().get(p);
+			nbst = ServiceUserSingleton.getInstance().getBabyNewBornScreeningTest().get(b);
+			deliveryDateTime = ServiceUserSingleton.getInstance().getBabyDeliveryDateTime().get(b);		
 			if(!deliveryDateTime.equals("null")){
+				getRecentBaby();
 				daysSinceBirth = getNoOfDays(deliveryDateTime);
 			}
 			setTitle(userName);
@@ -170,7 +176,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 			}
 			
 			anteParity.setText(parity);
-			anteGestation.setText(ServiceUserSingleton.getInstance().getPregnancyGestation().get(0));
+			anteGestation.setText(ServiceUserSingleton.getInstance().getPregnancyGestation().get(p));
 			anteRhesus.setText(ServiceUserSingleton.getInstance().getUserRhesus().get(0));
 			anteBloodGroup.setText(ServiceUserSingleton.getInstance().getUserBloodGroup().get(0));
 			anteDeliveryTime.setText(getEstimateDeliveryDate(estimtedDelivery));
@@ -485,5 +491,31 @@ public class ServiceUserActivity extends MenuInheritActivity {
     
     private void postORAnte(){
     	
+    }
+    
+    private void getRecentBaby(){
+    	List<String> babyDateTime = ServiceUserSingleton.getInstance().getBabyDeliveryDateTime();
+    	List<Date> asDate = new ArrayList<Date>();
+    	for(int i = 0; i < babyDateTime.size(); i++){
+    		try {
+				asDate.add(sdfDateTime.parse(babyDateTime.get(i)));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+    	}    
+    	b = asDate.indexOf(Collections.max(asDate));
+    }
+    
+    private void getRecentPregnancy(){
+    	List<String> edd = ServiceUserSingleton.getInstance().getPregnancyEstimatedDeliveryDate();
+    	List<Date> asDate = new ArrayList<Date>();
+    	for(int i = 0; i < edd.size(); i++){
+    		try {
+				asDate.add(sdfDateTime.parse(edd.get(i)));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+    	}    
+    	p = asDate.indexOf(Collections.max(asDate));
     }
 }
