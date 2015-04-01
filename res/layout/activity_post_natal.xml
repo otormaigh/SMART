@@ -3,90 +3,21 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
- <LinearLayout 
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/padding_small"
         android:layout_marginTop="@dimen/padding_small"
         android:gravity="center"
         android:orientation="vertical" >
-        
-     <LinearLayout
+
+        <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
-
-
-            
         </LinearLayout>
-
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-            
-            <TextView
-            android:id="@+id/name_post_natal"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Name" />
-        </LinearLayout>
-        
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/padding_medium"
-        android:gravity="center"
-        android:orientation="horizontal" >
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
-
-            <ImageView
-                android:id="@+id/ante_natal_from_post_natal"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@drawable/ic_action_back" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ante Natal" />
-        </LinearLayout>
-
-        <ImageView
-            android:id="@+id/user_image_post_natal"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="@dimen/padding_medium"
-            android:layout_marginRight="@dimen/padding_medium"
-            android:clickable="true"
-            android:src="@drawable/ic_action_person" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
-
-            <ImageView
-                android:id="@+id/post_natal"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:clickable="true"
-                android:src="@drawable/ic_action_forward" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Post Natal" />
-        </LinearLayout>
-    </LinearLayout>
-    <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
@@ -95,125 +26,123 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="start"
-                android:textStyle="bold"
                 android:paddingTop="@dimen/padding_small"
                 android:text="@string/mother_info"
-                android:textSize="@dimen/text_small" />
+                android:textSize="@dimen/text_small"
+                android:textStyle="bold" />
         </LinearLayout>
-  
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/padding_medium"
-        android:gravity="bottom"
-        android:orientation="vertical" >
-    
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/border"
-        android:padding="5dip" >
- 
-        <TextView
-            android:id="@+id/birth_mode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textSize="@dimen/text_Xsmall"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            android:textStyle="bold"
-            android:textSize="@dimen/text_Xsmall"
-            android:text="@string/birth_mode"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    </TableRow>
-      <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/border"
-        android:padding="5dip" >
- 
-        <TextView
-            android:id="@+id/perineum"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text=""
-            android:textSize="@dimen/text_Xsmall"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:gravity="end"
-            android:textStyle="bold"
-            android:textSize="@dimen/text_Xsmall"
-            android:text="@string/perineum"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-        
-        </TableRow>
-      <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/border"
-        android:padding="5dip" >
- 
-        <TextView
-            android:id="@+id/anti_d"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text=""
-            android:textSize="@dimen/text_Xsmall"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:gravity="end"
-            android:textStyle="bold"
-            android:textSize="@dimen/text_Xsmall"
-            android:text="@string/anti_d"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-        
-        </TableRow>
-        <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/border"
-        android:padding="5dip" >
- 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/midwives_notes"
-            android:gravity="top"
-            android:textSize="@dimen/text_Xsmall"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:gravity="end"
+            android:layout_marginBottom="@dimen/padding_medium"
+            android:gravity="bottom"
             android:orientation="vertical" >
 
-            <ImageView
-                android:id="@+id/midwives_notes"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:adjustViewBounds="true"
-                android:clickable="true"
-                android:gravity="end"
-                android:src="@drawable/forward_arrow" />
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:padding="5dip" >
 
-</LinearLayout>
-        </TableRow>
-        
+                <TextView
+                    android:id="@+id/birth_mode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/text_Xsmall" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="@string/birth_mode"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/text_Xsmall"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:padding="5dip" >
+
+                <TextView
+                    android:id="@+id/perineum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text=""
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/text_Xsmall" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="end"
+                    android:text="@string/perineum"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/text_Xsmall"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:padding="5dip" >
+
+                <TextView
+                    android:id="@+id/anti_d"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text=""
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/text_Xsmall" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="end"
+                    android:text="@string/anti_d"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/text_Xsmall"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:padding="5dip" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="top"
+                    android:text="@string/midwives_notes"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/text_Xsmall" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:orientation="vertical" >
+
+                    <ImageView
+                        android:id="@+id/midwives_notes"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:adjustViewBounds="true"
+                        android:clickable="true"
+                        android:gravity="end"
+                        android:src="@drawable/forward_arrow" />
+                </LinearLayout>
+            </TableRow>
         </LinearLayout>
-        
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -223,237 +152,235 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="start"
-                android:textStyle="bold"
                 android:paddingTop="@dimen/padding_medium"
                 android:text="@string/baby_info"
-                android:textSize="@dimen/text_small" />
+                android:textSize="@dimen/text_small"
+                android:textStyle="bold" />
         </LinearLayout>
-   
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/padding_medium"
-        android:gravity="bottom"
-        android:orientation="vertical" >
-    
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/border"
-        android:padding="5dip" >
- 
-        <TextView
-            android:id="@+id/date_of_delivery"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textSize="@dimen/text_Xsmall"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <TextView
+        <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:gravity="end"
-            android:textStyle="bold"
-            android:textSize="@dimen/text_Xsmall"
-            android:text="@string/delivery_date"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:layout_marginBottom="@dimen/padding_medium"
+            android:gravity="bottom"
+            android:orientation="vertical" >
 
-    </TableRow>
-      <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/border"
-        android:padding="5dip" >
- 
-        <TextView
-            android:id="@+id/time_of_delivery"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text=""
-            android:textSize="@dimen/text_Xsmall"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:gravity="end"
-            android:textStyle="bold"
-            android:textSize="@dimen/text_Xsmall"
-            android:text="@string/delivery_time"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-        
-        </TableRow>
-      <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/border"
-        android:padding="5dip" >
- 
-        <TextView
-            android:id="@+id/days_since_birth"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text=""
-            android:textSize="@dimen/text_Xsmall"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:gravity="end"
-            android:textStyle="bold"
-            android:textSize="@dimen/text_Xsmall"
-            android:text="@string/days_sinceBirth"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-        
-        </TableRow>
-        <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/border"
-        android:padding="5dip" >
- 
-        <TextView
-            android:id="@+id/sex_of_baby"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text=""
-            android:textSize="@dimen/text_Xsmall"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:gravity="end"
-            android:textStyle="bold"
-            android:textSize="@dimen/text_Xsmall"
-            android:text="@string/sex_of_baby"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-        
-        </TableRow>
-        
             <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/border"
-        android:padding="5dip" >
- 
-        <TextView
-            android:id="@+id/birth_weight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textSize="@dimen/text_Xsmall"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:padding="5dip" >
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            android:textStyle="bold"
-            android:textSize="@dimen/text_Xsmall"
-            android:text="@string/birth_weight"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+                <TextView
+                    android:id="@+id/date_of_delivery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/text_Xsmall" />
 
-    </TableRow>
-      <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/border"
-        android:padding="5dip" >
- 
-        <TextView
-            android:id="@+id/vitk"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text=""
-            android:textSize="@dimen/text_Xsmall"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="@string/delivery_date"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/text_Xsmall"
+                    android:textStyle="bold" />
+            </TableRow>
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:gravity="end"
-            android:textStyle="bold"
-            android:textSize="@dimen/text_Xsmall"
-            android:text="@string/vit_k"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-        
-        </TableRow>
-      <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/border"
-        android:padding="5dip" >
- 
-        <TextView
-            android:id="@+id/hearing"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text=""
-            android:textSize="@dimen/text_Xsmall"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:padding="5dip" >
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:gravity="end"
-            android:textStyle="bold"
-            android:textSize="@dimen/text_Xsmall"
-            android:text="@string/baby_hearing"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-        
-        </TableRow>
-        <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/border"
-        android:padding="5dip" >
- 
-        <TextView
-            android:id="@+id/feeding"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text=""
-            android:textSize="@dimen/text_Xsmall"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+                <TextView
+                    android:id="@+id/time_of_delivery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text=""
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/text_Xsmall" />
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:gravity="end"
-            android:textStyle="bold"
-            android:text="@string/baby_feeding"
-            android:textSize="@dimen/text_Xsmall"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-        
-        </TableRow>
-        
-        <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/border"
-        android:padding="5dip" >
- 
-        <TextView
-            android:id="@+id/nbst"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text=""
-            android:textSize="@dimen/text_Xsmall"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="end"
+                    android:text="@string/delivery_time"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/text_Xsmall"
+                    android:textStyle="bold" />
+            </TableRow>
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:gravity="end"
-            android:textStyle="bold"
-            android:text="@string/nbst"
-            android:textSize="@dimen/text_Xsmall"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-        
-        </TableRow>
-</LinearLayout>
-</LinearLayout>
-</ScrollView>  
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:padding="5dip" >
+
+                <TextView
+                    android:id="@+id/days_since_birth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text=""
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/text_Xsmall" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="end"
+                    android:text="@string/days_sinceBirth"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/text_Xsmall"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:padding="5dip" >
+
+                <TextView
+                    android:id="@+id/sex_of_baby"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text=""
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/text_Xsmall" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="end"
+                    android:text="@string/sex_of_baby"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/text_Xsmall"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:padding="5dip" >
+
+                <TextView
+                    android:id="@+id/birth_weight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/text_Xsmall" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="@string/birth_weight"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/text_Xsmall"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:padding="5dip" >
+
+                <TextView
+                    android:id="@+id/vitk"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text=""
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/text_Xsmall" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="end"
+                    android:text="@string/vit_k"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/text_Xsmall"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:padding="5dip" >
+
+                <TextView
+                    android:id="@+id/hearing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text=""
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/text_Xsmall" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="end"
+                    android:text="@string/baby_hearing"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/text_Xsmall"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:padding="5dip" >
+
+                <TextView
+                    android:id="@+id/feeding"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text=""
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/text_Xsmall" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="end"
+                    android:text="@string/baby_feeding"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/text_Xsmall"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:padding="5dip" >
+
+                <TextView
+                    android:id="@+id/nbst"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text=""
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/text_Xsmall" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="end"
+                    android:text="@string/nbst"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/text_Xsmall"
+                    android:textStyle="bold" />
+            </TableRow>
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
