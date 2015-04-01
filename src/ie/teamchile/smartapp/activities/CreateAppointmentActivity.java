@@ -35,7 +35,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class CreateAppointmentActivity extends MenuInheritActivity {
-	private SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+	private SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm", Locale.getDefault());
 	private SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 	private SimpleDateFormat sdfDateMonthName = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
 	private EditText userName;
@@ -128,6 +128,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 			afterAsDateMinusInterval = c.getTime();
 			Log.d("postAppointment", "afterAsDateMinusInterval: " + afterAsDateMinusInterval);
 			timeList.add("Select Time");
+			
 			while(beforeAsDate.before(afterAsDateMinusInterval)){
 				Log.d("postAppointment", "beforeAsDate: " + beforeAsDate);
 				Log.d("postAppointment", "afterAsDate: " + afterAsDate);
@@ -136,6 +137,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 				beforeAsDate = c.getTime();
 				timeList.add(sdfTime.format(c.getTime()));
 			}
+			
 			Log.d("postAppointment", "timeList: " + timeList);
 		    visitTimeSpinner = (Spinner) findViewById(R.id.visit_time_spinner);
 		    ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<String>(this, R.layout.spinner_layout, timeList);
