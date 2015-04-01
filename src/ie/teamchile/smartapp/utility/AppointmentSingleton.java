@@ -4,11 +4,14 @@ import ie.teamchile.smartapp.connecttodb.AccessDBTable;
 
 import java.util.Date;
 import java.text.Format;
+import java.text.DateFormat;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -80,8 +83,11 @@ import android.util.Log;
  */
 
 public class AppointmentSingleton {
+	private boolean updated;
 	private static AppointmentSingleton singleInstance;
 	private HashMap<String, HashMap<String, ArrayList<String>>> clinicIDHash;
+	private DateFormat sdfTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+	private DateFormat sdfHHmm = new SimpleDateFormat("HH:mm", Locale.getDefault());
 	private HashMap<String, JSONObject> idHash;
 	private ArrayList<String> idList;
 	private AccessDBTable db = new AccessDBTable();
@@ -89,8 +95,7 @@ public class AppointmentSingleton {
 	private JSONArray query;
 	private JSONObject json;
 	private ProgressDialog pd;
-	private SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm:ss",Locale.getDefault());
-	private SimpleDateFormat sdfHHmm = new SimpleDateFormat("HH:mm",Locale.getDefault());
+
 	
 	private AppointmentSingleton() {
 	}
@@ -102,7 +107,12 @@ public class AppointmentSingleton {
 		return singleInstance;
 	}
 	
+	public boolean getUpdated(){
+		return updated;
+	}
+	
 	public void updateLocal(Context context){
+		updated = true;
 		new LongOperation(context).execute("appointments");
 	}
 	
@@ -414,18 +424,8 @@ public class AppointmentSingleton {
 	
 	public String getTime(String id){
 		JSONObject json = idHash.get(id);
-		Date date = null;
-		String timefromdb;
-		String timeHHmm = null;
-		try {
-			timefromdb = help.jsonParseHelper(json, "appointments", "time");
-			date = sdfTime.parse(timefromdb);
-			timeHHmm = sdfHHmm.format(date);
-		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		return timeHHmm;
+		return removeSeconds(help.jsonParseHelper(json, "appointments", "time"));
+
 	}
 	
 	public ArrayList<String> getTime(ArrayList<String> idList){
@@ -435,6 +435,7 @@ public class AppointmentSingleton {
 		String timeHHmm = null;
 		for(int i = 0; i < idList.size(); i++ ){
 			JSONObject json = idHash.get(idList.get(i));
+
 			try {
 				timefromdb = help.jsonParseHelper(json, "appointments", "time");
 				date = sdfTime.parse(timefromdb);
@@ -444,6 +445,9 @@ public class AppointmentSingleton {
 				e1.printStackTrace();
 			}
 			time.add(timeHHmm);
+
+			time.add(removeSeconds(help.jsonParseHelper(json, "appointments", "time")));
+
 		}
 		return time;
 	}
@@ -474,5 +478,15 @@ public class AppointmentSingleton {
 			visitType.add(help.jsonParseHelper(json, "appointments", "visit_type"));
 		}
 		return visitType;
+	}
+	
+	public String removeSeconds(String time){
+		Date oldTime = null;
+		try {
+			oldTime = sdfTime.parse(time);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return sdfHHmm.format(oldTime);
 	}
 }
