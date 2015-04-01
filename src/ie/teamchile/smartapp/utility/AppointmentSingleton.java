@@ -96,6 +96,7 @@ public class AppointmentSingleton {
 	private JSONArray query;
 	private JSONObject json;
 	private ProgressDialog pd;
+
 	
 	private AppointmentSingleton() {
 	}
@@ -425,6 +426,7 @@ public class AppointmentSingleton {
 	public String getTime(String id){
 		JSONObject json = idHash.get(id);
 
+
 		Date date = null;
 		String timefromdb;
 		String timeHHmm = null;
@@ -438,6 +440,7 @@ public class AppointmentSingleton {
 		}
 		return timeHHmm;
 
+
 	}
 	
 	public ArrayList<String> getTime(ArrayList<String> idList) throws NullPointerException{
@@ -447,6 +450,7 @@ public class AppointmentSingleton {
 		String timeHHmm = null;
 		for(int i = 0; i < idList.size(); i++ ){
 			JSONObject json = idHash.get(idList.get(i));
+
 			try {
 				timefromdb = help.jsonParseHelper(json, "appointments", "time");
 				date = sdfTime.parse(timefromdb);
@@ -456,7 +460,7 @@ public class AppointmentSingleton {
 				e1.printStackTrace();
 			}
 			time.add(timeHHmm);
-			time.add(removeSeconds(help.jsonParseHelper(json, "appointments", "time")));
+
 
 		}
 		return time;
