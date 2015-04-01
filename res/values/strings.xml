@@ -6,6 +6,7 @@
     <!-- ACTIVITY TITLES -->
     <string name="title_activity_select_time">Select Time</string>
     <string name="title_activity_service_user">Service User</string>
+    <string name="title_activity_service_user_search">Service User Search</string>
     <string name="title_activity_db_info">DB Info</string>
     <string name="title_activity_http_client">Http Client</string>
     <string name="title_activity_appointment_type_spinner">Appointment Type Spinner</string>
@@ -101,18 +102,13 @@
     <string name="address">Address</string>
     <string name="next_of_kin">Next-of-kin</string>
     <string name="book_appointment">Book Appointment</string>
-    <string name="title_activity_service_user_search">Service User Search Activity</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
-    <!-- SERVICE USER SEARCH -->
-    <string name="ssr_title">Search by the service user\'s hospital number,
-        					 name and/or date of birth (@dd/mm/yyyy)\n
-        					 You can combine search terms in one line if you like.\n
-        					 Example: Mary Murphy @17/06/1976</string>
-	<string name="service_user_search_hint">From the drop down menu below, select the
-	    									type of query you would like to make.</string>	        					 
-    <string name="enter_search">Enter Search Parameters</string>
+    <!-- SERVICE USER SEARCH -->       					 
+    <string name="enter_name">Enter Name Here</string>
+    <string name="enter_hospital_number">Enter Hospital Number Here</string>
+    <string name="enter_dob">Enter DOB Here</string>
     <string name="search_result">Search Results</string>
     <string name="btn_search">Search</string>
 

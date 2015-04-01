@@ -9,6 +9,7 @@ import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +38,7 @@ public class ParityDetailsActivity extends MenuInheritActivity {
 		name.setText(patientName);
 		parity.setText(patientParity);
 		
-		List<String>nameBaby = ServiceUserSingleton.getInstance().getBabyName();
+		List<String> nameBaby = ServiceUserSingleton.getInstance().getBabyName();
 		List<String> hospitalNumber = ServiceUserSingleton.getInstance().getBabyHospitalNumber();
         
 		List<String> dobBaby = ServiceUserSingleton.getInstance().getBabyDeliveryDateTime();
@@ -45,11 +46,12 @@ public class ParityDetailsActivity extends MenuInheritActivity {
 		List<String> gestationBaby = ServiceUserSingleton.getInstance().getPregnancyGestation();
 		
 		List<String> weightBaby = ServiceUserSingleton.getInstance().getBabyWeight();
+		Log.d("bugs", "weightBaby" + weightBaby);
 	
 		List<String> birthMode = ServiceUserSingleton.getInstance().getPregnancyBirthMode();
 		List<String> birthOutcome = ServiceUserSingleton.getInstance().getBabyBirthOutcome();
         
-	   ArrayList<String> dobStr = new ArrayList<String>();
+	    ArrayList<String> dobStr = new ArrayList<String>();
 	   
 		for(int i = 0; i < dobBaby.size(); i++){
 			dobStr.add(dobBaby.get(i) + "\n");
