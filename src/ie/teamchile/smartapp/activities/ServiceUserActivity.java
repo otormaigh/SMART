@@ -6,7 +6,9 @@ import ie.teamchile.smartapp.utility.ServiceUserSingleton;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -23,8 +25,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TabHost;
-import android.widget.TableRow;
 import android.widget.TabHost.TabSpec;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,11 +57,12 @@ public class ServiceUserActivity extends MenuInheritActivity {
 	private DateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 	private DateFormat sdfMonthFullName = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
 	private DateFormat sdfAMPM = new SimpleDateFormat("HH:mm a", Locale.getDefault());
-	private Date dateOfDelivery = null, currentDate = null, dobAsDate = null;
+	private Date dobAsDate = null;
 	private Intent userCallIntent, userSmsIntent, userEmailIntent,
 			kinCallIntent, kinSmsIntent;
-	private String[] tabs = { "Ante Natal", "Contact", "Post Natal" };
 	private Calendar cal = Calendar.getInstance();
+	private int b;		//position of most recent baby in list
+	private int p;		//position of most recent pregnancy in list
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -150,15 +153,15 @@ public class ServiceUserActivity extends MenuInheritActivity {
 			road = ServiceUserSingleton.getInstance().getUserHomeAddress().get(0);
 			county = ServiceUserSingleton.getInstance().getUserHomeCounty().get(0);
 			postCode = ServiceUserSingleton.getInstance().getUserHomePostCode().get(0);
-			perineum = ServiceUserSingleton.getInstance().getPregnancyPerineum().get(0);
-			birthMode = formatArrayString(ServiceUserSingleton.getInstance().getPregnancyBirthMode().get(0));
-			babyGender = ServiceUserSingleton.getInstance().getBabyGender().get(0);
-			babyWeightGrams = ServiceUserSingleton.getInstance().getBabyWeight().get(0);
+			perineum = ServiceUserSingleton.getInstance().getPregnancyPerineum().get(p);
+			birthMode = formatArrayString(ServiceUserSingleton.getInstance().getPregnancyBirthMode().get(p));
+			babyGender = ServiceUserSingleton.getInstance().getBabyGender().get(b);
+			babyWeightGrams = ServiceUserSingleton.getInstance().getBabyWeight().get(b);
 			if(!babyWeightGrams.equals("null")){
 				grams =  Double.parseDouble(babyWeightGrams);
 				babyWeightKg = String.valueOf(getGramsToKg(grams));
 			}
-			gestation = ServiceUserSingleton.getInstance().getPregnancyGestation().get(0);
+			gestation = ServiceUserSingleton.getInstance().getPregnancyGestation().get(p);
 			parity = ServiceUserSingleton.getInstance().getUserParity().get(0);
 			estimtedDelivery = ServiceUserSingleton.getInstance().getPregnancyEstimatedDeliveryDate().get(0);
 			vitK = ServiceUserSingleton.getInstance().getBabyVitK().get(0);
@@ -168,10 +171,19 @@ public class ServiceUserActivity extends MenuInheritActivity {
 			nbst = ServiceUserSingleton.getInstance().getBabyNewBornScreeningTest().get(0);
 			lastPeriodDate = ServiceUserSingleton.getInstance().getPregnancyLastMenstrualPeriod().get(0);
 			deliveryDateTime = ServiceUserSingleton.getInstance().getBabyDeliveryDateTime().get(0);		
+			estimtedDelivery = ServiceUserSingleton.getInstance().getPregnancyEstimatedDeliveryDate().get(p);
+			if(!estimtedDelivery.equals("null")){
+				getRecentPregnancy();
+			}
+			vitK = ServiceUserSingleton.getInstance().getBabyVitK().get(b);
+			hearing = ServiceUserSingleton.getInstance().getBabyHearing().get(b);
+			antiD = ServiceUserSingleton.getInstance().getPregnancyAntiD().get(p);
+			feeding = ServiceUserSingleton.getInstance().getPregnancyFeeding().get(p);
+			nbst = ServiceUserSingleton.getInstance().getBabyNewBornScreeningTest().get(b);
+			deliveryDateTime = ServiceUserSingleton.getInstance().getBabyDeliveryDateTime().get(b);		
 			if(!deliveryDateTime.equals("null")){
-				dateOfDelivery = sdfDateTime.parse(deliveryDateTime);
-				days = getNoOfDays(dateOfDelivery);
-				daysSinceBirth = String.valueOf(days);
+				getRecentBaby();
+				daysSinceBirth = getNoOfDays(deliveryDateTime);
 			}
 			setTitle(userName);
 			
@@ -180,7 +192,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 			}
 			
 			anteParity.setText(parity);
-			anteGestation.setText(ServiceUserSingleton.getInstance().getPregnancyGestation().get(0));
+			anteGestation.setText(ServiceUserSingleton.getInstance().getPregnancyGestation().get(p));
 			anteRhesus.setText(ServiceUserSingleton.getInstance().getUserRhesus().get(0));
 			anteBloodGroup.setText(ServiceUserSingleton.getInstance().getUserBloodGroup().get(0));
 			anteDeliveryTime.setText(getEstimateDeliveryDate(estimtedDelivery));
@@ -217,15 +229,9 @@ public class ServiceUserActivity extends MenuInheritActivity {
 				postBabyGender.setText(babyGender + sex_female);
 			}		
 			postDaysSinceBirth.setText(daysSinceBirth);
-		} catch (ParseException | NullPointerException e){
+		} catch (NullPointerException e){
 			e.printStackTrace();
 		}
-	}
-	
-	@Override
-	protected void onNewIntent(Intent intent) {
-	    super.onNewIntent(intent);
-	    setIntent(intent);
 	}
 	
 	private class ButtonClick implements View.OnClickListener, DialogInterface {
@@ -356,7 +362,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		}
 	}
 	
-	public void usrContact() {
+	private void usrContact() {
 		dialog = new Dialog(ServiceUserActivity.this);
 		dialog.setContentView(R.layout.user_contact_dialog_box);
 		dialog.setTitle(R.string.contact_dialog_message);
@@ -402,7 +408,8 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		kinCancel.setOnClickListener(new ButtonClick());
 		dialog.show();
 	}
-	public String getAge(String dob) {
+	
+	private String getAge(String dob) {
 		try {			
 			dobAsDate = sdfDate.parse(dob);
 			cal.setTime(dobAsDate);
@@ -430,7 +437,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		return String.valueOf(result);
 	}
 	
-	public String getEstimateDeliveryDate(String edd){
+	private String getEstimateDeliveryDate(String edd){
         Date date;
         String ed = null;
 		try{
@@ -442,6 +449,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 	    return ed;
 	}
 	
+
 	public String getLastPeriodDate(String edd){
         Date date;
         String ed = null;
@@ -456,7 +464,9 @@ public class ServiceUserActivity extends MenuInheritActivity {
 
 	
 	
-	public String getDeliveryDate(String edd){
+
+	protected String getDeliveryDate(String edd){
+
        Date date;
        String dateOfDevelivery = null;
 		try{
@@ -468,7 +478,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 	    return dateOfDevelivery;
 	}	
 	
-	public String getDeliveryTime(String edd) {
+	private String getDeliveryTime(String edd) {
 		String deliveryTime = null;
 		Date date;
 		try {
@@ -483,13 +493,21 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		return deliveryTime;
 	}	
 
-    public int getNoOfDays(Date past){
-    	cal = Calendar.getInstance();
-        Date now = cal.getTime();
-        return (int)((now.getTime() - past.getTime()) / (1000 * 60 * 60 * 24)); 
+	private String getNoOfDays(String dateOfDelivery){
+		int numOfDays = 0;
+		try {
+			Date dodAsDate = sdfDateTime.parse(deliveryDateTime);
+			cal = Calendar.getInstance();
+			Date now = cal.getTime();
+			numOfDays = (int)((now.getTime() - dodAsDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}		
+        
+        return String.valueOf(numOfDays);  
 	}
     
-    public double getGramsToKg(double grams){
+    private double getGramsToKg(double grams){
 	    	double kg = 0.0;
 	    	kg = grams/1000;
 	    	return kg;
@@ -503,5 +521,36 @@ public class ServiceUserActivity extends MenuInheritActivity {
     		    .replace("\"", "")
     		    .trim(); 
     	return formatedString;
+    }
+
+/*    
+    private void postORAnte(){
+    	
+    }
+*/
+    private void getRecentBaby(){
+    	List<String> babyDateTime = ServiceUserSingleton.getInstance().getBabyDeliveryDateTime();
+    	List<Date> asDate = new ArrayList<Date>();
+    	for(int i = 0; i < babyDateTime.size(); i++){
+    		try {
+				asDate.add(sdfDateTime.parse(babyDateTime.get(i)));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+    	}    
+    	b = asDate.indexOf(Collections.max(asDate));
+    }
+    
+    private void getRecentPregnancy(){
+    	List<String> edd = ServiceUserSingleton.getInstance().getPregnancyEstimatedDeliveryDate();
+    	List<Date> asDate = new ArrayList<Date>();
+    	for(int i = 0; i < edd.size(); i++){
+    		try {
+				asDate.add(sdfDate.parse(edd.get(i)));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+    	}    
+    	p = asDate.indexOf(Collections.max(asDate));
     }
 }
