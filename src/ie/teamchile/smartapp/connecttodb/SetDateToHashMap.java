@@ -49,6 +49,8 @@ public class SetDateToHashMap {
 		}
 		return getDateForID(dateHash.get(dateToBeSearched));
 	}
+	
+	
 	private ArrayList<JSONObject> getDateForID(ArrayList<String> listOfIDs){
 		for(int i = 0; i < listOfIDs.size(); i++){
 			JSONObject aptAsJson;
@@ -57,6 +59,8 @@ public class SetDateToHashMap {
 		}
 		return aptsAtDate;
 	}
+	
+	
     public ArrayList<JSONObject> sortDates(ArrayList<JSONObject> objToBeSorted) {
         Collections.sort(objToBeSorted, new Comparator<JSONObject>() {
             @Override

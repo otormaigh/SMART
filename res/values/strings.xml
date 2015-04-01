@@ -153,6 +153,7 @@
     <string name="rhesus">Rhesus</string>
     <string name="parity">Parity</string>
     <string name="obstretic_history">Obstretic history</string>
+    <string name="last_period">Last period</string>
   
     <!-- PARITY DETAILS -->
     <string name="date_of_birth">Date of birth</string>
