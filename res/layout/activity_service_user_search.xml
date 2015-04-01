@@ -6,39 +6,60 @@
     android:orientation="vertical"
     tools:context="${relativePackage}.${activityClass}" >
 
-    <TextView
-        android:layout_width="fill_parent"
+    <EditText
+        android:id="@+id/search_name"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="@string/enter_name"
         android:paddingTop="@dimen/padding_medium"
-        android:text="@string/service_user_search_hint"
-        android:textSize="@dimen/text_small" />
-    
-	<Spinner
-	    android:id="@+id/search_option"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:hint="@string/enter_search" />
-    
-	<LinearLayout
-        android:layout_width="fill_parent"
+        android:singleLine="true" />
+
+    <EditText
+        android:id="@+id/search_hospital_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/enter_hospital_number"
+        android:singleLine="true" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:weightSum="1.0" >
+        android:weightSum="3.0" >
 
         <EditText
-            android:id="@+id/search_params"
-            android:layout_width="wrap_content"
+            android:id="@+id/search_dob_day"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.85"
-            android:hint="@string/enter_search"/>
+            android:layout_weight="1.0"
+            android:hint="DAY"
+            android:inputType="number"
+            android:singleLine="true" />
 
-        <Button
-            android:id="@+id/search"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/search_dob_month"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.15"
-            android:text="@string/btn_search" />
-    </LinearLayout>    
+            android:layout_weight="1.0"
+            android:hint="MONTH"
+            android:inputType="number"
+            android:singleLine="true" />
+
+        <EditText
+            android:id="@+id/search_dob_year"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:hint="YEAR"
+            android:inputType="number"
+            android:singleLine="true" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_search" />
 
     <TextView
         android:layout_width="fill_parent"
@@ -50,4 +71,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
     </ListView>
+
 </LinearLayout>

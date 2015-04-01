@@ -45,8 +45,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 				   dateSelectedStr, timeBefore, timeAfter, nameOfClinic;
 	private int appointmentInterval, dayOfWeek;
 	private DateFormat dfDateOnly = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-	private DateFormat dfTimeOnly = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
-	private DateFormat dfHHmm = new SimpleDateFormat("HH:mm", Locale.getDefault());
+	private DateFormat dfTimeOnly = new SimpleDateFormat("HH:mm", Locale.getDefault());
 	private DateFormat dfDateWithMonthName = new SimpleDateFormat("dd MMM", Locale.getDefault());
 	private ArrayList<String> timeSingle, gestSingle, nameSingle;	
 	private ArrayList<String> listOfId = new ArrayList<String>();
@@ -197,10 +196,10 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
     	clinicName.setText(nameOfClinic);    	
     	
     	if(AppointmentSingleton.getInstance().getHashMapofClinicDateID().containsKey(String.valueOf(clinicSelected))){
-    		Log.d("bugs", "map has key");
+    		Log.d("bugs", "appt map has key");
     		listOfId = AppointmentSingleton.getInstance().getListOfIDs(String.valueOf(clinicSelected), dateSelectedStr);
     	} else {
-    		Log.d("bugs", "map doenst have key");
+    		Log.d("bugs", "appt map doenst have key");
     		listOfId = new ArrayList<String>();
     	}
 
@@ -217,21 +216,25 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 			gestSingle = AppointmentSingleton.getInstance().getGestation(listOfId);	
 
 			for (int i = 0; i < timeSingle.size() - 1; i++) {
-				String timeFirst;
-				String timeSecond;
-				Date timeA = null;
-				Date timeB = null;
 				try {
+					String timeFirst;
+					String timeSecond;
+					Date timeA = null;
+					Date timeB = null;
+					Date time = dfTimeOnly.parse(timeSingle.get(i));
+
+					Log.d("bugs", "time: " + time + "\nclosingAsDate: " + closingAsDate);
+					Log.d("bugs", "time equals close: " + time.equals(closingAsDate));
 					timeFirst = timeSingle.get(i);
 					timeSecond = timeSingle.get(i + 1);
 					timeA = dfTimeOnly.parse(String.valueOf(timeFirst));
 					timeB = dfTimeOnly.parse(String.valueOf(timeSecond));
 					c.setTime(timeA);
 					c.add(Calendar.MINUTE, appointmentInterval);
-					
-					if (!timeB.equals(c.getTime())) {
+
+					if (!timeB.equals(c.getTime()) && !timeA.equals(timeB)) {
 						Log.d("appointment", "Free Slot Here");
-						timeSingle.add(i + 1, "----------");
+						timeSingle.add(i + 1, "---------");
 						nameSingle.add(i + 1, "Free Slot");
 						gestSingle.add(i + 1, "----------");
 						listOfId.add(i + 1, "0");
@@ -246,7 +249,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 				gestSingle.add(0, "---------");
 				listOfId.add(0, "0");				
 			}
-			if (!timeSingle.get((timeSingle.size() - 1)).equals(closingMinusInterval)) {
+			if (!timeSingle.get((timeSingle.size() - 1)).equals(clinicClosing)) {
 				timeSingle.add("---------");
 				nameSingle.add("Free Slot");
 				gestSingle.add("---------");
@@ -300,6 +303,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 			TextView nameText = (TextView) convertView.findViewById(R.id.name);
 			TextView gestText = (TextView) convertView.findViewById(R.id.gestation);
 			
+			
 			timeText.setText(aptTime.get(position));
 			nameText.setText(aptName.get(position));
 			gestText.setText(aptGest.get(position));    	
@@ -327,8 +331,10 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 					timeAfter = AppointmentSingleton.getInstance().getTime(listOfId.get(position + 1));
 				} 
 				else if(listOfId.size() > 0 && position == listOfId.size() - 1){
-					timeBefore = AppointmentSingleton.getInstance().getTime(listOfId.get(position - 1));	
-					timeAfter = clinicClosing;
+					timeBefore = AppointmentSingleton.getInstance().getTime(listOfId.get(position - 1));
+					myCalendar.setTime(closingAsDate);
+					myCalendar.add(Calendar.MINUTE, + appointmentInterval);
+					timeAfter = dfTimeOnly.format(myCalendar.getTime());
 				} 
 				else if(listOfId.size() > 0 && listOfId.get(position - 1) != null && listOfId.get(position + 1) != null){
 					timeBefore = AppointmentSingleton.getInstance().getTime(listOfId.get(position - 1));
@@ -340,30 +346,12 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 				startActivity(intent);
 				
 			} else {
-				/*String nameFromDB = AppointmentSingleton.getInstance().getName(listOfId.get(position));
-				String timeFromDB = AppointmentSingleton.getInstance().getTime(listOfId.get(position));
-				String dateFromDB = AppointmentSingleton.getInstance().getDate(listOfId.get(position));
-				
-				try {
-					dateFromDB = dfDateWithMonthNameAndYear.format(dfDateOnly.parse(dateFromDB));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-				
-				String clinicIDFromDB = AppointmentSingleton.getInstance().getClinicID(listOfId.get(position));	
-				String clinicNameFromDB = ClinicSingleton.getInstance().getClinicName(clinicIDFromDB);
-				int durationFromDB = Integer.parseInt(ClinicSingleton.getInstance().getAppointmentInterval(clinicIDFromDB));*/
 				String serviceUserID = AppointmentSingleton.getInstance().getServiceUserID(listOfId.get(position));
 				
 				Log.d("bugs", "db string: " + "service_users" + "/" + serviceUserID);
 				new LongOperation(AppointmentCalendarActivity.this).execute("service_users" + "/" + serviceUserID);
 				
 				intent = new Intent(AppointmentCalendarActivity.this, ServiceUserActivity.class);
-				/*intent.putExtra("name", nameFromDB);
-				intent.putExtra("time", timeFromDB);
-				intent.putExtra("date", dateFromDB);
-				intent.putExtra("clinicName", clinicNameFromDB);
-				intent.putExtra("duration", String.valueOf(durationFromDB));*/
 			}
 		}		    	
     }
