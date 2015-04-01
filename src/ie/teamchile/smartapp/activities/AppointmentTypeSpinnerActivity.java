@@ -18,13 +18,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
 
 public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
 	private SimpleDateFormat sdfDay = new SimpleDateFormat("E", Locale.getDefault());
     private Spinner appointmentSpinner, serviceOptionSpinner, visitOptionSpinner, clinicSpinner, weekSpinner, daySpinner;
-    private Button appointmentCalendar;
     private ArrayAdapter<CharSequence> appointmentAdapter, visitAdapter, weekAdapter;
     private ArrayAdapter<String> serviceOptionAdapter, clinicAdapter, dayAdapter;
     private List<String> nameList, idList;
@@ -71,34 +69,12 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
 
         daySpinner = (Spinner) findViewById(R.id.day_spinner);
 
-        appointmentCalendar = (Button) findViewById(R.id.appointment_calendar_button);
-        appointmentCalendar.setOnClickListener(new ButtonClick());
-
         appointmentSpinner.setVisibility(View.VISIBLE);
         serviceOptionSpinner.setVisibility(View.GONE);
         visitOptionSpinner.setVisibility(View.GONE);
         clinicSpinner.setVisibility(View.GONE);
         weekSpinner.setVisibility(View.GONE);
         daySpinner.setVisibility(View.GONE);
-        appointmentCalendar.setVisibility(View.GONE);
-    }
-	private class ButtonClick implements View.OnClickListener {
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.appointment_calendar_button:
-                    Log.d("MYLOG", "region: " + serviceOptionSelected);
-                    Log.d("MYLOG", "hospital: " + clinicSelected);
-                    Log.d("MYLOG", "week: " + weekSelected);
-                    Log.d("MYLOG", "day: " + daySelected);
-                    passOptions.setServiceOptionSelected(serviceOptionSelected);
-                    passOptions.setClinicSelected(clinicSelected);
-                    passOptions.setWeekSelected(weekSelected);
-                    passOptions.setDaySelected(daySelected);
-                    Intent intent = new Intent(AppointmentTypeSpinnerActivity.this, AppointmentCalendarActivity.class);
-                    startActivity(intent);
-                    break;
-            }
-        }
     }
 	
 	private void setServiceOptionSpinner(){
@@ -154,7 +130,6 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
                             clinicSpinner.setVisibility(View.GONE);
                             weekSpinner.setVisibility(View.GONE);
                             daySpinner.setVisibility(View.GONE);
-                            appointmentCalendar.setVisibility(View.GONE);
                             break;
                         case 1:     //Clinic
                         	visitOptionSpinner.setVisibility(View.GONE);
@@ -168,7 +143,6 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
                             clinicSpinner.setVisibility(View.GONE);
                             weekSpinner.setVisibility(View.GONE);
                             daySpinner.setVisibility(View.GONE);
-                            appointmentCalendar.setVisibility(View.GONE);
                             visitOptionSpinner.setSelection(0);
                             break;
                     }
@@ -183,7 +157,6 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
                             clinicSpinner.setVisibility(View.GONE);
                             weekSpinner.setVisibility(View.GONE);
                             daySpinner.setVisibility(View.GONE);
-                            appointmentCalendar.setVisibility(View.GONE);
                             break;
                         default:
                         	clinicSpinner.setVisibility(View.VISIBLE);
@@ -202,7 +175,6 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
                             clinicSpinner.setVisibility(View.VISIBLE);
                             weekSpinner.setVisibility(View.GONE);
                             daySpinner.setVisibility(View.GONE);
-                            appointmentCalendar.setVisibility(View.GONE);
                             break;
                         default:
                         	weekSpinner.setVisibility(View.VISIBLE);
@@ -216,7 +188,6 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
                             weekSelected = 0;
                             c = Calendar.getInstance();
                             daySpinner.setVisibility(View.GONE);
-                            appointmentCalendar.setVisibility(View.GONE);
                             break;
                         default:
                         	weekSelected = position;
@@ -237,15 +208,14 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
 								} catch (ParseException e) {
 									e.printStackTrace();
 								}
-                        		appointmentCalendar.setVisibility(View.VISIBLE);
                         	}
+                            changeActivity();
                         	break;
                     }
                     break;
                 case R.id.day_spinner:
                     switch (position) {
                         case 0:
-                            appointmentCalendar.setVisibility(View.GONE);
                             break;
                         default:
 							try {
@@ -254,6 +224,7 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
 							} catch (ParseException e) {
 								e.printStackTrace();
 							}
+							changeActivity();
                         	break;
                     }
                     break;
@@ -264,13 +235,21 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
         }
     }
     
+    public void changeActivity(){
+    	passOptions.setServiceOptionSelected(serviceOptionSelected);
+        passOptions.setClinicSelected(clinicSelected);
+        passOptions.setWeekSelected(weekSelected);
+        passOptions.setDaySelected(daySelected);
+        
+        Intent intent = new Intent(AppointmentTypeSpinnerActivity.this, AppointmentCalendarActivity.class);
+        startActivity(intent);
+    }
+    
     public void addDayToTime(Date dayOfWeek){
     	c.setTime(dayOfWeek);
 		int dayAsInt = c.get(Calendar.DAY_OF_WEEK);
 		c.setTime(daySelected);
 		c.set(Calendar.DAY_OF_WEEK, dayAsInt);
-		appointmentCalendar.setVisibility(View.VISIBLE);
 		daySelected = c.getTime();
     }
-
 }

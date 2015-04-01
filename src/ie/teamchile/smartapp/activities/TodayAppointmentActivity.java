@@ -23,12 +23,13 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 
-public class TodayAppointmentActivity extends ListActivity {
+public class TodayAppointmentActivity extends ListActivity   {
 	private ArrayList<String>values;
 	private ArrayList<String>addresses = new ArrayList<String>();
 	private Calendar cal;
 	private String address;
 	private String date;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,7 @@ public class TodayAppointmentActivity extends ListActivity {
 		cal = Calendar.getInstance();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.UK);
 		date = sdf.format(cal.getTime());
-		values = new ArrayList<String>();			
+		values = new ArrayList<String>();
 	}
 	
 	private class LongOperation extends AsyncTask<String, Void, JSONObject> {
