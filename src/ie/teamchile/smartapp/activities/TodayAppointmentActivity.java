@@ -23,7 +23,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 
-public class TodayAppointmentActivity extends ListActivity  {
+public class TodayAppointmentActivity extends ListActivity   {
 	private ArrayList<String>values;
 	private ArrayList<String>addresses = new ArrayList<String>();
 	private Calendar cal;
