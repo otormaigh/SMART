@@ -9,6 +9,8 @@ import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,16 +30,16 @@ public class ParityDetailsActivity extends MenuInheritActivity {
 		setContentView(R.layout.activity_parity_details);
 		
 		ListView parityList = (ListView)findViewById(R.id.parity_list);
-		name = (TextView)findViewById(R.id.parity_name);
 		babyName = (TextView)findViewById(R.id.baby_name_parity);
 		parity =(TextView)findViewById(R.id.parity_info);
 		
 		patientName = ServiceUserSingleton.getInstance().getUserName().get(0);
 		patientParity = ServiceUserSingleton.getInstance().getUserParity().get(0);
-		name.setText(patientName);
-		parity.setText(patientParity);
+		setTitle(patientName);
+		String parityDeats = "<b>Parity:</b> " + patientParity;
+		parity.setText(Html.fromHtml(parityDeats));
 		
-		List<String>nameBaby = ServiceUserSingleton.getInstance().getBabyName();
+		List<String> nameBaby = ServiceUserSingleton.getInstance().getBabyName();
 		List<String> hospitalNumber = ServiceUserSingleton.getInstance().getBabyHospitalNumber();
         
 		List<String> dobBaby = ServiceUserSingleton.getInstance().getBabyDeliveryDateTime();
@@ -45,11 +47,12 @@ public class ParityDetailsActivity extends MenuInheritActivity {
 		List<String> gestationBaby = ServiceUserSingleton.getInstance().getPregnancyGestation();
 		
 		List<String> weightBaby = ServiceUserSingleton.getInstance().getBabyWeight();
+		Log.d("bugs", "weightBaby" + weightBaby);
 	
 		List<String> birthMode = ServiceUserSingleton.getInstance().getPregnancyBirthMode();
 		List<String> birthOutcome = ServiceUserSingleton.getInstance().getBabyBirthOutcome();
         
-	   ArrayList<String> dobStr = new ArrayList<String>();
+	    ArrayList<String> dobStr = new ArrayList<String>();
 	   
 		for(int i = 0; i < dobBaby.size(); i++){
 			dobStr.add(dobBaby.get(i) + "\n");
@@ -59,11 +62,10 @@ public class ParityDetailsActivity extends MenuInheritActivity {
 			String kg = getGramsToKg(Integer.parseInt(weightBaby.get(i)));
 			weightBaby.set(i, kg);
 		}
-
 		
         //textBabyDOB.setText(dobStr);
-		adapter = new ListElementAdapter(ParityDetailsActivity.this, nameBaby, hospitalNumber, dobStr
-				, genderBaby, gestationBaby
+		adapter = new ListElementAdapter(ParityDetailsActivity.this, nameBaby, hospitalNumber,
+				 dobStr, genderBaby, gestationBaby
 				,weightBaby, birthMode, birthOutcome);
 		parityList.setAdapter(adapter);
         //listView.setOnItemClickListener(new OnItemListener());
@@ -141,10 +143,20 @@ public class ParityDetailsActivity extends MenuInheritActivity {
 			gestationText.setText(gestation.get(position));
 	
 			weightText.setText(weight.get(position));
-			modeText.setText(birthMode.get(position));
+			modeText.setText(formatArrayString(birthMode.get(position)));
 			birthOutcomeParity.setText(birthOutcome.get(position));
 			//gestText.setText(gestationStr.get(position)); 
 			return convertView;			
 		}
 	}
+	
+    private String formatArrayString(String toBeFormatted){
+    	String formatedString = toBeFormatted
+    		    .replace(",", "")  //remove the commas
+    		    .replace("[", "")  //remove the right bracket
+    		    .replace("]", "")  //remove the left bracket
+    		    .replace("\"", "")
+    		    .trim(); 
+    	return formatedString;
+    }
 }
