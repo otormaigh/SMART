@@ -52,7 +52,6 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 	private Calendar c = Calendar.getInstance(), myCalendar = Calendar.getInstance();
 	private ListView listView;
 	private BaseAdapter adapter;
-	private TextView clinicName;
 	private Button dateInList, prevWeek, nextWeek;	
 	private Intent intent;
 	private ProgressDialog pd;
@@ -65,7 +64,6 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
         setContentView(R.layout.activity_appointment_calendar);
         
         listView = (ListView)findViewById(R.id.list);
-        clinicName = (TextView)findViewById(R.id.clinic_name);
         dateInList = (Button)findViewById(R.id.date_button);
         prevWeek = (Button)findViewById(R.id.prev_button);
         prevWeek.setOnClickListener(new ButtonClick());
@@ -102,7 +100,17 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
         createDatePicker();
     }
     
-    private class ButtonClick implements View.OnClickListener {
+    @Override
+	protected void onResume() {
+		super.onResume();
+		Log.d("bugs", "in onResume");
+		Log.d("bugs", "daySelected: " + daySelected);
+		listView.setAdapter(null);
+		adapter.notifyDataSetChanged();
+		setAptToListSingle(daySelected);
+	}
+
+	private class ButtonClick implements View.OnClickListener {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.prev_button:
@@ -111,6 +119,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
                 	daySelected = c.getTime();
                 	myCalendar.setTime(daySelected);
                 	createDatePicker();
+                	listView.setAdapter(null);
                 	setAptToListSingle(c.getTime());
                 	pauseButton();
                 	break;
@@ -120,6 +129,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
                 	daySelected = c.getTime();
                 	myCalendar.setTime(daySelected);
                 	createDatePicker();
+                	listView.setAdapter(null);
                 	setAptToListSingle(c.getTime());
                 	pauseButton();
                     break;
@@ -193,7 +203,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
     	
     	dateInList.setText(dfDateWithMonthName.format(dateSelected));
     	nameOfClinic = ClinicSingleton.getInstance().getClinicName(String.valueOf(clinicSelected));
-    	clinicName.setText(nameOfClinic);    	
+    	setTitle(nameOfClinic);
     	
     	if(AppointmentSingleton.getInstance().getHashMapofClinicDateID().containsKey(String.valueOf(clinicSelected))){
     		Log.d("bugs", "appt map has key");
