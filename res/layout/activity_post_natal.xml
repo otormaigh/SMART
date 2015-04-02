@@ -107,31 +107,31 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border"
-                android:padding="5dip" >
+                android:padding="5dip"
+                android:weightSum="1.0" >
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="top"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.1"
+                    android:gravity="start"
                     android:text="@string/midwives_notes"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textSize="@dimen/text_Xsmall" />
 
-                <LinearLayout
+                <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:orientation="vertical" >
+                    android:layout_weight="0.9" />
 
-                    <ImageView
-                        android:id="@+id/midwives_notes"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:adjustViewBounds="true"
-                        android:clickable="true"
-                        android:gravity="end"
-                        android:src="@drawable/forward_arrow" />
-                </LinearLayout>
+                <ImageView
+                    android:id="@+id/midwives_notes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:adjustViewBounds="true"
+                    android:clickable="true"
+                    android:gravity="end"
+                    android:src="@drawable/ic_action_forward" />
             </TableRow>
         </LinearLayout>
 
