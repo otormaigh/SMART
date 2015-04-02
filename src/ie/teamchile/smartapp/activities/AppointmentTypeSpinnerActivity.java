@@ -106,8 +106,8 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
 	
 	private void setDaySpinner(List<String> days){
 		for(int i = 0; i < days.size(); i++){
-			String thing = Character.toString(days.get(i).charAt(0)).toUpperCase(Locale.getDefault()) + days.get(i).substring(1);
-			days.set(i, thing);
+			String dayFirstLetterUpperCase = Character.toString(days.get(i).charAt(0)).toUpperCase(Locale.getDefault()) + days.get(i).substring(1);
+			days.set(i, dayFirstLetterUpperCase);
 		}
 		days.add(0, "Select Day");
 		
@@ -205,11 +205,11 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
                         		try {
 									dayOfWeek = sdfDay.parse(ClinicSingleton.getInstance().getTrueDays(String.valueOf(clinicSelected)).get(0));
 									addDayToTime(dayOfWeek);
+									changeActivity();
 								} catch (ParseException e) {
 									e.printStackTrace();
 								}
                         	}
-                            changeActivity();
                         	break;
                     }
                     break;
@@ -221,10 +221,10 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
 							try {
 								dayOfWeek = sdfDay.parse(daySpinner.getSelectedItem().toString());
 								addDayToTime(dayOfWeek);
+								changeActivity();
 							} catch (ParseException e) {
 								e.printStackTrace();
 							}
-							changeActivity();
                         	break;
                     }
                     break;
