@@ -43,6 +43,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 				   perineum, birthMode, babyGender, babyWeightGrams = "", babyWeightKg = "", 
 				   vitK, hearing, antiD, feeding, nbst, deliveryDateTime, daysSinceBirth,
 				   userCall, userSMS, userEmail, kinCall, kinSMS;
+	private List<String> babyID;
 	private double grams = 0.0;
 	private String sex_male = "ale";
 	private String sex_female = "emale";
@@ -65,7 +66,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_user_search_tabhost);
+		setContentView(R.layout.activity_service_user_tabhost);
 		
 		TabHost tabHost = (TabHost)findViewById(android.R.id.tabhost);
 		tabHost.setup();
@@ -156,6 +157,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 				grams =  Double.parseDouble(babyWeightGrams);
 				babyWeightKg = String.valueOf(getGramsToKg(grams));
 			}
+			babyID = ServiceUserSingleton.getInstance().getPregnancyBabyIDs();
 			gestation = ServiceUserSingleton.getInstance().getPregnancyGestation().get(p);
 			parity = ServiceUserSingleton.getInstance().getUserParity().get(0);
 			estimtedDelivery = ServiceUserSingleton.getInstance().getPregnancyEstimatedDeliveryDate().get(p);
@@ -224,11 +226,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.book_appointment:
-				SharedPreferences.Editor prefs = getSharedPreferences("SMART", MODE_PRIVATE).edit();
-				prefs.putString("name", ServiceUserSingleton.getInstance().getUserName().get(0));
-				prefs.putString("id", ServiceUserSingleton.getInstance().getUserID().get(0));
-				prefs.putBoolean("reuse", true);
-				prefs.commit();
+				setSharedPrefs();
 				
 				Intent intentBook = new Intent(ServiceUserActivity.this, AppointmentTypeSpinnerActivity.class);
 				startActivity(intentBook);
@@ -484,18 +482,30 @@ public class ServiceUserActivity extends MenuInheritActivity {
     
     private String formatArrayString(String toBeFormatted){
     	String formatedString = toBeFormatted
-    		    .replace(",", "")  //remove the commas
+    		    .replace(",", ", ")  //remove the commas
     		    .replace("[", "")  //remove the right bracket
     		    .replace("]", "")  //remove the left bracket
     		    .replace("\"", "")
     		    .trim(); 
     	return formatedString;
     }
-/*    
-    private void postORAnte(){
-    	
+    
+    private void setSharedPrefs(){
+    	Log.d("bugs", "baby ids: " + babyID);
+    	SharedPreferences.Editor prefs = getSharedPreferences("SMART", MODE_PRIVATE).edit();
+    	if(babyID.get(p).equals("[]")){
+    		prefs.putString("visit_type_str", "Antenatal");
+    		prefs.putString("visit_type", "ante-natal");
+    	}else{
+    		prefs.putString("visit_type_str", "Postnatal");
+    		prefs.putString("visit_type", "post-natal");
+    	}
+		prefs.putString("name", ServiceUserSingleton.getInstance().getUserName().get(0));
+		prefs.putString("id", ServiceUserSingleton.getInstance().getUserID().get(0));
+		prefs.putBoolean("reuse", true);
+		prefs.commit();
     }
-*/
+
     private void getRecentBaby(){
     	List<String> babyDateTime = ServiceUserSingleton.getInstance().getBabyDeliveryDateTime();
     	List<Date> asDate = new ArrayList<Date>();
