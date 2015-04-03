@@ -87,6 +87,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
         visitPriorityAdapter = ArrayAdapter.createFromResource(this, R.array.visit_priority_list, R.layout.spinner_layout_create_appt);
         visitPriorityAdapter.setDropDownViewResource(R.layout.spinner_layout);
         visitPrioritySpinner.setAdapter(visitPriorityAdapter);
+        visitPrioritySpinner.setSelection(1);
         
         textDate = (TextView)findViewById(R.id.visit_date_text);
         textClinic = (TextView)findViewById(R.id.visit_clinic_text);
