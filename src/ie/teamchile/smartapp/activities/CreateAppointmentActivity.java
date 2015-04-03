@@ -5,7 +5,6 @@ import ie.teamchile.smartapp.connecttodb.AccessDBTable;
 import ie.teamchile.smartapp.connecttodb.PostAppointment;
 import ie.teamchile.smartapp.utility.AppointmentSingleton;
 import ie.teamchile.smartapp.utility.ClinicSingleton;
-import ie.teamchile.smartapp.utility.MyAdapter;
 import ie.teamchile.smartapp.utility.ServiceUserSingleton;
 import ie.teamchile.smartapp.utility.ToastAlert;
 
@@ -46,10 +45,9 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 	private SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 	private SimpleDateFormat sdfDateMonthName = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
 	private EditText userName;
-	private TextView textDate, textClinic, textVisitType;
+	private TextView textDate, textClinic;
 	private Button confirmAppointment, btnUserSearch;
 	private Spinner visitTimeSpinner, visitDurationSpinner, visitPrioritySpinner;
-	private ArrayAdapter<String> myArrayAdapter;
 	private ArrayAdapter<CharSequence> visitPriorityAdapter;
 	private String name, clinic, apptDate, time, duration, priority, visitType;
 	private PostAppointment postAppt = new PostAppointment();
@@ -86,11 +84,9 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
         
         visitPrioritySpinner = (Spinner) findViewById(R.id.visit_priority_spinner);
         visitPrioritySpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
-        visitPriorityAdapter = ArrayAdapter.createFromResource(this, R.array.visit_priority_list, R.layout.spinner_layout);
+        visitPriorityAdapter = ArrayAdapter.createFromResource(this, R.array.visit_priority_list, R.layout.spinner_layout_create_appt);
         visitPriorityAdapter.setDropDownViewResource(R.layout.spinner_layout);
         visitPrioritySpinner.setAdapter(visitPriorityAdapter);
-	    
-        textVisitType = (TextView) findViewById(R.id.text_visit_type);
         
         textDate = (TextView)findViewById(R.id.visit_date_text);
         textClinic = (TextView)findViewById(R.id.visit_clinic_text);
@@ -122,7 +118,6 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 		if (prefs != null && prefs.getBoolean("reuse", false)) {
 			userName.setText(prefs.getString("name", null));
 			userID = prefs.getString("id", null);
-			textVisitType.setText(prefs.getString("visit_type_str", null));
 			visitType = prefs.getString("visit_type", null);
 		}
 	}
@@ -132,8 +127,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 		durationList.add(String.valueOf(appointmentIntervalAsInt + appointmentIntervalAsInt) + " minutes");
 		
 		visitDurationSpinner = (Spinner) findViewById(R.id.visit_duration_spinner);
-	    ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<String>(this, R.layout.spinner_layout, durationList);
-	    myArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+	    ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<String>(this, R.layout.spinner_layout_create_appt, durationList);
 	    myArrayAdapter.setDropDownViewResource(R.layout.spinner_layout);
 	    visitDurationSpinner.setAdapter(myArrayAdapter);
 	}
@@ -160,8 +154,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 			
 			Log.d("postAppointment", "timeList: " + timeList);
 		    visitTimeSpinner = (Spinner) findViewById(R.id.visit_time_spinner);
-		    ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<String>(this, R.layout.spinner_layout, timeList);
-		    myArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		    ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<String>(this, R.layout.spinner_layout_create_appt, timeList);
 		    myArrayAdapter.setDropDownViewResource(R.layout.spinner_layout);
 		    visitTimeSpinner.setAdapter(myArrayAdapter);		    
         } catch (ParseException e) {
@@ -306,9 +299,17 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
                 case R.id.visit_duration_spinner:
                 	switch(position){
                 	case 0: 
-                		break;
-                	default:
                 		duration = durationList.get(position);
+                		Log.d("bugs", "15 minutes");
+                		break;
+                	case 1:
+                		Log.d("bugs", "timeList.size(): " + timeList.size());
+            			if(timeList.size() == 2){
+            				Log.d("bugs", "30 minutes if true");
+            				Toast.makeText(CreateAppointmentActivity.this, "No 30 minute slots available", Toast.LENGTH_LONG).show();
+            				visitDurationSpinner.setSelection(0);
+            			}  else { duration = durationList.get(position); 
+            			Log.d("bugs", "15 minutes if false");}
                 	break;
                 	}
                 case R.id.visit_priority_spinner:
