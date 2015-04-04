@@ -42,7 +42,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 				   kinMobile, road, county, postCode, gestation, parity, estimtedDelivery,
 				   perineum, birthMode, babyGender, babyWeightGrams = "", babyWeightKg = "", 
 				   vitK, hearing, antiD, feeding, nbst, deliveryDateTime, daysSinceBirth,
-				   userCall, userSMS, userEmail, kinCall, kinSMS;
+				   userCall, userSMS, userEmail, kinCall, kinSMS, lastPeriodDate;
 	private List<String> babyID;
 	private int days = 0;
 	private double grams = 0.0;
@@ -163,6 +163,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 			gestation = ServiceUserSingleton.getInstance().getPregnancyGestation().get(p);
 			parity = ServiceUserSingleton.getInstance().getUserParity().get(0);
 			estimtedDelivery = ServiceUserSingleton.getInstance().getPregnancyEstimatedDeliveryDate().get(p);
+			lastPeriodDate = ServiceUserSingleton.getInstance().getPregnancyLastMenstrualPeriod().get(p);
 			if(!estimtedDelivery.equals("null")){
 				getRecentPregnancy();
 			}
@@ -172,7 +173,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 			feeding = ServiceUserSingleton.getInstance().getPregnancyFeeding().get(p);
 			nbst = ServiceUserSingleton.getInstance().getBabyNewBornScreeningTest().get(b);
 			deliveryDateTime = ServiceUserSingleton.getInstance().getBabyDeliveryDateTime().get(b);		
-			if(!deliveryDateTime.equals("null")){
+			if(!deliveryDateTime.equals("null")){	
 				getRecentBaby();
 				daysSinceBirth = getNoOfDays(deliveryDateTime);
 			}
@@ -211,8 +212,9 @@ public class ServiceUserActivity extends MenuInheritActivity {
 			postPerineum.setText(perineum);		
 			postBirthMode.setText(birthMode);
 			postBirthWeight.setText(babyWeightKg);
-			lastPeriod.setText(getLastPeriodDate(lastPeriodDate));
-				
+			if(!lastPeriodDate.equals("null")){
+				lastPeriod.setText(getLastPeriodDate(lastPeriodDate));
+			}
 			if(babyGender.equalsIgnoreCase("M")){
 				postBabyGender.setText(babyGender + sex_male);
 			}
