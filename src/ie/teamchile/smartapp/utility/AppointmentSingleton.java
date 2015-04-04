@@ -418,9 +418,11 @@ public class AppointmentSingleton {
 		return name;
 	}
 	
-	public String getTime(String id){
+	public String getTime(String id) throws NullPointerException{
 		JSONObject json = idHash.get(id);
-		return removeSeconds(help.jsonParseHelper(json, "appointments", "time"));
+		String time = "";
+		time = removeSeconds(help.jsonParseHelper(json, "appointments", "time"));
+		return time;
 	}
 	
 	public ArrayList<String> getTime(ArrayList<String> idList) throws NullPointerException{
