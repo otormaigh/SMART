@@ -8,7 +8,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/padding_Xsmall" >
 
         <TextView
             android:id="@+id/text_service_user"
@@ -19,13 +20,26 @@
             android:textSize="@dimen/text_small"
             android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/edit_service_user"
-            android:layout_width="fill_parent"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_Xsmall"
-            android:hint="Enter Here"
-            android:inputType="textPersonName" />
+            android:orientation="horizontal"
+            android:weightSum="1.0" >
+
+            <EditText
+                android:id="@+id/edit_service_user"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"
+                android:hint="Enter Here"
+                android:inputType="textPersonName" />
+
+            <Button
+                android:id="@+id/btn_user_search"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.8" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/text_appointment_clinic"
@@ -35,11 +49,13 @@
             android:text="@string/appointment_clinic"
             android:textSize="@dimen/text_small"
             android:textStyle="bold" />
-        
+
         <TextView
             android:id="@+id/visit_clinic_text"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />            
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_medium"
+            android:paddingLeft="@dimen/padding_Xsmall" />
 
         <TextView
             android:id="@+id/text_appointment_date"
@@ -49,11 +65,13 @@
             android:text="@string/appointment_date"
             android:textSize="@dimen/text_small"
             android:textStyle="bold" />
-        
-		<TextView
+
+        <TextView
             android:id="@+id/visit_date_text"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />  
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_medium" 
+            android:paddingLeft="@dimen/padding_Xsmall" />
 
         <TextView
             android:id="@+id/text_appointment_time"
@@ -81,7 +99,7 @@
         <Spinner
             android:id="@+id/visit_duration_spinner"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/text_priority"
@@ -98,27 +116,15 @@
             android:layout_height="wrap_content"
             android:entries="@array/visit_priority_list" />
 
-        <TextView
-            android:id="@+id/text_visit_type"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_small"
-            android:text="Visit Type"
-            android:textSize="@dimen/text_small"
-            android:textStyle="bold" />
-        
-        <Spinner
-            android:id="@+id/visit_type_spinner"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/visit_type_list" />
-
         <Button
             android:id="@+id/btn_confirm_appointment"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_medium"
+            android:layout_marginRight="@dimen/padding_Xsmall"
+            android:layout_marginBottom="@dimen/padding_Xsmall"
             android:background="@color/blue"
             android:text="@string/confirm_appointment" />
     </LinearLayout>
+
 </ScrollView>
