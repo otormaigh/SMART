@@ -93,6 +93,33 @@
                 android:textSize="@dimen/text_Xsmall"
                 android:textStyle="bold" />
         </TableRow>
+        
+                <TableRow
+            android:id="@+id/button_last_period"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border"
+            android:clickable="False"
+            android:padding="5dip" >
+
+            <TextView
+                android:id="@+id/last_period"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="@dimen/text_Xsmall" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:gravity="end"
+                android:text="@string/last_period"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="@dimen/text_Xsmall"
+                android:textStyle="bold" />
+        </TableRow>
+        
+        
 
         <TableRow
             android:id="@+id/button_blood"

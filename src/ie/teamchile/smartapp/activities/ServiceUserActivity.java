@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -36,13 +37,14 @@ public class ServiceUserActivity extends MenuInheritActivity {
 					 contactNextOfKinContactNumber, contactGestation, contactParity;
 	private TextView postBirthMode, postPerineum, postAntiD, postDeliveryDate, postDeliveryTime,
 					 postDaysSinceBirth, postBabyGender, postBirthWeight, postVitK, postHearing, 
-					 postFeeding, postNBST;
+					 postFeeding, postNBST, lastPeriod;
 	
 	private String dob = "", age = "", hospitalNumber, email, mobile, userName, kinName,  
 				   kinMobile, road, county, postCode, gestation, parity, estimtedDelivery,
 				   perineum, birthMode, babyGender, babyWeightGrams = "", babyWeightKg = "", 
 				   vitK, hearing, antiD, feeding, nbst, deliveryDateTime, daysSinceBirth,
-				   userCall, userSMS, userEmail, kinCall, kinSMS;
+				   userCall, userSMS, userEmail, kinCall, kinSMS, lastPeriodDate;
+	private int days = 0;
 	private double grams = 0.0;
 	private String sex_male = "ale";
 	private String sex_female = "emale";
@@ -86,6 +88,8 @@ public class ServiceUserActivity extends MenuInheritActivity {
         tabHost.addTab(tab3);
 
         tabHost.setCurrentTab(1);
+        
+       
 
         anteAge = (TextView)findViewById(R.id.age_ante_natal);
 		anteGestation = (TextView)findViewById(R.id.gestation);
@@ -93,6 +97,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		anteDeliveryTime = (TextView)findViewById(R.id.deliveryTime);
 		anteBloodGroup = (TextView)findViewById(R.id.blood_group);
 		anteRhesus = (TextView)findViewById(R.id.rhesus);
+		lastPeriod = (TextView)findViewById(R.id.last_period);
 		
 		contactHospitalNumber = (TextView) findViewById(R.id.hospital_number);
 		contactAge = (TextView) findViewById(R.id.age);
@@ -158,6 +163,14 @@ public class ServiceUserActivity extends MenuInheritActivity {
 			}
 			gestation = ServiceUserSingleton.getInstance().getPregnancyGestation().get(p);
 			parity = ServiceUserSingleton.getInstance().getUserParity().get(0);
+			estimtedDelivery = ServiceUserSingleton.getInstance().getPregnancyEstimatedDeliveryDate().get(0);
+			vitK = ServiceUserSingleton.getInstance().getBabyVitK().get(0);
+			hearing = ServiceUserSingleton.getInstance().getBabyHearing().get(0);
+			antiD = ServiceUserSingleton.getInstance().getPregnancyAntiD().get(0);
+			feeding = ServiceUserSingleton.getInstance().getPregnancyFeeding().get(0);
+			nbst = ServiceUserSingleton.getInstance().getBabyNewBornScreeningTest().get(0);
+			lastPeriodDate = ServiceUserSingleton.getInstance().getPregnancyLastMenstrualPeriod().get(0);
+			deliveryDateTime = ServiceUserSingleton.getInstance().getBabyDeliveryDateTime().get(0);		
 			estimtedDelivery = ServiceUserSingleton.getInstance().getPregnancyEstimatedDeliveryDate().get(p);
 			if(!estimtedDelivery.equals("null")){
 				getRecentPregnancy();
@@ -207,6 +220,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 			postPerineum.setText(perineum);		
 			postBirthMode.setText(birthMode);
 			postBirthWeight.setText(babyWeightKg);
+			lastPeriod.setText(getLastPeriodDate(lastPeriodDate));
 				
 			if(babyGender.equalsIgnoreCase("M")){
 				postBabyGender.setText(babyGender + sex_male);
@@ -435,7 +449,24 @@ public class ServiceUserActivity extends MenuInheritActivity {
 	    return ed;
 	}
 	
+
+	public String getLastPeriodDate(String edd){
+        Date date;
+        String ed = null;
+		try{
+			date = sdfDate.parse(edd);
+	        ed = sdfMonthFullName.format(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+	    return ed;
+	}
+
+	
+	
+
 	protected String getDeliveryDate(String edd){
+
        Date date;
        String dateOfDevelivery = null;
 		try{
@@ -491,6 +522,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
     		    .trim(); 
     	return formatedString;
     }
+
 /*    
     private void postORAnte(){
     	
