@@ -2,11 +2,7 @@ package ie.teamchile.smartapp.utility;
 
 import ie.teamchile.smartapp.connecttodb.AccessDBTable;
 
-import java.util.Date;
-import java.text.Format;
-
 import java.text.DateFormat;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -96,7 +92,6 @@ public class AppointmentSingleton {
 	private JSONArray query;
 	private JSONObject json;
 	private ProgressDialog pd;
-
 	
 	private AppointmentSingleton() {
 	}
@@ -228,7 +223,7 @@ public class AppointmentSingleton {
 		}
 		this.idHash = idHash;
 	}
-
+	
 	/**
 	 * 
 	 * Take in a clinic id and day in yyyy-MM-dd format
@@ -423,45 +418,18 @@ public class AppointmentSingleton {
 		return name;
 	}
 	
-	public String getTime(String id){
+	public String getTime(String id) throws NullPointerException{
 		JSONObject json = idHash.get(id);
-
-
-		Date date = null;
-		String timefromdb;
-		String timeHHmm = null;
-		try {
-			timefromdb = help.jsonParseHelper(json, "appointments", "time");
-			date = sdfTime.parse(timefromdb);
-			timeHHmm = sdfHHmm.format(date);
-		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		return timeHHmm;
-
-
+		String time = "";
+		time = removeSeconds(help.jsonParseHelper(json, "appointments", "time"));
+		return time;
 	}
 	
 	public ArrayList<String> getTime(ArrayList<String> idList) throws NullPointerException{
 		ArrayList<String> time = new ArrayList<String>();
-		Date date = null;
-		String timefromdb;
-		String timeHHmm = null;
 		for(int i = 0; i < idList.size(); i++ ){
 			JSONObject json = idHash.get(idList.get(i));
-
-			try {
-				timefromdb = help.jsonParseHelper(json, "appointments", "time");
-				date = sdfTime.parse(timefromdb);
-				timeHHmm = sdfHHmm.format(date);
-			} catch (ParseException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			time.add(timeHHmm);
-
-
+			time.add(removeSeconds(help.jsonParseHelper(json, "appointments", "time")));
 		}
 		return time;
 	}
@@ -493,7 +461,6 @@ public class AppointmentSingleton {
 		}
 		return visitType;
 	}
-
 	
 	public String removeSeconds(String time){
 		Date oldTime = null;
@@ -507,4 +474,3 @@ public class AppointmentSingleton {
 		return newTime;
 	}
 }
-
