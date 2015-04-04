@@ -147,39 +147,6 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 			Log.d("MYLOG", "onPostExecute");
 			Log.d("bugs", "Result from on post " + result);
 
-			/*
-			 * if result from database is empty (check if null) toast to say no
-			 * query found if not empty do getSinglton.getName set this to
-			 * button text
-			 */
-
-
-			if (intent != null) {
-				startActivity(intent);
-			} else {
-				searchResults.clear();
-				searchAdapter.notifyDataSetChanged();
-				hospitalNumberList.clear();
-				if (ServiceUserSingleton.getInstance().getUserName().size() != 0) {
-					for (int i = 0; i < ServiceUserSingleton.getInstance()
-							.getUserName().size(); i++) {
-						String name = ServiceUserSingleton.getInstance()
-								.getUserName().get(i);
-						String hospitalNumber = ServiceUserSingleton
-								.getInstance().getUserHospitalNumber().get(i);
-						String dob =  ServiceUserSingleton.getInstance()
-								.getUserDOB().get(i);
-						searchResults.add(name + " - " + hospitalNumber + " - " + dob);
-						hospitalNumberList.add(hospitalNumber);
-						Log.d("bugs", "searchResults: " + searchResults);
-					}
-					createResultList(searchResults);
-					InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-					imm.hideSoftInputFromWindow(search.getWindowToken(), 0);
-
-					searchParams.setText(null);
-					adapter.notifyDataSetChanged();
-
 			try {
 				if (intent != null) {
 					ServiceUserSingleton.getInstance().setPatientInfo(result);
@@ -210,7 +177,5 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 			}
 			pd.dismiss();
 		}
-	}
-}
 	}
 }
