@@ -12,9 +12,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.NoSuchElementException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,23 +51,22 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 	private Button confirmAppointment, btnUserSearch;
 	private Spinner visitTimeSpinner, visitDurationSpinner, visitPrioritySpinner;
 	private ArrayAdapter<CharSequence> visitPriorityAdapter;
-	private String name, clinic, apptDate, time, duration, priority, visitType;
+	private String name, clinic, apptDate, time, duration, priority, visitType, appointmentInterval,
+				   timeBefore, timeAfter, clinicIDStr, clinicName, userID = "";
 	private PostAppointment postAppt = new PostAppointment();
 	private AccessDBTable db = new AccessDBTable();
-	private String clinicIDStr, clinicName, userID = ""; 
-	private int clinicID, appointmentIntervalAsInt;
 	private ProgressDialog pd;
 	private Calendar c, myCalendar;
 	private List<String> timeList = new ArrayList<String>();
 	private List<String> durationList = new ArrayList<String>();
-	private List<String> idList;
-	private String timeBefore, timeAfter;
+	private List<String> idList, babyIDs;
 	private Date beforeAsDate, afterAsDate, afterAsDateMinusInterval;
-	private String appointmentInterval;
 	private AppointmentCalendarActivity passOptions = new AppointmentCalendarActivity();
 	private SharedPreferences prefs;
 	private AlertDialog.Builder alertDialog;
 	private AlertDialog ad;
+	private int clinicID, appointmentIntervalAsInt;
+	private int p = 0;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -228,6 +229,8 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 		protected Boolean doInBackground(String... params) {
 			Log.d("bugs", "userID start: " + userID);
 				userID = ServiceUserSingleton.getInstance().getUserID().get(0);
+				getRecentPregnancy();
+				postOrAnte();
 				postAppt.postAppointment(userID, clinicIDStr, apptDate, time, duration, priority, visitType);
 				userFound = true;
 			try {
@@ -295,7 +298,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 						hospitalNumber = ServiceUserSingleton.getInstance().getUserHospitalNumber().get(i);
 						dob = ServiceUserSingleton.getInstance().getUserDOB().get(i);
 						id = ServiceUserSingleton.getInstance().getUserID().get(i);
-						
+
 						idList.add(id);
 						searchResults.add(name + "\n" + hospitalNumber + "\n" + dob);
 						Log.d("bugs", "searchResults: " + searchResults);
@@ -379,4 +382,38 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 			}
 		}
 	}
+	
+	private void postOrAnte(){
+		babyIDs = ServiceUserSingleton.getInstance().getPregnancyBabyIDs();	
+		if(babyIDs.get(p).equals("[]")){
+			visitType = "ante-natal";
+    	}else {
+    		visitType = "post-natal";
+    	}
+	}
+	
+    private void getRecentPregnancy(){
+    	List<String> edd = new ArrayList<String>();
+    	List<Date> asDate = new ArrayList<Date>();
+    	
+    	edd = ServiceUserSingleton.getInstance().getPregnancyEstimatedDeliveryDate();
+    	Log.d("bugs", "edd.size(): " + edd.size());
+    	if(edd.size() > 0){
+    		for(int i = 0; i < edd.size(); i++){
+    			if(!edd.get(i).equals("null")){
+	    			Log.d("bugs", "edd.get(i): " + edd.get(i));
+	        		try {
+	    				asDate.add(sdfDate.parse(edd.get(i)));
+	    			} catch (ParseException e) {
+	    				e.printStackTrace();
+	    			}
+    			}
+        	}    
+    		try{
+    			p = asDate.indexOf(Collections.max(asDate));
+    		} catch (NoSuchElementException e) {
+				e.printStackTrace();
+			}
+    	}    	
+    }
 }
