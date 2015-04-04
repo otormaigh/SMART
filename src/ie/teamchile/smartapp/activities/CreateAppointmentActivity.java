@@ -56,13 +56,16 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 	private int clinicID, appointmentIntervalAsInt;
 	private ProgressDialog pd;
 	private Calendar c, myCalendar;
-	private ArrayList<String> timeList = new ArrayList<String>();
-	private ArrayList<String> durationList = new ArrayList<String>();
+	private List<String> timeList = new ArrayList<String>();
+	private List<String> durationList = new ArrayList<String>();
+	private List<String> idList;
 	private String timeBefore, timeAfter;
 	private Date beforeAsDate, afterAsDate, afterAsDateMinusInterval;
 	private String appointmentInterval;
 	private AppointmentCalendarActivity passOptions = new AppointmentCalendarActivity();
 	private SharedPreferences prefs;
+	private AlertDialog.Builder alertDialog;
+	private AlertDialog ad;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -176,62 +179,35 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
             						 "\nVisit Type: " + visitType);
             	Log.d("postAppointment", "clinicID: " + clinicID);
             	Log.d("postAppointment", "clinicName: " + ClinicSingleton.getInstance().getClinicName(String.valueOf(clinicID)));
+            	
+            	if(!name.isEmpty() && visitTimeSpinner.getSelectedItemPosition() != 0
+            					   && visitPrioritySpinner.getSelectedItemPosition() != 0) {
+            		new LongOperation(CreateAppointmentActivity.this).execute("appointments");
+            	}else {
+            		ToastAlert ta = new ToastAlert(CreateAppointmentActivity.this, "Cannot proceed, \nSome fields are empty!", true);
+            	}
             	break;            
             case R.id.btn_user_search:
-            	//buildeAlertDialog();
+            	name = userName.getText().toString();
+            	new UserSearchLongOperation(CreateAppointmentActivity.this, true).execute("service_users?name=" + name);
             	break;
             } 
         }
 	}
 	
-	private void buildeAlertDialog(List<String> searchResults){  
-    	searchResults.add("nore saturn");
-    	searchResults.add("shannon mercury");
-    	searchResults.add("nore saturn");
-    	searchResults.add("liffey neptune");
-    	searchResults.add("nore saturn");
-    	searchResults.add("shannon mercury");
-    	searchResults.add("nore saturn");
-    	searchResults.add("liffey neptune");
-    	searchResults.add("nore saturn");
-    	searchResults.add("shannon mercury");
-    	searchResults.add("nore saturn");
-    	searchResults.add("liffey neptune");
-    	searchResults.add("nore saturn");
-    	searchResults.add("shannon mercury");
-    	searchResults.add("nore saturn");
-    	searchResults.add("liffey neptune");
-    	searchResults.add("nore saturn");
-    	searchResults.add("shannon mercury");
-    	searchResults.add("nore saturn");
-    	searchResults.add("liffey neptune");
-    	searchResults.add("nore saturn");
-    	searchResults.add("shannon mercury");
-    	searchResults.add("nore saturn");
-    	searchResults.add("liffey neptune");
-    	searchResults.add("nore saturn");
-    	searchResults.add("shannon mercury");
-    	searchResults.add("nore saturn");
-    	searchResults.add("liffey neptune");
-    	
-    	if(!name.isEmpty() && visitPrioritySpinner.getSelectedItemPosition() != 0) {
-    		new LongOperation(CreateAppointmentActivity.this).execute("service_users?name=" + name, "appointments");
-    	}else {
-    		ToastAlert ta = new ToastAlert(CreateAppointmentActivity.this, "Cannot proceed, \nSome fields are empty!", true);
-    	}
-    	    	
+	private void buildeAlertDialog(List<String> searchResults){      	    	
 		LayoutInflater inflater = getLayoutInflater();
-		AlertDialog.Builder alertDialog = new AlertDialog.Builder(CreateAppointmentActivity.this);
+		alertDialog = new AlertDialog.Builder(CreateAppointmentActivity.this);
 		View convertView = (View) inflater.inflate(R.layout.list, null);
 		ListView list = (ListView) convertView.findViewById(R.id.list_dialog);
 		
 		list.setOnItemClickListener(new onItemListener());
 		
 		alertDialog.setView(convertView);
-		alertDialog.setTitle("List");
+		alertDialog.setTitle("Search Results");
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(CreateAppointmentActivity.this, android.R.layout.simple_list_item_1, searchResults);
 		list.setAdapter(adapter);
-		alertDialog.show();
+		ad = alertDialog.show();
 	}
 	
     private class LongOperation extends AsyncTask<String, Void, Boolean> {
@@ -241,36 +217,22 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 		private Boolean userFound;
 		
 		public LongOperation(Context context){ this.context = context; }
+		
 		@Override
 		protected void onPreExecute() {
 			pd = new ProgressDialog(context);
             pd.setMessage("Creating Appointment");
             pd.show();
-            clinicIDStr = String.valueOf(clinicID);
-            
+            clinicIDStr = String.valueOf(clinicID);            
 		}
 		protected Boolean doInBackground(String... params) {
 			Log.d("bugs", "userID start: " + userID);
-			
-			if(!prefs.getBoolean("reuse", false)){
-				json = db.accessDB(params[0]);
-				ServiceUserSingleton.getInstance().setPatientInfo(json);
-				if(ServiceUserSingleton.getInstance().getUserID().size() > 0){
-					Log.d("bugs", "user found");
-					userID = ServiceUserSingleton.getInstance().getUserID().get(0);
-					userFound = true;
-				}else {
-					Log.d("bugs", "user not found");
-					userFound = false;
-				}
-				postAppt.postAppointment(userID, clinicIDStr, apptDate, time, duration, priority, visitType);
-			} else {
+				userID = ServiceUserSingleton.getInstance().getUserID().get(0);
 				postAppt.postAppointment(userID, clinicIDStr, apptDate, time, duration, priority, visitType);
 				userFound = true;
-			}
 			try {
-				json = db.accessDB(params[1]);
-				query = json.getJSONArray(params[1]);
+				json = db.accessDB(params[0]);
+				query = json.getJSONArray(params[0]);
 				AppointmentSingleton.getInstance().setHashMapofClinicDateID(query);
 				AppointmentSingleton.getInstance().setHashMapofIdAppt(query);
 			} catch (JSONException e) {
@@ -291,6 +253,69 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 			}
 			pd.dismiss();
         }
+	}
+    
+	private class UserSearchLongOperation extends AsyncTask<String, Void, JSONObject> {
+		private Context context;
+		private JSONObject json;
+		private List<String> searchResults = new ArrayList<String>();
+		private Boolean showDialog;
+		private ProgressDialog pd;
+		private String name, hospitalNumber, dob, id;
+
+		public UserSearchLongOperation(Context context, Boolean showDialog) { 
+			this.context = context; 
+			this.showDialog = showDialog;
+		}
+
+		@Override
+		protected void onPreExecute() {
+			pd = new ProgressDialog(context);
+			pd.setMessage("Fetching Information");
+			pd.show();
+		}
+
+		protected JSONObject doInBackground(String... params) {
+			json = db.accessDB(params[0]);
+			return json;
+		}
+
+		@Override
+		protected void onProgressUpdate(Void... values) {}
+
+		@Override
+		protected void onPostExecute(JSONObject result) {
+			idList = new ArrayList<String>();
+			Log.d("bugs", "Result from on post " + result);
+			try {
+				if (result.getJSONArray("service_users").length() != 0) {
+					for (int i = 0; i < result.getJSONArray("service_users").length(); i++) {
+						ServiceUserSingleton.getInstance().setPatientInfo(result);
+						name = ServiceUserSingleton.getInstance().getUserName().get(i);
+						hospitalNumber = ServiceUserSingleton.getInstance().getUserHospitalNumber().get(i);
+						dob = ServiceUserSingleton.getInstance().getUserDOB().get(i);
+						id = ServiceUserSingleton.getInstance().getUserID().get(i);
+						
+						idList.add(id);
+						searchResults.add(name + "\n" + hospitalNumber + "\n" + dob);
+						Log.d("bugs", "searchResults: " + searchResults);
+					}
+					pd.dismiss();
+					if(showDialog){
+						Log.d("bugs", "showDialog true");
+						buildeAlertDialog(searchResults);
+					}  else {
+						Log.d("bugs", "showDialog false");
+						userName.setText(name);
+					} 
+				} else {
+					pd.dismiss();
+					Toast.makeText(getApplicationContext(), "No search results found", Toast.LENGTH_SHORT).show();
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
 	}
     
     private class MySpinnerOnItemSelectedListener implements AdapterView.OnItemSelectedListener {
@@ -347,75 +372,11 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			switch (parent.getId()){
 				case R.id.list_dialog:
+					new UserSearchLongOperation(CreateAppointmentActivity.this, false).execute("service_users/" + idList.get(position));
+					ad.cancel();
 	            	Log.d("bugs", "list position is: " + position);
 	            	break;
 			}
 		}
 	}
-	
-	/*private class LongOperation extends AsyncTask<String, Void, JSONObject> {
-		private Context context;
-
-		public LongOperation(Context context) {
-			this.context = context;
-		}
-
-		@Override
-		protected void onPreExecute() {
-			pd = new ProgressDialog(context);
-			pd.setMessage("Fetching Information");
-			pd.show();
-		}
-
-		protected JSONObject doInBackground(String... params) {
-			Log.d("MYLOG", "ServiceUserSearch DoInBackground");
-			json = dbTable.accessDB(params[0]);
-			return json;
-		}
-
-		@Override
-		protected void onProgressUpdate(Void... values) {
-			Log.d("MYLOG", "On progress update");
-		}
-
-		@Override
-		protected void onPostExecute(JSONObject result) {
-			Log.d("MYLOG", "onPostExecute");
-			Log.d("bugs", "Result from on post " + result);
-
-			
-			 * if result from database is empty (check if null) toast to say no
-			 * query found if not empty do getSinglton.getName set this to
-			 * button text
-			 
-			try {
-				if (intent != null) {
-					ServiceUserSingleton.getInstance().setPatientInfo(result);
-					startActivity(intent);
-				} else {
-					searchResults.clear();
-					hospitalNumberList.clear();
-					if (result.getJSONArray("service_users").length() != 0) {
-						for (int i = 0; i < result.getJSONArray("service_users").length(); i++) {
-							ServiceUserSingleton.getInstance().setPatientInfo(result);
-							String name = ServiceUserSingleton.getInstance().getUserName().get(i);
-							String hospitalNumber = ServiceUserSingleton.getInstance().getUserHospitalNumber().get(i);
-							String dob = ServiceUserSingleton.getInstance().getUserDOB().get(i);
-							
-							searchResults.add(name + " - " + hospitalNumber + " - " + dob);
-							hospitalNumberList.add(hospitalNumber);
-							Log.d("bugs", "searchResults: " + searchResults);
-						}
-						createResultList(searchResults);	
-						adapter.notifyDataSetChanged();
-					} else {
-						Toast.makeText(getApplicationContext(), "No search results found", Toast.LENGTH_SHORT).show();
-					}
-				}
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			pd.dismiss();
-		}
-	}*/
 }
