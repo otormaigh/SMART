@@ -3,19 +3,11 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/clinic_name"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding_Xsmall"
-        android:gravity="center"
-        android:text="@string/clinic_title"
-        android:textSize="@dimen/text_medium" />
-
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal" >
+        android:gravity="center_horizontal"
+        android:paddingTop="@dimen/padding_small" >
 
         <Button
             android:id="@+id/prev_button"
@@ -50,5 +42,4 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true" >
     </ListView>
-
 </LinearLayout>
