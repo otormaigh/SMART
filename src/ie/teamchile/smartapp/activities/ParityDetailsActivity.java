@@ -22,6 +22,7 @@ public class ParityDetailsActivity extends MenuInheritActivity {
 	private BaseAdapter adapter;
 	private TextView name, parity, babyName;
 	private String patientName, patientParity;
+	private String sex_male = "ale", sex_female = "emale";
 	
 	ServiceUserActivity ab = new ServiceUserActivity();
 	@Override
@@ -139,7 +140,12 @@ public class ParityDetailsActivity extends MenuInheritActivity {
 		    nameOfBaby.setText(name.get(position));
 			dobText.setText(ab.getDeliveryDate(babyInformation.get(position)));
 			hospitalNo.setText(hospitalNumber.get(position));
-			genderText.setText(babyGender.get(position));
+			if(babyGender.get(position).equalsIgnoreCase("M")){
+				genderText.setText(babyGender.get(position) + sex_male);
+			}
+			else if (babyGender.get(position).equalsIgnoreCase("F")){
+				genderText.setText(babyGender.get(position) + sex_female);
+			}	
 			gestationText.setText(gestation.get(position));
 	
 			weightText.setText(weight.get(position));
