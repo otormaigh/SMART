@@ -27,7 +27,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,9 +45,10 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 	private SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 	private SimpleDateFormat sdfDateMonthName = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
 	private EditText userName;
-	private TextView textDate, textClinic, textVisitType;
+	private TextView textDate, textClinic;
 	private Button confirmAppointment, btnUserSearch;
 	private Spinner visitTimeSpinner, visitDurationSpinner, visitPrioritySpinner;
+	private ArrayAdapter<CharSequence> visitPriorityAdapter;
 	private String name, clinic, apptDate, time, duration, priority, visitType;
 	private PostAppointment postAppt = new PostAppointment();
 	private AccessDBTable db = new AccessDBTable();
@@ -56,13 +56,16 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 	private int clinicID, appointmentIntervalAsInt;
 	private ProgressDialog pd;
 	private Calendar c, myCalendar;
-	private ArrayList<String> timeList = new ArrayList<String>();
-	private ArrayList<String> durationList = new ArrayList<String>();
+	private List<String> timeList = new ArrayList<String>();
+	private List<String> durationList = new ArrayList<String>();
+	private List<String> idList;
 	private String timeBefore, timeAfter;
 	private Date beforeAsDate, afterAsDate, afterAsDateMinusInterval;
 	private String appointmentInterval;
 	private AppointmentCalendarActivity passOptions = new AppointmentCalendarActivity();
 	private SharedPreferences prefs;
+	private AlertDialog.Builder alertDialog;
+	private AlertDialog ad;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -70,8 +73,8 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 		setContentView(R.layout.activity_create_appointment);
 		
 		c = Calendar.getInstance();
-		myCalendar = Calendar.getInstance();
-		
+		myCalendar = Calendar.getInstance();		
+
         userName = (EditText)findViewById(R.id.edit_service_user);
         confirmAppointment = (Button) findViewById(R.id.btn_confirm_appointment);
         confirmAppointment.setOnClickListener(new ButtonClick());
@@ -81,9 +84,13 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
         visitTimeSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
         visitDurationSpinner = (Spinner) findViewById(R.id.visit_duration_spinner);
         visitDurationSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
+        
         visitPrioritySpinner = (Spinner) findViewById(R.id.visit_priority_spinner);
         visitPrioritySpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
-        textVisitType = (TextView) findViewById(R.id.text_visit_type);
+        visitPriorityAdapter = ArrayAdapter.createFromResource(this, R.array.visit_priority_list, R.layout.spinner_layout_create_appt);
+        visitPriorityAdapter.setDropDownViewResource(R.layout.spinner_layout);
+        visitPrioritySpinner.setAdapter(visitPriorityAdapter);
+        visitPrioritySpinner.setSelection(1);
         
         textDate = (TextView)findViewById(R.id.visit_date_text);
         textClinic = (TextView)findViewById(R.id.visit_clinic_text);
@@ -115,7 +122,6 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 		if (prefs != null && prefs.getBoolean("reuse", false)) {
 			userName.setText(prefs.getString("name", null));
 			userID = prefs.getString("id", null);
-			textVisitType.setText(prefs.getString("visit_type_str", null));
 			visitType = prefs.getString("visit_type", null);
 		}
 	}
@@ -125,8 +131,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 		durationList.add(String.valueOf(appointmentIntervalAsInt + appointmentIntervalAsInt) + " minutes");
 		
 		visitDurationSpinner = (Spinner) findViewById(R.id.visit_duration_spinner);
-	    ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<String>(this, R.layout.spinner_layout, durationList);
-	    myArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+	    ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<String>(this, R.layout.spinner_layout_create_appt, durationList);
 	    myArrayAdapter.setDropDownViewResource(R.layout.spinner_layout);
 	    visitDurationSpinner.setAdapter(myArrayAdapter);
 	}
@@ -153,8 +158,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 			
 			Log.d("postAppointment", "timeList: " + timeList);
 		    visitTimeSpinner = (Spinner) findViewById(R.id.visit_time_spinner);
-		    ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<String>(this, R.layout.spinner_layout, timeList);
-		    myArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		    ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<String>(this, R.layout.spinner_layout_create_appt, timeList);
 		    myArrayAdapter.setDropDownViewResource(R.layout.spinner_layout);
 		    visitTimeSpinner.setAdapter(myArrayAdapter);		    
         } catch (ParseException e) {
@@ -173,19 +177,37 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
             	Log.d("appointment", "name: " + name + "\nclinic: " +  clinic  + "\nclinic id: " + clinicID + "\nDate: " + apptDate + 
             						 "\nTime: " + time + "\nDuration: " + duration + "\nPriority: " + priority +
             						 "\nVisit Type: " + visitType);
+            	Log.d("postAppointment", "clinicID: " + clinicID);
+            	Log.d("postAppointment", "clinicName: " + ClinicSingleton.getInstance().getClinicName(String.valueOf(clinicID)));
             	
-            	if(!name.isEmpty() && visitPrioritySpinner.getSelectedItemPosition() != 0) {
-            		new LongOperation(CreateAppointmentActivity.this).execute("service_users?name=" + name, "appointments");
+            	if(!name.isEmpty() && visitTimeSpinner.getSelectedItemPosition() != 0
+            					   && visitPrioritySpinner.getSelectedItemPosition() != 0) {
+            		new LongOperation(CreateAppointmentActivity.this).execute("appointments");
             	}else {
             		ToastAlert ta = new ToastAlert(CreateAppointmentActivity.this, "Cannot proceed, \nSome fields are empty!", true);
             	}
-            	       	
-            	Log.d("postAppointment", "clinicID: " + clinicID);
-            	Log.d("postAppointment", "clinicName: " + ClinicSingleton.getInstance().getClinicName(String.valueOf(clinicID)));
             	break;            
-            
+            case R.id.btn_user_search:
+            	name = userName.getText().toString();
+            	new UserSearchLongOperation(CreateAppointmentActivity.this, true).execute("service_users?name=" + name);
+            	break;
             } 
         }
+	}
+	
+	private void buildeAlertDialog(List<String> searchResults){      	    	
+		LayoutInflater inflater = getLayoutInflater();
+		alertDialog = new AlertDialog.Builder(CreateAppointmentActivity.this);
+		View convertView = (View) inflater.inflate(R.layout.list, null);
+		ListView list = (ListView) convertView.findViewById(R.id.list_dialog);
+		
+		list.setOnItemClickListener(new onItemListener());
+		
+		alertDialog.setView(convertView);
+		alertDialog.setTitle("Search Results");
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(CreateAppointmentActivity.this, android.R.layout.simple_list_item_1, searchResults);
+		list.setAdapter(adapter);
+		ad = alertDialog.show();
 	}
 	
     private class LongOperation extends AsyncTask<String, Void, Boolean> {
@@ -194,41 +216,23 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 		private JSONArray query;
 		private Boolean userFound;
 		
-		public LongOperation(Context context){
-			this.context = context;
-		}
+		public LongOperation(Context context){ this.context = context; }
+		
 		@Override
 		protected void onPreExecute() {
 			pd = new ProgressDialog(context);
             pd.setMessage("Creating Appointment");
             pd.show();
-            clinicIDStr = String.valueOf(clinicID);
-            
+            clinicIDStr = String.valueOf(clinicID);            
 		}
 		protected Boolean doInBackground(String... params) {
 			Log.d("bugs", "userID start: " + userID);
-			
-			if(!prefs.getBoolean("reuse", false)){
-				json = db.accessDB(params[0]);
-				ServiceUserSingleton.getInstance().setPatientInfo(json);
-				Log.d("bugs", "json: " + json);
-				Log.d("bugs", "singleton size: " + ServiceUserSingleton.getInstance().getUserID().size());
-				if(ServiceUserSingleton.getInstance().getUserID().size() > 0){
-					Log.d("bugs", "user found");
-					userID = ServiceUserSingleton.getInstance().getUserID().get(0);
-					userFound = true;
-				}else {
-					Log.d("bugs", "user not found");
-					userFound = false;
-				}
-				postAppt.postAppointment(userID, clinicIDStr, apptDate, time, duration, priority, visitType);
-			} else {
+				userID = ServiceUserSingleton.getInstance().getUserID().get(0);
 				postAppt.postAppointment(userID, clinicIDStr, apptDate, time, duration, priority, visitType);
 				userFound = true;
-			}
 			try {
-				json = db.accessDB(params[1]);
-				query = json.getJSONArray(params[1]);
+				json = db.accessDB(params[0]);
+				query = json.getJSONArray(params[0]);
 				AppointmentSingleton.getInstance().setHashMapofClinicDateID(query);
 				AppointmentSingleton.getInstance().setHashMapofIdAppt(query);
 			} catch (JSONException e) {
@@ -251,6 +255,69 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
         }
 	}
     
+	private class UserSearchLongOperation extends AsyncTask<String, Void, JSONObject> {
+		private Context context;
+		private JSONObject json;
+		private List<String> searchResults = new ArrayList<String>();
+		private Boolean showDialog;
+		private ProgressDialog pd;
+		private String name, hospitalNumber, dob, id;
+
+		public UserSearchLongOperation(Context context, Boolean showDialog) { 
+			this.context = context; 
+			this.showDialog = showDialog;
+		}
+
+		@Override
+		protected void onPreExecute() {
+			pd = new ProgressDialog(context);
+			pd.setMessage("Fetching Information");
+			pd.show();
+		}
+
+		protected JSONObject doInBackground(String... params) {
+			json = db.accessDB(params[0]);
+			return json;
+		}
+
+		@Override
+		protected void onProgressUpdate(Void... values) {}
+
+		@Override
+		protected void onPostExecute(JSONObject result) {
+			idList = new ArrayList<String>();
+			Log.d("bugs", "Result from on post " + result);
+			try {
+				if (result.getJSONArray("service_users").length() != 0) {
+					for (int i = 0; i < result.getJSONArray("service_users").length(); i++) {
+						ServiceUserSingleton.getInstance().setPatientInfo(result);
+						name = ServiceUserSingleton.getInstance().getUserName().get(i);
+						hospitalNumber = ServiceUserSingleton.getInstance().getUserHospitalNumber().get(i);
+						dob = ServiceUserSingleton.getInstance().getUserDOB().get(i);
+						id = ServiceUserSingleton.getInstance().getUserID().get(i);
+						
+						idList.add(id);
+						searchResults.add(name + "\n" + hospitalNumber + "\n" + dob);
+						Log.d("bugs", "searchResults: " + searchResults);
+					}
+					pd.dismiss();
+					if(showDialog){
+						Log.d("bugs", "showDialog true");
+						buildeAlertDialog(searchResults);
+					}  else {
+						Log.d("bugs", "showDialog false");
+						userName.setText(name);
+					} 
+				} else {
+					pd.dismiss();
+					Toast.makeText(getApplicationContext(), "No search results found", Toast.LENGTH_SHORT).show();
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+    
     private class MySpinnerOnItemSelectedListener implements AdapterView.OnItemSelectedListener {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -258,9 +325,17 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
                 case R.id.visit_duration_spinner:
                 	switch(position){
                 	case 0: 
+                		duration = durationList.get(position);
+                		Log.d("bugs", "15 minutes");
                 		break;
-                	default:
-                	duration = durationList.get(position);
+                	case 1:
+                		Log.d("bugs", "timeList.size(): " + timeList.size());
+            			if(timeList.size() == 2){
+            				Log.d("bugs", "30 minutes if true");
+            				Toast.makeText(CreateAppointmentActivity.this, "No 30 minute slots available", Toast.LENGTH_LONG).show();
+            				visitDurationSpinner.setSelection(0);
+            			}  else { duration = durationList.get(position); 
+            			Log.d("bugs", "15 minutes if false");}
                 	break;
                 	}
                 case R.id.visit_priority_spinner:
@@ -271,6 +346,10 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
                     case 1:
                     	priority = "scheduled";
                     	//Scheduled
+                    	break;
+                    case 2:
+                    	priority = "drop-in";
+                    	//Drop-In
                     	break;
                     }
                     break;
@@ -293,6 +372,8 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			switch (parent.getId()){
 				case R.id.list_dialog:
+					new UserSearchLongOperation(CreateAppointmentActivity.this, false).execute("service_users/" + idList.get(position));
+					ad.cancel();
 	            	Log.d("bugs", "list position is: " + position);
 	            	break;
 			}

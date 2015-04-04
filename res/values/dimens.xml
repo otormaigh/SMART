@@ -2,7 +2,7 @@
 <resources>
 
     <!-- PADDING -->
-    <dimen name="padding_Xsmall">1dp</dimen>
+    <dimen name="padding_Xsmall">7dp</dimen>
     <dimen name="padding_small">12dp</dimen>
     <dimen name="padding_medium">20dp</dimen>
     <dimen name="padding_large">28dp</dimen>
