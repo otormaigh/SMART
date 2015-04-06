@@ -6,8 +6,7 @@
     android:orientation="vertical"
     android:weightSum="7.0"
     tools:context="${relativePackage}.${activityClass}" >
-    
-  
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -25,35 +24,46 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Age " />
+                android:text="Age "
+                android:textSize="@dimen/text_Xsmall" />
+
             <TextView
                 android:id="@+id/age"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="xx" />
+                android:text="xx"
+                android:textSize="@dimen/text_Xsmall" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="yrs, P: " />
+                android:text="yrs, P: "
+                android:textSize="@dimen/text_Xsmall" />
+
             <TextView
                 android:id="@+id/p"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="xx+x" />
+                android:text="xx+x"
+                android:textSize="@dimen/text_Xsmall" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text=", G: " />
+                android:text=", G: "
+                android:textSize="@dimen/text_Xsmall" />
+
             <TextView
                 android:id="@+id/g"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="xx+x" />
+                android:text="xx+x"
+                android:textSize="@dimen/text_Xsmall" />
         </LinearLayout>
     </LinearLayout>
 
@@ -71,7 +81,7 @@
             <Button
                 android:id="@+id/user_contact"
                 android:layout_width="50dp"
-                android:layout_height="50dp"                
+                android:layout_height="50dp"
                 android:layout_marginRight="@dimen/padding_medium"
                 android:background="@drawable/ic_action_call" />
 
@@ -85,19 +95,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="fill_horizontal"
-                    android:text="Hospital Number" />
+                    android:text="Hospital Number"
+                    android:textSize="@dimen/text_Xsmall" />
+
                 <TextView
                     android:id="@+id/email"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="fill_horizontal"
-                    android:text="Email" />
+                    android:text="Email"
+                    android:textSize="@dimen/text_Xsmall" />
+
                 <TextView
                     android:id="@+id/mobile_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="fill_horizontal"
-                    android:text="Mobile" />
+                    android:text="Mobile"
+                    android:textSize="@dimen/text_Xsmall" />
             </LinearLayout>
         </LinearLayout>
 
@@ -115,7 +130,7 @@
                 android:background="@drawable/ic_action_map"
                 android:clickable="true" />
 
-                        <LinearLayout
+            <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
@@ -125,19 +140,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="fill_horizontal"
-                    android:text="Road" />
+                    android:text="Road" 
+                    android:textSize="@dimen/text_Xsmall" />
+
                 <TextView
                     android:id="@+id/county"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="fill_horizontal"
-                    android:text="County" />
+                    android:text="County"
+                    android:textSize="@dimen/text_Xsmall" />
+
                 <TextView
                     android:id="@+id/post_code"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="fill_horizontal"
-                    android:text="Post Code" />
+                    android:text="Post Code" 
+                    android:textSize="@dimen/text_Xsmall" />
             </LinearLayout>
         </LinearLayout>
 
@@ -160,24 +180,27 @@
                     android:background="@drawable/ic_action_cc_bcc"
                     android:clickable="true" />
 
-                            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
 
-                <TextView
-                    android:id="@+id/next_of_kin_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="fill_horizontal"
-                    android:text="Next Of Kin Name" />
-                <TextView
-                    android:id="@+id/next_of_kin_contact_number"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="fill_horizontal"
-                    android:text="Next Of Kin Contact Number" />
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/next_of_kin_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="fill_horizontal"
+                        android:text="Next Of Kin Name"
+                        android:textSize="@dimen/text_Xsmall" />
+
+                    <TextView
+                        android:id="@+id/next_of_kin_contact_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="fill_horizontal"
+                        android:text="Next Of Kin Contact Number"
+                        android:textSize="@dimen/text_Xsmall" />
+                </LinearLayout>
             </LinearLayout>
 
             <Button
@@ -190,4 +213,5 @@
                 android:textSize="@dimen/text_large" />
         </LinearLayout>
     </LinearLayout>
+
 </LinearLayout>
