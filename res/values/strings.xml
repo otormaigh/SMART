@@ -121,12 +121,6 @@
     <string name="parity">Parity</string>
     <string name="obstretic_history">Obstretic history</string>
     <string name="last_period">Last period</string>
-  
-    <!-- PARITY DETAILS -->
-    <string name="date_of_birth">Date of birth</string>
-    <string name="sex">Sex</string>
-    <string name="weight">Weight</string>
-    <string name="mode_of_birth">Mode of birth</string>
     
     <!-- POST NATAL -->
     <string name="mother_info">Mother</string>
@@ -150,6 +144,16 @@
     <string name="history_notebutton">Add note to history</string>
     <string name="add_note">Add a note</string>
     
+    <!-- PARITY DETAILS -->
+    <string name="parity_baby_name">Baby Name: </string>
+    <string name="parity_hospital_number">Hospital Number: </string>
+    <string name="parity_dob">Date of Birth: </string>
+    <string name="parity_gender">Sex: </string>
+    <string name="parity_gestation">Gestation: </string>
+    <string name="parity_mode_of_birth">Mode Of Birth: </string>
+    <string name="parity_birth_outcome">Birth Outcome: </string>
+    <string name="parity_weight">Weight (kg): </string>
+     
     <!-- LOGOUT SESSION -->
     <string name="Yes">Yes</string>
     <string name="No">No</string>
