@@ -20,6 +20,7 @@ import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -311,12 +312,20 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 			convertView = layoutInflater.inflate(R.layout.list_rows, null);
 			TextView timeText = (TextView) convertView.findViewById(R.id.time);
 			TextView nameText = (TextView) convertView.findViewById(R.id.name);
-			TextView gestText = (TextView) convertView.findViewById(R.id.gestation);
+			TextView gestText = (TextView) convertView.findViewById(R.id.gestation);			
 			
-			
-			timeText.setText(aptTime.get(position));
-			nameText.setText(aptName.get(position));
-			gestText.setText(aptGest.get(position));    	
+			if(listOfId.get(position).equals("0")){
+				timeText.setText(aptTime.get(position));
+				nameText.setText(aptName.get(position));
+				gestText.setText(aptGest.get(position));
+				
+				nameText.setTextColor(getResources().getColor(R.color.green));
+				nameText.setShadowLayer(1, 0, 0, getResources().getColor(R.color.black));
+			} else {
+				timeText.setText(aptTime.get(position));
+				nameText.setText(aptName.get(position));
+				gestText.setText(aptGest.get(position));
+			}
 			return convertView;
 		}
 	}
