@@ -76,6 +76,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:id="@+id/service_user_contact"
             android:paddingBottom="@dimen/padding_medium" >
 
             <Button
@@ -133,6 +134,7 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/service_user_address"
                 android:orientation="vertical" >
 
                 <TextView
@@ -170,7 +172,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingBottom="@dimen/padding_medium" >
+                android:paddingBottom="@dimen/padding_medium"
+                android:id="@+id/service_user_kin" >
 
                 <Button
                     android:id="@+id/next_of_kin_contact"
