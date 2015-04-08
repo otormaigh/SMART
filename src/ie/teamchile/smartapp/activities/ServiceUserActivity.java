@@ -132,11 +132,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		bookAppointmentButton.setOnClickListener(new ButtonClick());
 		
 		tableParity = (TableRow)findViewById(R.id.button_parity);
-		tableParity.setOnClickListener(new ButtonClick());
-
-		obstetricHistory = (TableRow) findViewById(R.id.obstretic_history);
-		obstetricHistory.setOnClickListener(new ButtonClick());
-		
+		tableParity.setOnClickListener(new ButtonClick());		
 		try{
 			dob = ServiceUserSingleton.getInstance().getUserDOB().get(0);
 			if(!dob.equals("null")){
