@@ -100,8 +100,7 @@
             android:name=".activities.ParityDetailsActivity"
             android:label="@string/title_activity_parity_details"
             android:launchMode="singleTask"
-            android:parentActivityName=".activities.QuickMenuActivity"
-            android:screenOrientation="portrait" />
+            android:parentActivityName=".activities.QuickMenuActivity" />
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value=".activities.QuickMenuActivity" />
