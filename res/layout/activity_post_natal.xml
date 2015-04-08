@@ -18,6 +18,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="start"
                 android:text="@string/mother_info"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="@dimen/text_small"
                 android:textStyle="bold" />
 
@@ -25,42 +26,41 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border"
-                android:padding="5dp" 
+                android:padding="@dimen/padding_natal"
                 android:weightSum="1.0" >
 
                 <TextView
                     android:id="@+id/birth_mode"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text=""
+                    android:layout_weight="0.3"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_medium"
-                    android:layout_weight="0.3" />
+                    android:textSize="@dimen/text_natal_data" />
 
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="0.7"
                     android:gravity="end"
                     android:text="@string/birth_mode"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_Xsmall"
-                    android:textStyle="bold"
-                    android:layout_weight="0.7"  />
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/text_natal_field"
+                    android:textStyle="bold" />
             </TableRow>
 
             <TableRow
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border"
-                android:padding="5dp" >
+                android:padding="@dimen/padding_natal" >
 
                 <TextView
                     android:id="@+id/perineum"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text=""
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_medium" />
+                    android:textSize="@dimen/text_natal_data" />
 
                 <TextView
                     android:layout_width="fill_parent"
@@ -68,7 +68,8 @@
                     android:gravity="end"
                     android:text="@string/perineum"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_Xsmall"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/text_natal_field"
                     android:textStyle="bold" />
             </TableRow>
 
@@ -76,15 +77,14 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border"
-                android:padding="5dp" >
+                android:padding="@dimen/padding_natal" >
 
                 <TextView
                     android:id="@+id/anti_d"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text=""
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_medium" />
+                    android:textSize="@dimen/text_natal_data" />
 
                 <TextView
                     android:layout_width="fill_parent"
@@ -92,7 +92,8 @@
                     android:gravity="end"
                     android:text="@string/anti_d"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_Xsmall"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/text_natal_field"
                     android:textStyle="bold" />
             </TableRow>
 
@@ -100,7 +101,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border"
-                android:padding="5dp"
+                android:padding="@dimen/padding_natal"
                 android:weightSum="1.0" >
 
                 <TextView
@@ -110,7 +111,8 @@
                     android:gravity="center_vertical"
                     android:text="@string/midwives_notes"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_medium" />
+                    android:textSize="@dimen/text_natal_field"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="fill_parent"
@@ -139,47 +141,49 @@
                 android:gravity="start"
                 android:paddingTop="@dimen/padding_medium"
                 android:text="@string/baby_info"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="@dimen/text_small"
                 android:textStyle="bold" />
 
             <TableRow
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/border" 
+                android:background="@drawable/border"
+                android:padding="@dimen/padding_natal"
                 android:weightSum="1.0" >
 
                 <TextView
                     android:id="@+id/date_of_delivery"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text=""
+                    android:layout_weight="0.45"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_small"
-					android:layout_weight="0.45"/>
+                    android:textSize="@dimen/text_natal_data" />
 
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="0.55"
                     android:gravity="end"
                     android:text="@string/delivery_date"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_Xsmall"
-                    android:textStyle="bold"
-                    android:layout_weight="0.55" />
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/text_natal_field"
+                    android:textStyle="bold" />
             </TableRow>
 
             <TableRow
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/border" >
+                android:background="@drawable/border"
+                android:padding="@dimen/padding_natal" >
 
                 <TextView
                     android:id="@+id/time_of_delivery"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text=""
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_small" />
+                    android:textSize="@dimen/text_natal_data" />
 
                 <TextView
                     android:layout_width="fill_parent"
@@ -187,22 +191,23 @@
                     android:gravity="end"
                     android:text="@string/delivery_time"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_Xsmall"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/text_natal_field"
                     android:textStyle="bold" />
             </TableRow>
 
             <TableRow
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/border" >
+                android:background="@drawable/border"
+                android:padding="@dimen/padding_natal" >
 
                 <TextView
                     android:id="@+id/days_since_birth"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text=""
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_small" />
+                    android:textSize="@dimen/text_natal_data" />
 
                 <TextView
                     android:layout_width="fill_parent"
@@ -210,22 +215,23 @@
                     android:gravity="end"
                     android:text="@string/days_sinceBirth"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_Xsmall"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/text_natal_field"
                     android:textStyle="bold" />
             </TableRow>
 
             <TableRow
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/border" >
+                android:background="@drawable/border"
+                android:padding="@dimen/padding_natal" >
 
                 <TextView
                     android:id="@+id/sex_of_baby"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text=""
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_small" />
+                    android:textSize="@dimen/text_natal_data" />
 
                 <TextView
                     android:layout_width="fill_parent"
@@ -233,22 +239,23 @@
                     android:gravity="end"
                     android:text="@string/sex_of_baby"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_Xsmall"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/text_natal_field"
                     android:textStyle="bold" />
             </TableRow>
 
             <TableRow
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/border" >
+                android:background="@drawable/border"
+                android:padding="@dimen/padding_natal" >
 
                 <TextView
                     android:id="@+id/birth_weight"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=""
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_small" />
+                    android:textSize="@dimen/text_natal_data" />
 
                 <TextView
                     android:layout_width="fill_parent"
@@ -256,22 +263,23 @@
                     android:gravity="end"
                     android:text="@string/birth_weight"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_Xsmall"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/text_natal_field"
                     android:textStyle="bold" />
             </TableRow>
 
             <TableRow
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/border" >
+                android:background="@drawable/border"
+                android:padding="@dimen/padding_natal" >
 
                 <TextView
                     android:id="@+id/vitk"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text=""
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_small" />
+                    android:textSize="@dimen/text_natal_data" />
 
                 <TextView
                     android:layout_width="fill_parent"
@@ -279,22 +287,23 @@
                     android:gravity="end"
                     android:text="@string/vit_k"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_Xsmall"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/text_natal_field"
                     android:textStyle="bold" />
             </TableRow>
 
             <TableRow
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/border" >
+                android:background="@drawable/border"
+                android:padding="@dimen/padding_natal" >
 
                 <TextView
                     android:id="@+id/hearing"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text=""
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_small" />
+                    android:textSize="@dimen/text_natal_data" />
 
                 <TextView
                     android:layout_width="fill_parent"
@@ -302,22 +311,23 @@
                     android:gravity="end"
                     android:text="@string/baby_hearing"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_Xsmall"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/text_natal_field"
                     android:textStyle="bold" />
             </TableRow>
 
             <TableRow
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/border" >
+                android:background="@drawable/border"
+                android:padding="@dimen/padding_natal" >
 
                 <TextView
                     android:id="@+id/feeding"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text=""
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_small" />
+                    android:textSize="@dimen/text_natal_data" />
 
                 <TextView
                     android:layout_width="fill_parent"
@@ -325,22 +335,23 @@
                     android:gravity="end"
                     android:text="@string/baby_feeding"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_Xsmall"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/text_natal_field"
                     android:textStyle="bold" />
             </TableRow>
 
             <TableRow
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/border" >
+                android:background="@drawable/border"
+                android:padding="@dimen/padding_natal" >
 
                 <TextView
                     android:id="@+id/nbst"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text=""
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_small" />
+                    android:textSize="@dimen/text_natal_data" />
 
                 <TextView
                     android:layout_width="fill_parent"
@@ -348,10 +359,10 @@
                     android:gravity="end"
                     android:text="@string/nbst"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_Xsmall"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/text_natal_field"
                     android:textStyle="bold" />
             </TableRow>
         </LinearLayout>
     </LinearLayout>
-
 </ScrollView>

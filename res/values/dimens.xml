@@ -15,8 +15,13 @@
     <dimen name="text_large">27sp</dimen>
     <dimen name="text_Xlarge">35sp</dimen>
     
-    <!--  MARGIN -->
+    <!-- MARGIN -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    
+    <!-- POST NATAL / ANTE NATAL -->
+    <dimen name="padding_natal">7dp</dimen>
+    <dimen name="text_natal_data">20sp</dimen>
+    <dimen name="text_natal_field">18sp</dimen>
 
 </resources>
