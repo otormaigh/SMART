@@ -2,7 +2,9 @@ package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.utility.ServiceUserSingleton;
+import ie.teamchile.smartapp.utility.ToastAlert;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,11 +20,14 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import android.widget.TableRow;
@@ -37,6 +42,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 	private TextView postBirthMode, postPerineum, postAntiD, postDeliveryDate, postDeliveryTime,
 					 postDaysSinceBirth, postBabyGender, postBirthWeight, postVitK, postHearing, 
 					 postFeeding, postNBST, lastPeriod;
+	private LinearLayout serviceUserContact, serviceUserAddress, serviceUserKin;
 	
 	private String dob = "", age = "", hospitalNumber, email, mobile, userName, kinName,  
 				   kinMobile, road, county, postCode, gestation, parity, estimtedDelivery,
@@ -88,6 +94,14 @@ public class ServiceUserActivity extends MenuInheritActivity {
         tabHost.addTab(tab3);
 
         tabHost.setCurrentTab(1);
+        
+        serviceUserContact = (LinearLayout)findViewById(R.id.service_user_contact);
+        serviceUserContact.setOnClickListener(new ButtonClick());
+        serviceUserAddress = (LinearLayout)findViewById(R.id.service_user_address);
+        serviceUserAddress.setOnClickListener(new ButtonClick());
+        serviceUserKin = (LinearLayout)findViewById(R.id.service_user_kin);
+        serviceUserKin.setOnClickListener(new ButtonClick());
+        
 
         anteAge = (TextView)findViewById(R.id.age_ante_natal);
 		anteGestation = (TextView)findViewById(R.id.gestation);
@@ -134,8 +148,6 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		tableParity = (TableRow)findViewById(R.id.button_parity);
 		tableParity.setOnClickListener(new ButtonClick());
 
-		obstetricHistory = (TableRow) findViewById(R.id.obstretic_history);
-		obstetricHistory.setOnClickListener(new ButtonClick());
 		
 		try{
 			dob = ServiceUserSingleton.getInstance().getUserDOB().get(0);
@@ -233,16 +245,26 @@ public class ServiceUserActivity extends MenuInheritActivity {
 			case R.id.book_appointment:
 				setSharedPrefs();
 				
-				Intent intentBook = new Intent(ServiceUserActivity.this, AppointmentTypeSpinnerActivity.class);
+				Intent intentBook = new Intent(ServiceUserActivity.this, 
+						AppointmentTypeSpinnerActivity.class);
 				startActivity(intentBook);
 				break;
-			case R.id.user_contact:
+			case R.id.user_contact :
+				usrContact();
+				break;
+			case R.id.service_user_contact :
 				usrContact();
 				break;
 			case R.id.next_of_kin_contact:
 				kinContact();
 				break;
+			case R.id.service_user_kin :
+				kinContact();
+				break;
 			case R.id.user_address:
+				userAddress();
+				break;
+			case R.id.service_user_address :
 				userAddress();
 				break;
 			case R.id.user_Phone_Call:
@@ -376,7 +398,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		.setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener() {
 		    public void onClick(DialogInterface dialoginterface, int i) {
 		    	String addr = "" + contactRoad.getText().toString() + contactCounty.getText().toString() + contactPostCode.getText().toString();
-		    	Uri uri = Uri.parse(addr);
+		    	Uri uri = Uri.parse(getGeoCoodinates(addr+"?z=12")); //"geo:47.6,-122.3?z=18"
 		    	System.out.println(addr);
 		    	Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 		        intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
@@ -547,5 +569,29 @@ public class ServiceUserActivity extends MenuInheritActivity {
 			}
     	}    
     	p = asDate.indexOf(Collections.max(asDate));
+    }
+    
+    private String getGeoCoodinates(String address) {
+    	Geocoder geocoder = new Geocoder(ServiceUserActivity.this);
+        Log.d("The Address", address);
+        List<Address> addresses = null;
+        try {
+            if(!address.isEmpty() && address != null)
+                addresses = geocoder.getFromLocationName(address, 1);
+        }catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+
+        if(addresses != null && addresses.size() > 0) {
+            double latitude= addresses.get(0).getLatitude();
+            double longitude= addresses.get(0).getLongitude();
+            Log.d("Coordinates Found", String.valueOf(latitude));
+            Log.d("Coordinates Found", String.valueOf(longitude));
+            //"geo:47.6,-122.3?z=18"
+            ToastAlert ta = new ToastAlert(this,"geo:" + String.valueOf(latitude) + "," + String.valueOf(longitude) + "", false);
+            return "geo:" + String.valueOf(latitude) + "," + String.valueOf(longitude) + "";
+        }
+        return "Not Found";
+        
     }
 }
