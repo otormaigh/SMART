@@ -206,5 +206,5 @@
         <item>Ante-Natal</item>
         <item>Post-Natal</item>
  	</string-array>
- 	<string name="confirm_appointment">Book Appointment</string>
+ 	<string name="confirm_appointment">Confirm Appointment</string>
 </resources>
