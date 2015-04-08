@@ -20,7 +20,6 @@ import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -334,7 +333,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 			if(listOfId.get(position).equals("0")){
-				intent = new Intent(AppointmentCalendarActivity.this, CreateAppointmentActivity.class);
+				intent = new Intent(AppointmentCalendarActivity.this, ConfirmAppointmentActivity.class);
 				if(listOfId.size() == 1){
 					myCalendar.setTime(openingAsDate);
 					myCalendar.add(Calendar.MINUTE, - appointmentInterval);
