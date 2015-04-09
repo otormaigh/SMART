@@ -397,9 +397,10 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		}})
 		.setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener() {
 		    public void onClick(DialogInterface dialoginterface, int i) {
-		    	String addr = "" + contactRoad.getText().toString() + contactCounty.getText().toString() + contactPostCode.getText().toString();
-		    	Uri uri = Uri.parse(getGeoCoodinates(addr+"?z=12")); //"geo:47.6,-122.3?z=18"
-		    	System.out.println(addr);
+		    	String addr = "" + contactRoad.getText().toString() + ", " + contactCounty.getText().toString() + ", " + contactPostCode.getText().toString();
+		    	Log.d("bugs", "geoCode: " + getGeoCoodinates(addr+"?z=12"));
+		    	Uri uri = Uri.parse(getGeoCoodinates(addr)); //"geo:47.6,-122.3?z=18"
+		    	Log.d("bugs", "addr: " + addr);
 		    	Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 		        intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
 		    	startActivity(intent);
@@ -583,13 +584,15 @@ public class ServiceUserActivity extends MenuInheritActivity {
         }
 
         if(addresses != null && addresses.size() > 0) {
-            double latitude= addresses.get(0).getLatitude();
-            double longitude= addresses.get(0).getLongitude();
+            double latitude = addresses.get(0).getLatitude();
+            double longitude = addresses.get(0).getLongitude();
             Log.d("Coordinates Found", String.valueOf(latitude));
             Log.d("Coordinates Found", String.valueOf(longitude));
             //"geo:47.6,-122.3?z=18"
             ToastAlert ta = new ToastAlert(this,"geo:" + String.valueOf(latitude) + "," + String.valueOf(longitude) + "", false);
-            return "geo:" + String.valueOf(latitude) + "," + String.valueOf(longitude) + "";
+            return "geo:" +String.valueOf(latitude) + "," +String.valueOf(longitude) + "?z=12" +
+            	   "&q=" + String.valueOf(latitude) + "," + String.valueOf(longitude) +
+            	   "(" + userName + ")";
         }
         return "Not Found";
         
