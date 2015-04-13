@@ -2,6 +2,7 @@ package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.connecttodb.AccessDBTable;
+import ie.teamchile.smartapp.maiti.MaitiApplication;
 import ie.teamchile.smartapp.utility.AppointmentSingleton;
 import ie.teamchile.smartapp.utility.ClinicSingleton;
 import ie.teamchile.smartapp.utility.ServiceOptionSingleton;
@@ -11,6 +12,9 @@ import ie.teamchile.smartapp.utility.ToastAlert;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.riverbed.mobile.android.apmlib.UserExperience;
+import com.riverbed.mobile.android.apmlib.objects.TransactionId;
 
 import android.app.ProgressDialog;
 import android.app.admin.DevicePolicyManager;
@@ -34,16 +38,22 @@ public class QuickMenuActivity extends MenuInheritActivity {
     private JSONObject json;
 	private JSONArray query;
 	private AccessDBTable db = new AccessDBTable();
+	private UserExperience ue;
+	private TransactionId parentID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quick_menu);
+        ue = ((MaitiApplication) getApplication()).getAppPerformanceMonitor();
+        ue.notification("In QuickMenu onCreate", null);
         
         getActionBar().setDisplayHomeAsUpEnabled(false);
         
         Log.d("bugs", "updated: " + AppointmentSingleton.getInstance().getUpdated());
         if(!AppointmentSingleton.getInstance().getUpdated()){
+        	parentID = ue.transactionStart("In login pre");
+    		ue.setTransactionEvent("Update local called", parentID);
         	new updateLocal().execute("appointments", "clinics", "service_options");        	
         }
         
@@ -171,6 +181,8 @@ public class QuickMenuActivity extends MenuInheritActivity {
 		@Override
         protected void onPostExecute(JSONArray result) {
 			pd.dismiss();
+			ue.setTransactionUserTag2(parentID, "Update local complete");
+    		ue.transactionEnd(parentID);
         }
 	}
 
