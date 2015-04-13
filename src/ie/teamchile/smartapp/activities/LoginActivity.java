@@ -1,12 +1,15 @@
-
 package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.connecttodb.GetToken;
 import ie.teamchile.smartapp.utility.ServiceProviderSingleton;
 import ie.teamchile.smartapp.utility.ToastAlert;
+import ie.teamchile.smartapp.maiti.*;
 
 import java.util.Calendar;
+
+import com.riverbed.mobile.android.apmlib.UserExperience;
+import com.riverbed.mobile.android.apmlib.objects.TransactionId;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -28,6 +31,8 @@ public class LoginActivity extends Activity {
 	private ToastAlert ta;
 	private Calendar cal = Calendar.getInstance();
 	//private ConnectivityTester testConn = new ConnectivityTester(this);
+	private UserExperience ue;
+	private TransactionId parentID;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +53,12 @@ public class LoginActivity extends Activity {
 		about = (TextView) findViewById(R.id.about);
 	    about.setOnClickListener(new ButtonClick());
 	}
+	
     private class ButtonClick implements View.OnClickListener {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.login:
+				ue = ((MaitiApplication) getApplication()).getAppPerformanceMonitor();
 				getCredentials();
 				new LongOperation().execute((String[]) null);
 				Log.d("MYLOG", "Button Clicked");
@@ -65,9 +72,16 @@ public class LoginActivity extends Activity {
 			}
 		}
 	}
+    
 	private class LongOperation extends AsyncTask<String, Void, String> {
 		@Override
 		protected void onPreExecute() {
+			ue.notification("Login Notification", null);
+			
+			parentID = ue.transactionStart("In login pre");
+    		ue.setTransactionEvent("Loading", parentID);
+    		
+    		ue.setTransactionUserData(parentID, "401");
 			ta = new ToastAlert(getBaseContext(), "Logging In. . . ", false);
 		}
 		protected String doInBackground(String... params) {
@@ -81,6 +95,7 @@ public class LoginActivity extends Activity {
 		@Override
         protected void onPostExecute(String result) {
             checkCredentials();
+            ue.setTransactionUserTag1(parentID, "In login post");
         }
 	}
 	
@@ -96,12 +111,15 @@ public class LoginActivity extends Activity {
         		ServiceProviderSingleton.getInstance().setLoggedIn(true);
         		ServiceProviderSingleton.getInstance().setUsername(username);
         		ServiceProviderSingleton.getInstance().setPassword(password); 
-        		
+        		ue.setTransactionUserTag2(parentID, "Login successful");
+        		ue.transactionEnd(parentID);
         		intent = new Intent(LoginActivity.this, QuickMenuActivity.class); 
         		startActivity(intent);
         		
         	} else
         		Toast.makeText(this, "Login Failed", Toast.LENGTH_LONG).show();
+    		ue.setTransactionUserTag2(parentID, "Login unsuccessful");
+    		ue.transactionEnd(parentID);
     	}else {
     		ta = new ToastAlert(LoginActivity.this, "Poor Internet Activity \nPlease check your settings", true);
     	}
