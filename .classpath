@@ -6,6 +6,6 @@
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="libs/postgresql-9.3-1102.jdbc3.jar"/>
-	<classpathentry kind="lib" path="libs/maiti.jar"/>
+	<classpathentry kind="lib" path="libs/maiti_custom.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
