@@ -15,10 +15,15 @@ public class MaitiApplication extends Application {
 
 		if (apm == null) {
 			SettingsObject settings = new SettingsObject();
-			settings.setDataCollector("192.168.1.201", false, 80);
+			//settings.setDataCollector("192.168.1.201", false, 80);
+			settings.setDataCollector("postgresql68.cp.blacknight.com", 
+									  "5432", 
+									  "db1058457_maitai", 
+									  "u1058457_elliotbarry", 
+									  "elliotbarry@2dev");
 			try {
-				apm = new UserExperience("Blacknight_Test", "SMART",
-						this.getApplicationContext(), settings);
+				apm = new UserExperience("Blacknight_Test", "SMART", 
+					  this.getApplicationContext(), settings);
 			} catch (PermissionsException e) {
 				e.printStackTrace();
 				throw new RuntimeException();
