@@ -1,7 +1,6 @@
 <resources>
-
-    <!-- Application theme. -->
-    <style name="AppTheme" parent="android:Theme.Holo.Light">
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    <!-- Default Application theme -->
+    <style
+        name="AppTheme" parent="android:Theme.Holo.Light">
     </style>
 </resources>
