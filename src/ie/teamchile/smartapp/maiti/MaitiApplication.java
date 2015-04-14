@@ -1,10 +1,10 @@
 package ie.teamchile.smartapp.maiti;
 
-import com.riverbed.mobile.android.apmlib.UserExperience;
-import com.riverbed.mobile.android.apmlib.PermissionsException;
-import com.riverbed.mobile.android.apmlib.objects.SettingsObject;
-
 import android.app.Application;
+
+import com.riverbed.mobile.android.apmlib.PermissionsException;
+import com.riverbed.mobile.android.apmlib.UserExperience;
+import com.riverbed.mobile.android.apmlib.objects.SettingsObject;
 
 public class MaitiApplication extends Application {
 	private UserExperience apm = null;
@@ -15,8 +15,7 @@ public class MaitiApplication extends Application {
 
 		if (apm == null) {
 			SettingsObject settings = new SettingsObject();
-			//settings.setDataCollector("192.168.1.201", false, 80);
-			settings.setDataCollector("postgresql68.cp.blacknight.com", 
+			settings.setDataCollector("postgresql68.cp.blacknight.com",
 									  "5432", 
 									  "db1058457_maitai", 
 									  "u1058457_elliotbarry", 
