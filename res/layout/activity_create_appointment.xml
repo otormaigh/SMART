@@ -108,38 +108,6 @@
             android:paddingLeft="@dimen/padding_Xsmall" />
 
         <TextView
-            android:id="@+id/text_priority"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_small"
-            android:text="Priority"
-            android:textSize="@dimen/text_small"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/text_confirm_priority"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/text_medium"
-            android:paddingLeft="@dimen/padding_Xsmall" />
-        
-         <TextView
-            android:id="@+id/text_visit_type"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_small"
-            android:text="Visit Type"
-            android:textSize="@dimen/text_small"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/text_confirm_visit_type"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/text_medium"
-            android:paddingLeft="@dimen/padding_Xsmall" />
-
-        <TextView
             android:id="@+id/text_create_question"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
