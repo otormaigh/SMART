@@ -1,4 +1,4 @@
-package ie.teamchile.smartapp.maiti;
+/*package ie.teamchile.smartapp.maiti;
 
 import android.app.Application;
 
@@ -20,6 +20,8 @@ public class MaitiApplication extends Application {
 									  "db1058457_maitai", 
 									  "u1058457_elliotbarry", 
 									  "elliotbarry@2dev");
+			
+			settings.setDataCollector("url", false, 80);
 			try {
 				apm = new UserExperience("Blacknight_Test", "SMART", 
 					  this.getApplicationContext(), settings);
@@ -33,4 +35,4 @@ public class MaitiApplication extends Application {
 	public UserExperience getAppPerformanceMonitor() {
 		return apm;
 	}
-}
+}*/
