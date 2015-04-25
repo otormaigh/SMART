@@ -18,8 +18,8 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_MEDIA_STORAGE" />
 
+<!--         android:name=".maiti.MaitiApplication" this goes between application tags -->
     <application
-        android:name=".maiti.MaitiApplication"
         android:allowBackup="false"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -38,7 +38,8 @@
             android:name=".activities.AppointmentCalendarActivity"
             android:label="@string/title_activity_appointment_calendar"
             android:parentActivityName=".activities.QuickMenuActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask" />
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value=".activities.QuickMenuActivity" />
@@ -66,7 +67,8 @@
             android:label="@string/title_activity_confirm_appointment"
             android:launchMode="singleTask"
             android:parentActivityName=".activities.QuickMenuActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" 
+            android:noHistory="true" />
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value=".activities.QuickMenuActivity" />
@@ -84,7 +86,8 @@
             android:name=".activities.CreateAppointmentActivity"
             android:label="@string/title_activity_create_appointment"
             android:parentActivityName=".activities.QuickMenuActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:noHistory="true" />
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value=".activities.QuickMenuActivity" />

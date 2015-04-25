@@ -32,10 +32,11 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 	private DateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     private TextView txtUserName, txtHospitalNumber, txtClinic, txtDate, txtTime, txtDuration, txtPriority, txtVisitType;
     private Button btnYes, btnNo;
-    private String name, hospitalNumber, clinicName, date, time, duration, priority, clinicID, userID, visitType, timeBefore, timeAfter;
+    private String name, hospitalNumber, clinicName, date, monthDate, time, duration, 
+    		priority, clinicID, userId, visitType, timeBefore, timeAfter;
     private ProgressDialog pd;
-    private AccessDBTable db;
-    private PostAppointment postAppt;
+    private AccessDBTable db = new AccessDBTable();
+    private PostAppointment postAppt = new PostAppointment();
     private AppointmentCalendarActivity passOptions;
     private Calendar cal = Calendar.getInstance();
 
@@ -43,15 +44,13 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_appointment);
-
+        
         txtUserName = (TextView) findViewById(R.id.text_confirm_user);
         txtHospitalNumber = (TextView) findViewById(R.id.text_confirm_hospital_number);
         txtClinic = (TextView) findViewById(R.id.text_confirm_clinic);
         txtDate = (TextView) findViewById(R.id.text_confirm_date);
         txtTime = (TextView) findViewById(R.id.text_confirm_time);
         txtDuration = (TextView) findViewById(R.id.text_confirm_duration);
-        txtPriority = (TextView) findViewById(R.id.text_confirm_priority);
-        txtVisitType = (TextView) findViewById(R.id.text_confirm_visit_type);
 
         btnYes = (Button) findViewById(R.id.btn_yes_appointment);
         btnYes.setOnClickListener(new ButtonClick());
@@ -63,7 +62,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
         date = getIntent().getStringExtra("date");
         try {
         	cal.setTime(sdfDate.parse(date));
-			date = sdfDateMonthName.format(sdfDate.parse(date));
+        	monthDate = sdfDateMonthName.format(sdfDate.parse(date));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -73,8 +72,10 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
         visitType = getIntent().getStringExtra("visitType");
         timeBefore = getIntent().getStringExtra("timeBefore");
         timeAfter = getIntent().getStringExtra("timeAfter"); 
+        userId = getIntent().getStringExtra("userId"); 
+        visitType = getIntent().getStringExtra("visitType"); 
         
-        Log.d("appointment", "clinicName: " + clinicName + "\nclinicID: " +  clinicID  + "\nDate: " + date + 
+        Log.d("appointment", "userId: " + userId + "\nclinicName: " + clinicName + "\nclinicID: " +  clinicID  + "\nDate: " + monthDate + 
 				 "\nTime: " + time + "\nDuration: " + duration + "\nPriority: " + priority +
 				 "\nVisit Type: " + visitType);
         
@@ -84,21 +85,21 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
         txtUserName.setText(name);
         txtHospitalNumber.setText(hospitalNumber);
         txtClinic.setText(clinicName);
-        txtDate.setText(date);
+        txtDate.setText(monthDate);
         txtTime.setText(time);
         txtDuration.setText(duration);
-        txtPriority.setText(priority);  
-        txtVisitType.setText(visitType);
+        //txtPriority.setText(priority);  
+        //txtVisitType.setText(visitType);
         
     }
 
-    private class ButtonClick implements View.OnClickListener {
+	private class ButtonClick implements View.OnClickListener {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.btn_yes_appointment:
                 	Log.d("bugs", "yes 	 button clicked");
                 	new CreateAppointmentLongOperation(CreateAppointmentActivity.this).execute("appointments");
-                    passOptions.setDaySelected(cal.getTime());
+                    //passOptions.setDaySelected(cal.getTime());
                     break;
                 case R.id.btn_no_appointment:
                 	Log.d("bugs", "no button clicked");
@@ -111,6 +112,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
             		intent.putExtra("priority", priority);
             		intent.putExtra("timeBefore", timeBefore);
             		intent.putExtra("timeAfter", timeAfter);
+            		intent.putExtra("userId", userId);
             		startActivity(intent);
                     break;
             }
@@ -132,9 +134,11 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
             pd.show();
         }
         protected Boolean doInBackground(String... params) {
-            Log.d("bugs", "userID start: " + userID);
-            userID = ServiceUserSingleton.getInstance().getUserID().get(0);
-            postAppt.postAppointment(userID, clinicID, date, time, duration, priority, visitType);
+            //userID = ServiceUserSingleton.getInstance().getUserID().get(0);
+        	Log.d("buggy_bug", "userId: " + userId + "\nclinicID: " +  clinicID  + 
+        		  "\nDate: " + date +  "\nTime: " + time + ":00" + "\nDuration: " + duration + 
+   				  "\nPriority: " + priority + "\nVisit Type: " + visitType);
+            postAppt.postAppointment(userId, clinicID, date, (time + ":00") , duration, priority, visitType);
             userFound = true;
             try {
                 json = db.accessDB(params[0]);
@@ -152,6 +156,11 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
         @Override
         protected void onPostExecute(Boolean result) {
             if (result) {
+            	try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
                 Intent intent = new Intent(CreateAppointmentActivity.this, AppointmentCalendarActivity.class);
                 startActivity(intent);
             }else {
@@ -160,4 +169,13 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
             pd.dismiss();
         }
     }
+    
+/*    @Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		
+		Intent intent = new Intent(this, AppointmentCalendarActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK); 
+		startActivity(intent);
+	}*/
 }
