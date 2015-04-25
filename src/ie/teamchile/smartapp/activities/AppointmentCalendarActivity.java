@@ -101,6 +101,11 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
     }
     
     @Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+	}
+
+	@Override
 	protected void onResume() {
 		super.onResume();
 		Log.d("bugs", "in onResume");
