@@ -5,7 +5,6 @@ import ie.teamchile.smartapp.connecttodb.AccessDBTable;
 import ie.teamchile.smartapp.utility.AppointmentSingleton;
 import ie.teamchile.smartapp.utility.ClinicSingleton;
 import ie.teamchile.smartapp.utility.ServiceUserSingleton;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,14 +12,15 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-
 import org.json.JSONObject;
-
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -38,6 +38,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class AppointmentCalendarActivity extends MenuInheritActivity {
+	private final int sdkVersion = Build.VERSION.SDK_INT;
 	private static int serviceOptionSelected, weekSelected, clinicSelected;
 	protected static Date daySelected;
 	private Date openingAsDate, closingAsDate;
@@ -58,10 +59,12 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 	private AccessDBTable db = new AccessDBTable();
 	private JSONObject json;
 	
-    @Override
+	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appointment_calendar);
+        
+        apiSpecificCode();
         
         listView = (ListView)findViewById(R.id.list);
         dateInList = (Button)findViewById(R.id.date_button);
@@ -72,7 +75,8 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
         
         clinicOpening = ClinicSingleton.getInstance().getOpeningTime(String.valueOf(clinicSelected));
 		clinicClosing = ClinicSingleton.getInstance().getClosingTime(String.valueOf(clinicSelected));
-		appointmentInterval = Integer.parseInt(ClinicSingleton.getInstance().getAppointmentInterval(String.valueOf(clinicSelected)));
+		appointmentInterval = Integer.parseInt(ClinicSingleton.getInstance()
+				.getAppointmentInterval(String.valueOf(clinicSelected)));
 				
 		try {
 			openingAsDate = dfTimeOnly.parse(String.valueOf(clinicOpening));
@@ -98,6 +102,13 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
         setAptToListSingle(daySelected);
         adapter.notifyDataSetChanged();
         createDatePicker();
+    }
+    
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+	private void apiSpecificCode(){
+    	if (sdkVersion >= Build.VERSION_CODES.LOLLIPOP) {
+    		getActionBar().setElevation(0);
+    	}
     }
     
     @Override
@@ -159,13 +170,10 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
     }
         
     public ArrayList<String> removeZeros(ArrayList<String> badList){
-    	if(badList != null){
-	    	for(int i = 0; i < badList.size(); i ++){
-				if(badList.get(i).equals("0")){
-					badList.remove("0");			
-				}
-			}
-    	}
+    	if(badList != null)
+	    	for(int i = 0; i < badList.size(); i ++)
+				if(badList.get(i).equals("0")) 
+					badList.remove("0"); 
     	return badList;
     }
     
