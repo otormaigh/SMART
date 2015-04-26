@@ -13,18 +13,23 @@ import java.util.List;
 import java.util.Locale;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
 	private SimpleDateFormat sdfDay = new SimpleDateFormat("E", Locale.getDefault());
-    private Spinner appointmentSpinner, serviceOptionSpinner, visitOptionSpinner, clinicSpinner, weekSpinner, daySpinner;
-    private ArrayAdapter<CharSequence> appointmentAdapter, visitAdapter, weekAdapter;
-    private ArrayAdapter<String> serviceOptionAdapter, clinicAdapter, dayAdapter;
+	private SimpleDateFormat sdfDowMonthDay = new SimpleDateFormat("EEE, d MMM", Locale.getDefault());
+    private Spinner appointmentSpinner, serviceOptionSpinner, visitOptionSpinner, 
+    		clinicSpinner, weekSpinner, daySpinner;
+    private ArrayAdapter<CharSequence> appointmentAdapter, visitAdapter;
+    private ArrayAdapter<String> serviceOptionAdapter, clinicAdapter, dayAdapter, weekAdapter;
     private List<String> nameList, idList;
     private int serviceOptionSelected, clinicSelected, weekSelected;
 	private Date daySelected, dayOfWeek;
@@ -61,26 +66,24 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
 
         clinicSpinner = (Spinner) findViewById(R.id.clinic_spinner);
         
-        weekSpinner = (Spinner) findViewById(R.id.week_spinner);
-        weekSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
-        weekAdapter = ArrayAdapter.createFromResource(this, R.array.weeks, R.layout.spinner_layout);
-        weekAdapter.setDropDownViewResource(R.layout.spinner_layout);
-        weekSpinner.setAdapter(weekAdapter);
-
         daySpinner = (Spinner) findViewById(R.id.day_spinner);
 
+        weekSpinner = (Spinner) findViewById(R.id.week_spinner);
+        weekSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
+        //setWeekSpinner();
+        
         appointmentSpinner.setVisibility(View.VISIBLE);
         serviceOptionSpinner.setVisibility(View.GONE);
         visitOptionSpinner.setVisibility(View.GONE);
         clinicSpinner.setVisibility(View.GONE);
-        weekSpinner.setVisibility(View.GONE);
         daySpinner.setVisibility(View.GONE);
+        weekSpinner.setVisibility(View.GONE);
     }
 	
 	private void setServiceOptionSpinner(){
 		 int mapSize = ServiceOptionSingleton.getInstance().getMapOfID().size();
 	        nameList = new ArrayList<String>();
-	        nameList.add("Select Service Option");
+	        nameList.add(Html.fromHtml("<font color=\"#FF0000\">" + "Select Service Option" + "</font>").toString());
 	        
 	        for(int i = 1; i < mapSize + 1; i++){
 	        	nameList.add(ServiceOptionSingleton.getInstance().getName(String.valueOf(i)));
@@ -90,7 +93,7 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
 	private void setClinicSpinner(String z){
 		idList = ServiceOptionSingleton.getInstance().getClinicIDs(z);
 		List<String> clinicNames = new ArrayList<String>();
-		clinicNames.add("Select Clinic");
+		clinicNames.add(Html.fromHtml("<b>Select Clinic</b>").toString());
 		
 		if(idList != null){
 			for(int i = 0; i < idList.size(); i++){
@@ -104,9 +107,29 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
         clinicSpinner.setAdapter(clinicAdapter);
 	}
 	
+	private void setWeekSpinner(Date dayOfWeek){
+		List<String> weeks = new ArrayList<String>();
+		weeks.add("Select Week");
+		
+		for(int i = 1; i <= 10; i++){
+            c = Calendar.getInstance();
+            Log.d("MYLOG", "Week " + i + " selected");
+    		c.add(Calendar.DAY_OF_YEAR, 7 * i);
+    		c.set(Calendar.DAY_OF_WEEK, dayOfWeek.getDay() + 1);
+    		weeks.add("Week " + i + " - " + sdfDowMonthDay.format(c.getTime()));
+		}
+		
+		//weekAdapter = ArrayAdapter.createFromResource(this, R.array.weeks, R.layout.spinner_layout);
+		weekAdapter = new ArrayAdapter<String>(this, R.layout.spinner_layout, weeks);
+        weekAdapter.setDropDownViewResource(R.layout.spinner_layout);
+        weekSpinner.setAdapter(weekAdapter);
+	}
+	
 	private void setDaySpinner(List<String> days){
 		for(int i = 0; i < days.size(); i++){
-			String dayFirstLetterUpperCase = Character.toString(days.get(i).charAt(0)).toUpperCase(Locale.getDefault()) + days.get(i).substring(1);
+			String dayFirstLetterUpperCase = Character.toString(days.get(i).charAt(0))
+					.toUpperCase(Locale.getDefault()) 
+					+ days.get(i).substring(1);
 			days.set(i, dayFirstLetterUpperCase);
 		}
 		days.add(0, "Select Day");
@@ -124,6 +147,7 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
                 case R.id.appointment_spinner:
                     switch (position) {
                         case 0:
+                        	appointmentSpinner.setBackgroundColor(Color.RED);
                             appointmentSpinner.setVisibility(View.VISIBLE);
                             serviceOptionSpinner.setVisibility(View.GONE);
                             visitOptionSpinner.setVisibility(View.GONE);
@@ -132,6 +156,7 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
                             daySpinner.setVisibility(View.GONE);
                             break;
                         case 1:     //Clinic
+                        	appointmentSpinner.setBackgroundColor(Color.TRANSPARENT);
                         	visitOptionSpinner.setVisibility(View.GONE);
                             serviceOptionSpinner.setVisibility(View.VISIBLE);
                             serviceOptionSpinner.setSelection(0);
@@ -173,21 +198,56 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
                             serviceOptionSpinner.setVisibility(View.VISIBLE);
                             visitOptionSpinner.setVisibility(View.GONE);
                             clinicSpinner.setVisibility(View.VISIBLE);
-                            weekSpinner.setVisibility(View.GONE);
                             daySpinner.setVisibility(View.GONE);
+                            weekSpinner.setVisibility(View.GONE);
+                            break;
+                        default:
+                        	daySpinner.setVisibility(View.GONE);
+                        	daySpinner.setSelection(0);
+                        	weekSpinner.setVisibility(View.GONE);
+                        	weekSpinner.setSelection(0);
+                            
+                        	clinicSelected = Integer.parseInt(idList.get(position - 1));
+                        	
+                        	if(ClinicSingleton.getInstance().getTrueDays(String.valueOf(clinicSelected)).size() > 1){
+                        		setDaySpinner(ClinicSingleton.getInstance().getTrueDays(String.valueOf(clinicSelected)));
+                        		daySpinner.setVisibility(View.VISIBLE);
+                                daySpinner.setSelection(0);
+                        	} else {
+                        		try {
+                        			weekSpinner.setVisibility(View.VISIBLE);
+                                	weekSpinner.setSelection(0);
+									dayOfWeek = sdfDay.parse(ClinicSingleton.getInstance().getTrueDays(String.valueOf(clinicSelected)).get(0));
+									setWeekSpinner(dayOfWeek);									
+								} catch (ParseException e) {
+									e.printStackTrace();
+								}
+                        	}
+                        	break;
+                    }
+                    break;   
+                case R.id.day_spinner:
+                    switch (position) {
+                        case 0:
+                        	weekSpinner.setVisibility(View.GONE);
                             break;
                         default:
                         	weekSpinner.setVisibility(View.VISIBLE);
-                        	clinicSelected = Integer.parseInt(idList.get(position - 1));
                         	weekSpinner.setSelection(0);
+							try {
+								dayOfWeek = sdfDay.parse(daySpinner.getSelectedItem().toString());
+								setWeekSpinner(dayOfWeek);
+							} catch (ParseException e) {
+								e.printStackTrace();
+							}
+                        	break;
                     }
-                    break;                    
+                    break;
                 case R.id.week_spinner:
                     switch (position) {
                         case 0:
                             weekSelected = 0;
                             c = Calendar.getInstance();
-                            daySpinner.setVisibility(View.GONE);
                             break;
                         default:
                         	weekSelected = position;
@@ -196,35 +256,8 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
                     		c.add(Calendar.DAY_OF_YEAR, 7 * position);
                 			Log.d("MYLOG", "Plus " + (7 * position)  + " days is: " + c.getTime());	
                 			daySelected = c.getTime();
-                            
-                            if(ClinicSingleton.getInstance().getTrueDays(String.valueOf(clinicSelected)).size() > 1){
-                        		setDaySpinner(ClinicSingleton.getInstance().getTrueDays(String.valueOf(clinicSelected)));
-                        		daySpinner.setVisibility(View.VISIBLE);
-                                daySpinner.setSelection(0);
-                        	} else {
-                        		try {
-									dayOfWeek = sdfDay.parse(ClinicSingleton.getInstance().getTrueDays(String.valueOf(clinicSelected)).get(0));
-									addDayToTime(dayOfWeek);
-									changeActivity();
-								} catch (ParseException e) {
-									e.printStackTrace();
-								}
-                        	}
-                        	break;
-                    }
-                    break;
-                case R.id.day_spinner:
-                    switch (position) {
-                        case 0:
-                            break;
-                        default:
-							try {
-								dayOfWeek = sdfDay.parse(daySpinner.getSelectedItem().toString());
-								addDayToTime(dayOfWeek);
-								changeActivity();
-							} catch (ParseException e) {
-								e.printStackTrace();
-							}
+                			addDayToTime(dayOfWeek);
+                			changeActivity();
                         	break;
                     }
                     break;
