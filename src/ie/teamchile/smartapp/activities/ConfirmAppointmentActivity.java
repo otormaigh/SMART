@@ -47,12 +47,12 @@ public class ConfirmAppointmentActivity extends MenuInheritActivity {
 	private SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 	private SimpleDateFormat sdfDateMonthName = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
 	private EditText userName;
-	private TextView textDate, textClinic;
+	private TextView textDate, textClinic, textTime;
 	private Button confirmAppointment, btnUserSearch;
-	private Spinner visitTimeSpinner, visitDurationSpinner, visitPrioritySpinner;
+	private Spinner visitDurationSpinner, visitPrioritySpinner;
 	private ArrayAdapter<CharSequence> visitPriorityAdapter;
 	private String name, clinic, apptDate, time, duration, priority, visitType, appointmentInterval,
-				   timeBefore, timeAfter, clinicIDStr, clinicName, userID = "";
+				   clinicIDStr, clinicName, userID = "";
 	private PostAppointment postAppt = new PostAppointment();
 	private AccessDBTable db = new AccessDBTable();
 	private ProgressDialog pd;
@@ -81,8 +81,7 @@ public class ConfirmAppointmentActivity extends MenuInheritActivity {
         confirmAppointment.setOnClickListener(new ButtonClick());
         btnUserSearch = (Button) findViewById(R.id.btn_user_search);
         btnUserSearch.setOnClickListener(new ButtonClick());
-        visitTimeSpinner = (Spinner) findViewById(R.id.visit_time_spinner);
-        visitTimeSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
+        textTime = (TextView) findViewById(R.id.visit_time_text);
         visitDurationSpinner = (Spinner) findViewById(R.id.visit_duration_spinner);
         visitDurationSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
         
@@ -107,13 +106,14 @@ public class ConfirmAppointmentActivity extends MenuInheritActivity {
 		textClinic.setText(clinicName);
 		
         appointmentInterval = ClinicSingleton.getInstance().getAppointmentInterval(String.valueOf(clinicID));
-        timeBefore = getIntent().getStringExtra("timeBefore");
-        timeAfter = getIntent().getStringExtra("timeAfter");       
+        //timeBefore = getIntent().getStringExtra("timeBefore");
+        time = getIntent().getStringExtra("time"); 
+        textTime.setText(time);
         
-        Log.d("postAppointment", "timeBefore: " + timeBefore);
-		Log.d("postAppointment", "timeAfter: " + timeAfter);
+        //Log.d("postAppointment", "timeBefore: " + timeBefore);
+		Log.d("postAppointment", "timeAfter: " + time);
 		
-		setTimeSpinner();
+		//setTimeSpinner();
 		setDurationSpinner();
 	}
 	
@@ -136,7 +136,7 @@ public class ConfirmAppointmentActivity extends MenuInheritActivity {
 	    myArrayAdapter.setDropDownViewResource(R.layout.spinner_layout);
 	    visitDurationSpinner.setAdapter(myArrayAdapter);
 	}
-	private void setTimeSpinner(){
+/*	private void setTimeSpinner(){
         try {
         	appointmentIntervalAsInt = Integer.parseInt(appointmentInterval);
         	beforeAsDate = sdfTime.parse(timeBefore);
@@ -165,7 +165,7 @@ public class ConfirmAppointmentActivity extends MenuInheritActivity {
         } catch (ParseException e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 	
 	private class ButtonClick implements View.OnClickListener {
         public void onClick(View v) {
@@ -181,8 +181,7 @@ public class ConfirmAppointmentActivity extends MenuInheritActivity {
             	Log.d("postAppointment", "clinicID: " + clinicID);
             	Log.d("postAppointment", "clinicName: " + ClinicSingleton.getInstance().getClinicName(String.valueOf(clinicID)));
             	
-            	if(!name.isEmpty() && visitTimeSpinner.getSelectedItemPosition() != 0
-            					   && visitPrioritySpinner.getSelectedItemPosition() != 0) {
+            	if(!name.isEmpty() && visitPrioritySpinner.getSelectedItemPosition() != 0) {
             		//new CreateAppointmentLongOperation(ConfirmAppointmentActivity.this).execute("appointments");
             		
             		Intent intent = new Intent(ConfirmAppointmentActivity.this, CreateAppointmentActivity.class);
@@ -327,9 +326,6 @@ public class ConfirmAppointmentActivity extends MenuInheritActivity {
                     	//Drop-In
                     	break;
                     }
-                    break;
-                case R.id.visit_time_spinner:
-                    time = timeList.get(position);
                     break;
                 case R.id.list_dialog:
                 	Log.d("bugs", "list position is: " + position);

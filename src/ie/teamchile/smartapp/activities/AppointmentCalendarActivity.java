@@ -453,7 +453,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 		public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 			if(idList.get(position).equals("0")){
 				intent = new Intent(AppointmentCalendarActivity.this, ConfirmAppointmentActivity.class);
-				if(idList.size() == 1){
+				/*if(idList.size() == 1){
 					myCalendar.setTime(openingAsDate);
 					myCalendar.add(Calendar.MINUTE, - appointmentInterval);
 					
@@ -478,8 +478,8 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 					timeBefore = AppointmentSingleton.getInstance().getTime(idList.get(position - 1));
 					timeAfter = AppointmentSingleton.getInstance().getTime(idList.get(position + 1));
 				}
-				intent.putExtra("timeBefore", timeBefore);
-				intent.putExtra("timeAfter", timeAfter);
+				intent.putExtra("timeBefore", timeBefore);*/
+				intent.putExtra("time", timeList.get(position));
 				intent.putExtra("clinicID", String.valueOf(clinicSelected));
 				startActivity(intent);
 				
