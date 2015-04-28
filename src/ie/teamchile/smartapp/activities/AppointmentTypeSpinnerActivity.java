@@ -147,7 +147,7 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
                 case R.id.appointment_spinner:
                     switch (position) {
                         case 0:
-                        	appointmentSpinner.setBackgroundColor(Color.RED);
+                        	appointmentSpinner.setBackgroundColor(getResources().getColor(R.color.lightBlue));
                             appointmentSpinner.setVisibility(View.VISIBLE);
                             serviceOptionSpinner.setVisibility(View.GONE);
                             visitOptionSpinner.setVisibility(View.GONE);
@@ -176,6 +176,7 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
                     switch (position) {
                         case 0:
                             serviceOptionSelected = 0;
+                            serviceOptionSpinner.setBackgroundColor(getResources().getColor(R.color.lightBlue));
                             appointmentSpinner.setVisibility(View.VISIBLE);
                             serviceOptionSpinner.setVisibility(View.VISIBLE);
                             visitOptionSpinner.setVisibility(View.GONE);
@@ -184,6 +185,7 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
                             daySpinner.setVisibility(View.GONE);
                             break;
                         default:
+                        	serviceOptionSpinner.setBackgroundColor(Color.TRANSPARENT);
                         	clinicSpinner.setVisibility(View.VISIBLE);
                         	serviceOptionSelected = position;
                         	setClinicSpinner(String.valueOf(position));
@@ -194,6 +196,7 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
                     switch (position) {
                         case 0:
                             clinicSelected = 0;
+                            clinicSpinner.setBackgroundColor(getResources().getColor(R.color.lightBlue));
                             appointmentSpinner.setVisibility(View.VISIBLE);
                             serviceOptionSpinner.setVisibility(View.VISIBLE);
                             visitOptionSpinner.setVisibility(View.GONE);
@@ -202,6 +205,7 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
                             weekSpinner.setVisibility(View.GONE);
                             break;
                         default:
+                        	clinicSpinner.setBackgroundColor(Color.TRANSPARENT);
                         	daySpinner.setVisibility(View.GONE);
                         	daySpinner.setSelection(0);
                         	weekSpinner.setVisibility(View.GONE);
@@ -217,7 +221,8 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
                         		try {
                         			weekSpinner.setVisibility(View.VISIBLE);
                                 	weekSpinner.setSelection(0);
-									dayOfWeek = sdfDay.parse(ClinicSingleton.getInstance().getTrueDays(String.valueOf(clinicSelected)).get(0));
+									dayOfWeek = sdfDay.parse(ClinicSingleton.getInstance()
+											.getTrueDays(String.valueOf(clinicSelected)).get(0));
 									setWeekSpinner(dayOfWeek);									
 								} catch (ParseException e) {
 									e.printStackTrace();
@@ -230,8 +235,10 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
                     switch (position) {
                         case 0:
                         	weekSpinner.setVisibility(View.GONE);
+                        	daySpinner.setBackgroundColor(getResources().getColor(R.color.lightBlue));
                             break;
                         default:
+                        	daySpinner.setBackgroundColor(Color.TRANSPARENT);
                         	weekSpinner.setVisibility(View.VISIBLE);
                         	weekSpinner.setSelection(0);
 							try {
@@ -247,10 +254,12 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
                     switch (position) {
                         case 0:
                             weekSelected = 0;
+                            weekSpinner.setBackgroundColor(getResources().getColor(R.color.lightBlue));
                             c = Calendar.getInstance();
                             break;
                         default:
                         	weekSelected = position;
+                        	weekSpinner.setBackgroundColor(Color.TRANSPARENT);
                             c = Calendar.getInstance();
                     		c.add(Calendar.DAY_OF_YEAR, 7 * position);
                 			Log.d("MYLOG", "Plus " + (7 * position)  + " days is: " + c.getTime());	
@@ -263,8 +272,7 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
             }
         }
         @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-        }
+        public void onNothingSelected(AdapterView<?> parent) { }
     }
     
     public void changeActivity(){
