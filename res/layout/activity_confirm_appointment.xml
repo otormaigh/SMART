@@ -82,10 +82,12 @@
             android:textSize="@dimen/text_small"
             android:textStyle="bold" />
 
-        <Spinner
-            android:id="@+id/visit_time_spinner"
+        <TextView
+            android:id="@+id/visit_time_text"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_medium" 
+            android:paddingLeft="@dimen/padding_Xsmall" />
 
         <TextView
             android:id="@+id/text_duration"
