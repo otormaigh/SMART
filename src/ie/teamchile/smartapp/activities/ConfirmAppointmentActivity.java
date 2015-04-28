@@ -111,7 +111,7 @@ public class ConfirmAppointmentActivity extends MenuInheritActivity {
         textTime.setText(time);
         
         //Log.d("postAppointment", "timeBefore: " + timeBefore);
-		Log.d("postAppointment", "timeAfter: " + time);
+		Log.d("postAppointment", "timeAfter: " + time );
 		
 		//setTimeSpinner();
 		setDurationSpinner();
