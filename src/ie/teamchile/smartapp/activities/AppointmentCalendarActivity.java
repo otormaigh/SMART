@@ -112,6 +112,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 		Log.d("MYLOG", "week: " + weekSelected);
 		Log.d("MYLOG", "day: " + daySelected);
 		
+		listView.setAdapter(null);
         newSetToList(daySelected);
         adapter.notifyDataSetChanged();
         createDatePicker();
@@ -127,15 +128,15 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
     @Override
 	protected void onNewIntent(Intent intent) { super.onNewIntent(intent); }
 
-/*	@Override
+	@Override
 	protected void onResume() {
 		super.onResume();
 		Log.d("bugs", "in onResume");
 		Log.d("bugs", "daySelected: " + daySelected);
 		listView.setAdapter(null);
 		adapter.notifyDataSetChanged();
-		setAptToListSingle(daySelected);
-	}*/
+		newSetToList(daySelected);
+	}
 
 	private class ButtonClick implements View.OnClickListener {
         public void onClick(View v) {
@@ -146,7 +147,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
                 	daySelected = c.getTime();
                 	myCalendar.setTime(daySelected);
                 	createDatePicker();
-                	//listView.setAdapter(null);
+                	listView.setAdapter(null);
                 	newSetToList(c.getTime());
                 	pauseButton();
                 	break;
@@ -156,7 +157,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
                 	daySelected = c.getTime();
                 	myCalendar.setTime(daySelected);
                 	createDatePicker();
-                	//listView.setAdapter(null);
+                	listView.setAdapter(null);
                 	newSetToList(c.getTime());
                 	pauseButton();
                     break;
