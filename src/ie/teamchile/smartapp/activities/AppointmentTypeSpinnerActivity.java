@@ -252,7 +252,6 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
                         default:
                         	weekSelected = position;
                             c = Calendar.getInstance();
-                            Log.d("MYLOG", "Week " + position + " selected");
                     		c.add(Calendar.DAY_OF_YEAR, 7 * position);
                 			Log.d("MYLOG", "Plus " + (7 * position)  + " days is: " + c.getTime());	
                 			daySelected = c.getTime();
@@ -273,6 +272,8 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
         passOptions.setClinicSelected(clinicSelected);
         passOptions.setWeekSelected(weekSelected);
         passOptions.setDaySelected(daySelected);
+        
+        Log.d("MYLOG", "clinic in spinner = " + clinicSelected);
         
         Intent intent = new Intent(AppointmentTypeSpinnerActivity.this, AppointmentCalendarActivity.class);
         startActivity(intent);
