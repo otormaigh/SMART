@@ -156,12 +156,12 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
         @Override
         protected void onPostExecute(Boolean result) {
             if (result) {
+            	Intent intent = new Intent(CreateAppointmentActivity.this, AppointmentCalendarActivity.class);
             	try {
 					Thread.sleep(500);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-                Intent intent = new Intent(CreateAppointmentActivity.this, AppointmentCalendarActivity.class);
                 startActivity(intent);
             }else {
                 Toast.makeText(CreateAppointmentActivity.this, "No user found, try again", Toast.LENGTH_LONG).show();
