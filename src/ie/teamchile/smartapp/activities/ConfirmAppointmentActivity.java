@@ -32,6 +32,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -343,6 +344,11 @@ public class ConfirmAppointmentActivity extends MenuInheritActivity {
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			switch (parent.getId()){
 				case R.id.list_dialog:
+					InputMethodManager inputManager = (InputMethodManager)
+                    getSystemService(Context.INPUT_METHOD_SERVICE); 
+
+					inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                    InputMethodManager.HIDE_NOT_ALWAYS);
 					new UserSearchLongOperation(ConfirmAppointmentActivity.this, false).execute("service_users/" + idList.get(position));
 					ad.cancel();
 	            	Log.d("bugs", "list position is: " + position);
