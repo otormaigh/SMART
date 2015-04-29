@@ -234,9 +234,10 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 		gestList = new ArrayList<String>();
 		idList = new ArrayList<String>();
 		
-		Date apptTime = openingAsDate;
+		Date apptTime = openingAsDate;		
+		daySelected = dateSelected;
 		
-		dateSelectedStr = dfDateOnly.format(daySelected);		
+		dateSelectedStr = dfDateOnly.format(dateSelected);		
 		dateInList.setText(dfDateWithMonthName.format(dateSelected));
     	nameOfClinic = ClinicSingleton.getInstance().getClinicName(String.valueOf(clinicSelected));
     	setTitle(nameOfClinic);
