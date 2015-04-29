@@ -8,6 +8,7 @@ import ie.teamchile.smartapp.utility.ToastAlert;
 import java.util.Calendar;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -24,8 +25,9 @@ public class LoginActivity extends Activity {
 	private TextView usernameTextView, passwordTextView, about;
 	private GetToken getToken = new GetToken();
 	private Intent intent;
-	private ToastAlert ta;
 	private Calendar cal = Calendar.getInstance();
+	private ProgressDialog pd;
+	private ToastAlert ta;
 	//private ConnectivityTester testConn = new ConnectivityTester(this);
 	/*private UserExperience ue;
 	private TransactionId parentID;*/
@@ -78,7 +80,9 @@ public class LoginActivity extends Activity {
     		ue.setTransactionEvent("Loading", parentID);
     		
     		ue.setTransactionUserData(parentID, "401");*/
-			ta = new ToastAlert(getBaseContext(), "Logging In. . . ", false);
+			pd = new ProgressDialog(LoginActivity.this);
+			pd.setMessage("Logging In");
+			pd.show();
 		}
 		protected String doInBackground(String... params) {
 			getToken.getToken(username, password);            
@@ -91,6 +95,7 @@ public class LoginActivity extends Activity {
 		@Override
         protected void onPostExecute(String result) {
             checkCredentials();
+            pd.dismiss();
             //ue.setTransactionUserTag1(parentID, "In login post");
         }
 	}
