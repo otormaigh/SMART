@@ -29,6 +29,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -116,6 +117,19 @@ public class ConfirmAppointmentActivity extends MenuInheritActivity {
 		
 		//setTimeSpinner();
 		setDurationSpinner();
+		checkIfEditEmpty();
+	}
+	
+	private void checkIfEditEmpty(){
+		/*if(TextUtils.isEmpty(userName.getText().toString())) {
+		    userName.setError("Service User Empty");
+		    return;
+		 }*/
+		
+		if(TextUtils.equals(userID, "") || TextUtils.equals(userName.getText(), "")) {
+		    userName.setError("Field Empty");
+		    return;
+		 }
 	}
 	
 	private void getSharedPrefs(){
@@ -175,6 +189,7 @@ public class ConfirmAppointmentActivity extends MenuInheritActivity {
             	name = userName.getText().toString();
             	apptDate = sdfDate.format(myCalendar.getTime());
             	passOptions.setDaySelected(myCalendar.getTime());
+            	checkIfEditEmpty();
             	           	
             	Log.d("appointment", "name: " + name + "\nclinic: " +  clinic  + "\nclinic id: " + clinicID + "\nDate: " + apptDate + 
             						 "\nTime: " + time + "\nDuration: " + duration + "\nPriority: " + priority +
@@ -183,7 +198,6 @@ public class ConfirmAppointmentActivity extends MenuInheritActivity {
             	Log.d("postAppointment", "clinicName: " + ClinicSingleton.getInstance().getClinicName(String.valueOf(clinicID)));
             	
             	if(!name.isEmpty() && visitPrioritySpinner.getSelectedItemPosition() != 0) {
-            		//new CreateAppointmentLongOperation(ConfirmAppointmentActivity.this).execute("appointments");
             		
             		Intent intent = new Intent(ConfirmAppointmentActivity.this, CreateAppointmentActivity.class);
             		Bundle extras = new Bundle();
@@ -193,17 +207,18 @@ public class ConfirmAppointmentActivity extends MenuInheritActivity {
             		extras.putString("time", time);
             		extras.putString("duration", duration);
             		extras.putString("priority", priority);
-            		extras.putString("userId", idList.get(0));
+            		extras.putString("userId", userID);
             		extras.putString("visitType", visitType);
             		intent.putExtras(extras);
             		startActivity(intent);
-            		
             	}else {
             		ToastAlert ta = new ToastAlert(ConfirmAppointmentActivity.this, "Cannot proceed, \nSome fields are empty!", true);
             	}
             	break;            
             case R.id.btn_user_search:
+            	userID = "";
             	name = userName.getText().toString();
+            	//checkIfEditEmpty();
             	new UserSearchLongOperation(ConfirmAppointmentActivity.this, true).execute("service_users?name=" + name);
             	break;
             } 
@@ -225,8 +240,6 @@ public class ConfirmAppointmentActivity extends MenuInheritActivity {
 		ad = alertDialog.show();
 	}
 	
-
-    
 	private class UserSearchLongOperation extends AsyncTask<String, Void, JSONObject> {
 		private Context context;
 		private JSONObject json;
@@ -287,9 +300,7 @@ public class ConfirmAppointmentActivity extends MenuInheritActivity {
 					pd.dismiss();
 					Toast.makeText(getApplicationContext(), "No search results found", Toast.LENGTH_SHORT).show();
 				}
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+			} catch (JSONException e) { e.printStackTrace(); }
 		}
 	}
     
@@ -349,7 +360,8 @@ public class ConfirmAppointmentActivity extends MenuInheritActivity {
 
 					inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
                     InputMethodManager.HIDE_NOT_ALWAYS);
-					new UserSearchLongOperation(ConfirmAppointmentActivity.this, false).execute("service_users/" + idList.get(position));
+					userID = idList.get(position);
+					new UserSearchLongOperation(ConfirmAppointmentActivity.this, false).execute("service_users/" + userID);
 					ad.cancel();
 	            	Log.d("bugs", "list position is: " + position);
 	            	break;
