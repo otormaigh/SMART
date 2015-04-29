@@ -24,6 +24,12 @@ public class Logout {
 	private InputStream is;
 	private StringBuffer sb;
 	
+	private Boolean isLoggedOut;
+	
+	public Boolean getIsLoggedOut() {
+		return isLoggedOut;
+	}
+	
 	public int doLogout(String token) {
 		this.token = token;
 		logoutUrl = url.toString() + "logout";
@@ -42,6 +48,7 @@ public class Logout {
     private class LongOperation extends AsyncTask<Void, Void, Integer> {
         @Override
         protected void onPreExecute() {
+        	isLoggedOut = false;
         }
         protected Integer doInBackground(Void... params) {
             try {
@@ -87,6 +94,7 @@ public class Logout {
             Integer authCodeOk = Integer.valueOf(200);
             if(unauthCode.equals(result)){
             	Log.d("bugs", "logout successful");
+            	isLoggedOut = true;
             	ServiceProviderSingleton.getInstance().setToken("");
             	ServiceProviderSingleton.getInstance().setLoggedIn(false);
             } else if (authCodeOk.equals(result)){
