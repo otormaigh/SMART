@@ -6,11 +6,14 @@ import ie.teamchile.smartapp.utility.ServiceUserSingleton;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +33,38 @@ public class ParityDetailsActivity extends MenuInheritActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_parity_details);
 		
+		switch(getScreenOrientation()){
+		case 1:				//ORIENTATION_PORTRAIT
+			portraitCode();
+			break;
+		case 2:				//ORIENTATION_LANDSCAPE
+			landscapeCode();
+			break;
+		}		
+	}
+	
+	@Override
+	protected void onNewIntent(Intent intent) {
+	    super.onNewIntent(intent);
+	    setIntent(intent);
+	}
+	
+	private int getScreenOrientation() {
+	    Display getOrient = this.getWindowManager().getDefaultDisplay();
+	    int orientation = Configuration.ORIENTATION_UNDEFINED;
+	    if(getOrient.getWidth()==getOrient.getHeight()){
+	        orientation = Configuration.ORIENTATION_SQUARE;
+	    } else{ 
+	        if(getOrient.getWidth() < getOrient.getHeight()){
+	            orientation = Configuration.ORIENTATION_PORTRAIT;
+	        }else { 
+	             orientation = Configuration.ORIENTATION_LANDSCAPE;
+	        }
+	    }
+	    return orientation;
+	}
+	
+	private void portraitCode(){
 		ListView parityList = (ListView)findViewById(R.id.parity_list);
 		babyName = (TextView)findViewById(R.id.baby_name_parity);
 		parity =(TextView)findViewById(R.id.parity_info);
@@ -37,8 +72,7 @@ public class ParityDetailsActivity extends MenuInheritActivity {
 		patientName = ServiceUserSingleton.getInstance().getUserName().get(0);
 		patientParity = ServiceUserSingleton.getInstance().getUserParity().get(0);
 		setTitle(patientName);
-		String parityDeats = "<b>Parity:</b> " + patientParity;
-		parity.setText(Html.fromHtml(parityDeats));
+		parity.setText(patientParity);
 		
 		List<String> nameBaby = ServiceUserSingleton.getInstance().getBabyName();
 		List<String> hospitalNumber = ServiceUserSingleton.getInstance().getBabyHospitalNumber();
@@ -69,14 +103,11 @@ public class ParityDetailsActivity extends MenuInheritActivity {
 				 dobStr, genderBaby, gestationBaby
 				,weightBaby, birthMode, birthOutcome);
 		parityList.setAdapter(adapter);
-        //listView.setOnItemClickListener(new OnItemListener());
-		
+        //listView.setOnItemClickListener(new OnItemListener());		
 	}
 	
-	@Override
-	protected void onNewIntent(Intent intent) {
-	    super.onNewIntent(intent);
-	    setIntent(intent);
+	private void landscapeCode(){
+		
 	}
 	
     public String getGramsToKg(int grams){
