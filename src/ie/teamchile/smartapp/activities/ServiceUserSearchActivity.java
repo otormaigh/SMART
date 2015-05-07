@@ -80,6 +80,11 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 			case R.id.search:
 				Log.d("MYLOG", "Search Button Pressed");
 				
+				InputMethodManager inputManager = (InputMethodManager)
+                getSystemService(Context.INPUT_METHOD_SERVICE); 
+				inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                InputMethodManager.HIDE_NOT_ALWAYS);
+				
 				String asyncQuery = "";
 				String dob = "";
 				
