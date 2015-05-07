@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/padding_small"
     android:layout_marginTop="@dimen/padding_small"
     android:gravity="center"
     android:orientation="vertical" >
@@ -10,14 +9,26 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:orientation="horizontal" 
+        android:gravity="center" >
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/parity"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="@dimen/text_Xsmall"
+            android:textStyle="bold"
+            android:textColor="@color/grey"
+            android:paddingRight="@dimen/padding_Xsmall" />
 
         <TextView
             android:id="@+id/parity_info"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="" />
+            android:textSize="@dimen/text_Xsmall" />
     </LinearLayout>
 
     <LinearLayout
