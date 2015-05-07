@@ -92,16 +92,32 @@
             android:paddingLeft="@dimen/padding_Xsmall" />
 
         <TextView
-            android:id="@+id/text_duration"
+            android:id="@+id/text_email"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_small"
-            android:text="@string/duration"
+            android:text="@string/email_to"
             android:textSize="@dimen/text_small"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/text_confirm_duration"
+            android:id="@+id/text_confirm_email"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_medium"
+            android:paddingLeft="@dimen/padding_Xsmall" />
+        
+        <TextView
+            android:id="@+id/text_sms"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_small"
+            android:text="@string/sms_to"
+            android:textSize="@dimen/text_small"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/text_confirm_sms"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_medium"
