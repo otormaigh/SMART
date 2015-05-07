@@ -30,10 +30,11 @@ import android.widget.Toast;
 public class CreateAppointmentActivity extends MenuInheritActivity {
 	private DateFormat sdfDateMonthName = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
 	private DateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-    private TextView txtUserName, txtHospitalNumber, txtClinic, txtDate, txtTime, txtDuration, txtPriority, txtVisitType;
+    private TextView txtUserName, txtHospitalNumber, txtClinic, txtDate, 
+    				 txtTime, txtPriority, txtVisitType, txtEmailTo, txtSmsTo;
     private Button btnYes, btnNo;
     private String name, hospitalNumber, clinicName, date, monthDate, time, duration, 
-    		priority, clinicID, userId, visitType, timeBefore, timeAfter;
+    		priority, clinicID, userId, visitType, timeBefore, timeAfter, email, sms;
     private ProgressDialog pd;
     private AccessDBTable db = new AccessDBTable();
     private PostAppointment postAppt = new PostAppointment();
@@ -50,7 +51,8 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
         txtClinic = (TextView) findViewById(R.id.text_confirm_clinic);
         txtDate = (TextView) findViewById(R.id.text_confirm_date);
         txtTime = (TextView) findViewById(R.id.text_confirm_time);
-        txtDuration = (TextView) findViewById(R.id.text_confirm_duration);
+        txtEmailTo = (TextView) findViewById(R.id.text_confirm_email);
+        txtSmsTo = (TextView) findViewById(R.id.text_confirm_sms);
 
         btnYes = (Button) findViewById(R.id.btn_yes_appointment);
         btnYes.setOnClickListener(new ButtonClick());
@@ -81,16 +83,17 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
         
         name = ServiceUserSingleton.getInstance().getUserName().get(0);
         hospitalNumber = ServiceUserSingleton.getInstance().getUserHospitalNumber().get(0);
+        email = ServiceUserSingleton.getInstance().getUserEmail().get(0);
+        sms = ServiceUserSingleton.getInstance().getUserMobilePhone().get(0);
+        
         
         txtUserName.setText(name);
         txtHospitalNumber.setText(hospitalNumber);
         txtClinic.setText(clinicName);
         txtDate.setText(monthDate);
         txtTime.setText(time);
-        txtDuration.setText(duration);
-        //txtPriority.setText(priority);  
-        //txtVisitType.setText(visitType);
-        
+        txtEmailTo.setText(email);
+        txtSmsTo.setText(sms);
     }
 
 	private class ButtonClick implements View.OnClickListener {
