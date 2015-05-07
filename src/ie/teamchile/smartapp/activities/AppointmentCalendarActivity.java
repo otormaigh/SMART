@@ -206,10 +206,18 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 					dateInList.setText(dfDateWithMonthName.format(myCalendar.getTime()));
 					newSetToList(myCalendar.getTime());					
 				} else {
-					Toast.makeText(
-							AppointmentCalendarActivity.this, 
-							"Invalid day selected", 
-							Toast.LENGTH_LONG).show();
+					pd = new ProgressDialog(AppointmentCalendarActivity.this);
+					pd.setMessage("Invalid day selected\nPlease choose another");
+					pd.show();
+					CountDownTimer timer = new CountDownTimer(2000, 1000){
+						@Override
+						public void onFinish() {
+							pd.cancel();
+						}
+						@Override
+						public void onTick(long millisUntilFinished) {
+						}        				
+        			}.start();
 				}
 			}
 		};
