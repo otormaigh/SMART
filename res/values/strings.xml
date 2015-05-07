@@ -84,16 +84,6 @@
     <string name="five_select_time">09:30am</string>
     <string name="six_select_time">09:45am</string>
 
-    <!-- CONFIRM_APPOINTMENT -->
-    <string name="service_user">Service User</string>
-    <string name="hospital_number">Hospital Number</string>
-    <string name="appointment_clinic">Appointment Clinic</string>
-    <string name="appointment_date">Appointment Date</string>
-    <string name="appointment_time">Appointment Time</string>
-    <string name="duration">Duration</string>
-    <string name="email_to">Email to:</string>
-    <string name="sms_to">SMS to:</string>
-
     <!-- SERVICE USER SEARCH -->       					 
     <string name="enter_name">Enter Name Here</string>
     <string name="enter_hospital_number">Enter Hospital Number Here</string>
@@ -207,4 +197,14 @@
         <item>Post-Natal</item>
  	</string-array>
  	<string name="confirm_appointment">Confirm Appointment</string>
+ 	<string name="duration">Duration</string>
+ 	
+	<!-- CONFIRM_APPOINTMENT -->
+    <string name="service_user">Service User</string>
+    <string name="hospital_number">Hospital Number</string>
+    <string name="appointment_clinic">Appointment Clinic</string>
+    <string name="appointment_date">Appointment Date</string>
+    <string name="appointment_time">Appointment Time</string>
+    <string name="email_to">Email to</string>
+    <string name="sms_to">SMS to</string>
 </resources>
