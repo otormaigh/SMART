@@ -29,6 +29,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -212,7 +213,18 @@ public class ConfirmAppointmentActivity extends MenuInheritActivity {
             		intent.putExtras(extras);
             		startActivity(intent);
             	}else {
-            		ToastAlert ta = new ToastAlert(ConfirmAppointmentActivity.this, "Cannot proceed, \nSome fields are empty!", true);
+            		pd = new ProgressDialog(ConfirmAppointmentActivity.this);
+        			pd.setMessage("Cannot proceed, \nSome fields are empty!");
+        			pd.show();
+        			CountDownTimer timer = new CountDownTimer(2000, 1000){
+						@Override
+						public void onFinish() {
+							pd.cancel();
+						}
+						@Override
+						public void onTick(long millisUntilFinished) {
+						}        				
+        			}.start();
             	}
             	break;            
             case R.id.btn_user_search:
