@@ -18,7 +18,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_MEDIA_STORAGE" />
 
-<!--         android:name=".maiti.MaitiApplication" this goes between application tags -->
+<!--         android:name=".maiti.MaitiApplication" //this goes between application tags -->
     <application
         android:allowBackup="false"
         android:icon="@drawable/ic_launcher"
