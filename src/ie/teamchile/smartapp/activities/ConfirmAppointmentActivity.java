@@ -22,6 +22,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -46,24 +48,28 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class ConfirmAppointmentActivity extends MenuInheritActivity {
+	@InjectView (R.id.edit_service_user) EditText userName;
+	@InjectView (R.id.btn_confirm_appointment) Button confirmAppointment;
+	@InjectView (R.id.btn_user_search) Button btnUserSearch;
+	@InjectView (R.id.visit_time_text) TextView textTime;
+	@InjectView (R.id.visit_date_text) TextView textDate;
+	@InjectView (R.id.visit_clinic_text) TextView textClinic;
+	@InjectView (R.id.visit_duration_spinner) Spinner visitDurationSpinner;
+	@InjectView (R.id.visit_priority_spinner) Spinner visitPrioritySpinner;
+	
 	private SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm", Locale.getDefault());
 	private SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 	private SimpleDateFormat sdfDateMonthName = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
-	private EditText userName;
-	private TextView textDate, textClinic, textTime;
-	private Button confirmAppointment, btnUserSearch;
-	private Spinner visitDurationSpinner, visitPrioritySpinner;
 	private ArrayAdapter<CharSequence> visitPriorityAdapter;
 	private String name, clinic, apptDate, time, duration, priority, visitType, appointmentInterval,
 				   clinicIDStr, clinicName, userID = "";
-	private PostAppointment postAppt = new PostAppointment();
 	private AccessDBTable db = new AccessDBTable();
 	private ProgressDialog pd;
 	private Calendar c, myCalendar;
 	private List<String> timeList = new ArrayList<String>();
 	private List<String> durationList = new ArrayList<String>();
 	private List<String> idList, babyIDs;
-	private Date beforeAsDate, afterAsDate, afterAsDateMinusInterval;
+	//private Date beforeAsDate, afterAsDate, afterAsDateMinusInterval;
 	private AppointmentCalendarActivity passOptions = new AppointmentCalendarActivity();
 	private SharedPreferences prefs;
 	private AlertDialog.Builder alertDialog;
@@ -75,28 +81,21 @@ public class ConfirmAppointmentActivity extends MenuInheritActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_confirm_appointment);
+		ButterKnife.inject(this);
 		
 		c = Calendar.getInstance();
 		myCalendar = Calendar.getInstance();		
 
-        userName = (EditText)findViewById(R.id.edit_service_user);
-        confirmAppointment = (Button) findViewById(R.id.btn_confirm_appointment);
         confirmAppointment.setOnClickListener(new ButtonClick());
-        btnUserSearch = (Button) findViewById(R.id.btn_user_search);
         btnUserSearch.setOnClickListener(new ButtonClick());
-        textTime = (TextView) findViewById(R.id.visit_time_text);
-        visitDurationSpinner = (Spinner) findViewById(R.id.visit_duration_spinner);
-        visitDurationSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
         
-        visitPrioritySpinner = (Spinner) findViewById(R.id.visit_priority_spinner);
+        visitDurationSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
+       
         visitPrioritySpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
         visitPriorityAdapter = ArrayAdapter.createFromResource(this, R.array.visit_priority_list, R.layout.spinner_layout_create_appt);
         visitPriorityAdapter.setDropDownViewResource(R.layout.spinner_layout);
         visitPrioritySpinner.setAdapter(visitPriorityAdapter);
         visitPrioritySpinner.setSelection(1);
-        
-        textDate = (TextView)findViewById(R.id.visit_date_text);
-        textClinic = (TextView)findViewById(R.id.visit_clinic_text);
         
         Log.d("postAppointment", "time now: " + c.getTime());
         getSharedPrefs();
@@ -109,24 +108,16 @@ public class ConfirmAppointmentActivity extends MenuInheritActivity {
 		textClinic.setText(clinicName);
 		
         appointmentInterval = ClinicSingleton.getInstance().getAppointmentInterval(String.valueOf(clinicID));
-        //timeBefore = getIntent().getStringExtra("timeBefore");
         time = getIntent().getStringExtra("time"); 
         textTime.setText(time);
         
-        //Log.d("postAppointment", "timeBefore: " + timeBefore);
 		Log.d("postAppointment", "timeAfter: " + time );
 		
-		//setTimeSpinner();
 		setDurationSpinner();
 		checkIfEditEmpty();
 	}
 	
-	private void checkIfEditEmpty(){
-		/*if(TextUtils.isEmpty(userName.getText().toString())) {
-		    userName.setError("Service User Empty");
-		    return;
-		 }*/
-		
+	private void checkIfEditEmpty(){		
 		if(TextUtils.equals(userID, "") || TextUtils.equals(userName.getText(), "")) {
 		    userName.setError("Field Empty");
 		    return;
@@ -152,36 +143,6 @@ public class ConfirmAppointmentActivity extends MenuInheritActivity {
 	    myArrayAdapter.setDropDownViewResource(R.layout.spinner_layout);
 	    visitDurationSpinner.setAdapter(myArrayAdapter);
 	}
-/*	private void setTimeSpinner(){
-        try {
-        	appointmentIntervalAsInt = Integer.parseInt(appointmentInterval);
-        	beforeAsDate = sdfTime.parse(timeBefore);
-			afterAsDate = sdfTime.parse(timeAfter);
-			
-			c.setTime(afterAsDate);
-			c.add(Calendar.MINUTE, - appointmentIntervalAsInt);			
-			afterAsDateMinusInterval = c.getTime();
-			Log.d("postAppointment", "afterAsDateMinusInterval: " + afterAsDateMinusInterval);
-			timeList.add("Select Time");
-			
-			while(beforeAsDate.before(afterAsDateMinusInterval)){
-				Log.d("postAppointment", "beforeAsDate: " + beforeAsDate);
-				Log.d("postAppointment", "afterAsDate: " + afterAsDate);
-				c.setTime(beforeAsDate);
-				c.add(Calendar.MINUTE, appointmentIntervalAsInt);
-				beforeAsDate = c.getTime();
-				timeList.add(sdfTime.format(c.getTime()));
-			}
-			
-			Log.d("postAppointment", "timeList: " + timeList);
-		    visitTimeSpinner = (Spinner) findViewById(R.id.visit_time_spinner);
-		    ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<String>(this, R.layout.spinner_layout_create_appt, timeList);
-		    myArrayAdapter.setDropDownViewResource(R.layout.spinner_layout);
-		    visitTimeSpinner.setAdapter(myArrayAdapter);		    
-        } catch (ParseException e) {
-			e.printStackTrace();
-		}
-	}*/
 	
 	private class ButtonClick implements View.OnClickListener {
         public void onClick(View v) {
