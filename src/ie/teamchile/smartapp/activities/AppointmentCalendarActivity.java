@@ -17,6 +17,9 @@ import java.util.Locale;
 
 import org.json.JSONObject;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 import android.annotation.TargetApi;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
@@ -38,7 +41,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class AppointmentCalendarActivity extends MenuInheritActivity {
 	private final int sdkVersion = Build.VERSION.SDK_INT;
