@@ -27,6 +27,11 @@ import android.view.View;
 import android.widget.Button;
 
 public class QuickMenuActivity extends MenuInheritActivity {
+	@InjectView(R.id.patientSearch) Button patientSearch;
+	@InjectView(R.id.bookAppointment) Button bookAppointment;
+	@InjectView(R.id.calendar) Button calendar;
+	@InjectView(R.id.todays_appointments) Button todaysAppointments;
+	
     private boolean isViewVisible = false;
     private DevicePolicyManager deviceManager;
     private ProgressDialog pd;
@@ -34,12 +39,7 @@ public class QuickMenuActivity extends MenuInheritActivity {
 	private JSONArray query;
 	private AccessDBTable db = new AccessDBTable();
 	/*private UserExperience ue;
-	private TransactionId parentID;*/
-	
-	@InjectView(R.id.patientSearch) Button patientSearch;
-	@InjectView(R.id.bookAppointment) Button bookAppointment;
-	@InjectView(R.id.calendar) Button calendar;
-	@InjectView(R.id.todays_appointments) Button todaysAppointments;
+	private TransactionId parentID;*/	
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +62,7 @@ public class QuickMenuActivity extends MenuInheritActivity {
         patientSearch.setOnClickListener(new ButtonClick());
         bookAppointment.setOnClickListener(new ButtonClick());
         calendar.setOnClickListener(new ButtonClick());
-        todaysAppointments.setOnClickListener(new ButtonClick());
+        //todaysAppointments.setOnClickListener(new ButtonClick());
         isViewVisible = true;
     }
     
