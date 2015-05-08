@@ -4,6 +4,7 @@ import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.utility.ServiceUserSingleton;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -11,12 +12,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.text.Html;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -119,8 +118,8 @@ public class ParityDetailsActivity extends MenuInheritActivity {
 	
 	private void landscapeCode(){
 		adapter = new PortraitListAdapter(ParityDetailsActivity.this, 
-				 orientation, dobStr, genderBaby, 
-				 gestationBaby, weightBaby, birthMode);
+				 orientation, dobStr, genderBaby, gestationBaby, 
+				 weightBaby, birthMode, birthOutcome);
 		parityList.setAdapter(adapter);
 	}
 	
@@ -160,7 +159,8 @@ public class ParityDetailsActivity extends MenuInheritActivity {
 		}
 		
 		public PortraitListAdapter(Context context, int orientation, List<String>babyDob, 
-				List<String>babyGender, List<String>gestation, List<String>weight, List<String>birthMode) {
+				List<String>babyGender, List<String>gestation, List<String>weight, 
+				List<String>birthMode, List<String>birthOutcome) {
 			super();
 			
 			this.context = context;
@@ -170,6 +170,7 @@ public class ParityDetailsActivity extends MenuInheritActivity {
 			this.babyGender = babyGender;
 			this.weight = weight;
 			this.birthMode = birthMode;
+			this.birthOutcome = birthOutcome;
 			layoutInflater = LayoutInflater.from(context);
 		}
 		
@@ -195,6 +196,7 @@ public class ParityDetailsActivity extends MenuInheritActivity {
 			TextView gestationText = (TextView) convertView.findViewById(R.id.gestation_parity);
 			TextView weightText = (TextView) convertView.findViewById(R.id.weight_parity);
 			TextView modeText = (TextView) convertView.findViewById(R.id.mode_of_birth_parity);
+			TextView birthOutcomeParity = (TextView) convertView.findViewById(R.id.birth_outcome_parity);
 
 			if(babyGender.get(position).equalsIgnoreCase("M")){
 				genderText.setText(babyGender.get(position) + sex_male);
@@ -203,18 +205,17 @@ public class ParityDetailsActivity extends MenuInheritActivity {
 				genderText.setText(babyGender.get(position) + sex_female);
 			}	
 			gestationText.setText(gestation.get(position));			
-			weightText.setText(weight.get(position));
+			weightText.setText(formatWeight(weight.get(position)));
 			modeText.setText(formatArrayString(birthMode.get(position)));
+			birthOutcomeParity.setText(birthOutcome.get(position));
 			
 			switch(orientation){
 			case 1:				//ORIENTATION_PORTRAIT
 				TextView nameOfBaby = (TextView) convertView.findViewById(R.id.baby_name_parity);
 				TextView hospitalNo = (TextView) convertView.findViewById(R.id.hospital_number_parity);			
-				TextView birthOutcomeParity = (TextView) convertView.findViewById(R.id.birth_outcome_parity);
 				
 				nameOfBaby.setText(name.get(position));
 				hospitalNo.setText(hospitalNumber.get(position));
-				birthOutcomeParity.setText(birthOutcome.get(position));
 				dobText.setText(getDeliveryDate(babyDob.get(position), 0));
 				break;
 			case 2:				//ORIENTATION_LANDSCAPE
@@ -254,5 +255,12 @@ public class ParityDetailsActivity extends MenuInheritActivity {
     		    .replace("\"", "")
     		    .trim(); 
     	return formatedString;
+    }
+    
+    private String formatWeight(String weightStr){
+    	DecimalFormat df = new DecimalFormat("#.00"); 
+    	double weight = Double.parseDouble(weightStr);
+    	
+    	return df.format(weight);
     }
 }
