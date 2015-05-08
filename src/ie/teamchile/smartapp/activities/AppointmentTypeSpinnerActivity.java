@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import butterknife.InjectView;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -21,13 +22,17 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
+	@InjectView (R.id.appointment_spinner) Spinner appointmentSpinner;
+	@InjectView (R.id.clinic_service_option_spinner) Spinner serviceOptionSpinner;
+	@InjectView (R.id.visit_service_option_spinner) Spinner visitOptionSpinner;
+	@InjectView (R.id.clinic_spinner) Spinner clinicSpinner;
+	@InjectView (R.id.day_spinner) Spinner daySpinner;
+	@InjectView (R.id.week_spinner) Spinner weekSpinner;
+	
 	private SimpleDateFormat sdfDay = new SimpleDateFormat("E", Locale.getDefault());
 	private SimpleDateFormat sdfDowMonthDay = new SimpleDateFormat("EEE, d MMM", Locale.getDefault());
-    private Spinner appointmentSpinner, serviceOptionSpinner, visitOptionSpinner, 
-    		clinicSpinner, weekSpinner, daySpinner;
     private ArrayAdapter<CharSequence> appointmentAdapter, visitAdapter;
     private ArrayAdapter<String> serviceOptionAdapter, clinicAdapter, dayAdapter, weekAdapter;
     private List<String> nameList, idList;
@@ -47,7 +52,6 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
         
         spinnerWarning = getResources().getColor(R.color.lightBlue);
         
-	    appointmentSpinner = (Spinner) findViewById(R.id.appointment_spinner);
         appointmentSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
         appointmentAdapter = ArrayAdapter.createFromResource(this, R.array.appointment_type, R.layout.spinner_layout);
         appointmentAdapter.setDropDownViewResource(R.layout.spinner_layout);
@@ -55,25 +59,17 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
         
         setServiceOptionSpinner();
         
-        serviceOptionSpinner = (Spinner) findViewById(R.id.clinic_service_option_spinner);
         serviceOptionSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
 	    serviceOptionAdapter = new ArrayAdapter<String>(this, R.layout.spinner_layout, nameList);
 	    serviceOptionAdapter.setDropDownViewResource(R.layout.spinner_layout);
 	    serviceOptionSpinner.setAdapter(serviceOptionAdapter);
 
-        visitOptionSpinner = (Spinner) findViewById(R.id.visit_service_option_spinner);
         visitOptionSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
         visitAdapter = ArrayAdapter.createFromResource(this, R.array.visit_service_option, R.layout.spinner_layout);
         visitAdapter.setDropDownViewResource(R.layout.spinner_layout);
         visitOptionSpinner.setAdapter(visitAdapter);
 
-        clinicSpinner = (Spinner) findViewById(R.id.clinic_spinner);
-        
-        daySpinner = (Spinner) findViewById(R.id.day_spinner);
-
-        weekSpinner = (Spinner) findViewById(R.id.week_spinner);
         weekSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
-        //setWeekSpinner();
         
         appointmentSpinner.setVisibility(View.VISIBLE);
         serviceOptionSpinner.setVisibility(View.GONE);

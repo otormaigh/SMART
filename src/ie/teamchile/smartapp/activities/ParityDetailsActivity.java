@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import butterknife.ButterKnife;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -108,7 +109,7 @@ public class ParityDetailsActivity extends MenuInheritActivity {
 		
 		parity.setText(patientParity);
 		
-		adapter = new PortraitListAdapter(ParityDetailsActivity.this, 
+		adapter = new ListAdapter(ParityDetailsActivity.this, 
 				 orientation, nameBaby, hospitalNumber, dobStr, 
 				 genderBaby, gestationBaby, weightBaby, 
 				 birthMode, birthOutcome);
@@ -117,7 +118,7 @@ public class ParityDetailsActivity extends MenuInheritActivity {
 	}
 	
 	private void landscapeCode(){
-		adapter = new PortraitListAdapter(ParityDetailsActivity.this, 
+		adapter = new ListAdapter(ParityDetailsActivity.this, 
 				 orientation, dobStr, genderBaby, gestationBaby, 
 				 weightBaby, birthMode, birthOutcome);
 		parityList.setAdapter(adapter);
@@ -129,7 +130,7 @@ public class ParityDetailsActivity extends MenuInheritActivity {
     	return String.valueOf(kg);
     }
 	
-	private class PortraitListAdapter extends BaseAdapter {
+	private class ListAdapter extends BaseAdapter {
 		Context context;
 		int position, orientation;
 		LayoutInflater layoutInflater;
@@ -140,7 +141,7 @@ public class ParityDetailsActivity extends MenuInheritActivity {
 		public void notifyDataSetChanged() {
 			super.notifyDataSetChanged();
 		}
-		public PortraitListAdapter(Context context, int orientation, List<String> name,  
+		public ListAdapter(Context context, int orientation, List<String> name,  
 				List<String>hospitalNumber, List<String>babyDob, List<String>babyGender, 
 				List<String>gestation, List<String>weight, List<String>birthMode, List<String>birthOutcome) {
 			super();
@@ -158,7 +159,7 @@ public class ParityDetailsActivity extends MenuInheritActivity {
 			layoutInflater = LayoutInflater.from(context);
 		}
 		
-		public PortraitListAdapter(Context context, int orientation, List<String>babyDob, 
+		public ListAdapter(Context context, int orientation, List<String>babyDob, 
 				List<String>babyGender, List<String>gestation, List<String>weight, 
 				List<String>birthMode, List<String>birthOutcome) {
 			super();
@@ -188,6 +189,7 @@ public class ParityDetailsActivity extends MenuInheritActivity {
 		}
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
+			//ButterKnife.inject(this, convertView);
 			this.position = position;
 			
 			convertView = layoutInflater.inflate(R.layout.parity_list_layout, parent, false);
