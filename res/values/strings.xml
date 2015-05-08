@@ -185,7 +185,8 @@
         <item>DOB</item>
     </string-array>
          
- 	<!-- CREATE APPOINTMENT -->
+ 	<!-- CONFIRM APPOINTMENT -->
+ 	<string name="appt_search_hint">Enter Here</string>
     <string-array name="visit_priority_list">
         <item>Select Visit Priority</item>
         <item>Scheduled</item>
@@ -199,7 +200,7 @@
  	<string name="confirm_appointment">Confirm Appointment</string>
  	<string name="duration">Duration</string>
  	
-	<!-- CONFIRM_APPOINTMENT -->
+	<!-- CREATE APPOINTMENT -->
     <string name="service_user">Service User</string>
     <string name="hospital_number">Hospital Number</string>
     <string name="appointment_clinic">Appointment Clinic</string>

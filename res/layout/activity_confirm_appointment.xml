@@ -31,7 +31,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.2"
-                android:hint="Enter Here"
+                android:hint="@string/appt_search_hint"
+                android:textSize="@dimen/text_medium"
                 android:inputType="textPersonName" />
 
             <Button
