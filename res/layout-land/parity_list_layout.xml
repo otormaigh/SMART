@@ -45,4 +45,12 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="@dimen/text_small" />
 
+    <TextView
+        android:id="@+id/birth_outcome_parity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="@dimen/text_small" />
+
 </LinearLayout>
