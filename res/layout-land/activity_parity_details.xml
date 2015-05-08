@@ -64,6 +64,16 @@
             android:textColor="@color/grey"
             android:textSize="@dimen/text_Xsmall"
             android:textStyle="bold" />
+        
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/parity_birth_outcome"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/text_Xsmall"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <ListView
