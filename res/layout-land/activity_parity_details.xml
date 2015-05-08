@@ -1,7 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/padding_Xsmall"
     android:gravity="center"
     android:orientation="vertical" >
 
@@ -14,7 +13,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="1.2"
             android:paddingRight="@dimen/padding_Xsmall"
             android:text="@string/parity_dob"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -25,7 +24,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="0.9"
             android:paddingRight="@dimen/padding_Xsmall"
             android:text="@string/parity_gestation"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -36,7 +35,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="0.8"
             android:paddingRight="@dimen/padding_Xsmall"
             android:text="@string/parity_gender"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -58,7 +57,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="1.3"
             android:text="@string/parity_mode_of_birth"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/grey"
@@ -68,7 +67,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="0.8"
             android:text="@string/parity_birth_outcome"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/grey"
@@ -81,7 +80,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:dividerHeight="5.0sp" >
-    </ListView>
+        android:dividerHeight="3sp" />
 
 </LinearLayout>
