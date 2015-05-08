@@ -12,6 +12,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 import android.app.ProgressDialog;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentCallbacks2;
@@ -24,10 +27,6 @@ import android.view.View;
 import android.widget.Button;
 
 public class QuickMenuActivity extends MenuInheritActivity {
-    private Button patientSearch;
-    private Button bookAppointment;
-    private Button calendar;
-    private Button todaysAppointments;
     private boolean isViewVisible = false;
     private DevicePolicyManager deviceManager;
     private ProgressDialog pd;
@@ -36,11 +35,18 @@ public class QuickMenuActivity extends MenuInheritActivity {
 	private AccessDBTable db = new AccessDBTable();
 	/*private UserExperience ue;
 	private TransactionId parentID;*/
+	
+	@InjectView(R.id.patientSearch) Button patientSearch;
+	@InjectView(R.id.bookAppointment) Button bookAppointment;
+	@InjectView(R.id.calendar) Button calendar;
+	@InjectView(R.id.todays_appointments) Button todaysAppointments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quick_menu);
+        ButterKnife.inject(this);
+        
         /*ue = ((MaitiApplication) getApplication()).getAppPerformanceMonitor();
         ue.notification("In QuickMenu onCreate", null);*/
         
@@ -53,13 +59,9 @@ public class QuickMenuActivity extends MenuInheritActivity {
         	new updateLocal().execute("appointments", "clinics", "service_options");        	
         }
         
-        patientSearch = (Button) findViewById(R.id.patientSearch);
         patientSearch.setOnClickListener(new ButtonClick());
-        bookAppointment = (Button) findViewById(R.id.bookAppointment);
         bookAppointment.setOnClickListener(new ButtonClick());
-        calendar = (Button) findViewById(R.id.calendar);
         calendar.setOnClickListener(new ButtonClick());
-        todaysAppointments = (Button) findViewById(R.id.todays_appointments);
         todaysAppointments.setOnClickListener(new ButtonClick());
         isViewVisible = true;
     }
