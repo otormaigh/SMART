@@ -12,9 +12,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-
 import android.app.ProgressDialog;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentCallbacks2;
@@ -25,13 +22,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 public class QuickMenuActivity extends MenuInheritActivity {
-	@InjectView(R.id.patientSearch) Button patientSearch;
+/*	@InjectView(R.id.patientSearch) Button patientSearch;
 	@InjectView(R.id.bookAppointment) Button bookAppointment;
 	@InjectView(R.id.calendar) Button calendar;
 	@InjectView(R.id.todays_appointments) Button todaysAppointments;
-	
+	*/
     private boolean isViewVisible = false;
     private DevicePolicyManager deviceManager;
     private ProgressDialog pd;
@@ -40,15 +38,22 @@ public class QuickMenuActivity extends MenuInheritActivity {
 	private AccessDBTable db = new AccessDBTable();
 	/*private UserExperience ue;
 	private TransactionId parentID;*/	
+	
+	private Button patientSearch, bookAppointment, calendar, todaysAppointments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quick_menu);
-        ButterKnife.inject(this);
+        //ButterKnife.inject(this);
         
         /*ue = ((MaitiApplication) getApplication()).getAppPerformanceMonitor();
         ue.notification("In QuickMenu onCreate", null);*/
+        
+        patientSearch = (Button) findViewById(R.id.patientSearch);
+        bookAppointment = (Button) findViewById(R.id.bookAppointment);
+        calendar = (Button) findViewById(R.id.calendar);
+        todaysAppointments = (Button) findViewById(R.id.todays_appointments);
         
         getActionBar().setDisplayHomeAsUpEnabled(false);
         

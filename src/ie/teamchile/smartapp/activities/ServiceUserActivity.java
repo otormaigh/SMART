@@ -593,7 +593,6 @@ public class ServiceUserActivity extends MenuInheritActivity {
             	   "&q=" + String.valueOf(latitude) + "," + String.valueOf(longitude) +
             	   "(" + userName + ")";
         }
-        return "Not Found";
-        
+        return "Not Found";        
     }
 }

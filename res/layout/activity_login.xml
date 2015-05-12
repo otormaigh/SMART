@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/white"
+    android:background="@color/login_background"
     android:orientation="vertical"
     android:weightSum="3.0"
     tools:context="${relativePackage}.${activityClass}">
@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center|top"
             android:layout_marginTop="@dimen/padding_medium"
-            android:background="@drawable/logo"
+            android:background="@drawable/cm_logo_lp_trans_bg"
             android:contentDescription="@string/main_logo" />
 
         <LinearLayout
@@ -29,7 +29,7 @@
             android:layout_weight="4.0"
             android:orientation="vertical">
 
-            <TextView
+            <TextView	
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|top"

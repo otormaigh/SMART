@@ -12,7 +12,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import butterknife.ButterKnife;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
