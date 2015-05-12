@@ -7,14 +7,19 @@ import ie.teamchile.smartapp.utility.ToastAlert;
 
 import java.util.Calendar;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,12 +40,8 @@ public class LoginActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_login);	
-		
-		//testConn.testTheNetworkConnection();
-		//Log.d("MYLOG", "is 3g connected: " + testConn.is3GConnected());
-		//Log.d("MYLOG", "is WiFi connected: " + testConn.isWifiConnected());
-		
+		setContentView(R.layout.activity_login);
+				
 		Log.d("MYLOG", "Time is: " + cal.getTime());
 
 		loginButton = (Button) findViewById(R.id.login);
