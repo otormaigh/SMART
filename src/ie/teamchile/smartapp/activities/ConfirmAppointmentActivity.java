@@ -22,8 +22,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -48,14 +46,14 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class ConfirmAppointmentActivity extends MenuInheritActivity {
-	@InjectView (R.id.edit_service_user) EditText userName;
+/*	@InjectView (R.id.edit_service_user) EditText userName;
 	@InjectView (R.id.btn_confirm_appointment) Button confirmAppointment;
 	@InjectView (R.id.btn_user_search) Button btnUserSearch;
 	@InjectView (R.id.visit_time_text) TextView textTime;
 	@InjectView (R.id.visit_date_text) TextView textDate;
 	@InjectView (R.id.visit_clinic_text) TextView textClinic;
 	@InjectView (R.id.visit_duration_spinner) Spinner visitDurationSpinner;
-	@InjectView (R.id.visit_priority_spinner) Spinner visitPrioritySpinner;
+	@InjectView (R.id.visit_priority_spinner) Spinner visitPrioritySpinner;*/
 	
 	private SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm", Locale.getDefault());
 	private SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
@@ -76,15 +74,28 @@ public class ConfirmAppointmentActivity extends MenuInheritActivity {
 	private AlertDialog ad;
 	private int clinicID, appointmentIntervalAsInt;
 	private int p = 0;
+	private EditText userName;
+	private Button confirmAppointment, btnUserSearch;
+	private TextView textTime, textDate, textClinic;
+	private Spinner visitDurationSpinner, visitPrioritySpinner;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_confirm_appointment);
-		ButterKnife.inject(this);
+		//ButterKnife.inject(this);
 		
 		c = Calendar.getInstance();
 		myCalendar = Calendar.getInstance();		
+		
+		userName = (EditText) findViewById(R.id.edit_service_user);
+		confirmAppointment = (Button) findViewById(R.id.btn_confirm_appointment);
+		btnUserSearch = (Button) findViewById(R.id.btn_user_search);
+		textTime = (TextView) findViewById(R.id.visit_time_text);
+		textDate = (TextView) findViewById(R.id.visit_date_text);
+		textClinic = (TextView) findViewById(R.id.visit_clinic_text);
+		visitDurationSpinner = (Spinner) findViewById(R.id.visit_duration_spinner);
+		visitPrioritySpinner = (Spinner) findViewById(R.id.visit_priority_spinner);
 
         confirmAppointment.setOnClickListener(new ButtonClick());
         btnUserSearch.setOnClickListener(new ButtonClick());

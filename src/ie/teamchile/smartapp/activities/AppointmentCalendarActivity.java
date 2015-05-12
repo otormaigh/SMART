@@ -17,9 +17,6 @@ import java.util.Locale;
 
 import org.json.JSONObject;
 
-import butterknife.ButterKnife;
-import butterknife.ButterKnife.Finder;
-import butterknife.InjectView;
 import android.annotation.TargetApi;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
@@ -43,10 +40,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 public class AppointmentCalendarActivity extends MenuInheritActivity {
-	@InjectView (R.id.list) ListView listView;
+/*	@InjectView (R.id.list) ListView listView;
 	@InjectView (R.id.date_button) Button dateInList;
 	@InjectView (R.id.prev_button) Button prevWeek;
-	@InjectView (R.id.next_button) Button nextWeek;
+	@InjectView (R.id.next_button) Button nextWeek;*/
 	
 	private final int sdkVersion = Build.VERSION.SDK_INT;
 	private static int serviceOptionSelected, weekSelected, clinicSelected;
@@ -70,16 +67,21 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 	private List<String> nameList = new ArrayList<String>();
 	private List<String> gestList = new ArrayList<String>();
 	private List<String> idList = new ArrayList<String>();
+	private Button dateInList, prevWeek, nextWeek;
+	private ListView listView;
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appointment_calendar);
-        ButterKnife.inject(this);
+        //ButterKnife.inject(this);
         
         apiSpecificCode();
-        
+        dateInList = (Button) findViewById(R.id.date_button);
+        listView = (ListView) findViewById(R.id.list);        
+        prevWeek = (Button) findViewById(R.id.prev_button);
         prevWeek.setOnClickListener(new ButtonClick());
+        nextWeek = (Button) findViewById(R.id.next_button);
         nextWeek.setOnClickListener(new ButtonClick());
         
         clinicOpening = ClinicSingleton.getInstance().getOpeningTime(String.valueOf(clinicSelected));
