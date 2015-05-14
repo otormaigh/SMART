@@ -28,9 +28,9 @@
     <string name="login">Login</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
-    <string name="smart">Smart</string>
+    <string name="smart">SMART</string>
     <string name="secure_maternity">Secure Maternity</string>
-    <string name="appointment_recording">Appointment Recording</string>
+    <string name="appointment_recording">Appointment Recording Tracker</string>
     <string name="tracker">Tracker</string>
     <string name="maternity_hospital">© National Maternity Hospital, Ireland</string>
     <string name="about">About</string>
