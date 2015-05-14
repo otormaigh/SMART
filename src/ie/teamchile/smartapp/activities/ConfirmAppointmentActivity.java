@@ -30,8 +30,9 @@ import android.widget.Toast;
 public class ConfirmAppointmentActivity extends MenuInheritActivity {
 	private DateFormat sdfDateMonthName = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
 	private DateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-    private TextView txtUserName, txtHospitalNumber, txtClinic, txtDate, 
-    				 txtTime, txtPriority, txtVisitType, txtEmailTo, txtSmsTo;
+    private TextView txtUserName, txtClinic, txtDateTime, 
+    				 txtPriority, txtVisitType, txtEmailTo, txtSmsTo;
+    //txtHospitalNumber, txtTime
     private Button btnYes, btnNo;
     private String name, hospitalNumber, clinicName, date, monthDate, time, duration, 
     		priority, clinicID, userId, visitType, timeBefore, timeAfter, email, sms;
@@ -47,10 +48,10 @@ public class ConfirmAppointmentActivity extends MenuInheritActivity {
         setContentView(R.layout.activity_confirm_appointment);
         
         txtUserName = (TextView) findViewById(R.id.text_confirm_user);
-        txtHospitalNumber = (TextView) findViewById(R.id.text_confirm_hospital_number);
-        txtClinic = (TextView) findViewById(R.id.text_confirm_clinic);
-        txtDate = (TextView) findViewById(R.id.text_confirm_date);
-        txtTime = (TextView) findViewById(R.id.text_confirm_time);
+        //txtHospitalNumber = (TextView) findViewById(R.id.text_confirm_hospital_number);
+        txtClinic = (TextView) findViewById(R.id.text_confirm_appt_location);
+        txtDateTime = (TextView) findViewById(R.id.text_confirm_appt_time);
+        //txtTime = (TextView) findViewById(R.id.text_confirm_time);
         txtEmailTo = (TextView) findViewById(R.id.text_confirm_email);
         txtSmsTo = (TextView) findViewById(R.id.text_confirm_sms);
 
@@ -77,21 +78,21 @@ public class ConfirmAppointmentActivity extends MenuInheritActivity {
         userId = getIntent().getStringExtra("userId"); 
         visitType = getIntent().getStringExtra("visitType"); 
         
-        Log.d("appointment", "userId: " + userId + "\nclinicName: " + clinicName + "\nclinicID: " +  clinicID  + "\nDate: " + monthDate + 
-				 "\nTime: " + time + "\nDuration: " + duration + "\nPriority: " + priority +
-				 "\nVisit Type: " + visitType);
+        Log.d("appointment", "userId: " + userId + "\nclinicName: " + clinicName + 
+        		"\nclinicID: " +  clinicID  + "\nDate: " + monthDate + 
+				"\nTime: " + time + "\nDuration: " + duration + 
+				"\nPriority: " + priority + "\nVisit Type: " + visitType);
         
         name = ServiceUserSingleton.getInstance().getUserName().get(0);
         hospitalNumber = ServiceUserSingleton.getInstance().getUserHospitalNumber().get(0);
         email = ServiceUserSingleton.getInstance().getUserEmail().get(0);
         sms = ServiceUserSingleton.getInstance().getUserMobilePhone().get(0);
         
-        
-        txtUserName.setText(name);
-        txtHospitalNumber.setText(hospitalNumber);
+        txtUserName.setText(name + " (" + hospitalNumber + ")");
+        //txtHospitalNumber.setText(hospitalNumber);
         txtClinic.setText(clinicName);
-        txtDate.setText(monthDate);
-        txtTime.setText(time);
+        txtDateTime.setText(time + " on " + monthDate);
+        //txtTime.setText(time);
         txtEmailTo.setText(email);
         txtSmsTo.setText(sms);
     }
