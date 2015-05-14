@@ -36,7 +36,7 @@
                 android:layout_marginTop="@dimen/padding_small"
                 android:layout_weight="1.0"
                 android:text="@string/smart"
-                android:textColor="@color/grey"
+                android:textColor="@color/black"
                 android:textSize="@dimen/text_small" />
 
             <TextView
@@ -54,16 +54,6 @@
                 android:layout_gravity="center|top"
                 android:layout_weight="1.0"
                 android:text="@string/appointment_recording"
-                android:textColor="@color/blue"
-                android:textSize="@dimen/text_small" />
-       
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|top"
-                android:layout_weight="1.0"
-                android:text="@string/tracker"
                 android:textColor="@color/blue"
                 android:textSize="@dimen/text_small" />
         </LinearLayout>
