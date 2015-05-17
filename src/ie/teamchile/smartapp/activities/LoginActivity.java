@@ -5,21 +5,13 @@ import ie.teamchile.smartapp.connecttodb.GetToken;
 import ie.teamchile.smartapp.utility.ServiceProviderSingleton;
 import ie.teamchile.smartapp.utility.ToastAlert;
 
-import java.util.Calendar;
-
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.animation.AccelerateInterpolator;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,25 +22,17 @@ public class LoginActivity extends Activity {
 	private TextView usernameTextView, passwordTextView, about;
 	private GetToken getToken = new GetToken();
 	private Intent intent;
-	private Calendar cal = Calendar.getInstance();
 	private ProgressDialog pd;
-	private ToastAlert ta;
-	//private ConnectivityTester testConn = new ConnectivityTester(this);
-	/*private UserExperience ue;
-	private TransactionId parentID;*/
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 				
-		Log.d("MYLOG", "Time is: " + cal.getTime());
-
 		loginButton = (Button) findViewById(R.id.login);
 		loginButton.setOnClickListener(new ButtonClick());
 		usernameTextView = (TextView) findViewById(R.id.username);
-		passwordTextView = (TextView) findViewById(R.id.password);
-		
+		passwordTextView = (TextView) findViewById(R.id.password);		
 		about = (TextView) findViewById(R.id.about);
 	    about.setOnClickListener(new ButtonClick());
 	}
@@ -57,13 +41,10 @@ public class LoginActivity extends Activity {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.login:
-				//ue = ((MaitiApplication) getApplication()).getAppPerformanceMonitor();
 				getCredentials();
-				new LongOperation().execute((String[]) null);
-				Log.d("MYLOG", "Button Clicked");
+				new LongOperation().execute();
 				break;
 			case R.id.about:
-				Log.d("MYLOG", " About button Clicked");
 				Intent i = new Intent(Intent.ACTION_VIEW, 
 					       Uri.parse("http://www.nmh.ie/about-us.8.html"));
 					startActivity(i);
@@ -72,32 +53,23 @@ public class LoginActivity extends Activity {
 		}
 	}
     
-	private class LongOperation extends AsyncTask<String, Void, String> {
+	private class LongOperation extends AsyncTask<Void, Void, Void> {
 		@Override
 		protected void onPreExecute() {
-			/*ue.notification("Login Notification", null);
-			
-			parentID = ue.transactionStart("In login pre");
-    		ue.setTransactionEvent("Loading", parentID);
-    		
-    		ue.setTransactionUserData(parentID, "401");*/
 			pd = new ProgressDialog(LoginActivity.this);
 			pd.setMessage("Logging In");
 			pd.show();
 		}
-		protected String doInBackground(String... params) {
+		protected Void doInBackground(Void... params) {
 			getToken.getToken(username, password);            
 			return null;
 		}
 		@Override
-		protected void onProgressUpdate(Void... values) {
-			Log.d("MYLOG", "On progress update");
-		}
+		protected void onProgressUpdate(Void... values) { }
 		@Override
-        protected void onPostExecute(String result) {
+        protected void onPostExecute(Void thing) {
             checkCredentials();
             pd.dismiss();
-            //ue.setTransactionUserTag1(parentID, "In login post");
         }
 	}
 	
@@ -108,29 +80,23 @@ public class LoginActivity extends Activity {
 	
     private void checkCredentials(){    
     	if(getToken.getResponseCode() != null && !getToken.getResponseCode().isEmpty()) {
-    		if (getToken.getResponseCode().equals("201")){   			
-    			
+    		if (getToken.getResponseCode().equals("201")){  		
         		ServiceProviderSingleton.getInstance().setLoggedIn(true);
         		ServiceProviderSingleton.getInstance().setUsername(username);
         		ServiceProviderSingleton.getInstance().setPassword(password); 
-        		/*ue.setTransactionUserTag2(parentID, "Login successful");
-        		ue.transactionEnd(parentID);*/
         		intent = new Intent(LoginActivity.this, QuickMenuActivity.class); 
         		startActivity(intent);
-        		
         	} else
         		Toast.makeText(this, "Login Failed", Toast.LENGTH_LONG).show();
-	    		/*ue.setTransactionUserTag2(parentID, "Login unsuccessful");
-	    		ue.transactionEnd(parentID);*/
     	}else {
-    		ta = new ToastAlert(LoginActivity.this, "Poor Internet Activity \nPlease check your settings", true);
+    		new ToastAlert(LoginActivity.this, "Poor Internet Activity \nPlease check your settings", true);
     	}
 	}
     
     @Override
     public void onBackPressed() {
     	if(ServiceProviderSingleton.getInstance().isLoggedIn()) {
-    		ta = new ToastAlert(getBaseContext(), "Already logged in, \n  logout?", true);
+    		new ToastAlert(getBaseContext(), "Already logged in, \n  logout?", true);
     	}else { 
 			finish();   		
     	}    	
