@@ -88,7 +88,7 @@
             android:label="@string/title_activity_create_appointment"
             android:parentActivityName=".activities.QuickMenuActivity"
             android:screenOrientation="sensorPortrait"
-            android:noHistory="true" />
+            android:launchMode="singleTask" />
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value=".activities.QuickMenuActivity" />
