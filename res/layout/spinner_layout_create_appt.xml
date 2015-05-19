@@ -4,4 +4,5 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:paddingLeft="@dimen/padding_Xsmall"
-    android:textSize="@dimen/text_medium" />
+    android:textSize="@dimen/text_medium"
+    android:textColor="@color/black" />
