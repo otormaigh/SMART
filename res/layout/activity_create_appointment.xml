@@ -129,7 +129,6 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_medium"
-            android:layout_marginRight="@dimen/padding_Xsmall"
             android:layout_marginBottom="@dimen/padding_Xsmall"
             android:background="@color/lightBlue"
             android:text="@string/confirm_appointment" />
