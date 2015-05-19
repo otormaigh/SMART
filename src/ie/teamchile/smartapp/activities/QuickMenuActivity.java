@@ -13,7 +13,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.ProgressDialog;
-import android.app.admin.DevicePolicyManager;
 import android.content.ComponentCallbacks2;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,52 +21,34 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 
 public class QuickMenuActivity extends MenuInheritActivity {
-/*	@InjectView(R.id.patientSearch) Button patientSearch;
-	@InjectView(R.id.bookAppointment) Button bookAppointment;
-	@InjectView(R.id.calendar) Button calendar;
-	@InjectView(R.id.todays_appointments) Button todaysAppointments;
-	*/
-    private boolean isViewVisible = false;
-    private DevicePolicyManager deviceManager;
+    private boolean isViewVisible;
     private ProgressDialog pd;
     private JSONObject json;
 	private JSONArray query;
-	private AccessDBTable db = new AccessDBTable();
-	/*private UserExperience ue;
-	private TransactionId parentID;*/	
-	
+	private AccessDBTable db = new AccessDBTable();	
 	private Button patientSearch, bookAppointment, calendar, todaysAppointments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quick_menu);
-        //ButterKnife.inject(this);
-        
-        /*ue = ((MaitiApplication) getApplication()).getAppPerformanceMonitor();
-        ue.notification("In QuickMenu onCreate", null);*/
         
         patientSearch = (Button) findViewById(R.id.patientSearch);
+        patientSearch.setOnClickListener(new ButtonClick());
         bookAppointment = (Button) findViewById(R.id.bookAppointment);
+        bookAppointment.setOnClickListener(new ButtonClick());
         calendar = (Button) findViewById(R.id.calendar);
+        calendar.setOnClickListener(new ButtonClick());
         todaysAppointments = (Button) findViewById(R.id.todays_appointments);
+        //todaysAppointments.setOnClickListener(new ButtonClick());
         
         getActionBar().setDisplayHomeAsUpEnabled(false);
         
-        Log.d("bugs", "updated: " + AppointmentSingleton.getInstance().getUpdated());
         if(!AppointmentSingleton.getInstance().getUpdated()){
-        	/*parentID = ue.transactionStart("In login pre");
-    		ue.setTransactionEvent("Update local called", parentID);*/
         	new updateLocal().execute("appointments", "clinics", "service_options");        	
-        }
-        
-        patientSearch.setOnClickListener(new ButtonClick());
-        bookAppointment.setOnClickListener(new ButtonClick());
-        calendar.setOnClickListener(new ButtonClick());
-        //todaysAppointments.setOnClickListener(new ButtonClick());
+        }        
         isViewVisible = true;
     }
     
@@ -92,10 +73,10 @@ public class QuickMenuActivity extends MenuInheritActivity {
                     Intent intentCalendar = new Intent(QuickMenuActivity.this, CalendarActivity.class);
                     startActivity(intentCalendar);
                     break;
-                case R.id.todays_appointments:
+                /*case R.id.todays_appointments:
                     Intent intentToday = new Intent(QuickMenuActivity.this, TodayAppointmentActivity.class);
                     startActivity(intentToday);
-                    break;
+                    break;*/
             }
         }
     }
@@ -103,23 +84,20 @@ public class QuickMenuActivity extends MenuInheritActivity {
     @Override
     public void onBackPressed() {
     	if(ServiceProviderSingleton.getInstance().isLoggedIn()) {
-    		ToastAlert ta = new ToastAlert(getBaseContext(), 
+    		new ToastAlert(getBaseContext(), 
         			"Already logged in, \n  Logout?", false);
-    	}else {    		
-    	}    	
+    	} else { }
     }
 
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
 		super.onDestroy();
-		System.out.println(ServiceProviderSingleton.getInstance().getUsername() + " " +
-				ServiceProviderSingleton.getInstance().getPassword());
+		Log.d("Credentials", "User: " + ServiceProviderSingleton.getInstance().getUsername() + 
+			  "\nPass: " + ServiceProviderSingleton.getInstance().getPassword());
 	}
 	
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 		isViewVisible = true;		
 		SharedPreferences.Editor prefs = getSharedPreferences("SMART", MODE_PRIVATE).edit();	
@@ -128,26 +106,19 @@ public class QuickMenuActivity extends MenuInheritActivity {
 	}
 
 	@Override
-	protected void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		//checkIsInBackground();
-	}
+	protected void onPause() { super.onPause(); }
 
 	@Override
-	protected void onStop() {
-		// TODO Auto-generated method stub
-		super.onStop();
-	}
+	protected void onStop() { super.onStop(); }
 
 	@Override
 	public void onTrimMemory(int level) {
-		// TODO Auto-generated method stub
 		super.onTrimMemory(level);
 		if(level >= ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
 			isViewVisible = false;
-			ToastAlert ta = new ToastAlert(getBaseContext(), "View is now hidden", false);				
-		}
+			new ToastAlert(getBaseContext(), "View is now hidden", false);				
+		}else 
+			isViewVisible = true;
 	}
 	
 	private class updateLocal extends AsyncTask<String, Void, JSONArray> {		
@@ -158,7 +129,6 @@ public class QuickMenuActivity extends MenuInheritActivity {
 			pd.show();
 		}
 		protected JSONArray doInBackground(String... params) {
-			Log.d("singleton", "in service options updateLocal doInBackground");
 			try {
 				json = db.accessDB(params[0]);
 				query = json.getJSONArray(params[0]);
@@ -183,9 +153,6 @@ public class QuickMenuActivity extends MenuInheritActivity {
 		@Override
         protected void onPostExecute(JSONArray result) {
 			pd.dismiss();
-			/*ue.setTransactionUserTag2(parentID, "Update local complete");
-    		ue.transactionEnd(parentID);*/
         }
 	}
-
 }
