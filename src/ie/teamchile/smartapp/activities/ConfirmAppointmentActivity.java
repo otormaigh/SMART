@@ -117,6 +117,7 @@ public class ConfirmAppointmentActivity extends MenuInheritActivity {
             		intent.putExtra("timeBefore", timeBefore);
             		intent.putExtra("timeAfter", timeAfter);
             		intent.putExtra("userId", userId);
+            		intent.putExtra("userName", name);
             		startActivity(intent);
                     break;
             }
