@@ -40,11 +40,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 public class AppointmentCalendarActivity extends MenuInheritActivity {
-/*	@InjectView (R.id.list) ListView listView;
-	@InjectView (R.id.date_button) Button dateInList;
-	@InjectView (R.id.prev_button) Button prevWeek;
-	@InjectView (R.id.next_button) Button nextWeek;*/
-	
 	private final int sdkVersion = Build.VERSION.SDK_INT;
 	private static int serviceOptionSelected, weekSelected, clinicSelected;
 	protected static Date daySelected;
@@ -74,7 +69,6 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appointment_calendar);
-        //ButterKnife.inject(this);
         
         apiSpecificCode();
         dateInList = (Button) findViewById(R.id.date_button);
@@ -200,7 +194,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 					pd = new ProgressDialog(AppointmentCalendarActivity.this);
 					pd.setMessage("Invalid day selected\nPlease choose another");
 					pd.show();
-					CountDownTimer timer = new CountDownTimer(2000, 1000){
+					new CountDownTimer(2000, 1000){
 						@Override
 						public void onFinish() {
 							pd.cancel();
@@ -243,14 +237,11 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
     	
     	if(AppointmentSingleton.getInstance().getHashMapofClinicDateID()
     			.containsKey(String.valueOf(clinicSelected))){
-    		Log.d("bugs", "appt map has key");
     		
     		listOfId = AppointmentSingleton.getInstance()
-    				.getListOfIDs(String.valueOf(clinicSelected), dateSelectedStr);
-    		
+    				.getListOfIDs(String.valueOf(clinicSelected), dateSelectedStr);    		
     		listOfId = removeZeros(listOfId);
     	} else {
-    		Log.d("bugs", "appt map doesn't have key");
     		listOfId = new ArrayList<String>();
     	}
 		
@@ -264,8 +255,6 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 			c.add(Calendar.MINUTE, appointmentInterval);
 			apptTime = c.getTime();
 		}
-		
-		Log.d("MYLOG", "listOfId = " + listOfId);
 		
 		if (listOfId != null) {
 			timeSingle = AppointmentSingleton.getInstance().getTime(listOfId);
@@ -290,12 +279,8 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 			}
 		}		
 		
-		Log.d("MYLOG", "timeList = " + timeList);
-		Log.d("MYLOG", "nameList = " + nameList);
-		Log.d("MYLOG", "gestList = " + gestList);
-		
 		adapter = new ListElementAdapter (AppointmentCalendarActivity.this, 
-				timeList, nameList, gestList);
+					timeList, nameList, gestList);
 		adapter.notifyDataSetChanged();
         listView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -307,9 +292,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 		List<String> aptTime, aptName, aptGest;
 
 		@Override
-		public void notifyDataSetChanged() {
-			super.notifyDataSetChanged();
-		}
+		public void notifyDataSetChanged() { super.notifyDataSetChanged(); }
 		
 		public ListElementAdapter(Context context, List<String> aptTime, 
 								  List<String> aptName, List<String> aptGest) {
@@ -323,17 +306,12 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 		}
 		
 		@Override
-		public int getCount() {
-			return aptTime.size();
-		}		
+		public int getCount() { return aptTime.size(); }		
 		@Override
-		public Object getItem(int position) {
-			return null;
-		}		
+		public Object getItem(int position) { return null; }		
+		
 		@Override
-		public long getItemId(int position) {
-			return position;
-		}
+		public long getItemId(int position) { return position; }
 		
 		@Override
 		public View getView(final int position, View convertView, ViewGroup parent) {
@@ -382,24 +360,25 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
     private class LongOperation extends AsyncTask<String, Void, JSONObject> {
 		private Context context;
 		
-		public LongOperation(Context context){
-			this.context = context;
-		}
+		public LongOperation(Context context){ this.context = context; }
+		
 		@Override
 		protected void onPreExecute() {
 			pd = new ProgressDialog(context);
             pd.setMessage("Fetching Information");
             pd.show();
 		}
+		
 		protected JSONObject doInBackground(String... params) {
 			Log.d("singleton", "in service users updateLocal doInBackground");
 			json = db.accessDB(params[0]);
 			Log.d("singleton", "query = " + json);
 			return json;
 		}
+		
 		@Override
-		protected void onProgressUpdate(Void... values) {
-		}
+		protected void onProgressUpdate(Void... values) { }
+		
 		@Override
         protected void onPostExecute(JSONObject result) {
 			ServiceUserSingleton.getInstance().setPatientInfo(result);
