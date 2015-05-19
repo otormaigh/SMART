@@ -108,7 +108,8 @@ public class ConfirmAppointmentActivity extends MenuInheritActivity {
                 case R.id.btn_no_appointment:
                 	Log.d("bugs", "no button clicked");
                 	Intent intent = new Intent(ConfirmAppointmentActivity.this, CreateAppointmentActivity.class);
-            		intent.putExtra("clinicName", clinicName);
+                	intent.putExtra("from", "confirm");
+                	intent.putExtra("clinicName", clinicName);
             		intent.putExtra("clinicID", clinicID);
             		intent.putExtra("date", date);
             		intent.putExtra("time", time);
