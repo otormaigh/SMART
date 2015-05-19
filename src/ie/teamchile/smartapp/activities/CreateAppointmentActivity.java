@@ -82,7 +82,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 		//ButterKnife.inject(this);
 		
 		c = Calendar.getInstance();
-		myCalendar = Calendar.getInstance();		
+		myCalendar = Calendar.getInstance();
 		
 		userName = (EditText) findViewById(R.id.edit_service_user);
 		confirmAppointment = (Button) findViewById(R.id.btn_confirm_appointment);
@@ -124,13 +124,24 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 		
 		setDurationSpinner();
 		checkIfEditEmpty();
+		checkDirectionOfIntent();
 	}
 	
 	@Override
 	protected void onResume() {
 		super.onResume();
 		Log.d("MYLOG", "In onResume CreateAppointment");
-		getSharedPrefs();		
+		checkDirectionOfIntent();
+	}
+	
+	private void checkDirectionOfIntent(){
+		String intentOrigin = getIntent().getStringExtra("from"); 
+		if(intentOrigin.equals("appointment")) {
+			getSharedPrefs();
+		} else if (intentOrigin.equals("confirm")) {
+			userName.setText(getIntent().getStringExtra("userName"));
+			userID = getIntent().getStringExtra("userId");
+		}
 	}
 
 	private void checkIfEditEmpty(){		
@@ -150,13 +161,13 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 		}
 	}
 	
-    private void setSharedPrefs(){
+/*    private void setSharedPrefs(){
     	SharedPreferences.Editor prefs = getSharedPreferences("SMART", MODE_PRIVATE).edit();
 		prefs.putString("name", ServiceUserSingleton.getInstance().getUserName().get(0));
 		prefs.putString("id", ServiceUserSingleton.getInstance().getUserID().get(0));
 		prefs.putBoolean("reuse", true);
 		prefs.commit();
-    }
+    }*/
 
 	private void setDurationSpinner(){
 		durationList.add(appointmentInterval + " minutes");
@@ -290,9 +301,9 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 						getRecentPregnancy();
 					}
 					
-					if(idList.size() == 1){
+/*					if(idList.size() == 1){
 						setSharedPrefs();
-					}
+					}*/
 					
 					pd.dismiss();
 					if(showDialog){
