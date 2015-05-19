@@ -24,12 +24,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class ServiceUserSearchActivity extends MenuInheritActivity {
 	private EditText searchName, searchHospitalNumber, 
 					 searchDOBDay, searchDOBMonth, searchDOBYear;
 	private Button search;
+	private TextView tvNoUserFound, tvSearchResults;
 	private ArrayList<String> searchResults = new ArrayList<String>();
 	private JSONObject json;
 	private AccessDBTable dbTable = new AccessDBTable();
@@ -49,12 +51,17 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 		searchDOBDay = (EditText) findViewById(R.id.search_dob_day);
 		searchDOBMonth = (EditText) findViewById(R.id.search_dob_month);
 		searchDOBYear = (EditText) findViewById(R.id.search_dob_year);
+		tvNoUserFound = (TextView) findViewById(R.id.tv_no_user_found);
+		tvSearchResults = (TextView) findViewById(R.id.tv_search_results);
 
 		search = (Button) findViewById(R.id.search);
 		search.setOnClickListener(new ButtonClick());
 
 		list = (ListView) findViewById(R.id.search_results_list);
 		list.setOnItemClickListener(new onItemListener());
+		
+		tvNoUserFound.setVisibility(View.GONE);
+		tvSearchResults.setVisibility(View.GONE);		
 	}
 
 	private void createResultList(ArrayList<String> searchResults) {
@@ -80,6 +87,9 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 			case R.id.search:
 				Log.d("MYLOG", "Search Button Pressed");
 				
+				tvNoUserFound.setVisibility(View.GONE);
+				tvSearchResults.setVisibility(View.GONE);
+				
 				InputMethodManager inputManager = (InputMethodManager)
                 getSystemService(Context.INPUT_METHOD_SERVICE); 
 				inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
@@ -87,8 +97,6 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 				
 				String asyncQuery = "";
 				String dob = "";
-				
-				///service_users?name=nore%20saturn&hospital_number=T14234388"
 				
 				if(searchName.getText().toString().length() > 0 ||
 				   searchHospitalNumber.getText().toString().length() > 0 ||
@@ -162,6 +170,7 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 					hospitalNumberList.clear();
 					if (result.getJSONArray("service_users").length() != 0) {
 						for (int i = 0; i < result.getJSONArray("service_users").length(); i++) {
+							tvSearchResults.setVisibility(View.VISIBLE);
 							ServiceUserSingleton.getInstance().setPatientInfo(result);
 							String name = ServiceUserSingleton.getInstance().getUserName().get(i);
 							String hospitalNumber = ServiceUserSingleton.getInstance().getUserHospitalNumber().get(i);
@@ -174,6 +183,7 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 						createResultList(searchResults);	
 						adapter.notifyDataSetChanged();
 					} else {
+						tvNoUserFound.setVisibility(View.VISIBLE);
 						Toast.makeText(getApplicationContext(), "No search results found", Toast.LENGTH_SHORT).show();
 					}
 				}
