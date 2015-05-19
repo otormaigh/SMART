@@ -155,9 +155,10 @@ public class ConfirmAppointmentActivity extends MenuInheritActivity {
             }
             return userFound;
         }
+        
         @Override
-        protected void onProgressUpdate(Void... values) {
-        }
+        protected void onProgressUpdate(Void... values) { }
+        
         @Override
         protected void onPostExecute(Boolean result) {
             if (result) {
@@ -174,13 +175,4 @@ public class ConfirmAppointmentActivity extends MenuInheritActivity {
             pd.dismiss();
         }
     }
-    
-/*    @Override
-	public void onBackPressed() {
-		super.onBackPressed();
-		
-		Intent intent = new Intent(this, AppointmentCalendarActivity.class);
-		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK); 
-		startActivity(intent);
-	}*/
 }
