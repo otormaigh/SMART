@@ -32,14 +32,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 
 public class CreateAppointmentActivity extends MenuInheritActivity {
 /*	@InjectView (R.id.edit_service_user) EditText userName;
@@ -71,7 +72,8 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 	private int clinicID, appointmentIntervalAsInt;
 	private int p = 0;
 	private EditText userName;
-	private Button confirmAppointment, btnUserSearch;
+	private Button confirmAppointment;
+	private ImageButton btnUserSearch;
 	private TextView textTime, textDate, textClinic;
 	private Spinner visitDurationSpinner, visitPrioritySpinner;
 	
@@ -86,7 +88,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 		
 		userName = (EditText) findViewById(R.id.edit_service_user);
 		confirmAppointment = (Button) findViewById(R.id.btn_confirm_appointment);
-		btnUserSearch = (Button) findViewById(R.id.btn_user_search);
+		btnUserSearch = (ImageButton) findViewById(R.id.btn_user_search);
 		textTime = (TextView) findViewById(R.id.visit_time_text);
 		textDate = (TextView) findViewById(R.id.visit_date_text);
 		textClinic = (TextView) findViewById(R.id.visit_clinic_text);

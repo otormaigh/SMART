@@ -9,7 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingLeft="@dimen/padding_Xsmall" >
+        android:paddingLeft="@dimen/padding_Xsmall"
+        android:paddingRight="@dimen/padding_Xsmall" >
 
         <TextView
             android:id="@+id/text_service_user"
@@ -35,11 +36,12 @@
                 android:textSize="@dimen/text_medium"
                 android:inputType="textPersonName" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/btn_user_search"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.8" />
+                android:layout_weight="0.8"
+                android:src="@drawable/ic_action_search" />
         </LinearLayout>
 
         <TextView
