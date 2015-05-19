@@ -242,8 +242,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 			switch (v.getId()) {
 			case R.id.book_appointment:
 				setSharedPrefs();				
-				Intent intentBook = new Intent(ServiceUserActivity.this, 
-						AppointmentTypeSpinnerActivity.class);
+				Intent intentBook = new Intent(ServiceUserActivity.this, AppointmentTypeSpinnerActivity.class);
 				startActivity(intentBook);
 				break;
 			case R.id.user_contact :
