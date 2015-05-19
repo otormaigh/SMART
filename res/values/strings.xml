@@ -199,13 +199,17 @@
  	</string-array>
  	<string name="confirm_appointment">Confirm Appointment</string>
  	<string name="duration">Duration</string>
- 	
-	<!-- CREATE APPOINTMENT -->
-    <string name="service_user">Service User</string>
-    <string name="hospital_number">Hospital Number</string>
+ 	<string name="service_user">Service User</string>
     <string name="appointment_clinic">Appointment Clinic</string>
     <string name="appointment_date">Appointment Date</string>
     <string name="appointment_time">Appointment Time</string>
-    <string name="email_to">Email to</string>
-    <string name="sms_to">SMS to</string>
+ 	
+	<!-- CREATE APPOINTMENT -->
+    <string name="appointment_for">Appointment for:</string>
+    <string name="to_attend">To Attend:</string>
+    <string name="at">At:</string>
+    <string name="confirm_email">Confirmation email to:</string>
+    <string name="confirm_sms">Confirmation SMS to:</string>
+    <string name="book_question">Book if details are correct:</string>
+    <string name="book">Book</string>
 </resources>
