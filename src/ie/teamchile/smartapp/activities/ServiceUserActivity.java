@@ -146,7 +146,6 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		
 		tableParity = (TableRow)findViewById(R.id.button_parity);
 		tableParity.setOnClickListener(new ButtonClick());
-
 		
 		try{
 			dob = ServiceUserSingleton.getInstance().getUserDOB().get(0);
@@ -242,8 +241,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.book_appointment:
-				setSharedPrefs();
-				
+				setSharedPrefs();				
 				Intent intentBook = new Intent(ServiceUserActivity.this, 
 						AppointmentTypeSpinnerActivity.class);
 				startActivity(intentBook);
