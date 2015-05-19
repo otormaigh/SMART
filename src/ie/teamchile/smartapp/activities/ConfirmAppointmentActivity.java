@@ -137,6 +137,8 @@ public class ConfirmAppointmentActivity extends MenuInheritActivity {
         protected void onPreExecute() {
             pd = new ProgressDialog(context);
             pd.setMessage("Creating Appointment");
+            pd.setCanceledOnTouchOutside(false);
+			pd.setCancelable(false);
             pd.show();
         }
         protected Boolean doInBackground(String... params) {
