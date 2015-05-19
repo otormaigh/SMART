@@ -56,6 +56,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_medium"
+            android:textColor="@color/black"
             android:paddingLeft="@dimen/padding_Xsmall" />
 
         <TextView
@@ -72,6 +73,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_medium" 
+            android:textColor="@color/black"
             android:paddingLeft="@dimen/padding_Xsmall" />
 
         <TextView
@@ -88,6 +90,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_medium" 
+            android:textColor="@color/black"
             android:paddingLeft="@dimen/padding_Xsmall" />
 
         <TextView
@@ -126,7 +129,7 @@
             android:layout_marginTop="@dimen/padding_medium"
             android:layout_marginRight="@dimen/padding_Xsmall"
             android:layout_marginBottom="@dimen/padding_Xsmall"
-            android:background="@color/blue"
+            android:background="@color/lightBlue"
             android:text="@string/confirm_appointment" />
     </LinearLayout>
 
