@@ -58,6 +58,8 @@ public class LoginActivity extends Activity {
 		protected void onPreExecute() {
 			pd = new ProgressDialog(LoginActivity.this);
 			pd.setMessage("Logging In");
+			pd.setCanceledOnTouchOutside(false);
+			pd.setCancelable(false);
 			pd.show();
 		}
 		protected Void doInBackground(Void... params) {

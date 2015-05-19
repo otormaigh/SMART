@@ -122,6 +122,8 @@ public class AppointmentSingleton {
 		protected void onPreExecute() {
 			pd = new ProgressDialog(context);
 			pd.setMessage("Updating Appointments");
+			pd.setCanceledOnTouchOutside(false);
+			pd.setCancelable(false);
 			pd.show();
 		}
 		protected JSONArray doInBackground(String... params) {
