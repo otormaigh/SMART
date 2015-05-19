@@ -2,11 +2,8 @@ package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.connecttodb.AccessDBTable;
-import ie.teamchile.smartapp.connecttodb.PostAppointment;
-import ie.teamchile.smartapp.utility.AppointmentSingleton;
 import ie.teamchile.smartapp.utility.ClinicSingleton;
 import ie.teamchile.smartapp.utility.ServiceUserSingleton;
-import ie.teamchile.smartapp.utility.ToastAlert;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,7 +15,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.NoSuchElementException;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -103,10 +99,12 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
         visitDurationSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
        
         visitPrioritySpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
-        visitPriorityAdapter = ArrayAdapter.createFromResource(this, R.array.visit_priority_list, R.layout.spinner_layout_create_appt);
+        visitPriorityAdapter = ArrayAdapter.createFromResource(this, 
+        				R.array.visit_priority_list, 
+        				R.layout.spinner_layout_create_appt);
         visitPriorityAdapter.setDropDownViewResource(R.layout.spinner_layout);
         visitPrioritySpinner.setAdapter(visitPriorityAdapter);
-        visitPrioritySpinner.setSelection(1);
+        visitPrioritySpinner.setSelection(1);		//sets visit pirority to Scheduled
         
         Log.d("postAppointment", "time now: " + c.getTime());
         getSharedPrefs();
@@ -128,6 +126,13 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 		checkIfEditEmpty();
 	}
 	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		Log.d("MYLOG", "In onResume CreateAppointment");
+		getSharedPrefs();		
+	}
+
 	private void checkIfEditEmpty(){		
 		if(TextUtils.equals(userID, "") || TextUtils.equals(userName.getText(), "")) {
 		    userName.setError("Field Empty");
@@ -144,6 +149,14 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 			visitType = prefs.getString("visit_type", null);
 		}
 	}
+	
+    private void setSharedPrefs(){
+    	SharedPreferences.Editor prefs = getSharedPreferences("SMART", MODE_PRIVATE).edit();
+		prefs.putString("name", ServiceUserSingleton.getInstance().getUserName().get(0));
+		prefs.putString("id", ServiceUserSingleton.getInstance().getUserID().get(0));
+		prefs.putBoolean("reuse", true);
+		prefs.commit();
+    }
 
 	private void setDurationSpinner(){
 		durationList.add(appointmentInterval + " minutes");
@@ -200,6 +213,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
             	}
             	break;            
             case R.id.btn_user_search:
+            	hideKeyboard();
             	userID = "";
             	name = userName.getText().toString();
             	//checkIfEditEmpty();
@@ -219,7 +233,10 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 		
 		alertDialog.setView(convertView);
 		alertDialog.setTitle("Search Results");
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(CreateAppointmentActivity.this, android.R.layout.simple_list_item_1, searchResults);
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+				CreateAppointmentActivity.this, 
+				android.R.layout.simple_list_item_1, 
+				searchResults);
 		list.setAdapter(adapter);
 		ad = alertDialog.show();
 	}
@@ -272,6 +289,11 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 						postOrAnte();
 						getRecentPregnancy();
 					}
+					
+					if(idList.size() == 1){
+						setSharedPrefs();
+					}
+					
 					pd.dismiss();
 					if(showDialog){
 						Log.d("bugs", "showDialog true");
@@ -302,7 +324,9 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
                 		Log.d("bugs", "timeList.size(): " + timeList.size());
             			if(timeList.size() == 2){
             				Log.d("bugs", "30 minutes if true");
-            				Toast.makeText(CreateAppointmentActivity.this, "No 30 minute slots available", Toast.LENGTH_LONG).show();
+            				Toast.makeText(CreateAppointmentActivity.this, 
+            						"No 30 minute slots available", 
+            						Toast.LENGTH_LONG).show();
             				visitDurationSpinner.setSelection(0);
             			}  else { duration = durationList.get(position); 
             			Log.d("bugs", "15 minutes if false");}
@@ -330,8 +354,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
         }
 
 		@Override
-		public void onNothingSelected(AdapterView<?> arg0) {			
-		}
+		public void onNothingSelected(AdapterView<?> arg0) { }
     }
     
 	private class onItemListener implements OnItemClickListener {
@@ -339,11 +362,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			switch (parent.getId()){
 				case R.id.list_dialog:
-					InputMethodManager inputManager = (InputMethodManager)
-                    getSystemService(Context.INPUT_METHOD_SERVICE); 
-
-					inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
-                    InputMethodManager.HIDE_NOT_ALWAYS);
+					hideKeyboard();
 					userID = idList.get(position);
 					new UserSearchLongOperation(CreateAppointmentActivity.this, false).execute("service_users/" + userID);
 					ad.cancel();
@@ -379,11 +398,16 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 	    			}
     			}
         	}    
-    		try{
+    		try {
     			p = asDate.indexOf(Collections.max(asDate));
     		} catch (NoSuchElementException e) {
 				e.printStackTrace();
 			}
     	}    	
     }
+    
+	private void hideKeyboard() {
+		InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+		inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+	}
 }
