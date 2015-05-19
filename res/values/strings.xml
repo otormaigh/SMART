@@ -91,6 +91,10 @@
     <string name="search_result">Search Results</string>
     <string name="btn_search">Search</string>
 	<string name="dob">Date of Birth</string>
+	<string name="no_user_found">No User Found</string>
+	<string name="day">Day</string>
+	<string name="month">Month</string>
+	<string name="year">Year</string>
 	
     <!-- SERVICE USERS -->
     <string name="ante_natal">Ante-Natal</string>
