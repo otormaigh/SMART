@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/login_background"
+    android:background="@color/white"
     android:orientation="vertical"
     android:weightSum="3.0"
     tools:context="${relativePackage}.${activityClass}">
@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center|top"
             android:layout_marginTop="@dimen/padding_medium"
-            android:background="@drawable/cm_logo_lp_trans_bg"
+            android:background="@drawable/cm_logo_bw"
             android:contentDescription="@string/main_logo" />
 
         <LinearLayout
@@ -98,10 +98,11 @@
             android:id="@+id/login"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/padding_medium"
-            android:layout_marginRight="@dimen/padding_medium"
+            android:layout_marginLeft="@dimen/padding_large"
+            android:layout_marginRight="@dimen/padding_large"
             android:layout_weight="1.0"
             android:background="@color/lightBlue"
+            android:textSize="@dimen/text_medium"
             android:text="@string/login" />
 
     </LinearLayout>
