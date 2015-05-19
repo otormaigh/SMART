@@ -342,10 +342,10 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 		public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 			if(idList.get(position).equals("0")){
 				intent = new Intent(AppointmentCalendarActivity.this, CreateAppointmentActivity.class);
+				intent.putExtra("from", "appointment");
 				intent.putExtra("time", timeList.get(position));
 				intent.putExtra("clinicID", String.valueOf(clinicSelected));
-				startActivity(intent);
-				
+				startActivity(intent);				
 			} else {
 				String serviceUserID = AppointmentSingleton.getInstance()
 						.getServiceUserID(idList.get(position));
