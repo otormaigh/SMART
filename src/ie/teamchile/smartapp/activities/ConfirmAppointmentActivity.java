@@ -31,15 +31,13 @@ public class ConfirmAppointmentActivity extends MenuInheritActivity {
 	private DateFormat sdfDateMonthName = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
 	private DateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     private TextView txtUserName, txtClinic, txtDateTime, 
-    				 txtPriority, txtVisitType, txtEmailTo, txtSmsTo;
-    //txtHospitalNumber, txtTime
+    				 txtEmailTo, txtSmsTo;
     private Button btnYes, btnNo;
     private String name, hospitalNumber, clinicName, date, monthDate, time, duration, 
     		priority, clinicID, userId, visitType, timeBefore, timeAfter, email, sms;
     private ProgressDialog pd;
     private AccessDBTable db = new AccessDBTable();
     private PostAppointment postAppt = new PostAppointment();
-    private AppointmentCalendarActivity passOptions;
     private Calendar cal = Calendar.getInstance();
 
     @Override
@@ -48,10 +46,8 @@ public class ConfirmAppointmentActivity extends MenuInheritActivity {
         setContentView(R.layout.activity_confirm_appointment);
         
         txtUserName = (TextView) findViewById(R.id.text_confirm_user);
-        //txtHospitalNumber = (TextView) findViewById(R.id.text_confirm_hospital_number);
         txtClinic = (TextView) findViewById(R.id.text_confirm_appt_location);
         txtDateTime = (TextView) findViewById(R.id.text_confirm_appt_time);
-        //txtTime = (TextView) findViewById(R.id.text_confirm_time);
         txtEmailTo = (TextView) findViewById(R.id.text_confirm_email);
         txtSmsTo = (TextView) findViewById(R.id.text_confirm_sms);
 
@@ -125,7 +121,7 @@ public class ConfirmAppointmentActivity extends MenuInheritActivity {
         }
     }
 
-    private class CreateAppointmentLongOperation extends AsyncTask<String, Void, Boolean> {
+    private class CreateAppointmentLongOperation extends AsyncTask<String, Void, Void> {
         private Context context;
         private JSONObject json;
         private JSONArray query;
@@ -141,8 +137,7 @@ public class ConfirmAppointmentActivity extends MenuInheritActivity {
 			pd.setCancelable(false);
             pd.show();
         }
-        protected Boolean doInBackground(String... params) {
-            //userID = ServiceUserSingleton.getInstance().getUserID().get(0);
+        protected Void doInBackground(String... params) {
         	Log.d("buggy_bug", "userId: " + userId + "\nclinicID: " +  clinicID  + 
         		  "\nDate: " + date +  "\nTime: " + time + ":00" + "\nDuration: " + duration + 
    				  "\nPriority: " + priority + "\nVisit Type: " + visitType);
@@ -156,25 +151,21 @@ public class ConfirmAppointmentActivity extends MenuInheritActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            return userFound;
+			return null;
         }
         
         @Override
         protected void onProgressUpdate(Void... values) { }
         
         @Override
-        protected void onPostExecute(Boolean result) {
-            if (result) {
-            	Intent intent = new Intent(ConfirmAppointmentActivity.this, AppointmentCalendarActivity.class);
-            	try {
-					Thread.sleep(500);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-                startActivity(intent);
-            }else {
-                Toast.makeText(ConfirmAppointmentActivity.this, "No user found, try again", Toast.LENGTH_LONG).show();
-            }
+        protected void onPostExecute(Void result) {
+        	Intent intent = new Intent(ConfirmAppointmentActivity.this, AppointmentCalendarActivity.class);
+        	try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+            startActivity(intent);
             pd.dismiss();
         }
     }
