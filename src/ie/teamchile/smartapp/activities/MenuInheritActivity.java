@@ -62,6 +62,8 @@ public class MenuInheritActivity extends Activity {
                             logout.doLogout(ServiceProviderSingleton.getInstance().getToken());
                             pd = new ProgressDialog(MenuInheritActivity.this);
                 			pd.setMessage("Logging Out");
+                			pd.setCanceledOnTouchOutside(false);
+                			pd.setCancelable(false);
                 			pd.show();
                             
                             timer = new CountDownTimer(1000, 1000){
