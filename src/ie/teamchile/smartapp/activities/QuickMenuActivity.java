@@ -126,6 +126,8 @@ public class QuickMenuActivity extends MenuInheritActivity {
 		protected void onPreExecute() {
 			pd = new ProgressDialog(QuickMenuActivity.this);
 			pd.setMessage("Updating Information");
+			pd.setCanceledOnTouchOutside(false);
+			pd.setCancelable(false);
 			pd.show();
 		}
 		protected JSONArray doInBackground(String... params) {
