@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="?android:attr/buttonBarStyle"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="4.0">
+
+    <Button
+        android:id="@+id/patientSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/padding_small"
+        android:layout_weight="1.0"
+        android:text="@string/patient_search"
+        android:textSize="@dimen/text_large" />
+
+    <Button
+        android:id="@+id/bookAppointment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/padding_small"
+        android:layout_weight="1.0"
+        android:text="@string/book_appointment"
+        android:textSize="@dimen/text_large" />
+
+    <Button
+        android:id="@+id/calendar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/padding_small"
+        android:layout_weight="1.0"
+        android:text="@string/calendar"
+        android:textSize="@dimen/text_large" />
+
+    <Button
+        android:id="@+id/todays_appointments"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.0"
+        android:text="@string/todays_appointments"
+        android:textSize="@dimen/text_large" />
+</LinearLayout><!-- From: file:/home/user/Android_Projects/AndroidStudioProjects/SmartApp/app/src/main/res/layout/activity_quick_menu.xml -->
