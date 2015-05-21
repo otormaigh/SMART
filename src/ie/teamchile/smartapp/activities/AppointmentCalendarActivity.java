@@ -367,6 +367,8 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 		protected void onPreExecute() {
 			pd = new ProgressDialog(context);
             pd.setMessage("Fetching Information");
+            pd.setCanceledOnTouchOutside(false);
+			pd.setCancelable(false);
             pd.show();
 		}
 		
