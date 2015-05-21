@@ -27,7 +27,7 @@ import android.widget.TextView;
 
 public class ParityDetailsActivity extends MenuInheritActivity {
 	private BaseAdapter adapter;
-	private TextView name, parity, babyName;
+	private TextView name, babyName;
 	private String patientName, patientParity;
 	private String sex_male = "ale", sex_female = "emale";
 	private List<String> nameBaby, hospitalNumber, dobBaby, genderBaby, gestationBaby,
@@ -47,7 +47,7 @@ public class ParityDetailsActivity extends MenuInheritActivity {
 		
 		patientName = ServiceUserSingleton.getInstance().getUserName().get(0);
 		patientParity = ServiceUserSingleton.getInstance().getUserParity().get(0);
-		setTitle(patientName);
+		setTitle(patientName + " (" + patientParity + ")");
 		
 		nameBaby = ServiceUserSingleton.getInstance().getBabyName();
 		hospitalNumber = ServiceUserSingleton.getInstance().getBabyHospitalNumber();
@@ -104,9 +104,9 @@ public class ParityDetailsActivity extends MenuInheritActivity {
 	
 	private void portraitCode(){
 		babyName = (TextView)findViewById(R.id.baby_name_parity);
-		parity =(TextView)findViewById(R.id.parity_info);
+/*		parity =(TextView)findViewById(R.id.parity_info);
 		
-		parity.setText(patientParity);
+		parity.setText(patientParity);*/
 		
 		adapter = new ListAdapter(ParityDetailsActivity.this, 
 				 orientation, nameBaby, hospitalNumber, dobStr, 
