@@ -35,6 +35,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class ServiceUserActivity extends MenuInheritActivity {
+	private final CharSequence[] userContactList = {"Call Mobile", "Send SMS", "Send Email"};
+	private final CharSequence[] kinContactList = {"Call Mobile", "Send SMS"};
 	private TextView anteAge, anteGestation, anteParity, anteDeliveryTime, anteBloodGroup, anteRhesus;
 	private TextView contactHospitalNumber, contactEmail, contactMobileNumber, contactRoad,
 					 contactCounty, contactPostCode, contactNextOfKinName, contactAge, 
@@ -42,30 +44,25 @@ public class ServiceUserActivity extends MenuInheritActivity {
 	private TextView postBirthMode, postPerineum, postAntiD, postDeliveryDate, postDeliveryTime,
 					 postDaysSinceBirth, postBabyGender, postBirthWeight, postVitK, postHearing, 
 					 postFeeding, postNBST, lastPeriod;
-	private LinearLayout serviceUserContact, serviceUserAddress, serviceUserKin;
-	
+	private LinearLayout serviceUserContact, serviceUserAddress, serviceUserKin;	
 	private String dob = "", age = "", hospitalNumber, email, mobile, userName, kinName,  
 				   kinMobile, road, county, postCode, gestation, parity, estimtedDelivery,
 				   perineum, birthMode, babyGender, babyWeightGrams = "", babyWeightKg = "", 
 				   vitK, hearing, antiD, feeding, nbst, deliveryDateTime, daysSinceBirth,
-				   userCall, userSMS, userEmail, kinCall, kinSMS, lastPeriodDate;
+				   userCall, userSMS, userEmail, lastPeriodDate;
 	private List<String> babyID;
-	private int days = 0;
 	private double grams = 0.0;
 	private String sex_male = "ale";
 	private String sex_female = "emale";
 	private Dialog dialog;
-	private Button bookAppointmentButton, userContact, next_of_kin_contact,
-				   userPhoneCall, userSendSMS, userSendEmail, userCancel, userAddress,
-				   kinPhoneCall, kinSendSMS, kinCancel;
-	private TableRow obstetricHistory, tableParity;
+	private Button bookAppointmentButton;
+  	private TableRow tableParity;
 	private DateFormat sdfDateTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault());
 	private DateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 	private DateFormat sdfMonthFullName = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
 	private DateFormat sdfAMPM = new SimpleDateFormat("HH:mm a", Locale.getDefault());
 	private Date dobAsDate = null;
-	private Intent userCallIntent, userSmsIntent, userEmailIntent,
-			kinCallIntent, kinSmsIntent;
+	private Intent userCallIntent, userSmsIntent, userEmailIntent;
 	private Calendar cal = Calendar.getInstance();
 	private int b;		//position of most recent baby in list
 	private int p;		//position of most recent pregnancy in list
@@ -135,12 +132,6 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		postFeeding = (TextView)findViewById(R.id.feeding);
 		postNBST = (TextView)findViewById(R.id.nbst);
 		
-		userContact = (Button) findViewById(R.id.user_contact);
-		userContact.setOnClickListener(new ButtonClick());
-		userAddress = (Button) findViewById(R.id.user_address);
-		userAddress.setOnClickListener(new ButtonClick());	
-		next_of_kin_contact = (Button) findViewById(R.id.next_of_kin_contact);
-		next_of_kin_contact.setOnClickListener(new ButtonClick());
 		bookAppointmentButton = (Button) findViewById(R.id.book_appointment);
 		bookAppointmentButton.setOnClickListener(new ButtonClick());
 		
@@ -245,146 +236,93 @@ public class ServiceUserActivity extends MenuInheritActivity {
 				Intent intentBook = new Intent(ServiceUserActivity.this, AppointmentTypeSpinnerActivity.class);
 				startActivity(intentBook);
 				break;
-			case R.id.user_contact :
-				usrContact();
-				break;
 			case R.id.service_user_contact :
-				usrContact();
-				break;
-			case R.id.next_of_kin_contact:
-				kinContact();
+				dialogContact(userContactList);
 				break;
 			case R.id.service_user_kin :
-				kinContact();
-				break;
-			case R.id.user_address:
-				userAddress();
-				break;
+				dialogContact(kinContactList);
+				break;					
 			case R.id.service_user_address :
-				userAddress();
+				gotoMaps();
 				break;
-			case R.id.user_Phone_Call:
-				Log.i("Make call", "");
-				userCall = "tel:" + contactMobileNumber.getText().toString();
-				userCallIntent = new Intent(Intent.ACTION_DIAL,
-						Uri.parse(userCall));
-				try {
-					startActivity(userCallIntent);
-				} catch (android.content.ActivityNotFoundException ex) {
-					Toast.makeText(ServiceUserActivity.this,
-							"Call failed, please try again later.",
-							Toast.LENGTH_SHORT).show();
-				}finally{
-					dialog.dismiss();
-				}
-				break;
-			case R.id.user_Send_SMS:
-				Log.i("Send SMS", "");
-				userSMS = "" + contactMobileNumber.getText().toString();
-				userSmsIntent = new Intent(Intent.ACTION_VIEW);
-				userSmsIntent.setType("vnd.android-dir/mms-sms");
-				userSmsIntent.putExtra("address", userSMS);
-				try {
-					startActivity(userSmsIntent);
-				} catch (android.content.ActivityNotFoundException ex) {
-					Toast.makeText(ServiceUserActivity.this,
-							"SMS failed, please try again later.",
-							Toast.LENGTH_SHORT).show();
-				}finally{
-					dialog.dismiss();
-				}
-				break;
-			case R.id.user_Send_Email:
-				Log.i("Send Email", "");
-				userEmail = "" + contactEmail.getText().toString();
-				
-				userEmailIntent = new Intent(Intent.ACTION_SEND);
-				userEmailIntent.setClassName("com.google.android.gm","com.google.android.gm.ComposeActivityGmail");
-				userEmailIntent.setType("message/rfc822");
-				userEmailIntent.putExtra(android.content.Intent.EXTRA_EMAIL,new String[] {userEmail});
-				userEmailIntent.putExtra(Intent.EXTRA_SUBJECT, ""); 
-				userEmailIntent.putExtra(Intent.EXTRA_TEXT, ""); 
-				userEmailIntent.setType("plain/text"); 
-				try {
-					startActivity(userEmailIntent);
-				} catch (android.content.ActivityNotFoundException ex) {
-					Toast.makeText(ServiceUserActivity.this,
-							"Email failed, please try again later.",
-							Toast.LENGTH_SHORT).show();
-				}finally{
-					dialog.dismiss();
-				}
-				break;
-			case R.id.kin_Phone_Call:
-				Log.i("Make call", "");
-				kinCall = "tel:" + contactNextOfKinContactNumber.getText().toString();
-				kinCallIntent = new Intent(Intent.ACTION_DIAL,
-						Uri.parse(kinCall));
-				try {
-					startActivity(kinCallIntent);
-				} catch (android.content.ActivityNotFoundException ex) {
-					Toast.makeText(ServiceUserActivity.this,
-							"Call failed, please try again later.",
-							Toast.LENGTH_SHORT).show();
-				}finally{
-					dialog.dismiss();
-				}
-				break;
-			case R.id.kin_Send_SMS:
-				Log.i("Send SMS", "");
-				kinSMS = "" + contactNextOfKinContactNumber.getText().toString();
-				kinSmsIntent = new Intent(Intent.ACTION_VIEW);
-				kinSmsIntent.setType("vnd.android-dir/mms-sms");
-				kinSmsIntent.putExtra("address", kinSMS);
-				try {
-					startActivity(kinSmsIntent);
-				} catch (android.content.ActivityNotFoundException ex) {
-					Toast.makeText(ServiceUserActivity.this,
-							"SMS failed, please try again later.",
-							Toast.LENGTH_SHORT).show();
-				}finally{
-					dialog.dismiss();
-				}
-				break;
-			case R.id.user_Cancel:
-				dialog.cancel();
-				break;
-			case R.id.kin_Cancel:
-				dialog.cancel();
-				break;
-			/*case R.id.obstretic_history:
-				Intent intent5 = new Intent(ServiceUserActivity.this, ObstreticHistoryActivity.class);
-				startActivity(intent5);
-				break;*/
 			case R.id.button_parity:
 				Intent intent6 = new Intent(ServiceUserActivity.this, ParityDetailsActivity.class);
 				startActivity(intent6);
+				break;
 			}
 		}
+		
 		@Override
-		public void cancel() {
-		}
+		public void cancel() { }
+		
 		@Override
-		public void dismiss() {
+		public void dismiss() { }
+	}
+	
+	private void dialogContact(final CharSequence[] items) {
+	    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+	    builder.setTitle(R.string.contact_title);
+
+	    builder.setItems(items, new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int item) {
+	            if (items[item].equals("Call Mobile")) { makeCall(); }
+
+	            if (items[item].equals("Send SMS")) { sendSms(); }
+	            
+	            if (items[item].equals("Send Email")) { sendEmail(); }
+	        }
+	    });
+	    AlertDialog alert = builder.create();
+	    alert.show();
+	    alert.setCanceledOnTouchOutside(true);
+	}
+	
+	private void makeCall(){
+		userCall = "tel:" + contactMobileNumber.getText().toString();
+		userCallIntent = new Intent(Intent.ACTION_DIAL,
+				Uri.parse(userCall));
+		try {
+			startActivity(userCallIntent);
+		} catch (android.content.ActivityNotFoundException ex) {
+			Toast.makeText(ServiceUserActivity.this,
+					"Call failed, please try again later.",
+					Toast.LENGTH_LONG).show();
 		}
 	}
 	
-	private void usrContact() {
-		dialog = new Dialog(ServiceUserActivity.this);
-		dialog.setContentView(R.layout.user_contact_dialog_box);
-		dialog.setTitle(R.string.contact_dialog_message);
-		userPhoneCall = (Button) dialog.findViewById(R.id.user_Phone_Call);
-		userPhoneCall.setOnClickListener(new ButtonClick());
-		userSendSMS = (Button) dialog.findViewById(R.id.user_Send_SMS);
-		userSendSMS.setOnClickListener(new ButtonClick());
-		userSendEmail = (Button) dialog.findViewById(R.id.user_Send_Email);
-		userSendEmail.setOnClickListener(new ButtonClick());
-		userCancel = (Button) dialog.findViewById(R.id.user_Cancel);
-		userCancel.setOnClickListener(new ButtonClick());
-		dialog.show();
+	private void sendSms() {
+		userSMS = contactMobileNumber.getText().toString();
+		userSmsIntent = new Intent(Intent.ACTION_VIEW);
+		userSmsIntent.setType("vnd.android-dir/mms-sms");
+		userSmsIntent.putExtra("address", userSMS);
+		try {
+			startActivity(userSmsIntent);
+		} catch (android.content.ActivityNotFoundException ex) {
+			Toast.makeText(ServiceUserActivity.this,
+					"SMS failed, please try again later.",
+					Toast.LENGTH_LONG).show();
+		}
 	}
 	
-	private void userAddress() {
+	private void sendEmail() {
+		userEmail = contactEmail.getText().toString();		
+		userEmailIntent = new Intent(Intent.ACTION_SEND);
+		userEmailIntent.setClassName("com.google.android.gm","com.google.android.gm.ComposeActivityGmail");
+		userEmailIntent.setType("message/rfc822");
+		userEmailIntent.putExtra(android.content.Intent.EXTRA_EMAIL,new String[] {userEmail});
+		userEmailIntent.putExtra(Intent.EXTRA_SUBJECT, ""); 
+		userEmailIntent.putExtra(Intent.EXTRA_TEXT, ""); 
+		userEmailIntent.setType("plain/text"); 
+		try {
+			startActivity(userEmailIntent);
+		} catch (android.content.ActivityNotFoundException ex) {
+			Toast.makeText(ServiceUserActivity.this,
+					"Email failed, please try again later.",
+					Toast.LENGTH_LONG).show();
+		}
+	}
+	
+	private void gotoMaps() {
         new AlertDialog.Builder(this)
         .setTitle(R.string.user_address_title)
         .setMessage(R.string.user_address_message)
@@ -402,19 +340,6 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		    	startActivity(intent);
         }	
 		}).show();		
-	}
-
-	private void kinContact() {
-		dialog = new Dialog(ServiceUserActivity.this);
-		dialog.setContentView(R.layout.kin_contact_dialog_box);
-		dialog.setTitle(R.string.contact_dialog_message);
-		kinPhoneCall = (Button) dialog.findViewById(R.id.kin_Phone_Call);
-		kinPhoneCall.setOnClickListener(new ButtonClick());
-		kinSendSMS = (Button) dialog.findViewById(R.id.kin_Send_SMS);
-		kinSendSMS.setOnClickListener(new ButtonClick());
-		kinCancel = (Button) dialog.findViewById(R.id.kin_Cancel);
-		kinCancel.setOnClickListener(new ButtonClick());
-		dialog.show();
 	}
 	
 	private String getAge(String dob) {
@@ -585,7 +510,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
             Log.d("Coordinates Found", String.valueOf(latitude));
             Log.d("Coordinates Found", String.valueOf(longitude));
             //"geo:47.6,-122.3?z=18"
-            ToastAlert ta = new ToastAlert(this,"geo:" + String.valueOf(latitude) + "," + String.valueOf(longitude) + "", false);
+            new ToastAlert(this,"geo:" + String.valueOf(latitude) + "," + String.valueOf(longitude) + "", false);
             return "geo:" +String.valueOf(latitude) + "," +String.valueOf(longitude) + "?z=12" +
             	   "&q=" + String.valueOf(latitude) + "," + String.valueOf(longitude) +
             	   "(" + userName + ")";
