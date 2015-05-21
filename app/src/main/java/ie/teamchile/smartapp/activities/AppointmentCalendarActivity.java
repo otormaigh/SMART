@@ -393,13 +393,16 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
     public void setServiceOptionSelected(int serviceOptionSelected){
     	AppointmentCalendarActivity.serviceOptionSelected = serviceOptionSelected;
     }
+
     public void setClinicSelected(int clinicSelected){
     	AppointmentCalendarActivity.clinicSelected = clinicSelected;
     }
+
     public void setWeekSelected(int weekSelected){
     	AppointmentCalendarActivity.weekSelected = weekSelected;
     }
-    public void setDaySelected(Date daySelected){
+
+	public void setDaySelected(Date daySelected){
     	AppointmentCalendarActivity.daySelected = daySelected;
     }
 }
