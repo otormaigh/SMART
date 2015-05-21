@@ -53,7 +53,6 @@ public class ObstreticHistoryActivity extends MenuInheritActivity {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				item = edit.getText().toString();
 				if (item != null && item.trim().length() > 0) {
 					adapter.notifyDataSetChanged();
