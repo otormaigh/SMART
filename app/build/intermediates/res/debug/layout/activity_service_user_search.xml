@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <EditText
+        android:id="@+id/search_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/enter_name"
+        android:paddingTop="@dimen/padding_medium"
+        android:singleLine="true" />
+
+    <EditText
+        android:id="@+id/search_hospital_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/enter_hospital_number"
+        android:singleLine="true" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3.0" >
+
+        <EditText
+            android:id="@+id/search_dob_day"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:hint="@string/day"
+            android:inputType="number"
+            android:maxLength="2"
+            android:singleLine="true" />
+
+        <EditText
+            android:id="@+id/search_dob_month"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:hint="@string/month"
+            android:inputType="number"
+            android:maxLength="2"
+            android:singleLine="true" />
+
+        <EditText
+            android:id="@+id/search_dob_year"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:hint="@string/year"
+            android:inputType="number"
+            android:maxLength="4"
+            android:singleLine="true" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_search" />
+
+    <TextView
+        android:id="@+id/tv_search_results"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/search_result" />
+    
+    <TextView
+        android:id="@+id/tv_no_user_found"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/no_user_found"
+        android:textSize="@dimen/text_large"
+        android:textColor="@color/red" />
+
+    <ListView
+        android:id="@+id/search_results_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+    </ListView>
+
+</LinearLayout><!-- From: file:/home/user/Android_Projects/AndroidStudioProjects/SmartApp/app/src/main/res/layout/activity_service_user_search.xml -->

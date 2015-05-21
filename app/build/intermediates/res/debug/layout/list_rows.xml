@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:paddingBottom="@dimen/padding_small"
+    android:paddingTop="@dimen/padding_small"
+    android:weightSum="3.0" >
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.8"
+        android:gravity="start|center"
+        android:paddingLeft="@dimen/padding_small"
+        android:paddingStart="@dimen/padding_small"
+        android:textSize="@dimen/text_small" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.6"
+        android:ellipsize="end"
+        android:textAlignment="gravity"
+        android:textSize="@dimen/text_small"
+        android:singleLine="true" />
+
+    <TextView
+        android:id="@+id/gestation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.6"
+        android:gravity="end|center"
+        android:paddingRight="@dimen/padding_small"
+        android:textSize="@dimen/text_small" />
+
+</LinearLayout><!-- From: file:/home/user/Android_Projects/AndroidStudioProjects/SmartApp/app/src/main/res/layout/list_rows.xml -->

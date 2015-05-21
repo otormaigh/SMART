@@ -1,0 +1,85 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.2"
+            android:paddingRight="@dimen/padding_Xsmall"
+            android:text="@string/parity_dob"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/text_Xsmall"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.9"
+            android:paddingRight="@dimen/padding_Xsmall"
+            android:text="@string/parity_gestation"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/text_Xsmall"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.8"
+            android:paddingRight="@dimen/padding_Xsmall"
+            android:text="@string/parity_gender"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/text_Xsmall"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingRight="@dimen/padding_Xsmall"
+            android:text="@string/parity_weight"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/text_Xsmall"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.3"
+            android:text="@string/parity_mode_of_birth"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/text_Xsmall"
+            android:textStyle="bold" />
+        
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.8"
+            android:text="@string/parity_birth_outcome"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/text_Xsmall"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/parity_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:dividerHeight="3sp" />
+
+</LinearLayout><!-- From: file:/home/user/Android_Projects/AndroidStudioProjects/SmartApp/app/src/main/res/layout-land/activity_parity_details.xml -->
