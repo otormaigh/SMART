@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/padding_Xsmall" >
+
+        <TextView
+            android:id="@+id/text_service_user"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_Xsmall"
+            android:text="@string/appointment_for"
+            android:textSize="@dimen/text_Xsmall"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/text_confirm_user"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/padding_Xsmall"
+            android:textSize="@dimen/text_small"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/text_appt_location"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_Xsmall"
+            android:text="@string/to_attend"
+            android:textSize="@dimen/text_Xsmall"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/text_confirm_appt_location"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/padding_Xsmall"
+            android:textSize="@dimen/text_small"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/text_appt_time"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_Xsmall"
+            android:text="@string/at"
+            android:textSize="@dimen/text_Xsmall"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/text_confirm_appt_time"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/padding_Xsmall"
+            android:textSize="@dimen/text_small"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/text_email"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_Xsmall"
+            android:text="@string/confirm_email"
+            android:textSize="@dimen/text_Xsmall"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/text_confirm_email"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/padding_Xsmall"
+            android:textSize="@dimen/text_small"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/text_sms"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_Xsmall"
+            android:text="@string/confirm_sms"
+            android:textSize="@dimen/text_Xsmall"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/text_confirm_sms"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/padding_Xsmall"
+            android:textSize="@dimen/text_small"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/text_create_question"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_large"
+            android:text="@string/book_question"
+            android:textSize="@dimen/text_Xsmall"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1.0" >
+
+            <Button
+                android:id="@+id/btn_yes_appointment"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/padding_Xsmall"
+                android:layout_marginRight="@dimen/padding_Xsmall"
+                android:layout_marginTop="@dimen/padding_medium"
+                android:layout_weight="0.5"
+                android:background="@color/lightBlue"
+                android:text="@string/book" />
+
+            <Button
+                android:id="@+id/btn_no_appointment"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/padding_Xsmall"
+                android:layout_marginRight="@dimen/padding_Xsmall"
+                android:layout_marginTop="@dimen/padding_medium"
+                android:layout_weight="0.5"
+                android:background="@color/lightBlue"
+                android:text="@string/cancel" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView><!-- From: file:/home/user/Android_Projects/AndroidStudioProjects/SmartApp/app/src/main/res/layout/activity_confirm_appointment.xml -->
