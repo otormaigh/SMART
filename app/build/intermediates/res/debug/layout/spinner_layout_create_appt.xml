@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/spinnerTarget"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/padding_Xsmall"
+    android:textSize="@dimen/text_medium"
+    android:textColor="@color/black" /><!-- From: file:/home/user/Android_Projects/AndroidStudioProjects/SmartApp/app/src/main/res/layout/spinner_layout_create_appt.xml -->
