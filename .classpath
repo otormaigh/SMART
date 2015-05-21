@@ -5,7 +5,6 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="libs/postgresql-9.3-1102.jdbc3.jar"/>
 	<classpathentry kind="lib" path="libs/MAITI/bin/maiti.jar"/>
 	<classpathentry kind="src" path=".apt_generated">
 		<attributes>
