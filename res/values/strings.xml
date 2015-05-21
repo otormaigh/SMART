@@ -62,6 +62,8 @@
         <item>Visit 3</item>
     </string-array>
     
+    
+    <!-- WEEK SPINNER -->
     <string-array name="weeks">
         <item>Select Week</item>
         <item>Week 1</item>
@@ -154,17 +156,6 @@
     <string name="Logout_dialog_message">Are you sure you want to Logout?</string>
     <string name="Logout_title">Logout</string>
 
-    <!-- CONTACT DIALOG BOX -->
-    <string name="Yes_make_call">Yes</string>
-    <string name="No_make_call">No</string>
-    <string name="contact_dialog_message">Select The Option</string>
-    <string name="phone_call">Phone Call</string>
-    <string name="sms">Send SMS</string>
-    <string name="email">Email</string>
-    <string name="user_address_title">Google Maps</string>
-    <string name="user_address_message">Are you sure you want to go to Google Maps?</string>
-    <string name="cancel">Cancel</string>
-
     <!-- CONTACT DETAILS -->
     <string name="midwife_name">Name:</string>
     <string name="midwife_email">Email:</string>
@@ -207,6 +198,7 @@
     <string name="appointment_clinic">Appointment Clinic</string>
     <string name="appointment_date">Appointment Date</string>
     <string name="appointment_time">Appointment Time</string>
+    <string name="cancel">Cancel</string>
  	
 	<!-- CREATE APPOINTMENT -->
     <string name="appointment_for">Appointment for:</string>
@@ -216,4 +208,9 @@
     <string name="confirm_sms">Confirmation SMS to:</string>
     <string name="book_question">Book if details are correct:</string>
     <string name="book">Book</string>
+    
+    <!-- SERVICE USER DIALOGS -->
+    <string name="user_address_title">Google Maps</string>
+    <string name="user_address_message">Are you sure you want to go to Google Maps?</string>
+    <string name="contact_title">Select Contact Option</string>
 </resources>
