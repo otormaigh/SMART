@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/enter_name"
         android:paddingTop="@dimen/padding_medium"
+        android:textColorHint="#B6B6B6"
         android:singleLine="true" />
 
     <EditText
@@ -19,6 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/enter_hospital_number"
+        android:textColorHint="#A9A9A9"
         android:singleLine="true" />
 
     <LinearLayout

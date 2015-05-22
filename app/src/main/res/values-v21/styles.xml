@@ -3,5 +3,9 @@
     <style
         name="AppTheme" parent="android:Theme.Material.Light">
         <item name="android:homeAsUpIndicator">@drawable/ic_menu_grey600_24dp</item>
-        </style>
+    </style>
+
+<!--    <style name="customEdit" parent="@android:style/Widget.EditText">
+        <item name="android:textColorHint">#3b64a8</item>
+    </style>-->
 </resources>
