@@ -37,7 +37,6 @@
         </activity>
         <activity
             android:name=".activities.AppointmentCalendarActivity"
-            android:label="@string/title_activity_appointment_calendar"
             android:parentActivityName=".activities.QuickMenuActivity"
             android:screenOrientation="sensorPortrait"
             android:launchMode="singleTask" />
@@ -47,7 +46,6 @@
 
         <activity
             android:name=".activities.AppointmentTypeSpinnerActivity"
-            android:label="@string/title_activity_appointment_type_spinner"
             android:parentActivityName=".activities.QuickMenuActivity"
             android:screenOrientation="sensorPortrait" />
         <meta-data
@@ -56,7 +54,6 @@
 
         <activity
             android:name=".activities.CalendarActivity"
-            android:label="@string/title_activity_calendar"
             android:parentActivityName=".activities.QuickMenuActivity"
             android:screenOrientation="sensorPortrait" />
         <meta-data
@@ -65,7 +62,6 @@
 
         <activity
             android:name=".activities.ConfirmAppointmentActivity"
-            android:label="@string/title_activity_confirm_appointment"
             android:launchMode="singleTask"
             android:parentActivityName=".activities.QuickMenuActivity"
             android:screenOrientation="sensorPortrait" 
@@ -76,7 +72,6 @@
 
         <activity
             android:name=".activities.ContactDetailsActivity"
-            android:label="@string/title_activity_contact_details"
             android:parentActivityName=".activities.QuickMenuActivity"
             android:screenOrientation="sensorPortrait" />
         <meta-data
@@ -85,7 +80,6 @@
 
         <activity
             android:name=".activities.CreateAppointmentActivity"
-            android:label="@string/title_activity_create_appointment"
             android:parentActivityName=".activities.QuickMenuActivity"
             android:screenOrientation="sensorPortrait"
             android:launchMode="singleTask" />
@@ -95,7 +89,6 @@
 
         <activity
             android:name=".activities.ObstreticHistoryActivity"
-            android:label="@string/title_activity_obstretic_history"
             android:parentActivityName=".activities.QuickMenuActivity"
             android:screenOrientation="sensorPortrait" />
         <meta-data
@@ -104,7 +97,6 @@
 
         <activity
             android:name=".activities.ParityDetailsActivity"
-            android:label="@string/title_activity_parity_details"
             android:launchMode="singleTask"
             android:parentActivityName=".activities.QuickMenuActivity" />
         <meta-data
@@ -113,13 +105,11 @@
 
         <activity
             android:name=".activities.QuickMenuActivity"
-            android:label="@string/title_activity_quick_menu"
             android:launchMode="singleTask"
             android:screenOrientation="sensorPortrait" />
 
         <activity
             android:name=".activities.SelectTimeActivity"
-            android:label="@string/title_activity_select_time"
             android:parentActivityName=".activities.QuickMenuActivity"
             android:screenOrientation="sensorPortrait" />
         <meta-data
@@ -128,7 +118,6 @@
 
         <activity
             android:name=".activities.ServiceUserActivity"
-            android:label="@string/title_activity_service_user"
             android:parentActivityName=".activities.QuickMenuActivity"
             android:screenOrientation="sensorPortrait" />
         <meta-data
@@ -137,7 +126,6 @@
 
         <activity
             android:name=".activities.ServiceUserSearchActivity"
-            android:label="@string/title_activity_service_user_search"
             android:parentActivityName=".activities.QuickMenuActivity"
             android:screenOrientation="sensorPortrait" />
         <meta-data
@@ -146,7 +134,6 @@
 
         <activity
             android:name=".activities.StockNoteActivity"
-            android:label="@string/title_activity_stock_note"
             android:parentActivityName=".activities.QuickMenuActivity"
             android:screenOrientation="sensorPortrait" />
         <meta-data
@@ -155,7 +142,6 @@
 
         <activity
             android:name=".activities.TodayAppointmentActivity"
-            android:label="@string/title_activity_today_appointment"
             android:parentActivityName=".activities.QuickMenuActivity"
             android:screenOrientation="sensorPortrait" />
         <meta-data

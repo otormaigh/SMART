@@ -178,7 +178,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 				getRecentBaby();
 				daysSinceBirth = getNoOfDays(deliveryDateTime);
 			}
-			setTitle(userName);
+			setActionBarTitle(userName);
 			
 			if(parity.equals("0 + 0")){
 				tableParity.setEnabled(false);
