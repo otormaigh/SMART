@@ -10,12 +10,14 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -61,7 +63,7 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 		list.setOnItemClickListener(new onItemListener());
 		
 		tvNoUserFound.setVisibility(View.GONE);
-		tvSearchResults.setVisibility(View.GONE);		
+		tvSearchResults.setVisibility(View.GONE);
 	}
 
 	private void createResultList(ArrayList<String> searchResults) {

@@ -44,8 +44,6 @@ public class QuickMenuActivity extends MenuInheritActivity {
         todaysAppointments = (Button) findViewById(R.id.todays_appointments);
         //todaysAppointments.setOnClickListener(new ButtonClick());
         
-        getActionBar().setDisplayHomeAsUpEnabled(false);
-        
         if(!AppointmentSingleton.getInstance().getUpdated()){
         	new updateLocal().execute("appointments", "clinics", "service_options");        	
         }        

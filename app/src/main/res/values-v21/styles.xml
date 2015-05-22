@@ -3,5 +3,5 @@
     <style
         name="AppTheme" parent="android:Theme.Material.Light">
         <item name="android:homeAsUpIndicator">@drawable/ic_menu_grey600_24dp</item>
-    </style>
+        </style>
 </resources>

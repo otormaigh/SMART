@@ -4,6 +4,8 @@ import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.connecttodb.Logout;
 import ie.teamchile.smartapp.utility.AppointmentSingleton;
 import ie.teamchile.smartapp.utility.ServiceProviderSingleton;
+
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -12,13 +14,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MenuInheritActivity extends Activity {
-
 	private Logout logout = new Logout();
 	private CountDownTimer timer;
 	private ProgressDialog pd;
@@ -26,8 +31,24 @@ public class MenuInheritActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
         getActionBar().setDisplayHomeAsUpEnabled(true);
+        //getActionBar().setCustomView(R.layout.action_bar_custom);
+        //getSupportActionBar().setCustomView(R.layout.action_bar_custom);
+
+        getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_HOME_AS_UP);
+        getActionBar().setCustomView(R.layout.action_bar_custom);
+
+        ActionBar.LayoutParams lp = new ActionBar.LayoutParams(
+                ActionBar.LayoutParams.WRAP_CONTENT,
+                ActionBar.LayoutParams.WRAP_CONTENT,
+                Gravity.CENTER_HORIZONTAL);
+    }
+
+    protected void setActionBarTitle(String title){
+        View v = getActionBar().getCustomView();
+        TextView titleTxtView = (TextView) v.findViewById(R.id.tv_action_bar);
+        titleTxtView.setText(title);
     }
 
     @Override

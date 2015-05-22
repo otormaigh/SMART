@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -44,11 +45,11 @@ public class ParityDetailsActivity extends MenuInheritActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_parity_details);
 		parityList = (ListView)findViewById(R.id.parity_list);
-		
+
 		patientName = ServiceUserSingleton.getInstance().getUserName().get(0);
 		patientParity = ServiceUserSingleton.getInstance().getUserParity().get(0);
-		setTitle(patientName + " (" + patientParity + ")");
-		
+		setActionBarTitle(patientName + " (" + patientParity + ")");
+
 		nameBaby = ServiceUserSingleton.getInstance().getBabyName();
 		hospitalNumber = ServiceUserSingleton.getInstance().getBabyHospitalNumber();
         dobBaby = ServiceUserSingleton.getInstance().getBabyDeliveryDateTime();
@@ -85,7 +86,7 @@ public class ParityDetailsActivity extends MenuInheritActivity {
 	    super.onNewIntent(intent);
 	    setIntent(intent);
 	}
-	
+
 	private int getScreenOrientation() {
 	    Display getOrient = this.getWindowManager().getDefaultDisplay();
 	    int orientation = Configuration.ORIENTATION_UNDEFINED;
