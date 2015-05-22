@@ -234,7 +234,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 		dateSelectedStr = dfDateOnly.format(dateSelected);		
 		dateInList.setText(dfDateWithMonthName.format(dateSelected));
     	nameOfClinic = ClinicSingleton.getInstance().getClinicName(String.valueOf(clinicSelected));
-    	setTitle(nameOfClinic);
+		setActionBarTitle(nameOfClinic);
     	
     	if(AppointmentSingleton.getInstance().getHashMapofClinicDateID()
     			.containsKey(String.valueOf(clinicSelected))){
