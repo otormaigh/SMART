@@ -70,8 +70,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_service_user_tabhost);
-		
+		setContentForNav(R.layout.activity_service_user_tabhost);
 		TabHost tabHost = (TabHost)findViewById(android.R.id.tabhost);
 		tabHost.setup();
 

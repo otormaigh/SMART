@@ -213,4 +213,16 @@
     <string name="user_address_title">Google Maps</string>
     <string name="user_address_message">Are you sure you want to go to Google Maps?</string>
     <string name="contact_title">Select Contact Option</string>
+
+    <!-- NAVIGATION DRAWER-->
+    <string-array name="nav_drawer_items">
+        <item>Search Patient</item>
+        <item>Book Appointment</item>
+        <item>Calendar</item>
+        <item>Today\'s Appointments</item>
+        <item>Sync</item>
+        <item>Logout</item>
+    </string-array>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
 </resources>
