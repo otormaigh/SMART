@@ -9,7 +9,7 @@
         android:id="@+id/tv_action_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="-24dp"
+        android:paddingLeft="-48dp"
         android:gravity="center_horizontal"
         android:text="SMART"
         style="@android:style/TextAppearance.Material.Title"/>
