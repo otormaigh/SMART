@@ -4,10 +4,10 @@ import ie.teamchile.smartapp.R;
 import android.app.Activity;
 import android.os.Bundle;
 
-public class SubMenuActivity extends Activity {
+public class SubMenuActivity extends MenuInheritActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_login);
+		setContentForNav(R.layout.activity_login);
 	}
 }

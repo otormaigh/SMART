@@ -43,7 +43,7 @@ public class ParityDetailsActivity extends MenuInheritActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_parity_details);
+		setContentForNav(R.layout.activity_parity_details);
 		parityList = (ListView)findViewById(R.id.parity_list);
 
 		patientName = ServiceUserSingleton.getInstance().getUserName().get(0);

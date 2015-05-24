@@ -12,11 +12,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -47,8 +49,8 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_appointment_type_spinner);
-        
+        setContentForNav(R.layout.activity_appointment_type_spinner);
+
         c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         Log.d("MYLOG", "Date set to " + c.getTime());       
         

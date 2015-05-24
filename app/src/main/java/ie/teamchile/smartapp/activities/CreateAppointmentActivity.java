@@ -80,7 +80,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_create_appointment);
+		setContentForNav(R.layout.activity_create_appointment);
 		//ButterKnife.inject(this);
 		
 		c = Calendar.getInstance();
