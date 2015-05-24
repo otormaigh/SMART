@@ -4,11 +4,11 @@ import ie.teamchile.smartapp.R;
 import android.app.Activity;
 import android.os.Bundle;
 
-public class StockNoteActivity extends Activity {
+public class StockNoteActivity extends MenuInheritActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_stock_note);
+		setContentForNav(R.layout.activity_stock_note);
 	}
 }

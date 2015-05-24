@@ -8,6 +8,6 @@ public class SelectTimeActivity extends MenuInheritActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_select_time);
+		setContentForNav(R.layout.activity_select_time);
 	}
 }
