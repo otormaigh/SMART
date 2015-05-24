@@ -69,9 +69,8 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_appointment_calendar);
+		setContentForNav(R.layout.activity_appointment_calendar);
         
-        apiSpecificCode();
         dateInList = (Button) findViewById(R.id.date_button);
         listView = (ListView) findViewById(R.id.list);        
         prevWeek = (Button) findViewById(R.id.prev_button);
@@ -103,14 +102,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
         adapter.notifyDataSetChanged();
         createDatePicker();
     }
-    
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-	private void apiSpecificCode(){
-    	if (sdkVersion >= Build.VERSION_CODES.LOLLIPOP) {
-    		getActionBar().setElevation(0);
-    	}
-    }
-    
+
     @Override
 	protected void onNewIntent(Intent intent) { super.onNewIntent(intent); }
 

@@ -46,7 +46,7 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_service_user_search);
+		setContentForNav(R.layout.activity_service_user_search);
 
 		searchName = (EditText) findViewById(R.id.search_name);
 		searchHospitalNumber = (EditText) findViewById(R.id.search_hospital_number);

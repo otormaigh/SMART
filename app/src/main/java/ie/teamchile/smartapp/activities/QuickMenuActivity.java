@@ -14,11 +14,13 @@ import org.json.JSONObject;
 
 import android.app.ProgressDialog;
 import android.content.ComponentCallbacks2;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 
@@ -33,8 +35,8 @@ public class QuickMenuActivity extends MenuInheritActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_quick_menu);
-        
+		setContentForNav(R.layout.activity_quick_menu);
+
         patientSearch = (Button) findViewById(R.id.patientSearch);
         patientSearch.setOnClickListener(new ButtonClick());
         bookAppointment = (Button) findViewById(R.id.bookAppointment);
