@@ -10,6 +10,5 @@
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
-        <item name="color">@android:color/holo_green_dark</item>
     </style>
 </resources>
