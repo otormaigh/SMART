@@ -2,6 +2,7 @@ package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.connecttodb.AccessDBTable;
+import ie.teamchile.smartapp.retrofit.ApiRootModel;
 import ie.teamchile.smartapp.utility.AppointmentSingleton;
 import ie.teamchile.smartapp.utility.ClinicSingleton;
 import ie.teamchile.smartapp.utility.ServiceOptionSingleton;
@@ -36,6 +37,9 @@ public class QuickMenuActivity extends MenuInheritActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 		setContentForNav(R.layout.activity_quick_menu);
+
+		Log.d("Retrofit", "service options" + ApiRootModel.getInstance().getServiceOptions().get(1).getName());
+		Log.d("Retrofit", "service options" + ApiRootModel.getInstance().getAppointments().get(1).getDate());
 
         patientSearch = (Button) findViewById(R.id.patientSearch);
         patientSearch.setOnClickListener(new ButtonClick());
