@@ -2,8 +2,10 @@ package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.connecttodb.Logout;
+import ie.teamchile.smartapp.retrofit.SmartApi;
 import ie.teamchile.smartapp.utility.AppointmentSingleton;
 import ie.teamchile.smartapp.utility.ServiceProviderSingleton;
+import retrofit.RestAdapter;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
@@ -35,6 +37,7 @@ public class MenuInheritActivity extends AppCompatActivity {
     protected DrawerLayout drawerLayout;
     protected ListView drawerList;
     protected ActionBarDrawerToggle drawerToggle;
+    protected SmartApi api;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +57,16 @@ public class MenuInheritActivity extends AppCompatActivity {
                 Gravity.CENTER_HORIZONTAL);
 
         createNavDrawer();
+        initRetrofit();
+    }
+
+    protected void initRetrofit(){
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint(SmartApi.BASE_URL)
+                        //.setLogLevel(RestAdapter.LogLevel.FULL)
+                .build();
+
+        api = restAdapter.create(SmartApi.class);
     }
 
     protected void setContentForNav(int layout){

@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by user on 5/26/15.
@@ -12,13 +13,14 @@ import java.util.List;
 public class ApiRootModel {
     private static ApiRootModel instance;
     @Expose
-    private Error error;
+    private Error errors;
     private LoginJson login;
     @Expose
     private List<Appointment> appointments = new ArrayList<>();
     @SerializedName("service_options")
     @Expose
     private List<ServiceOption> serviceOptions = new ArrayList<>();
+    private Map<Integer, ServiceOption> serviceOptionsMap;
     @SerializedName("service_users")
     @Expose
     private List<ServiceUser> serviceUsers = new ArrayList<>();
@@ -33,6 +35,7 @@ public class ApiRootModel {
     private List<Announcement> announcements = new ArrayList<>();
     @Expose
     private List<Clinic> clinics = new ArrayList<>();
+    private Map<Integer, Clinic> clinicsMap;
 
     private ApiRootModel() {
     }
@@ -45,17 +48,17 @@ public class ApiRootModel {
     }
 
     /**
-     * @return The error
+     * @return The errors
      */
     public Error getError() {
-        return error;
+        return errors;
     }
 
     /**
-     * @param error The error
+     * @param errors The errors
      */
-    public void setError(Error error) {
-        this.error = error;
+    public void setError(Error errors) {
+        this.errors = errors;
     }
 
     /**
@@ -97,6 +100,14 @@ public class ApiRootModel {
         this.serviceOptions = serviceOptions;
     }
 
+    public Map<Integer, ServiceOption> getServiceOptionsMap() {
+        return serviceOptionsMap;
+    }
+
+    public void setServiceOptionsMap(Map<Integer, ServiceOption> serviceOptionsMap) {
+        this.serviceOptionsMap = serviceOptionsMap;
+    }
+
     /**
      * @return The clinics
      */
@@ -109,6 +120,14 @@ public class ApiRootModel {
      */
     public void setClinics(List<Clinic> clinics) {
         this.clinics = clinics;
+    }
+
+    public Map<Integer, Clinic> getClinicsMap() {
+        return clinicsMap;
+    }
+
+    public void setClinicsMap(Map<Integer, Clinic> clinicsMap) {
+        this.clinicsMap = clinicsMap;
     }
 
     /**
