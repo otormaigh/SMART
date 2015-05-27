@@ -2,44 +2,41 @@ package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.connecttodb.AccessDBTable;
+import ie.teamchile.smartapp.enums.CredentialsEnum;
 import ie.teamchile.smartapp.retrofit.ApiRootModel;
-import ie.teamchile.smartapp.utility.AppointmentSingleton;
-import ie.teamchile.smartapp.utility.ClinicSingleton;
-import ie.teamchile.smartapp.utility.ServiceOptionSingleton;
+import ie.teamchile.smartapp.retrofit.Clinic;
+import ie.teamchile.smartapp.retrofit.ServiceOption;
 import ie.teamchile.smartapp.utility.ServiceProviderSingleton;
 import ie.teamchile.smartapp.utility.ToastAlert;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 import android.app.ProgressDialog;
 import android.content.ComponentCallbacks2;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class QuickMenuActivity extends MenuInheritActivity {
     private boolean isViewVisible;
     private ProgressDialog pd;
-    private JSONObject json;
-	private JSONArray query;
-	private AccessDBTable db = new AccessDBTable();	
+	private AccessDBTable db = new AccessDBTable();
 	private Button patientSearch, bookAppointment, calendar, todaysAppointments;
+	private int done = 0;
+	private CountDownTimer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 		setContentForNav(R.layout.activity_quick_menu);
-
-		Log.d("Retrofit", "service options" + ApiRootModel.getInstance().getServiceOptions().get(1).getName());
-		Log.d("Retrofit", "service options" + ApiRootModel.getInstance().getAppointments().get(1).getDate());
 
         patientSearch = (Button) findViewById(R.id.patientSearch);
         patientSearch.setOnClickListener(new ButtonClick());
@@ -49,11 +46,9 @@ public class QuickMenuActivity extends MenuInheritActivity {
         calendar.setOnClickListener(new ButtonClick());
         todaysAppointments = (Button) findViewById(R.id.todays_appointments);
         //todaysAppointments.setOnClickListener(new ButtonClick());
-        
-        if(!AppointmentSingleton.getInstance().getUpdated()){
-        	new updateLocal().execute("appointments", "clinics", "service_options");        	
-        }        
-        isViewVisible = true;
+
+		isViewVisible = true;
+		updateData();
     }
     
 	@Override
@@ -94,26 +89,13 @@ public class QuickMenuActivity extends MenuInheritActivity {
     }
 
 	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		Log.d("Credentials", "User: " + ServiceProviderSingleton.getInstance().getUsername() + 
-			  "\nPass: " + ServiceProviderSingleton.getInstance().getPassword());
-	}
-	
-	@Override
 	protected void onResume() {
 		super.onResume();
-		isViewVisible = true;		
-		SharedPreferences.Editor prefs = getSharedPreferences("SMART", MODE_PRIVATE).edit();	
-    	prefs.putBoolean("reuse", false);
+		isViewVisible = true;
+		SharedPreferences.Editor prefs = getSharedPreferences("SMART", MODE_PRIVATE).edit();
+		prefs.putBoolean("reuse", false);
 		prefs.commit();
 	}
-
-	@Override
-	protected void onPause() { super.onPause(); }
-
-	@Override
-	protected void onStop() { super.onStop(); }
 
 	@Override
 	public void onTrimMemory(int level) {
@@ -124,41 +106,97 @@ public class QuickMenuActivity extends MenuInheritActivity {
 		}else 
 			isViewVisible = true;
 	}
-	
-	private class updateLocal extends AsyncTask<String, Void, JSONArray> {		
-		@Override
-		protected void onPreExecute() {
-			pd = new ProgressDialog(QuickMenuActivity.this);
-			pd.setMessage("Updating Information");
-			pd.setCanceledOnTouchOutside(false);
-			pd.setCancelable(false);
-			pd.show();
-		}
-		protected JSONArray doInBackground(String... params) {
-			try {
-				json = db.accessDB(params[0]);
-				query = json.getJSONArray(params[0]);
-				AppointmentSingleton.getInstance().setHashMapofClinicDateID(query);
-				AppointmentSingleton.getInstance().setHashMapofIdAppt(query);
-				
-				json = db.accessDB(params[1]);
-				query = json.getJSONArray(params[1]);
-				ClinicSingleton.getInstance().setHashMapofIdClinic(query);
-				
-				json = db.accessDB(params[2]);
-				query = json.getJSONArray(params[2]);
-				ServiceOptionSingleton.getInstance().setMapOfID(query);
-			} catch (JSONException e) {
-				e.printStackTrace();
+
+	private void updateData(){
+		pd = new ProgressDialog(QuickMenuActivity.this);
+		pd.setMessage("Updating Information");
+		pd.setCanceledOnTouchOutside(false);
+		pd.setCancelable(false);
+		pd.show();
+
+		api.getAllAppointments(
+				ApiRootModel.getInstance().getLogin().getToken(),
+				CredentialsEnum.API_KEY.toString(),
+				new Callback<ApiRootModel>() {
+					@Override
+					public void success(ApiRootModel apiRootModel, Response response) {
+						ApiRootModel.getInstance().setAppointments(apiRootModel.getAppointments());
+						Log.d("Retrofit", "appointments finished");
+						done++;
+						Log.d("Retrofit", "done = " + done);
+					}
+
+					@Override
+					public void failure(RetrofitError error) {
+						Log.d("Retrofit", "appointments retro failure " + error);
+					}
+				}
+		);
+
+		api.getAllServiceOptions(
+				ApiRootModel.getInstance().getLogin().getToken(),
+				CredentialsEnum.API_KEY.toString(),
+				new Callback<ApiRootModel>() {
+					@Override
+					public void success(ApiRootModel things, Response response) {
+						Map<Integer, ServiceOption> serviceOptionMap = new HashMap<>();
+						ApiRootModel.getInstance().setServiceOptions(things.getServiceOptions());
+						for(int i = 0; i < things.getServiceOptions().size(); i++){
+							serviceOptionMap.put(things.getServiceOptions().get(i).getId(),
+									things.getServiceOptions().get(i));
+						}
+						ApiRootModel.getInstance().setServiceOptionsMap(serviceOptionMap);
+						Log.d("Retrofit", "service options finished");
+						done++;
+						Log.d("Retrofit", "done = " + done);
+					}
+
+					@Override
+					public void failure(RetrofitError error) {
+						Log.d("Retrofit", "service options retro failure " + error);
+					}
+				}
+		);
+		api.getAllClinics(
+				ApiRootModel.getInstance().getLogin().getToken(),
+				CredentialsEnum.API_KEY.toString(),
+				new Callback<ApiRootModel>() {
+					@Override
+					public void success(ApiRootModel things, Response response) {
+						Map<Integer, Clinic> clinicMap = new HashMap<>();
+						ApiRootModel.getInstance().setClinics(things.getClinics());
+						for(int i = 0; i < things.getClinics().size(); i++){
+							clinicMap.put(things.getClinics().get(i).getId(),
+									things.getClinics().get(i));
+						}
+						ApiRootModel.getInstance().setClinicsMap(clinicMap);
+						Log.d("Retrofit", "clinics finished");
+						done++;
+						Log.d("Retrofit", "done = " + done);
+					}
+
+					@Override
+					public void failure(RetrofitError error) {
+						Log.d("Retrofit", "clinics retro failure " + error);
+					}
+				}
+		);
+
+		timer = new CountDownTimer(200, 100) {
+			@Override
+			public void onTick(long millisUntilFinished) { }
+
+			@Override
+			public void onFinish() {
+				if(done == 3)
+					pd.dismiss();
+				else
+					timer.start();
 			}
-			return query;
-		}
-		@Override
-		protected void onProgressUpdate(Void... values) {
-		}
-		@Override
-        protected void onPostExecute(JSONArray result) {
-			pd.dismiss();
-        }
+		}.start();
+	}
+
+	private void setDataToMap(ApiRootModel apiRootModel){
+
 	}
 }
