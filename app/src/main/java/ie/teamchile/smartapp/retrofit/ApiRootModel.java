@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,10 +19,12 @@ public class ApiRootModel {
     private LoginJson login;
     @Expose
     private List<Appointment> appointments = new ArrayList<>();
+    private Map<Integer, Appointment> idApptMap = new HashMap<>();
+    private Map<Integer, Map<String, List<Integer>>> clinicDateApptIdMap = new HashMap<>();
     @SerializedName("service_options")
     @Expose
     private List<ServiceOption> serviceOptions = new ArrayList<>();
-    private Map<Integer, ServiceOption> serviceOptionsMap;
+    private Map<Integer, ServiceOption> serviceOptionsMap = new HashMap<>();
     @SerializedName("service_users")
     @Expose
     private List<ServiceUser> serviceUsers = new ArrayList<>();
@@ -36,7 +39,7 @@ public class ApiRootModel {
     private List<Announcement> announcements = new ArrayList<>();
     @Expose
     private List<Clinic> clinics = new ArrayList<>();
-    private Map<Integer, Clinic> clinicsMap;
+    private Map<Integer, Clinic> clinicsMap = new HashMap<>();
 
     private ApiRootModel() {
     }
@@ -48,11 +51,11 @@ public class ApiRootModel {
         return instance;
     }
 
-    public void setLoginStatus(Boolean isLoggedIn){
+    public void setLoginStatus(Boolean isLoggedIn) {
         this.isLoggedIn = isLoggedIn;
     }
 
-    public Boolean getLoginStatus(){
+    public Boolean getLoginStatus() {
         return isLoggedIn;
     }
 
@@ -96,6 +99,22 @@ public class ApiRootModel {
      */
     public void setAppointments(List<Appointment> appointments) {
         this.appointments = appointments;
+    }
+
+    public void setClinicDateApptIdMap(Map<Integer, Map<String, List<Integer>>> clinicDateApptIdMap) {
+        this.clinicDateApptIdMap = clinicDateApptIdMap;
+    }
+
+    public Map<Integer, Map<String, List<Integer>>> getClinicDateApptIdMap() {
+        return clinicDateApptIdMap;
+    }
+
+    public void setIdApptMap(Map<Integer, Appointment> idApptMap) {
+        this.idApptMap = idApptMap;
+    }
+
+    public Map<Integer, Appointment> getIdApptMap() {
+        return idApptMap;
     }
 
     public List<ServiceOption> getServiceOptions() {
@@ -194,5 +213,19 @@ public class ApiRootModel {
 
     public void setAnnouncements(List<Announcement> announcements) {
         this.announcements = announcements;
+    }
+
+    /**
+     * @return The serviceUsers
+     */
+    public List<ServiceUser> getServiceUsers() {
+        return serviceUsers;
+    }
+
+    /**
+     * @param serviceUsers The service_users
+     */
+    public void setServiceUsers(List<ServiceUser> serviceUsers) {
+        this.serviceUsers = serviceUsers;
     }
 }
