@@ -1,28 +1,26 @@
 package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
+import ie.teamchile.smartapp.retrofit.ApiRootModel;
 import ie.teamchile.smartapp.utility.ClinicSingleton;
-import ie.teamchile.smartapp.utility.ServiceOptionSingleton;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
 
 public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
@@ -37,7 +35,8 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
 	private SimpleDateFormat sdfDowMonthDay = new SimpleDateFormat("EEE, d MMM", Locale.getDefault());
     private ArrayAdapter<CharSequence> appointmentAdapter, visitAdapter;
     private ArrayAdapter<String> serviceOptionAdapter, clinicAdapter, dayAdapter, weekAdapter;
-    private List<String> nameList, idList;
+    private List<String> serviceOptionNameList;
+    private List<Integer> idList;
     private int serviceOptionSelected, clinicSelected, weekSelected;
 	private Date daySelected, dayOfWeek;
     private Calendar c = Calendar.getInstance();
@@ -71,7 +70,7 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
         setServiceOptionSpinner();
         
         serviceOptionSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
-	    serviceOptionAdapter = new ArrayAdapter<String>(this, R.layout.spinner_layout, nameList);
+	    serviceOptionAdapter = new ArrayAdapter<String>(this, R.layout.spinner_layout, serviceOptionNameList);
 	    serviceOptionAdapter.setDropDownViewResource(R.layout.spinner_layout);
 	    serviceOptionSpinner.setAdapter(serviceOptionAdapter);
 
@@ -91,28 +90,29 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
     }
 	
 	private void setServiceOptionSpinner(){
-		 int mapSize = ServiceOptionSingleton.getInstance().getMapOfID().size();
-	        nameList = new ArrayList<String>();
-	        nameList.add(Html.fromHtml("<font color=\"#FF0000\">" + "Select Service Option" + "</font>").toString());
-	        
-	        for(int i = 1; i < mapSize + 1; i++){
-	        	nameList.add(ServiceOptionSingleton.getInstance().getName(String.valueOf(i)));
-	        }
+        int mapSize = ApiRootModel.getInstance().getServiceOptionsMap().size();
+        serviceOptionNameList = new ArrayList<>();
+        serviceOptionNameList.add(Html.fromHtml("<font color=\"#FF0000\">" + "Select Service Option" + "</font>").toString());
+
+        for(int i = 1; i <= mapSize; i++){
+            serviceOptionNameList.add(ApiRootModel.getInstance().getServiceOptionsMap().get(i).getName());
+        }
 	}
 	
-	private void setClinicSpinner(String z){
-		idList = ServiceOptionSingleton.getInstance().getClinicIDs(z);
-		List<String> clinicNames = new ArrayList<String>();
+	private void setClinicSpinner(int z){
+        idList = ApiRootModel.getInstance().getServiceOptionsMap().get(z).getClinicIds();
+        Log.d("Retrofit", "clinic id list = " + idList);
+		List<String> clinicNames = new ArrayList<>();
 		clinicNames.add(Html.fromHtml("<b>Select Clinic</b>").toString());
-		
+
 		if(idList != null){
 			for(int i = 0; i < idList.size(); i++){
-				clinicNames.add(ClinicSingleton.getInstance().getClinicName(idList.get(i)));
-			}			
+				clinicNames.add(ApiRootModel.getInstance().getClinicsMap().get(idList.get(i)).getName());
+			}
 		}
 
         clinicSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
-        clinicAdapter = new ArrayAdapter<String>(this, R.layout.spinner_layout, clinicNames);
+        clinicAdapter = new ArrayAdapter<>(this, R.layout.spinner_layout, clinicNames);
         clinicAdapter.setDropDownViewResource(R.layout.spinner_layout);
         clinicSpinner.setAdapter(clinicAdapter);
 	}
@@ -198,7 +198,7 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
                         	serviceOptionSpinner.setBackgroundColor(Color.TRANSPARENT);
                         	clinicSpinner.setVisibility(View.VISIBLE);
                         	serviceOptionSelected = position;
-                        	setClinicSpinner(String.valueOf(position));
+                        	setClinicSpinner(position);
                         	clinicSpinner.setSelection(0);
                     }
                     break;
@@ -221,23 +221,23 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
                         	weekSpinner.setVisibility(View.GONE);
                         	weekSpinner.setSelection(0);
                             
-                        	clinicSelected = Integer.parseInt(idList.get(position - 1));
-                        	
-                        	if(ClinicSingleton.getInstance().getTrueDays(String.valueOf(clinicSelected)).size() > 1){
-                        		setDaySpinner(ClinicSingleton.getInstance().getTrueDays(String.valueOf(clinicSelected)));
-                        		daySpinner.setVisibility(View.VISIBLE);
+                        	clinicSelected = idList.get(position - 1);
+                            List<String> trueDays = ApiRootModel.getInstance().getClinicsMap().get(clinicSelected).getTrueDays();
+
+                            if(trueDays.size() > 1){
+                                setDaySpinner(trueDays);
+                                daySpinner.setVisibility(View.VISIBLE);
                                 daySpinner.setSelection(0);
-                        	} else {
-                        		try {
-                        			weekSpinner.setVisibility(View.VISIBLE);
-                                	weekSpinner.setSelection(0);
-									dayOfWeek = sdfDay.parse(ClinicSingleton.getInstance()
-											.getTrueDays(String.valueOf(clinicSelected)).get(0));
-									setWeekSpinner(dayOfWeek);									
-								} catch (ParseException e) {
-									e.printStackTrace();
-								}
-                        	}
+                            } else {
+                                try {
+                                    weekSpinner.setVisibility(View.VISIBLE);
+                                    weekSpinner.setSelection(0);
+                                    dayOfWeek = sdfDay.parse(trueDays.get(0));
+                                    setWeekSpinner(dayOfWeek);
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                            }
                         	break;
                     }
                     break;   
