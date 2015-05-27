@@ -2,8 +2,8 @@ package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.connecttodb.AccessDBTable;
+import ie.teamchile.smartapp.retrofit.ApiRootModel;
 import ie.teamchile.smartapp.utility.AppointmentSingleton;
-import ie.teamchile.smartapp.utility.ClinicSingleton;
 import ie.teamchile.smartapp.utility.ServiceUserSingleton;
 
 import java.text.DateFormat;
@@ -17,12 +17,10 @@ import java.util.Locale;
 
 import org.json.JSONObject;
 
-import android.annotation.TargetApi;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -50,19 +48,20 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 	private int appointmentInterval, dayOfWeek;
 	private DateFormat dfDateOnly = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 	private DateFormat dfTimeOnly = new SimpleDateFormat("HH:mm", Locale.getDefault());
+	private DateFormat dfTimeWSec = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
 	private DateFormat dfDateWithMonthName = new SimpleDateFormat("dd MMM", Locale.getDefault());
-	private ArrayList<String> timeSingle, gestSingle, nameSingle;	
-	private ArrayList<String> listOfId = new ArrayList<String>();
+	private List<String> timeSingle, gestSingle, nameSingle;
+	private List<Integer> listOfApptId = new ArrayList<>();
 	private Calendar c = Calendar.getInstance(), myCalendar = Calendar.getInstance();
 	private BaseAdapter adapter;
 	private Intent intent;
 	private ProgressDialog pd;
 	private AccessDBTable db = new AccessDBTable();
 	private JSONObject json;
-	private List<String> timeList = new ArrayList<String>();
-	private List<String> nameList = new ArrayList<String>();
-	private List<String> gestList = new ArrayList<String>();
-	private List<String> idList = new ArrayList<String>();
+	private List<String> timeList = new ArrayList<>();
+	private List<String> nameList = new ArrayList<>();
+	private List<String> gestList = new ArrayList<>();
+	private List<Integer> idList = new ArrayList<>();
 	private Button dateInList, prevWeek, nextWeek;
 	private ListView listView;
 	
@@ -77,11 +76,10 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
         prevWeek.setOnClickListener(new ButtonClick());
         nextWeek = (Button) findViewById(R.id.next_button);
         nextWeek.setOnClickListener(new ButtonClick());
-        
-        clinicOpening = ClinicSingleton.getInstance().getOpeningTime(String.valueOf(clinicSelected));
-		clinicClosing = ClinicSingleton.getInstance().getClosingTime(String.valueOf(clinicSelected));
-		appointmentInterval = Integer.parseInt(ClinicSingleton.getInstance()
-				.getAppointmentInterval(String.valueOf(clinicSelected)));				
+
+		clinicOpening = ApiRootModel.getInstance().getClinicsMap().get(clinicSelected).getOpeningTime();
+		clinicClosing = ApiRootModel.getInstance().getClinicsMap().get(clinicSelected).getClosingTime();
+		appointmentInterval = ApiRootModel.getInstance().getClinicsMap().get(clinicSelected).getAppointmentInterval();
 		try {
 			openingAsDate = dfTimeOnly.parse(String.valueOf(clinicOpening));
 			closingAsDate = dfTimeOnly.parse(String.valueOf(clinicClosing));
@@ -90,7 +88,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 		}
 				
 		myCalendar.setTime(closingAsDate);
-		myCalendar.add(Calendar.MINUTE, (- appointmentInterval));
+		myCalendar.add(Calendar.MINUTE, (-appointmentInterval));
 		closingMinusInterval = dfTimeOnly.format(myCalendar.getTime());
        
 		c.setTime(daySelected);
@@ -159,11 +157,11 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 		nextTimer.start();
     }
         
-    public ArrayList<String> removeZeros(ArrayList<String> badList){
+    public List<Integer> removeZeros(List<Integer> badList){
     	if(badList != null)
 	    	for(int i = 0; i < badList.size(); i ++)
-				if(badList.get(i).equals("0")) 
-					badList.remove("0"); 
+				if(badList.get(i).equals(0))
+					badList.remove(i);
     	return badList;
     }
     
@@ -210,66 +208,75 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 	}
 	
 	private void newSetToList(Date dateSelected){	
-		timeSingle = new ArrayList<String>();
-    	nameSingle = new ArrayList<String>();
-    	gestSingle = new ArrayList<String>();   
-    	listOfId = new ArrayList<String>();
+		timeSingle = new ArrayList<>();
+    	nameSingle = new ArrayList<>();
+    	gestSingle = new ArrayList<>();
+    	listOfApptId = new ArrayList<>();
 
-		timeList = new ArrayList<String>();
-		nameList = new ArrayList<String>();
-		gestList = new ArrayList<String>();
-		idList = new ArrayList<String>();
+		timeList = new ArrayList<>();
+		nameList = new ArrayList<>();
+		gestList = new ArrayList<>();
+		idList = new ArrayList<>();
 		
 		Date apptTime = openingAsDate;		
 		daySelected = dateSelected;
 		
 		dateSelectedStr = dfDateOnly.format(dateSelected);		
 		dateInList.setText(dfDateWithMonthName.format(dateSelected));
-    	nameOfClinic = ClinicSingleton.getInstance().getClinicName(String.valueOf(clinicSelected));
+    	nameOfClinic = ApiRootModel.getInstance().getClinicsMap().get(clinicSelected).getName();
 		setActionBarTitle(nameOfClinic);
-    	
-    	if(AppointmentSingleton.getInstance().getHashMapofClinicDateID()
-    			.containsKey(String.valueOf(clinicSelected))){
-    		
-    		listOfId = AppointmentSingleton.getInstance()
-    				.getListOfIDs(String.valueOf(clinicSelected), dateSelectedStr);    		
-    		listOfId = removeZeros(listOfId);
-    	} else {
-    		listOfId = new ArrayList<String>();
-    	}
-		
+
+		if(ApiRootModel.getInstance().getClinicDateApptIdMap().containsKey(clinicSelected)){
+			listOfApptId = ApiRootModel.getInstance().getClinicDateApptIdMap().get(clinicSelected).get(dateSelectedStr);
+			//listOfApptId = removeZeros(listOfApptId);
+		} else
+			listOfApptId = new ArrayList<>();
+
 		while(!closingAsDate.before(apptTime)){
 			Log.d("appointment", "Free Slot Here");
 			timeList.add(dfTimeOnly.format(apptTime));
 			nameList.add("Free Slot");
 			gestList.add("---------");
-			idList.add("0");
+			idList.add(0);
 			c.setTime(apptTime);
 			c.add(Calendar.MINUTE, appointmentInterval);
 			apptTime = c.getTime();
 		}
 		
-		if (listOfId != null) {
-			timeSingle = AppointmentSingleton.getInstance().getTime(listOfId);
-    		nameSingle = AppointmentSingleton.getInstance().getName(listOfId);
-    		gestSingle = AppointmentSingleton.getInstance().getGestation(listOfId);
-    		
+		if (listOfApptId != null) {
+			for(int i = 0; i < listOfApptId.size(); i++) {
+				String timeOfAppt = "";
+				try {
+					timeOfAppt = dfTimeOnly.format(
+							     	dfTimeWSec.parse(
+                                    	ApiRootModel.getInstance().getIdApptMap().get(listOfApptId.get(i)).getTime()));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				timeSingle.add(timeOfAppt);
+				nameSingle.add(ApiRootModel.getInstance().getIdApptMap().get(listOfApptId.get(i)).getServiceUser().getName());
+				gestSingle.add(ApiRootModel.getInstance().getIdApptMap().get(listOfApptId.get(i)).getServiceUser().getGestation());
+			}
+
+			Log.d("Retro", "timeSingle = " + timeSingle);
+
 			for(int i = 0; i < timeSingle.size(); i++){
 				if(timeList.contains(timeSingle.get(i))){
 					int x = timeList.indexOf(timeSingle.get(i));
 					if(nameList.get(x).equals("Free Slot")){
+						idList.set(x, listOfApptId.get(i));
 						timeList.set(x, timeSingle.get(i));
 						nameList.set(x, nameSingle.get(i));
 						gestList.set(x, gestSingle.get(i));
-						idList.set(x, listOfId.get(i));
 					} else {
+						idList.add(x, listOfApptId.get(i));
 						timeList.add(x, timeSingle.get(i));
 						nameList.add(x, nameSingle.get(i));
 						gestList.add(x, gestSingle.get(i));
-						idList.add(x, listOfId.get(i));					
 					}
 				}
 			}
+			Log.d("Retro", "timeLinst = " + timeList);
 		}		
 		
 		adapter = new ListElementAdapter (AppointmentCalendarActivity.this, 
@@ -313,7 +320,7 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 			TextView nameText = (TextView) convertView.findViewById(R.id.name);
 			TextView gestText = (TextView) convertView.findViewById(R.id.gestation);			
 			
-			if(idList.get(position).equals("0")){
+			if(idList.get(position).equals(0)){
 				timeText.setText(aptTime.get(position));
 				nameText.setText(aptName.get(position));
 				gestText.setText(aptGest.get(position));
@@ -339,11 +346,10 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 				intent.putExtra("clinicID", String.valueOf(clinicSelected));
 				startActivity(intent);				
 			} else {
-				String serviceUserID = AppointmentSingleton.getInstance()
-						.getServiceUserID(idList.get(position));
-				
-				Log.d("bugs", "db string: " + "service_users" + "/" + serviceUserID);
-				new LongOperation(AppointmentCalendarActivity.this).execute("service_users" + "/" + serviceUserID);
+				String serviceUserId = ApiRootModel.getInstance().getIdApptMap().get(idList.get(position)).getServiceUser().getName();
+
+				Log.d("bugs", "db string: " + "service_users" + "/" + serviceUserId);
+				//new LongOperation(AppointmentCalendarActivity.this).execute("service_users" + "/" + serviceUserId);
 				
 				intent = new Intent(AppointmentCalendarActivity.this, ServiceUserActivity.class);
 			}
