@@ -11,6 +11,8 @@ import java.util.List;
  */
 public class ApiRootModel {
     private static ApiRootModel instance;
+    @Expose
+    private Error error;
     private LoginJson login;
     @Expose
     private List<Appointment> appointments = new ArrayList<>();
@@ -40,6 +42,20 @@ public class ApiRootModel {
             instance = new ApiRootModel();
         }
         return instance;
+    }
+
+    /**
+     * @return The error
+     */
+    public Error getError() {
+        return error;
+    }
+
+    /**
+     * @param error The error
+     */
+    public void setError(Error error) {
+        this.error = error;
     }
 
     /**
