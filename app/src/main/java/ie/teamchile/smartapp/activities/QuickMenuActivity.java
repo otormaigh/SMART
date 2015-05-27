@@ -82,10 +82,10 @@ public class QuickMenuActivity extends MenuInheritActivity {
     
     @Override
     public void onBackPressed() {
-    	if(ServiceProviderSingleton.getInstance().isLoggedIn()) {
+    	if(ApiRootModel.getInstance().getLoginStatus()) {
     		new ToastAlert(getBaseContext(), 
         			"Already logged in, \n  Logout?", false);
-    	} else { }
+    	}
     }
 
 	@Override

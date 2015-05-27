@@ -2,13 +2,11 @@ package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.retrofit.ApiRootModel;
-import ie.teamchile.smartapp.utility.ClinicSingleton;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -24,13 +22,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
-/*	@InjectView (R.id.appointment_spinner) Spinner appointmentSpinner;
-	@InjectView (R.id.clinic_service_option_spinner) Spinner serviceOptionSpinner;
-	@InjectView (R.id.visit_service_option_spinner) Spinner visitOptionSpinner;
-	@InjectView (R.id.clinic_spinner) Spinner clinicSpinner;
-	@InjectView (R.id.day_spinner) Spinner daySpinner;
-	@InjectView (R.id.week_spinner) Spinner weekSpinner;*/
-	
 	private SimpleDateFormat sdfDay = new SimpleDateFormat("E", Locale.getDefault());
 	private SimpleDateFormat sdfDowMonthDay = new SimpleDateFormat("EEE, d MMM", Locale.getDefault());
     private ArrayAdapter<CharSequence> appointmentAdapter, visitAdapter;
