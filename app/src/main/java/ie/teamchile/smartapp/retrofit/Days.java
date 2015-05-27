@@ -2,6 +2,13 @@ package ie.teamchile.smartapp.retrofit;
 
 import com.google.gson.annotations.Expose;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
 /**
  * Created by user on 5/26/15.
  */
@@ -119,4 +126,5 @@ public class Days {
     public void setWednesday(Boolean wednesday) {
         this.wednesday = wednesday;
     }
+
 }
