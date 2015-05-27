@@ -111,6 +111,26 @@ public class Clinic {
         this.days = days;
     }
 
+    public List<String> getTrueDays(){
+        List<String> trueDays = new ArrayList<>();
+        if(days.getMonday())
+            trueDays.add("Monday");
+        if(days.getTuesday())
+            trueDays.add("Tuesday");
+        if(days.getWednesday())
+            trueDays.add("Wednesday");
+        if(days.getThursday())
+            trueDays.add("Thursday");
+        if(days.getFriday())
+            trueDays.add("Friday");
+        if(days.getSaturday())
+            trueDays.add("Saturday");
+        if(days.getSunday())
+            trueDays.add("Sunday");
+
+        return trueDays;
+    }
+
     /**
      * @return The id
      */
