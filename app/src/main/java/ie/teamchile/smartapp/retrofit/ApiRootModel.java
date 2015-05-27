@@ -12,6 +12,7 @@ import java.util.Map;
  */
 public class ApiRootModel {
     private static ApiRootModel instance;
+    private Boolean isLoggedIn;
     @Expose
     private Error errors;
     private LoginJson login;
@@ -45,6 +46,14 @@ public class ApiRootModel {
             instance = new ApiRootModel();
         }
         return instance;
+    }
+
+    public void setLoginStatus(Boolean isLoggedIn){
+        this.isLoggedIn = isLoggedIn;
+    }
+
+    public Boolean getLoginStatus(){
+        return isLoggedIn;
     }
 
     /**
