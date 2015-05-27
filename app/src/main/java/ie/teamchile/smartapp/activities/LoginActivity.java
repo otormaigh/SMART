@@ -82,6 +82,7 @@ public class LoginActivity extends Activity {
 			@Override
 			public void success(ApiRootModel json, Response response) {
 				ApiRootModel.getInstance().setLogin(json.getLogin());
+				ApiRootModel.getInstance().setLoginStatus(true);
 				pd.dismiss();
 				intent = new Intent(LoginActivity.this, QuickMenuActivity.class);
 				startActivity(intent);
