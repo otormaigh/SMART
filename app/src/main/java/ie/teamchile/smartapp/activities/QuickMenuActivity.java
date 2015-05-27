@@ -4,6 +4,7 @@ import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.connecttodb.AccessDBTable;
 import ie.teamchile.smartapp.enums.CredentialsEnum;
 import ie.teamchile.smartapp.retrofit.ApiRootModel;
+import ie.teamchile.smartapp.retrofit.Appointment;
 import ie.teamchile.smartapp.retrofit.Clinic;
 import ie.teamchile.smartapp.retrofit.ServiceOption;
 import ie.teamchile.smartapp.utility.ServiceProviderSingleton;
@@ -22,7 +23,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class QuickMenuActivity extends MenuInheritActivity {
@@ -121,6 +124,33 @@ public class QuickMenuActivity extends MenuInheritActivity {
 					@Override
 					public void success(ApiRootModel apiRootModel, Response response) {
 						ApiRootModel.getInstance().setAppointments(apiRootModel.getAppointments());
+						List<Integer> apptIdList;
+						Map<String, List<Integer>> dateApptIdMap;
+						Map<Integer, Map<String, List<Integer>>> clinicDateApptIdMap = new HashMap<>();
+						Map<Integer, Appointment> idApptMap = new HashMap<>();
+
+						for(int i = 0; i < apiRootModel.getAppointments().size(); i++){
+							apptIdList = new ArrayList<>();
+							dateApptIdMap = new HashMap<>();
+							String apptDate = apiRootModel.getAppointments().get(i).getDate();
+							int apptId = apiRootModel.getAppointments().get(i).getId();
+							int clinicId = apiRootModel.getAppointments().get(i).getClinicId();
+							Appointment appt = apiRootModel.getAppointments().get(i);
+
+							if(clinicDateApptIdMap.get(clinicId) != null){
+								dateApptIdMap = clinicDateApptIdMap.get(clinicId);
+								if(dateApptIdMap.get(apptDate) != null){
+									apptIdList = dateApptIdMap.get(apptDate);
+								}
+							}
+							apptIdList.add(apptId);
+							dateApptIdMap.put(apptDate, apptIdList);
+
+							clinicDateApptIdMap.put(clinicId, dateApptIdMap);
+							idApptMap.put(apptId, appt);
+						}
+						ApiRootModel.getInstance().setClinicDateApptIdMap(clinicDateApptIdMap);
+						ApiRootModel.getInstance().setIdApptMap(idApptMap);
 						Log.d("Retrofit", "appointments finished");
 						done++;
 						Log.d("Retrofit", "done = " + done);
