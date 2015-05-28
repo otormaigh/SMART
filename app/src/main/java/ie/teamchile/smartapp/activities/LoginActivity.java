@@ -4,7 +4,6 @@ import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.retrofit.SmartApi;
 import ie.teamchile.smartapp.retrofit.ApiRootModel;
 import ie.teamchile.smartapp.retrofit.Login;
-import ie.teamchile.smartapp.utility.ServiceProviderSingleton;
 import ie.teamchile.smartapp.utility.ToastAlert;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -107,7 +106,7 @@ public class LoginActivity extends Activity {
     
     @Override
     public void onBackPressed() {
-    	if(ServiceProviderSingleton.getInstance().isLoggedIn()) {
+    	if(ApiRootModel.getInstance().getLoginStatus()) {
     		new ToastAlert(getBaseContext(), "Already logged in, \n  logout?", true);
     	}else { 
 			finish();   		

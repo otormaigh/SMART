@@ -7,7 +7,6 @@ import ie.teamchile.smartapp.retrofit.ApiRootModel;
 import ie.teamchile.smartapp.retrofit.Appointment;
 import ie.teamchile.smartapp.retrofit.Clinic;
 import ie.teamchile.smartapp.retrofit.ServiceOption;
-import ie.teamchile.smartapp.utility.ServiceProviderSingleton;
 import ie.teamchile.smartapp.utility.ToastAlert;
 import retrofit.Callback;
 import retrofit.RetrofitError;
