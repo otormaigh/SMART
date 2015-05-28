@@ -3,6 +3,7 @@ package ie.teamchile.smartapp.activities;
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.connecttodb.AccessDBTable;
 import ie.teamchile.smartapp.connecttodb.PostAppointment;
+import ie.teamchile.smartapp.retrofit.ApiRootModel;
 import ie.teamchile.smartapp.utility.AppointmentSingleton;
 import ie.teamchile.smartapp.utility.ServiceUserSingleton;
 
@@ -80,11 +81,10 @@ public class ConfirmAppointmentActivity extends MenuInheritActivity {
 				"\nTime: " + time + "\nDuration: " + duration + 
 				"\nPriority: " + priority + "\nVisit Type: " + visitType);
         
-        name = ServiceUserSingleton.getInstance().getUserName().get(0);
-        hospitalNumber = ServiceUserSingleton.getInstance().getUserHospitalNumber().get(0);
-        email = ServiceUserSingleton.getInstance().getUserEmail().get(0);
-        sms = ServiceUserSingleton.getInstance().getUserMobilePhone().get(0);
-        
+        name = ApiRootModel.getInstance().getServiceUsers().get(0).getPersonalFields().getName();
+        hospitalNumber = ApiRootModel.getInstance().getServiceUsers().get(0).getHospitalNumber();
+        email = ApiRootModel.getInstance().getServiceUsers().get(0).getPersonalFields().getEmail();
+        sms = ApiRootModel.getInstance().getServiceUsers().get(0).getPersonalFields().getMobilePhone();
         txtUserName.setText(name + " (" + hospitalNumber + ")");
         //txtHospitalNumber.setText(hospitalNumber);
         txtClinic.setText(clinicName);
