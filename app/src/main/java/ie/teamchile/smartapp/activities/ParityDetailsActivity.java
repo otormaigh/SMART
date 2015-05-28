@@ -1,7 +1,8 @@
 package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.utility.ServiceUserSingleton;
+import ie.teamchile.smartapp.retrofit.ApiRootModel;
+import ie.teamchile.smartapp.retrofit.Baby;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -12,7 +13,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -31,35 +31,46 @@ public class ParityDetailsActivity extends MenuInheritActivity {
 	private TextView name, babyName;
 	private String patientName, patientParity;
 	private String sex_male = "ale", sex_female = "emale";
-	private List<String> nameBaby, hospitalNumber, dobBaby, genderBaby, gestationBaby,
-						 weightBaby, birthMode, birthOutcome, dobStr;
+	private List<String> nameBaby = new ArrayList<>();
+	private List<String> hospitalNumber = new ArrayList<>();
+	private List<String> dobBaby = new ArrayList<>();
+	private List<String> genderBaby = new ArrayList<>();
+	private List<String> gestationBaby = new ArrayList<>();
+	private List<Integer> weightBaby = new ArrayList<>();
+	private List<String> weightBabyInKg = new ArrayList<>();
+	private List<String> birthMode = new ArrayList<>();
+	private List<String> birthOutcome = new ArrayList<>();
+	private List<String> dobStr = new ArrayList<>();
 	private ListView parityList;
 	private int orientation;
 	private DateFormat sdfMonthFullName = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
 	private DateFormat sdfDateTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault());
 	private DateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-	
-	ServiceUserActivity ab = new ServiceUserActivity();
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentForNav(R.layout.activity_parity_details);
 		parityList = (ListView)findViewById(R.id.parity_list);
 
-		patientName = ServiceUserSingleton.getInstance().getUserName().get(0);
-		patientParity = ServiceUserSingleton.getInstance().getUserParity().get(0);
+		patientName = ApiRootModel.getInstance().getServiceUsers().get(0).getPersonalFields().getName();
+		patientParity = ApiRootModel.getInstance().getServiceUsers().get(0).getClinicalFields().getParity();
 		setActionBarTitle(patientName + " (" + patientParity + ")");
 
-		nameBaby = ServiceUserSingleton.getInstance().getBabyName();
-		hospitalNumber = ServiceUserSingleton.getInstance().getBabyHospitalNumber();
-        dobBaby = ServiceUserSingleton.getInstance().getBabyDeliveryDateTime();
-		genderBaby = ServiceUserSingleton.getInstance().getBabyGender();
-		gestationBaby = ServiceUserSingleton.getInstance().getPregnancyGestation();
-		weightBaby = ServiceUserSingleton.getInstance().getBabyWeight();
-		birthMode = ServiceUserSingleton.getInstance().getPregnancyBirthMode();
-		birthOutcome = ServiceUserSingleton.getInstance().getBabyBirthOutcome();
-        dobStr = new ArrayList<String>();
-        
+		List<Baby> babyList = ApiRootModel.getInstance().getBabies();
+
+		for(int i = 0; i < babyList.size(); i++){
+			nameBaby.add(babyList.get(i).getName());
+			hospitalNumber.add(babyList.get(i).getHospitalNumber());
+			dobBaby.add(babyList.get(i).getDeliveryDateTime());
+			genderBaby.add(babyList.get(i).getGender());
+			gestationBaby.add(ApiRootModel.getInstance().getPregnancies().get(i).getGestation());
+			weightBaby.add(babyList.get(i).getWeight());
+			birthMode.add(putArrayToString(ApiRootModel.getInstance().getPregnancies().get(i).getBirthMode()));
+			birthOutcome.add(babyList.get(i).getBirthOutcome());
+		}
+
+        dobStr = new ArrayList<>();
         Log.d("bugs", "gestation list oncreate = " + gestationBaby.toString());
 		
 		for(int i = 0; i < dobBaby.size(); i++){
@@ -67,8 +78,8 @@ public class ParityDetailsActivity extends MenuInheritActivity {
 		}
 		  
 		for(int i = 0; i < weightBaby.size(); i ++){
-			String kg = getGramsToKg(Integer.parseInt(weightBaby.get(i)));
-			weightBaby.set(i, kg);
+			String kg = getGramsToKg(weightBaby.get(i));
+			weightBabyInKg.add(kg);
 		}
 		
 		switch(getScreenOrientation()){
@@ -111,7 +122,7 @@ public class ParityDetailsActivity extends MenuInheritActivity {
 		
 		adapter = new ListAdapter(ParityDetailsActivity.this, 
 				 orientation, nameBaby, hospitalNumber, dobStr, 
-				 genderBaby, gestationBaby, weightBaby, 
+				 genderBaby, gestationBaby, weightBabyInKg,
 				 birthMode, birthOutcome);
 		parityList.setAdapter(adapter);
         //listView.setOnItemClickListener(new OnItemListener());		
@@ -119,13 +130,13 @@ public class ParityDetailsActivity extends MenuInheritActivity {
 	
 	private void landscapeCode(){
 		adapter = new ListAdapter(ParityDetailsActivity.this, 
-				 orientation, dobStr, genderBaby, gestationBaby, 
-				 weightBaby, birthMode, birthOutcome);
+				 orientation, dobStr, genderBaby, gestationBaby,
+				weightBabyInKg, birthMode, birthOutcome);
 		parityList.setAdapter(adapter);
 	}
 	
     public String getGramsToKg(int grams){
-    	double kg = 0.0;
+    	double kg;
     	kg = grams/1000.0;
     	return String.valueOf(kg);
     }
