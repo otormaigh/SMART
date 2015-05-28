@@ -151,7 +151,7 @@ public class ServiceUserActivity extends MenuInheritActivity {
 			hospitalNumber = ApiRootModel.getInstance().getServiceUsers().get(0).getHospitalNumber();
 			email = ApiRootModel.getInstance().getServiceUsers().get(0).getPersonalFields().getEmail();
 			mobile = ApiRootModel.getInstance().getServiceUsers().get(0).getPersonalFields().getMobilePhone();
-			userName = ApiRootModel.getInstance().getServiceUsers().get(0).getName();
+			userName = ApiRootModel.getInstance().getServiceUsers().get(0).getPersonalFields().getName();
 			kinName = ApiRootModel.getInstance().getServiceUsers().get(0).getPersonalFields().getNextOfKinName();
 			kinMobile = ApiRootModel.getInstance().getServiceUsers().get(0).getPersonalFields().getNextOfKinPhone();
 			road = ApiRootModel.getInstance().getServiceUsers().get(0).getPersonalFields().getHomeAddress();
