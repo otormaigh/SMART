@@ -1,11 +1,13 @@
 package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.connecttodb.Logout;
+import ie.teamchile.smartapp.retrofit.ApiRootModel;
 import ie.teamchile.smartapp.retrofit.SmartApi;
 import ie.teamchile.smartapp.utility.AppointmentSingleton;
-import ie.teamchile.smartapp.utility.ServiceProviderSingleton;
+import retrofit.Callback;
 import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
@@ -14,11 +16,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Layout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -31,8 +31,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MenuInheritActivity extends AppCompatActivity {
-	private Logout logout = new Logout();
-	private CountDownTimer timer;
 	private ProgressDialog pd;
     protected DrawerLayout drawerLayout;
     protected ListView drawerList;
@@ -63,7 +61,7 @@ public class MenuInheritActivity extends AppCompatActivity {
     protected void initRetrofit(){
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(SmartApi.BASE_URL)
-                        //.setLogLevel(RestAdapter.LogLevel.FULL)
+                //.setLogLevel(RestAdapter.LogLevel.FULL)
                 .build();
 
         api = restAdapter.create(SmartApi.class);
@@ -110,70 +108,90 @@ public class MenuInheritActivity extends AppCompatActivity {
         Intent intent;
         drawerLayout.closeDrawer(drawerList);
         switch(position){
-            case 0:
+            case 0:         //Patient Search
                 intent = new Intent(getApplicationContext(), ServiceUserSearchActivity.class);
                 startActivity(intent);
                 break;
-            case 1:
+            case 1:         //Book Appointment
                 intent = new Intent(getApplicationContext(), AppointmentTypeSpinnerActivity.class);
                 startActivity(intent);
                 break;
-            case 2:
+            case 2:         //Calendar
                 intent = new Intent(getApplicationContext(), CalendarActivity.class);
                 startActivity(intent);
                 break;
-            case 3:
+            case 3:         //Todays Appointments
                 intent = new Intent(getApplicationContext(), TodayAppointmentActivity.class);
                 startActivity(intent);
                 break;
-            case 4:
+            case 4:         //Sync
                 AppointmentSingleton.getInstance().updateLocal(this);
                 break;
-            case 5:
+            case 5:         //Logout
                 new AlertDialog.Builder(this)
-                        .setTitle(R.string.Logout_title)
-                        .setMessage(R.string.Logout_dialog_message)
-                        .setNegativeButton(R.string.No, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialoginterface, int i) {
-
-                            }}).setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialoginterface, int i) {
-                        Log.d("MYLOG", "Logout button pressed");
-                        final Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                                Intent.FLAG_ACTIVITY_CLEAR_TASK |
-                                Intent.FLAG_ACTIVITY_NEW_TASK);
-                        if (ServiceProviderSingleton.getInstance().isLoggedIn() == false) {
-                            startActivity(intent);
-                        } else {
-                            logout.doLogout(ServiceProviderSingleton.getInstance().getToken());
-                            pd = new ProgressDialog(MenuInheritActivity.this);
-                            pd.setMessage("Logging Out");
-                            pd.setCanceledOnTouchOutside(false);
-                            pd.setCancelable(false);
-                            pd.show();
-
-                            timer = new CountDownTimer(1000, 1000){
-                                @Override
-                                public void onFinish() {
-                                    if(logout.getIsLoggedOut()){
-                                        Toast.makeText(getApplicationContext(),
-                                                "You are now logged out",
-                                                Toast.LENGTH_SHORT).show();
-                                        startActivity(intent);
-                                        pd.dismiss();
-                                    } else timer.start();
-                                }
-                                @Override
-                                public void onTick(long millisUntilFinished) {
-                                }
-                            }.start();
+                    .setTitle(R.string.Logout_title)
+                    .setMessage(R.string.Logout_dialog_message)
+                    .setNegativeButton(R.string.No, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialoginterface, int i) { }})
+                    .setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialoginterface, int i) {
+                            Log.d("MYLOG", "Logout button pressed");
+                            final Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                                    Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                                    Intent.FLAG_ACTIVITY_NEW_TASK);
+                            if (ApiRootModel.getInstance().getLoginStatus() == false) {
+                                startActivity(intent);
+                            } else {
+                                doLogout(intent);
+                                pd = new ProgressDialog(MenuInheritActivity.this);
+                                pd.setMessage("Logging Out");
+                                pd.setCanceledOnTouchOutside(false);
+                                pd.setCancelable(false);
+                                pd.show();
+                            }
                         }
-                    }
-                }).show();
+                    }).show();
                 break;
             default:
         }
+    }
+
+    private void doLogout(final Intent intent) {
+        api.doLogout(
+            ApiRootModel.getInstance().getLogin().getToken(),
+            SmartApi.API_KEY,
+            new Callback<ApiRootModel>() {
+                @Override
+                public void success(ApiRootModel apiRootModel, Response response) {
+                    switch(response.getStatus()){
+                        case 200:
+                            Log.d("Retro", "in logout success 200");
+                            doLogout(intent);
+                            break;
+                        default:
+                            Log.d("Retro", "in logout success response = " + response.getStatus());
+                    }
+                }
+                @Override
+                public void failure(RetrofitError error) {
+                Log.d("Retro", "in logout failure error = " + error);
+                    if (error.getResponse().getStatus() == 401) {
+                        Toast.makeText(getApplicationContext(),
+                                "You are now logged out",
+                                Toast.LENGTH_SHORT).show();
+                        pd.dismiss();
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(getApplicationContext(),
+                                "There was a problem with the logout, " +
+                                        "\nPlease try again.",
+                                Toast.LENGTH_SHORT).show();
+                        pd.dismiss();
+                    }
+                }
+            }
+        );
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
