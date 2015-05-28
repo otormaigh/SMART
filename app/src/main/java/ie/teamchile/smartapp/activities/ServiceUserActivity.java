@@ -158,7 +158,6 @@ public class ServiceUserActivity extends MenuInheritActivity {
 			county = ApiRootModel.getInstance().getServiceUsers().get(0).getPersonalFields().getHomeCounty();
 			postCode = ApiRootModel.getInstance().getServiceUsers().get(0).getPersonalFields().getHomePostCode();
 			perineum = ApiRootModel.getInstance().getPregnancies().get(p).getPerineum();
-			//birthMode = formatArrayString(ServiceUserSingleton.getInstance().getPregnancyBirthMode().get(p));
 			List<String> birthModeList = ApiRootModel.getInstance().getPregnancies().get(p).getBirthMode();
 			if(birthModeList !=  null)
 				birthMode = putArrayToString(ApiRootModel.getInstance().getPregnancies().get(p).getBirthMode());
