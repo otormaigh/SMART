@@ -1,7 +1,9 @@
 package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.utility.ServiceUserSingleton;
+import ie.teamchile.smartapp.retrofit.ApiRootModel;
+import ie.teamchile.smartapp.retrofit.Baby;
+import ie.teamchile.smartapp.retrofit.Pregnancy;
 import ie.teamchile.smartapp.utility.ToastAlert;
 
 import java.io.IOException;
@@ -47,10 +49,11 @@ public class ServiceUserActivity extends MenuInheritActivity {
 	private LinearLayout serviceUserContact, serviceUserAddress, serviceUserKin;	
 	private String dob = "", age = "", hospitalNumber, email, mobile, userName, kinName,  
 				   kinMobile, road, county, postCode, gestation, parity, estimtedDelivery,
-				   perineum, birthMode, babyGender, babyWeightGrams = "", babyWeightKg = "", 
+				   perineum, birthMode, babyGender, babyWeightKg = "",
 				   vitK, hearing, antiD, feeding, nbst, deliveryDateTime, daysSinceBirth,
 				   userCall, userSMS, userEmail, lastPeriodDate;
-	private List<String> babyID;
+	private int babyWeightGrams = 0;
+	private List<Integer> babyID;
 	private double grams = 0.0;
 	private String sex_male = "ale";
 	private String sex_female = "emale";
@@ -66,7 +69,8 @@ public class ServiceUserActivity extends MenuInheritActivity {
 	private Calendar cal = Calendar.getInstance();
 	private int b;		//position of most recent baby in list
 	private int p;		//position of most recent pregnancy in list
-	
+	private int userId;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -136,58 +140,65 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		
 		tableParity = (TableRow)findViewById(R.id.button_parity);
 		tableParity.setOnClickListener(new ButtonClick());
-		
+
 		try{
-			dob = ServiceUserSingleton.getInstance().getUserDOB().get(0);
-			if(!dob.equals("null")){
+			dob = ApiRootModel.getInstance().getServiceUsers().get(0).getPersonalFields().getDob();
+			if(dob != null)
 				age = getAge(dob);					
-			}
-			hospitalNumber = ServiceUserSingleton.getInstance().getUserHospitalNumber().get(0);
-			email = ServiceUserSingleton.getInstance().getUserEmail().get(0);
-			mobile = ServiceUserSingleton.getInstance().getUserMobilePhone().get(0);
-			userName = ServiceUserSingleton.getInstance().getUserName().get(0);
-			kinName = ServiceUserSingleton.getInstance().getUserNextOfKinName().get(0);
-			kinMobile = ServiceUserSingleton.getInstance().getUserNextOfKinPhone().get(0);
-			road = ServiceUserSingleton.getInstance().getUserHomeAddress().get(0);
-			county = ServiceUserSingleton.getInstance().getUserHomeCounty().get(0);
-			postCode = ServiceUserSingleton.getInstance().getUserHomePostCode().get(0);
-			perineum = ServiceUserSingleton.getInstance().getPregnancyPerineum().get(p);
-			birthMode = formatArrayString(ServiceUserSingleton.getInstance().getPregnancyBirthMode().get(p));
-			babyGender = ServiceUserSingleton.getInstance().getBabyGender().get(b);
-			babyWeightGrams = ServiceUserSingleton.getInstance().getBabyWeight().get(b);
-			if(!babyWeightGrams.equals("null")){
-				grams =  Double.parseDouble(babyWeightGrams);
-				babyWeightKg = String.valueOf(getGramsToKg(grams));
-			}
-			babyID = ServiceUserSingleton.getInstance().getPregnancyBabyIDs();
-			gestation = ServiceUserSingleton.getInstance().getPregnancyGestation().get(p);
-			parity = ServiceUserSingleton.getInstance().getUserParity().get(0);
-			estimtedDelivery = ServiceUserSingleton.getInstance().getPregnancyEstimatedDeliveryDate().get(p);
-			lastPeriodDate = ServiceUserSingleton.getInstance().getPregnancyLastMenstrualPeriod().get(p);
-			if(!estimtedDelivery.equals("null")){
+			getRecentPregnancy();
+			getRecentBaby();
+			userId = ApiRootModel.getInstance().getServiceUsers().get(0).getId();
+			hospitalNumber = ApiRootModel.getInstance().getServiceUsers().get(0).getHospitalNumber();
+			email = ApiRootModel.getInstance().getServiceUsers().get(0).getPersonalFields().getEmail();
+			mobile = ApiRootModel.getInstance().getServiceUsers().get(0).getPersonalFields().getMobilePhone();
+			userName = ApiRootModel.getInstance().getServiceUsers().get(0).getName();
+			kinName = ApiRootModel.getInstance().getServiceUsers().get(0).getPersonalFields().getNextOfKinName();
+			kinMobile = ApiRootModel.getInstance().getServiceUsers().get(0).getPersonalFields().getNextOfKinPhone();
+			road = ApiRootModel.getInstance().getServiceUsers().get(0).getPersonalFields().getHomeAddress();
+			county = ApiRootModel.getInstance().getServiceUsers().get(0).getPersonalFields().getHomeCounty();
+			postCode = ApiRootModel.getInstance().getServiceUsers().get(0).getPersonalFields().getHomePostCode();
+			perineum = ApiRootModel.getInstance().getPregnancies().get(p).getPerineum();
+			//birthMode = formatArrayString(ServiceUserSingleton.getInstance().getPregnancyBirthMode().get(p));
+			List<String> birthModeList = ApiRootModel.getInstance().getPregnancies().get(p).getBirthMode();
+			if(birthModeList !=  null)
+				birthMode = putArrayToString(ApiRootModel.getInstance().getPregnancies().get(p).getBirthMode());
+			else
+				birthMode = "";
+			babyGender = ApiRootModel.getInstance().getBabies().get(b).getGender();
+			if(ApiRootModel.getInstance().getBabies().get(b).getWeight() != null)
+				babyWeightKg = getGramsToKg(ApiRootModel.getInstance().getBabies().get(b).getWeight());
+			else
+				babyWeightKg = "";
+			babyID = ApiRootModel.getInstance().getServiceUsers().get(0).getBabyIds();
+			gestation = ApiRootModel.getInstance().getPregnancies().get(p).getGestation();
+			parity = ApiRootModel.getInstance().getServiceUsers().get(0).getClinicalFields().getParity();
+			estimtedDelivery = ApiRootModel.getInstance().getPregnancies().get(p).getEstimatedDeliveryDate();
+			lastPeriodDate = ApiRootModel.getInstance().getPregnancies().get(p).getLastMenstrualPeriod();
+			/*if(!estimtedDelivery.isEmpty()){
 				getRecentPregnancy();
-			}
-			vitK = ServiceUserSingleton.getInstance().getBabyVitK().get(b);
-			hearing = ServiceUserSingleton.getInstance().getBabyHearing().get(b);
-			antiD = ServiceUserSingleton.getInstance().getPregnancyAntiD().get(p);
-			feeding = ServiceUserSingleton.getInstance().getPregnancyFeeding().get(p);
-			nbst = ServiceUserSingleton.getInstance().getBabyNewBornScreeningTest().get(b);
-			deliveryDateTime = ServiceUserSingleton.getInstance().getBabyDeliveryDateTime().get(b);		
-			if(!deliveryDateTime.equals("null")){	
-				getRecentBaby();
+			}*/
+			vitK = ApiRootModel.getInstance().getBabies().get(b).getVitaminK();
+			hearing = ApiRootModel.getInstance().getBabies().get(b).getHearing();
+			antiD = ApiRootModel.getInstance().getPregnancies().get(p).getAntiD();
+			feeding = ApiRootModel.getInstance().getPregnancies().get(p).getFeeding();
+			if(feeding == null)
+				feeding = "";
+			nbst = ApiRootModel.getInstance().getBabies().get(b).getNewbornScreeningTest();
+			deliveryDateTime = ApiRootModel.getInstance().getBabies().get(b).getDeliveryDateTime();
+			if(deliveryDateTime != null)
 				daysSinceBirth = getNoOfDays(deliveryDateTime);
-			}
 			setActionBarTitle(userName);
 			
-			if(parity.equals("0 + 0")){
+			if(parity.equals("0 + 0"))
 				tableParity.setEnabled(false);
-			}
-			
 			anteParity.setText(parity);
-			anteGestation.setText(ServiceUserSingleton.getInstance().getPregnancyGestation().get(p));
-			anteRhesus.setText(ServiceUserSingleton.getInstance().getUserRhesus().get(0));
-			anteBloodGroup.setText(ServiceUserSingleton.getInstance().getUserBloodGroup().get(0));
-			anteDeliveryTime.setText(getEstimateDeliveryDate(estimtedDelivery));
+			anteGestation.setText(gestation);
+			anteRhesus.setText(ApiRootModel.getInstance().getServiceUsers().get(0).getClinicalFields().getRhesus().toString());
+			anteBloodGroup.setText(ApiRootModel.getInstance().getServiceUsers().get(0).getClinicalFields().getBloodGroup());
+			if(estimtedDelivery != null)
+				anteDeliveryTime.setText(getEstimateDeliveryDate(estimtedDelivery));
+			else
+			anteDeliveryTime.setText("");
 			anteAge.setText(age);
 			
 			contactAge.setText(age);
@@ -212,21 +223,30 @@ public class ServiceUserActivity extends MenuInheritActivity {
 			postPerineum.setText(perineum);		
 			postBirthMode.setText(birthMode);
 			postBirthWeight.setText(babyWeightKg);
-			if(!lastPeriodDate.equals("null")){
+			if(lastPeriodDate != null)
 				lastPeriod.setText(getLastPeriodDate(lastPeriodDate));
-			}
-			if(babyGender.equalsIgnoreCase("M")){
+			if(babyGender.equalsIgnoreCase("M"))
 				postBabyGender.setText(babyGender + sex_male);
-			}
-			else if (babyGender.equalsIgnoreCase("F")){
+			else if (babyGender.equalsIgnoreCase("F"))
 				postBabyGender.setText(babyGender + sex_female);
-			}		
 			postDaysSinceBirth.setText(daysSinceBirth);
 		} catch (NullPointerException e){
 			e.printStackTrace();
 		}
 	}
-	
+
+	private String putArrayToString(List<String> birthModeList) {
+		String birthMode = "";
+		int listSize = birthModeList.size();
+		for(int i = 0; i < listSize; i++){
+			if(i == (listSize - 1))
+				birthMode += birthModeList.get(i);
+			else
+				birthMode += birthModeList.get(i) + ", ";
+		}
+		return birthMode;
+	}
+
 	private class ButtonClick implements View.OnClickListener, DialogInterface {
 		public void onClick(View v) {
 			switch (v.getId()) {
@@ -395,14 +415,14 @@ public class ServiceUserActivity extends MenuInheritActivity {
 
 	protected String getDeliveryDate(String edd){
        Date date;
-       String dateOfDevelivery = null;
+       String dateOfDelivery = null;
 		try{
 			date = sdfDateTime.parse(edd);
-	        dateOfDevelivery = sdfMonthFullName.format(date);
+	        dateOfDelivery = sdfMonthFullName.format(date);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-	    return dateOfDevelivery;
+	    return dateOfDelivery;
 	}	
 	
 	private String getDeliveryTime(String edd) {
@@ -434,10 +454,10 @@ public class ServiceUserActivity extends MenuInheritActivity {
         return String.valueOf(numOfDays);  
 	}
     
-    private double getGramsToKg(double grams){
+    private String getGramsToKg(int grams){
 	    	double kg = 0.0;
-	    	kg = grams/1000;
-	    	return kg;
+	    	kg = grams/1000.0;
+	    	return String.valueOf(kg);
     }
     
     private String formatArrayString(String toBeFormatted){
@@ -460,38 +480,48 @@ public class ServiceUserActivity extends MenuInheritActivity {
     		prefs.putString("visit_type_str", "Postnatal");
     		prefs.putString("visit_type", "post-natal");
     	}
-		prefs.putString("name", ServiceUserSingleton.getInstance().getUserName().get(0));
-		prefs.putString("id", ServiceUserSingleton.getInstance().getUserID().get(0));
+		prefs.putString("name", userName);
+		prefs.putString("id", String.valueOf(userId));
 		prefs.putBoolean("reuse", true);
 		prefs.commit();
     }
 
+	private void getRecentPregnancy(){
+		List<Pregnancy> pregnancyList = ApiRootModel.getInstance().getPregnancies();
+		List<Date> asDate = new ArrayList<>();
+		String edd;
+		Log.d("Retro", "pregnancyList size = " + pregnancyList.size());
+		if(pregnancyList.size() != 1) {
+			for (int i = 0; i < pregnancyList.size(); i++) {
+				edd = pregnancyList.get(i).getEstimatedDeliveryDate();
+				try {
+					asDate.add(sdfDate.parse(edd));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+			}
+			p = asDate.indexOf(Collections.max(asDate));
+		} else
+			p = 0;
+	}
+
     private void getRecentBaby(){
-    	List<String> babyDateTime = ServiceUserSingleton.getInstance().getBabyDeliveryDateTime();
-    	List<Date> asDate = new ArrayList<Date>();
-    	for(int i = 0; i < babyDateTime.size(); i++){
-    		try {
-				asDate.add(sdfDateTime.parse(babyDateTime.get(i)));
-			} catch (ParseException e) {
-				e.printStackTrace();
+		List<Baby> babyList = ApiRootModel.getInstance().getBabies();
+    	List<Date> asDate = new ArrayList<>();
+		if(babyList.size() != 1) {
+			for (int i = 0; i < babyList.size(); i++) {
+				String deliveryDateTime = babyList.get(i).getDeliveryDateTime();
+				try {
+					asDate.add(sdfDateTime.parse(deliveryDateTime));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
 			}
-    	}    
-    	b = asDate.indexOf(Collections.max(asDate));
-    }
-    
-    private void getRecentPregnancy(){
-    	List<String> edd = ServiceUserSingleton.getInstance().getPregnancyEstimatedDeliveryDate();
-    	List<Date> asDate = new ArrayList<Date>();
-    	for(int i = 0; i < edd.size(); i++){
-    		try {
-				asDate.add(sdfDate.parse(edd.get(i)));
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-    	}    
-    	p = asDate.indexOf(Collections.max(asDate));
-    }
-    
+			b = asDate.indexOf(Collections.max(asDate));
+		} else
+			b = 0;
+	}
+
     private String getGeoCoodinates(String address) {
     	Geocoder geocoder = new Geocoder(ServiceUserActivity.this);
         Log.d("The Address", address);

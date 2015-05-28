@@ -83,7 +83,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 		setContentForNav(R.layout.activity_create_appointment);
 		//ButterKnife.inject(this);
 		
-		c = Calendar.getInstance();
+/*		c = Calendar.getInstance();
 		myCalendar = Calendar.getInstance();
 		
 		userName = (EditText) findViewById(R.id.edit_service_user);
@@ -126,7 +126,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 		
 		setDurationSpinner();
 		checkIfEditEmpty();
-		checkDirectionOfIntent();
+		checkDirectionOfIntent();*/
 	}
 	
 	@Override

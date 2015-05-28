@@ -29,7 +29,7 @@ public class Pregnancy {
     @Expose
     private String estimatedDeliveryDate;
     @Expose
-    private Object feeding;
+    private String feeding;
     @Expose
     private String gestation;
     @Expose
@@ -130,14 +130,14 @@ public class Pregnancy {
     /**
      * @return The feeding
      */
-    public Object getFeeding() {
+    public String getFeeding() {
         return feeding;
     }
 
     /**
      * @param feeding The feeding
      */
-    public void setFeeding(Object feeding) {
+    public void setFeeding(String feeding) {
         this.feeding = feeding;
     }
 

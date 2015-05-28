@@ -28,6 +28,8 @@ public class ApiRootModel {
     @SerializedName("service_users")
     @Expose
     private List<ServiceUser> serviceUsers = new ArrayList<>();
+    @Expose
+    private ServiceUser serviceUser;
     @SerializedName("service_providers")
     @Expose
     private List<ServiceProvider> serviceProviders = new ArrayList<>();
@@ -227,5 +229,16 @@ public class ApiRootModel {
      */
     public void setServiceUsers(List<ServiceUser> serviceUsers) {
         this.serviceUsers = serviceUsers;
+    }
+
+    public ServiceUser getServiceUser() {
+        return serviceUser;
+    }
+
+    /**
+     * @param serviceUser The service_user
+     */
+    public void setServiceUser(ServiceUser serviceUser) {
+        this.serviceUser = serviceUser;
     }
 }
