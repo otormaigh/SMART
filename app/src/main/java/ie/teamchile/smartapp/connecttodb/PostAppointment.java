@@ -1,7 +1,7 @@
 package ie.teamchile.smartapp.connecttodb;
 
 import ie.teamchile.smartapp.enums.CredentialsEnum;
-import ie.teamchile.smartapp.utility.ServiceProviderSingleton;
+import ie.teamchile.smartapp.retrofit.ApiRootModel;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,8 +47,8 @@ public class PostAppointment {
 	public String postAppointment(String ServiceUserID, String clinicID, String date, String time, 
 								  String duration, String priority, String visitType){
 		encodeType = encode.toString();
-		token = ServiceProviderSingleton.getInstance().getToken();
-		serviceProviderID = ServiceProviderSingleton.getInstance().getID();
+		token = ApiRootModel.getInstance().getLogin().getToken();
+		serviceProviderID = ApiRootModel.getInstance().getLogin().getId().toString();
 		this.ServiceUserID = ServiceUserID;
 		this.date = date;
 		this.time = time;

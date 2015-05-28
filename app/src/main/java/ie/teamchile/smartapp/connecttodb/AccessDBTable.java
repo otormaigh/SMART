@@ -1,7 +1,7 @@
 package ie.teamchile.smartapp.connecttodb;
 
 import ie.teamchile.smartapp.enums.CredentialsEnum;
-import ie.teamchile.smartapp.utility.ServiceProviderSingleton;
+import ie.teamchile.smartapp.retrofit.ApiRootModel;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -25,7 +25,7 @@ public class AccessDBTable {
     private BufferedReader in;
 
 	public JSONObject accessDB(String table){
-		token = ServiceProviderSingleton.getInstance().getToken();
+		token = ApiRootModel.getInstance().getLogin().getToken();
         this.table = table;
 		return accessDB();
 	}

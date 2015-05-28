@@ -2,6 +2,7 @@ package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.connecttodb.AccessDBTable;
+import ie.teamchile.smartapp.retrofit.ApiRootModel;
 import ie.teamchile.smartapp.utility.ClinicSingleton;
 import ie.teamchile.smartapp.utility.ServiceUserSingleton;
 
@@ -165,8 +166,8 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 	
 /*    private void setSharedPrefs(){
     	SharedPreferences.Editor prefs = getSharedPreferences("SMART", MODE_PRIVATE).edit();
-		prefs.putString("name", ServiceUserSingleton.getInstance().getUserName().get(0));
-		prefs.putString("id", ServiceUserSingleton.getInstance().getUserID().get(0));
+		prefs.putString("name", ApiRootModel.getInstance().getServiceUsers().get(0).getPersonalFields().getName(););
+		prefs.putString("id", ApiRootModel.getInstance().getServiceUsers().get(0).getId().toString());
 		prefs.putBoolean("reuse", true);
 		prefs.commit();
     }*/
@@ -395,7 +396,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
     		visitType = "post-natal";
     	}
 	}
-	
+	/*
     private void getRecentPregnancy(){
     	List<String> edd = new ArrayList<String>();
     	List<Date> asDate = new ArrayList<Date>();
@@ -419,7 +420,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 				e.printStackTrace();
 			}
     	}    	
-    }
+    }*/
     
 	private void hideKeyboard() {
 		InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);

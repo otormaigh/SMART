@@ -473,42 +473,6 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		prefs.commit();
     }
 
-	private void getRecentPregnancy(){
-		List<Pregnancy> pregnancyList = ApiRootModel.getInstance().getPregnancies();
-		List<Date> asDate = new ArrayList<>();
-		String edd;
-		Log.d("Retro", "pregnancyList size = " + pregnancyList.size());
-		if(pregnancyList.size() != 1) {
-			for (int i = 0; i < pregnancyList.size(); i++) {
-				edd = pregnancyList.get(i).getEstimatedDeliveryDate();
-				try {
-					asDate.add(sdfDate.parse(edd));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-			}
-			p = asDate.indexOf(Collections.max(asDate));
-		} else
-			p = 0;
-	}
-
-    private void getRecentBaby(){
-		List<Baby> babyList = ApiRootModel.getInstance().getBabies();
-    	List<Date> asDate = new ArrayList<>();
-		if(babyList.size() != 1) {
-			for (int i = 0; i < babyList.size(); i++) {
-				String deliveryDateTime = babyList.get(i).getDeliveryDateTime();
-				try {
-					asDate.add(sdfDateTime.parse(deliveryDateTime));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-			}
-			b = asDate.indexOf(Collections.max(asDate));
-		} else
-			b = 0;
-	}
-
     private String getGeoCoodinates(String address) {
     	Geocoder geocoder = new Geocoder(ServiceUserActivity.this);
         Log.d("The Address", address);
