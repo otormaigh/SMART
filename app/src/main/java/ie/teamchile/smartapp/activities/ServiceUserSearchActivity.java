@@ -1,23 +1,19 @@
 package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.connecttodb.AccessDBTable;
-import ie.teamchile.smartapp.utility.ServiceUserSingleton;
+import ie.teamchile.smartapp.retrofit.ApiRootModel;
+import ie.teamchile.smartapp.retrofit.SmartApi;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.app.ActionBar;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -34,14 +30,11 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 					 searchDOBDay, searchDOBMonth, searchDOBYear;
 	private Button search;
 	private TextView tvNoUserFound, tvSearchResults;
-	private ArrayList<String> searchResults = new ArrayList<String>();
-	private JSONObject json;
-	private AccessDBTable dbTable = new AccessDBTable();
-	private ProgressDialog pd;
+	private ArrayList<String> searchResults = new ArrayList<>();
 	private Intent intent;
 	private ListView list;
 	private ArrayAdapter<String> adapter;
-	private List<String> hospitalNumberList = new ArrayList<String>();
+	private List<String> hospitalNumberList = new ArrayList<>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +60,7 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 	}
 
 	private void createResultList(ArrayList<String> searchResults) {
-		adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, searchResults);
+		adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, searchResults);
 		adapter.notifyDataSetChanged();
 		list.setAdapter(adapter);
 		adapter.notifyDataSetChanged();
@@ -76,8 +69,7 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 	private class onItemListener implements OnItemClickListener {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			new LongOperation(ServiceUserSearchActivity.this)
-			.execute("service_users?hospital_number=" + hospitalNumberList.get(position));			
+			searchForPatient("", hospitalNumberList.get(position), "");
 			intent = new Intent(ServiceUserSearchActivity.this, ServiceUserActivity.class);
 		}
 	}
@@ -97,7 +89,6 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 				inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
                 InputMethodManager.HIDE_NOT_ALWAYS);
 				
-				String asyncQuery = "";
 				String dob = "";
 				
 				if(searchName.getText().toString().length() > 0 ||
@@ -114,15 +105,11 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 							  searchDOBMonth.getText() + "-" + 
 							  searchDOBDay.getText();
 					}
-					
-					asyncQuery = "?name=" + searchName.getText() + 
-								 "&hospital_number=" + searchHospitalNumber.getText() + 
-								 "&dob=" + dob;
-					
-					asyncQuery = asyncQuery.replaceAll("\\s","%20");
-					
-					Log.d("bugs", "asyncQuery: " + asyncQuery);
-					new LongOperation(ServiceUserSearchActivity.this).execute("service_users" + asyncQuery);
+
+					searchForPatient(
+							searchName.getText().toString(),
+							searchHospitalNumber.getText().toString(),
+							dob);
 				}else{
 					Toast.makeText(getApplicationContext(),
 							"Please enter something in the search fields", Toast.LENGTH_SHORT).show();
@@ -132,67 +119,46 @@ public class ServiceUserSearchActivity extends MenuInheritActivity {
 		}
 	}
 
-	private class LongOperation extends AsyncTask<String, Void, JSONObject> {
-		private Context context;
+	private void searchForPatient(String name, String hospitalNumber, String dob){
+		showProgressDialog(ServiceUserSearchActivity.this, "Fetching Information");
+		api.getServiceUserByNameDobHospitalNum(
+				name,
+				hospitalNumber,
+				dob,
+				ApiRootModel.getInstance().getLogin().getToken(),
+				SmartApi.API_KEY,
+				new Callback<ApiRootModel>() {
+					@Override
+					public void success(ApiRootModel apiRootModel, Response response) {
+						ApiRootModel.getInstance().setServiceUsers(apiRootModel.getServiceUsers());
+						ApiRootModel.getInstance().setPregnancies(apiRootModel.getPregnancies());
+						ApiRootModel.getInstance().setBabies(apiRootModel.getBabies());
+						if (intent != null)
+							startActivity(intent);
+						else {
+							searchResults.clear();
+							hospitalNumberList.clear();
+							for(int i = 0; i < apiRootModel.getServiceUsers().size(); i++){
+								String name = ApiRootModel.getInstance().getServiceUsers().get(i).getPersonalFields().getName();
+								String hospitalNumber = ApiRootModel.getInstance().getServiceUsers().get(i).getHospitalNumber();
+								String dob = ApiRootModel.getInstance().getServiceUsers().get(i).getPersonalFields().getDob();
 
-		public LongOperation(Context context) {
-			this.context = context;
-		}
-
-		@Override
-		protected void onPreExecute() {
-			pd = new ProgressDialog(context);
-			pd.setMessage("Fetching Information");
-			pd.show();
-		}
-
-		protected JSONObject doInBackground(String... params) {
-			Log.d("MYLOG", "ServiceUserSearch DoInBackground");
-			json = dbTable.accessDB(params[0]);
-			return json;
-		}
-
-		@Override
-		protected void onProgressUpdate(Void... values) {
-			Log.d("MYLOG", "On progress update");
-		}
-
-		@Override
-		protected void onPostExecute(JSONObject result) {
-			Log.d("MYLOG", "onPostExecute");
-			Log.d("bugs", "Result from on post " + result);
-
-			try {
-				if (intent != null) {
-					ServiceUserSingleton.getInstance().setPatientInfo(result);
-					startActivity(intent);
-
-				} else {
-					searchResults.clear();
-					hospitalNumberList.clear();
-					if (result.getJSONArray("service_users").length() != 0) {
-						for (int i = 0; i < result.getJSONArray("service_users").length(); i++) {
-							tvSearchResults.setVisibility(View.VISIBLE);
-							ServiceUserSingleton.getInstance().setPatientInfo(result);
-							String name = ServiceUserSingleton.getInstance().getUserName().get(i);
-							String hospitalNumber = ServiceUserSingleton.getInstance().getUserHospitalNumber().get(i);
-							String dob = ServiceUserSingleton.getInstance().getUserDOB().get(i);
-							
-							searchResults.add(name + " - " + hospitalNumber + " - " + dob);
-							hospitalNumberList.add(hospitalNumber);
-							Log.d("bugs", "searchResults: " + searchResults);
+								searchResults.add(name + " - " + hospitalNumber + " - " + dob);
+								hospitalNumberList.add(hospitalNumber);
+							}
+							createResultList(searchResults);
+							adapter.notifyDataSetChanged();
 						}
-						createResultList(searchResults);	
-						adapter.notifyDataSetChanged();
-					} else {
+						pd.dismiss();
+					}
+
+					@Override
+					public void failure(RetrofitError error) {
 						tvNoUserFound.setVisibility(View.VISIBLE);
 						Toast.makeText(getApplicationContext(), "No search results found", Toast.LENGTH_SHORT).show();
+						pd.dismiss();
 					}
 				}
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			pd.dismiss();
-		}
+		);
 	}
 }
