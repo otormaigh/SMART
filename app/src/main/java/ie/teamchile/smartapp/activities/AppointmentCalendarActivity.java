@@ -390,38 +390,6 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
 					}
 				});
 	}
-
-	private class LongOperation extends AsyncTask<String, Void, JSONObject> {
-		private Context context;
-		
-		public LongOperation(Context context){ this.context = context; }
-		
-		@Override
-		protected void onPreExecute() {
-			pd = new ProgressDialog(context);
-            pd.setMessage("Fetching Information");
-            pd.setCanceledOnTouchOutside(false);
-			pd.setCancelable(false);
-            pd.show();
-		}
-		
-		protected JSONObject doInBackground(String... params) {
-			Log.d("singleton", "in service users updateLocal doInBackground");
-			json = db.accessDB(params[0]);
-			Log.d("singleton", "query = " + json);
-			return json;
-		}
-		
-		@Override
-		protected void onProgressUpdate(Void... values) { }
-		
-		@Override
-        protected void onPostExecute(JSONObject result) {
-			ServiceUserSingleton.getInstance().setPatientInfo(result);
-			pd.dismiss();
-			startActivity(intent);	
-        }
-	}
     
     public void setServiceOptionSelected(int serviceOptionSelected){
     	AppointmentCalendarActivity.serviceOptionSelected = serviceOptionSelected;

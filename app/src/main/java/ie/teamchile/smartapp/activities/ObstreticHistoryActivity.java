@@ -1,6 +1,7 @@
 package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
+import ie.teamchile.smartapp.retrofit.ApiRootModel;
 import ie.teamchile.smartapp.utility.ServiceUserSingleton;
 
 import java.util.ArrayList;
@@ -37,14 +38,11 @@ public class ObstreticHistoryActivity extends MenuInheritActivity {
 		list = (ListView) findViewById(R.id.notes);
 		list.setAdapter(adapter);
 
-		Obsname = ServiceUserSingleton.getInstance().getUserName().get(0);
+		Obsname = ApiRootModel.getInstance().getServiceUsers().get(0).getPersonalFields().getName();
 		name.setText(Obsname);
 
-		obsHistory = ServiceUserSingleton.getInstance()
-				.getUserPreviousObstetricHistory().get(0);
+		obsHistory = ApiRootModel.getInstance().getServiceUsers().get(0).getClinicalFields().getPreviousObstetricHistory();
 
-		// time = ServiceUserSingleton.getInstance().getCreatedTime();
-		// items.add(time);
 		items.add(obsHistory);
 		if (items.contains(defaultObsHistory)) {
 			items.removeAll(items);
