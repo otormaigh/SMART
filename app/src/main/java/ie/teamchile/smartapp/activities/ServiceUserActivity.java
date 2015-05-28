@@ -234,18 +234,6 @@ public class ServiceUserActivity extends MenuInheritActivity {
 		}
 	}
 
-	private String putArrayToString(List<String> birthModeList) {
-		String birthMode = "";
-		int listSize = birthModeList.size();
-		for(int i = 0; i < listSize; i++){
-			if(i == (listSize - 1))
-				birthMode += birthModeList.get(i);
-			else
-				birthMode += birthModeList.get(i) + ", ";
-		}
-		return birthMode;
-	}
-
 	private class ButtonClick implements View.OnClickListener, DialogInterface {
 		public void onClick(View v) {
 			switch (v.getId()) {
