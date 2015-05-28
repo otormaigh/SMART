@@ -31,7 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MenuInheritActivity extends AppCompatActivity {
-	private ProgressDialog pd;
+	protected ProgressDialog pd;
     protected DrawerLayout drawerLayout;
     protected ListView drawerList;
     protected ActionBarDrawerToggle drawerToggle;
@@ -56,6 +56,14 @@ public class MenuInheritActivity extends AppCompatActivity {
 
         createNavDrawer();
         initRetrofit();
+    }
+
+    protected void showProgressDialog(Context context, String message){
+        pd = new ProgressDialog(context);
+        pd.setMessage(message);
+        pd.setCanceledOnTouchOutside(false);
+        pd.setCancelable(false);
+        pd.show();
     }
 
     protected void initRetrofit(){
