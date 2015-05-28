@@ -107,6 +107,15 @@ public interface SmartApi {
             @Header("Api-Key") String apiKey,
             Callback<ApiRootModel> callback);
 
+    @GET("/service_users")
+    void getServiceUserByNameDobHospitalNum(
+            @Query("name") String name,
+            @Query("hospital_number") String hospitalNumber,
+            @Query("dob") String dob,
+            @Header("Auth-Token") String authToken,
+            @Header("Api-Key") String apiKey,
+            Callback<ApiRootModel> callback);
+
     @GET("/service_providers")
     void getAllServiceProviders(
             @Header("Auth-Token") String authToken,
