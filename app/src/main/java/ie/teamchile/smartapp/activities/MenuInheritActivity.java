@@ -30,6 +30,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
+
 public class MenuInheritActivity extends AppCompatActivity {
 	protected ProgressDialog pd;
     protected DrawerLayout drawerLayout;
@@ -207,5 +209,17 @@ public class MenuInheritActivity extends AppCompatActivity {
         public void onItemClick(AdapterView parent, View view, int position, long id) {
             selectItem(position);
         }
+    }
+
+    protected String putArrayToString(List<String> badList) {
+        String listAsString = "";
+        int listSize = badList.size();
+        for(int i = 0; i < listSize; i++){
+            if(i == (listSize - 1))
+                listAsString += badList.get(i);
+            else
+                listAsString += badList.get(i) + ", ";
+        }
+        return listAsString;
     }
 }
