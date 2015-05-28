@@ -102,7 +102,7 @@ public interface SmartApi {
 
     @GET("/service_users/{service_user_id}")
     void getServiceUserById(
-            @Path("service_user_id") String serviceUserId,
+            @Path("service_user_id") int serviceUserId,
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
             Callback<ApiRootModel> callback);

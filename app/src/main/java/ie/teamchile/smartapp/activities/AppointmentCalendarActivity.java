@@ -3,8 +3,12 @@ package ie.teamchile.smartapp.activities;
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.connecttodb.AccessDBTable;
 import ie.teamchile.smartapp.retrofit.ApiRootModel;
+import ie.teamchile.smartapp.retrofit.SmartApi;
 import ie.teamchile.smartapp.utility.AppointmentSingleton;
 import ie.teamchile.smartapp.utility.ServiceUserSingleton;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -37,6 +41,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class AppointmentCalendarActivity extends MenuInheritActivity {
 	private final int sdkVersion = Build.VERSION.SDK_INT;
@@ -339,24 +344,54 @@ public class AppointmentCalendarActivity extends MenuInheritActivity {
     private class OnItemListener implements OnItemClickListener {
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-			if(idList.get(position).equals("0")){
+			if(idList.get(position).equals(0)){
 				intent = new Intent(AppointmentCalendarActivity.this, CreateAppointmentActivity.class);
 				intent.putExtra("from", "appointment");
 				intent.putExtra("time", timeList.get(position));
 				intent.putExtra("clinicID", String.valueOf(clinicSelected));
 				startActivity(intent);				
 			} else {
-				String serviceUserId = ApiRootModel.getInstance().getIdApptMap().get(idList.get(position)).getServiceUser().getName();
-
+				int serviceUserId = ApiRootModel.getInstance().getIdApptMap().get(idList.get(position)).getServiceUserId();
 				Log.d("bugs", "db string: " + "service_users" + "/" + serviceUserId);
-				//new LongOperation(AppointmentCalendarActivity.this).execute("service_users" + "/" + serviceUserId);
-				
+				pd = new ProgressDialog(AppointmentCalendarActivity.this);
+				pd.setMessage("Fetching Information");
+				pd.setCanceledOnTouchOutside(false);
+				pd.setCancelable(false);
+				pd.show();
 				intent = new Intent(AppointmentCalendarActivity.this, ServiceUserActivity.class);
+				searchServiceUser(serviceUserId, intent);
+				//new LongOperation(AppointmentCalendarActivity.this).execute("service_users" + "/" + serviceUserId);
+
 			}
 		}		    	
     }
-    
-    private class LongOperation extends AsyncTask<String, Void, JSONObject> {
+
+	private void searchServiceUser(int serviceUserId, final Intent intent) {
+		api.getServiceUserById(serviceUserId,
+				ApiRootModel.getInstance().getLogin().getToken(),
+				SmartApi.API_KEY,
+				new Callback<ApiRootModel>() {
+					@Override
+					public void success(ApiRootModel apiRootModel, Response response) {
+						ApiRootModel.getInstance().setServiceUsers(apiRootModel.getServiceUsers());
+						ApiRootModel.getInstance().setBabies(apiRootModel.getBabies());
+						ApiRootModel.getInstance().setPregnancies(apiRootModel.getPregnancies());
+						startActivity(intent);
+						pd.dismiss();
+					}
+
+					@Override
+					public void failure(RetrofitError error) {
+						pd.dismiss();
+						Toast.makeText(
+								AppointmentCalendarActivity.this,
+								"Error Search Patient: " + error,
+								Toast.LENGTH_LONG).show();
+					}
+				});
+	}
+
+	private class LongOperation extends AsyncTask<String, Void, JSONObject> {
 		private Context context;
 		
 		public LongOperation(Context context){ this.context = context; }
