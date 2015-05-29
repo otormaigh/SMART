@@ -54,11 +54,14 @@ public class BaseActivity extends AppCompatActivity {
     protected SmartApi api;
     protected int p = 0;
     protected int b = 0;
+    protected int spinnerWarning;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.navigation_drawer_layout);
+
+        spinnerWarning = getResources().getColor(R.color.lightBlue);
 
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //getActionBar().setCustomView(R.layout.action_bar_custom);
@@ -107,11 +110,11 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected void createNavDrawer(){
-        String[] mPlanetTitles = getResources().getStringArray(R.array.nav_drawer_items);
+        String[] drawerItems = getResources().getStringArray(R.array.nav_drawer_items);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerList = (ListView) findViewById(R.id.left_drawer);
         drawerList.setAdapter(new ArrayAdapter<>(this,
-                R.layout.drawer_item_layout, mPlanetTitles));
+                R.layout.drawer_item_layout, drawerItems));
         drawerList.setOnItemClickListener(new DrawerItemClickListener());
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
                         R.string.drawer_open, R.string.drawer_close);
