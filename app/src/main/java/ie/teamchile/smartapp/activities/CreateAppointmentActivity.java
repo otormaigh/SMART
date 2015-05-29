@@ -155,7 +155,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 
 		if (prefs != null && prefs.getBoolean("reuse", false)) {
 			tvUserName.setText(prefs.getString("name", null));
-			userID = prefs.getInt("id", 0);
+			userID = Integer.parseInt(prefs.getString("id", ""));
 			visitType = prefs.getString("visit_type", null);
 		}
 	}
