@@ -64,6 +64,7 @@
 
     <!-- RETURN TYPE SPINNER -->
     <string-array name="visit_return_type">
+        <item>Select Visit Type</item>
         <item>Follow-up (15 min)</item>
         <item>New (30 min)</item>
     </string-array>
