@@ -1,7 +1,6 @@
 package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.enums.CredentialsEnum;
 import ie.teamchile.smartapp.retrofit.ApiRootModel;
 import ie.teamchile.smartapp.retrofit.Appointment;
 import ie.teamchile.smartapp.retrofit.PostingData;
@@ -127,27 +126,83 @@ public class ConfirmAppointmentActivity extends MenuInheritActivity {
         appointment.postAppointment(date, (time + ":00"), userId, clinicID, priority, visitType, returnType);
 
         api.postAppointment(
-            appointment,
-            ApiRootModel.getInstance().getLogin().getToken(),
-            SmartApi.API_KEY,
-            new Callback<ApiRootModel>() {
-                @Override
-                public void success(ApiRootModel apiRootModel, Response response) {
-                    Intent intent = new Intent(ConfirmAppointmentActivity.this, AppointmentCalendarActivity.class);
-                    pd.dismiss();
-                    updateAppointments(intent);
-                }
+                appointment,
+                ApiRootModel.getInstance().getLogin().getToken(),
+                SmartApi.API_KEY,
+                new Callback<ApiRootModel>() {
+                    @Override
+                    public void success(ApiRootModel apiRootModel, Response response) {
+                        //response.getBody();
+                        ApiRootModel.getInstance().addAppointment(apiRootModel.getAppointment());
+                        Intent intent = new Intent(ConfirmAppointmentActivity.this, AppointmentCalendarActivity.class);
+                        pd.dismiss();
+                        setApptToMaps();
+                        startActivity(intent);
+                        //updateAppointments(apptId);
+                    }
 
-                @Override
-                public void failure(RetrofitError error) {
-                    Log.d("Retrofit", "retro failure error = " + error);
-                    pd.dismiss();
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.d("Retrofit", "retro failure error = " + error.getBody());
+                        pd.dismiss();
+                    }
                 }
-            }
         );
     }
 
-    private void updateAppointments(final Intent intent){
+    private void setApptToMaps(){
+        List<Integer> apptIdList;
+        Map<String, List<Integer>> dateApptIdMap;
+        Map<Integer, Map<String, List<Integer>>> clinicDateApptIdMap = new HashMap<>();
+        Map<Integer, Appointment> idApptMap = new HashMap<>();
+
+        for(int i = 0; i < ApiRootModel.getInstance().getAppointments().size(); i++){
+            apptIdList = new ArrayList<>();
+            dateApptIdMap = new HashMap<>();
+            String apptDate = ApiRootModel.getInstance().getAppointments().get(i).getDate();
+            int apptId = ApiRootModel.getInstance().getAppointments().get(i).getId();
+            int clinicId = ApiRootModel.getInstance().getAppointments().get(i).getClinicId();
+            Appointment appt = ApiRootModel.getInstance().getAppointments().get(i);
+
+            if(clinicDateApptIdMap.get(clinicId) != null){
+                dateApptIdMap = clinicDateApptIdMap.get(clinicId);
+                if(dateApptIdMap.get(apptDate) != null){
+                    apptIdList = dateApptIdMap.get(apptDate);
+                }
+            }
+            apptIdList.add(apptId);
+            dateApptIdMap.put(apptDate, apptIdList);
+
+            clinicDateApptIdMap.put(clinicId, dateApptIdMap);
+            idApptMap.put(apptId, appt);
+        }
+        ApiRootModel.getInstance().setClinicDateApptIdMap(clinicDateApptIdMap);
+        ApiRootModel.getInstance().setIdApptMap(idApptMap);
+        Log.d("Retrofit", "appointments finished");
+        pd.dismiss();
+    }
+
+    private void updateAppointments(int apptId) {
+        api.getAppointmentById(
+                apptId,
+                ApiRootModel.getInstance().getLogin().getToken(),
+                SmartApi.API_KEY,
+                new Callback<ApiRootModel>() {
+                    @Override
+                    public void success(ApiRootModel apiRootModel, Response response) {
+                        ApiRootModel.getInstance().addAppointment(apiRootModel.getAppointments().get(0));
+                        Log.d("Retro", "retro success");
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.d("Retro", "retro railure error = " + error);
+                    }
+                }
+        );
+    }
+
+    /*private void updateAppointments(final Intent intent){
         showProgressDialog(ConfirmAppointmentActivity.this,
                 "Updating Appointments");
         api.getAllAppointments(
@@ -196,5 +251,5 @@ public class ConfirmAppointmentActivity extends MenuInheritActivity {
                     }
                 }
         );
-    }
+    }*/
 }
