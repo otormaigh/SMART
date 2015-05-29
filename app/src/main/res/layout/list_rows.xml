@@ -14,7 +14,6 @@
         android:layout_weight="0.8"
         android:gravity="start|center"
         android:paddingLeft="@dimen/padding_small"
-        android:paddingStart="@dimen/padding_small"
         android:textSize="@dimen/text_small" />
 
     <TextView
