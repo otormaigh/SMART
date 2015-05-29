@@ -3,7 +3,7 @@ package ie.teamchile.smartapp.activities;
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.retrofit.SmartApi;
 import ie.teamchile.smartapp.retrofit.ApiRootModel;
-import ie.teamchile.smartapp.retrofit.Login;
+import ie.teamchile.smartapp.retrofit.PostingData;
 import ie.teamchile.smartapp.utility.ToastAlert;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -75,9 +75,10 @@ public class LoginActivity extends Activity {
 	}
 
 	private void doRetrofit(){
-		Login login = new Login(username, password);
+		PostingData login = new PostingData();
+		login.postLogin(username, password);
 
-		api.doLogin(login, new Callback<ApiRootModel>() {
+		api.postLogin(login, new Callback<ApiRootModel>() {
 			@Override
 			public void success(ApiRootModel json, Response response) {
 				ApiRootModel.getInstance().setLogin(json.getLogin());
