@@ -2,17 +2,13 @@ package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.retrofit.ApiRootModel;
-import ie.teamchile.smartapp.retrofit.Baby;
-import ie.teamchile.smartapp.retrofit.Pregnancy;
 import ie.teamchile.smartapp.utility.ToastAlert;
 
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -36,7 +32,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ServiceUserActivity extends MenuInheritActivity {
+public class ServiceUserActivity extends BaseActivity {
 	private final CharSequence[] userContactList = {"Call Mobile", "Send SMS", "Send Email"};
 	private final CharSequence[] kinContactList = {"Call Mobile", "Send SMS"};
 	private TextView anteAge, anteGestation, anteParity, anteDeliveryTime, anteBloodGroup, anteRhesus;

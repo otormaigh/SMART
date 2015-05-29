@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class QuickMenuActivity extends MenuInheritActivity {
+public class QuickMenuActivity extends BaseActivity {
     private boolean isViewVisible;
     private ProgressDialog pd;
 	private AccessDBTable db = new AccessDBTable();

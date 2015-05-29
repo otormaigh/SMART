@@ -7,7 +7,6 @@ import ie.teamchile.smartapp.retrofit.Appointment;
 import ie.teamchile.smartapp.retrofit.Baby;
 import ie.teamchile.smartapp.retrofit.Pregnancy;
 import ie.teamchile.smartapp.retrofit.SmartApi;
-import ie.teamchile.smartapp.utility.AppointmentSingleton;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -45,7 +44,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class MenuInheritActivity extends AppCompatActivity {
+public class BaseActivity extends AppCompatActivity {
     private DateFormat sdfDateTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault());
     private DateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 	protected ProgressDialog pd;
@@ -171,7 +170,7 @@ public class MenuInheritActivity extends AppCompatActivity {
                                 startActivity(intent);
                             } else {
                                 doLogout(intent);
-                                pd = new ProgressDialog(MenuInheritActivity.this);
+                                pd = new ProgressDialog(BaseActivity.this);
                                 pd.setMessage("Logging Out");
                                 pd.setCanceledOnTouchOutside(false);
                                 pd.setCancelable(false);

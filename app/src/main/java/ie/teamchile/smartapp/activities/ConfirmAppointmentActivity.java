@@ -26,7 +26,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class ConfirmAppointmentActivity extends MenuInheritActivity {
+public class ConfirmAppointmentActivity extends BaseActivity {
 	private DateFormat sdfDateMonthName = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
 	private DateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     private TextView txtUserName, txtClinic, txtDateTime, 

@@ -4,8 +4,6 @@ import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.connecttodb.AccessDBTable;
 import ie.teamchile.smartapp.retrofit.ApiRootModel;
 import ie.teamchile.smartapp.retrofit.SmartApi;
-import ie.teamchile.smartapp.utility.AppointmentSingleton;
-import ie.teamchile.smartapp.utility.ServiceUserSingleton;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -25,7 +23,6 @@ import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -43,7 +40,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class AppointmentCalendarActivity extends MenuInheritActivity {
+public class AppointmentCalendarActivity extends BaseActivity {
 	private final int sdkVersion = Build.VERSION.SDK_INT;
 	private static int serviceOptionSelected, weekSelected, clinicSelected;
 	protected static Date daySelected;
