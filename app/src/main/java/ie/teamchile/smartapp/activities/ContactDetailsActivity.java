@@ -7,15 +7,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.TextView;
 
-public class ContactDetailsActivity extends MenuInheritActivity {
+public class ContactDetailsActivity extends BaseActivity {
 
 	private int arrayPos;
 	private JSONArray query;

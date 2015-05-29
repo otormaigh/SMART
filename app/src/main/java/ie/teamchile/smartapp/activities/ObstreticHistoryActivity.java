@@ -2,7 +2,6 @@ package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.retrofit.ApiRootModel;
-import ie.teamchile.smartapp.utility.ServiceUserSingleton;
 
 import java.util.ArrayList;
 
@@ -14,7 +13,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class ObstreticHistoryActivity extends MenuInheritActivity {
+public class ObstreticHistoryActivity extends BaseActivity {
 	private ArrayList<String> items = new ArrayList<String>();
 	public static final String defaultObsHistory = "NEED_SUGGESTION";
 	private Button enter;
