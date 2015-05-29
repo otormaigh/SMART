@@ -242,7 +242,7 @@ public class MenuInheritActivity extends AppCompatActivity {
         List<Date> asDate = new ArrayList<>();
         String edd;
         Log.d("Retro", "pregnancyList size = " + pregnancyList.size());
-        if(pregnancyList.size() != 1) {
+        if(pregnancyList.size() > 0) {
             for (int i = 0; i < pregnancyList.size(); i++) {
                 edd = pregnancyList.get(i).getEstimatedDeliveryDate();
                 try {
