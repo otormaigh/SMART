@@ -25,7 +25,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ServiceUserSearchActivity extends MenuInheritActivity {
+public class ServiceUserSearchActivity extends BaseActivity {
 	private EditText searchName, searchHospitalNumber, 
 					 searchDOBDay, searchDOBMonth, searchDOBYear;
 	private Button search;
