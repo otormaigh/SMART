@@ -42,7 +42,7 @@ public interface SmartApi {
 
     @GET("/appointments/{appointment_id}")
     void getAppointmentById(
-            @Path("appointment_id") String appointmentId,
+            @Path("appointment_id") int appointmentId,
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
             Callback<ApiRootModel> callback);
