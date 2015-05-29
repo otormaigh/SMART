@@ -181,39 +181,40 @@ public class MenuInheritActivity extends AppCompatActivity {
     }
 
     private void doLogout(final Intent intent) {
-        api.doLogout(
-            ApiRootModel.getInstance().getLogin().getToken(),
-            SmartApi.API_KEY,
-            new Callback<ApiRootModel>() {
-                @Override
-                public void success(ApiRootModel apiRootModel, Response response) {
-                    switch(response.getStatus()){
-                        case 200:
-                            Log.d("Retro", "in logout success 200");
-                            doLogout(intent);
-                            break;
-                        default:
-                            Log.d("Retro", "in logout success response = " + response.getStatus());
+        api.postLogout(
+                ApiRootModel.getInstance().getLogin().getToken(),
+                SmartApi.API_KEY,
+                new Callback<ApiRootModel>() {
+                    @Override
+                    public void success(ApiRootModel apiRootModel, Response response) {
+                        switch (response.getStatus()) {
+                            case 200:
+                                Log.d("Retro", "in logout success 200");
+                                doLogout(intent);
+                                break;
+                            default:
+                                Log.d("Retro", "in logout success response = " + response.getStatus());
+                        }
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.d("Retro", "in logout failure error = " + error);
+                        if (error.getResponse().getStatus() == 401) {
+                            Toast.makeText(getApplicationContext(),
+                                    "You are now logged out",
+                                    Toast.LENGTH_SHORT).show();
+                            pd.dismiss();
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(getApplicationContext(),
+                                    "There was a problem with the logout, " +
+                                            "\nPlease try again.",
+                                    Toast.LENGTH_SHORT).show();
+                            pd.dismiss();
+                        }
                     }
                 }
-                @Override
-                public void failure(RetrofitError error) {
-                Log.d("Retro", "in logout failure error = " + error);
-                    if (error.getResponse().getStatus() == 401) {
-                        Toast.makeText(getApplicationContext(),
-                                "You are now logged out",
-                                Toast.LENGTH_SHORT).show();
-                        pd.dismiss();
-                        startActivity(intent);
-                    } else {
-                        Toast.makeText(getApplicationContext(),
-                                "There was a problem with the logout, " +
-                                        "\nPlease try again.",
-                                Toast.LENGTH_SHORT).show();
-                        pd.dismiss();
-                    }
-                }
-            }
         );
     }
 

@@ -16,7 +16,7 @@ public class ApiRootModel {
     private Boolean isLoggedIn;
     @Expose
     private Error errors;
-    private LoginJson login;
+    private Login login;
     @Expose
     private List<Appointment> appointments = new ArrayList<>();
     private Map<Integer, Appointment> idApptMap = new HashMap<>();
@@ -78,14 +78,14 @@ public class ApiRootModel {
     /**
      * @return The login
      */
-    public LoginJson getLogin() {
+    public Login getLogin() {
         return login;
     }
 
     /**
      * @param login The login
      */
-    public void setLogin(LoginJson login) {
+    public void setLogin(Login login) {
         this.login = login;
     }
 
