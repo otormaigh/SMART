@@ -207,6 +207,7 @@ public class BaseActivity extends AppCompatActivity {
                     public void failure(RetrofitError error) {
                         Log.d("Retro", "in logout failure error = " + error);
                         if (error.getResponse().getStatus() == 401) {
+                            ApiRootModel.getInstance().setLoginStatus(false);
                             Toast.makeText(getApplicationContext(),
                                     "You are now logged out",
                                     Toast.LENGTH_SHORT).show();
