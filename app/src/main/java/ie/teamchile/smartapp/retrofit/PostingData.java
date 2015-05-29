@@ -16,8 +16,9 @@ public class PostingData {
         this.login = new Login(username, password);
     }
 
-    public void postAppointment(String date, String time, int service_provider_id, int service_user_id,
+    public void postAppointment(String date, String time, int service_user_id,
                                 int clinic_id, String priority, String visit_type, String return_type) {
+        int service_provider_id = ApiRootModel.getInstance().getLogin().getId();
 
         this.appointment = new Appointment(date, time, service_provider_id, service_user_id, clinic_id,
                 priority, visit_type, return_type);
