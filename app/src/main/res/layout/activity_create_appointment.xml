@@ -97,18 +97,19 @@
             android:paddingLeft="@dimen/padding_Xsmall" />
 
         <TextView
-            android:id="@+id/text_duration"
+            android:id="@+id/text_return_type"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_small"
-            android:text="@string/duration"
+            android:text="@string/return_type"
             android:textSize="@dimen/text_small"
             android:textStyle="bold" />
 
         <Spinner
-            android:id="@+id/visit_duration_spinner"
+            android:id="@+id/visit_return_type_spinner"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:entries="@array/visit_return_type" />
 
         <TextView
             android:id="@+id/text_priority"
