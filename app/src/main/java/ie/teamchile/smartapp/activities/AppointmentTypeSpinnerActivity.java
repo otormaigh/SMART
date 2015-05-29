@@ -54,7 +54,7 @@ public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
         weekSpinner = (Spinner) findViewById(R.id.week_spinner);
         
         appointmentSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
-        appointmentAdapter = ArrayAdapter.createFromResource(this, R.array.appointment_type, R.layout.spinner_layout);
+        appointmentAdapter = ArrayAdapter.createFromResource(this, R.array.appointment_type_list, R.layout.spinner_layout);
         appointmentAdapter.setDropDownViewResource(R.layout.spinner_layout);
         appointmentSpinner.setAdapter(appointmentAdapter);
         

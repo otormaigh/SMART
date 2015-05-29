@@ -1,8 +1,6 @@
 package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
-//import ie.teamchile.smartapp.connecttodb.AccessDBTable;
-//import ie.teamchile.smartapp.connecttodb.PostAppointment;
 import ie.teamchile.smartapp.enums.CredentialsEnum;
 import ie.teamchile.smartapp.retrofit.ApiRootModel;
 import ie.teamchile.smartapp.retrofit.Appointment;
@@ -11,7 +9,6 @@ import ie.teamchile.smartapp.retrofit.SmartApi;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-//import ie.teamchile.smartapp.utility.AppointmentSingleton;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -23,21 +20,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class ConfirmAppointmentActivity extends MenuInheritActivity {
 	private DateFormat sdfDateMonthName = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
@@ -48,9 +36,6 @@ public class ConfirmAppointmentActivity extends MenuInheritActivity {
     private String name, hospitalNumber, clinicName, date, monthDate, time,
     		priority, visitType, timeBefore, timeAfter, email, sms;
     private int userId, clinicID;
-    //private ProgressDialog pd;
-    //private AccessDBTable db = new AccessDBTable();
-    //private PostAppointment postAppt = new PostAppointment();
     private Calendar cal = Calendar.getInstance();
     private String returnType;
 
@@ -212,53 +197,4 @@ public class ConfirmAppointmentActivity extends MenuInheritActivity {
                 }
         );
     }
-
-    /*private class CreateAppointmentLongOperation extends AsyncTask<String, Void, Void> {
-        private Context context;
-        private JSONObject json;
-        private JSONArray query;
-        private Boolean userFound;
-
-        public CreateAppointmentLongOperation(Context context){ this.context = context; }
-
-        @Override
-        protected void onPreExecute() {
-            pd = new ProgressDialog(context);
-            pd.setMessage("Creating Appointment");
-            pd.setCanceledOnTouchOutside(false);
-			pd.setCancelable(false);
-            pd.show();
-        }
-        protected Void doInBackground(String... params) {
-        	Log.d("buggy_bug", "userId: " + userId + "\nclinicID: " +  clinicID  + 
-        		  "\nDate: " + date +  "\nTime: " + time + ":00" + "\nDuration: " + duration + 
-   				  "\nPriority: " + priority + "\nVisit Type: " + visitType);
-            postAppt.postAppointment(userId, clinicID, date, (time + ":00") , duration, priority, visitType);
-            userFound = true;
-            try {
-                json = db.accessDB(params[0]);
-                query = json.getJSONArray(params[0]);
-                AppointmentSingleton.getInstance().setHashMapofClinicDateID(query);
-                AppointmentSingleton.getInstance().setHashMapofIdAppt(query);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-			return null;
-        }
-        
-        @Override
-        protected void onProgressUpdate(Void... values) { }
-        
-        @Override
-        protected void onPostExecute(Void result) {
-        	Intent intent = new Intent(ConfirmAppointmentActivity.this, AppointmentCalendarActivity.class);
-        	try {
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-            startActivity(intent);
-            pd.dismiss();
-        }
-    }*/
 }
