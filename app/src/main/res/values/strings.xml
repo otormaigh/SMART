@@ -61,8 +61,13 @@
         <item>Visit 2</item>
         <item>Visit 3</item>
     </string-array>
-    
-    
+
+    <!-- RETURN TYPE SPINNER -->
+    <string-array name="visit_return_type">
+        <item>Returning Appointment</item>
+        <item>New Appointment</item>
+    </string-array>
+
     <!-- WEEK SPINNER -->
     <string-array name="weeks">
         <item>Select Week</item>
@@ -193,7 +198,7 @@
         <item>Post-Natal</item>
  	</string-array>
  	<string name="confirm_appointment">Confirm Appointment</string>
- 	<string name="duration">Duration</string>
+ 	<string name="return_type">Return Type</string>
  	<string name="service_user">Service User</string>
     <string name="appointment_clinic">Appointment Clinic</string>
     <string name="appointment_date">Appointment Date</string>
