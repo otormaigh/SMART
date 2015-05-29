@@ -1,24 +1,41 @@
-
 package ie.teamchile.smartapp.retrofit;
+
+import com.google.gson.annotations.Expose;
 
 /**
  * Created by user on 5/26/15.
  */
-
 public class Login {
-   public Creds login;
+    @Expose
+    private Integer id;
+    @Expose
+    private String token;
 
-    public Login(String username, String password) {
-        this.login = new Creds(username, password);
+    /**
+     * @return The id
+     */
+    public Integer getId() {
+        return id;
     }
 
-    private class Creds {
-        private String username;
-        private String password;
+    /**
+     * @param id The id
+     */
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-        public Creds(String username, String password) {
-            this.username = username;
-            this.password = password;
-        }
+    /**
+     * @return The token
+     */
+    public String getToken() {
+        return token;
+    }
+
+    /**
+     * @param token The token
+     */
+    public void setToken(String token) {
+        this.token = token;
     }
 }
