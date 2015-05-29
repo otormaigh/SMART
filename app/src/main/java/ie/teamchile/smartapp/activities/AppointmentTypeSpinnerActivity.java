@@ -21,7 +21,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-public class AppointmentTypeSpinnerActivity extends MenuInheritActivity {
+public class AppointmentTypeSpinnerActivity extends BaseActivity {
 	private SimpleDateFormat sdfDay = new SimpleDateFormat("E", Locale.getDefault());
 	private SimpleDateFormat sdfDowMonthDay = new SimpleDateFormat("EEE, d MMM", Locale.getDefault());
     private ArrayAdapter<CharSequence> appointmentAdapter, visitAdapter;

@@ -26,7 +26,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class ParityDetailsActivity extends MenuInheritActivity {
+public class ParityDetailsActivity extends BaseActivity {
 	private BaseAdapter adapter;
 	private TextView name, babyName;
 	private String patientName, patientParity;

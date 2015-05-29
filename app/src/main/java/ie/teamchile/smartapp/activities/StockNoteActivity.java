@@ -1,10 +1,10 @@
 package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
-import android.app.Activity;
+
 import android.os.Bundle;
 
-public class StockNoteActivity extends MenuInheritActivity {
+public class StockNoteActivity extends BaseActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
