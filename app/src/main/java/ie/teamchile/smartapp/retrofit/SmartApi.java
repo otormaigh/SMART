@@ -17,12 +17,19 @@ import retrofit.http.Query;
 public interface SmartApi {
 
     @POST("/login")
-    void doLogin(
-            @Body Login login,
+    void postLogin(
+            @Body PostingData login,
             Callback<ApiRootModel> callback);
 
     @POST("/logout")
-    void doLogout(
+    void postLogout(
+            @Header("Auth-Token") String authToken,
+            @Header("Api-Key") String apiKey,
+            Callback<ApiRootModel> callback);
+
+    @POST("/appointments")
+    void postAppointment(
+            @Body PostingData appointment,
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
             Callback<ApiRootModel> callback);
