@@ -9,7 +9,7 @@
         android:id="@+id/appointment_spinner"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:entries="@array/appointment_type" />
+        android:entries="@array/appointment_type_list" />
 
     <Spinner
         android:id="@+id/clinic_service_option_spinner"

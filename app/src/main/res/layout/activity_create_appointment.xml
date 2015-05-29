@@ -101,7 +101,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_small"
-            android:text="@string/return_type"
+            android:text="@string/appointment_type"
             android:textSize="@dimen/text_small"
             android:textStyle="bold" />
 

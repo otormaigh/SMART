@@ -1,7 +1,9 @@
 package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
+import ie.teamchile.smartapp.enums.CredentialsEnum;
 import ie.teamchile.smartapp.retrofit.ApiRootModel;
+import ie.teamchile.smartapp.retrofit.Appointment;
 import ie.teamchile.smartapp.retrofit.Baby;
 import ie.teamchile.smartapp.retrofit.Pregnancy;
 import ie.teamchile.smartapp.retrofit.SmartApi;
@@ -38,8 +40,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class MenuInheritActivity extends AppCompatActivity {
     private DateFormat sdfDateTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault());
@@ -148,7 +152,7 @@ public class MenuInheritActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case 4:         //Sync
-                AppointmentSingleton.getInstance().updateLocal(this);
+                updateAppointment(this);
                 break;
             case 5:         //Logout
                 new AlertDialog.Builder(this)
@@ -271,5 +275,54 @@ public class MenuInheritActivity extends AppCompatActivity {
             b = asDate.indexOf(Collections.max(asDate));
         } else
             b = 0;
+    }
+
+    protected void updateAppointment(Context context){
+        showProgressDialog(context, "Updating Appointments");
+        api.getAllAppointments(
+                ApiRootModel.getInstance().getLogin().getToken(),
+                CredentialsEnum.API_KEY.toString(),
+                new Callback<ApiRootModel>() {
+                    @Override
+                    public void success(ApiRootModel apiRootModel, Response response) {
+                        ApiRootModel.getInstance().setAppointments(apiRootModel.getAppointments());
+                        List<Integer> apptIdList;
+                        Map<String, List<Integer>> dateApptIdMap;
+                        Map<Integer, Map<String, List<Integer>>> clinicDateApptIdMap = new HashMap<>();
+                        Map<Integer, Appointment> idApptMap = new HashMap<>();
+
+                        for(int i = 0; i < apiRootModel.getAppointments().size(); i++){
+                            apptIdList = new ArrayList<>();
+                            dateApptIdMap = new HashMap<>();
+                            String apptDate = apiRootModel.getAppointments().get(i).getDate();
+                            int apptId = apiRootModel.getAppointments().get(i).getId();
+                            int clinicId = apiRootModel.getAppointments().get(i).getClinicId();
+                            Appointment appt = apiRootModel.getAppointments().get(i);
+
+                            if(clinicDateApptIdMap.get(clinicId) != null){
+                                dateApptIdMap = clinicDateApptIdMap.get(clinicId);
+                                if(dateApptIdMap.get(apptDate) != null){
+                                    apptIdList = dateApptIdMap.get(apptDate);
+                                }
+                            }
+                            apptIdList.add(apptId);
+                            dateApptIdMap.put(apptDate, apptIdList);
+
+                            clinicDateApptIdMap.put(clinicId, dateApptIdMap);
+                            idApptMap.put(apptId, appt);
+                        }
+                        ApiRootModel.getInstance().setClinicDateApptIdMap(clinicDateApptIdMap);
+                        ApiRootModel.getInstance().setIdApptMap(idApptMap);
+                        Log.d("Retrofit", "appointments finished");
+                        pd.dismiss();
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.d("Retrofit", "appointments retro failure " + error);
+                        pd.dismiss();
+                    }
+                }
+        );
     }
 }

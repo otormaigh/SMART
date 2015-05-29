@@ -6,9 +6,7 @@ package ie.teamchile.smartapp.activities;
  */
 
 import ie.teamchile.smartapp.connecttodb.AccessDBTable;
-import ie.teamchile.smartapp.utility.AppointmentSingleton;
 import ie.teamchile.smartapp.utility.MyAdapter;
-import ie.teamchile.smartapp.utility.ServiceUserSingleton;
 import ie.teamchile.smartapp.utility.ToastAlert;
 
 import java.text.SimpleDateFormat;
@@ -59,10 +57,7 @@ public class TodayAppointmentActivity extends ListActivity   {
 		@Override
 		protected void onPostExecute(JSONObject result) {
 			super.onPostExecute(result);
-			ServiceUserSingleton.getInstance().setPatientInfo(result);
-			address = ServiceUserSingleton.getInstance().getUserHomeAddress().get(0);
-			values = AppointmentSingleton.getInstance().getListOfIDs("3", "2014-12-24");
-			
+
 			if(values == null || values.size() == 0) {
 				values = new ArrayList<String>();
 				values.add("No appointments today");
