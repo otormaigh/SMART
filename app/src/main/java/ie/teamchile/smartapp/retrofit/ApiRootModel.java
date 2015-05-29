@@ -18,6 +18,8 @@ public class ApiRootModel {
     private Error errors;
     private Login login;
     @Expose
+    private Appointment appointment;
+    @Expose
     private List<Appointment> appointments = new ArrayList<>();
     private Map<Integer, Appointment> idApptMap = new HashMap<>();
     private Map<Integer, Map<String, List<Integer>>> clinicDateApptIdMap = new HashMap<>();
@@ -89,6 +91,10 @@ public class ApiRootModel {
         this.login = login;
     }
 
+    public Appointment getAppointment() {
+        return appointment;
+    }
+
     /**
      * @return The appointments
      */
@@ -101,6 +107,10 @@ public class ApiRootModel {
      */
     public void setAppointments(List<Appointment> appointments) {
         this.appointments = appointments;
+    }
+
+    public void addAppointment(Appointment appointment) {
+        this.appointments.add(appointment);
     }
 
     public void setClinicDateApptIdMap(Map<Integer, Map<String, List<Integer>>> clinicDateApptIdMap) {

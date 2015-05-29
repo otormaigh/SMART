@@ -20,6 +20,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
@@ -42,7 +43,8 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 	private SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm", Locale.getDefault());
 	private SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 	private SimpleDateFormat sdfDateMonthName = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
-	private ArrayAdapter<CharSequence> visitPriorityAdapter, returnTypeAdapterArrayAdapter;
+	private ArrayAdapter<String> returnTypeAdapterArrayAdapter;
+	private ArrayAdapter<CharSequence> visitPriorityAdapter;
 	private String userName, clinic, apptDate, time, duration, priority, visitType,
 			clinicIDStr, clinicName;
 	private int appointmentInterval, userID;
@@ -50,7 +52,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 	//private ProgressDialog pd;
 	private Calendar c, myCalendar;
 	private List<String> timeList = new ArrayList<String>();
-	private List<String> durationList = new ArrayList<String>();
+	private List<String> returnTypeList = new ArrayList<String>();
 	private List<String> babyIDs;
 	private List<Integer> idList = new ArrayList<>();
 	//private Date beforeAsDate, afterAsDate, afterAsDateMinusInterval;
@@ -91,12 +93,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
         
         visitReturnTypeSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
 		visitReturnTypeSpinner = (Spinner) findViewById(R.id.visit_return_type_spinner);
-		returnTypeAdapterArrayAdapter = ArrayAdapter.createFromResource(this,
-						R.array.visit_return_type,
-						R.layout.spinner_layout_create_appt);
-		returnTypeAdapterArrayAdapter.setDropDownViewResource(R.layout.spinner_layout);
-		visitReturnTypeSpinner.setAdapter(returnTypeAdapterArrayAdapter);
-       
+
         visitPrioritySpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
         visitPriorityAdapter = ArrayAdapter.createFromResource(this, 
         				R.array.visit_priority_list, 
@@ -121,7 +118,7 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
         
 		Log.d("postAppointment", "timeAfter: " + time);
 		
-		//setDurationSpinner();
+		setTypeSpinner();
 		checkIfEditEmpty();
 		checkDirectionOfIntent();
 	}
@@ -168,14 +165,16 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
 		prefs.commit();
     }*/
 
-	private void setDurationSpinner(){
-		durationList.add(appointmentInterval + " minutes");
-		durationList.add(String.valueOf(appointmentIntervalAsInt + appointmentIntervalAsInt) + " minutes");
-		
-		visitReturnTypeSpinner = (Spinner) findViewById(R.id.visit_return_type_spinner);
-	    ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<>(this, R.layout.spinner_layout_create_appt, durationList);
-	    myArrayAdapter.setDropDownViewResource(R.layout.spinner_layout);
-	    visitReturnTypeSpinner.setAdapter(myArrayAdapter);
+	private void setTypeSpinner(){
+		returnTypeList.add("Select Type");
+		returnTypeList.add("Follow-up (15 min)");
+		returnTypeList.add("New (30 min)");
+
+		returnTypeAdapterArrayAdapter = new ArrayAdapter<>(this,
+				R.layout.spinner_layout_create_appt,
+				returnTypeList);
+		returnTypeAdapterArrayAdapter.setDropDownViewResource(R.layout.spinner_layout);
+		visitReturnTypeSpinner.setAdapter(returnTypeAdapterArrayAdapter);
 	}
 	
 	private class ButtonClick implements View.OnClickListener {
@@ -335,9 +334,15 @@ public class CreateAppointmentActivity extends MenuInheritActivity {
                 case R.id.visit_return_type_spinner:
 					switch(position){
 						case 0:
-							returnType = "returning";
+							//visitReturnTypeSpinner.setBackgroundColor(spinnerWarning);
+							//visitReturnTypeSpinner.set(R.drawable.ic_menu_grey600_24dp);
 							break;
 						case 1:
+							//visitReturnTypeSpinner.setBackgroundColor(Color.TRANSPARENT);
+							returnType = "returning";
+							break;
+						case 2:
+							//visitReturnTypeSpinner.setBackgroundColor(Color.TRANSPARENT);
 							returnType = "new";
 							break;
 					}
