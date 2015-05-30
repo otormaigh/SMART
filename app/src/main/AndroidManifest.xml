@@ -70,10 +70,6 @@
             android:name="android.support.PARENT_ACTIVITY"
             android:value=".activities.QuickMenuActivity" />
 
-        <activity
-            android:name=".activities.ContactDetailsActivity"
-            android:parentActivityName=".activities.QuickMenuActivity"
-            android:screenOrientation="sensorPortrait" />
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value=".activities.QuickMenuActivity" />
