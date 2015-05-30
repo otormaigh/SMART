@@ -3,26 +3,6 @@
 
     <string name="app_name">SMART</string>
 
-    <!-- ACTIVITY TITLES -->
-    <string name="title_activity_select_time">Select Time</string>
-    <string name="title_activity_service_user">Service User</string>
-    <string name="title_activity_service_user_search">Service User Search</string>
-    <string name="title_activity_db_info">DB Info</string>
-    <string name="title_activity_http_client">Http Client</string>
-    <string name="title_activity_appointment_type_spinner">Appointment Type Spinner</string>
-    <string name="title_activity_quick_menu">Quick Menu</string>
-    <string name="title_activity_confirm_appointment">Confirm Details</string>
-    <string name="title_activity_calendar">Calendar</string>
-    <string name="title_activity_appointment_calendar">Appointment Calendar</string>
-    <string name="title_activity_today_appointment">Today Appointment</string>
-    <string name="title_activity_contact_details">Contact Details</string>
-    <string name="title_activity_post_natal">Post Natal</string>
-    <string name="title_activity_anti_natal">Ante Natal</string>
-    <string name="title_activity_stock_note">Stock Note</string>
-    <string name="title_activity_create_appointment">Create Appointment</string>
-   	<string name="title_activity_parity_details">Parity Details</string>
-    <string name="title_activity_obstretic_history">Obstretic History</string>
-
     <!-- MAIN SCREEN -->
     <string name="main_logo"> main_logo</string>
     <string name="login">Login</string>
@@ -84,14 +64,6 @@
         <item>Week 10</item>
     </string-array>
 
-    <!-- SELECT TIME -->
-    <string name="one_select_time">08:30am</string>
-    <string name="two_select_time">08:45am</string>
-    <string name="three_select_time">09:00am</string>
-    <string name="four_select_time">09:15am</string>
-    <string name="five_select_time">09:30am</string>
-    <string name="six_select_time">09:45am</string>
-
     <!-- SERVICE USER SEARCH -->       					 
     <string name="enter_name"><i>Enter Name Here</i></string>
     <string name="enter_hospital_number"><i>Enter Hospital Number Here</i></string>
@@ -140,11 +112,6 @@
     <string name="baby_hearing">Hearing</string>
     <string name="baby_feeding">Feeding</string>
     <string name="nbst">NBST</string>
-
-    <!-- OBSTRETIC HISTORY -->
-    <string name="patient_name">Sarah MacLachlann-Murphy</string>
-    <string name="history_notebutton">Add note to history</string>
-    <string name="add_note">Add a note</string>
     
     <!-- PARITY DETAILS -->
     <string name="parity_baby_name">Baby Name</string>
@@ -172,11 +139,7 @@
     <string name="clinic_title">Clinic Name</string>
     <string name="prev_button">Prev</string>
     <string name="date_button">Date</string>
-    <string name="next_button">Next</string>    
-    
-    <!--  STOCK NOTE -->
-    <string name="clinic_name">Clinic Name</string>
-    <string name="save_note">Save note</string>
+    <string name="next_button">Next</string>
     
    	<!-- PATIENT SEARCH OPTIONS -->
     <string-array name="patient_search_options">
