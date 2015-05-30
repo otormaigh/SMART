@@ -2,10 +2,10 @@ package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.enums.CredentialsEnum;
-import ie.teamchile.smartapp.retrofit.ApiRootModel;
-import ie.teamchile.smartapp.retrofit.Appointment;
-import ie.teamchile.smartapp.retrofit.Clinic;
-import ie.teamchile.smartapp.retrofit.ServiceOption;
+import ie.teamchile.smartapp.model.ApiRootModel;
+import ie.teamchile.smartapp.model.Appointment;
+import ie.teamchile.smartapp.model.Clinic;
+import ie.teamchile.smartapp.model.ServiceOption;
 import ie.teamchile.smartapp.utility.ToastAlert;
 import retrofit.Callback;
 import retrofit.RetrofitError;

@@ -1,8 +1,8 @@
 package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.retrofit.ApiRootModel;
-import ie.teamchile.smartapp.retrofit.SmartApi;
+import ie.teamchile.smartapp.model.ApiRootModel;
+import ie.teamchile.smartapp.utility.SmartApi;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;

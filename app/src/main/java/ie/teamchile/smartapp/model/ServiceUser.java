@@ -1,4 +1,4 @@
-package ie.teamchile.smartapp.retrofit;
+package ie.teamchile.smartapp.model;
 
 /**
  * Created by user on 5/26/15.

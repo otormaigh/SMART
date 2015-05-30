@@ -1,9 +1,9 @@
 package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.retrofit.SmartApi;
-import ie.teamchile.smartapp.retrofit.ApiRootModel;
-import ie.teamchile.smartapp.retrofit.PostingData;
+import ie.teamchile.smartapp.utility.SmartApi;
+import ie.teamchile.smartapp.model.ApiRootModel;
+import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.utility.ToastAlert;
 import retrofit.Callback;
 import retrofit.RestAdapter;

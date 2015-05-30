@@ -1,8 +1,8 @@
 package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.retrofit.ApiRootModel;
-import ie.teamchile.smartapp.retrofit.Baby;
+import ie.teamchile.smartapp.model.ApiRootModel;
+import ie.teamchile.smartapp.model.Baby;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
