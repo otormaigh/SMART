@@ -1,9 +1,9 @@
 package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.retrofit.ApiRootModel;
-import ie.teamchile.smartapp.retrofit.ServiceUser;
-import ie.teamchile.smartapp.retrofit.SmartApi;
+import ie.teamchile.smartapp.model.ApiRootModel;
+import ie.teamchile.smartapp.model.ServiceUser;
+import ie.teamchile.smartapp.utility.SmartApi;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -11,7 +11,6 @@ import retrofit.client.Response;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;

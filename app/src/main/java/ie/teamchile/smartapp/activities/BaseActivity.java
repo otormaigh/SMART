@@ -2,11 +2,11 @@ package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.enums.CredentialsEnum;
-import ie.teamchile.smartapp.retrofit.ApiRootModel;
-import ie.teamchile.smartapp.retrofit.Appointment;
-import ie.teamchile.smartapp.retrofit.Baby;
-import ie.teamchile.smartapp.retrofit.Pregnancy;
-import ie.teamchile.smartapp.retrofit.SmartApi;
+import ie.teamchile.smartapp.model.ApiRootModel;
+import ie.teamchile.smartapp.model.Appointment;
+import ie.teamchile.smartapp.model.Baby;
+import ie.teamchile.smartapp.model.Pregnancy;
+import ie.teamchile.smartapp.utility.SmartApi;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;

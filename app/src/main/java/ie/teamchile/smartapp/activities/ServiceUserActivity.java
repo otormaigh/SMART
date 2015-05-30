@@ -1,7 +1,7 @@
 package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.retrofit.ApiRootModel;
+import ie.teamchile.smartapp.model.ApiRootModel;
 import ie.teamchile.smartapp.utility.ToastAlert;
 
 import java.io.IOException;
