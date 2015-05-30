@@ -22,6 +22,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +37,7 @@ public class ServiceUserSearchActivity extends BaseActivity {
 	private ListView list;
 	private ArrayAdapter<String> adapter;
 	private List<String> hospitalNumberList = new ArrayList<>();
+	private LinearLayout llNoUserFound;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,16 +49,18 @@ public class ServiceUserSearchActivity extends BaseActivity {
 		searchDOBDay = (EditText) findViewById(R.id.search_dob_day);
 		searchDOBMonth = (EditText) findViewById(R.id.search_dob_month);
 		searchDOBYear = (EditText) findViewById(R.id.search_dob_year);
-		tvNoUserFound = (TextView) findViewById(R.id.tv_no_user_found);
+		//tvNoUserFound = (TextView) findViewById(R.id.tv_no_user_found);
 		tvSearchResults = (TextView) findViewById(R.id.tv_search_results);
+		llNoUserFound = (LinearLayout) findViewById(R.id.ll_no_user_found);
 
 		search = (Button) findViewById(R.id.search);
 		search.setOnClickListener(new ButtonClick());
 
 		list = (ListView) findViewById(R.id.search_results_list);
 		list.setOnItemClickListener(new onItemListener());
-		
-		tvNoUserFound.setVisibility(View.GONE);
+
+		llNoUserFound.setVisibility(View.GONE);
+		//tvNoUserFound.setVisibility(View.GONE);
 		tvSearchResults.setVisibility(View.GONE);
 	}
 
@@ -81,8 +85,9 @@ public class ServiceUserSearchActivity extends BaseActivity {
 
 			case R.id.search:
 				Log.d("MYLOG", "Search Button Pressed");
-				
-				tvNoUserFound.setVisibility(View.GONE);
+
+				llNoUserFound.setVisibility(View.GONE);
+				//tvNoUserFound.setVisibility(View.GONE);
 				tvSearchResults.setVisibility(View.GONE);
 				
 				InputMethodManager inputManager = (InputMethodManager)
@@ -153,10 +158,8 @@ public class ServiceUserSearchActivity extends BaseActivity {
 							adapter.notifyDataSetChanged();
 						}
 					} else {
-						tvNoUserFound.setVisibility(View.VISIBLE);
-						Toast.makeText(getApplicationContext(),
-								"No search results found",
-								Toast.LENGTH_SHORT).show();
+						llNoUserFound.setVisibility(View.VISIBLE);
+						//tvNoUserFound.setVisibility(View.VISIBLE);
 						if(adapter != null){
 							adapter.clear();
 						}
@@ -166,10 +169,7 @@ public class ServiceUserSearchActivity extends BaseActivity {
 
 				@Override
 				public void failure(RetrofitError error) {
-					tvNoUserFound.setVisibility(View.VISIBLE);
-					Toast.makeText(getApplicationContext(),
-							"No search results found",
-							Toast.LENGTH_SHORT).show();
+					//tvNoUserFound.setVisibility(View.VISIBLE);
 					pd.dismiss();
 				}
 			}
