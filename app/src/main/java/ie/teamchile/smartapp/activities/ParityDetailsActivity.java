@@ -4,14 +4,11 @@ import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.retrofit.ApiRootModel;
 import ie.teamchile.smartapp.retrofit.Baby;
 
-import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import android.content.Context;
 import android.content.Intent;
@@ -43,9 +40,6 @@ public class ParityDetailsActivity extends BaseActivity {
 	private List<String> dobStr = new ArrayList<>();
 	private ListView parityList;
 	private int orientation;
-	private DateFormat sdfMonthFullName = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
-	private DateFormat sdfDateTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault());
-	private DateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -244,16 +238,16 @@ public class ParityDetailsActivity extends BaseActivity {
 		Date date = null;
 		String dateOfDevelivery = null;
 		try {
-			date = sdfDateTime.parse(edd);
+			date = dfDateTime.parse(edd);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 		switch (option) {
 		case 0:
-			dateOfDevelivery = sdfMonthFullName.format(date);
+			dateOfDevelivery = dfMonthFullName.format(date);
 			break;
 		case 1:
-			dateOfDevelivery = sdfDate.format(date);
+			dateOfDevelivery = dfDateOnly.format(date);
 			break;
 		}
 
