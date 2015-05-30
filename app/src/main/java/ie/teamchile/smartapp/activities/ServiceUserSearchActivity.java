@@ -2,6 +2,7 @@ package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.retrofit.ApiRootModel;
+import ie.teamchile.smartapp.retrofit.ServiceUser;
 import ie.teamchile.smartapp.retrofit.SmartApi;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -10,6 +11,7 @@ import retrofit.client.Response;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -122,14 +124,15 @@ public class ServiceUserSearchActivity extends BaseActivity {
 	private void searchForPatient(String name, String hospitalNumber, String dob){
 		showProgressDialog(ServiceUserSearchActivity.this, "Fetching Information");
 		api.getServiceUserByNameDobHospitalNum(
-				name,
-				hospitalNumber,
-				dob,
-				ApiRootModel.getInstance().getLogin().getToken(),
-				SmartApi.API_KEY,
-				new Callback<ApiRootModel>() {
-					@Override
-					public void success(ApiRootModel apiRootModel, Response response) {
+			name,
+			hospitalNumber,
+			dob,
+			ApiRootModel.getInstance().getLogin().getToken(),
+			SmartApi.API_KEY,
+			new Callback<ApiRootModel>() {
+				@Override
+				public void success(ApiRootModel apiRootModel, Response response) {
+					if (apiRootModel.getServiceUsers().size() > 0) {
 						ApiRootModel.getInstance().setServiceUsers(apiRootModel.getServiceUsers());
 						ApiRootModel.getInstance().setPregnancies(apiRootModel.getPregnancies());
 						ApiRootModel.getInstance().setBabies(apiRootModel.getBabies());
@@ -138,10 +141,11 @@ public class ServiceUserSearchActivity extends BaseActivity {
 						else {
 							searchResults.clear();
 							hospitalNumberList.clear();
-							for(int i = 0; i < apiRootModel.getServiceUsers().size(); i++){
-								String name = ApiRootModel.getInstance().getServiceUsers().get(i).getPersonalFields().getName();
-								String hospitalNumber = ApiRootModel.getInstance().getServiceUsers().get(i).getHospitalNumber();
-								String dob = ApiRootModel.getInstance().getServiceUsers().get(i).getPersonalFields().getDob();
+							for (int i = 0; i < apiRootModel.getServiceUsers().size(); i++) {
+								ServiceUser serviceUser = ApiRootModel.getInstance().getServiceUsers().get(i);
+								String name = serviceUser.getPersonalFields().getName();
+								String hospitalNumber = serviceUser.getHospitalNumber();
+								String dob = serviceUser.getPersonalFields().getDob();
 
 								searchResults.add(name + " - " + hospitalNumber + " - " + dob);
 								hospitalNumberList.add(hospitalNumber);
@@ -149,16 +153,27 @@ public class ServiceUserSearchActivity extends BaseActivity {
 							createResultList(searchResults);
 							adapter.notifyDataSetChanged();
 						}
-						pd.dismiss();
-					}
-
-					@Override
-					public void failure(RetrofitError error) {
+					} else {
 						tvNoUserFound.setVisibility(View.VISIBLE);
-						Toast.makeText(getApplicationContext(), "No search results found", Toast.LENGTH_SHORT).show();
-						pd.dismiss();
+						Toast.makeText(getApplicationContext(),
+								"No search results found",
+								Toast.LENGTH_SHORT).show();
+						if(adapter != null){
+							adapter.clear();
+						}
 					}
+					pd.dismiss();
 				}
+
+				@Override
+				public void failure(RetrofitError error) {
+					tvNoUserFound.setVisibility(View.VISIBLE);
+					Toast.makeText(getApplicationContext(),
+							"No search results found",
+							Toast.LENGTH_SHORT).show();
+					pd.dismiss();
+				}
+			}
 		);
 	}
 }
