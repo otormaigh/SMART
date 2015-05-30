@@ -1,7 +1,6 @@
 package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.connecttodb.AccessDBTable;
 import ie.teamchile.smartapp.enums.CredentialsEnum;
 import ie.teamchile.smartapp.retrofit.ApiRootModel;
 import ie.teamchile.smartapp.retrofit.Appointment;
@@ -30,7 +29,6 @@ import java.util.Map;
 public class QuickMenuActivity extends BaseActivity {
     private boolean isViewVisible;
     private ProgressDialog pd;
-	private AccessDBTable db = new AccessDBTable();
 	private Button patientSearch, bookAppointment, calendar, todaysAppointments;
 	private int done = 0;
 	private CountDownTimer timer;

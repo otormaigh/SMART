@@ -5,13 +5,10 @@ import ie.teamchile.smartapp.retrofit.ApiRootModel;
 import ie.teamchile.smartapp.utility.ToastAlert;
 
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -56,10 +53,6 @@ public class ServiceUserActivity extends BaseActivity {
 	private Dialog dialog;
 	private Button bookAppointmentButton;
   	private TableRow tableParity;
-	private DateFormat sdfDateTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault());
-	private DateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-	private DateFormat sdfMonthFullName = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
-	private DateFormat sdfAMPM = new SimpleDateFormat("HH:mm a", Locale.getDefault());
 	private Date dobAsDate = null;
 	private Intent userCallIntent, userSmsIntent, userEmailIntent;
 	private Calendar cal = Calendar.getInstance();
@@ -346,7 +339,7 @@ public class ServiceUserActivity extends BaseActivity {
 	
 	private String getAge(String dob) {
 		try {			
-			dobAsDate = sdfDate.parse(dob);
+			dobAsDate = dfDateOnly.parse(dob);
 			cal.setTime(dobAsDate);
 		} catch (ParseException | NullPointerException e) {
 			e.printStackTrace();
@@ -376,8 +369,8 @@ public class ServiceUserActivity extends BaseActivity {
         Date date;
         String ed = null;
 		try{
-			date = sdfDate.parse(edd);
-	        ed = sdfMonthFullName.format(date);
+			date = dfDateOnly.parse(edd);
+	        ed = dfMonthFullName.format(date);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -388,8 +381,8 @@ public class ServiceUserActivity extends BaseActivity {
         Date date;
         String ed = null;
 		try{
-			date = sdfDate.parse(edd);
-	        ed = sdfMonthFullName.format(date);
+			date = dfDateOnly.parse(edd);
+	        ed = dfMonthFullName.format(date);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -400,8 +393,8 @@ public class ServiceUserActivity extends BaseActivity {
        Date date;
        String dateOfDelivery = null;
 		try{
-			date = sdfDateTime.parse(edd);
-	        dateOfDelivery = sdfMonthFullName.format(date);
+			date = dfDateOnly.parse(edd);
+	        dateOfDelivery = dfMonthFullName.format(date);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -412,10 +405,10 @@ public class ServiceUserActivity extends BaseActivity {
 		String deliveryTime = null;
 		Date date;
 		try {
-			date = sdfDateTime.parse(edd);
+			date = dfDateOnly.parse(edd);
 
-			deliveryTime = sdfAMPM.format(date);
-			date = sdfDateTime.parse(edd);
+			deliveryTime = dfAMPM.format(date);
+			date = dfDateTime.parse(edd);
 
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -426,7 +419,7 @@ public class ServiceUserActivity extends BaseActivity {
 	private String getNoOfDays(String dateOfDelivery){
 		int numOfDays = 0;
 		try {
-			Date dodAsDate = sdfDateTime.parse(deliveryDateTime);
+			Date dodAsDate = dfDateTime.parse(deliveryDateTime);
 			cal = Calendar.getInstance();
 			Date now = cal.getTime();
 			numOfDays = (int)((now.getTime() - dodAsDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;

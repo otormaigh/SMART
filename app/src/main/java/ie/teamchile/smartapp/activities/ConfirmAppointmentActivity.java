@@ -9,14 +9,11 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import android.content.Intent;
@@ -27,9 +24,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class ConfirmAppointmentActivity extends BaseActivity {
-	private DateFormat sdfDateMonthName = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
-	private DateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-    private TextView txtUserName, txtClinic, txtDateTime, 
+    private TextView txtUserName, txtClinic, txtDateTime,
     				 txtEmailTo, txtSmsTo;
     private Button btnYes, btnNo;
     private String name, hospitalNumber, clinicName, date, monthDate, time,
@@ -58,8 +53,8 @@ public class ConfirmAppointmentActivity extends BaseActivity {
         clinicID = Integer.parseInt(getIntent().getStringExtra("clinicID"));
         date = getIntent().getStringExtra("date");
         try {
-        	cal.setTime(sdfDate.parse(date));
-        	monthDate = sdfDateMonthName.format(sdfDate.parse(date));
+        	cal.setTime(dfDateOnly.parse(date));
+        	monthDate = dfDateMonthNameYear.format(dfDateOnly.parse(date));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -132,13 +127,11 @@ public class ConfirmAppointmentActivity extends BaseActivity {
                 new Callback<ApiRootModel>() {
                     @Override
                     public void success(ApiRootModel apiRootModel, Response response) {
-                        //response.getBody();
                         ApiRootModel.getInstance().addAppointment(apiRootModel.getAppointment());
                         Intent intent = new Intent(ConfirmAppointmentActivity.this, AppointmentCalendarActivity.class);
                         pd.dismiss();
-                        setApptToMaps();
+                        addNewApptToMaps();
                         startActivity(intent);
-                        //updateAppointments(apptId);
                     }
 
                     @Override
@@ -150,7 +143,7 @@ public class ConfirmAppointmentActivity extends BaseActivity {
         );
     }
 
-    private void setApptToMaps(){
+    private void addNewApptToMaps(){
         List<Integer> apptIdList;
         Map<String, List<Integer>> dateApptIdMap;
         Map<Integer, Map<String, List<Integer>>> clinicDateApptIdMap = new HashMap<>();
@@ -181,75 +174,4 @@ public class ConfirmAppointmentActivity extends BaseActivity {
         Log.d("Retrofit", "appointments finished");
         pd.dismiss();
     }
-
-    private void updateAppointments(int apptId) {
-        api.getAppointmentById(
-                apptId,
-                ApiRootModel.getInstance().getLogin().getToken(),
-                SmartApi.API_KEY,
-                new Callback<ApiRootModel>() {
-                    @Override
-                    public void success(ApiRootModel apiRootModel, Response response) {
-                        ApiRootModel.getInstance().addAppointment(apiRootModel.getAppointments().get(0));
-                        Log.d("Retro", "retro success");
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Log.d("Retro", "retro railure error = " + error);
-                    }
-                }
-        );
-    }
-
-    /*private void updateAppointments(final Intent intent){
-        showProgressDialog(ConfirmAppointmentActivity.this,
-                "Updating Appointments");
-        api.getAllAppointments(
-                ApiRootModel.getInstance().getLogin().getToken(),
-                CredentialsEnum.API_KEY.toString(),
-                new Callback<ApiRootModel>() {
-                    @Override
-                    public void success(ApiRootModel apiRootModel, Response response) {
-                        ApiRootModel.getInstance().setAppointments(apiRootModel.getAppointments());
-                        List<Integer> apptIdList;
-                        Map<String, List<Integer>> dateApptIdMap;
-                        Map<Integer, Map<String, List<Integer>>> clinicDateApptIdMap = new HashMap<>();
-                        Map<Integer, Appointment> idApptMap = new HashMap<>();
-
-                        for(int i = 0; i < apiRootModel.getAppointments().size(); i++){
-                            apptIdList = new ArrayList<>();
-                            dateApptIdMap = new HashMap<>();
-                            String apptDate = apiRootModel.getAppointments().get(i).getDate();
-                            int apptId = apiRootModel.getAppointments().get(i).getId();
-                            int clinicId = apiRootModel.getAppointments().get(i).getClinicId();
-                            Appointment appt = apiRootModel.getAppointments().get(i);
-
-                            if(clinicDateApptIdMap.get(clinicId) != null){
-                                dateApptIdMap = clinicDateApptIdMap.get(clinicId);
-                                if(dateApptIdMap.get(apptDate) != null){
-                                    apptIdList = dateApptIdMap.get(apptDate);
-                                }
-                            }
-                            apptIdList.add(apptId);
-                            dateApptIdMap.put(apptDate, apptIdList);
-
-                            clinicDateApptIdMap.put(clinicId, dateApptIdMap);
-                            idApptMap.put(apptId, appt);
-                        }
-                        ApiRootModel.getInstance().setClinicDateApptIdMap(clinicDateApptIdMap);
-                        ApiRootModel.getInstance().setIdApptMap(idApptMap);
-                        Log.d("Retrofit", "appointments finished");
-                        pd.dismiss();
-                        startActivity(intent);
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Log.d("Retrofit", "appointments retro failure " + error);
-                        pd.dismiss();
-                    }
-                }
-        );
-    }*/
 }
