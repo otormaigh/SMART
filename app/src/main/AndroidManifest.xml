@@ -70,19 +70,11 @@
             android:name="android.support.PARENT_ACTIVITY"
             android:value=".activities.QuickMenuActivity" />
 
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".activities.QuickMenuActivity" />
-
         <activity
             android:name=".activities.CreateAppointmentActivity"
             android:parentActivityName=".activities.QuickMenuActivity"
             android:screenOrientation="sensorPortrait"
             android:launchMode="singleTask" />
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".activities.QuickMenuActivity" />
-
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value=".activities.QuickMenuActivity" />
@@ -100,10 +92,6 @@
             android:launchMode="singleTask"
             android:screenOrientation="sensorPortrait" />
 
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".activities.QuickMenuActivity" />
-
         <activity
             android:name=".activities.ServiceUserActivity"
             android:parentActivityName=".activities.QuickMenuActivity"
@@ -116,10 +104,6 @@
             android:name=".activities.ServiceUserSearchActivity"
             android:parentActivityName=".activities.QuickMenuActivity"
             android:screenOrientation="sensorPortrait" />
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".activities.QuickMenuActivity" />
-
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value=".activities.QuickMenuActivity" />
