@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="${relativePackage}.${activityClass}" >
+    tools:context="${relativePackage}.${activityClass}">
 
     <EditText
         android:id="@+id/search_name"
@@ -12,22 +12,22 @@
         android:layout_height="wrap_content"
         android:hint="@string/enter_name"
         android:paddingTop="@dimen/padding_medium"
-        android:textColorHint="#B6B6B6"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:textColorHint="#B6B6B6" />
 
     <EditText
         android:id="@+id/search_hospital_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/enter_hospital_number"
-        android:textColorHint="#A9A9A9"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:textColorHint="#A9A9A9" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:weightSum="3.0" >
+        android:weightSum="3.0">
 
         <EditText
             android:id="@+id/search_dob_day"
@@ -71,19 +71,41 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/search_result" />
-    
-    <TextView
-        android:id="@+id/tv_no_user_found"
-        android:layout_width="fill_parent"
+
+    <LinearLayout
+        android:id="@+id/ll_no_user_found"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/no_user_found"
-        android:textSize="@dimen/text_large"
-        android:textColor="@color/red" />
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/ic_alert_triangle" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/no_user_found"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_large" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/please_try_again"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_large" />
+    </LinearLayout>
+
 
     <ListView
         android:id="@+id/search_results_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-    </ListView>
+        android:layout_height="match_parent"></ListView>
 
 </LinearLayout>
