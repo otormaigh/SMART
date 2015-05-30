@@ -2,6 +2,7 @@ package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.model.ApiRootModel;
+import ie.teamchile.smartapp.utility.RecyclerViewAdapter;
 import ie.teamchile.smartapp.utility.SmartApi;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -20,6 +21,8 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +37,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.daimajia.swipe.util.Attributes;
+
 public class AppointmentCalendarActivity extends BaseActivity {
 	private final int sdkVersion = Build.VERSION.SDK_INT;
 	private static int serviceOptionSelected, weekSelected, clinicSelected;
@@ -45,7 +50,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
 	private List<String> timeSingle, gestSingle, nameSingle;
 	private List<Integer> listOfApptId = new ArrayList<>();
 	private Calendar c = Calendar.getInstance(), myCalendar = Calendar.getInstance();
-	private BaseAdapter adapter;
+	//private BaseAdapter adapter;
 	private Intent intent;
 	private ProgressDialog pd;
 	private List<String> timeList = new ArrayList<>();
@@ -53,7 +58,9 @@ public class AppointmentCalendarActivity extends BaseActivity {
 	private List<String> gestList = new ArrayList<>();
 	private List<Integer> idList = new ArrayList<>();
 	private Button dateInList, prevWeek, nextWeek;
-	private ListView listView;
+	//private ListView listView;
+	private RecyclerView recyclerView;
+	private RecyclerView.Adapter recyclerAdapter;
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,11 +68,14 @@ public class AppointmentCalendarActivity extends BaseActivity {
 		setContentForNav(R.layout.activity_appointment_calendar);
         
         dateInList = (Button) findViewById(R.id.date_button);
-        listView = (ListView) findViewById(R.id.list);        
+        //listView = (ListView) findViewById(R.id.list);
         prevWeek = (Button) findViewById(R.id.prev_button);
         prevWeek.setOnClickListener(new ButtonClick());
         nextWeek = (Button) findViewById(R.id.next_button);
         nextWeek.setOnClickListener(new ButtonClick());
+
+		recyclerView = (RecyclerView) findViewById(R.id.rv_appointment_list);
+		recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 		clinicOpening = ApiRootModel.getInstance().getClinicsMap().get(clinicSelected).getOpeningTime();
 		clinicClosing = ApiRootModel.getInstance().getClinicsMap().get(clinicSelected).getClosingTime();
@@ -85,10 +95,13 @@ public class AppointmentCalendarActivity extends BaseActivity {
         dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
         c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
 		
-		listView.setAdapter(null);
+		//listView.setAdapter(null);
+		recyclerView.setAdapter(null);
         newSetToList(daySelected);
-        adapter.notifyDataSetChanged();
+        //adapter.notifyDataSetChanged();
+		recyclerAdapter.notifyDataSetChanged();
         createDatePicker();
+
     }
 
     @Override
@@ -99,8 +112,10 @@ public class AppointmentCalendarActivity extends BaseActivity {
 		super.onResume();
 		Log.d("bugs", "in onResume");
 		Log.d("bugs", "daySelected: " + daySelected);
-		listView.setAdapter(null);
-		adapter.notifyDataSetChanged();
+		//listView.setAdapter(null);
+		//adapter.notifyDataSetChanged();
+		recyclerView.setAdapter(null);
+		recyclerAdapter.notifyDataSetChanged();
 		newSetToList(daySelected);
 	}
 
@@ -113,7 +128,8 @@ public class AppointmentCalendarActivity extends BaseActivity {
                 	daySelected = c.getTime();
                 	myCalendar.setTime(daySelected);
                 	createDatePicker();
-                	listView.setAdapter(null);
+                	//listView.setAdapter(null);
+					recyclerView.setAdapter(null);
                 	newSetToList(c.getTime());
                 	pauseButton();
                 	break;
@@ -123,7 +139,8 @@ public class AppointmentCalendarActivity extends BaseActivity {
                 	daySelected = c.getTime();
                 	myCalendar.setTime(daySelected);
                 	createDatePicker();
-                	listView.setAdapter(null);
+                	//listView.setAdapter(null);
+					recyclerView.setAdapter(null);
                 	newSetToList(c.getTime());
                 	pauseButton();
                     break;
@@ -267,17 +284,37 @@ public class AppointmentCalendarActivity extends BaseActivity {
 				}
 			}
 			Log.d("Retro", "timeLinst = " + timeList);
-		}		
-		
-		adapter = new ListElementAdapter (AppointmentCalendarActivity.this, 
+		}
+
+		RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
+			@Override
+			public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+				super.onScrollStateChanged(recyclerView, newState);
+				Log.e("ListView", "onScrollStateChanged");
+			}
+
+			@Override
+			public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+				super.onScrolled(recyclerView, dx, dy);
+			}
+		};
+
+		recyclerAdapter = new RecyclerViewAdapter(this, timeList, nameList, gestList, idList);
+		((RecyclerViewAdapter) recyclerAdapter).setMode(Attributes.Mode.Single);
+		recyclerView.setAdapter(recyclerAdapter);
+
+        /* Listeners */
+		recyclerView.setOnScrollListener(onScrollListener);
+
+		/*adapter = new ListElementAdapter (AppointmentCalendarActivity.this,
 					timeList, nameList, gestList);
 		adapter.notifyDataSetChanged();
         listView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-        listView.setOnItemClickListener(new OnItemListener());
+        listView.setOnItemClickListener(new OnItemListener());*/
 	}
     
-    private class ListElementAdapter extends BaseAdapter {
+    /*private class ListElementAdapter extends BaseAdapter {
 		LayoutInflater layoutInflater;
 		List<String> aptTime, aptName, aptGest;
 
@@ -324,7 +361,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
 			}
 			return convertView;
 		}
-	}
+	}*/
     
     private class OnItemListener implements OnItemClickListener {
 		@Override
