@@ -45,8 +45,17 @@ import java.util.Locale;
 import java.util.Map;
 
 public class BaseActivity extends AppCompatActivity {
-    private DateFormat sdfDateTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault());
-    private DateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+    protected DateFormat dfDateTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault());
+    protected DateFormat dfDateOnly = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+    protected DateFormat dfTimeOnly = new SimpleDateFormat("HH:mm", Locale.getDefault());
+    protected DateFormat dfTimeWSec = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+    protected DateFormat dfDateWMonthName = new SimpleDateFormat("dd MMM", Locale.getDefault());
+    protected DateFormat dfDay = new SimpleDateFormat("E", Locale.getDefault());
+    protected DateFormat dfDowMonthDay = new SimpleDateFormat("EEE, d MMM", Locale.getDefault());
+    protected DateFormat dfDateMonthNameYear = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
+    protected DateFormat dfMonthFullName = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
+    protected DateFormat dfAMPM = new SimpleDateFormat("HH:mm a", Locale.getDefault());
+
 	protected ProgressDialog pd;
     protected DrawerLayout drawerLayout;
     protected ListView drawerList;
@@ -253,7 +262,7 @@ public class BaseActivity extends AppCompatActivity {
             for (int i = 0; i < pregnancyList.size(); i++) {
                 edd = pregnancyList.get(i).getEstimatedDeliveryDate();
                 try {
-                    asDate.add(sdfDate.parse(edd));
+                    asDate.add(dfDateOnly.parse(edd));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -270,7 +279,7 @@ public class BaseActivity extends AppCompatActivity {
             for (int i = 0; i < babyList.size(); i++) {
                 String deliveryDateTime = babyList.get(i).getDeliveryDateTime();
                 try {
-                    asDate.add(sdfDateTime.parse(deliveryDateTime));
+                    asDate.add(dfDateTime.parse(deliveryDateTime));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }

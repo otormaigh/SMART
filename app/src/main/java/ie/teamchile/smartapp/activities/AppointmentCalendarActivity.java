@@ -1,23 +1,17 @@
 package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.connecttodb.AccessDBTable;
 import ie.teamchile.smartapp.retrofit.ApiRootModel;
 import ie.teamchile.smartapp.retrofit.SmartApi;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-
-import org.json.JSONObject;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
@@ -48,18 +42,12 @@ public class AppointmentCalendarActivity extends BaseActivity {
 	private String clinicOpening, clinicClosing, closingMinusInterval,
 				   dateSelectedStr, timeBefore, timeAfter, nameOfClinic;
 	private int appointmentInterval, dayOfWeek;
-	private DateFormat dfDateOnly = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-	private DateFormat dfTimeOnly = new SimpleDateFormat("HH:mm", Locale.getDefault());
-	private DateFormat dfTimeWSec = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
-	private DateFormat dfDateWithMonthName = new SimpleDateFormat("dd MMM", Locale.getDefault());
 	private List<String> timeSingle, gestSingle, nameSingle;
 	private List<Integer> listOfApptId = new ArrayList<>();
 	private Calendar c = Calendar.getInstance(), myCalendar = Calendar.getInstance();
 	private BaseAdapter adapter;
 	private Intent intent;
 	private ProgressDialog pd;
-	private AccessDBTable db = new AccessDBTable();
-	private JSONObject json;
 	private List<String> timeList = new ArrayList<>();
 	private List<String> nameList = new ArrayList<>();
 	private List<String> gestList = new ArrayList<>();
@@ -181,7 +169,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
 				Log.d("bugs", "c.getDay: " + dayOfWeek);
 				Log.d("bugs", "myCalendar.getDay: " + myCalendar.get(Calendar.DAY_OF_WEEK));
 				if(myCalendar.get(Calendar.DAY_OF_WEEK) == dayOfWeek){
-					dateInList.setText(dfDateWithMonthName.format(myCalendar.getTime()));
+					dateInList.setText(dfDateWMonthName.format(myCalendar.getTime()));
 					newSetToList(myCalendar.getTime());					
 				} else {
 					pd = new ProgressDialog(AppointmentCalendarActivity.this);
@@ -224,7 +212,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
 		daySelected = dateSelected;
 		
 		dateSelectedStr = dfDateOnly.format(dateSelected);		
-		dateInList.setText(dfDateWithMonthName.format(dateSelected));
+		dateInList.setText(dfDateWMonthName.format(dateSelected));
     	nameOfClinic = ApiRootModel.getInstance().getClinicsMap().get(clinicSelected).getName();
 		setActionBarTitle(nameOfClinic);
 
@@ -317,7 +305,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
 		
 		@Override
 		public View getView(final int position, View convertView, ViewGroup parent) {
-			convertView = layoutInflater.inflate(R.layout.list_rows, null);
+			convertView = layoutInflater.inflate(R.layout.list_appointment_layout, null);
 			TextView timeText = (TextView) convertView.findViewById(R.id.time);
 			TextView nameText = (TextView) convertView.findViewById(R.id.name);
 			TextView gestText = (TextView) convertView.findViewById(R.id.gestation);			
