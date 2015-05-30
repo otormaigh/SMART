@@ -4,17 +4,14 @@ import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.retrofit.ApiRootModel;
 import ie.teamchile.smartapp.retrofit.ServiceUser;
 import ie.teamchile.smartapp.retrofit.SmartApi;
+
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-//import ie.teamchile.smartapp.utility.ClinicSingleton;
-//import ie.teamchile.smartapp.utility.ServiceUserSingleton;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -39,22 +36,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class CreateAppointmentActivity extends BaseActivity {
-	private SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm", Locale.getDefault());
-	private SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-	private SimpleDateFormat sdfDateMonthName = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
 	private ArrayAdapter<String> returnTypeAdapterArrayAdapter;
 	private ArrayAdapter<CharSequence> visitPriorityAdapter;
 	private String userName, clinic, apptDate, time, duration, priority, visitType,
 			clinicIDStr, clinicName;
 	private int appointmentInterval, userID;
-	//private AccessDBTable db = new AccessDBTable();
-	//private ProgressDialog pd;
 	private Calendar c, myCalendar;
 	private List<String> timeList = new ArrayList<String>();
 	private List<String> returnTypeList = new ArrayList<String>();
 	private List<String> babyIDs;
 	private List<Integer> idList = new ArrayList<>();
-	//private Date beforeAsDate, afterAsDate, afterAsDateMinusInterval;
 	private AppointmentCalendarActivity passOptions = new AppointmentCalendarActivity();
 	private SharedPreferences prefs;
 	private AlertDialog.Builder alertDialog;
@@ -105,7 +96,7 @@ public class CreateAppointmentActivity extends BaseActivity {
 		getSharedPrefs();
 
 		myCalendar.setTime(AppointmentCalendarActivity.daySelected);
-		textDate.setText(sdfDateMonthName.format(AppointmentCalendarActivity.daySelected));
+		textDate.setText(dfDateMonthNameYear.format(AppointmentCalendarActivity.daySelected));
 
 		clinicID = Integer.parseInt(getIntent().getStringExtra("clinicID"));
 		clinicName = ApiRootModel.getInstance().getClinicsMap().get(clinicID).getName();
@@ -181,7 +172,7 @@ public class CreateAppointmentActivity extends BaseActivity {
             switch (v.getId()) {
             case R.id.btn_confirm_appointment:
             	userName = tvUserName.getText().toString();
-            	apptDate = sdfDate.format(myCalendar.getTime());
+            	apptDate = dfDateOnly.format(myCalendar.getTime());
             	passOptions.setDaySelected(myCalendar.getTime());
             	checkIfEditEmpty();
 
@@ -286,46 +277,7 @@ public class CreateAppointmentActivity extends BaseActivity {
 		list.setAdapter(adapter);
 		ad = alertDialog.show();
 	}
-	
-	/*
-	@Override
-		protected void onPostExecute(JSONObject result) {
-			idList = new ArrayList<>();
-			Log.d("bugs", "Result from on post " + result);
-			try {
-				if (result.getJSONArray("service_users").length() != 0) {
-					for (int i = 0; i < result.getJSONArray("service_users").length(); i++) {
-						ServiceUserSingleton.getInstance().setPatientInfo(result);
-						name = ServiceUserSingleton.getInstance().getUserName().get(i);
-						hospitalNumber = ServiceUserSingleton.getInstance().getUserHospitalNumber().get(i);
-						dob = ServiceUserSingleton.getInstance().getUserDOB().get(i);
-						id = ServiceUserSingleton.getInstance().getUserID().get(i);
 
-						idList.add(id);
-						searchResults.add(name + "\n" + hospitalNumber + "\n" + dob);
-						Log.d("bugs", "searchResults: " + searchResults);
-						
-						postOrAnte();
-						getRecentPregnancy();
-					}
-					
-*//*					if(idList.size() == 1){
-						setSharedPrefs();
-					}*//*
-					
-					pd.dismiss();
-					if(showDialog){
-						Log.d("bugs", "showDialog true");
-						buildeAlertDialog(searchResults);
-					}  else {
-						Log.d("bugs", "showDialog false");
-						tvUserName.setText(name);
-					} 
-				} else {
-					pd.dismiss();
-					Toast.makeText(getApplicationContext(), "No search results found", Toast.LENGTH_SHORT).show();
-				}*/
-    
     private class MySpinnerOnItemSelectedListener implements AdapterView.OnItemSelectedListener {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -393,7 +345,7 @@ public class CreateAppointmentActivity extends BaseActivity {
 		visitType = "post-natal";		//this need to be changed
 
 
-		/*//babyIDs = ServiceUserSingleton.getInstance().getPregnancyBabyIDs();
+		/*//babyIDs = ;
 		if(babyIDs.get(p).equals("[]")){
 			visitType = "ante-natal";
     	}else {
@@ -405,14 +357,14 @@ public class CreateAppointmentActivity extends BaseActivity {
     	List<String> edd = new ArrayList<String>();
     	List<Date> asDate = new ArrayList<Date>();
     	
-    	edd = ServiceUserSingleton.getInstance().getPregnancyEstimatedDeliveryDate();
+    	edd = getPregnancyEstimatedDeliveryDate();
     	Log.d("bugs", "edd.size(): " + edd.size());
     	if(edd.size() > 0){
     		for(int i = 0; i < edd.size(); i++){
     			if(!edd.get(i).equals("null")){
 	    			Log.d("bugs", "edd.get(i): " + edd.get(i));
 	        		try {
-	    				asDate.add(sdfDate.parse(edd.get(i)));
+	    				asDate.add(dfDateOnly.parse(edd.get(i)));
 	    			} catch (ParseException e) {
 	    				e.printStackTrace();
 	    			}
