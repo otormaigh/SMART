@@ -4,7 +4,6 @@ import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.retrofit.ApiRootModel;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -22,8 +21,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 public class AppointmentTypeSpinnerActivity extends BaseActivity {
-	private SimpleDateFormat sdfDay = new SimpleDateFormat("E", Locale.getDefault());
-	private SimpleDateFormat sdfDowMonthDay = new SimpleDateFormat("EEE, d MMM", Locale.getDefault());
     private ArrayAdapter<CharSequence> appointmentAdapter, visitAdapter;
     private ArrayAdapter<String> serviceOptionAdapter, clinicAdapter, dayAdapter, weekAdapter;
     private List<String> serviceOptionNameList;
@@ -117,7 +114,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
             Log.d("MYLOG", "Week " + i + " selected");
     		c.add(Calendar.DAY_OF_YEAR, 7 * i);
     		c.set(Calendar.DAY_OF_WEEK, dayOfWeek.getDay() + 1);
-    		weeks.add("Week " + i + " - " + sdfDowMonthDay.format(c.getTime()));
+    		weeks.add("Week " + i + " - " + dfDowMonthDay.format(c.getTime()));
 		}
 		
 		//weekAdapter = ArrayAdapter.createFromResource(this, R.array.weeks, R.layout.spinner_layout);
@@ -223,7 +220,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
                                 try {
                                     weekSpinner.setVisibility(View.VISIBLE);
                                     weekSpinner.setSelection(0);
-                                    dayOfWeek = sdfDay.parse(trueDays.get(0));
+                                    dayOfWeek = dfDay.parse(trueDays.get(0));
                                     setWeekSpinner(dayOfWeek);
                                 } catch (ParseException e) {
                                     e.printStackTrace();
@@ -243,7 +240,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
                         	weekSpinner.setVisibility(View.VISIBLE);
                         	weekSpinner.setSelection(0);
 							try {
-								dayOfWeek = sdfDay.parse(daySpinner.getSelectedItem().toString());
+								dayOfWeek = dfDay.parse(daySpinner.getSelectedItem().toString());
 								setWeekSpinner(dayOfWeek);
 							} catch (ParseException e) {
 								e.printStackTrace();
