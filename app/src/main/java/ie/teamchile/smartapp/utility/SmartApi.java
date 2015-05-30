@@ -1,7 +1,10 @@
-package ie.teamchile.smartapp.retrofit;
+package ie.teamchile.smartapp.utility;
 
 import java.util.List;
 
+import ie.teamchile.smartapp.model.ApiRootModel;
+import ie.teamchile.smartapp.model.Appointment;
+import ie.teamchile.smartapp.model.PostingData;
 import retrofit.Callback;
 import retrofit.http.Body;
 import retrofit.http.DELETE;

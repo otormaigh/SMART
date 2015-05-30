@@ -1,4 +1,4 @@
-package ie.teamchile.smartapp.retrofit;
+package ie.teamchile.smartapp.model;
 
 import java.util.ArrayList;
 import java.util.List;
