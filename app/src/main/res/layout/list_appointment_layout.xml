@@ -1,38 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:paddingBottom="@dimen/padding_small"
-    android:paddingTop="@dimen/padding_small"
-    android:weightSum="3.0" >
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/time"
-        android:layout_width="0dp"
+    <com.daimajia.swipe.SwipeLayout
+        xmlns:swipe="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/swipe_appt_list"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.8"
-        android:gravity="start|center"
-        android:paddingLeft="@dimen/padding_small"
-        android:textSize="@dimen/text_small" />
+        swipe:leftEdgeSwipeOffset="0dp"
+        swipe:rightEdgeSwipeOffset="0dp">
 
-    <TextView
-        android:id="@+id/name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1.6"
-        android:ellipsize="end"
-        android:textAlignment="gravity"
-        android:textSize="@dimen/text_small"
-        android:singleLine="true" />
+        <!--Bottom View Start-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FF5534"
+            android:gravity="center"
+            android:tag="Bottom3"
+            android:weightSum="10">
 
-    <TextView
-        android:id="@+id/gestation"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.6"
-        android:gravity="end|center"
-        android:paddingRight="@dimen/padding_small"
-        android:textSize="@dimen/text_small" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="6"
+                android:paddingLeft="@dimen/padding_small"
+                android:text="Appointment Attended?"
+                android:textColor="#fff"
+                android:textSize="17sp" />
 
+            <Button
+                android:id="@+id/btn_change_status"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="4"
+                android:background="#ffffff"
+                android:text="Yes"
+                android:textColor="#FF5534" />
+        </LinearLayout>
+        <!--Bottom View End-->
+
+        <!--Surface View Start-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/padding_small"
+            android:paddingTop="@dimen/padding_small"
+            android:weightSum="3.0">
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.8"
+                android:gravity="start|center"
+                android:paddingLeft="@dimen/padding_small"
+                android:textSize="@dimen/text_small" />
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.4"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textAlignment="gravity"
+                android:textSize="@dimen/text_small" />
+
+            <TextView
+                android:id="@+id/tv_gestation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.6"
+                android:gravity="end|center"
+                android:paddingRight="@dimen/padding_small"
+                android:textSize="@dimen/text_small" />
+
+            <ImageView
+                android:id="@+id/img_attended"
+                android:layout_marginRight="15dp"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="0.3"
+                android:paddingLeft="5dp"
+                android:background="@color/black" />
+
+            <!--Surface View End-->
+        </LinearLayout>
+    </com.daimajia.swipe.SwipeLayout>
 </LinearLayout>
+

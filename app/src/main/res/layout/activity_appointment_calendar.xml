@@ -35,10 +35,9 @@
             android:textSize="@dimen/text_Xsmall" />
     </LinearLayout>
 
-    <ListView
-            android:id="@+id/list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true" >
-    </ListView>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_appointment_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical" />
 </LinearLayout>
