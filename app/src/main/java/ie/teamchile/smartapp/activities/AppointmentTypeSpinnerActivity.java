@@ -117,7 +117,6 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
     		weeks.add("Week " + i + " - " + dfDowMonthDay.format(c.getTime()));
 		}
 		
-		//weekAdapter = ArrayAdapter.createFromResource(this, R.array.weeks, R.layout.spinner_layout);
 		weekAdapter = new ArrayAdapter<String>(this, R.layout.spinner_layout, weeks);
         weekAdapter.setDropDownViewResource(R.layout.spinner_layout);
         weekSpinner.setAdapter(weekAdapter);
