@@ -2,7 +2,6 @@ package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.model.ApiRootModel;
-import ie.teamchile.smartapp.utility.RecyclerViewAdapter;
 import ie.teamchile.smartapp.utility.SmartApi;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -21,8 +20,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,11 +30,13 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.daimajia.swipe.util.Attributes;
+import com.daimajia.swipe.SwipeLayout;
 
 public class AppointmentCalendarActivity extends BaseActivity {
 	private final int sdkVersion = Build.VERSION.SDK_INT;
@@ -50,7 +49,6 @@ public class AppointmentCalendarActivity extends BaseActivity {
 	private List<String> timeSingle, gestSingle, nameSingle;
 	private List<Integer> listOfApptId = new ArrayList<>();
 	private Calendar c = Calendar.getInstance(), myCalendar = Calendar.getInstance();
-	//private BaseAdapter adapter;
 	private Intent intent;
 	private ProgressDialog pd;
 	private List<String> timeList = new ArrayList<>();
@@ -58,24 +56,20 @@ public class AppointmentCalendarActivity extends BaseActivity {
 	private List<String> gestList = new ArrayList<>();
 	private List<Integer> idList = new ArrayList<>();
 	private Button dateInList, prevWeek, nextWeek;
-	//private ListView listView;
-	private RecyclerView recyclerView;
-	private RecyclerView.Adapter recyclerAdapter;
-	
+	private BaseAdapter adapter;
+	private ListView listView;
+
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 		setContentForNav(R.layout.activity_appointment_calendar);
         
         dateInList = (Button) findViewById(R.id.date_button);
-        //listView = (ListView) findViewById(R.id.list);
+        listView = (ListView) findViewById(R.id.lv_appointment_list);
         prevWeek = (Button) findViewById(R.id.prev_button);
         prevWeek.setOnClickListener(new ButtonClick());
         nextWeek = (Button) findViewById(R.id.next_button);
         nextWeek.setOnClickListener(new ButtonClick());
-
-		recyclerView = (RecyclerView) findViewById(R.id.rv_appointment_list);
-		recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 		clinicOpening = ApiRootModel.getInstance().getClinicsMap().get(clinicSelected).getOpeningTime();
 		clinicClosing = ApiRootModel.getInstance().getClinicsMap().get(clinicSelected).getClosingTime();
@@ -95,11 +89,9 @@ public class AppointmentCalendarActivity extends BaseActivity {
         dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
         c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
 		
-		//listView.setAdapter(null);
-		recyclerView.setAdapter(null);
+		listView.setAdapter(null);
         newSetToList(daySelected);
-        //adapter.notifyDataSetChanged();
-		recyclerAdapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();
         createDatePicker();
 
     }
@@ -112,10 +104,8 @@ public class AppointmentCalendarActivity extends BaseActivity {
 		super.onResume();
 		Log.d("bugs", "in onResume");
 		Log.d("bugs", "daySelected: " + daySelected);
-		//listView.setAdapter(null);
-		//adapter.notifyDataSetChanged();
-		recyclerView.setAdapter(null);
-		recyclerAdapter.notifyDataSetChanged();
+		listView.setAdapter(null);
+		adapter.notifyDataSetChanged();
 		newSetToList(daySelected);
 	}
 
@@ -128,8 +118,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
                 	daySelected = c.getTime();
                 	myCalendar.setTime(daySelected);
                 	createDatePicker();
-                	//listView.setAdapter(null);
-					recyclerView.setAdapter(null);
+                	listView.setAdapter(null);
                 	newSetToList(c.getTime());
                 	pauseButton();
                 	break;
@@ -139,8 +128,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
                 	daySelected = c.getTime();
                 	myCalendar.setTime(daySelected);
                 	createDatePicker();
-                	//listView.setAdapter(null);
-					recyclerView.setAdapter(null);
+                	listView.setAdapter(null);
                 	newSetToList(c.getTime());
                 	pauseButton();
                     break;
@@ -283,52 +271,39 @@ public class AppointmentCalendarActivity extends BaseActivity {
 					}
 				}
 			}
-			Log.d("Retro", "timeLinst = " + timeList);
+			Log.d("Retro", "timeList = " + timeList);
 		}
 
-		RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
-			@Override
-			public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-				super.onScrollStateChanged(recyclerView, newState);
-				Log.e("ListView", "onScrollStateChanged");
-			}
+		List <Integer> statusList = new ArrayList<>();
+		for(int i = 0; i < idList.size(); i++){
+			statusList.add(0);
+		}
 
-			@Override
-			public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-				super.onScrolled(recyclerView, dx, dy);
-			}
-		};
-
-		recyclerAdapter = new RecyclerViewAdapter(this, timeList, nameList, gestList, idList);
-		((RecyclerViewAdapter) recyclerAdapter).setMode(Attributes.Mode.Single);
-		recyclerView.setAdapter(recyclerAdapter);
-
-        /* Listeners */
-		recyclerView.setOnScrollListener(onScrollListener);
-
-		/*adapter = new ListElementAdapter (AppointmentCalendarActivity.this,
-					timeList, nameList, gestList);
+		adapter = new ListElementAdapter (AppointmentCalendarActivity.this,
+					timeList, nameList, gestList, statusList);
 		adapter.notifyDataSetChanged();
         listView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-        listView.setOnItemClickListener(new OnItemListener());*/
 	}
-    
-    /*private class ListElementAdapter extends BaseAdapter {
+
+    private class ListElementAdapter extends BaseAdapter {
 		LayoutInflater layoutInflater;
 		List<String> aptTime, aptName, aptGest;
+		List<Integer> statusList;
 
 		@Override
 		public void notifyDataSetChanged() { super.notifyDataSetChanged(); }
 		
 		public ListElementAdapter(Context context, List<String> aptTime, 
-								  List<String> aptName, List<String> aptGest) {
+								  List<String> aptName, List<String> aptGest,
+								  List<Integer> statusList) {
 			super();
 			Log.d("MYLOG", "daySelected: " + daySelected);
 			Log.d("MYLOG", "List Adapter Called");
 			this.aptTime = aptTime;
 			this.aptName = aptName;
 			this.aptGest = aptGest;
+			this.statusList = statusList;
 			layoutInflater = LayoutInflater.from(context);
 		}
 		
@@ -343,9 +318,60 @@ public class AppointmentCalendarActivity extends BaseActivity {
 		@Override
 		public View getView(final int position, View convertView, ViewGroup parent) {
 			convertView = layoutInflater.inflate(R.layout.list_appointment_layout, null);
-			TextView timeText = (TextView) convertView.findViewById(R.id.time);
-			TextView nameText = (TextView) convertView.findViewById(R.id.name);
-			TextView gestText = (TextView) convertView.findViewById(R.id.gestation);			
+			TextView timeText = (TextView) convertView.findViewById(R.id.tv_time);
+			TextView nameText = (TextView) convertView.findViewById(R.id.tv_name);
+			TextView gestText = (TextView) convertView.findViewById(R.id.tv_gestation);
+			Button btnChangeStatus = (Button) convertView.findViewById(R.id.btn_change_status);
+			final ImageView ivAttend = (ImageView) convertView.findViewById(R.id.img_attended);
+			final SwipeLayout swipeLayout =  (SwipeLayout) convertView.findViewById(R.id.swipe_appt_list);
+			LinearLayout llApptListItem = (LinearLayout) convertView.findViewById(R.id.ll_appt_list_item);
+			llApptListItem.setOnClickListener(new OnClickListener() {
+				  @Override
+				  public void onClick(View v) {
+					  if(idList.get(position).equals(0)){
+						  intent = new Intent(AppointmentCalendarActivity.this, CreateAppointmentActivity.class);
+						  intent.putExtra("from", "appointment");
+						  intent.putExtra("time", timeList.get(position));
+						  intent.putExtra("clinicID", String.valueOf(clinicSelected));
+						  startActivity(intent);
+					  } else {
+						  int serviceUserId = ApiRootModel.getInstance().getIdApptMap().get(idList.get(position)).getServiceUserId();
+						  Log.d("bugs", "db string: " + "service_users" + "/" + serviceUserId);
+						  pd = new ProgressDialog(AppointmentCalendarActivity.this);
+						  pd.setMessage("Fetching Information");
+						  pd.setCanceledOnTouchOutside(false);
+						  pd.setCancelable(false);
+						  pd.show();
+						  intent = new Intent(AppointmentCalendarActivity.this, ServiceUserActivity.class);
+						  searchServiceUser(serviceUserId, intent);
+					  }
+				  }
+			  });
+
+			btnChangeStatus.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Log.d("Button", "position = " + position);
+					swipeLayout.close();
+					if (statusList.get(position) == 0) {
+						ivAttend.setBackgroundResource(R.color.green);
+						Log.d("list", "at position = " + statusList.get(position));
+						statusList.set(position, 1);
+						Log.d("list", "at position = " + statusList.get(position));
+					} else if (statusList.get(position) == 1) {
+						ivAttend.setBackgroundResource(R.color.black);
+						Log.d("list", "at position = " + statusList.get(position));
+						statusList.set(position, 0);
+						Log.d("list", "at position = " + statusList.get(position));
+					}
+					notifyDataSetChanged();
+				}
+			});
+
+			if(statusList.get(position).equals(0))
+				ivAttend.setBackgroundResource(R.color.red);
+			else
+				ivAttend.setBackgroundResource(R.color.green);
 			
 			if(idList.get(position).equals(0)){
 				timeText.setText(aptTime.get(position));
@@ -361,11 +387,43 @@ public class AppointmentCalendarActivity extends BaseActivity {
 			}
 			return convertView;
 		}
-	}*/
+	}
+
+	private class Clicky implements AdapterView.OnItemSelectedListener{
+
+		@Override
+		public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+			Log.d("List", "position clicked = " + position);
+			if(idList.get(position).equals(0)){
+				intent = new Intent(AppointmentCalendarActivity.this, CreateAppointmentActivity.class);
+				intent.putExtra("from", "appointment");
+				intent.putExtra("time", timeList.get(position));
+				intent.putExtra("clinicID", String.valueOf(clinicSelected));
+				startActivity(intent);
+			} else {
+				int serviceUserId = ApiRootModel.getInstance().getIdApptMap().get(idList.get(position)).getServiceUserId();
+				Log.d("bugs", "db string: " + "service_users" + "/" + serviceUserId);
+				pd = new ProgressDialog(AppointmentCalendarActivity.this);
+				pd.setMessage("Fetching Information");
+				pd.setCanceledOnTouchOutside(false);
+				pd.setCancelable(false);
+				pd.show();
+				intent = new Intent(AppointmentCalendarActivity.this, ServiceUserActivity.class);
+				searchServiceUser(serviceUserId, intent);
+			}
+		}
+
+		@Override
+		public void onNothingSelected(AdapterView<?> parent) {
+
+		}
+	}
+
     
     private class OnItemListener implements OnItemClickListener {
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+			Log.d("List", "position clicked = " + position);
 			if(idList.get(position).equals(0)){
 				intent = new Intent(AppointmentCalendarActivity.this, CreateAppointmentActivity.class);
 				intent.putExtra("from", "appointment");
@@ -382,8 +440,6 @@ public class AppointmentCalendarActivity extends BaseActivity {
 				pd.show();
 				intent = new Intent(AppointmentCalendarActivity.this, ServiceUserActivity.class);
 				searchServiceUser(serviceUserId, intent);
-				//new LongOperation(AppointmentCalendarActivity.this).execute("service_users" + "/" + serviceUserId);
-
 			}
 		}		    	
     }
