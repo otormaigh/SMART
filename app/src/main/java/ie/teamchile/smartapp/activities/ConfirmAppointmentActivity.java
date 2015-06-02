@@ -118,7 +118,7 @@ public class ConfirmAppointmentActivity extends BaseActivity {
 
     private void postAppointment(){
         PostingData appointment = new PostingData();
-        appointment.postAppointment(date, (time + ":00"), userId, clinicID, priority, visitType, returnType);
+        appointment.postAppointment(date, time, userId, clinicID, priority, visitType, returnType);
 
         api.postAppointment(
                 appointment,
