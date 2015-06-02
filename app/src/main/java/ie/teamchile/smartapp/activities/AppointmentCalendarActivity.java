@@ -388,37 +388,6 @@ public class AppointmentCalendarActivity extends BaseActivity {
 			return convertView;
 		}
 	}
-
-	private class Clicky implements AdapterView.OnItemSelectedListener{
-
-		@Override
-		public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-			Log.d("List", "position clicked = " + position);
-			if(idList.get(position).equals(0)){
-				intent = new Intent(AppointmentCalendarActivity.this, CreateAppointmentActivity.class);
-				intent.putExtra("from", "appointment");
-				intent.putExtra("time", timeList.get(position));
-				intent.putExtra("clinicID", String.valueOf(clinicSelected));
-				startActivity(intent);
-			} else {
-				int serviceUserId = ApiRootModel.getInstance().getIdApptMap().get(idList.get(position)).getServiceUserId();
-				Log.d("bugs", "db string: " + "service_users" + "/" + serviceUserId);
-				pd = new ProgressDialog(AppointmentCalendarActivity.this);
-				pd.setMessage("Fetching Information");
-				pd.setCanceledOnTouchOutside(false);
-				pd.setCancelable(false);
-				pd.show();
-				intent = new Intent(AppointmentCalendarActivity.this, ServiceUserActivity.class);
-				searchServiceUser(serviceUserId, intent);
-			}
-		}
-
-		@Override
-		public void onNothingSelected(AdapterView<?> parent) {
-
-		}
-	}
-
     
     private class OnItemListener implements OnItemClickListener {
 		@Override
