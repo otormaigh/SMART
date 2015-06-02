@@ -1,5 +1,6 @@
-
 package ie.teamchile.smartapp.model;
+
+import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by user on 5/26/15.
@@ -8,6 +9,8 @@ package ie.teamchile.smartapp.model;
 public class PostingData {
     public Login login;
     public Appointment appointment;
+    //@SerializedName("appointment")
+    //public AppointmentStatus appointmentStatus;
 
     public PostingData() {
     }
@@ -22,6 +25,10 @@ public class PostingData {
 
         this.appointment = new Appointment(date, time, service_provider_id, service_user_id, clinic_id,
                 priority, visit_type, return_type);
+    }
+
+    public void putAppointmentStatus(Boolean attended, int clinic_id, int service_provider_id, int service_user_id){
+        this.appointment = new Appointment(attended, clinic_id, service_provider_id, service_user_id);
     }
 
     private class Login {
@@ -43,6 +50,14 @@ public class PostingData {
         private String priority;
         private String visit_type;
         private String return_type;
+        private Boolean attended;
+
+        public Appointment(Boolean attended, int clinic_id, int service_provider_id, int service_user_id){
+            this.attended = attended;
+            this.clinic_id = clinic_id;
+            this.service_provider_id = service_provider_id;
+            this.service_user_id = service_user_id;
+        }
 
         public Appointment(String date, String time, int service_provider_id, int service_user_id,
                            int clinic_id, String priority, String visit_type, String return_type){
@@ -56,4 +71,12 @@ public class PostingData {
             this.return_type = return_type;
         }
     }
+/*
+    private class AppointmentStatus {
+        private Boolean attended;
+
+        public  AppointmentStatus(Boolean attended){
+            this.attended = attended;
+        }
+    }*/
 }

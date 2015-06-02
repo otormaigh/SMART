@@ -39,6 +39,8 @@ public class Appointment {
     @SerializedName("visit_type")
     @Expose
     private String visitType;
+    @Expose
+    private Boolean attended;
 
     /**
      * @return The clinicId
@@ -268,4 +270,11 @@ public class Appointment {
         return this;
     }
 
+    public Boolean getAttended() {
+        return attended;
+    }
+
+    public void setAttended(Boolean attended) {
+        this.attended = attended;
+    }
 }

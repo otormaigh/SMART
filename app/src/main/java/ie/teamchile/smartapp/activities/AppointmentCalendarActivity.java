@@ -2,8 +2,11 @@ package ie.teamchile.smartapp.activities;
 
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.model.ApiRootModel;
+import ie.teamchile.smartapp.model.Appointment;
+import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.utility.SmartApi;
 import retrofit.Callback;
+import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -50,11 +53,12 @@ public class AppointmentCalendarActivity extends BaseActivity {
 	private List<Integer> listOfApptId = new ArrayList<>();
 	private Calendar c = Calendar.getInstance(), myCalendar = Calendar.getInstance();
 	private Intent intent;
-	private ProgressDialog pd;
 	private List<String> timeList = new ArrayList<>();
 	private List<String> nameList = new ArrayList<>();
 	private List<String> gestList = new ArrayList<>();
 	private List<Integer> idList = new ArrayList<>();
+	private List<Boolean> attendedList = new ArrayList<>();
+	private List<Boolean> attendedSingle = new ArrayList<>();
 	private Button dateInList, prevWeek, nextWeek;
 	private BaseAdapter adapter;
 	private ListView listView;
@@ -93,8 +97,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
         newSetToList(daySelected);
         adapter.notifyDataSetChanged();
         createDatePicker();
-
-    }
+	}
 
     @Override
 	protected void onNewIntent(Intent intent) { super.onNewIntent(intent); }
@@ -177,9 +180,8 @@ public class AppointmentCalendarActivity extends BaseActivity {
 					dateInList.setText(dfDateWMonthName.format(myCalendar.getTime()));
 					newSetToList(myCalendar.getTime());					
 				} else {
-					pd = new ProgressDialog(AppointmentCalendarActivity.this);
-					pd.setMessage("Invalid day selected\nPlease choose another");
-					pd.show();
+					showProgressDialog(AppointmentCalendarActivity.this,
+							"Invalid day selected\nPlease choose another");
 					new CountDownTimer(2000, 1000){
 						@Override
 						public void onFinish() {
@@ -206,11 +208,13 @@ public class AppointmentCalendarActivity extends BaseActivity {
 		timeSingle = new ArrayList<>();
     	nameSingle = new ArrayList<>();
     	gestSingle = new ArrayList<>();
+		attendedSingle = new ArrayList<>();
     	listOfApptId = new ArrayList<>();
 
 		timeList = new ArrayList<>();
 		nameList = new ArrayList<>();
 		gestList = new ArrayList<>();
+		attendedList = new ArrayList<>();
 		idList = new ArrayList<>();
 		
 		Date apptTime = openingAsDate;		
@@ -232,28 +236,29 @@ public class AppointmentCalendarActivity extends BaseActivity {
 			timeList.add(dfTimeOnly.format(apptTime));
 			nameList.add("Free Slot");
 			gestList.add("---------");
+			attendedList.add(false);
 			idList.add(0);
 			c.setTime(apptTime);
 			c.add(Calendar.MINUTE, appointmentInterval);
 			apptTime = c.getTime();
 		}
-		
 		if (listOfApptId != null) {
 			for(int i = 0; i < listOfApptId.size(); i++) {
+				Appointment appointment = ApiRootModel.getInstance().getIdApptMap().get(listOfApptId.get(i));
 				String timeOfAppt = "";
 				try {
-					timeOfAppt = dfTimeOnly.format(
-							     	dfTimeWSec.parse(
-                                    	ApiRootModel.getInstance().getIdApptMap().get(listOfApptId.get(i)).getTime()));
+					timeOfAppt = dfTimeOnly.format(dfTimeWSec.parse(appointment.getTime()));
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
 				timeSingle.add(timeOfAppt);
-				nameSingle.add(ApiRootModel.getInstance().getIdApptMap().get(listOfApptId.get(i)).getServiceUser().getName());
-				gestSingle.add(ApiRootModel.getInstance().getIdApptMap().get(listOfApptId.get(i)).getServiceUser().getGestation());
+				nameSingle.add(appointment.getServiceUser().getName());
+				gestSingle.add(appointment.getServiceUser().getGestation());
+				if(appointment.getAttended() == null)
+					attendedSingle.add(false);
+				else
+					attendedSingle.add(appointment.getAttended());
 			}
-
-			Log.d("Retro", "timeSingle = " + timeSingle);
 
 			for(int i = 0; i < timeSingle.size(); i++){
 				if(timeList.contains(timeSingle.get(i))){
@@ -263,24 +268,20 @@ public class AppointmentCalendarActivity extends BaseActivity {
 						timeList.set(x, timeSingle.get(i));
 						nameList.set(x, nameSingle.get(i));
 						gestList.set(x, gestSingle.get(i));
+						attendedList.set(x, attendedSingle.get(i));
 					} else {
 						idList.add(x, listOfApptId.get(i));
 						timeList.add(x, timeSingle.get(i));
 						nameList.add(x, nameSingle.get(i));
 						gestList.add(x, gestSingle.get(i));
+						attendedList.add(x, attendedSingle.get(i));
 					}
 				}
 			}
-			Log.d("Retro", "timeList = " + timeList);
-		}
-
-		List <Integer> statusList = new ArrayList<>();
-		for(int i = 0; i < idList.size(); i++){
-			statusList.add(0);
 		}
 
 		adapter = new ListElementAdapter (AppointmentCalendarActivity.this,
-					timeList, nameList, gestList, statusList);
+					timeList, nameList, gestList, attendedList);
 		adapter.notifyDataSetChanged();
         listView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -289,21 +290,21 @@ public class AppointmentCalendarActivity extends BaseActivity {
     private class ListElementAdapter extends BaseAdapter {
 		LayoutInflater layoutInflater;
 		List<String> aptTime, aptName, aptGest;
-		List<Integer> statusList;
+		List<Boolean> attendedList;
 
 		@Override
 		public void notifyDataSetChanged() { super.notifyDataSetChanged(); }
 		
 		public ListElementAdapter(Context context, List<String> aptTime, 
 								  List<String> aptName, List<String> aptGest,
-								  List<Integer> statusList) {
+								  List<Boolean> attendedList) {
 			super();
 			Log.d("MYLOG", "daySelected: " + daySelected);
 			Log.d("MYLOG", "List Adapter Called");
 			this.aptTime = aptTime;
 			this.aptName = aptName;
 			this.aptGest = aptGest;
-			this.statusList = statusList;
+			this.attendedList = attendedList;
 			layoutInflater = LayoutInflater.from(context);
 		}
 		
@@ -337,11 +338,8 @@ public class AppointmentCalendarActivity extends BaseActivity {
 					  } else {
 						  int serviceUserId = ApiRootModel.getInstance().getIdApptMap().get(idList.get(position)).getServiceUserId();
 						  Log.d("bugs", "db string: " + "service_users" + "/" + serviceUserId);
-						  pd = new ProgressDialog(AppointmentCalendarActivity.this);
-						  pd.setMessage("Fetching Information");
-						  pd.setCanceledOnTouchOutside(false);
-						  pd.setCancelable(false);
-						  pd.show();
+						  showProgressDialog(AppointmentCalendarActivity.this,
+								  "Fetching Information");
 						  intent = new Intent(AppointmentCalendarActivity.this, ServiceUserActivity.class);
 						  searchServiceUser(serviceUserId, intent);
 					  }
@@ -351,28 +349,22 @@ public class AppointmentCalendarActivity extends BaseActivity {
 			btnChangeStatus.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
+
 					Log.d("Button", "position = " + position);
 					swipeLayout.close();
-					if (statusList.get(position) == 0) {
+					if (!attendedList.get(position)) {
+						changeAttendStatus(true, position);
 						ivAttend.setBackgroundResource(R.color.green);
-						Log.d("list", "at position = " + statusList.get(position));
-						statusList.set(position, 1);
-						Log.d("list", "at position = " + statusList.get(position));
-					} else if (statusList.get(position) == 1) {
-						ivAttend.setBackgroundResource(R.color.black);
-						Log.d("list", "at position = " + statusList.get(position));
-						statusList.set(position, 0);
-						Log.d("list", "at position = " + statusList.get(position));
+						notifyDataSetChanged();
+					} else if (attendedList.get(position)) {
+						/*changeAttendStatus(false, position);
+						ivAttend.setBackgroundResource(R.color.red);*/
+						Toast.makeText(AppointmentCalendarActivity.this,
+								"cannot do", Toast.LENGTH_LONG).show();
 					}
-					notifyDataSetChanged();
 				}
 			});
 
-			if(statusList.get(position).equals(0))
-				ivAttend.setBackgroundResource(R.color.red);
-			else
-				ivAttend.setBackgroundResource(R.color.green);
-			
 			if(idList.get(position).equals(0)){
 				timeText.setText(aptTime.get(position));
 				nameText.setText(aptName.get(position));
@@ -384,9 +376,53 @@ public class AppointmentCalendarActivity extends BaseActivity {
 				timeText.setText(aptTime.get(position));
 				nameText.setText(aptName.get(position));
 				gestText.setText(aptGest.get(position));
+
+				if(attendedList.get(position))
+					ivAttend.setBackgroundResource(R.color.green);
+				else if (!attendedList.get(position))
+					ivAttend.setBackgroundResource(R.color.red);
 			}
 			return convertView;
 		}
+	}
+
+	private void changeAttendStatus(Boolean status, int position){
+		showProgressDialog(AppointmentCalendarActivity.this, "Changing Attended Status");
+		attendedList.set(position, status);
+		RestAdapter restAdapter = new RestAdapter.Builder()
+				.setEndpoint(SmartApi.BASE_URL)
+				.setLogLevel(RestAdapter.LogLevel.FULL)
+				.build();
+
+		api = restAdapter.create(SmartApi.class);
+
+		PostingData attendedStatus = new PostingData();
+		attendedStatus.putAppointmentStatus(
+				status,
+				clinicSelected,
+				ApiRootModel.getInstance().getLogin().getId(),
+				ApiRootModel.getInstance().getIdApptMap().get(idList.get(position)).getServiceUserId());
+
+		api.putAppointmentStatus(
+				attendedStatus,
+				idList.get(position),
+				ApiRootModel.getInstance().getLogin().getToken(),
+				SmartApi.API_KEY,
+				new Callback<ApiRootModel>() {
+					@Override
+					public void success(ApiRootModel apiRootModel, Response response) {
+						Toast.makeText(AppointmentCalendarActivity.this,
+								"status changed", Toast.LENGTH_LONG).show();
+						pd.dismiss();
+					}
+
+					@Override
+					public void failure(RetrofitError error) {
+						Log.d("Attended", "retro error = " + error);
+						pd.dismiss();
+					}
+				}
+		);
 	}
     
     private class OnItemListener implements OnItemClickListener {
@@ -402,11 +438,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
 			} else {
 				int serviceUserId = ApiRootModel.getInstance().getIdApptMap().get(idList.get(position)).getServiceUserId();
 				Log.d("bugs", "db string: " + "service_users" + "/" + serviceUserId);
-				pd = new ProgressDialog(AppointmentCalendarActivity.this);
-				pd.setMessage("Fetching Information");
-				pd.setCanceledOnTouchOutside(false);
-				pd.setCancelable(false);
-				pd.show();
+				showProgressDialog(AppointmentCalendarActivity.this, "Fetching Information");
 				intent = new Intent(AppointmentCalendarActivity.this, ServiceUserActivity.class);
 				searchServiceUser(serviceUserId, intent);
 			}

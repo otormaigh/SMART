@@ -11,6 +11,7 @@ import retrofit.http.DELETE;
 import retrofit.http.GET;
 import retrofit.http.Header;
 import retrofit.http.POST;
+import retrofit.http.PUT;
 import retrofit.http.Path;
 import retrofit.http.Query;
 
@@ -62,6 +63,14 @@ public interface SmartApi {
             @Query("date") String date,
             @Query("clinic_id") String clinic,
             Callback<List<Appointment>> callback);
+
+    @PUT("/appointments/{id}")
+    void putAppointmentStatus(
+            @Body PostingData appointmentStatus,
+            @Path("id") int appointmentId,
+            @Header("Auth-Token") String authToken,
+            @Header("Api-Key") String apiKey,
+            Callback<ApiRootModel> callback);
 
     @GET("/service_options")
     void getAllServiceOptions(
