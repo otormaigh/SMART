@@ -408,7 +408,7 @@ public class ServiceUserActivity extends BaseActivity {
 			date = dfDateOnly.parse(edd);
 
 			deliveryTime = dfAMPM.format(date);
-			date = dfDateTime.parse(edd);
+			date = dfDateTimeWZone.parse(edd);
 
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -419,7 +419,7 @@ public class ServiceUserActivity extends BaseActivity {
 	private String getNoOfDays(String dateOfDelivery){
 		int numOfDays = 0;
 		try {
-			Date dodAsDate = dfDateTime.parse(deliveryDateTime);
+			Date dodAsDate = dfDateTimeWZone.parse(deliveryDateTime);
 			cal = Calendar.getInstance();
 			Date now = cal.getTime();
 			numOfDays = (int)((now.getTime() - dodAsDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;

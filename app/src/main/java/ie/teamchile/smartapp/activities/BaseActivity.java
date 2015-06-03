@@ -37,6 +37,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -45,16 +46,19 @@ import java.util.Locale;
 import java.util.Map;
 
 public class BaseActivity extends AppCompatActivity {
-    protected DateFormat dfDateTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault());
+    protected DateFormat dfDateTimeWZone = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault());
+    protected DateFormat dfDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
     protected DateFormat dfDateOnly = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     protected DateFormat dfTimeOnly = new SimpleDateFormat("HH:mm", Locale.getDefault());
     protected DateFormat dfTimeWSec = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
     protected DateFormat dfDateWMonthName = new SimpleDateFormat("dd MMM", Locale.getDefault());
-    protected DateFormat dfDay = new SimpleDateFormat("E", Locale.getDefault());
+    protected DateFormat dfDayShort = new SimpleDateFormat("E", Locale.getDefault());
+    protected DateFormat dfDayLong = new SimpleDateFormat("EEEE", Locale.getDefault());
     protected DateFormat dfDowMonthDay = new SimpleDateFormat("EEE, d MMM", Locale.getDefault());
     protected DateFormat dfDateMonthNameYear = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
     protected DateFormat dfMonthFullName = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
     protected DateFormat dfAMPM = new SimpleDateFormat("HH:mm a", Locale.getDefault());
+    protected Calendar c = Calendar.getInstance();
 
 	protected ProgressDialog pd;
     protected DrawerLayout drawerLayout;
@@ -279,7 +283,7 @@ public class BaseActivity extends AppCompatActivity {
             for (int i = 0; i < babyList.size(); i++) {
                 String deliveryDateTime = babyList.get(i).getDeliveryDateTime();
                 try {
-                    asDate.add(dfDateTime.parse(deliveryDateTime));
+                    asDate.add(dfDateTimeWZone.parse(deliveryDateTime));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
