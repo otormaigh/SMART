@@ -11,7 +11,6 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-import android.app.ProgressDialog;
 import android.content.ComponentCallbacks2;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -28,7 +27,6 @@ import java.util.Map;
 
 public class QuickMenuActivity extends BaseActivity {
     private boolean isViewVisible;
-    private ProgressDialog pd;
 	private Button patientSearch, bookAppointment, calendar, todaysAppointments;
 	private int done = 0;
 	private CountDownTimer timer;
@@ -102,17 +100,13 @@ public class QuickMenuActivity extends BaseActivity {
 		super.onTrimMemory(level);
 		if(level >= ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
 			isViewVisible = false;
-			new ToastAlert(getBaseContext(), "View is now hidden", false);				
-		}else 
+			new ToastAlert(getBaseContext(), "View is now hidden", false);
+		} else
 			isViewVisible = true;
 	}
 
 	private void updateData(){
-		pd = new ProgressDialog(QuickMenuActivity.this);
-		pd.setMessage("Updating Information");
-		pd.setCanceledOnTouchOutside(false);
-		pd.setCancelable(false);
-		pd.show();
+		showProgressDialog(QuickMenuActivity.this, "Updating Information");
 
 		api.getAllAppointments(
 				ApiRootModel.getInstance().getLogin().getToken(),
@@ -224,6 +218,5 @@ public class QuickMenuActivity extends BaseActivity {
 	}
 
 	private void setDataToMap(ApiRootModel apiRootModel){
-
 	}
 }
