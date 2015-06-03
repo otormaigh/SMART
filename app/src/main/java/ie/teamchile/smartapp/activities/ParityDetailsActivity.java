@@ -238,7 +238,7 @@ public class ParityDetailsActivity extends BaseActivity {
 		Date date = null;
 		String dateOfDevelivery = null;
 		try {
-			date = dfDateTime.parse(edd);
+			date = dfDateTimeWZone.parse(edd);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}

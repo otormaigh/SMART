@@ -180,4 +180,21 @@ public interface SmartApi {
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
             Callback<ApiRootModel> callback);
+
+    @PUT("/clinics/{clinic_id}/time_records")
+    void putTimeRecords(
+            @Body PostingData timeRecords,
+            @Path("clinic_id") int clinicId,
+            @Header("Auth-Token") String authToken,
+            @Header("Api-Key") String apiKey,
+            Callback<ApiRootModel> callback);
+
+    @PUT("/clinics/{clinic_id}/time_records/{record_id}")
+    void updateTimeRecords(
+            @Body PostingData timeRecords,
+            @Path("clinic_id") int clinicId,
+            @Path("record_id") int recordId,
+            @Header("Auth-Token") String authToken,
+            @Header("Api-Key") String apiKey,
+            Callback<ApiRootModel> callback);
 }

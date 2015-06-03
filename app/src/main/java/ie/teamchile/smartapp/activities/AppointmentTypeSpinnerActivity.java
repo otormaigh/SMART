@@ -219,7 +219,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
                                 try {
                                     weekSpinner.setVisibility(View.VISIBLE);
                                     weekSpinner.setSelection(0);
-                                    dayOfWeek = dfDay.parse(trueDays.get(0));
+                                    dayOfWeek = dfDayShort.parse(trueDays.get(0));
                                     setWeekSpinner(dayOfWeek);
                                 } catch (ParseException e) {
                                     e.printStackTrace();
@@ -239,7 +239,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
                         	weekSpinner.setVisibility(View.VISIBLE);
                         	weekSpinner.setSelection(0);
 							try {
-								dayOfWeek = dfDay.parse(daySpinner.getSelectedItem().toString());
+								dayOfWeek = dfDayShort.parse(daySpinner.getSelectedItem().toString());
 								setWeekSpinner(dayOfWeek);
 							} catch (ParseException e) {
 								e.printStackTrace();

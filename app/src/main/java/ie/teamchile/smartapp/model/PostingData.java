@@ -9,8 +9,8 @@ import com.google.gson.annotations.SerializedName;
 public class PostingData {
     public Login login;
     public Appointment appointment;
-    //@SerializedName("appointment")
-    //public AppointmentStatus appointmentStatus;
+    @SerializedName("clinic_time_record")
+    public ClinicTimeRecord clinicTimeRecord;
 
     public PostingData() {
     }
@@ -31,6 +31,10 @@ public class PostingData {
         this.appointment = new Appointment(attended, clinic_id, service_provider_id, service_user_id);
     }
 
+    public void updateTimeRecords(String startTime, String endTime, int clinicId){
+        this.clinicTimeRecord = new ClinicTimeRecord(startTime, endTime, clinicId);
+    }
+
     private class Login {
         private String username;
         private String password;
@@ -44,39 +48,51 @@ public class PostingData {
     private class Appointment {
         private String date;
         private String time;
-        private int service_provider_id;
-        private int service_user_id;
-        private int clinic_id;
+        @SerializedName("clinic_id")
+        private int clinicId;
+        @SerializedName("service_provider_id")
+        private int serviceProviderId;
+        @SerializedName("service_user_id")
+        private int serviceUserId;
         private String priority;
-        private String visit_type;
-        private String return_type;
+        @SerializedName("visit_type")
+        private String visitType;
+        @SerializedName("return_type")
+        private String returnType;
         private Boolean attended;
 
-        public Appointment(Boolean attended, int clinic_id, int service_provider_id, int service_user_id){
+        public Appointment(Boolean attended, int clinicId, int serviceProviderId, int serviceUserId){
             this.attended = attended;
-            this.clinic_id = clinic_id;
-            this.service_provider_id = service_provider_id;
-            this.service_user_id = service_user_id;
+            this.clinicId = clinicId;
+            this.serviceProviderId = serviceProviderId;
+            this.serviceUserId = serviceUserId;
         }
 
-        public Appointment(String date, String time, int service_provider_id, int service_user_id,
-                           int clinic_id, String priority, String visit_type, String return_type){
+        public Appointment(String date, String time, int serviceProviderId, int serviceUserId,
+                           int clinicId, String priority, String visitType, String returnType){
             this.date = date;
             this.time = time;
-            this.service_provider_id = service_provider_id;
-            this.service_user_id = service_user_id;
-            this.clinic_id = clinic_id;
+            this.serviceProviderId = serviceProviderId;
+            this.serviceUserId = serviceUserId;
+            this.clinicId = clinicId;
             this.priority = priority;
-            this.visit_type = visit_type;
-            this.return_type = return_type;
+            this.visitType = visitType;
+            this.returnType = returnType;
         }
     }
-/*
-    private class AppointmentStatus {
-        private Boolean attended;
 
-        public  AppointmentStatus(Boolean attended){
-            this.attended = attended;
+    private class ClinicTimeRecord {
+        @SerializedName("start_time")
+        private String startTime;
+        @SerializedName("end_time")
+        private String endTime;
+        @SerializedName("clinic_id")
+        private int clinicId;
+
+        public ClinicTimeRecord(String startTime, String endTime, int clinicId) {
+            this.startTime = startTime;
+            this.endTime = endTime;
+            this.clinicId = clinicId;
         }
-    }*/
+    }
 }
