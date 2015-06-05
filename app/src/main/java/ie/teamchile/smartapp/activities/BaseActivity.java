@@ -19,6 +19,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -148,7 +149,7 @@ public class BaseActivity extends AppCompatActivity {
 
     private void selectItem(int position) {
         Intent intent;
-        drawerLayout.closeDrawer(drawerList);
+        //drawerLayout.closeDrawer(drawerList);
         switch (position) {
             case 0:         //Patient Search
                 intent = new Intent(getApplicationContext(), ServiceUserSearchActivity.class);
@@ -242,8 +243,14 @@ public class BaseActivity extends AppCompatActivity {
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
-        public void onItemClick(AdapterView parent, View view, int position, long id) {
-            selectItem(position);
+        public void onItemClick(AdapterView parent, View view, final int position, long id) {
+            drawerLayout.closeDrawers();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    selectItem(position);
+                }
+            },210);
         }
     }
 
@@ -298,49 +305,49 @@ public class BaseActivity extends AppCompatActivity {
     protected void updateAppointment(Context context) {
         showProgressDialog(context, "Updating Appointments");
         api.getAllAppointments(
-                ApiRootModel.getInstance().getLogin().getToken(),
-                CredentialsEnum.API_KEY.toString(),
-                new Callback<ApiRootModel>() {
-                    @Override
-                    public void success(ApiRootModel apiRootModel, Response response) {
-                        ApiRootModel.getInstance().setAppointments(apiRootModel.getAppointments());
-                        List<Integer> apptIdList;
-                        Map<String, List<Integer>> dateApptIdMap;
-                        Map<Integer, Map<String, List<Integer>>> clinicDateApptIdMap = new HashMap<>();
-                        Map<Integer, Appointment> idApptMap = new HashMap<>();
+            ApiRootModel.getInstance().getLogin().getToken(),
+            CredentialsEnum.API_KEY.toString(),
+            new Callback<ApiRootModel>() {
+                @Override
+                public void success(ApiRootModel apiRootModel, Response response) {
+                    ApiRootModel.getInstance().setAppointments(apiRootModel.getAppointments());
+                    List<Integer> apptIdList;
+                    Map<String, List<Integer>> dateApptIdMap;
+                    Map<Integer, Map<String, List<Integer>>> clinicDateApptIdMap = new HashMap<>();
+                    Map<Integer, Appointment> idApptMap = new HashMap<>();
 
-                        for (int i = 0; i < apiRootModel.getAppointments().size(); i++) {
-                            apptIdList = new ArrayList<>();
-                            dateApptIdMap = new HashMap<>();
-                            String apptDate = apiRootModel.getAppointments().get(i).getDate();
-                            int apptId = apiRootModel.getAppointments().get(i).getId();
-                            int clinicId = apiRootModel.getAppointments().get(i).getClinicId();
-                            Appointment appt = apiRootModel.getAppointments().get(i);
+                    for (int i = 0; i < apiRootModel.getAppointments().size(); i++) {
+                        apptIdList = new ArrayList<>();
+                        dateApptIdMap = new HashMap<>();
+                        String apptDate = apiRootModel.getAppointments().get(i).getDate();
+                        int apptId = apiRootModel.getAppointments().get(i).getId();
+                        int clinicId = apiRootModel.getAppointments().get(i).getClinicId();
+                        Appointment appt = apiRootModel.getAppointments().get(i);
 
-                            if (clinicDateApptIdMap.get(clinicId) != null) {
-                                dateApptIdMap = clinicDateApptIdMap.get(clinicId);
-                                if (dateApptIdMap.get(apptDate) != null) {
-                                    apptIdList = dateApptIdMap.get(apptDate);
-                                }
+                        if (clinicDateApptIdMap.get(clinicId) != null) {
+                            dateApptIdMap = clinicDateApptIdMap.get(clinicId);
+                            if (dateApptIdMap.get(apptDate) != null) {
+                                apptIdList = dateApptIdMap.get(apptDate);
                             }
-                            apptIdList.add(apptId);
-                            dateApptIdMap.put(apptDate, apptIdList);
-
-                            clinicDateApptIdMap.put(clinicId, dateApptIdMap);
-                            idApptMap.put(apptId, appt);
                         }
-                        ApiRootModel.getInstance().setClinicDateApptIdMap(clinicDateApptIdMap);
-                        ApiRootModel.getInstance().setIdApptMap(idApptMap);
-                        Log.d("Retrofit", "appointments finished");
-                        pd.dismiss();
-                    }
+                        apptIdList.add(apptId);
+                        dateApptIdMap.put(apptDate, apptIdList);
 
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Log.d("Retrofit", "appointments retro failure " + error);
-                        pd.dismiss();
+                        clinicDateApptIdMap.put(clinicId, dateApptIdMap);
+                        idApptMap.put(apptId, appt);
                     }
+                    ApiRootModel.getInstance().setClinicDateApptIdMap(clinicDateApptIdMap);
+                    ApiRootModel.getInstance().setIdApptMap(idApptMap);
+                    Log.d("Retrofit", "appointments finished");
+                    pd.dismiss();
                 }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    Log.d("Retrofit", "appointments retro failure " + error);
+                    pd.dismiss();
+                }
+            }
         );
     }
 }
