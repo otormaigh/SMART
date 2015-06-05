@@ -89,17 +89,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="@string/no_user_found"
+            android:text="No Service User found"
             android:textColor="@color/black"
-            android:textSize="@dimen/text_large" />
+            android:textSize="@dimen/text_small" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="@string/please_try_again"
+            android:text="with those details"
             android:textColor="@color/black"
-            android:textSize="@dimen/text_large" />
+            android:textSize="@dimen/text_small" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Please try again."
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_small" />
     </LinearLayout>
 
 
