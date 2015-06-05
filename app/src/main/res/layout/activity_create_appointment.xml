@@ -34,6 +34,7 @@
                 android:layout_weight="0.2"
                 android:hint="@string/appt_search_hint"
                 android:textColorHint="#A9A9A9"
+                android:textStyle="italic"
                 android:textSize="@dimen/text_medium"
                 android:inputType="textPersonName" />
 
