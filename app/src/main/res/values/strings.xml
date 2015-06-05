@@ -6,8 +6,8 @@
     <!-- MAIN SCREEN -->
     <string name="main_logo"> main_logo</string>
     <string name="login">Login</string>
-    <string name="username">Username</string>
-    <string name="password">Password</string>
+    <string name="username"><i>Username</i></string>
+    <string name="password"><i>Password</i></string>
     <string name="smart">SMART</string>
     <string name="secure_maternity">Secure Maternity</string>
     <string name="appointment_recording">Appointment Recording Tracker</string>
@@ -65,17 +65,17 @@
     </string-array>
 
     <!-- SERVICE USER SEARCH -->       					 
-    <string name="enter_name">Enter Name Here</string>
-    <string name="enter_hospital_number">Enter Hospital Number Here</string>
-    <string name="enter_dob">Enter DOB Here</string>
+    <string name="enter_name"><i>Enter Name Here</i></string>
+    <string name="enter_hospital_number"><i>Enter Hospital Number Here</i></string>
+    <string name="enter_dob"><i>Enter DOB Here</i></string>
     <string name="search_result">Search Results</string>
     <string name="btn_search">Search</string>
 	<string name="dob">Date of Birth</string>
 	<string name="no_user_found">No User Found</string>
     <string name="please_try_again">Please Try Again</string>
-	<string name="day">Day</string>
-	<string name="month">Month</string>
-	<string name="year">Year</string>
+	<string name="day"><i>Day</i></string>
+	<string name="month"><i>Month</i></string>
+	<string name="year"><i>Year</i></string>
 	
     <!-- SERVICE USERS -->
     <string name="ante_natal">Ante-Natal</string>
@@ -151,7 +151,7 @@
     </string-array>
          
  	<!-- CONFIRM APPOINTMENT -->
- 	<string name="appt_search_hint">Enter Here</string>
+ 	<string name="appt_search_hint"><i>Enter Here</i></string>
     <string-array name="visit_priority_list">
         <item>Select Visit Priority</item>
         <item>Scheduled</item>
