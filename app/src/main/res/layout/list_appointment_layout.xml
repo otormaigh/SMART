@@ -49,7 +49,8 @@
             android:orientation="horizontal"
             android:paddingBottom="@dimen/padding_small"
             android:paddingTop="@dimen/padding_small"
-            android:weightSum="3.0">
+            android:weightSum="3.0"
+            android:background="?android:attr/selectableItemBackground" >
 
             <TextView
                 android:id="@+id/tv_time"
