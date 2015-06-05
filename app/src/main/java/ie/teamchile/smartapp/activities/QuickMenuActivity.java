@@ -27,7 +27,7 @@ import java.util.Map;
 
 public class QuickMenuActivity extends BaseActivity {
     private boolean isViewVisible;
-	private Button patientSearch, bookAppointment, calendar, todaysAppointments;
+	private Button patientSearch, bookAppointment, startStopClinic, todaysAppointments;
 	private int done = 0;
 	private CountDownTimer timer;
 
@@ -40,8 +40,8 @@ public class QuickMenuActivity extends BaseActivity {
         patientSearch.setOnClickListener(new ButtonClick());
         bookAppointment = (Button) findViewById(R.id.bookAppointment);
         bookAppointment.setOnClickListener(new ButtonClick());
-        calendar = (Button) findViewById(R.id.calendar);
-        calendar.setOnClickListener(new ButtonClick());
+        startStopClinic = (Button) findViewById(R.id.start_stop_clinic);
+		startStopClinic.setOnClickListener(new ButtonClick());
         todaysAppointments = (Button) findViewById(R.id.todays_appointments);
         //todaysAppointments.setOnClickListener(new ButtonClick());
 
@@ -66,9 +66,9 @@ public class QuickMenuActivity extends BaseActivity {
                     Intent intentBook = new Intent(QuickMenuActivity.this, AppointmentTypeSpinnerActivity.class);
                     startActivity(intentBook);
                     break;
-                case R.id.calendar:
-                    Intent intentCalendar = new Intent(QuickMenuActivity.this, CalendarActivity.class);
-                    startActivity(intentCalendar);
+                case R.id.start_stop_clinic:
+                    Intent intentClinicTime = new Intent(QuickMenuActivity.this, ClinicTimeRecordActivity.class);
+                    startActivity(intentClinicTime);
                     break;
                 /*case R.id.todays_appointments:
                     Intent intentToday = new Intent(QuickMenuActivity.this, TodayAppointmentActivity.class);
