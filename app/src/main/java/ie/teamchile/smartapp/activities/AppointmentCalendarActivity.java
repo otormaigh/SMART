@@ -20,6 +20,7 @@ import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -371,7 +372,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
 				gestText.setText(aptGest.get(position));
 				
 				nameText.setTextColor(getResources().getColor(R.color.green));
-				nameText.setShadowLayer(1, 0, 0, getResources().getColor(R.color.black));
+				nameText.setTypeface(Typeface.DEFAULT_BOLD);
 			} else {
 				timeText.setText(aptTime.get(position));
 				nameText.setText(aptName.get(position));
