@@ -1,15 +1,5 @@
 package ie.teamchile.smartapp.activities;
 
-import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.model.ApiRootModel;
-import ie.teamchile.smartapp.model.Clinic;
-import ie.teamchile.smartapp.model.PostingData;
-import ie.teamchile.smartapp.utility.SmartApi;
-import retrofit.Callback;
-import retrofit.RestAdapter;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +14,16 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import ie.teamchile.smartapp.R;
+import ie.teamchile.smartapp.model.ApiRootModel;
+import ie.teamchile.smartapp.model.Clinic;
+import ie.teamchile.smartapp.model.PostingData;
+import ie.teamchile.smartapp.utility.SmartApi;
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class ClinicTimeRecordActivity extends BaseActivity {
     private List<Integer> idList = new ArrayList<>();

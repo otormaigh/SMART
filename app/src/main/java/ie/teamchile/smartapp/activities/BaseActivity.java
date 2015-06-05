@@ -1,17 +1,5 @@
 package ie.teamchile.smartapp.activities;
 
-import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.enums.CredentialsEnum;
-import ie.teamchile.smartapp.model.ApiRootModel;
-import ie.teamchile.smartapp.model.Appointment;
-import ie.teamchile.smartapp.model.Baby;
-import ie.teamchile.smartapp.model.Pregnancy;
-import ie.teamchile.smartapp.utility.SmartApi;
-import retrofit.Callback;
-import retrofit.RestAdapter;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
-
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -45,6 +33,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import ie.teamchile.smartapp.R;
+import ie.teamchile.smartapp.enums.CredentialsEnum;
+import ie.teamchile.smartapp.model.ApiRootModel;
+import ie.teamchile.smartapp.model.Appointment;
+import ie.teamchile.smartapp.model.Baby;
+import ie.teamchile.smartapp.model.Pregnancy;
+import ie.teamchile.smartapp.utility.SmartApi;
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class BaseActivity extends AppCompatActivity {
     protected DateFormat dfDateTimeWZone = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault());
@@ -164,8 +164,8 @@ public class BaseActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case 3:         //Todays Appointments
-                intent = new Intent(getApplicationContext(), TodayAppointmentActivity.class);
-                startActivity(intent);
+                //intent = new Intent(getApplicationContext(), TodayAppointmentActivity.class);
+                //startActivity(intent);
                 break;
             case 4:         //Sync
                 updateAppointment(this);

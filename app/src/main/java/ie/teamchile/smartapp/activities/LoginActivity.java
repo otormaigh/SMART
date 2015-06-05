@@ -1,15 +1,5 @@
 package ie.teamchile.smartapp.activities;
 
-import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.utility.SmartApi;
-import ie.teamchile.smartapp.model.ApiRootModel;
-import ie.teamchile.smartapp.model.PostingData;
-import ie.teamchile.smartapp.utility.ToastAlert;
-import retrofit.Callback;
-import retrofit.RestAdapter;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -20,6 +10,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import ie.teamchile.smartapp.R;
+import ie.teamchile.smartapp.model.ApiRootModel;
+import ie.teamchile.smartapp.model.PostingData;
+import ie.teamchile.smartapp.utility.SmartApi;
+import ie.teamchile.smartapp.utility.ToastAlert;
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class LoginActivity extends Activity {
 	private String username, password;
