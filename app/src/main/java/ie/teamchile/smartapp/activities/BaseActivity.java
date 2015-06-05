@@ -60,7 +60,7 @@ public class BaseActivity extends AppCompatActivity {
     protected DateFormat dfAMPM = new SimpleDateFormat("HH:mm a", Locale.getDefault());
     protected Calendar c = Calendar.getInstance();
 
-	protected ProgressDialog pd;
+    protected ProgressDialog pd;
     protected DrawerLayout drawerLayout;
     protected ListView drawerList;
     protected ActionBarDrawerToggle drawerToggle;
@@ -92,7 +92,7 @@ public class BaseActivity extends AppCompatActivity {
         initRetrofit();
     }
 
-    protected void showProgressDialog(Context context, String message){
+    protected void showProgressDialog(Context context, String message) {
         pd = new ProgressDialog(context);
         pd.setMessage(message);
         pd.setCanceledOnTouchOutside(false);
@@ -100,29 +100,29 @@ public class BaseActivity extends AppCompatActivity {
         pd.show();
     }
 
-    protected void initRetrofit(){
+    protected void initRetrofit() {
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(SmartApi.BASE_URL)
-                //.setLogLevel(RestAdapter.LogLevel.FULL)
+                        //.setLogLevel(RestAdapter.LogLevel.FULL)
                 .build();
 
         api = restAdapter.create(SmartApi.class);
     }
 
-    protected void setContentForNav(int layout){
+    protected void setContentForNav(int layout) {
         LayoutInflater inflater = (LayoutInflater) this
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View contentView = inflater.inflate(layout, null, false);
         drawerLayout.addView(contentView, 0);
     }
 
-    protected void setActionBarTitle(String title){
+    protected void setActionBarTitle(String title) {
         View v = getSupportActionBar().getCustomView();
         TextView titleTxtView = (TextView) v.findViewById(R.id.tv_action_bar);
         titleTxtView.setText(title);
     }
 
-    protected void createNavDrawer(){
+    protected void createNavDrawer() {
         String[] drawerItems = getResources().getStringArray(R.array.nav_drawer_items);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerList = (ListView) findViewById(R.id.left_drawer);
@@ -130,7 +130,7 @@ public class BaseActivity extends AppCompatActivity {
                 R.layout.drawer_item_layout, drawerItems));
         drawerList.setOnItemClickListener(new DrawerItemClickListener());
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
-                        R.string.drawer_open, R.string.drawer_close);
+                R.string.drawer_open, R.string.drawer_close);
         drawerLayout.setDrawerListener(drawerToggle);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -149,7 +149,7 @@ public class BaseActivity extends AppCompatActivity {
     private void selectItem(int position) {
         Intent intent;
         drawerLayout.closeDrawer(drawerList);
-        switch(position){
+        switch (position) {
             case 0:         //Patient Search
                 intent = new Intent(getApplicationContext(), ServiceUserSearchActivity.class);
                 startActivity(intent);
@@ -171,29 +171,31 @@ public class BaseActivity extends AppCompatActivity {
                 break;
             case 5:         //Logout
                 new AlertDialog.Builder(this)
-                    .setTitle(R.string.Logout_title)
-                    .setMessage(R.string.Logout_dialog_message)
-                    .setNegativeButton(R.string.No, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialoginterface, int i) { }})
-                    .setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialoginterface, int i) {
-                            Log.d("MYLOG", "Logout button pressed");
-                            final Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                                    Intent.FLAG_ACTIVITY_CLEAR_TASK |
-                                    Intent.FLAG_ACTIVITY_NEW_TASK);
-                            if (ApiRootModel.getInstance().getLoginStatus() == false) {
-                                startActivity(intent);
-                            } else {
-                                doLogout(intent);
-                                pd = new ProgressDialog(BaseActivity.this);
-                                pd.setMessage("Logging Out");
-                                pd.setCanceledOnTouchOutside(false);
-                                pd.setCancelable(false);
-                                pd.show();
+                        .setTitle(R.string.Logout_title)
+                        .setMessage(R.string.Logout_dialog_message)
+                        .setNegativeButton(R.string.No, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialoginterface, int i) {
                             }
-                        }
-                    }).show();
+                        })
+                        .setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialoginterface, int i) {
+                                Log.d("MYLOG", "Logout button pressed");
+                                final Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                                        Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                                        Intent.FLAG_ACTIVITY_NEW_TASK);
+                                if (ApiRootModel.getInstance().getLoginStatus() == false) {
+                                    startActivity(intent);
+                                } else {
+                                    doLogout(intent);
+                                    pd = new ProgressDialog(BaseActivity.this);
+                                    pd.setMessage("Logging Out");
+                                    pd.setCanceledOnTouchOutside(false);
+                                    pd.setCancelable(false);
+                                    pd.show();
+                                }
+                            }
+                        }).show();
                 break;
             default:
         }
@@ -248,8 +250,8 @@ public class BaseActivity extends AppCompatActivity {
     protected String putArrayToString(List<String> badList) {
         String listAsString = "";
         int listSize = badList.size();
-        for(int i = 0; i < listSize; i++){
-            if(i == (listSize - 1))
+        for (int i = 0; i < listSize; i++) {
+            if (i == (listSize - 1))
                 listAsString += badList.get(i);
             else
                 listAsString += badList.get(i) + ", ";
@@ -257,43 +259,43 @@ public class BaseActivity extends AppCompatActivity {
         return listAsString;
     }
 
-    protected void getRecentPregnancy(){
+    protected void getRecentPregnancy() {
         List<Pregnancy> pregnancyList = ApiRootModel.getInstance().getPregnancies();
         List<Date> asDate = new ArrayList<>();
         String edd;
         Log.d("Retro", "pregnancyList size = " + pregnancyList.size());
-        if(pregnancyList.size() > 0) {
-            for (int i = 0; i < pregnancyList.size(); i++) {
-                edd = pregnancyList.get(i).getEstimatedDeliveryDate();
-                try {
+        if (pregnancyList.size() > 0) {
+            try {
+                for (int i = 0; i < pregnancyList.size(); i++) {
+                    edd = pregnancyList.get(i).getEstimatedDeliveryDate();
                     asDate.add(dfDateOnly.parse(edd));
-                } catch (ParseException e) {
-                    e.printStackTrace();
                 }
+                p = asDate.indexOf(Collections.max(asDate));
+            } catch (ParseException | NullPointerException e) {
+                e.printStackTrace();
             }
-            p = asDate.indexOf(Collections.max(asDate));
         } else
             p = 0;
     }
 
-    protected void getRecentBaby(){
+    protected void getRecentBaby() {
         List<Baby> babyList = ApiRootModel.getInstance().getBabies();
         List<Date> asDate = new ArrayList<>();
-        if(babyList.size() != 1) {
-            for (int i = 0; i < babyList.size(); i++) {
-                String deliveryDateTime = babyList.get(i).getDeliveryDateTime();
-                try {
+        if (babyList.size() != 1) {
+            try {
+                for (int i = 0; i < babyList.size(); i++) {
+                    String deliveryDateTime = babyList.get(i).getDeliveryDateTime();
                     asDate.add(dfDateTimeWZone.parse(deliveryDateTime));
-                } catch (ParseException e) {
-                    e.printStackTrace();
                 }
+                b = asDate.indexOf(Collections.max(asDate));
+            } catch (ParseException | NullPointerException e) {
+                e.printStackTrace();
             }
-            b = asDate.indexOf(Collections.max(asDate));
         } else
             b = 0;
     }
 
-    protected void updateAppointment(Context context){
+    protected void updateAppointment(Context context) {
         showProgressDialog(context, "Updating Appointments");
         api.getAllAppointments(
                 ApiRootModel.getInstance().getLogin().getToken(),
@@ -307,7 +309,7 @@ public class BaseActivity extends AppCompatActivity {
                         Map<Integer, Map<String, List<Integer>>> clinicDateApptIdMap = new HashMap<>();
                         Map<Integer, Appointment> idApptMap = new HashMap<>();
 
-                        for(int i = 0; i < apiRootModel.getAppointments().size(); i++){
+                        for (int i = 0; i < apiRootModel.getAppointments().size(); i++) {
                             apptIdList = new ArrayList<>();
                             dateApptIdMap = new HashMap<>();
                             String apptDate = apiRootModel.getAppointments().get(i).getDate();
@@ -315,9 +317,9 @@ public class BaseActivity extends AppCompatActivity {
                             int clinicId = apiRootModel.getAppointments().get(i).getClinicId();
                             Appointment appt = apiRootModel.getAppointments().get(i);
 
-                            if(clinicDateApptIdMap.get(clinicId) != null){
+                            if (clinicDateApptIdMap.get(clinicId) != null) {
                                 dateApptIdMap = clinicDateApptIdMap.get(clinicId);
-                                if(dateApptIdMap.get(apptDate) != null){
+                                if (dateApptIdMap.get(apptDate) != null) {
                                     apptIdList = dateApptIdMap.get(apptDate);
                                 }
                             }
