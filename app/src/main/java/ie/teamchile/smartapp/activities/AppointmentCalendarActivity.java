@@ -236,7 +236,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
 			Log.d("appointment", "Free Slot Here");
 			timeList.add(dfTimeOnly.format(apptTime));
 			nameList.add("Free Slot");
-			gestList.add("---------");
+			gestList.add("");
 			attendedList.add(false);
 			idList.add(0);
 			c.setTime(apptTime);
