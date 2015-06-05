@@ -136,6 +136,7 @@ public class ServiceUserActivity extends BaseActivity {
 				age = getAge(dob);					
 			getRecentPregnancy();
 			getRecentBaby();
+
 			userId = ApiRootModel.getInstance().getServiceUsers().get(0).getId();
 			hospitalNumber = ApiRootModel.getInstance().getServiceUsers().get(0).getHospitalNumber();
 			email = ApiRootModel.getInstance().getServiceUsers().get(0).getPersonalFields().getEmail();
