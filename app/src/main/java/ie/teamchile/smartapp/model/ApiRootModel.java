@@ -44,6 +44,9 @@ public class ApiRootModel {
     @Expose
     private List<Clinic> clinics = new ArrayList<>();
     private Map<Integer, Clinic> clinicsMap = new HashMap<>();
+    @SerializedName("clinic_time_records")
+    @Expose
+    private List<ClinicTimeRecord> clinicTimeRecords = new ArrayList<>();
 
     private ApiRootModel() {
     }
@@ -250,5 +253,19 @@ public class ApiRootModel {
      */
     public void setServiceUser(ServiceUser serviceUser) {
         this.serviceUser = serviceUser;
+    }
+
+    /**
+     * @return The clinicTimeRecords
+     */
+    public List<ClinicTimeRecord> getClinicTimeRecords() {
+        return clinicTimeRecords;
+    }
+
+    /**
+     * @param clinicTimeRecords The clinic_time_records
+     */
+    public void setClinicTimeRecords(List<ClinicTimeRecord> clinicTimeRecords) {
+        this.clinicTimeRecords = clinicTimeRecords;
     }
 }

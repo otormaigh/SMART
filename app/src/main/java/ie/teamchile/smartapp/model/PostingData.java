@@ -1,5 +1,6 @@
 package ie.teamchile.smartapp.model;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -7,7 +8,9 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class PostingData {
+    @Expose
     public Login login;
+    @Expose
     public Appointment appointment;
     @SerializedName("clinic_time_record")
     public ClinicTimeRecord clinicTimeRecord;
@@ -31,8 +34,12 @@ public class PostingData {
         this.appointment = new Appointment(attended, clinic_id, service_provider_id, service_user_id);
     }
 
-    public void updateTimeRecords(String startTime, String endTime, int clinicId){
-        this.clinicTimeRecord = new ClinicTimeRecord(startTime, endTime, clinicId);
+    public void updateTimeRecords(String startTime, int clinicId, String date){
+        this.clinicTimeRecord = new ClinicTimeRecord(startTime, clinicId, date);
+    }
+
+    public void updateTimeRecords(String endTime, String date, int clinicId){
+        this.clinicTimeRecord = new ClinicTimeRecord(endTime, date, clinicId);
     }
 
     private class Login {
@@ -88,10 +95,20 @@ public class PostingData {
         private String endTime;
         @SerializedName("clinic_id")
         private int clinicId;
+        @Expose
+        private String date;
 
-        public ClinicTimeRecord(String startTime, String endTime, int clinicId) {
+        public ClinicTimeRecord(){ }
+
+        public ClinicTimeRecord(String startTime, int clinicId, String date) {
             this.startTime = startTime;
+            this.clinicId = clinicId;
+            this.date = date;
+        }
+
+        public ClinicTimeRecord(String endTime, String date, int clinicId){
             this.endTime = endTime;
+            this.date = date;
             this.clinicId = clinicId;
         }
     }
