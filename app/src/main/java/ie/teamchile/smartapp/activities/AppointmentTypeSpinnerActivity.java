@@ -1,15 +1,5 @@
 package ie.teamchile.smartapp.activities;
 
-import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.model.ApiRootModel;
-
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -19,6 +9,16 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
+import ie.teamchile.smartapp.R;
+import ie.teamchile.smartapp.model.ApiRootModel;
 
 public class AppointmentTypeSpinnerActivity extends BaseActivity {
     private ArrayAdapter<CharSequence> appointmentAdapter, visitAdapter;

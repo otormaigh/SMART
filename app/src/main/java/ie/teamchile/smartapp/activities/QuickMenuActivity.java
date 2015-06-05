@@ -1,16 +1,5 @@
 package ie.teamchile.smartapp.activities;
 
-import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.enums.CredentialsEnum;
-import ie.teamchile.smartapp.model.ApiRootModel;
-import ie.teamchile.smartapp.model.Appointment;
-import ie.teamchile.smartapp.model.Clinic;
-import ie.teamchile.smartapp.model.ServiceOption;
-import ie.teamchile.smartapp.utility.ToastAlert;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
-
 import android.content.ComponentCallbacks2;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,6 +13,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import ie.teamchile.smartapp.R;
+import ie.teamchile.smartapp.enums.CredentialsEnum;
+import ie.teamchile.smartapp.model.ApiRootModel;
+import ie.teamchile.smartapp.model.Appointment;
+import ie.teamchile.smartapp.model.Clinic;
+import ie.teamchile.smartapp.model.ServiceOption;
+import ie.teamchile.smartapp.utility.ToastAlert;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class QuickMenuActivity extends BaseActivity {
     private boolean isViewVisible;
