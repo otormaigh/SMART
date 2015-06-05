@@ -159,7 +159,7 @@ public class BaseActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case 2:         //Calendar
-                intent = new Intent(getApplicationContext(), CalendarActivity.class);
+                intent = new Intent(getApplicationContext(), ClinicTimeRecordActivity.class);
                 startActivity(intent);
                 break;
             case 3:         //Todays Appointments

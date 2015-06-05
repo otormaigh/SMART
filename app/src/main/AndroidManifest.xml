@@ -53,7 +53,7 @@
             android:value=".activities.QuickMenuActivity" />
 
         <activity
-            android:name=".activities.CalendarActivity"
+            android:name=".activities.ClinicTimeRecordActivity"
             android:parentActivityName=".activities.QuickMenuActivity"
             android:screenOrientation="sensorPortrait" />
         <meta-data

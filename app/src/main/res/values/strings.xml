@@ -17,7 +17,7 @@
 
     <!-- QUICK MENU -->
     <string name="patient_search">Search Patient</string>
-    <string name="calendar">Calendar</string>
+    <string name="start_stop_clinic">Start/Stop Clinic</string>
     <string name="todays_appointments">Today\'s Appointments</string>
 
     <!-- SPINNER TITLES -->
