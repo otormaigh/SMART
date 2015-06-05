@@ -327,25 +327,26 @@ public class AppointmentCalendarActivity extends BaseActivity {
 			final ImageView ivAttend = (ImageView) convertView.findViewById(R.id.img_attended);
 			final SwipeLayout swipeLayout =  (SwipeLayout) convertView.findViewById(R.id.swipe_appt_list);
 			LinearLayout llApptListItem = (LinearLayout) convertView.findViewById(R.id.ll_appt_list_item);
-			llApptListItem.setOnClickListener(new OnClickListener() {
-				  @Override
-				  public void onClick(View v) {
-					  if(idList.get(position).equals(0)){
-						  intent = new Intent(AppointmentCalendarActivity.this, CreateAppointmentActivity.class);
-						  intent.putExtra("from", "appointment");
-						  intent.putExtra("time", timeList.get(position));
-						  intent.putExtra("clinicID", String.valueOf(clinicSelected));
-						  startActivity(intent);
-					  } else {
-						  int serviceUserId = ApiRootModel.getInstance().getIdApptMap().get(idList.get(position)).getServiceUserId();
-						  Log.d("bugs", "db string: " + "service_users" + "/" + serviceUserId);
-						  showProgressDialog(AppointmentCalendarActivity.this,
-								  "Fetching Information");
-						  intent = new Intent(AppointmentCalendarActivity.this, ServiceUserActivity.class);
-						  searchServiceUser(serviceUserId, intent);
-					  }
-				  }
-			  });
+			llApptListItem.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if (idList.get(position).equals(0)) {
+                        intent = new Intent(AppointmentCalendarActivity.this, CreateAppointmentActivity.class);
+                        intent.putExtra("from", "appointment");
+                        intent.putExtra("time", timeList.get(position));
+                        intent.putExtra("clinicID", String.valueOf(clinicSelected));
+                        startActivity(intent);
+                    } else {
+                        int serviceUserId = ApiRootModel.getInstance().getIdApptMap().get(idList.get(position)).getServiceUserId();
+                        Log.d("bugs", "db string: " + "service_users" + "/" + serviceUserId);
+                        showProgressDialog(AppointmentCalendarActivity.this,
+                                "Fetching Information");
+                        intent = new Intent(AppointmentCalendarActivity.this, ServiceUserActivity.class);
+                        searchServiceUser(serviceUserId, intent);
+                    }
+                    return true;
+                }
+            });
 
 			btnChangeStatus.setOnClickListener(new OnClickListener() {
 				@Override
