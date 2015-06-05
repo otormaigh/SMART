@@ -1,15 +1,5 @@
 package ie.teamchile.smartapp.activities;
 
-import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.model.ApiRootModel;
-import ie.teamchile.smartapp.utility.ToastAlert;
-
-import java.io.IOException;
-import java.text.ParseException;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -28,6 +18,16 @@ import android.widget.TabHost.TabSpec;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+import ie.teamchile.smartapp.R;
+import ie.teamchile.smartapp.model.ApiRootModel;
+import ie.teamchile.smartapp.utility.ToastAlert;
 
 public class ServiceUserActivity extends BaseActivity {
 	private final CharSequence[] userContactList = {"Call Mobile", "Send SMS", "Send Email"};

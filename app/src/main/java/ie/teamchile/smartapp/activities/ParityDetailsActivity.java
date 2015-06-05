@@ -1,15 +1,5 @@
 package ie.teamchile.smartapp.activities;
 
-import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.model.ApiRootModel;
-import ie.teamchile.smartapp.model.Baby;
-
-import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -24,6 +14,16 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import ie.teamchile.smartapp.R;
+import ie.teamchile.smartapp.model.ApiRootModel;
+import ie.teamchile.smartapp.model.Baby;
 
 public class ParityDetailsActivity extends BaseActivity {
 	private BaseAdapter adapter;
