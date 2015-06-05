@@ -190,7 +190,7 @@ public interface SmartApi {
             Callback<ApiRootModel> callback);
 
     @PUT("/clinics/{clinic_id}/time_records/{record_id}")
-    void updateTimeRecords(
+    void putTimeRecords(
             @Body PostingData timeRecords,
             @Path("clinic_id") int clinicId,
             @Path("record_id") int recordId,
