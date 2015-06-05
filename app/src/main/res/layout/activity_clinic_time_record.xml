@@ -38,7 +38,9 @@
             android:layout_height="wrap_content"
             android:text="@string/stop_clinic"
             android:textSize="@dimen/text_medium"
-            android:layout_weight="1.0"/>
+            android:layout_weight="1.0"
+            android:textColorHint="#A9A9A9"
+            android:textStyle="italic" />
     </LinearLayout>
 
     <EditText
