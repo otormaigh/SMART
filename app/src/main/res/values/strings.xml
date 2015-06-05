@@ -65,8 +65,8 @@
     </string-array>
 
     <!-- SERVICE USER SEARCH -->       					 
-    <string name="enter_name"><i>Enter Name Here</i></string>
-    <string name="enter_hospital_number"><i>Enter Hospital Number Here</i></string>
+    <string name="enter_name">Enter Name Here</string>
+    <string name="enter_hospital_number">Enter Hospital Number Here</string>
     <string name="enter_dob">Enter DOB Here</string>
     <string name="search_result">Search Results</string>
     <string name="btn_search">Search</string>
@@ -151,7 +151,7 @@
     </string-array>
          
  	<!-- CONFIRM APPOINTMENT -->
- 	<string name="appt_search_hint"><i>Enter Here</i></string>
+ 	<string name="appt_search_hint">Enter Here</string>
     <string-array name="visit_priority_list">
         <item>Select Visit Priority</item>
         <item>Scheduled</item>

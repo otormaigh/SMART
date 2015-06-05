@@ -79,7 +79,9 @@
             android:hint="@string/username"
             android:inputType="text"
             android:textColor="@color/black"
-            android:maxLines="1" />
+            android:maxLines="1"
+            android:textColorHint="#A9A9A9"
+            android:textStyle="italic" />
 
         <EditText
             android:id="@+id/password"
@@ -92,7 +94,9 @@
             android:hint="@string/password"
             android:inputType="textPassword"
             android:textColor="@color/black"
-            android:maxLines="1" />
+            android:maxLines="1"
+            android:textColorHint="#A9A9A9"
+            android:textStyle="italic" />
 
         <Button
             android:id="@+id/login"
