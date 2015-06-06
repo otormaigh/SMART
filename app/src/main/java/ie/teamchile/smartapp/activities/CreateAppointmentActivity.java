@@ -41,8 +41,8 @@ public class CreateAppointmentActivity extends BaseActivity {
 			clinicIDStr, clinicName;
 	private int appointmentInterval, userID;
 	private Calendar c, myCalendar;
-	private List<String> timeList = new ArrayList<String>();
-	private List<String> returnTypeList = new ArrayList<String>();
+	private List<String> timeList = new ArrayList<>();
+	private List<String> returnTypeList = new ArrayList<>();
 	private List<String> babyIDs;
 	private List<Integer> idList = new ArrayList<>();
 	private AppointmentCalendarActivity passOptions = new AppointmentCalendarActivity();
