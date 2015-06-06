@@ -37,24 +37,20 @@ import retrofit.client.Response;
 public class CreateAppointmentActivity extends BaseActivity {
 	private ArrayAdapter<CharSequence> visitPriorityAdapter, visitPriorityAdapterSelect,
             returnTypeAdapter, returnTypeAdapterSelect;
-	private String userName, clinic, apptDate, time, duration, priority, visitType,
-			clinicIDStr, clinicName;
+	private String userName, apptDate, time, priority, visitType, clinicName;
 	private int appointmentInterval, userID;
 	private Calendar c, myCalendar;
-	private List<String> timeList = new ArrayList<>();
-	private List<String> returnTypeList = new ArrayList<>();
-	private List<String> babyIDs;
 	private List<Integer> idList = new ArrayList<>();
 	private AppointmentCalendarActivity passOptions = new AppointmentCalendarActivity();
 	private SharedPreferences prefs;
 	private AlertDialog.Builder alertDialog;
 	private AlertDialog ad;
-	private int clinicID, appointmentIntervalAsInt;
+	private int clinicID;
 	private int p = 0;
-	private EditText tvUserName;
-	private Button confirmAppointment;
+	private EditText etUserName;
+	private Button btnConfirmAppointment;
 	private ImageButton btnUserSearch;
-	private TextView textTime, textDate, textClinic;
+	private TextView tvTime, tvDate, tvClinic;
 	private Spinner visitReturnTypeSpinner, visitReturnTypeSpinnerSelect,
             visitPrioritySpinner, visitPrioritySpinnerSelect;
 	private List<ServiceUser> serviceUserList = new ArrayList<>();
@@ -69,14 +65,14 @@ public class CreateAppointmentActivity extends BaseActivity {
 		c = Calendar.getInstance();
 		myCalendar = Calendar.getInstance();
 		
-		tvUserName = (EditText) findViewById(R.id.edit_service_user);
-		confirmAppointment = (Button) findViewById(R.id.btn_confirm_appointment);
+		etUserName = (EditText) findViewById(R.id.edit_service_user);
+		btnConfirmAppointment = (Button) findViewById(R.id.btn_confirm_appointment);
 		btnUserSearch = (ImageButton) findViewById(R.id.btn_user_search);
-		textTime = (TextView) findViewById(R.id.visit_time_text);
-		textDate = (TextView) findViewById(R.id.visit_date_text);
-		textClinic = (TextView) findViewById(R.id.visit_clinic_text);
+		tvTime = (TextView) findViewById(R.id.tv_visit_time);
+		tvDate = (TextView) findViewById(R.id.tv_visit_date);
+		tvClinic = (TextView) findViewById(R.id.tv_visit_clinic);
 
-        confirmAppointment.setOnClickListener(new ButtonClick());
+        btnConfirmAppointment.setOnClickListener(new ButtonClick());
         btnUserSearch.setOnClickListener(new ButtonClick());
 
         visitReturnTypeSpinnerSelect = (Spinner) findViewById(R.id.visit_return_type_spinner_select);
@@ -101,15 +97,15 @@ public class CreateAppointmentActivity extends BaseActivity {
 		getSharedPrefs();
 
 		myCalendar.setTime(AppointmentCalendarActivity.daySelected);
-		textDate.setText(dfDateMonthNameYear.format(AppointmentCalendarActivity.daySelected));
+		tvDate.setText(dfDateMonthNameYear.format(AppointmentCalendarActivity.daySelected));
 
 		clinicID = Integer.parseInt(getIntent().getStringExtra("clinicID"));
 		clinicName = ApiRootModel.getInstance().getClinicsMap().get(clinicID).getName();
-		textClinic.setText(clinicName);
+		tvClinic.setText(clinicName);
 
 		appointmentInterval = ApiRootModel.getInstance().getClinicsMap().get(clinicID).getAppointmentInterval();
         time = getIntent().getStringExtra("time");
-        textTime.setText(time);
+        tvTime.setText(time);
         
 		Log.d("postAppointment", "timeAfter: " + time);
 		
@@ -131,14 +127,14 @@ public class CreateAppointmentActivity extends BaseActivity {
 		if(intentOrigin.equals("appointment")) {
 			getSharedPrefs();
 		} else if (intentOrigin.equals("confirm")) {
-			tvUserName.setText(getIntent().getStringExtra("userName"));
+			etUserName.setText(getIntent().getStringExtra("userName"));
 			userID = Integer.parseInt(getIntent().getStringExtra("userId"));
 		}
 	}
 
 	private void checkIfEditEmpty(){
-		if(TextUtils.equals(String.valueOf(userID), "") || TextUtils.equals(tvUserName.getText(), "")) {
-		    tvUserName.setError("Field Empty");
+		if(TextUtils.equals(String.valueOf(userID), "") || TextUtils.equals(etUserName.getText(), "")) {
+		    etUserName.setError("Field Empty");
         }
 	}
 
@@ -157,7 +153,7 @@ public class CreateAppointmentActivity extends BaseActivity {
 		prefs = getSharedPreferences("SMART", MODE_PRIVATE);
 
 		if (prefs != null && prefs.getBoolean("reuse", false)) {
-			tvUserName.setText(prefs.getString("name", null));
+			etUserName.setText(prefs.getString("name", null));
 			userID = Integer.parseInt(prefs.getString("id", ""));
 			visitType = prefs.getString("visit_type", null);
 		}
@@ -177,7 +173,6 @@ public class CreateAppointmentActivity extends BaseActivity {
                 R.layout.spinner_layout_create_appt);
         visitPriorityAdapter.setDropDownViewResource(R.layout.spinner_layout);
         visitPrioritySpinner.setAdapter(visitPriorityAdapter);
-        visitPrioritySpinner.setSelection(1);		//sets visit pirority to Scheduled
 
         visitPriorityAdapterSelect = ArrayAdapter.createFromResource(this,
                 R.array.visit_priority_list,
@@ -204,7 +199,7 @@ public class CreateAppointmentActivity extends BaseActivity {
         public void onClick(View v) {
             switch (v.getId()) {
             case R.id.btn_confirm_appointment:
-            	userName = tvUserName.getText().toString();
+            	userName = etUserName.getText().toString();
             	apptDate = dfDateOnly.format(myCalendar.getTime());
             	passOptions.setDaySelected(myCalendar.getTime());
             	checkIfEditEmpty();
@@ -239,7 +234,7 @@ public class CreateAppointmentActivity extends BaseActivity {
             case R.id.btn_user_search:
             	hideKeyboard();
             	userID = 0;
-            	userName = tvUserName.getText().toString();
+            	userName = etUserName.getText().toString();
             	checkIfEditEmpty();
 				showProgressDialog(CreateAppointmentActivity.this, "Fetching Information");
 				searchPatient(userName);
@@ -409,7 +404,7 @@ public class CreateAppointmentActivity extends BaseActivity {
 				case R.id.list_dialog:
 					hideKeyboard();
 					ServiceUser serviceUser = serviceUserList.get(position);
-					tvUserName.setText(serviceUser.getPersonalFields().getName());
+					etUserName.setText(serviceUser.getPersonalFields().getName());
 					userID = serviceUser.getId();
 					postOrAnte();
 					ad.cancel();

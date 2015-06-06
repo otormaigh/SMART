@@ -13,7 +13,6 @@
         android:paddingRight="@dimen/padding_Xsmall" >
 
         <TextView
-            android:id="@+id/text_service_user"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_Xsmall"
@@ -46,7 +45,6 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/text_appointment_clinic"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_small"
@@ -55,7 +53,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/visit_clinic_text"
+            android:id="@+id/tv_visit_clinic"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_medium"
@@ -63,7 +61,6 @@
             android:paddingLeft="@dimen/padding_Xsmall" />
 
         <TextView
-            android:id="@+id/text_appointment_date"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_small"
@@ -72,7 +69,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/visit_date_text"
+            android:id="@+id/tv_visit_date"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_medium" 
@@ -80,7 +77,6 @@
             android:paddingLeft="@dimen/padding_Xsmall" />
 
         <TextView
-            android:id="@+id/text_appointment_time"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_small"
@@ -89,7 +85,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/visit_time_text"
+            android:id="@+id/tv_visit_time"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_medium" 
@@ -97,7 +93,6 @@
             android:paddingLeft="@dimen/padding_Xsmall" />
 
         <TextView
-            android:id="@+id/text_return_type"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_small"
@@ -120,7 +115,6 @@
             android:spinnerMode="dropdown"/>
 
         <TextView
-            android:id="@+id/text_priority"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_small"
