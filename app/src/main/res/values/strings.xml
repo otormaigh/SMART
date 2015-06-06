@@ -150,7 +150,7 @@
         <item>DOB</item>
     </string-array>
          
- 	<!-- CONFIRM APPOINTMENT -->
+ 	<!-- CREATE APPOINTMENT -->
  	<string name="appt_search_hint"><i>Enter Here</i></string>
     <string-array name="visit_priority_list">
         <item>Select Visit Priority</item>
@@ -162,6 +162,11 @@
         <item>Ante-Natal</item>
         <item>Post-Natal</item>
  	</string-array>
+    <string-array name="return_type_list">
+        <item>Select Return Type</item>
+        <item>Follow-up (15 min)</item>
+        <item>New (30 min)</item>
+    </string-array>
  	<string name="confirm_appointment">Confirm Appointment</string>
  	<string name="service_user">Service User</string>
     <string name="appointment_clinic">Appointment Clinic</string>
@@ -169,7 +174,7 @@
     <string name="appointment_time">Appointment Time</string>
     <string name="cancel">Cancel</string>
  	
-	<!-- CREATE APPOINTMENT -->
+	<!-- CONFIRM APPOINTMENT -->
     <string name="appointment_for">Appointment for:</string>
     <string name="to_attend">To Attend:</string>
     <string name="at">At:</string>

@@ -29,9 +29,9 @@
 
             <EditText
                 android:id="@+id/edit_service_user"
-                android:layout_width="fill_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.2"
+                android:layout_weight="1"
                 android:hint="@string/appt_search_hint"
                 android:textColorHint="#A9A9A9"
                 android:textSize="@dimen/text_medium"
@@ -39,9 +39,9 @@
 
             <ImageButton
                 android:id="@+id/btn_user_search"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.8"
+                android:layout_width="70dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
                 android:src="@drawable/ic_action_search" />
         </LinearLayout>
 
@@ -109,7 +109,15 @@
             android:id="@+id/visit_return_type_spinner"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:entries="@array/visit_return_type" />
+            android:entries="@array/visit_return_type"
+            android:spinnerMode="dialog"/>
+
+        <Spinner
+            android:id="@+id/visit_return_type_spinner_select"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/visit_return_type"
+            android:spinnerMode="dropdown"/>
 
         <TextView
             android:id="@+id/text_priority"
@@ -125,6 +133,13 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:entries="@array/visit_priority_list" />
+
+        <Spinner
+            android:id="@+id/visit_priority_spinner_select"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/visit_return_type"
+            android:spinnerMode="dropdown"/>
 
         <Button
             android:id="@+id/btn_confirm_appointment"
