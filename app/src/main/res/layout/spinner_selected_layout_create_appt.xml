@@ -5,5 +5,4 @@
     android:layout_height="wrap_content"
     android:paddingLeft="@dimen/padding_Xsmall"
     android:textSize="@dimen/text_medium"
-    android:textColor="@color/light_grey"
-    android:textStyle="italic"/>
+    android:textColor="@color/black"/>

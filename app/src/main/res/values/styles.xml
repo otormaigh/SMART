@@ -11,4 +11,8 @@
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
     </style>
+
+    <style name="spinner_style" >
+        <item name="android:background">@drawable/spinner_bg</item>
+    </style>
 </resources>
