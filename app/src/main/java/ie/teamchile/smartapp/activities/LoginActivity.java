@@ -23,8 +23,8 @@ import retrofit.client.Response;
 
 public class LoginActivity extends Activity {
 	private String username, password;
-	private Button loginButton;
-	private TextView usernameTextView, passwordTextView, about;
+	private Button btnLogin;
+	private TextView tvUsername, tvPassword;
 	private Intent intent;
 	private ProgressDialog pd;
 	private SmartApi api;
@@ -34,12 +34,10 @@ public class LoginActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 				
-		loginButton = (Button) findViewById(R.id.login);
-		loginButton.setOnClickListener(new ButtonClick());
-		usernameTextView = (TextView) findViewById(R.id.username);
-		passwordTextView = (TextView) findViewById(R.id.password);		
-		about = (TextView) findViewById(R.id.about);
-	    about.setOnClickListener(new ButtonClick());
+		btnLogin = (Button) findViewById(R.id.btn_login);
+		btnLogin.setOnClickListener(new ButtonClick());
+		tvUsername = (TextView) findViewById(R.id.et_username);
+		tvPassword = (TextView) findViewById(R.id.et_password);
 
 		initRetrofit();
 	}
@@ -56,7 +54,7 @@ public class LoginActivity extends Activity {
     private class ButtonClick implements View.OnClickListener {
 		public void onClick(View v) {
 			switch (v.getId()) {
-			case R.id.login:
+			case R.id.btn_login:
 				pd = new ProgressDialog(LoginActivity.this);
 				pd.setMessage("Logging In");
 				pd.setCanceledOnTouchOutside(false);
@@ -64,11 +62,6 @@ public class LoginActivity extends Activity {
 				pd.show();
 				getCredentials();
 				doRetrofit();
-				break;
-			case R.id.about:
-				Intent i = new Intent(Intent.ACTION_VIEW, 
-					       Uri.parse("http://www.nmh.ie/about-us.8.html"));
-					startActivity(i);
 				break;
 			}
 		}
@@ -101,8 +94,8 @@ public class LoginActivity extends Activity {
 	}
 	
 	private void getCredentials() {
-		username = usernameTextView.getText().toString();
-		password = passwordTextView.getText().toString();
+		username = tvUsername.getText().toString();
+		password = tvPassword.getText().toString();
 	}
     
     @Override

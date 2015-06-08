@@ -6,34 +6,34 @@
     tools:context="ie.teamchile.smartapp.activities.AppointmentTypeSpinnerActivity" >
 
     <Spinner
-        android:id="@+id/appointment_spinner"
+        android:id="@+id/spnr_appointment_type"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:entries="@array/appointment_type_list" />
 
     <Spinner
-        android:id="@+id/clinic_service_option_spinner"
+        android:id="@+id/spnr_service_option"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
 
     <Spinner
-        android:id="@+id/visit_service_option_spinner"
+        android:id="@+id/spnr_visit_option"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:entries="@array/visit_service_option" />
 
     <Spinner
-        android:id="@+id/clinic_spinner"
+        android:id="@+id/spnr_clinic"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
 
     <Spinner
-        android:id="@+id/day_spinner"
+        android:id="@+id/spnr_day"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
 
     <Spinner
-        android:id="@+id/week_spinner"
+        android:id="@+id/spnr_week"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
 </LinearLayout>
