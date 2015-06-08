@@ -59,7 +59,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
 	private List<Integer> idList = new ArrayList<>();
 	private List<Boolean> attendedList = new ArrayList<>();
 	private List<Boolean> attendedSingle = new ArrayList<>();
-	private Button dateInList, prevWeek, nextWeek;
+	private Button dateInList, btnPrevWeek, btnNextWeek;
 	private BaseAdapter adapter;
 	private ListView listView;
 
@@ -68,12 +68,12 @@ public class AppointmentCalendarActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 		setContentForNav(R.layout.activity_appointment_calendar);
         
-        dateInList = (Button) findViewById(R.id.date_button);
+        dateInList = (Button) findViewById(R.id.btn_date);
         listView = (ListView) findViewById(R.id.lv_appointment_list);
-        prevWeek = (Button) findViewById(R.id.prev_button);
-        prevWeek.setOnClickListener(new ButtonClick());
-        nextWeek = (Button) findViewById(R.id.next_button);
-        nextWeek.setOnClickListener(new ButtonClick());
+        btnPrevWeek = (Button) findViewById(R.id.btn_prev);
+        btnPrevWeek.setOnClickListener(new ButtonClick());
+        btnNextWeek = (Button) findViewById(R.id.btn_next);
+        btnNextWeek.setOnClickListener(new ButtonClick());
 
 		clinicOpening = ApiRootModel.getInstance().getClinicsMap().get(clinicSelected).getOpeningTime();
 		clinicClosing = ApiRootModel.getInstance().getClinicsMap().get(clinicSelected).getClosingTime();
@@ -115,7 +115,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
 	private class ButtonClick implements View.OnClickListener {
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.prev_button:
+                case R.id.btn_prev:
                 	c.setTime(daySelected);
                 	c.add(Calendar.DAY_OF_YEAR, -7);
                 	daySelected = c.getTime();
@@ -125,7 +125,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
                 	newSetToList(c.getTime());
                 	pauseButton();
                 	break;
-                case R.id.next_button:
+                case R.id.btn_next:
                 	c.setTime(daySelected);
                 	c.add(Calendar.DAY_OF_YEAR, 7);
                 	daySelected = c.getTime();
@@ -140,16 +140,16 @@ public class AppointmentCalendarActivity extends BaseActivity {
     }
     
     public void pauseButton(){
-    	nextWeek.setEnabled(false);
-    	prevWeek.setEnabled(false);
+    	btnNextWeek.setEnabled(false);
+    	btnPrevWeek.setEnabled(false);
     	CountDownTimer nextTimer = new CountDownTimer(250, 250) {						
 			@Override
 			public void onTick(long millisUntilFinished) {								
 			}						
 			@Override
 			public void onFinish() {	
-				nextWeek.setEnabled(true);
-				prevWeek.setEnabled(true);
+				btnNextWeek.setEnabled(true);
+				btnPrevWeek.setEnabled(true);
 			}
 		};
 		nextTimer.start();
@@ -426,26 +426,6 @@ public class AppointmentCalendarActivity extends BaseActivity {
 				}
 		);
 	}
-    
-    private class OnItemListener implements OnItemClickListener {
-		@Override
-		public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-			Log.d("List", "position clicked = " + position);
-			if(idList.get(position).equals(0)){
-				intent = new Intent(AppointmentCalendarActivity.this, CreateAppointmentActivity.class);
-				intent.putExtra("from", "appointment");
-				intent.putExtra("time", timeList.get(position));
-				intent.putExtra("clinicID", String.valueOf(clinicSelected));
-				startActivity(intent);				
-			} else {
-				int serviceUserId = ApiRootModel.getInstance().getIdApptMap().get(idList.get(position)).getServiceUserId();
-				Log.d("bugs", "db string: " + "service_users" + "/" + serviceUserId);
-				showProgressDialog(AppointmentCalendarActivity.this, "Fetching Information");
-				intent = new Intent(AppointmentCalendarActivity.this, ServiceUserActivity.class);
-				searchServiceUser(serviceUserId, intent);
-			}
-		}		    	
-    }
 
 	private void searchServiceUser(int serviceUserId, final Intent intent) {
 		api.getServiceUserById(serviceUserId,

@@ -38,15 +38,15 @@ public class ConfirmAppointmentActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentForNav(R.layout.activity_confirm_appointment);
         
-        txtUserName = (TextView) findViewById(R.id.text_confirm_user);
-        txtClinic = (TextView) findViewById(R.id.text_confirm_appt_location);
-        txtDateTime = (TextView) findViewById(R.id.text_confirm_appt_time);
-        txtEmailTo = (TextView) findViewById(R.id.text_confirm_email);
-        txtSmsTo = (TextView) findViewById(R.id.text_confirm_sms);
+        txtUserName = (TextView) findViewById(R.id.tv_confirm_name);
+        txtClinic = (TextView) findViewById(R.id.tv_confirm_location);
+        txtDateTime = (TextView) findViewById(R.id.tv_confirm_time);
+        txtEmailTo = (TextView) findViewById(R.id.tv_confirm_email);
+        txtSmsTo = (TextView) findViewById(R.id.tv_confirm_sms);
 
-        btnYes = (Button) findViewById(R.id.btn_yes_appointment);
+        btnYes = (Button) findViewById(R.id.btn_confirm_yes);
         btnYes.setOnClickListener(new ButtonClick());
-        btnNo = (Button) findViewById(R.id.btn_no_appointment);
+        btnNo = (Button) findViewById(R.id.btn_confirm_no);
         btnNo.setOnClickListener(new ButtonClick());
         
         clinicName = getIntent().getStringExtra("clinicName");
@@ -88,7 +88,7 @@ public class ConfirmAppointmentActivity extends BaseActivity {
 	private class ButtonClick implements View.OnClickListener {
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.btn_yes_appointment:
+                case R.id.btn_confirm_yes:
                     Log.d("bugs", "yes 	 button clicked");
                     showProgressDialog(ConfirmAppointmentActivity.this,
                             "Booking Appointment");
@@ -96,7 +96,7 @@ public class ConfirmAppointmentActivity extends BaseActivity {
                 	//new CreateAppointmentLongOperation(ConfirmAppointmentActivity.this).execute("appointments");
                     //passOptions.setDaySelected(cal.getTime());
                     break;
-                case R.id.btn_no_appointment:
+                case R.id.btn_confirm_no:
                 	Log.d("bugs", "no button clicked");
                 	Intent intent = new Intent(ConfirmAppointmentActivity.this, CreateAppointmentActivity.class);
                 	intent.putExtra("from", "confirm");

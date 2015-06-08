@@ -3,20 +3,19 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <!-- 2 columns -->
 
     <TableRow
-        android:id="@+id/button_age"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/border"
-        android:clickable="False"
-        android:padding="@dimen/padding_natal" >
+        android:clickable="false"
+        android:padding="@dimen/padding_natal">
 
         <TextView
-            android:id="@+id/age_ante_natal"
+            android:id="@+id/tv_ante_age"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -28,21 +27,20 @@
             android:gravity="end"
             android:text="@string/age"
             android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/grey"
             android:textSize="@dimen/text_Xsmall"
-            android:textStyle="bold"
-            android:textColor="@color/grey" />
+            android:textStyle="bold" />
     </TableRow>
 
     <TableRow
-        android:id="@+id/button_EDD"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/border"
-        android:clickable="False"
-        android:padding="@dimen/padding_natal" >
+        android:clickable="false"
+        android:padding="@dimen/padding_natal">
 
         <TextView
-            android:id="@+id/deliveryTime"
+            android:id="@+id/tv_ante_edd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -54,21 +52,20 @@
             android:gravity="end"
             android:text="@string/edd"
             android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/grey"
             android:textSize="@dimen/text_Xsmall"
-            android:textStyle="bold"
-            android:textColor="@color/grey" />
+            android:textStyle="bold" />
     </TableRow>
 
     <TableRow
-        android:id="@+id/button_Gest"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/border"
-        android:clickable="False"
-        android:padding="@dimen/padding_natal" >
+        android:clickable="false"
+        android:padding="@dimen/padding_natal">
 
         <TextView
-            android:id="@+id/gestation"
+            android:id="@+id/tv_ante_gestation"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -80,21 +77,20 @@
             android:gravity="end"
             android:text="@string/gestation"
             android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/grey"
             android:textSize="@dimen/text_Xsmall"
-            android:textStyle="bold"
-            android:textColor="@color/grey" />
+            android:textStyle="bold" />
     </TableRow>
 
     <TableRow
-        android:id="@+id/button_last_period"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/border"
-        android:clickable="False"
-        android:padding="@dimen/padding_natal" >
+        android:clickable="false"
+        android:padding="@dimen/padding_natal">
 
         <TextView
-            android:id="@+id/last_period"
+            android:id="@+id/tv_ante_last_period"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -106,21 +102,20 @@
             android:gravity="end"
             android:text="@string/last_period"
             android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/grey"
             android:textSize="@dimen/text_Xsmall"
-            android:textStyle="bold"
-            android:textColor="@color/grey" />
+            android:textStyle="bold" />
     </TableRow>
 
     <TableRow
-        android:id="@+id/button_blood"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/border"
-        android:clickable="False"
-        android:padding="@dimen/padding_natal" >
+        android:clickable="false"
+        android:padding="@dimen/padding_natal">
 
         <TextView
-            android:id="@+id/blood_group"
+            android:id="@+id/tv_ante_blood"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -132,21 +127,20 @@
             android:gravity="end"
             android:text="@string/blood_group"
             android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/grey"
             android:textSize="@dimen/text_Xsmall"
-            android:textStyle="bold"
-            android:textColor="@color/grey" />
+            android:textStyle="bold" />
     </TableRow>
 
     <TableRow
-        android:id="@+id/button_rhesus"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/border"
-        android:clickable="False"
-        android:padding="@dimen/padding_natal" >
+        android:clickable="false"
+        android:padding="@dimen/padding_natal">
 
         <TextView
-            android:id="@+id/rhesus"
+            android:id="@+id/tv_ante_rhesus"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -158,22 +152,21 @@
             android:gravity="end"
             android:text="@string/rhesus"
             android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/grey"
             android:textSize="@dimen/text_Xsmall"
-            android:textStyle="bold"
-            android:textColor="@color/grey" />
+            android:textStyle="bold" />
     </TableRow>
 
     <TableRow
-        android:id="@+id/button_parity"
+        android:id="@+id/tr_ante_parity"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/border"
-        android:clickable="False"
         android:padding="@dimen/padding_natal"
-        android:weightSum="1.0" >
+        android:weightSum="1.0">
 
         <TextView
-            android:id="@+id/parity_ante_natal"
+            android:id="@+id/tv_ante_parity"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.3"
@@ -188,9 +181,9 @@
             android:gravity="end"
             android:text="@string/parity"
             android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/grey"
             android:textSize="@dimen/text_Xsmall"
-            android:textStyle="bold"
-            android:textColor="@color/grey" />
+            android:textStyle="bold" />
 
         <ImageView
             android:layout_width="wrap_content"

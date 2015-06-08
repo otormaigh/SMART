@@ -60,12 +60,11 @@ public class CreateAppointmentActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentForNav(R.layout.activity_create_appointment);
-		//ButterKnife.inject(this);
-		
+
 		c = Calendar.getInstance();
 		myCalendar = Calendar.getInstance();
 		
-		etUserName = (EditText) findViewById(R.id.edit_service_user);
+		etUserName = (EditText) findViewById(R.id.et_service_user);
 		btnConfirmAppointment = (Button) findViewById(R.id.btn_confirm_appointment);
 		btnUserSearch = (ImageButton) findViewById(R.id.btn_user_search);
 		tvTime = (TextView) findViewById(R.id.tv_visit_time);
@@ -75,19 +74,16 @@ public class CreateAppointmentActivity extends BaseActivity {
         btnConfirmAppointment.setOnClickListener(new ButtonClick());
         btnUserSearch.setOnClickListener(new ButtonClick());
 
-        visitReturnTypeSpinnerSelect = (Spinner) findViewById(R.id.visit_return_type_spinner_select);
+        visitReturnTypeSpinnerSelect = (Spinner) findViewById(R.id.spnr_visit_return_type_select);
         visitReturnTypeSpinnerSelect.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
 
-        visitReturnTypeSpinner = (Spinner) findViewById(R.id.visit_return_type_spinner);
+        visitReturnTypeSpinner = (Spinner) findViewById(R.id.spnr_visit_return_type);
         visitReturnTypeSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
 
-        visitPrioritySpinner = (Spinner) findViewById(R.id.visit_priority_spinner);
+        visitPrioritySpinner = (Spinner) findViewById(R.id.spnr_visit_priority);
         visitPrioritySpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
 
-        visitPrioritySpinner = (Spinner) findViewById(R.id.visit_priority_spinner);
-        visitPrioritySpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
-
-        visitPrioritySpinnerSelect = (Spinner) findViewById(R.id.visit_priority_spinner_select);
+        visitPrioritySpinnerSelect = (Spinner) findViewById(R.id.spnr_visit_priority_select);
         visitPrioritySpinnerSelect.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
 
         visitReturnTypeSpinnerSelect.setVisibility(View.GONE);
@@ -310,7 +306,7 @@ public class CreateAppointmentActivity extends BaseActivity {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             switch (parent.getId()) {
-                case R.id.visit_return_type_spinner:
+                case R.id.spnr_visit_return_type:
 					switch(position){
 						case 0:
                             visitReturnTypeSpinner.setVisibility(View.VISIBLE);
@@ -331,7 +327,7 @@ public class CreateAppointmentActivity extends BaseActivity {
 							break;
 					}
                 	break;
-                case R.id.visit_return_type_spinner_select:
+                case R.id.spnr_visit_return_type_select:
                     switch(position){
                         case 0:
                             visitReturnTypeSpinner.setVisibility(View.VISIBLE);
@@ -346,7 +342,7 @@ public class CreateAppointmentActivity extends BaseActivity {
                             break;
                     }
                     break;
-                case R.id.visit_priority_spinner:
+                case R.id.spnr_visit_priority:
                     switch (position) {
                     case 0:
                     	//Select Visit Priority
@@ -369,7 +365,7 @@ public class CreateAppointmentActivity extends BaseActivity {
                     	break;
                     }
                     break;
-                case R.id.visit_priority_spinner_select:
+                case R.id.spnr_visit_priority_select:
                 switch (position) {
                     case 0:
                         //Select Visit Priority

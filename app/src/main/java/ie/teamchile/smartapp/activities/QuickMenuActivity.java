@@ -27,7 +27,7 @@ import retrofit.client.Response;
 
 public class QuickMenuActivity extends BaseActivity {
     private boolean isViewVisible;
-	private Button patientSearch, bookAppointment, startStopClinic, todaysAppointments;
+	private Button btnPatientSearch, btnBookAppointment, btnClinicRecord, btnTodaysAppointments;
 	private int done = 0;
 	private CountDownTimer timer;
 
@@ -36,14 +36,14 @@ public class QuickMenuActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 		setContentForNav(R.layout.activity_quick_menu);
 
-        patientSearch = (Button) findViewById(R.id.patientSearch);
-        patientSearch.setOnClickListener(new ButtonClick());
-        bookAppointment = (Button) findViewById(R.id.bookAppointment);
-        bookAppointment.setOnClickListener(new ButtonClick());
-        startStopClinic = (Button) findViewById(R.id.start_stop_clinic);
-		startStopClinic.setOnClickListener(new ButtonClick());
-        todaysAppointments = (Button) findViewById(R.id.todays_appointments);
-        //todaysAppointments.setOnClickListener(new ButtonClick());
+        btnPatientSearch = (Button) findViewById(R.id.btn_patient_search);
+        btnPatientSearch.setOnClickListener(new ButtonClick());
+        btnBookAppointment = (Button) findViewById(R.id.btn_book_appointment);
+        btnBookAppointment.setOnClickListener(new ButtonClick());
+        btnClinicRecord = (Button) findViewById(R.id.btn_clinic_record);
+		btnClinicRecord.setOnClickListener(new ButtonClick());
+        btnTodaysAppointments = (Button) findViewById(R.id.btn_todays_appointments);
+        //btnTodaysAppointments.setOnClickListener(new ButtonClick());
 
 		isViewVisible = true;
 		updateData();
@@ -56,25 +56,23 @@ public class QuickMenuActivity extends BaseActivity {
 	}
 	
     private class ButtonClick implements View.OnClickListener {
+		Intent intent;
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.patientSearch:
-                    Intent intentPatient = new Intent(QuickMenuActivity.this, ServiceUserSearchActivity.class);
-                    startActivity(intentPatient);
+                case R.id.btn_patient_search:
+                    intent = new Intent(QuickMenuActivity.this, ServiceUserSearchActivity.class);
                     break;
-                case R.id.bookAppointment:
-                    Intent intentBook = new Intent(QuickMenuActivity.this, AppointmentTypeSpinnerActivity.class);
-                    startActivity(intentBook);
+                case R.id.btn_book_appointment:
+					intent = new Intent(QuickMenuActivity.this, AppointmentTypeSpinnerActivity.class);
                     break;
-                case R.id.start_stop_clinic:
-                    Intent intentClinicTime = new Intent(QuickMenuActivity.this, ClinicTimeRecordActivity.class);
-                    startActivity(intentClinicTime);
+                case R.id.btn_clinic_record:
+					intent = new Intent(QuickMenuActivity.this, ClinicTimeRecordActivity.class);
                     break;
-                /*case R.id.todays_appointments:
-                    Intent intentToday = new Intent(QuickMenuActivity.this, TodayAppointmentActivity.class);
-                    startActivity(intentToday);
+                /*case R.id.btn_todays_appointments:
+                    intent = new Intent(QuickMenuActivity.this, TodayAppointmentActivity.class);
                     break;*/
             }
+			startActivity(intent);
         }
     }
     
@@ -215,8 +213,5 @@ public class QuickMenuActivity extends BaseActivity {
 					timer.start();
 			}
 		}.start();
-	}
-
-	private void setDataToMap(ApiRootModel apiRootModel){
 	}
 }
