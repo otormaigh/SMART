@@ -31,10 +31,10 @@ public class ServiceUserSearchActivity extends BaseActivity {
 	private EditText searchName, searchHospitalNumber, 
 					 searchDOBDay, searchDOBMonth, searchDOBYear;
 	private Button search;
-	private TextView tvNoUserFound, tvSearchResults;
+	private TextView tvSearchResults;
 	private ArrayList<String> searchResults = new ArrayList<>();
 	private Intent intent;
-	private ListView list;
+	private ListView lvSearchResults;
 	private ArrayAdapter<String> adapter;
 	private List<String> hospitalNumberList = new ArrayList<>();
 	private LinearLayout llNoUserFound;
@@ -44,20 +44,19 @@ public class ServiceUserSearchActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentForNav(R.layout.activity_service_user_search);
 
-		searchName = (EditText) findViewById(R.id.search_name);
-		searchHospitalNumber = (EditText) findViewById(R.id.search_hospital_number);
-		searchDOBDay = (EditText) findViewById(R.id.search_dob_day);
-		searchDOBMonth = (EditText) findViewById(R.id.search_dob_month);
-		searchDOBYear = (EditText) findViewById(R.id.search_dob_year);
-		//tvNoUserFound = (TextView) findViewById(R.id.tv_no_user_found);
+		searchName = (EditText) findViewById(R.id.et_search_name);
+		searchHospitalNumber = (EditText) findViewById(R.id.et_search_hospital_number);
+		searchDOBDay = (EditText) findViewById(R.id.et_search_dob_day);
+		searchDOBMonth = (EditText) findViewById(R.id.et_search_dob_month);
+		searchDOBYear = (EditText) findViewById(R.id.et_search_dob_year);
 		tvSearchResults = (TextView) findViewById(R.id.tv_search_results);
 		llNoUserFound = (LinearLayout) findViewById(R.id.ll_no_user_found);
 
-		search = (Button) findViewById(R.id.search);
+		search = (Button) findViewById(R.id.btn_search);
 		search.setOnClickListener(new ButtonClick());
 
-		list = (ListView) findViewById(R.id.search_results_list);
-		list.setOnItemClickListener(new onItemListener());
+		lvSearchResults = (ListView) findViewById(R.id.lv_search_results);
+		lvSearchResults.setOnItemClickListener(new onItemListener());
 
 		llNoUserFound.setVisibility(View.GONE);
 		//tvNoUserFound.setVisibility(View.GONE);
@@ -67,7 +66,7 @@ public class ServiceUserSearchActivity extends BaseActivity {
 	private void createResultList(ArrayList<String> searchResults) {
 		adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, searchResults);
 		adapter.notifyDataSetChanged();
-		list.setAdapter(adapter);
+		lvSearchResults.setAdapter(adapter);
 		adapter.notifyDataSetChanged();
 	}
 
@@ -83,11 +82,8 @@ public class ServiceUserSearchActivity extends BaseActivity {
 		public void onClick(View v) {
 			switch (v.getId()) {
 
-			case R.id.search:
-				Log.d("MYLOG", "Search Button Pressed");
-
+			case R.id.btn_search:
 				llNoUserFound.setVisibility(View.GONE);
-				//tvNoUserFound.setVisibility(View.GONE);
 				tvSearchResults.setVisibility(View.GONE);
 				
 				InputMethodManager inputManager = (InputMethodManager)
@@ -116,9 +112,10 @@ public class ServiceUserSearchActivity extends BaseActivity {
 							searchName.getText().toString(),
 							searchHospitalNumber.getText().toString(),
 							dob);
-				}else{
+				} else {
 					Toast.makeText(getApplicationContext(),
-							"Please enter something in the search fields", Toast.LENGTH_SHORT).show();
+							"Please enter something in the search fields", Toast.LENGTH_LONG).show();
+                    lvSearchResults.setAdapter(null);
 				}				
 				break;
 			}
@@ -159,7 +156,6 @@ public class ServiceUserSearchActivity extends BaseActivity {
 						}
 					} else {
 						llNoUserFound.setVisibility(View.VISIBLE);
-						//tvNoUserFound.setVisibility(View.VISIBLE);
 						if(adapter != null){
 							adapter.clear();
 						}
@@ -169,8 +165,8 @@ public class ServiceUserSearchActivity extends BaseActivity {
 
 				@Override
 				public void failure(RetrofitError error) {
-					//tvNoUserFound.setVisibility(View.VISIBLE);
-					pd.dismiss();
+                    llNoUserFound.setVisibility(View.VISIBLE);
+                    pd.dismiss();
 				}
 			}
 		);

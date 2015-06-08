@@ -13,6 +13,5 @@
     <color name="light_grey">#A9A9A9</color>
     
     <color name="login_background">#A2B0C1</color>
-    <color name="login_top_bar">#000000</color>
-  
+
 </resources>

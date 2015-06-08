@@ -13,7 +13,7 @@
         android:weightSum="1.0" >
 
         <TextView
-            android:id="@+id/baby_name_parity"
+            android:id="@+id/tv_parity_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.1"
@@ -39,7 +39,7 @@
         android:weightSum="1.0" >
 
         <TextView
-            android:id="@+id/hospital_number_parity"
+            android:id="@+id/tv_parity_hospital_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.1"
@@ -65,7 +65,7 @@
         android:weightSum="1.0" >
 
         <TextView
-            android:id="@+id/dob_parity"
+            android:id="@+id/tv_parity_dob"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.1"
@@ -91,7 +91,7 @@
         android:weightSum="1.0" >
 
         <TextView
-            android:id="@+id/gender_parity"
+            android:id="@+id/tv_parity_gender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.1"
@@ -117,7 +117,7 @@
         android:weightSum="1.0" >
 
         <TextView
-            android:id="@+id/gestation_parity"
+            android:id="@+id/tv_parity_gestation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.1"
@@ -143,7 +143,7 @@
         android:weightSum="1.0" >
 
         <TextView
-            android:id="@+id/mode_of_birth_parity"
+            android:id="@+id/tv_parity_birth_mode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.1"
@@ -169,7 +169,7 @@
         android:weightSum="1.0" >
 
         <TextView
-            android:id="@+id/birth_outcome_parity"
+            android:id="@+id/tv_parity_outcome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.1"
@@ -195,7 +195,7 @@
         android:weightSum="1.0" >
 
         <TextView
-            android:id="@+id/weight_parity"
+            android:id="@+id/tv_parity_weight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.1"

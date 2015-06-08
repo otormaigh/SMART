@@ -126,7 +126,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void createNavDrawer() {
         String[] drawerItems = getResources().getStringArray(R.array.nav_drawer_items);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawerList = (ListView) findViewById(R.id.left_drawer);
+        drawerList = (ListView) findViewById(R.id.lv_nav_drawer);
         drawerList.setAdapter(new ArrayAdapter<>(this,
                 R.layout.drawer_item_layout, drawerItems));
         drawerList.setOnItemClickListener(new DrawerItemClickListener());
@@ -159,7 +159,7 @@ public class BaseActivity extends AppCompatActivity {
                 intent = new Intent(getApplicationContext(), AppointmentTypeSpinnerActivity.class);
                 startActivity(intent);
                 break;
-            case 2:         //Calendar
+            case 2:         //TimeRecords
                 intent = new Intent(getApplicationContext(), ClinicTimeRecordActivity.class);
                 startActivity(intent);
                 break;
@@ -347,7 +347,6 @@ public class BaseActivity extends AppCompatActivity {
                     Log.d("Retrofit", "appointments retro failure " + error);
                     pd.dismiss();
                 }
-            }
-        );
+            });
     }
 }

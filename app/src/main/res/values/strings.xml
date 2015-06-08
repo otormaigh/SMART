@@ -11,12 +11,12 @@
     <string name="smart">SMART</string>
     <string name="secure_maternity">Secure Maternity</string>
     <string name="appointment_recording">Appointment Recording Tracker</string>
-    <string name="tracker">Tracker</string>
     <string name="maternity_hospital">© National Maternity Hospital, Ireland</string>
     <string name="about">About</string>
 
     <!-- QUICK MENU -->
     <string name="patient_search">Search Patient</string>
+    <string name="book_appointment">Book Appointment</string>
     <string name="start_stop_clinic">Start/Stop Clinic</string>
     <string name="todays_appointments">Today\'s Appointments</string>
 
@@ -71,21 +71,30 @@
     <string name="search_result">Search Results</string>
     <string name="btn_search">Search</string>
 	<string name="dob">Date of Birth</string>
-	<string name="no_user_found">No User Found</string>
-    <string name="please_try_again">Please Try Again</string>
+	<string name="no_user_found">No Service User found</string>
+    <string name="with_details">with those details</string>
+    <string name="try_again">Please try again.</string>
 	<string name="day"><i>Day</i></string>
 	<string name="month"><i>Month</i></string>
 	<string name="year"><i>Year</i></string>
 	
-    <!-- SERVICE USERS -->
+    <!-- SERVICE USER -->
     <string name="ante_natal">Ante-Natal</string>
     <string name="personal">Personal</string>
     <string name="post_natal">Post-Natal</string>
     <string name="contact">Contact</string>
     <string name="address">Address</string>
     <string name="next_of_kin">Next-of-kin</string>
-    <string name="book_appointment">Book Appointment</string>
     <string name="action_settings">Settings</string>
+    <string name="user_age">Age </string>
+    <string name="hospital_number">Hospital Number</string>
+    <string name="email">Email</string>
+    <string name="mobile">Mobile</string>
+    <string name="road">Road</string>
+    <string name="county">County</string>
+    <string name="post_code">Post Code</string>
+    <string name="kin_name">Next Of Kin Name</string>
+    <string name="kin_contact">Next Of Kin Contact Number</string>
 
 	<!-- ANTE NATAL -->
 	<string name="age">Age</string>
@@ -115,7 +124,7 @@
     <string name="nbst">NBST</string>
     
     <!-- PARITY DETAILS -->
-    <string name="parity_baby_name">Baby Name</string>
+    <string name="parity_baby_name">Name</string>
     <string name="parity_hospital_number">Hospital Number</string>
     <string name="parity_dob">Date of Birth</string>
     <string name="parity_gender">Sex</string>
@@ -123,6 +132,9 @@
     <string name="parity_mode_of_birth">Mode Of Birth</string>
     <string name="parity_birth_outcome">Birth Outcome</string>
     <string name="parity_weight">Weight (kg)</string>
+    <string name="parity_hearing">Hearing</string>
+    <string name="parity_nbst">NBST</string>
+    <string name="parity_vit_k">Vit K</string>
      
     <!-- LOGOUT SESSION -->
     <string name="Yes">Yes</string>

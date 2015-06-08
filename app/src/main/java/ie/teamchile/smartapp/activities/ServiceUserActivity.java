@@ -32,14 +32,15 @@ import ie.teamchile.smartapp.utility.ToastAlert;
 public class ServiceUserActivity extends BaseActivity {
 	private final CharSequence[] userContactList = {"Call Mobile", "Send SMS", "Send Email"};
 	private final CharSequence[] kinContactList = {"Call Mobile", "Send SMS"};
-	private TextView anteAge, anteGestation, anteParity, anteDeliveryTime, anteBloodGroup, anteRhesus;
-	private TextView contactHospitalNumber, contactEmail, contactMobileNumber, contactRoad,
-					 contactCounty, contactPostCode, contactNextOfKinName, contactAge, 
-					 contactNextOfKinContactNumber, contactGestation, contactParity;
-	private TextView postBirthMode, postPerineum, postAntiD, postDeliveryDate, postDeliveryTime,
-					 postDaysSinceBirth, postBabyGender, postBirthWeight, postVitK, postHearing, 
-					 postFeeding, postNBST, lastPeriod;
-	private LinearLayout serviceUserContact, serviceUserAddress, serviceUserKin;	
+	private TextView tvAnteAge, tvAnteGestation, tvAnteParity, tvAnteDeliveryTime,
+					 tvAnteBloodGroup, tvAnteRhesus, tvAnteLastPeriod;
+	private TextView tvUsrHospitalNumber, tvUsrEmail, tvUsrMobileNumber, tvUsrRoad,
+					 tvUsrCounty, tvUsrPostCode, tvUsrNextOfKinName, tvUsrAge,
+					 tvUsrKinContact, tvUsrGestation, tvUsrParity;
+	private TextView tvPostBirthMode, tvPostPerineum, tvPostAntiD, tvPostDeliveryDate, tvPostDeliveryTIme,
+					 tvPostDaysSinceBirth, tvPostBabyGender, tvPostBirthWeight, tvPostVitK, tvPostHearing,
+					 tvPostFeeding, tvPostNBST;
+	private LinearLayout llUserContact, llUserAddress, llUserKinContact;
 	private String dob = "", age = "", hospitalNumber, email, mobile, userName, kinName,  
 				   kinMobile, road, county, postCode, gestation, parity, estimtedDelivery,
 				   perineum, birthMode, babyGender, babyWeightKg = "",
@@ -84,50 +85,50 @@ public class ServiceUserActivity extends BaseActivity {
 
         tabHost.setCurrentTab(1);
         
-        serviceUserContact = (LinearLayout)findViewById(R.id.service_user_contact);
-        serviceUserContact.setOnClickListener(new ButtonClick());
-        serviceUserAddress = (LinearLayout)findViewById(R.id.service_user_address);
-        serviceUserAddress.setOnClickListener(new ButtonClick());
-        serviceUserKin = (LinearLayout)findViewById(R.id.service_user_kin);
-        serviceUserKin.setOnClickListener(new ButtonClick());
+        llUserContact = (LinearLayout)findViewById(R.id.ll_usr_contact);
+        llUserContact.setOnClickListener(new ButtonClick());
+        llUserAddress = (LinearLayout)findViewById(R.id.ll_usr_address);
+        llUserAddress.setOnClickListener(new ButtonClick());
+        llUserKinContact = (LinearLayout)findViewById(R.id.ll_usr_kin);
+        llUserKinContact.setOnClickListener(new ButtonClick());
         
-        anteAge = (TextView)findViewById(R.id.age_ante_natal);
-		anteGestation = (TextView)findViewById(R.id.gestation);
-		anteParity = (TextView)findViewById(R.id.parity_ante_natal);
-		anteDeliveryTime = (TextView)findViewById(R.id.deliveryTime);
-		anteBloodGroup = (TextView)findViewById(R.id.blood_group);
-		anteRhesus = (TextView)findViewById(R.id.rhesus);
-		lastPeriod = (TextView)findViewById(R.id.last_period);
+        tvAnteAge = (TextView)findViewById(R.id.tv_ante_age);
+		tvAnteGestation = (TextView)findViewById(R.id.tv_ante_gestation);
+		tvAnteParity = (TextView)findViewById(R.id.tv_ante_parity);
+		tvAnteDeliveryTime = (TextView)findViewById(R.id.tv_ante_edd);
+		tvAnteBloodGroup = (TextView)findViewById(R.id.tv_ante_blood);
+		tvAnteRhesus = (TextView)findViewById(R.id.tv_ante_rhesus);
+		tvAnteLastPeriod = (TextView)findViewById(R.id.tv_ante_last_period);
 		
-		contactHospitalNumber = (TextView) findViewById(R.id.hospital_number);
-		contactAge = (TextView) findViewById(R.id.age);
-		contactEmail = (TextView) findViewById(R.id.email);
-		contactMobileNumber = (TextView) findViewById(R.id.mobile_number);
-		contactRoad = (TextView) findViewById(R.id.road);
-		contactCounty = (TextView) findViewById(R.id.county);
-		contactPostCode = (TextView) findViewById(R.id.post_code);
-		contactNextOfKinName = (TextView) findViewById(R.id.next_of_kin_name);
-		contactNextOfKinContactNumber = (TextView) findViewById(R.id.next_of_kin_contact_number);
-		contactGestation = (TextView) findViewById(R.id.g);
-		contactParity = (TextView)findViewById(R.id.p);
+		tvUsrHospitalNumber = (TextView) findViewById(R.id.tv_usr_hospital_number);
+		tvUsrAge = (TextView) findViewById(R.id.tv_usr_age);
+		tvUsrEmail = (TextView) findViewById(R.id.tv_usr_email);
+		tvUsrMobileNumber = (TextView) findViewById(R.id.tv_usr_mobile);
+		tvUsrRoad = (TextView) findViewById(R.id.tv_usr_road);
+		tvUsrCounty = (TextView) findViewById(R.id.tv_usr_county);
+		tvUsrPostCode = (TextView) findViewById(R.id.tv_usr_post_code);
+		tvUsrNextOfKinName = (TextView) findViewById(R.id.tv_usr_kin_name);
+		tvUsrKinContact = (TextView) findViewById(R.id.tv_usr_kin_contact);
+		tvUsrGestation = (TextView) findViewById(R.id.tv_usr_gestation);
+		tvUsrParity = (TextView)findViewById(R.id.tv_usr_partiy);
 		
-		postBirthMode = (TextView)findViewById(R.id.birth_mode);
-		postPerineum = (TextView)findViewById(R.id.perineum);
-		postAntiD = (TextView)findViewById(R.id.anti_d);
-		postDeliveryDate = (TextView)findViewById(R.id.date_of_delivery);
-		postDeliveryTime = (TextView)findViewById(R.id.time_of_delivery);
-		postDaysSinceBirth = (TextView)findViewById(R.id.days_since_birth);
-		postBabyGender = (TextView)findViewById(R.id.sex_of_baby);
-		postBirthWeight = (TextView)findViewById(R.id.birth_weight);
-		postVitK = (TextView)findViewById(R.id.vitk);
-		postHearing = (TextView)findViewById(R.id.hearing);
-		postFeeding = (TextView)findViewById(R.id.feeding);
-		postNBST = (TextView)findViewById(R.id.nbst);
+		tvPostBirthMode = (TextView)findViewById(R.id.tv_post_mode);
+		tvPostPerineum = (TextView)findViewById(R.id.tv_post_perineum);
+		tvPostAntiD = (TextView)findViewById(R.id.tv_post_anti_d);
+		tvPostDeliveryDate = (TextView)findViewById(R.id.tv_post_delivery_date);
+		tvPostDeliveryTIme = (TextView)findViewById(R.id.tv_post_delivery_time);
+		tvPostDaysSinceBirth = (TextView)findViewById(R.id.tv_post_days_since_birth);
+		tvPostBabyGender = (TextView)findViewById(R.id.tv_post_gender);
+		tvPostBirthWeight = (TextView)findViewById(R.id.tv_post_weight);
+		tvPostVitK = (TextView)findViewById(R.id.tv_post_vit_k);
+		tvPostHearing = (TextView)findViewById(R.id.tv_post_hearing);
+		tvPostFeeding = (TextView)findViewById(R.id.tv_post_feeding);
+		tvPostNBST = (TextView)findViewById(R.id.tv_post_nbst);
 		
-		bookAppointmentButton = (Button) findViewById(R.id.book_appointment);
+		bookAppointmentButton = (Button) findViewById(R.id.btn_usr_book_appointment);
 		bookAppointmentButton.setOnClickListener(new ButtonClick());
 		
-		tableParity = (TableRow)findViewById(R.id.button_parity);
+		tableParity = (TableRow)findViewById(R.id.tr_ante_parity);
 		tableParity.setOnClickListener(new ButtonClick());
 
 		try{
@@ -163,9 +164,6 @@ public class ServiceUserActivity extends BaseActivity {
 			parity = ApiRootModel.getInstance().getServiceUsers().get(0).getClinicalFields().getParity();
 			estimtedDelivery = ApiRootModel.getInstance().getPregnancies().get(p).getEstimatedDeliveryDate();
 			lastPeriodDate = ApiRootModel.getInstance().getPregnancies().get(p).getLastMenstrualPeriod();
-			/*if(!estimtedDelivery.isEmpty()){
-				getRecentPregnancy();
-			}*/
 			vitK = ApiRootModel.getInstance().getBabies().get(b).getVitaminK();
 			hearing = ApiRootModel.getInstance().getBabies().get(b).getHearing();
 			antiD = ApiRootModel.getInstance().getPregnancies().get(p).getAntiD();
@@ -180,45 +178,45 @@ public class ServiceUserActivity extends BaseActivity {
 			
 			if(parity.equals("0 + 0"))
 				tableParity.setEnabled(false);
-			anteParity.setText(parity);
-			anteGestation.setText(gestation);
-			anteRhesus.setText(ApiRootModel.getInstance().getServiceUsers().get(0).getClinicalFields().getRhesus().toString());
-			anteBloodGroup.setText(ApiRootModel.getInstance().getServiceUsers().get(0).getClinicalFields().getBloodGroup());
+			tvAnteParity.setText(parity);
+			tvAnteGestation.setText(gestation);
+			tvAnteRhesus.setText(ApiRootModel.getInstance().getServiceUsers().get(0).getClinicalFields().getRhesus().toString());
+			tvAnteBloodGroup.setText(ApiRootModel.getInstance().getServiceUsers().get(0).getClinicalFields().getBloodGroup());
 			if(estimtedDelivery != null)
-				anteDeliveryTime.setText(getEstimateDeliveryDate(estimtedDelivery));
+				tvAnteDeliveryTime.setText(getEstimateDeliveryDate(estimtedDelivery));
 			else
-			anteDeliveryTime.setText("");
-			anteAge.setText(age);
+			tvAnteDeliveryTime.setText("");
+			tvAnteAge.setText(age);
 			
-			contactAge.setText(age);
-			contactHospitalNumber.setText(hospitalNumber);
-			contactEmail.setText(email);
-			contactMobileNumber.setText(mobile);
-			contactRoad.setText(road);
-			contactCounty.setText(county);
-			contactPostCode.setText(postCode);
-			contactNextOfKinName.setText(kinName);
-			contactNextOfKinContactNumber.setText(kinMobile);
-			contactGestation.setText(gestation);
-			contactParity.setText(parity);	
+			tvUsrAge.setText(age);
+			tvUsrHospitalNumber.setText(hospitalNumber);
+			tvUsrEmail.setText(email);
+			tvUsrMobileNumber.setText(mobile);
+			tvUsrRoad.setText(road);
+			tvUsrCounty.setText(county);
+			tvUsrPostCode.setText(postCode);
+			tvUsrNextOfKinName.setText(kinName);
+			tvUsrKinContact.setText(kinMobile);
+			tvUsrGestation.setText(gestation);
+			tvUsrParity.setText(parity);
 			
-			postVitK.setText(vitK);
-			postHearing.setText(hearing);
-			postAntiD.setText(antiD);
-			postFeeding.setText(feeding);
-			postNBST.setText(nbst);
-			postDeliveryDate.setText(getDeliveryDate(deliveryDateTime));
-			postDeliveryTime.setText(getDeliveryTime(deliveryDateTime));		
-			postPerineum.setText(perineum);		
-			postBirthMode.setText(birthMode);
-			postBirthWeight.setText(babyWeightKg);
+			tvPostVitK.setText(vitK);
+			tvPostHearing.setText(hearing);
+			tvPostAntiD.setText(antiD);
+			tvPostFeeding.setText(feeding);
+			tvPostNBST.setText(nbst);
+			tvPostDeliveryDate.setText(getDeliveryDate(deliveryDateTime));
+			tvPostDeliveryTIme.setText(getDeliveryTime(deliveryDateTime));
+			tvPostPerineum.setText(perineum);
+			tvPostBirthMode.setText(birthMode);
+			tvPostBirthWeight.setText(babyWeightKg);
 			if(lastPeriodDate != null)
-				lastPeriod.setText(getLastPeriodDate(lastPeriodDate));
+				tvAnteLastPeriod.setText(getLastPeriodDate(lastPeriodDate));
 			if(babyGender.equalsIgnoreCase("M"))
-				postBabyGender.setText(babyGender + sex_male);
+				tvPostBabyGender.setText(babyGender + sex_male);
 			else if (babyGender.equalsIgnoreCase("F"))
-				postBabyGender.setText(babyGender + sex_female);
-			postDaysSinceBirth.setText(daysSinceBirth);
+				tvPostBabyGender.setText(babyGender + sex_female);
+			tvPostDaysSinceBirth.setText(daysSinceBirth);
 		} catch (NullPointerException e){
 			e.printStackTrace();
 		}
@@ -227,21 +225,21 @@ public class ServiceUserActivity extends BaseActivity {
 	private class ButtonClick implements View.OnClickListener, DialogInterface {
 		public void onClick(View v) {
 			switch (v.getId()) {
-			case R.id.book_appointment:
+			case R.id.btn_usr_book_appointment:
 				setSharedPrefs();				
 				Intent intentBook = new Intent(ServiceUserActivity.this, AppointmentTypeSpinnerActivity.class);
 				startActivity(intentBook);
 				break;
-			case R.id.service_user_contact :
+			case R.id.ll_usr_contact:
 				dialogContact(userContactList);
 				break;
-			case R.id.service_user_kin :
+			case R.id.ll_usr_kin:
 				dialogContact(kinContactList);
 				break;					
-			case R.id.service_user_address :
+			case R.id.ll_usr_address:
 				gotoMaps();
 				break;
-			case R.id.button_parity:
+			case R.id.tr_ante_parity:
 				Intent intent6 = new Intent(ServiceUserActivity.this, ParityDetailsActivity.class);
 				startActivity(intent6);
 				break;
@@ -261,11 +259,12 @@ public class ServiceUserActivity extends BaseActivity {
 
 	    builder.setItems(items, new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int item) {
-	            if (items[item].equals("Call Mobile")) { makeCall(); }
-
-	            if (items[item].equals("Send SMS")) { sendSms(); }
-	            
-	            if (items[item].equals("Send Email")) { sendEmail(); }
+	            if (items[item].equals("Call Mobile"))
+					makeCall();
+	            if (items[item].equals("Send SMS"))
+					sendSms();
+	            if (items[item].equals("Send Email"))
+					sendEmail();
 	        }
 	    });
 	    AlertDialog alert = builder.create();
@@ -274,7 +273,7 @@ public class ServiceUserActivity extends BaseActivity {
 	}
 	
 	private void makeCall(){
-		userCall = "tel:" + contactMobileNumber.getText().toString();
+		userCall = "tel:" + tvUsrMobileNumber.getText().toString();
 		userCallIntent = new Intent(Intent.ACTION_DIAL,
 				Uri.parse(userCall));
 		try {
@@ -287,7 +286,7 @@ public class ServiceUserActivity extends BaseActivity {
 	}
 	
 	private void sendSms() {
-		userSMS = contactMobileNumber.getText().toString();
+		userSMS = tvUsrMobileNumber.getText().toString();
 		userSmsIntent = new Intent(Intent.ACTION_VIEW);
 		userSmsIntent.setType("vnd.android-dir/mms-sms");
 		userSmsIntent.putExtra("address", userSMS);
@@ -301,11 +300,11 @@ public class ServiceUserActivity extends BaseActivity {
 	}
 	
 	private void sendEmail() {
-		userEmail = contactEmail.getText().toString();		
+		userEmail = tvUsrEmail.getText().toString();
 		userEmailIntent = new Intent(Intent.ACTION_SEND);
 		userEmailIntent.setClassName("com.google.android.gm","com.google.android.gm.ComposeActivityGmail");
 		userEmailIntent.setType("message/rfc822");
-		userEmailIntent.putExtra(android.content.Intent.EXTRA_EMAIL,new String[] {userEmail});
+		userEmailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[] {userEmail});
 		userEmailIntent.putExtra(Intent.EXTRA_SUBJECT, ""); 
 		userEmailIntent.putExtra(Intent.EXTRA_TEXT, ""); 
 		userEmailIntent.setType("plain/text"); 
@@ -327,7 +326,9 @@ public class ServiceUserActivity extends BaseActivity {
 		}})
 		.setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener() {
 		    public void onClick(DialogInterface dialoginterface, int i) {
-		    	String addr = "" + contactRoad.getText().toString() + ", " + contactCounty.getText().toString() + ", " + contactPostCode.getText().toString();
+		    	String addr = tvUsrRoad.getText().toString() + ", "
+                        + tvUsrCounty.getText().toString() + ", "
+                        + tvUsrPostCode.getText().toString();
 		    	Log.d("bugs", "geoCode: " + getGeoCoodinates(addr+"?z=12"));
 		    	Uri uri = Uri.parse(getGeoCoodinates(addr)); //"geo:47.6,-122.3?z=18"
 		    	Log.d("bugs", "addr: " + addr);
@@ -403,19 +404,19 @@ public class ServiceUserActivity extends BaseActivity {
 	}	
 	
 	private String getDeliveryTime(String edd) {
-		String deliveryTime = null;
-		Date date;
-		try {
-			date = dfDateOnly.parse(edd);
+        String deliveryTime = null;
+        Date date;
+        try {
+            date = dfDateOnly.parse(edd);
 
-			deliveryTime = dfAMPM.format(date);
-			date = dfDateTimeWZone.parse(edd);
+            deliveryTime = dfAMPM.format(date);
+            date = dfDateTimeWZone.parse(edd);
 
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return deliveryTime;
-	}	
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return deliveryTime;
+    }
 
 	private String getNoOfDays(String dateOfDelivery){
 		int numOfDays = 0;
