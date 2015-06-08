@@ -16,7 +16,7 @@
     <dimen name="text_Xlarge">35sp</dimen>
 
     <dimen name="text_parity_test">22sp</dimen>
-    
+
     <!-- MARGIN -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>

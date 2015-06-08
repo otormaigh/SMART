@@ -45,8 +45,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentForNav(R.layout.activity_clinic_time_record);
         c = Calendar.getInstance();
-        //today = dfDayLong.format(c.getTime());
-        today = "Tuesday";
+        today = dfDayLong.format(c.getTime());
         Log.d("SMART", "today = " + today);
         lvTimeRecordClinics = (ListView) findViewById(R.id.lv_time_record_clinics);
         btnCheckIn = (Button) findViewById(R.id.btn_check_in);

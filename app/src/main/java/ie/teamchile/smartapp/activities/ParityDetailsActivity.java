@@ -27,7 +27,6 @@ import ie.teamchile.smartapp.model.Baby;
 
 public class ParityDetailsActivity extends BaseActivity {
 	private BaseAdapter adapter;
-	private TextView name, babyName;
 	private String patientName, patientParity;
 	private String sex_male = "ale", sex_female = "emale";
 	private List<String> nameBaby = new ArrayList<>();
@@ -43,35 +42,22 @@ public class ParityDetailsActivity extends BaseActivity {
 	private List<String> hearing = new ArrayList<>();
 	private List<String> nbstList = new ArrayList<>();
 	private List<String> vitKList = new ArrayList<>();
-	private ListView parityList;
+	private ListView lvParity;
 	private int orientation;
-	private RecyclerView rvRecycler;
+	private RecyclerView rvParity;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentForNav(R.layout.activity_parity_details);
-		parityList = (ListView)findViewById(R.id.parity_list);
-		rvRecycler = (RecyclerView) findViewById(R.id.rv_recycler);
+		lvParity = (ListView)findViewById(R.id.lv_parity);
+		rvParity = (RecyclerView) findViewById(R.id.rv_parity);
 
 		patientName = ApiRootModel.getInstance().getServiceUsers().get(0).getPersonalFields().getName();
 		patientParity = ApiRootModel.getInstance().getServiceUsers().get(0).getClinicalFields().getParity();
 		setActionBarTitle(patientName + " (" + patientParity + ")");
 
 		List<Baby> babyList = ApiRootModel.getInstance().getBabies();
-
-		/*x 	 x name
-		 		 x birth_outcome
-				   delivery_date
-				 x gender
-				 x hearing
-				 x hospital_number
-				 x nbst
-				 x vitamin_k
-				 x weight (g)
-				 x gestation
-				 x mode of birth
-		*/
 
 		for(int i = 0; i < babyList.size(); i++){
 			nameBaby.add(babyList.get(i).getName());
@@ -88,8 +74,7 @@ public class ParityDetailsActivity extends BaseActivity {
 		}
 
         dobStr = new ArrayList<>();
-        Log.d("bugs", "gestation list oncreate = " + gestationBaby.toString());
-		
+
 		for(int i = 0; i < dobBaby.size(); i++){
 			dobStr.add(dobBaby.get(i) + "\n");
 		}
@@ -132,30 +117,19 @@ public class ParityDetailsActivity extends BaseActivity {
 	}
 	
 	private void portraitCode(){
-		babyName = (TextView)findViewById(R.id.baby_name_parity);
-/*		parity =(TextView)findViewById(R.id.parity_info);
-		
-		parity.setText(patientParity);*/
-		
 		adapter = new ListAdapter(ParityDetailsActivity.this, 
 				 orientation, nameBaby, hospitalNumber, dobStr, 
 				 genderBaby, gestationBaby, weightBabyInKg,
 				 birthMode, birthOutcome);
-		parityList.setAdapter(adapter);
-        //listView.setOnItemClickListener(new OnItemListener());		
+		lvParity.setAdapter(adapter);
 	}
 	
 	private void landscapeCode(){
-		/*adapter = new ListAdapter(ParityDetailsActivity.this,
-				 orientation, dobStr, genderBaby, gestationBaby,
-				weightBabyInKg, birthMode, birthOutcome);
-		parityList.setAdapter(adapter);*/
-
 		LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-		rvRecycler.setLayoutManager(layoutManager);
+		rvParity.setLayoutManager(layoutManager);
 		RecyclerView.Adapter rvAdapter = new MyRecycleAdapter(nameBaby, hospitalNumber, dobBaby, genderBaby, gestationBaby,
 				weightBaby, birthMode, birthOutcome, hearing, nbstList, vitKList);
-		rvRecycler.setAdapter(rvAdapter);
+		rvParity.setAdapter(rvAdapter);
 	}
 	
     public String getGramsToKg(int grams){
@@ -193,22 +167,6 @@ public class ParityDetailsActivity extends BaseActivity {
 			layoutInflater = LayoutInflater.from(context);
 		}
 		
-		public ListAdapter(Context context, int orientation, List<String>babyDob, 
-				List<String>babyGender, List<String>gestation, List<String>weight, 
-				List<String>birthMode, List<String>birthOutcome) {
-			super();
-			
-			this.context = context;
-			this.orientation = orientation;
-			this.babyDob = babyDob;
-			this.gestation = gestation;
-			this.babyGender = babyGender;
-			this.weight = weight;
-			this.birthMode = birthMode;
-			this.birthOutcome = birthOutcome;
-			layoutInflater = LayoutInflater.from(context);
-		}
-		
 		@Override
 		public int getCount() {
 			return gestation.size();
@@ -227,12 +185,12 @@ public class ParityDetailsActivity extends BaseActivity {
 			this.position = position;
 			
 			convertView = layoutInflater.inflate(R.layout.parity_list_layout, parent, false);
-			TextView dobText = (TextView) convertView.findViewById(R.id.dob_parity);
-			TextView genderText = (TextView) convertView.findViewById(R.id.gender_parity);
-			TextView gestationText = (TextView) convertView.findViewById(R.id.gestation_parity);
-			TextView weightText = (TextView) convertView.findViewById(R.id.weight_parity);
-			TextView modeText = (TextView) convertView.findViewById(R.id.mode_of_birth_parity);
-			TextView birthOutcomeParity = (TextView) convertView.findViewById(R.id.birth_outcome_parity);
+			TextView dobText = (TextView) convertView.findViewById(R.id.tv_parity_dob);
+			TextView genderText = (TextView) convertView.findViewById(R.id.tv_parity_gender);
+			TextView gestationText = (TextView) convertView.findViewById(R.id.tv_parity_gestation);
+			TextView weightText = (TextView) convertView.findViewById(R.id.tv_parity_weight);
+			TextView modeText = (TextView) convertView.findViewById(R.id.tv_parity_birth_mode);
+			TextView birthOutcomeParity = (TextView) convertView.findViewById(R.id.tv_parity_outcome);
 
 			if(babyGender.get(position).equalsIgnoreCase("M")){
 				genderText.setText(babyGender.get(position) + sex_male);
@@ -247,8 +205,8 @@ public class ParityDetailsActivity extends BaseActivity {
 			
 			switch(orientation){
 			case 1:				//ORIENTATION_PORTRAIT
-				TextView nameOfBaby = (TextView) convertView.findViewById(R.id.baby_name_parity);
-				TextView hospitalNo = (TextView) convertView.findViewById(R.id.hospital_number_parity);			
+				TextView nameOfBaby = (TextView) convertView.findViewById(R.id.tv_parity_name);
+				TextView hospitalNo = (TextView) convertView.findViewById(R.id.tv_parity_hospital_number);
 				
 				nameOfBaby.setText(name.get(position));
 				hospitalNo.setText(hospitalNumber.get(position));
@@ -298,17 +256,17 @@ public class ParityDetailsActivity extends BaseActivity {
 			public ViewHolder(View view) {
 				super(view);
 
-				tvDob = (TextView) view.findViewById(R.id.dob_parity);
-				tvGest = (TextView) view.findViewById(R.id.gestation_parity);
-				tvGender = (TextView) view.findViewById(R.id.gender_parity);
-				tvWeight = (TextView) view.findViewById(R.id.weight_parity);
-				tvMode = (TextView) view.findViewById(R.id.mode_of_birth_parity);
-				tvOutcome = (TextView) view.findViewById(R.id.birth_outcome_parity);
-				tvName = (TextView) view.findViewById(R.id.name);
-				tvHospitalNum = (TextView) view.findViewById(R.id.hospital_number);
-				tvHearing = (TextView) view.findViewById(R.id.birth_hearing);
-				tvNbst = (TextView) view.findViewById(R.id.birth_nbst);
-				tvVitK = (TextView) view.findViewById(R.id.birth_vit_k);
+				tvDob = (TextView) view.findViewById(R.id.tv_parity_dob);
+				tvGest = (TextView) view.findViewById(R.id.tv_parity_gestation);
+				tvGender = (TextView) view.findViewById(R.id.tv_parity_gender);
+				tvWeight = (TextView) view.findViewById(R.id.tv_parity_weight);
+				tvMode = (TextView) view.findViewById(R.id.tv_parity_birth_mode);
+				tvOutcome = (TextView) view.findViewById(R.id.tv_parity_outcome);
+				tvName = (TextView) view.findViewById(R.id.tv_parity_name);
+				tvHospitalNum = (TextView) view.findViewById(R.id.tv_parity_hospital_number);
+				tvHearing = (TextView) view.findViewById(R.id.tv_parity_hearing);
+				tvNbst = (TextView) view.findViewById(R.id.tv_parity_nbst);
+				tvVitK = (TextView) view.findViewById(R.id.tv_parity_vit_k);
 			}
 		}
 

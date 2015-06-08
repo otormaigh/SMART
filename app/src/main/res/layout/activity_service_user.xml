@@ -5,7 +5,7 @@
     android:layout_height="fill_parent"
     android:orientation="vertical"
     android:weightSum="7.0"
-    tools:context="${relativePackage}.${activityClass}" >
+    tools:context="${relativePackage}.${activityClass}">
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -13,26 +13,25 @@
         android:layout_marginBottom="@dimen/padding_small"
         android:layout_marginTop="@dimen/padding_small"
         android:gravity="center"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Age "
+                android:text="@string/user_age"
                 android:textSize="@dimen/text_Xsmall" />
 
             <TextView
-                android:id="@+id/age"
+                android:id="@+id/tv_usr_age"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="xx"
                 android:textSize="@dimen/text_Xsmall" />
 
             <TextView
@@ -43,11 +42,10 @@
                 android:textSize="@dimen/text_Xsmall" />
 
             <TextView
-                android:id="@+id/p"
+                android:id="@+id/tv_usr_partiy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="xx+x"
                 android:textSize="@dimen/text_Xsmall" />
 
             <TextView
@@ -58,11 +56,10 @@
                 android:textSize="@dimen/text_Xsmall" />
 
             <TextView
-                android:id="@+id/g"
+                android:id="@+id/tv_usr_gestation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="xx+x"
                 android:textSize="@dimen/text_Xsmall" />
         </LinearLayout>
     </LinearLayout>
@@ -70,17 +67,17 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/ll_usr_contact"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:id="@+id/service_user_contact"
-            android:paddingBottom="@dimen/padding_medium" >
+            android:paddingBottom="@dimen/padding_medium">
 
             <Button
-                android:id="@+id/user_contact"
+                android:id="@+id/btn_usr_contact"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginRight="@dimen/padding_medium"
@@ -89,43 +86,43 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/hospital_number"
+                    android:id="@+id/tv_usr_hospital_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="fill_horizontal"
-                    android:text="Hospital Number"
+                    android:text="@string/hospital_number"
                     android:textSize="@dimen/text_Xsmall" />
 
                 <TextView
-                    android:id="@+id/email"
+                    android:id="@+id/tv_usr_email"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="fill_horizontal"
-                    android:text="Email"
+                    android:text="@string/email"
                     android:textSize="@dimen/text_Xsmall" />
 
                 <TextView
-                    android:id="@+id/mobile_number"
+                    android:id="@+id/tv_usr_mobile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="fill_horizontal"
-                    android:text="Mobile"
+                    android:text="@string/mobile"
                     android:textSize="@dimen/text_Xsmall" />
             </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_usr_address"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:id="@+id/service_user_address"
-            android:paddingBottom="@dimen/padding_medium" >
+            android:paddingBottom="@dimen/padding_medium">
 
             <Button
-                android:id="@+id/user_address"
+                android:id="@+id/btn_usr_address"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginRight="@dimen/padding_medium"
@@ -135,30 +132,30 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/road"
+                    android:id="@+id/tv_usr_road"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="fill_horizontal"
-                    android:text="Road" 
+                    android:text="@string/road"
                     android:textSize="@dimen/text_Xsmall" />
 
                 <TextView
-                    android:id="@+id/county"
+                    android:id="@+id/tv_usr_county"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="fill_horizontal"
-                    android:text="County"
+                    android:text="@string/county"
                     android:textSize="@dimen/text_Xsmall" />
 
                 <TextView
-                    android:id="@+id/post_code"
+                    android:id="@+id/tv_usr_post_code"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="fill_horizontal"
-                    android:text="Post Code" 
+                    android:text="@string/post_code"
                     android:textSize="@dimen/text_Xsmall" />
             </LinearLayout>
         </LinearLayout>
@@ -166,17 +163,17 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/ll_usr_kin"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingBottom="@dimen/padding_medium"
-                android:id="@+id/service_user_kin" >
+                android:paddingBottom="@dimen/padding_medium">
 
                 <Button
-                    android:id="@+id/next_of_kin_contact"
+                    android:id="@+id/btn_usr_kin_contact"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginRight="@dimen/padding_medium"
@@ -186,28 +183,28 @@
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical" >
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/next_of_kin_name"
+                        android:id="@+id/tv_usr_kin_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="fill_horizontal"
-                        android:text="Next Of Kin Name"
+                        android:text="@string/kin_name"
                         android:textSize="@dimen/text_Xsmall" />
 
                     <TextView
-                        android:id="@+id/next_of_kin_contact_number"
+                        android:id="@+id/tv_usr_kin_contact"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="fill_horizontal"
-                        android:text="Next Of Kin Contact Number"
+                        android:text="@string/kin_contact"
                         android:textSize="@dimen/text_Xsmall" />
                 </LinearLayout>
             </LinearLayout>
 
             <Button
-                android:id="@+id/book_appointment"
+                android:id="@+id/btn_usr_book_appointment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

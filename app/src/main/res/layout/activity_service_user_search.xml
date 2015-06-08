@@ -7,7 +7,7 @@
     tools:context="${relativePackage}.${activityClass}">
 
     <EditText
-        android:id="@+id/search_name"
+        android:id="@+id/et_search_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/enter_name"
@@ -16,7 +16,7 @@
         android:textColorHint="#A9A9A9" />
 
     <EditText
-        android:id="@+id/search_hospital_number"
+        android:id="@+id/et_search_hospital_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/enter_hospital_number"
@@ -30,7 +30,7 @@
         android:weightSum="3.0">
 
         <EditText
-            android:id="@+id/search_dob_day"
+            android:id="@+id/et_search_dob_day"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
@@ -41,7 +41,7 @@
             android:textColorHint="#A9A9A9" />
 
         <EditText
-            android:id="@+id/search_dob_month"
+            android:id="@+id/et_search_dob_month"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
@@ -52,7 +52,7 @@
             android:textColorHint="#A9A9A9" />
 
         <EditText
-            android:id="@+id/search_dob_year"
+            android:id="@+id/et_search_dob_year"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
@@ -64,7 +64,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/search"
+        android:id="@+id/btn_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/btn_search" />
@@ -92,7 +92,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="No Service User found"
+            android:text="@string/no_user_found"
             android:textColor="@color/black"
             android:textSize="@dimen/text_small" />
 
@@ -100,7 +100,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="with those details"
+            android:text="@string/with_details"
             android:textColor="@color/black"
             android:textSize="@dimen/text_small" />
 
@@ -108,14 +108,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Please try again."
+            android:text="@string/try_again"
             android:textColor="@color/black"
             android:textSize="@dimen/text_small" />
     </LinearLayout>
 
 
     <ListView
-        android:id="@+id/search_results_list"
+        android:id="@+id/lv_search_results"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></ListView>
 

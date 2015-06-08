@@ -1,9 +1,4 @@
 <resources>
-    <!-- Default Application theme -->
-<!--    <style
-        name="AppTheme" parent="android:Theme.Holo.Light">
-    </style>-->
-
     <style name="AppTheme" parent="Theme.AppCompat.Light">
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
     </style>
