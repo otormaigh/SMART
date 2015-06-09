@@ -11,7 +11,8 @@
     <color name="brown">#CC5E03</color>
     <color name="grey">#676766</color>
     <color name="light_grey">#A9A9A9</color>
-    
+    <color name="very_light_grey">#D3D3D3</color>
+
     <color name="login_background">#A2B0C1</color>
 
 </resources>
