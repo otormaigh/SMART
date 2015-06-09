@@ -1,6 +1,6 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -19,7 +19,7 @@
                 android:text="@string/mother_info"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="@dimen/text_small"
-                android:textStyle="bold" />
+                android:textStyle="bold"/>
 
             <TableRow
                 android:layout_width="fill_parent"
@@ -29,23 +29,22 @@
                 android:weightSum="1.0">
 
                 <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.7"
+                    android:text="@string/birth_mode"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/light_grey"
+                    android:textSize="@dimen/text_natal_field"/>
+
+                <TextView
                     android:id="@+id/tv_post_mode"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.3"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_natal_data" />
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.7"
                     android:gravity="end"
-                    android:text="@string/birth_mode"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/grey"
-                    android:textSize="@dimen/text_natal_field"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/text_natal_data"/>
             </TableRow>
 
             <TableRow
@@ -53,23 +52,22 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/border"
                 android:padding="@dimen/padding_natal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/perineum"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/light_grey"
+                    android:textSize="@dimen/text_natal_field"/>
 
                 <TextView
                     android:id="@+id/tv_post_perineum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_natal_data" />
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="end"
-                    android:text="@string/perineum"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/grey"
-                    android:textSize="@dimen/text_natal_field"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/text_natal_data"/>
             </TableRow>
 
             <TableRow
@@ -79,21 +77,22 @@
                 android:padding="@dimen/padding_natal">
 
                 <TextView
-                    android:id="@+id/tv_post_anti_d"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_natal_data" />
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="end"
+                    android:layout_height="wrap_content"
                     android:text="@string/anti_d"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/grey"
-                    android:textSize="@dimen/text_natal_field"
-                    android:textStyle="bold" />
+                    android:textColor="@color/light_grey"
+                    android:textSize="@dimen/text_natal_field"/>
+
+                <TextView
+                    android:id="@+id/tv_post_anti_d"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/text_natal_data"/>
+
+
             </TableRow>
 
             <TableRow
@@ -111,12 +110,12 @@
                     android:text="@string/midwives_notes"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textSize="@dimen/text_natal_field"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.9" />
+                    android:layout_weight="0.9"/>
 
                 <ImageView
                     android:id="@+id/tv_post_midwives_notes"
@@ -125,7 +124,7 @@
                     android:adjustViewBounds="true"
                     android:clickable="true"
                     android:gravity="end"
-                    android:src="@drawable/ic_action_forward" />
+                    android:src="@drawable/ic_action_forward"/>
             </TableRow>
         </LinearLayout>
 
@@ -142,33 +141,29 @@
                 android:text="@string/baby_info"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="@dimen/text_small"
-                android:textStyle="bold" />
+                android:textStyle="bold"/>
 
             <TableRow
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border"
-                android:padding="@dimen/padding_natal"
-                android:weightSum="1.0">
+                android:padding="@dimen/padding_natal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/delivery_date"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/light_grey"
+                    android:textSize="@dimen/text_natal_field" />
 
                 <TextView
                     android:id="@+id/tv_post_delivery_date"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.45"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_natal_data" />
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.55"
                     android:gravity="end"
-                    android:text="@string/delivery_date"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/grey"
-                    android:textSize="@dimen/text_natal_field"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/text_natal_data"/>
             </TableRow>
 
             <TableRow
@@ -176,23 +171,22 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/border"
                 android:padding="@dimen/padding_natal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/delivery_time"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/light_grey"
+                    android:textSize="@dimen/text_natal_field" />
 
                 <TextView
                     android:id="@+id/tv_post_delivery_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_natal_data" />
-
-                <TextView
                     android:layout_width="fill_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="end"
-                    android:text="@string/delivery_time"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/grey"
-                    android:textSize="@dimen/text_natal_field"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/text_natal_data"/>
             </TableRow>
 
             <TableRow
@@ -200,23 +194,22 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/border"
                 android:padding="@dimen/padding_natal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/days_sinceBirth"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/light_grey"
+                    android:textSize="@dimen/text_natal_field" />
 
                 <TextView
                     android:id="@+id/tv_post_days_since_birth"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_natal_data" />
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="end"
-                    android:text="@string/days_sinceBirth"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/grey"
-                    android:textSize="@dimen/text_natal_field"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/text_natal_data"/>
             </TableRow>
 
             <TableRow
@@ -224,23 +217,22 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/border"
                 android:padding="@dimen/padding_natal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sex_of_baby"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/light_grey"
+                    android:textSize="@dimen/text_natal_field" />
 
                 <TextView
                     android:id="@+id/tv_post_gender"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_natal_data" />
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="end"
-                    android:text="@string/sex_of_baby"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/grey"
-                    android:textSize="@dimen/text_natal_field"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/text_natal_data"/>
             </TableRow>
 
             <TableRow
@@ -250,21 +242,21 @@
                 android:padding="@dimen/padding_natal">
 
                 <TextView
-                    android:id="@+id/tv_post_weight"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_natal_data" />
-
-                <TextView
-                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:gravity="end"
                     android:text="@string/birth_weight"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/grey"
-                    android:textSize="@dimen/text_natal_field"
-                    android:textStyle="bold" />
+                    android:textColor="@color/light_grey"
+                    android:textSize="@dimen/text_natal_field" />
+
+                <TextView
+                    android:id="@+id/tv_post_weight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/text_natal_data"/>
             </TableRow>
 
             <TableRow
@@ -272,23 +264,22 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/border"
                 android:padding="@dimen/padding_natal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/vit_k"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/light_grey"
+                    android:textSize="@dimen/text_natal_field" />
 
                 <TextView
                     android:id="@+id/tv_post_vit_k"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_natal_data" />
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="end"
-                    android:text="@string/vit_k"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/grey"
-                    android:textSize="@dimen/text_natal_field"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/text_natal_data"/>
             </TableRow>
 
             <TableRow
@@ -296,23 +287,22 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/border"
                 android:padding="@dimen/padding_natal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/baby_hearing"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/light_grey"
+                    android:textSize="@dimen/text_natal_field" />
 
                 <TextView
                     android:id="@+id/tv_post_hearing"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_natal_data" />
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="end"
-                    android:text="@string/baby_hearing"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/grey"
-                    android:textSize="@dimen/text_natal_field"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/text_natal_data"/>
             </TableRow>
 
             <TableRow
@@ -320,23 +310,22 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/border"
                 android:padding="@dimen/padding_natal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/baby_feeding"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/light_grey"
+                    android:textSize="@dimen/text_natal_field" />
 
                 <TextView
                     android:id="@+id/tv_post_feeding"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_natal_data" />
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="end"
-                    android:text="@string/baby_feeding"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/grey"
-                    android:textSize="@dimen/text_natal_field"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/text_natal_data"/>
             </TableRow>
 
             <TableRow
@@ -346,21 +335,20 @@
                 android:padding="@dimen/padding_natal">
 
                 <TextView
-                    android:id="@+id/tv_post_nbst"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_natal_data" />
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="end"
+                    android:layout_height="wrap_content"
                     android:text="@string/nbst"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/grey"
-                    android:textSize="@dimen/text_natal_field"
-                    android:textStyle="bold" />
+                    android:textColor="@color/light_grey"
+                    android:textSize="@dimen/text_natal_field" />
+
+                <TextView
+                    android:id="@+id/tv_post_nbst"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="@dimen/text_natal_data"/>
             </TableRow>
         </LinearLayout>
     </LinearLayout>
