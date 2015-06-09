@@ -10,7 +10,8 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="20dp">
 
             <TextView
                 android:layout_width="fill_parent"
@@ -19,7 +20,8 @@
                 android:text="@string/mother_info"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="@dimen/text_small"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:background="@color/very_light_grey"/>
 
             <TableRow
                 android:layout_width="fill_parent"
@@ -137,11 +139,11 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="start"
-                android:paddingTop="@dimen/padding_medium"
                 android:text="@string/baby_info"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="@dimen/text_small"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:background="@color/very_light_grey" />
 
             <TableRow
                 android:layout_width="fill_parent"
