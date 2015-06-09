@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center"
-    android:orientation="vertical">
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center"
+              android:orientation="vertical">
 
     <!-- 2 columns -->
 
@@ -15,21 +15,21 @@
         android:padding="@dimen/padding_natal">
 
         <TextView
-            android:id="@+id/tv_ante_age"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="@dimen/text_small" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="end"
             android:text="@string/age"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/grey"
-            android:textSize="@dimen/text_Xsmall"
-            android:textStyle="bold" />
+            android:textColor="@color/light_grey"
+            android:textSize="@dimen/text_Xsmall"/>
+
+        <TextView
+            android:id="@+id/tv_ante_age"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="@dimen/text_small"/>
+
     </TableRow>
 
     <TableRow
@@ -38,23 +38,24 @@
         android:background="@drawable/border"
         android:clickable="false"
         android:padding="@dimen/padding_natal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/edd"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/light_grey"
+            android:textSize="@dimen/text_Xsmall"/>
 
         <TextView
             android:id="@+id/tv_ante_edd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="@dimen/text_small" />
-
-        <TextView
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="end"
-            android:text="@string/edd"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/grey"
-            android:textSize="@dimen/text_Xsmall"
-            android:textStyle="bold" />
+            android:textSize="@dimen/text_small"/>
+
+
     </TableRow>
 
     <TableRow
@@ -63,23 +64,22 @@
         android:background="@drawable/border"
         android:clickable="false"
         android:padding="@dimen/padding_natal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gestation"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/light_grey"
+            android:textSize="@dimen/text_Xsmall"/>
 
         <TextView
             android:id="@+id/tv_ante_gestation"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="@dimen/text_small" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="end"
-            android:text="@string/gestation"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/grey"
-            android:textSize="@dimen/text_Xsmall"
-            android:textStyle="bold" />
+            android:textSize="@dimen/text_small"/>
     </TableRow>
 
     <TableRow
@@ -88,23 +88,22 @@
         android:background="@drawable/border"
         android:clickable="false"
         android:padding="@dimen/padding_natal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/last_period"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/light_grey"
+            android:textSize="@dimen/text_Xsmall"/>
 
         <TextView
             android:id="@+id/tv_ante_last_period"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="@dimen/text_small" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="end"
-            android:text="@string/last_period"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/grey"
-            android:textSize="@dimen/text_Xsmall"
-            android:textStyle="bold" />
+            android:textSize="@dimen/text_small"/>
     </TableRow>
 
     <TableRow
@@ -113,23 +112,23 @@
         android:background="@drawable/border"
         android:clickable="false"
         android:padding="@dimen/padding_natal">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/blood_group"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/light_grey"
+            android:textSize="@dimen/text_Xsmall"/>
 
         <TextView
             android:id="@+id/tv_ante_blood"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="@dimen/text_small" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="end"
-            android:text="@string/blood_group"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/grey"
-            android:textSize="@dimen/text_Xsmall"
-            android:textStyle="bold" />
+            android:textSize="@dimen/text_small"/>
     </TableRow>
 
     <TableRow
@@ -139,22 +138,22 @@
         android:clickable="false"
         android:padding="@dimen/padding_natal">
 
-        <TextView
-            android:id="@+id/tv_ante_rhesus"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="@dimen/text_small" />
 
         <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:gravity="end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/rhesus"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/grey"
-            android:textSize="@dimen/text_Xsmall"
-            android:textStyle="bold" />
+            android:textColor="@color/light_grey"
+            android:textSize="@dimen/text_Xsmall"/>
+
+        <TextView
+            android:id="@+id/tv_ante_rhesus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="@dimen/text_small"/>
     </TableRow>
 
     <TableRow
@@ -166,31 +165,20 @@
         android:weightSum="1.0">
 
         <TextView
-            android:id="@+id/tv_ante_parity"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.3"
-            android:gravity="start"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="@dimen/text_small" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.7"
-            android:gravity="end"
             android:text="@string/parity"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/grey"
-            android:textSize="@dimen/text_Xsmall"
-            android:textStyle="bold" />
+            android:textColor="@color/light_grey"
+            android:textSize="@dimen/text_Xsmall"/>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:adjustViewBounds="true"
+        <TextView
+            android:id="@+id/tv_ante_parity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="end"
-            android:src="@drawable/ic_action_forward" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="@dimen/text_small"/>
     </TableRow>
 
 </LinearLayout>
