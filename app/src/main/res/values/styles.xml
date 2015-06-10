@@ -1,6 +1,7 @@
 <resources>
     <style name="AppTheme" parent="Theme.AppCompat.Light">
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+        <item name="colorPrimary">@color/clinical_blue</item>
     </style>
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
