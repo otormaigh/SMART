@@ -1,16 +1,21 @@
 package ie.teamchile.smartapp.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -20,8 +25,7 @@ import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.model.ApiRootModel;
 
 public class AppointmentTypeSpinnerActivity extends BaseActivity {
-    private ArrayAdapter<CharSequence> appointmentAdapter, visitAdapter;
-    private ArrayAdapter<String> serviceOptionAdapter, clinicAdapter, dayAdapter, weekAdapter;
+    private ArrayAdapter<String> appointmentAdapter, visitAdapter,serviceOptionAdapter, clinicAdapter, dayAdapter, weekAdapter;
     private List<String> serviceOptionNameList;
     private List<Integer> idList;
     private int serviceOptionSelected, clinicSelected, weekSelected;
@@ -31,6 +35,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
     private int spinnerWarning;
     private Spinner appointmentTypeSpinner, serviceOptionSpinner, 
     		visitOptionSpinner, clinicSpinner, daySpinner, weekSpinner;
+    private TextView tvAppointmentType, tvServiceOption, tvVisit, tvClinic, tvDay, tvWeek;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,33 +45,39 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
         c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         Log.d("MYLOG", "Date set to " + c.getTime());       
         
-        spinnerWarning = getResources().getColor(R.color.lightBlue);
-        
+        spinnerWarning = getResources().getColor(R.color.spinner_warning);
+
+        tvAppointmentType = (TextView) findViewById(R.id.tv_appointment_type);
+        tvServiceOption = (TextView) findViewById(R.id.tv_service_option);
+        tvVisit = (TextView) findViewById(R.id.tv_visit_option);
+        tvClinic = (TextView) findViewById(R.id.tv_clinic);
+        tvDay = (TextView) findViewById(R.id.tv_day);
+        tvWeek = (TextView) findViewById(R.id.tv_week);
+
         appointmentTypeSpinner = (Spinner) findViewById(R.id.spnr_appointment_type);
         serviceOptionSpinner = (Spinner) findViewById(R.id.spnr_service_option);
         visitOptionSpinner = (Spinner) findViewById(R.id.spnr_visit_option);
         clinicSpinner = (Spinner) findViewById(R.id.spnr_clinic);
         daySpinner = (Spinner) findViewById(R.id.spnr_day);
         weekSpinner = (Spinner) findViewById(R.id.spnr_week);
-        
-        appointmentTypeSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
-        appointmentAdapter = ArrayAdapter.createFromResource(this, R.array.appointment_type_list, R.layout.spinner_layout);
-        appointmentAdapter.setDropDownViewResource(R.layout.spinner_layout);
-        appointmentTypeSpinner.setAdapter(appointmentAdapter);
-        
-        setServiceOptionSpinner();
-        
-        serviceOptionSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
-	    serviceOptionAdapter = new ArrayAdapter<>(this, R.layout.spinner_layout, serviceOptionNameList);
-	    serviceOptionAdapter.setDropDownViewResource(R.layout.spinner_layout);
-	    serviceOptionSpinner.setAdapter(serviceOptionAdapter);
 
+        setAppointmentTypeSpinner();
+        setServiceOptionSpinner();
+
+        serviceOptionSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
+        weekSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
         visitOptionSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
-        visitAdapter = ArrayAdapter.createFromResource(this, R.array.visit_service_option, R.layout.spinner_layout);
+
+        visitAdapter = new MySpinnerAdapter(this, R.array.visit_service_option, R.layout.spinner_layout);
         visitAdapter.setDropDownViewResource(R.layout.spinner_layout);
         visitOptionSpinner.setAdapter(visitAdapter);
 
-        weekSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
+        tvAppointmentType.setVisibility(View.VISIBLE);
+        tvServiceOption.setVisibility(View.GONE);
+        tvVisit.setVisibility(View.GONE);
+        tvClinic.setVisibility(View.GONE);
+        tvDay.setVisibility(View.GONE);
+        tvWeek.setVisibility(View.GONE);
         
         appointmentTypeSpinner.setVisibility(View.VISIBLE);
         serviceOptionSpinner.setVisibility(View.GONE);
@@ -82,8 +93,11 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
         serviceOptionNameList.add("Select Service Option");
 
         for(int i = 1; i <= mapSize; i++){
-            serviceOptionNameList.add(ApiRootModel.getInstance().getServiceOptionsMap().get(i).getName());
+            serviceOptionNameList.add("- " + ApiRootModel.getInstance().getServiceOptionsMap().get(i).getName());
         }
+        serviceOptionAdapter = new MySpinnerAdapter(this, R.layout.spinner_layout, serviceOptionNameList);
+        serviceOptionAdapter.setDropDownViewResource(R.layout.spinner_layout);
+        serviceOptionSpinner.setAdapter(serviceOptionAdapter);
 	}
 	
 	private void setClinicSpinner(int z){
@@ -94,15 +108,22 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
 
 		if(idList != null){
 			for(int i = 0; i < idList.size(); i++){
-				clinicNames.add(ApiRootModel.getInstance().getClinicsMap().get(idList.get(i)).getName());
+				clinicNames.add("- " + ApiRootModel.getInstance().getClinicsMap().get(idList.get(i)).getName());
 			}
 		}
 
         clinicSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
-        clinicAdapter = new ArrayAdapter<>(this, R.layout.spinner_layout, clinicNames);
+        clinicAdapter = new MySpinnerAdapter(this, R.layout.spinner_layout, clinicNames);
         clinicAdapter.setDropDownViewResource(R.layout.spinner_layout);
         clinicSpinner.setAdapter(clinicAdapter);
 	}
+
+    private void setAppointmentTypeSpinner(){
+        appointmentTypeSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
+        appointmentAdapter = new MySpinnerAdapter(this, R.array.appointment_type_list, R.layout.spinner_layout);
+        appointmentAdapter.setDropDownViewResource(R.layout.spinner_layout);
+        appointmentTypeSpinner.setAdapter(appointmentAdapter);
+    }
 	
 	private void setWeekSpinner(Date dayOfWeek){
 		List<String> weeks = new ArrayList<>();
@@ -113,10 +134,10 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
             Log.d("MYLOG", "Week " + i + " selected");
     		c.add(Calendar.DAY_OF_YEAR, 7 * i);
     		c.set(Calendar.DAY_OF_WEEK, dayOfWeek.getDay() + 1);
-    		weeks.add("Week " + i + " - " + dfDowMonthDay.format(c.getTime()));
+    		weeks.add("- Week " + i + " (" + dfDowMonthDay.format(c.getTime()) + ")");
 		}
 		
-		weekAdapter = new ArrayAdapter<>(this, R.layout.spinner_layout, weeks);
+		weekAdapter = new MySpinnerAdapter(this, R.layout.spinner_layout, weeks);
         weekAdapter.setDropDownViewResource(R.layout.spinner_layout);
         weekSpinner.setAdapter(weekAdapter);
 	}
@@ -131,7 +152,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
 		days.add(0, "Select Day");
 		
 		daySpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
-        dayAdapter = new ArrayAdapter<>(this, R.layout.spinner_layout, days);
+        dayAdapter = new MySpinnerAdapter(this, R.layout.spinner_layout, days);
         dayAdapter.setDropDownViewResource(R.layout.spinner_layout);
         daySpinner.setAdapter(dayAdapter);
 	}
@@ -143,6 +164,13 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
                 case R.id.spnr_appointment_type:
                     switch (position) {
                         case 0:
+                            tvAppointmentType.setVisibility(View.VISIBLE);
+                            tvServiceOption.setVisibility(View.GONE);
+                            tvVisit.setVisibility(View.GONE);
+                            tvClinic.setVisibility(View.GONE);
+                            tvDay.setVisibility(View.GONE);
+                            tvWeek.setVisibility(View.GONE);
+
                         	appointmentTypeSpinner.setBackgroundColor(spinnerWarning);
                             appointmentTypeSpinner.setVisibility(View.VISIBLE);
                             serviceOptionSpinner.setVisibility(View.GONE);
@@ -152,12 +180,22 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
                             daySpinner.setVisibility(View.GONE);
                             break;
                         case 1:     //Clinic
+                            tvServiceOption.setVisibility(View.VISIBLE);
+                            tvVisit.setVisibility(View.GONE);
+
                         	appointmentTypeSpinner.setBackgroundColor(Color.TRANSPARENT);
                         	visitOptionSpinner.setVisibility(View.GONE);
                             serviceOptionSpinner.setVisibility(View.VISIBLE);
                             serviceOptionSpinner.setSelection(0);
                             break;
                         case 2:     //Visit
+                            tvAppointmentType.setVisibility(View.VISIBLE);
+                            tvServiceOption.setVisibility(View.GONE);
+                            tvVisit.setVisibility(View.VISIBLE);
+                            tvClinic.setVisibility(View.GONE);
+                            tvDay.setVisibility(View.GONE);
+                            tvWeek.setVisibility(View.GONE);
+
                             appointmentTypeSpinner.setVisibility(View.VISIBLE);
                             serviceOptionSpinner.setVisibility(View.GONE);
                             visitOptionSpinner.setVisibility(View.VISIBLE);
@@ -172,6 +210,14 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
                     switch (position) {
                         case 0:
                             serviceOptionSelected = 0;
+
+                            tvAppointmentType.setVisibility(View.VISIBLE);
+                            tvServiceOption.setVisibility(View.VISIBLE);
+                            tvVisit.setVisibility(View.GONE);
+                            tvClinic.setVisibility(View.GONE);
+                            tvDay.setVisibility(View.GONE);
+                            tvWeek.setVisibility(View.GONE);
+
                             serviceOptionSpinner.setBackgroundColor(spinnerWarning);
                             appointmentTypeSpinner.setVisibility(View.VISIBLE);
                             serviceOptionSpinner.setVisibility(View.VISIBLE);
@@ -181,7 +227,9 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
                             daySpinner.setVisibility(View.GONE);
                             break;
                         default:
-                        	serviceOptionSpinner.setBackgroundColor(Color.TRANSPARENT);
+                            tvClinic.setVisibility(View.VISIBLE);
+
+                            serviceOptionSpinner.setBackgroundColor(Color.TRANSPARENT);
                         	clinicSpinner.setVisibility(View.VISIBLE);
                         	serviceOptionSelected = position;
                         	setClinicSpinner(position);
@@ -192,6 +240,14 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
                     switch (position) {
                         case 0:
                             clinicSelected = 0;
+
+                            tvAppointmentType.setVisibility(View.VISIBLE);
+                            tvServiceOption.setVisibility(View.VISIBLE);
+                            tvVisit.setVisibility(View.GONE);
+                            tvClinic.setVisibility(View.VISIBLE);
+                            tvDay.setVisibility(View.GONE);
+                            tvWeek.setVisibility(View.GONE);
+
                             clinicSpinner.setBackgroundColor(spinnerWarning);
                             appointmentTypeSpinner.setVisibility(View.VISIBLE);
                             serviceOptionSpinner.setVisibility(View.VISIBLE);
@@ -201,6 +257,9 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
                             weekSpinner.setVisibility(View.GONE);
                             break;
                         default:
+                            tvDay.setVisibility(View.GONE);
+                            tvWeek.setVisibility(View.GONE);
+
                         	clinicSpinner.setBackgroundColor(Color.TRANSPARENT);
                         	daySpinner.setVisibility(View.GONE);
                         	daySpinner.setSelection(0);
@@ -212,10 +271,12 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
 
                             if(trueDays.size() > 1){
                                 setDaySpinner(trueDays);
+                                tvDay.setVisibility(View.VISIBLE);
                                 daySpinner.setVisibility(View.VISIBLE);
                                 daySpinner.setSelection(0);
                             } else {
                                 try {
+                                    tvWeek.setVisibility(View.VISIBLE);
                                     weekSpinner.setVisibility(View.VISIBLE);
                                     weekSpinner.setSelection(0);
                                     dayOfWeek = dfDayShort.parse(trueDays.get(0));
@@ -230,10 +291,12 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
                 case R.id.spnr_day:
                     switch (position) {
                         case 0:
+                            tvWeek.setVisibility(View.GONE);
                         	weekSpinner.setVisibility(View.GONE);
                         	daySpinner.setBackgroundColor(spinnerWarning);
                             break;
                         default:
+                            tvWeek.setVisibility(View.VISIBLE);
                         	daySpinner.setBackgroundColor(Color.TRANSPARENT);
                         	weekSpinner.setVisibility(View.VISIBLE);
                         	weekSpinner.setSelection(0);
@@ -287,5 +350,72 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
 		c.setTime(daySelected);
 		c.set(Calendar.DAY_OF_WEEK, dayAsInt);
 		daySelected = c.getTime();
+    }
+
+    private class MySpinnerAdapter extends ArrayAdapter<String> {
+        List<String> list;
+        Context context;
+        int resource;
+        public MySpinnerAdapter(Context context, int resource, List<String> list) {
+            super(context, resource, list);
+            this.list = list;
+            this.context = context;
+            this.resource = resource;
+        }
+
+        public MySpinnerAdapter(Context context, int arrayResource, int resource) {
+            super(context, resource, arrayResource);
+            String[] resArrayId = getResources().getStringArray(arrayResource);
+            List<String> list = Arrays.asList(resArrayId);
+            Log.d("bugs", "list = " + list);
+            this.list = list;
+            this.context = context;
+            this.resource = resource;
+        }
+
+        @Override
+        public View getDropDownView(int position, View convertView, ViewGroup parent) {
+            convertView = View.inflate(context, resource, null);
+            TextView tvSpinnerItem = (TextView) convertView.findViewById(R.id.tv_spinner_item);
+            tvSpinnerItem.setText(list.get(position));
+            switch(position){
+                case 0:
+                    tvSpinnerItem.setTypeface(null, Typeface.ITALIC);
+                    tvSpinnerItem.setTextColor(getResources().getColor(R.color.light_grey));
+                    break;
+                default:
+                    tvSpinnerItem.setTextColor(getResources().getColor(R.color.black));
+                    tvSpinnerItem.setTypeface(Typeface.DEFAULT);
+                    break;
+            }
+            //return super.getDropDownView(position, convertView, parent);
+            return convertView;
+        }
+
+        @Override
+        public int getCount() {
+            return list.size();
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            convertView = View.inflate(context, resource, null);
+            TextView tvSpinnerItem = (TextView) convertView.findViewById(R.id.tv_spinner_item);
+            tvSpinnerItem.setText(list.get(position));
+            switch(position){
+                case 0:
+                    tvSpinnerItem.setTypeface(null, Typeface.ITALIC);
+                    tvSpinnerItem.setTextColor(getResources().getColor(R.color.grey));
+                    break;
+                default:
+                    tvSpinnerItem.setTextColor(getResources().getColor(R.color.black));
+                    tvSpinnerItem.setTypeface(Typeface.DEFAULT);
+                    break;
+            }
+            //return super.getView(position, convertView, parent);
+            return convertView;
+        }
+
+
     }
 }
