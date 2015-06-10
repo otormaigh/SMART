@@ -137,7 +137,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
 
     private void putStartTime(String now, int clinicId){
         PostingData timeRecord = new PostingData();
-        timeRecord.updateTimeRecords(
+        timeRecord.postTimeRecords(
                 now,
                 clinicId,
                 date);
@@ -151,7 +151,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
 
         api = restAdapter.create(SmartApi.class);
 
-        api.putTimeRecords(
+        api.postTimeRecords(
                 timeRecord,
                 clinicId,
                 ApiRootModel.getInstance().getLogin().getToken(),
