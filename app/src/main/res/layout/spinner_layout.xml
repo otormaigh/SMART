@@ -4,4 +4,4 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/padding_small"
-    android:textSize="@dimen/text_medium" />
+    android:textSize="@dimen/text_large"/>

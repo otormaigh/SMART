@@ -67,6 +67,8 @@ public class AppointmentCalendarActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 		setContentForNav(R.layout.activity_appointment_calendar);
+
+        Log.d("bugs", "clinicSelected = " + clinicSelected);
         
         dateInList = (Button) findViewById(R.id.btn_date);
         listView = (ListView) findViewById(R.id.lv_appointment_list);

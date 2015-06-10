@@ -30,16 +30,16 @@
     <!-- APPOINTMENT SPINNER -->
     <string-array name="appointment_type_list">
         <item>Select Appointment Type</item>
-        <item>Clinics</item>
-        <item>Visits</item>
+        <item>- Clinics</item>
+        <item>- Visits</item>
     </string-array>
 
     <!-- VISIT OPTIONS SPINNER -->
     <string-array name="visit_service_option">
         <item>Select Visit Option</item>
-        <item>Visit 1</item>
-        <item>Visit 2</item>
-        <item>Visit 3</item>
+        <item>- Visit 1</item>
+        <item>- Visit 2</item>
+        <item>- Visit 3</item>
     </string-array>
 
     <!-- RETURN TYPE SPINNER -->
@@ -52,16 +52,16 @@
     <!-- WEEK SPINNER -->
     <string-array name="weeks">
         <item>Select Week</item>
-        <item>Week 1</item>
-        <item>Week 2</item>
-        <item>Week 3</item>
-        <item>Week 4</item>
-        <item>Week 5</item>
-        <item>Week 6</item>
-        <item>Week 7</item>
-        <item>Week 8</item>
-        <item>Week 9</item>
-        <item>Week 10</item>
+        <item>- Week 1</item>
+        <item>- Week 2</item>
+        <item>- Week 3</item>
+        <item>- Week 4</item>
+        <item>- Week 5</item>
+        <item>- Week 6</item>
+        <item>- Week 7</item>
+        <item>- Week 8</item>
+        <item>- Week 9</item>
+        <item>- Week 10</item>
     </string-array>
 
     <!-- SERVICE USER SEARCH -->       					 
