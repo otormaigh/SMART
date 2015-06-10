@@ -322,7 +322,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
 			TextView timeText = (TextView) convertView.findViewById(R.id.tv_time);
 			TextView nameText = (TextView) convertView.findViewById(R.id.tv_name);
 			TextView gestText = (TextView) convertView.findViewById(R.id.tv_gestation);
-			Button btnChangeStatus = (Button) convertView.findViewById(R.id.btn_change_status);
+			final Button btnChangeStatus = (Button) convertView.findViewById(R.id.btn_change_status);
 			final ImageView ivAttend = (ImageView) convertView.findViewById(R.id.img_attended);
 			final SwipeLayout swipeLayout =  (SwipeLayout) convertView.findViewById(R.id.swipe_appt_list);
 			LinearLayout llApptListItem = (LinearLayout) convertView.findViewById(R.id.ll_appt_list_item);
@@ -379,10 +379,15 @@ public class AppointmentCalendarActivity extends BaseActivity {
 				nameText.setText(aptName.get(position));
 				gestText.setText(aptGest.get(position));
 
-				if(attendedList.get(position))
-					ivAttend.setBackgroundResource(R.color.green);
-				else if (!attendedList.get(position))
-					ivAttend.setBackgroundResource(R.color.red);
+				if(attendedList.get(position)) {
+                    ivAttend.setBackgroundResource(R.color.green);
+                    btnChangeStatus.setText("No");
+                    btnChangeStatus.setEnabled(false);
+                } else if (!attendedList.get(position)) {
+                    ivAttend.setBackgroundResource(R.color.red);
+                    btnChangeStatus.setText("Yes");
+                    btnChangeStatus.setEnabled(true);
+                }
 			}
 			return convertView;
 		}
