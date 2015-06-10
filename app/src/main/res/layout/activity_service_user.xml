@@ -11,9 +11,11 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/padding_small"
-        android:layout_marginTop="@dimen/padding_small"
+        android:paddingTop="@dimen/padding_Xsmall"
+        android:paddingBottom="@dimen/padding_Xsmall"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/very_light_grey">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -24,43 +26,46 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@string/user_age"
-                android:textSize="@dimen/text_Xsmall" />
+                android:text="Age: "
+                android:textSize="@dimen/text_small"
+                android:textColor="@color/grey"/>
 
             <TextView
                 android:id="@+id/tv_usr_age"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textSize="@dimen/text_Xsmall" />
+                android:textSize="@dimen/text_small" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="yrs, P: "
-                android:textSize="@dimen/text_Xsmall" />
+                android:text=", P: "
+                android:textSize="@dimen/text_small"
+                android:textColor="@color/grey"/>
 
             <TextView
                 android:id="@+id/tv_usr_partiy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textSize="@dimen/text_Xsmall" />
+                android:textSize="@dimen/text_small" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text=", G: "
-                android:textSize="@dimen/text_Xsmall" />
+                android:textSize="@dimen/text_small"
+                android:textColor="@color/grey"/>
 
             <TextView
                 android:id="@+id/tv_usr_gestation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textSize="@dimen/text_Xsmall" />
+                android:textSize="@dimen/text_small" />
         </LinearLayout>
     </LinearLayout>
 
@@ -94,7 +99,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="fill_horizontal"
                     android:text="@string/hospital_number"
-                    android:textSize="@dimen/text_Xsmall" />
+                    android:textSize="@dimen/text_small" />
 
                 <TextView
                     android:id="@+id/tv_usr_email"
@@ -102,7 +107,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="fill_horizontal"
                     android:text="@string/email"
-                    android:textSize="@dimen/text_Xsmall" />
+                    android:textSize="@dimen/text_small" />
 
                 <TextView
                     android:id="@+id/tv_usr_mobile"
@@ -110,7 +115,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="fill_horizontal"
                     android:text="@string/mobile"
-                    android:textSize="@dimen/text_Xsmall" />
+                    android:textSize="@dimen/text_small" />
             </LinearLayout>
         </LinearLayout>
 
@@ -140,7 +145,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="fill_horizontal"
                     android:text="@string/road"
-                    android:textSize="@dimen/text_Xsmall" />
+                    android:textSize="@dimen/text_small" />
 
                 <TextView
                     android:id="@+id/tv_usr_county"
@@ -148,7 +153,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="fill_horizontal"
                     android:text="@string/county"
-                    android:textSize="@dimen/text_Xsmall" />
+                    android:textSize="@dimen/text_small" />
 
                 <TextView
                     android:id="@+id/tv_usr_post_code"
@@ -156,7 +161,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="fill_horizontal"
                     android:text="@string/post_code"
-                    android:textSize="@dimen/text_Xsmall" />
+                    android:textSize="@dimen/text_small" />
             </LinearLayout>
         </LinearLayout>
 
@@ -191,7 +196,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="fill_horizontal"
                         android:text="@string/kin_name"
-                        android:textSize="@dimen/text_Xsmall" />
+                        android:textSize="@dimen/text_small" />
 
                     <TextView
                         android:id="@+id/tv_usr_kin_contact"
@@ -199,7 +204,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="fill_horizontal"
                         android:text="@string/kin_contact"
-                        android:textSize="@dimen/text_Xsmall" />
+                        android:textSize="@dimen/text_small" />
                 </LinearLayout>
             </LinearLayout>
 
