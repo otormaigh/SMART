@@ -181,8 +181,8 @@ public interface SmartApi {
             @Header("Api-Key") String apiKey,
             Callback<ApiRootModel> callback);
 
-    @PUT("/clinics/{clinic_id}/time_records")
-    void putTimeRecords(
+    @POST("/clinics/{clinic_id}/time_records")
+    void postTimeRecords(
             @Body PostingData timeRecords,
             @Path("clinic_id") int clinicId,
             @Header("Auth-Token") String authToken,
