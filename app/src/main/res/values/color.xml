@@ -6,7 +6,8 @@
     <color name="black">#000000</color>
     <color name="green">#2BE10E</color>
     <color name="blue">#198CFF</color>
-    <color name="lightBlue">#66CCFF</color>
+    <!--<color name="lightBlue">#66CCFF</color>-->
+    <color name="lightBlue">#EF9A9A</color>
     <color name="purple">#C80CDF</color>
     <color name="brown">#CC5E03</color>
     <color name="grey">#676766</color>
@@ -14,5 +15,7 @@
     <color name="very_light_grey">#D3D3D3</color>
 
     <color name="login_background">#A2B0C1</color>
+    <color name="clinical_blue">#42A5F5</color>
+    <color name="spinner_warning">#B2DFDB</color>
 
 </resources>
