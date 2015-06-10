@@ -86,7 +86,7 @@
     <string name="address">Address</string>
     <string name="next_of_kin">Next-of-kin</string>
     <string name="action_settings">Settings</string>
-    <string name="user_age">Age </string>
+    <string name="user_age">Age: </string>
     <string name="hospital_number">Hospital Number</string>
     <string name="email">Email</string>
     <string name="mobile">Mobile</string>
