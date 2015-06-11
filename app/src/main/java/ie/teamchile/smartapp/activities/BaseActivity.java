@@ -40,7 +40,7 @@ import ie.teamchile.smartapp.model.ApiRootModel;
 import ie.teamchile.smartapp.model.Appointment;
 import ie.teamchile.smartapp.model.Baby;
 import ie.teamchile.smartapp.model.Pregnancy;
-import ie.teamchile.smartapp.utility.SmartApi;
+import ie.teamchile.smartapp.util.SmartApi;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;

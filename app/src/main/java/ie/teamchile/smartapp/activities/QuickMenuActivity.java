@@ -20,7 +20,7 @@ import ie.teamchile.smartapp.model.ApiRootModel;
 import ie.teamchile.smartapp.model.Appointment;
 import ie.teamchile.smartapp.model.Clinic;
 import ie.teamchile.smartapp.model.ServiceOption;
-import ie.teamchile.smartapp.utility.ToastAlert;
+import ie.teamchile.smartapp.util.ToastAlert;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;

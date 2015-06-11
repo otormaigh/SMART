@@ -1,4 +1,4 @@
-package ie.teamchile.smartapp.utility;
+package ie.teamchile.smartapp.util;
 
 import ie.teamchile.smartapp.R;
 import android.content.Context;
