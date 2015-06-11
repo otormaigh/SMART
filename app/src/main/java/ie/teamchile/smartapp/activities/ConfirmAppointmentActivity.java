@@ -18,7 +18,7 @@ import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.model.ApiRootModel;
 import ie.teamchile.smartapp.model.Appointment;
 import ie.teamchile.smartapp.model.PostingData;
-import ie.teamchile.smartapp.utility.SmartApi;
+import ie.teamchile.smartapp.util.SmartApi;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;

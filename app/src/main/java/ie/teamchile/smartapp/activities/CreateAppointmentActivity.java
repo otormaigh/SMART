@@ -29,7 +29,7 @@ import java.util.List;
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.model.ApiRootModel;
 import ie.teamchile.smartapp.model.ServiceUser;
-import ie.teamchile.smartapp.utility.SmartApi;
+import ie.teamchile.smartapp.util.SmartApi;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;

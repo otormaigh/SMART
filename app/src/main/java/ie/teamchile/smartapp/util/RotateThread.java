@@ -1,4 +1,4 @@
-package ie.teamchile.smartapp.utility;
+package ie.teamchile.smartapp.util;
 
 /**
  * Rotate Utility class
