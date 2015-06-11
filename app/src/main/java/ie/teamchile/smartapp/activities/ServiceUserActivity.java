@@ -127,6 +127,9 @@ public class ServiceUserActivity extends BaseActivity {
 		
 		bookAppointmentButton = (Button) findViewById(R.id.btn_usr_book_appointment);
 		bookAppointmentButton.setOnClickListener(new ButtonClick());
+
+        bookAppointmentButton.setBackgroundResource(R.color.button_test);
+        bookAppointmentButton.setTextColor(getResources().getColor(R.color.white));
 		
 		tableParity = (TableRow)findViewById(R.id.tr_ante_parity);
 		tableParity.setOnClickListener(new ButtonClick());
