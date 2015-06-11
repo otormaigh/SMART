@@ -129,8 +129,7 @@
             android:layout_marginTop="@dimen/padding_Xsmall"
             android:layout_marginBottom="@dimen/padding_Xsmall"
             android:textSize="@dimen/text_medium"
-            android:background="@color/lightBlue"
+            android:theme="@style/CallToActionButton"
             android:text="@string/confirm_appointment" />
     </LinearLayout>
-
 </ScrollView>

@@ -67,7 +67,8 @@
         android:id="@+id/btn_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/btn_search" />
+        android:text="@string/btn_search"
+        android:theme="@style/CallToActionButton"/>
 
     <TextView
         android:id="@+id/tv_search_results"

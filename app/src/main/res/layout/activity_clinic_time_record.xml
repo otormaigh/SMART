@@ -29,18 +29,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/start_clinic"
-            android:textSize="@dimen/text_medium"
-            android:layout_weight="1.0"/>
+            android:layout_weight="1.0"
+            android:theme="@style/CallToActionButton"/>
 
         <Button
             android:id="@+id/btn_check_out"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/stop_clinic"
-            android:textSize="@dimen/text_medium"
             android:layout_weight="1.0"
-            android:textColorHint="#A9A9A9"
-            android:textStyle="italic" />
+            android:theme="@style/CallToActionButton"/>
     </LinearLayout>
 
     <EditText
