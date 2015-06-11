@@ -23,6 +23,7 @@ import java.util.Locale;
 
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.model.ApiRootModel;
+import ie.teamchile.smartapp.util.AdapterSpinner;
 
 public class AppointmentTypeSpinnerActivity extends BaseActivity {
     private ArrayAdapter<String> appointmentAdapter, visitAdapter,serviceOptionAdapter, clinicAdapter, dayAdapter, weekAdapter;
@@ -68,7 +69,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
         weekSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
         visitOptionSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
 
-        visitAdapter = new MySpinnerAdapter(this, R.array.visit_service_option, R.layout.spinner_layout);
+        visitAdapter = new AdapterSpinner(this, R.array.visit_service_option, R.layout.spinner_layout, R.id.tv_spinner_item);
         visitAdapter.setDropDownViewResource(R.layout.spinner_layout);
         visitOptionSpinner.setAdapter(visitAdapter);
 
@@ -95,7 +96,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
         for(int i = 1; i <= mapSize; i++){
             serviceOptionNameList.add("- " + ApiRootModel.getInstance().getServiceOptionsMap().get(i).getName());
         }
-        serviceOptionAdapter = new MySpinnerAdapter(this, R.layout.spinner_layout, serviceOptionNameList);
+        serviceOptionAdapter = new AdapterSpinner(this, R.layout.spinner_layout, serviceOptionNameList, R.id.tv_spinner_item);
         serviceOptionAdapter.setDropDownViewResource(R.layout.spinner_layout);
         serviceOptionSpinner.setAdapter(serviceOptionAdapter);
 	}
@@ -113,14 +114,14 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
 		}
 
         clinicSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
-        clinicAdapter = new MySpinnerAdapter(this, R.layout.spinner_layout, clinicNames);
+        clinicAdapter = new AdapterSpinner(this, R.layout.spinner_layout, clinicNames, R.id.tv_spinner_item);
         clinicAdapter.setDropDownViewResource(R.layout.spinner_layout);
         clinicSpinner.setAdapter(clinicAdapter);
 	}
 
     private void setAppointmentTypeSpinner(){
         appointmentTypeSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
-        appointmentAdapter = new MySpinnerAdapter(this, R.array.appointment_type_list, R.layout.spinner_layout);
+        appointmentAdapter = new AdapterSpinner(this, R.array.appointment_type_list, R.layout.spinner_layout,  R.id.tv_spinner_item);
         appointmentAdapter.setDropDownViewResource(R.layout.spinner_layout);
         appointmentTypeSpinner.setAdapter(appointmentAdapter);
     }
@@ -137,7 +138,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
     		weeks.add("- Week " + i + " (" + dfDowMonthDay.format(c.getTime()) + ")");
 		}
 		
-		weekAdapter = new MySpinnerAdapter(this, R.layout.spinner_layout, weeks);
+		weekAdapter = new AdapterSpinner(this, R.layout.spinner_layout, weeks, R.id.tv_spinner_item);
         weekAdapter.setDropDownViewResource(R.layout.spinner_layout);
         weekSpinner.setAdapter(weekAdapter);
 	}
@@ -152,7 +153,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
 		days.add(0, "Select Day");
 		
 		daySpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
-        dayAdapter = new MySpinnerAdapter(this, R.layout.spinner_layout, days);
+        dayAdapter = new AdapterSpinner(this, R.layout.spinner_layout, days, R.id.tv_spinner_item);
         dayAdapter.setDropDownViewResource(R.layout.spinner_layout);
         daySpinner.setAdapter(dayAdapter);
 	}
@@ -350,72 +351,5 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
 		c.setTime(daySelected);
 		c.set(Calendar.DAY_OF_WEEK, dayAsInt);
 		daySelected = c.getTime();
-    }
-
-    private class MySpinnerAdapter extends ArrayAdapter<String> {
-        List<String> list;
-        Context context;
-        int resource;
-        public MySpinnerAdapter(Context context, int resource, List<String> list) {
-            super(context, resource, list);
-            this.list = list;
-            this.context = context;
-            this.resource = resource;
-        }
-
-        public MySpinnerAdapter(Context context, int arrayResource, int resource) {
-            super(context, resource, arrayResource);
-            String[] resArrayId = getResources().getStringArray(arrayResource);
-            List<String> list = Arrays.asList(resArrayId);
-            Log.d("bugs", "list = " + list);
-            this.list = list;
-            this.context = context;
-            this.resource = resource;
-        }
-
-        @Override
-        public View getDropDownView(int position, View convertView, ViewGroup parent) {
-            convertView = View.inflate(context, resource, null);
-            TextView tvSpinnerItem = (TextView) convertView.findViewById(R.id.tv_spinner_item);
-            tvSpinnerItem.setText(list.get(position));
-            switch(position){
-                case 0:
-                    tvSpinnerItem.setTypeface(null, Typeface.ITALIC);
-                    tvSpinnerItem.setTextColor(getResources().getColor(R.color.light_grey));
-                    break;
-                default:
-                    tvSpinnerItem.setTextColor(getResources().getColor(R.color.black));
-                    tvSpinnerItem.setTypeface(Typeface.DEFAULT);
-                    break;
-            }
-            //return super.getDropDownView(position, convertView, parent);
-            return convertView;
-        }
-
-        @Override
-        public int getCount() {
-            return list.size();
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            convertView = View.inflate(context, resource, null);
-            TextView tvSpinnerItem = (TextView) convertView.findViewById(R.id.tv_spinner_item);
-            tvSpinnerItem.setText(list.get(position));
-            switch(position){
-                case 0:
-                    tvSpinnerItem.setTypeface(null, Typeface.ITALIC);
-                    tvSpinnerItem.setTextColor(getResources().getColor(R.color.grey));
-                    break;
-                default:
-                    tvSpinnerItem.setTextColor(getResources().getColor(R.color.black));
-                    tvSpinnerItem.setTypeface(Typeface.DEFAULT);
-                    break;
-            }
-            //return super.getView(position, convertView, parent);
-            return convertView;
-        }
-
-
     }
 }

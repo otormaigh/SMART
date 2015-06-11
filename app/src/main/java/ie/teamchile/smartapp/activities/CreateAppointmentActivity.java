@@ -29,14 +29,14 @@ import java.util.List;
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.model.ApiRootModel;
 import ie.teamchile.smartapp.model.ServiceUser;
+import ie.teamchile.smartapp.util.AdapterSpinner;
 import ie.teamchile.smartapp.util.SmartApi;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class CreateAppointmentActivity extends BaseActivity {
-	private ArrayAdapter<CharSequence> visitPriorityAdapter, visitPriorityAdapterSelect,
-            returnTypeAdapter, returnTypeAdapterSelect;
+	private ArrayAdapter<String> visitPriorityAdapter, returnTypeAdapter;
 	private String userName, apptDate, time, priority, visitType, clinicName;
 	private int appointmentInterval, userID;
 	private Calendar c, myCalendar;
@@ -51,8 +51,7 @@ public class CreateAppointmentActivity extends BaseActivity {
 	private Button btnConfirmAppointment;
 	private ImageButton btnUserSearch;
 	private TextView tvTime, tvDate, tvClinic;
-	private Spinner visitReturnTypeSpinner, visitReturnTypeSpinnerSelect,
-            visitPrioritySpinner, visitPrioritySpinnerSelect;
+	private Spinner visitReturnTypeSpinner, visitPrioritySpinner;
 	private List<ServiceUser> serviceUserList = new ArrayList<>();
 	private String returnType;
 
@@ -74,20 +73,11 @@ public class CreateAppointmentActivity extends BaseActivity {
         btnConfirmAppointment.setOnClickListener(new ButtonClick());
         btnUserSearch.setOnClickListener(new ButtonClick());
 
-        visitReturnTypeSpinnerSelect = (Spinner) findViewById(R.id.spnr_visit_return_type_select);
-        visitReturnTypeSpinnerSelect.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
-
         visitReturnTypeSpinner = (Spinner) findViewById(R.id.spnr_visit_return_type);
         visitReturnTypeSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
 
         visitPrioritySpinner = (Spinner) findViewById(R.id.spnr_visit_priority);
         visitPrioritySpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
-
-        visitPrioritySpinnerSelect = (Spinner) findViewById(R.id.spnr_visit_priority_select);
-        visitPrioritySpinnerSelect.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
-
-        visitReturnTypeSpinnerSelect.setVisibility(View.GONE);
-        visitPrioritySpinnerSelect.setVisibility(View.GONE);
 
 		Log.d("postAppointment", "time now: " + c.getTime());
 		getSharedPrefs();
@@ -137,9 +127,7 @@ public class CreateAppointmentActivity extends BaseActivity {
     private Boolean checkIfOkToGo(){
         if(!userName.isEmpty() &&
                 visitPrioritySpinner.getSelectedItemPosition() != 0 &&
-                visitPrioritySpinnerSelect.getSelectedItemPosition() != 0 &&
-                visitReturnTypeSpinner.getSelectedItemPosition() != 0 &&
-                visitReturnTypeSpinnerSelect.getSelectedItemPosition() != 0){
+                visitReturnTypeSpinner.getSelectedItemPosition() != 0){
             return true;
         } else
             return false;
@@ -164,31 +152,21 @@ public class CreateAppointmentActivity extends BaseActivity {
     }*/
 
     private void setPrioritySpinner() {
-        visitPriorityAdapter = ArrayAdapter.createFromResource(this,
+        visitPriorityAdapter = new AdapterSpinner(this,
                 R.array.visit_priority_list,
-                R.layout.spinner_layout_create_appt);
+                R.layout.spinner_layout,
+                R.id.tv_spinner_item);
         visitPriorityAdapter.setDropDownViewResource(R.layout.spinner_layout);
         visitPrioritySpinner.setAdapter(visitPriorityAdapter);
-
-        visitPriorityAdapterSelect = ArrayAdapter.createFromResource(this,
-                R.array.visit_priority_list,
-                R.layout.spinner_selected_layout_create_appt);
-        visitPriorityAdapterSelect.setDropDownViewResource(R.layout.spinner_layout);
-        visitPrioritySpinnerSelect.setAdapter(visitPriorityAdapterSelect);
     }
 
 	private void setReturnTypeSpinner(){
-        returnTypeAdapter = ArrayAdapter.createFromResource(this,
+        returnTypeAdapter = new AdapterSpinner(this,
                 R.array.return_type_list,
-				R.layout.spinner_layout_create_appt);
+				R.layout.spinner_layout,
+                R.id.tv_spinner_item);
         returnTypeAdapter.setDropDownViewResource(R.layout.spinner_layout);
 		visitReturnTypeSpinner.setAdapter(returnTypeAdapter);
-
-        returnTypeAdapterSelect = ArrayAdapter.createFromResource(this,
-                R.array.return_type_list,
-                R.layout.spinner_selected_layout_create_appt);
-        returnTypeAdapterSelect.setDropDownViewResource(R.layout.spinner_layout);
-        visitReturnTypeSpinnerSelect.setAdapter(returnTypeAdapterSelect);
 	}
 
 	private class ButtonClick implements View.OnClickListener {
@@ -309,80 +287,30 @@ public class CreateAppointmentActivity extends BaseActivity {
                 case R.id.spnr_visit_return_type:
 					switch(position){
 						case 0:
-                            visitReturnTypeSpinner.setVisibility(View.VISIBLE);
-                            visitReturnTypeSpinnerSelect.setVisibility(View.GONE);
-                            visitReturnTypeSpinner.setSelection(position);
                             break;
 						case 1:
-                            visitReturnTypeSpinner.setVisibility(View.GONE);
-                            visitReturnTypeSpinnerSelect.setVisibility(View.VISIBLE);
-                            visitReturnTypeSpinnerSelect.setSelection(position);
 							returnType = "returning";
 							break;
 						case 2:
-                            visitReturnTypeSpinner.setVisibility(View.GONE);
-                            visitReturnTypeSpinnerSelect.setVisibility(View.VISIBLE);
-                            visitReturnTypeSpinnerSelect.setSelection(position);
 							returnType = "new";
 							break;
 					}
                 	break;
-                case R.id.spnr_visit_return_type_select:
-                    switch(position){
-                        case 0:
-                            visitReturnTypeSpinner.setVisibility(View.VISIBLE);
-                            visitReturnTypeSpinnerSelect.setVisibility(View.GONE);
-                            visitReturnTypeSpinner.setSelection(position);
-                            break;
-                        case 1:
-                            returnType = "returning";
-                            break;
-                        case 2:
-                            returnType = "new";
-                            break;
-                    }
-                    break;
                 case R.id.spnr_visit_priority:
                     switch (position) {
                     case 0:
                     	//Select Visit Priority
-                        visitPrioritySpinner.setVisibility(View.VISIBLE);
-                        visitPrioritySpinnerSelect.setVisibility(View.GONE);
                     	break;
                     case 1:
                     	priority = "scheduled";
-                        visitPrioritySpinner.setVisibility(View.GONE);
-                        visitPrioritySpinnerSelect.setVisibility(View.VISIBLE);
-                        visitPrioritySpinnerSelect.setSelection(position);
                     	//Scheduled
                     	break;
                     case 2:
                     	priority = "drop-in";
-                        visitPrioritySpinner.setVisibility(View.GONE);
-                        visitPrioritySpinnerSelect.setVisibility(View.VISIBLE);
-                        visitPrioritySpinnerSelect.setSelection(position);
                     	//Drop-In
                     	break;
                     }
                     break;
-                case R.id.spnr_visit_priority_select:
-                switch (position) {
-                    case 0:
-                        //Select Visit Priority
-                        visitPrioritySpinner.setVisibility(View.VISIBLE);
-                        visitPrioritySpinnerSelect.setVisibility(View.GONE);
-                        visitPrioritySpinner.setSelection(position);
-                        break;
-                    case 1:
-                        priority = "scheduled";
-                        //Scheduled
-                        break;
-                    case 2:
-                        priority = "drop-in";
-                        //Drop-In
-                        break;
-                }
-                break;
                 case R.id.list_dialog:
                 	Log.d("bugs", "list position is: " + position);
                 	break;
