@@ -1,4 +1,4 @@
-package ie.teamchile.smartapp.utility;
+package ie.teamchile.smartapp.util;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

@@ -1,4 +1,4 @@
-package ie.teamchile.smartapp.utility;
+package ie.teamchile.smartapp.util;
 
 import java.io.BufferedReader;
 import java.io.File;

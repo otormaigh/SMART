@@ -19,7 +19,7 @@ import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.model.ApiRootModel;
 import ie.teamchile.smartapp.model.Clinic;
 import ie.teamchile.smartapp.model.PostingData;
-import ie.teamchile.smartapp.utility.SmartApi;
+import ie.teamchile.smartapp.util.SmartApi;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
