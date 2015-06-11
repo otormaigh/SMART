@@ -9,7 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingLeft="@dimen/padding_Xsmall" >
+        android:paddingLeft="@dimen/padding_Xsmall"
+        android:paddingRight="@dimen/padding_Xsmall">
 
         <TextView
             android:layout_width="fill_parent"
@@ -103,28 +104,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="1.0" >
+            android:weightSum="1.0"
+            android:layout_marginBottom="@dimen/padding_Xsmall"
+            android:layout_marginTop="@dimen/padding_medium">
 
             <Button
                 android:id="@+id/btn_confirm_yes"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/padding_Xsmall"
-                android:layout_marginRight="@dimen/padding_Xsmall"
-                android:layout_marginTop="@dimen/padding_medium"
                 android:layout_weight="0.5"
-                android:background="@color/lightBlue"
+                android:theme="@style/CallToActionButton"
                 android:text="@string/book" />
 
             <Button
                 android:id="@+id/btn_confirm_no"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/padding_Xsmall"
-                android:layout_marginRight="@dimen/padding_Xsmall"
-                android:layout_marginTop="@dimen/padding_medium"
                 android:layout_weight="0.5"
-                android:background="@color/lightBlue"
+                android:theme="@style/CallToActionButton"
                 android:text="@string/cancel" />
         </LinearLayout>
     </LinearLayout>
