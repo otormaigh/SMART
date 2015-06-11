@@ -1,217 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="3dp"
-    android:paddingRight="3dp"
-    android:orientation="vertical" >
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:weightSum="3.0">
 
-    <LinearLayout
-        android:layout_width="fill_parent"
+    <TextView
+        android:id="@+id/tv_parity_name"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="1.0" >
+        android:layout_weight="1.0"
+        android:text="alpha"
+        android:gravity="start"
+        android:layout_marginLeft="@dimen/padding_small"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="@dimen/text_small"/>
 
-        <TextView
-            android:id="@+id/tv_parity_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.1"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="@dimen/text_small" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.9"
-            android:gravity="end"
-            android:text="@string/parity_baby_name"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/grey"
-            android:textSize="@dimen/text_Xsmall"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
+    <TextView
+        android:id="@+id/tv_parity_empty_1"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="1.0" >
+        android:gravity="center"
+        android:layout_weight="1.0"
+        android:text="alpha"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="@dimen/text_small"/>
 
-        <TextView
-            android:id="@+id/tv_parity_hospital_number"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.1"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="@dimen/text_small" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.9"
-            android:gravity="end"
-            android:text="@string/parity_hospital_number"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/grey"
-            android:textSize="@dimen/text_Xsmall"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
+    <TextView
+        android:id="@+id/tv_parity_empty_2"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="1.0" >
-
-        <TextView
-            android:id="@+id/tv_parity_dob"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.1"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="@dimen/text_small" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.9"
-            android:gravity="end"
-            android:text="@string/parity_dob"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/grey"
-            android:textSize="@dimen/text_Xsmall"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="1.0" >
-
-        <TextView
-            android:id="@+id/tv_parity_gender"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.1"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="@dimen/text_small" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.9"
-            android:gravity="end"
-            android:text="@string/parity_gender"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/grey"
-            android:textSize="@dimen/text_Xsmall"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="1.0" >
-
-        <TextView
-            android:id="@+id/tv_parity_gestation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.1"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="@dimen/text_small" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.9"
-            android:gravity="end"
-            android:text="@string/parity_gestation"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/grey"
-            android:textSize="@dimen/text_Xsmall"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="1.0" >
-
-        <TextView
-            android:id="@+id/tv_parity_birth_mode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.1"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="@dimen/text_small" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.9"
-            android:gravity="end"
-            android:text="@string/parity_mode_of_birth"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/grey"
-            android:textSize="@dimen/text_Xsmall"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="1.0" >
-
-        <TextView
-            android:id="@+id/tv_parity_outcome"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.1"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="@dimen/text_small" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.9"
-            android:gravity="end"
-            android:text="@string/parity_birth_outcome"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/grey"
-            android:textSize="@dimen/text_Xsmall"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="1.0" >
-
-        <TextView
-            android:id="@+id/tv_parity_weight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.1"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="@dimen/text_small" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.9"
-            android:gravity="end"
-            android:text="@string/parity_weight"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/grey"
-            android:textSize="@dimen/text_Xsmall"
-            android:textStyle="bold" />
-    </LinearLayout>
-
+        android:layout_weight="1.0"
+        android:text="alpha"
+        android:gravity="end"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="@dimen/text_small"
+        android:layout_marginRight="@dimen/padding_small"/>
 </LinearLayout>

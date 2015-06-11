@@ -11,6 +11,7 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -20,10 +21,12 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.zip.Inflater;
 
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.model.ApiRootModel;
 import ie.teamchile.smartapp.model.Baby;
+import ie.teamchile.smartapp.util.DividerItemDecoration;
 
 public class ParityDetailsActivity extends BaseActivity {
 	private BaseAdapter adapter;
@@ -50,7 +53,7 @@ public class ParityDetailsActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentForNav(R.layout.activity_parity_details);
-		lvParity = (ListView)findViewById(R.id.lv_parity);
+		/*lvParity = (ListView)findViewById(R.id.lv_parity);*/
 		rvParity = (RecyclerView) findViewById(R.id.rv_parity);
 
 		patientName = ApiRootModel.getInstance().getServiceUsers().get(0).getPersonalFields().getName();
@@ -83,15 +86,16 @@ public class ParityDetailsActivity extends BaseActivity {
 			String kg = getGramsToKg(weightBaby.get(i));
 			weightBabyInKg.add(kg);
 		}
-		
+
 		switch(getScreenOrientation()){
 		case 1:				//ORIENTATION_PORTRAIT
-			portraitCode();
+			//portraitCode();
+            setUpNewLayout();
 			break;
 		case 2:				//ORIENTATION_LANDSCAPE
 			landscapeCode();
 			break;
-		}		
+		}
 	}
 	
 	@Override
@@ -127,6 +131,7 @@ public class ParityDetailsActivity extends BaseActivity {
 	private void landscapeCode(){
 		LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 		rvParity.setLayoutManager(layoutManager);
+        rvParity.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
 		RecyclerView.Adapter rvAdapter = new MyRecycleAdapter(nameBaby, hospitalNumber, dobBaby, genderBaby, gestationBaby,
 				weightBaby, birthMode, birthOutcome, hearing, nbstList, vitKList);
 		rvParity.setAdapter(rvAdapter);
@@ -149,7 +154,8 @@ public class ParityDetailsActivity extends BaseActivity {
 		public void notifyDataSetChanged() {
 			super.notifyDataSetChanged();
 		}
-		public ListAdapter(Context context, int orientation, List<String> name,  
+
+        public ListAdapter(Context context, int orientation, List<String> name,
 				List<String>hospitalNumber, List<String>babyDob, List<String>babyGender, 
 				List<String>gestation, List<String>weight, List<String>birthMode, List<String>birthOutcome) {
 			super();
@@ -274,6 +280,9 @@ public class ParityDetailsActivity extends BaseActivity {
 		public MyRecycleAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 			View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.parity_list_layout, parent, false);
 			ViewHolder myViewHolder = new ViewHolder(view);
+
+            //RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.rv_parity);
+
 			return myViewHolder;
 		}
 
@@ -320,11 +329,14 @@ public class ParityDetailsActivity extends BaseActivity {
 		}
 		switch (option) {
 		case 0:
-			dateOfDevelivery = dfMonthFullName.format(date);
+			    dateOfDevelivery = dfMonthFullName.format(date);
 			break;
 		case 1:
-			dateOfDevelivery = dfDateOnly.format(date);
+			    dateOfDevelivery = dfDateOnly.format(date);
 			break;
+            case 2:
+                dateOfDevelivery = dfDateMonthNameYear.format(date);
+            break;
 		}
 		return dateOfDevelivery;
 	}
@@ -344,5 +356,88 @@ public class ParityDetailsActivity extends BaseActivity {
     	double weight = Double.parseDouble(weightStr);
     	
     	return df.format(weight);
+    }
+
+    private class NewListAdapter extends BaseAdapter{
+        Context context;
+        int layoutResource;
+        List<String> nameList;
+        List<String> list1;
+        List<String> list2;
+
+        public NewListAdapter(Context context,
+                              int layoutResource,
+                              List<String> nameList,
+                              List<String> list1,
+                              List<String> list2){
+            super();
+            this.context = context;
+            this.layoutResource = layoutResource;
+            this.nameList = nameList;
+            this.list1 = list1;
+            this.list2 = list2;
+
+        }
+
+        @Override
+        public int getCount() {
+            return nameList.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            convertView = View.inflate(context, layoutResource, null);
+            TextView tvName = (TextView) convertView.findViewById(R.id.tv_parity_name);
+            TextView tvList1 = (TextView) convertView.findViewById(R.id.tv_parity_empty_1);
+            TextView tvList2 = (TextView) convertView.findViewById(R.id.tv_parity_empty_2);
+
+            tvName.setText(nameList.get(position));
+            tvList1.setText(list1.get(position));
+            tvList1.setText(list1.get(position));
+            tvList2.setText(list2.get(position));
+            return convertView;
+        }
+    }
+
+    private void setUpNewLayout(){
+        ListView lvNew;
+        ListView lvNew2;
+        ListView lvNew3;
+        ListView lvNew4;
+
+        BaseAdapter newAdapter;
+
+        lvNew = (ListView) findViewById(R.id.lv_parity_new);
+        lvNew2 = (ListView) findViewById(R.id.lv_parity_new_2);
+        lvNew3 = (ListView) findViewById(R.id.lv_parity_new_3);
+        lvNew4 = (ListView) findViewById(R.id.lv_parity_new_4);
+        dobStr = new ArrayList<>();
+
+        for (int i = 0; i < dobBaby.size(); i ++) {
+            dobStr.add(getDeliveryDate(dobBaby.get(i), 2));
+        }
+
+        for (int i = 0; i < nameBaby.size(); i ++) {
+            nameBaby.set(i, nameBaby.get(i) + " (" + genderBaby.get(i) + ")");
+        }
+
+        newAdapter = new NewListAdapter(this, R.layout.parity_list_layout, nameBaby, hospitalNumber, dobStr);
+        lvNew.setAdapter(newAdapter);
+        newAdapter = new NewListAdapter(this, R.layout.parity_list_layout, nameBaby, gestationBaby, weightBabyInKg);
+        lvNew2.setAdapter(newAdapter);
+        newAdapter = new NewListAdapter(this, R.layout.parity_list_layout, nameBaby, birthMode, birthOutcome);
+        lvNew3.setAdapter(newAdapter);
+        newAdapter = new NewListAdapter(this, R.layout.parity_list_layout, nameBaby, hearing, nbstList);
+        lvNew4.setAdapter(newAdapter);
     }
 }
