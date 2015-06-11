@@ -98,7 +98,8 @@
             android:layout_marginTop="@dimen/padding_small"
             android:text="@string/appointment_type"
             android:textSize="@dimen/text_small"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_marginBottom="-12dp"/>
 
         <Spinner
             android:id="@+id/spnr_visit_return_type"
@@ -107,20 +108,13 @@
             android:entries="@array/visit_return_type"
             android:spinnerMode="dialog"/>
 
-        <Spinner
-            android:id="@+id/spnr_visit_return_type_select"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/visit_return_type"
-            android:spinnerMode="dropdown"/>
-
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_small"
             android:text="Priority"
             android:textSize="@dimen/text_small"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_marginBottom="-12dp"/>
 
         <Spinner
             android:id="@+id/spnr_visit_priority"
@@ -128,18 +122,11 @@
             android:layout_height="wrap_content"
             android:entries="@array/visit_priority_list" />
 
-        <Spinner
-            android:id="@+id/spnr_visit_priority_select"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/visit_return_type"
-            android:spinnerMode="dropdown"/>
-
         <Button
             android:id="@+id/btn_confirm_appointment"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_medium"
+            android:layout_marginTop="@dimen/padding_Xsmall"
             android:layout_marginBottom="@dimen/padding_Xsmall"
             android:background="@color/lightBlue"
             android:text="@string/confirm_appointment" />
