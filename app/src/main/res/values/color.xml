@@ -17,5 +17,6 @@
     <color name="login_background">#A2B0C1</color>
     <color name="clinical_blue">#42A5F5</color>
     <color name="spinner_warning">#B2DFDB</color>
+    <color name="button_test">#43A047</color>
 
 </resources>
