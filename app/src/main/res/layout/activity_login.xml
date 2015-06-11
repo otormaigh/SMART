@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@color/white"
-    android:orientation="vertical"
-    android:weightSum="3.0"
-    tools:context="${relativePackage}.${activityClass}">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:background="@color/white"
+              android:orientation="vertical"
+              android:weightSum="3.0"
+              tools:context="${relativePackage}.${activityClass}">
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1.0"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -20,7 +20,7 @@
             android:layout_gravity="center|top"
             android:layout_marginTop="@dimen/padding_medium"
             android:background="@drawable/cm_logo_bw"
-            android:contentDescription="@string/main_logo" />
+            android:contentDescription="@string/main_logo"/>
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -28,7 +28,7 @@
             android:layout_weight="4.0"
             android:orientation="vertical">
 
-            <TextView	
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|top"
@@ -36,7 +36,7 @@
                 android:layout_weight="1.0"
                 android:text="@string/smart"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_small" />
+                android:textSize="@dimen/text_small"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -45,7 +45,7 @@
                 android:layout_weight="1.0"
                 android:text="@string/secure_maternity"
                 android:textColor="@color/blue"
-                android:textSize="@dimen/text_small" />
+                android:textSize="@dimen/text_small"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -54,7 +54,7 @@
                 android:layout_weight="1.0"
                 android:text="@string/appointment_recording"
                 android:textColor="@color/blue"
-                android:textSize="@dimen/text_small" />
+                android:textSize="@dimen/text_small"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -77,9 +77,9 @@
             android:layout_weight="1.0"
             android:hint="@string/username"
             android:inputType="text"
-            android:textColor="@color/black"
             android:maxLines="1"
-            android:textColorHint="#A9A9A9" />
+            android:textColor="@color/black"
+            android:textColorHint="#A9A9A9"/>
 
         <EditText
             android:id="@+id/et_password"
@@ -91,20 +91,19 @@
             android:layout_weight="1.0"
             android:hint="@string/password"
             android:inputType="textPassword"
-            android:textColor="@color/black"
             android:maxLines="1"
-            android:textColorHint="#A9A9A9" />
+            android:textColor="@color/black"
+            android:textColorHint="#A9A9A9"/>
 
         <Button
             android:id="@+id/btn_login"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/padding_large"
-            android:layout_marginRight="@dimen/padding_large"
             android:layout_weight="1.0"
-            android:background="@color/lightBlue"
-            android:textSize="@dimen/text_medium"
-            android:text="@string/login" />
+            android:text="@string/login"
+            android:paddingLeft="@dimen/padding_Xsmall"
+            android:paddingRight="@dimen/padding_Xsmall"
+            android:theme="@style/CallToActionButton"/>
 
     </LinearLayout>
 
@@ -120,7 +119,7 @@
             android:layout_gravity="center|top"
             android:layout_marginTop="@dimen/padding_medium"
             android:text="@string/maternity_hospital"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"/>
 
         <TextView
             android:id="@+id/tv_about"
@@ -130,6 +129,6 @@
             android:linksClickable="true"
             android:text="@string/about"
             android:textColor="@color/blue"/>
-           
+
     </LinearLayout>
 </LinearLayout>

@@ -211,11 +211,14 @@
 
             <Button
                 android:id="@+id/btn_usr_book_appointment"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1.0"
                 android:text="@string/book_appointment"
+                android:theme="@style/CallToActionButton"
+                android:paddingLeft="@dimen/padding_Xsmall"
+                android:paddingRight="@dimen/padding_Xsmall"
                 android:textSize="@dimen/text_large" />
         </LinearLayout>
     </LinearLayout>
