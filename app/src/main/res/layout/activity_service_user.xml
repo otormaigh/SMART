@@ -7,7 +7,7 @@
     android:weightSum="7.0"
     tools:context="${relativePackage}.${activityClass}">
 
-    <LinearLayout
+    <!--<LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/padding_small"
@@ -67,12 +67,13 @@
                 android:gravity="center"
                 android:textSize="@dimen/text_small" />
         </LinearLayout>
-    </LinearLayout>
+    </LinearLayout>-->
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="@dimen/padding_small">
 
         <LinearLayout
             android:id="@+id/ll_usr_contact"
