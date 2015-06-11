@@ -27,7 +27,7 @@ import java.util.List;
 
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.model.ApiRootModel;
-import ie.teamchile.smartapp.utility.ToastAlert;
+import ie.teamchile.smartapp.util.ToastAlert;
 
 public class ServiceUserActivity extends BaseActivity {
 	private final CharSequence[] userContactList = {"Call Mobile", "Send SMS", "Send Email"};

@@ -1,4 +1,4 @@
-package ie.teamchile.smartapp.utility;
+package ie.teamchile.smartapp.util;
 
 import java.util.ArrayList;
 
