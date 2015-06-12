@@ -87,7 +87,7 @@
                 android:layout_height="30dp"
                 android:layout_weight="0.3"
                 android:paddingLeft="5dp"
-                android:background="@color/light_grey" />
+                android:background="@drawable/border" />
 
             <!--Surface View End-->
         </LinearLayout>

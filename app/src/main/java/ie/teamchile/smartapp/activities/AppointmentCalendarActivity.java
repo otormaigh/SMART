@@ -369,11 +369,11 @@ public class AppointmentCalendarActivity extends BaseActivity {
 					swipeLayout.close();
 					if (!attendedList.get(position)) {
 						changeAttendStatus(true, position);
-						ivAttend.setBackgroundResource(R.color.green);
+						ivAttend.setBackgroundResource(R.color.attended);
 						notifyDataSetChanged();
 					} else if (attendedList.get(position)) {
 						changeAttendStatus(false, position);
-						ivAttend.setBackgroundResource(R.color.red);
+						ivAttend.setBackgroundResource(R.color.unattended);
                         notifyDataSetChanged();
 					}
 				}
@@ -386,18 +386,18 @@ public class AppointmentCalendarActivity extends BaseActivity {
 				swipeLayout.setSwipeEnabled(false);
 				
 				nameText.setTextColor(getResources().getColor(R.color.free_slot));
-				nameText.setTypeface(Typeface.DEFAULT_BOLD);
+				nameText.setTypeface(null, Typeface.ITALIC);
 			} else {
 				timeText.setText(aptTime.get(position));
 				nameText.setText(aptName.get(position));
 				gestText.setText(aptGest.get(position));
 
 				if(attendedList.get(position)) {
-                    ivAttend.setBackgroundResource(R.color.green);
+                    ivAttend.setBackgroundResource(R.color.attended);
                     btnChangeStatus.setText("No");
                     //btnChangeStatus.setEnabled(false);
                 } else if (!attendedList.get(position)) {
-                    ivAttend.setBackgroundResource(R.color.red);
+                    ivAttend.setBackgroundResource(R.color.unattended);
                     btnChangeStatus.setText("Yes");
                     //btnChangeStatus.setEnabled(true);
                 }
