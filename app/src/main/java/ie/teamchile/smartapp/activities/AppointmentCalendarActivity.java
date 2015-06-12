@@ -7,6 +7,7 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -168,6 +169,9 @@ public class AppointmentCalendarActivity extends BaseActivity {
 		final DatePickerDialog.OnDateSetListener pickerDate = new DatePickerDialog.OnDateSetListener() {
 			@Override
 			public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                if(pd != null){
+                  pd.dismiss();
+                }
 				myCalendar.set(Calendar.YEAR, year);
 				myCalendar.set(Calendar.MONTH, monthOfYear);
 				myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
@@ -180,17 +184,27 @@ public class AppointmentCalendarActivity extends BaseActivity {
 					dateInList.setText(dfDateWMonthName.format(myCalendar.getTime()));
 					newSetToList(myCalendar.getTime());					
 				} else {
+                    Log.d("bugs", "wrong date");
 					showProgressDialog(AppointmentCalendarActivity.this,
-							"Invalid day selected\nPlease choose another");
-					new CountDownTimer(2000, 1000){
+                            "Invalid day selected\nPlease choose another");
+                    Handler mHandler = new Handler();
+                    mHandler.postDelayed(new Runnable() {
+                        public void run() {
+                            pd.dismiss();
+                            Log.d("bugs", "dismissed");
+                            Log.d("bugs", "dismissed" + pd.isShowing());
+                        }
+                    }, 2000);
+                    /*new CountDownTimer(2000, 1000){
 						@Override
 						public void onFinish() {
-							pd.cancel();
+                            Log.d("bugs", "time finished");
+							//pd.dismiss();
 						}
 						@Override
 						public void onTick(long millisUntilFinished) {
 						}        				
-        			}.start();
+        			}.start();*/
 				}
 			}
 		};
