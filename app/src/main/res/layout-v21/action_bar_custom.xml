@@ -12,5 +12,6 @@
         android:paddingLeft="-48dp"
         android:gravity="center_horizontal"
         android:text="SMART"
-        style="@android:style/TextAppearance.Material.Title"/>
+        style="@android:style/TextAppearance.Material.Title"
+        android:textColor="@color/white" />
 </RelativeLayout>
