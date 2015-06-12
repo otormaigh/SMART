@@ -385,7 +385,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
 				gestText.setText(aptGest.get(position));
 				swipeLayout.setSwipeEnabled(false);
 				
-				nameText.setTextColor(getResources().getColor(R.color.green));
+				nameText.setTextColor(getResources().getColor(R.color.free_slot));
 				nameText.setTypeface(Typeface.DEFAULT_BOLD);
 			} else {
 				timeText.setText(aptTime.get(position));
