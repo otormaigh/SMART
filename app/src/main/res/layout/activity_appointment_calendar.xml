@@ -14,8 +14,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/prev_button"
+            android:textColor="@color/grey"
             android:textSize="@dimen/text_Xsmall"
-            android:drawableLeft="@drawable/ic_chevron_left_black_24dp"/>
+            android:drawableLeft="@drawable/ic_chevron_left_grey600_24dp"/>
 
         <Button
             android:id="@+id/btn_date"
@@ -34,7 +35,8 @@
             android:layout_weight="1"
             android:text="@string/next_button"
             android:textSize="@dimen/text_Xsmall"
-            android:drawableRight="@drawable/ic_chevron_right_black_24dp"/>
+            android:textColor="@color/grey"
+            android:drawableRight="@drawable/ic_chevron_right_grey600_24dp"/>
     </LinearLayout>
 
     <ListView
