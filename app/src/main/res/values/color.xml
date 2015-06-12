@@ -18,5 +18,6 @@
     <color name="clinical_blue">#42A5F5</color>
     <color name="spinner_warning">#B2DFDB</color>
     <color name="action_button">#43A047</color>
+    <color name="free_slot">#81C784</color>
 
 </resources>
