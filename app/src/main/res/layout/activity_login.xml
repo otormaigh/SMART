@@ -64,15 +64,15 @@
         android:layout_height="wrap_content"
         android:layout_weight="1.0"
         android:orientation="vertical"
-        android:weightSum="3.0">
+        android:weightSum="3.0"
+        android:layout_marginLeft="@dimen/padding_medium"
+        android:layout_marginRight="@dimen/padding_medium">
 
         <EditText
             android:id="@+id/et_username"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:layout_marginLeft="@dimen/padding_medium"
-            android:layout_marginRight="@dimen/padding_medium"
             android:layout_marginTop="@dimen/padding_small"
             android:layout_weight="1.0"
             android:hint="@string/username"
@@ -86,8 +86,6 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/padding_medium"
-            android:layout_marginLeft="@dimen/padding_medium"
-            android:layout_marginRight="@dimen/padding_medium"
             android:layout_weight="1.0"
             android:hint="@string/password"
             android:inputType="textPassword"
@@ -101,8 +99,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
             android:text="@string/login"
-            android:paddingLeft="@dimen/padding_Xsmall"
-            android:paddingRight="@dimen/padding_Xsmall"
             android:theme="@style/CallToActionButton"/>
 
     </LinearLayout>
