@@ -14,7 +14,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/prev_button"
-            android:textSize="@dimen/text_Xsmall" />
+            android:textSize="@dimen/text_Xsmall"
+            android:drawableLeft="@drawable/ic_chevron_left_black_24dp"/>
 
         <Button
             android:id="@+id/btn_date"
@@ -32,7 +33,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/next_button"
-            android:textSize="@dimen/text_Xsmall" />
+            android:textSize="@dimen/text_Xsmall"
+            android:drawableRight="@drawable/ic_chevron_right_black_24dp"/>
     </LinearLayout>
 
     <ListView
