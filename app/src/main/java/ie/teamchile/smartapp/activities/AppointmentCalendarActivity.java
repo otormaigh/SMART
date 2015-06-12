@@ -358,10 +358,9 @@ public class AppointmentCalendarActivity extends BaseActivity {
 						ivAttend.setBackgroundResource(R.color.green);
 						notifyDataSetChanged();
 					} else if (attendedList.get(position)) {
-						/*changeAttendStatus(false, position);
-						ivAttend.setBackgroundResource(R.color.red);*/
-						Toast.makeText(AppointmentCalendarActivity.this,
-								"cannot do", Toast.LENGTH_LONG).show();
+						changeAttendStatus(false, position);
+						ivAttend.setBackgroundResource(R.color.red);
+                        notifyDataSetChanged();
 					}
 				}
 			});
@@ -382,11 +381,11 @@ public class AppointmentCalendarActivity extends BaseActivity {
 				if(attendedList.get(position)) {
                     ivAttend.setBackgroundResource(R.color.green);
                     btnChangeStatus.setText("No");
-                    btnChangeStatus.setEnabled(false);
+                    //btnChangeStatus.setEnabled(false);
                 } else if (!attendedList.get(position)) {
                     ivAttend.setBackgroundResource(R.color.red);
                     btnChangeStatus.setText("Yes");
-                    btnChangeStatus.setEnabled(true);
+                    //btnChangeStatus.setEnabled(true);
                 }
 			}
 			return convertView;
