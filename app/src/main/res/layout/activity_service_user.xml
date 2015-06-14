@@ -183,7 +183,7 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginRight="@dimen/padding_medium"
-                    android:background="@drawable/ic_action_cc_bcc"
+                    android:background="@drawable/ic_action_kin"
                     android:clickable="true" />
 
                 <LinearLayout
