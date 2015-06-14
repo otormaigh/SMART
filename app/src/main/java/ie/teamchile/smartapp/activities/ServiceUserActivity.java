@@ -46,6 +46,7 @@ public class ServiceUserActivity extends BaseActivity {
 				   perineum, birthMode, babyGender, babyWeightKg = "",
 				   vitK, hearing, antiD, feeding, nbst, deliveryDateTime, daysSinceBirth,
 				   userCall, userSMS, userEmail, lastPeriodDate;
+    private Boolean rhesus;
 	private int babyWeightGrams = 0;
 	private List<Integer> babyID;
 	private double grams = 0.0;
@@ -168,19 +169,23 @@ public class ServiceUserActivity extends BaseActivity {
 			hearing = ApiRootModel.getInstance().getBabies().get(b).getHearing();
 			antiD = ApiRootModel.getInstance().getPregnancies().get(p).getAntiD();
 			feeding = ApiRootModel.getInstance().getPregnancies().get(p).getFeeding();
+            rhesus = ApiRootModel.getInstance().getServiceUsers().get(0).getClinicalFields().getRhesus();
+            if(rhesus)
+                tvAnteRhesus.setText("Yes");
+            else if(!rhesus)
+                tvAnteRhesus.setText("No");
 			if(feeding == null)
 				feeding = "";
 			nbst = ApiRootModel.getInstance().getBabies().get(b).getNewbornScreeningTest();
 			deliveryDateTime = ApiRootModel.getInstance().getBabies().get(b).getDeliveryDateTime();
 			if(deliveryDateTime != null)
 				daysSinceBirth = getNoOfDays(deliveryDateTime);
-			setActionBarTitle(userName);
+            setActionBarTitle(userName);
 			
 			if(parity.equals("0 + 0"))
 				tableParity.setEnabled(false);
 			tvAnteParity.setText(parity);
 			tvAnteGestation.setText(gestation);
-			tvAnteRhesus.setText(ApiRootModel.getInstance().getServiceUsers().get(0).getClinicalFields().getRhesus().toString());
 			tvAnteBloodGroup.setText(ApiRootModel.getInstance().getServiceUsers().get(0).getClinicalFields().getBloodGroup());
 			if(estimtedDelivery != null)
 				tvAnteDeliveryTime.setText(getEstimateDeliveryDate(estimtedDelivery));
