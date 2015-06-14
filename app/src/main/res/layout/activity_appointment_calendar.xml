@@ -10,7 +10,7 @@
 
         <Button
             android:id="@+id/btn_prev"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/prev_button"
@@ -20,17 +20,18 @@
 
         <Button
             android:id="@+id/btn_date"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
-            android:background="@color/lightBlue"
+            android:theme="@style/SecondaryButton"
             android:text="@string/date_button"
-            android:textSize="@dimen/text_Xsmall" />
+            android:textSize="@dimen/text_Xsmall"
+            android:drawableLeft="@drawable/ic_chevron_down"/>
 
         <Button
             android:id="@+id/btn_next"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/next_button"
