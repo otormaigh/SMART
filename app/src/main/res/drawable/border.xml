@@ -6,8 +6,8 @@
         android:color="@color/very_light_grey"/>
 
     <padding
-        android:bottom="12dp"
-        android:left="12dp"
-        android:right="12dp"
-        android:top="12dp"/>
+        android:bottom="7dp"
+        android:left="7dp"
+        android:right="7dp"
+        android:top="7dp"/>
 </shape>
