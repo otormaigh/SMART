@@ -54,6 +54,8 @@ public class ClinicTimeRecordActivity extends BaseActivity {
         btnCheckOut.setOnClickListener(new Clicky());
         etRecordId = (EditText) findViewById(R.id.et_record_id);
 
+        btnCheckOut.setEnabled(false);
+
         setActionBarTitle("Clinic Time");
 
         thing();
