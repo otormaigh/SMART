@@ -6,13 +6,11 @@
               android:orientation="vertical">
 
     <!-- 2 columns -->
-
     <TableRow
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/border"
-        android:clickable="false"
-        android:padding="@dimen/padding_natal">
+        android:clickable="false">
 
         <TextView
             android:layout_width="wrap_content"
@@ -36,8 +34,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/border"
-        android:clickable="false"
-        android:padding="@dimen/padding_natal">
+        android:clickable="false">
 
         <TextView
             android:layout_width="wrap_content"
@@ -62,8 +59,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/border"
-        android:clickable="false"
-        android:padding="@dimen/padding_natal">
+        android:clickable="false">
 
         <TextView
             android:layout_width="wrap_content"
@@ -86,8 +82,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/border"
-        android:clickable="false"
-        android:padding="@dimen/padding_natal">
+        android:clickable="false">
 
         <TextView
             android:layout_width="wrap_content"
@@ -110,8 +105,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/border"
-        android:clickable="false"
-        android:padding="@dimen/padding_natal">
+        android:clickable="false">
 
 
         <TextView
@@ -135,8 +129,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/border"
-        android:clickable="false"
-        android:padding="@dimen/padding_natal">
+        android:clickable="false">
 
 
         <TextView
@@ -161,8 +154,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/border"
-        android:padding="@dimen/padding_natal"
         android:weightSum="1.0">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -179,5 +172,29 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="@dimen/text_small"/>
     </TableRow>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableBottom="@drawable/border_line"
+            android:text="@string/age"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/light_grey"
+            android:textSize="@dimen/text_Xsmall"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableBottom="@drawable/border_line"
+            android:gravity="end"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="@dimen/text_small"/>
+    </LinearLayout>
 
 </LinearLayout>
