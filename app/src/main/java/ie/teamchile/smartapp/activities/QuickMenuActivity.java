@@ -8,6 +8,7 @@ import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,8 +21,10 @@ import ie.teamchile.smartapp.model.ApiRootModel;
 import ie.teamchile.smartapp.model.Appointment;
 import ie.teamchile.smartapp.model.Clinic;
 import ie.teamchile.smartapp.model.ServiceOption;
+import ie.teamchile.smartapp.util.SmartApi;
 import ie.teamchile.smartapp.util.ToastAlert;
 import retrofit.Callback;
+import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -148,7 +151,12 @@ public class QuickMenuActivity extends BaseActivity {
 					@Override
 					public void failure(RetrofitError error) {
 						Log.d("Retrofit", "appointments retro failure " + error);
-					}
+                        done++;
+                        Toast.makeText(QuickMenuActivity.this,
+                                "Error downloading appointments\n" +
+                                "please try again",
+                                Toast.LENGTH_LONG).show();
+                    }
 				}
 		);
 
