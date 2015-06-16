@@ -16,7 +16,7 @@ public class PostingData {
     public ClinicTimeRecord clinicTimeRecord;
     @SerializedName("notes")
     public PregnancyNote pregnancyNote;
-    @SerializedName("pregnancies")
+    @SerializedName("pregnancy")
     public Pregnancy pregnancy;
 
     public PostingData() {
