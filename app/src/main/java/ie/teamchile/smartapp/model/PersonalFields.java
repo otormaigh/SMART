@@ -19,6 +19,9 @@ public class PersonalFields {
     @SerializedName("home_county")
     @Expose
     private String homeCounty;
+    @SerializedName("home_city")
+    @Expose
+    private String homeCity;
     @SerializedName("home_phone")
     @Expose
     private String homePhone;
@@ -108,6 +111,14 @@ public class PersonalFields {
      */
     public void setHomeCounty(String homeCounty) {
         this.homeCounty = homeCounty;
+    }
+
+    public String getHomeCity() {
+        return homeCity;
+    }
+
+    public void setHomeCity(String homeCity) {
+        this.homeCity = homeCity;
     }
 
     /**
