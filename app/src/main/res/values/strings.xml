@@ -199,6 +199,12 @@
     <string name="user_address_title">Google Maps</string>
     <string name="user_address_message">Are you sure you want to go to Google Maps?</string>
     <string name="contact_title">Select Contact Option</string>
+    <string-array name="anti_d_list">
+        <item>Yes</item>
+        <item>No</item>
+        <item>Not Required</item>
+        <item>Declined</item>
+    </string-array>
 
     <!-- NAVIGATION DRAWER-->
     <string-array name="nav_drawer_items">
