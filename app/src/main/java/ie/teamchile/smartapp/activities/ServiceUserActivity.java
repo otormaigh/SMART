@@ -2,6 +2,7 @@ package ie.teamchile.smartapp.activities;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,8 +13,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -38,7 +41,6 @@ import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.util.SmartApi;
 import ie.teamchile.smartapp.util.ToastAlert;
 import retrofit.Callback;
-import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -76,6 +78,9 @@ public class ServiceUserActivity extends BaseActivity {
     private int userId;
     private AlertDialog.Builder alertDialog;
     private AlertDialog ad;
+    private List<String> antiDHistory = new ArrayList<>();
+    private List<String> antiDDateTime = new ArrayList<>();
+    private List<String> antiDProviderName = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +105,21 @@ public class ServiceUserActivity extends BaseActivity {
         tabHost.addTab(tab3);
 
         tabHost.setCurrentTab(1);
+
+        for(int i = 0; i < ApiRootModel.getInstance().getAntiDHistories().size(); i++) {
+            Date parsed;
+            String formatted = "";
+            try {
+                parsed = dfDateTimeWMillisZone.parse(ApiRootModel.getInstance().getAntiDHistories().get(i).getCreatedAt());
+                formatted = dfDateMonthNameYear.format(parsed);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            antiDHistory.add(ApiRootModel.getInstance().getAntiDHistories().get(i).getAntiD());
+            antiDDateTime.add(formatted);
+            antiDProviderName.add(ApiRootModel.getInstance().getAntiDHistories().get(i).getServiceProviderName());
+        }
 
         llUserContact = (LinearLayout) findViewById(R.id.ll_usr_contact);
         llUserContact.setOnClickListener(new ButtonClick());
@@ -483,11 +503,6 @@ public class ServiceUserActivity extends BaseActivity {
     }
 
     private void buildAlertDialog() {
-        List<String> searchResults = new ArrayList<>();
-        searchResults.add("Yes - team_chile - 11:11, 16-06-2015");
-        searchResults.add("No - team_chile - 11:11, 16-06-2015");
-        searchResults.add("Not Required - team_chile - 11:11, 16-06-2015");
-        searchResults.add("Declined - team_chile - 11:11, 16-06-2015");
         LayoutInflater inflater = getLayoutInflater();
         alertDialog = new AlertDialog.Builder(ServiceUserActivity.this);
         View convertView = (View) inflater.inflate(R.layout.anti_d_dialog, null);
@@ -505,10 +520,11 @@ public class ServiceUserActivity extends BaseActivity {
 
         alertDialog.setView(convertView);
         alertDialog.setTitle("Anti-D History");
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+        BaseAdapter adapter = new MyListAdapter(
                 ServiceUserActivity.this,
-                android.R.layout.simple_list_item_1,
-                searchResults);
+                antiDHistory,
+                antiDDateTime,
+                antiDProviderName);
         list.setAdapter(adapter);
         ad = alertDialog.show();
     }
@@ -520,12 +536,12 @@ public class ServiceUserActivity extends BaseActivity {
 
         showProgressDialog(this, "Updating Anti D");
 
-        RestAdapter restAdapter = new RestAdapter.Builder()
+        /*RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(SmartApi.BASE_URL)
                 .setLogLevel(RestAdapter.LogLevel.FULL)
                 .build();
 
-        api = restAdapter.create(SmartApi.class);
+        api = restAdapter.create(SmartApi.class);*/
 
         api.putAnitD(
             puttingAntiD,
@@ -585,10 +601,50 @@ public class ServiceUserActivity extends BaseActivity {
         }
     }
 
-    private class MyOnItemSelect implements AdapterView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    private class MyListAdapter extends BaseAdapter {
+        Context context;
+        LayoutInflater layoutInflater;
+        List<String> antiDHistory = new ArrayList<>();
+        List<String> antiDDateTime = new ArrayList<>();
+        List<String> antiDProviderName = new ArrayList<>();
 
+        public MyListAdapter(Context context,
+                             List<String> antiDHistory,
+                             List<String> antiDDateTime,
+                             List<String> antiDProviderName) {
+            this.context = context;
+            this.antiDHistory = antiDHistory;
+            this.antiDDateTime = antiDDateTime;
+            this.antiDProviderName = antiDProviderName;
+        }
+
+        @Override
+        public int getCount() {
+            return antiDDateTime.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            LayoutInflater inflater = getLayoutInflater();
+            convertView = (View) inflater.inflate(R.layout.anti_d_list_layout, null);
+            TextView tvHistory = (TextView) convertView.findViewById(R.id.tv_anti_d_option);
+            TextView tvDateTime = (TextView) convertView.findViewById(R.id.tv_anti_d_date_time);
+            TextView tvName = (TextView) convertView.findViewById(R.id.tv_anti_d_provider_name);
+
+            tvHistory.setText(antiDHistory.get(position));
+            tvDateTime.setText(antiDDateTime.get(position));
+            tvName.setText(antiDProviderName.get(position));
+            return convertView;
         }
     }
 }
