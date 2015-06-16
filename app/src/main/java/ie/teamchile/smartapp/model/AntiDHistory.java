@@ -18,6 +18,9 @@ public class AntiDHistory {
     @SerializedName("pregnancy_id")
     @Expose
     private Integer pregnancyId;
+    @SerializedName("service_provider_name")
+    @Expose
+    private String serviceProviderName;
 
     /**
      * @return The id
@@ -73,6 +76,14 @@ public class AntiDHistory {
      */
     public void setPregnancyId(Integer pregnancyId) {
         this.pregnancyId = pregnancyId;
+    }
+
+    public String getServiceProviderName() {
+        return serviceProviderName;
+    }
+
+    public void setServiceProviderName(String serviceProviderName) {
+        this.serviceProviderName = serviceProviderName;
     }
 
 }
