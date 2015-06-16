@@ -16,6 +16,8 @@ public class PostingData {
     public ClinicTimeRecord clinicTimeRecord;
     @SerializedName("notes")
     public PregnancyNote pregnancyNote;
+    @SerializedName("pregnancies")
+    public Pregnancy pregnancy;
 
     public PostingData() {
     }
@@ -48,6 +50,9 @@ public class PostingData {
         this.pregnancyNote = new PregnancyNote(id, note, pregnancyId, serviceProviderId);
     }
 
+    public void putAntiD(String antiD){
+        this.pregnancy = new Pregnancy(antiD);
+    }
     private class Login {
         private String username;
         private String password;
@@ -132,6 +137,15 @@ public class PostingData {
             this.note = note;
             this.pregnancyId = pregnancyId;
             this.serviceProviderId = serviceProviderId;
+        }
+    }
+
+    private class Pregnancy {
+        @SerializedName("anti_d")
+        private String antiD;
+
+        public Pregnancy(String antiD){
+            this.antiD = antiD;
         }
     }
 }
