@@ -33,7 +33,6 @@ public class ServiceUser {
     @Expose
     private List<Integer> pregnancyIds = new ArrayList<Integer>();
 
-
     /**
      * @return The gestation
      */
