@@ -47,6 +47,12 @@ public class ApiRootModel {
     @SerializedName("clinic_time_records")
     @Expose
     private List<ClinicTimeRecord> clinicTimeRecords = new ArrayList<>();
+    @SerializedName("anti_d_histories")
+    @Expose
+    private List<AntiDHistory> antiDHistories = new ArrayList<>();
+    @SerializedName("notes")
+    @Expose
+    private List<PregnancyNote> pregnancyNotes = new ArrayList<>();
 
     private ApiRootModel() {
     }
@@ -267,5 +273,33 @@ public class ApiRootModel {
      */
     public void setClinicTimeRecords(List<ClinicTimeRecord> clinicTimeRecords) {
         this.clinicTimeRecords = clinicTimeRecords;
+    }
+
+    /**
+     * @return The antiDHistories
+     */
+    public List<AntiDHistory> getAntiDHistories() {
+        return antiDHistories;
+    }
+
+    /**
+     * @param antiDHistories The anti_d_histories
+     */
+    public void setAntiDHistories(List<AntiDHistory> antiDHistories) {
+        this.antiDHistories = antiDHistories;
+    }
+
+    /**
+     * @return The notes
+     */
+    public List<PregnancyNote> getPregnancyNotes() {
+        return pregnancyNotes;
+    }
+
+    /**
+     * @param pregnancyNotes The pregnancy notes
+     */
+    public void setPregnancyNotes(List<PregnancyNote> pregnancyNotes) {
+        this.pregnancyNotes = pregnancyNotes;
     }
 }
