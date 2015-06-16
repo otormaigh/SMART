@@ -136,6 +136,7 @@ public class ServiceUserSearchActivity extends BaseActivity {
 						ApiRootModel.getInstance().setServiceUsers(apiRootModel.getServiceUsers());
 						ApiRootModel.getInstance().setPregnancies(apiRootModel.getPregnancies());
 						ApiRootModel.getInstance().setBabies(apiRootModel.getBabies());
+                        ApiRootModel.getInstance().setAntiDHistories(apiRootModel.getAntiDHistories());
 						if (intent != null)
 							startActivity(intent);
 						else {
