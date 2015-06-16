@@ -13,7 +13,7 @@ public class PersonalFields {
     private String dob;
     @Expose
     private String email;
-    @SerializedName("home_address")
+    @SerializedName("home_address_line1")
     @Expose
     private String homeAddress;
     @SerializedName("home_county")
