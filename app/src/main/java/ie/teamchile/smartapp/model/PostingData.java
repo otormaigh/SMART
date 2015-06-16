@@ -50,8 +50,8 @@ public class PostingData {
         this.pregnancyNote = new PregnancyNote(id, note, pregnancyId, serviceProviderId);
     }
 
-    public void putAntiD(String antiD){
-        this.pregnancy = new Pregnancy(antiD);
+    public void putAntiD(String antiD, int serviceUserId){
+        this.pregnancy = new Pregnancy(antiD, serviceUserId);
     }
     private class Login {
         private String username;
@@ -143,9 +143,12 @@ public class PostingData {
     private class Pregnancy {
         @SerializedName("anti_d")
         private String antiD;
+        @SerializedName("service_user_id")
+        private int serviceUserId;
 
-        public Pregnancy(String antiD){
+        public Pregnancy(String antiD, int serviceUserId){
             this.antiD = antiD;
+            this.serviceUserId = serviceUserId;
         }
     }
 }
