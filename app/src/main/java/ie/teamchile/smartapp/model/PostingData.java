@@ -14,6 +14,8 @@ public class PostingData {
     public Appointment appointment;
     @SerializedName("clinic_time_record")
     public ClinicTimeRecord clinicTimeRecord;
+    @SerializedName("notes")
+    public PregnancyNote pregnancyNote;
 
     public PostingData() {
     }
@@ -40,6 +42,10 @@ public class PostingData {
 
     public void updateTimeRecords(String endTime, String date, int clinicId){
         this.clinicTimeRecord = new ClinicTimeRecord(endTime, date, clinicId);
+    }
+
+    public void postPregnancyNote(int id, String note, int pregnancyId, int serviceProviderId){
+        this.pregnancyNote = new PregnancyNote(id, note, pregnancyId, serviceProviderId);
     }
 
     private class Login {
@@ -98,8 +104,6 @@ public class PostingData {
         @Expose
         private String date;
 
-        public ClinicTimeRecord(){ }
-
         public ClinicTimeRecord(String startTime, int clinicId, String date) {
             this.startTime = startTime;
             this.clinicId = clinicId;
@@ -110,6 +114,24 @@ public class PostingData {
             this.endTime = endTime;
             this.date = date;
             this.clinicId = clinicId;
+        }
+    }
+
+    private class PregnancyNote {
+        @Expose
+        private int id;
+        @Expose
+        private String note;
+        @SerializedName("pregnancy_id")
+        private int pregnancyId;
+        @SerializedName("service_provider_id")
+        private int serviceProviderId;
+
+        public PregnancyNote(int id, String note, int pregnancyId, int serviceProviderId){
+            this.id  = id;
+            this.note = note;
+            this.pregnancyId = pregnancyId;
+            this.serviceProviderId = serviceProviderId;
         }
     }
 }
