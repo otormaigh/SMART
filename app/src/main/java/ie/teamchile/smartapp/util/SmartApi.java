@@ -240,4 +240,12 @@ public interface SmartApi {
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
             Callback<ApiRootModel> callback);
+
+    @PUT("/pregnancies/{pregnancy_id}")
+    void putAnitD(
+            @Body PostingData antiDUpdate,
+            @Path("pregnancy_id") int pregnancyId,
+            @Header("Auth-Token") String authToken,
+            @Header("Api-Key") String apiKey,
+            Callback<ApiRootModel> callback);
 }
