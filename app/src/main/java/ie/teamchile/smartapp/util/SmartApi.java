@@ -197,4 +197,47 @@ public interface SmartApi {
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
             Callback<ApiRootModel> callback);
+
+    @GET("/pregnancies/{pregnancy_id}/notes")
+    void getPregnancyNotes(
+            @Path("pregnancy_id") int recordId,
+            @Header("Auth-Token") String authToken,
+            @Header("Api-Key") String apiKey,
+            Callback<ApiRootModel> callback);
+
+    @GET("/pregnancies/{pregnancy_id}/notes/{note_id}")
+    void getPregnancyNoteById(
+            @Path("pregnancy_id") int pregnancyId,
+            @Path("pregnancy_id") int noteId,
+            @Header("Auth-Token") String authToken,
+            @Header("Api-Key") String apiKey,
+            Callback<ApiRootModel> callback);
+
+    @POST("/pregnancies/{pregnancy_id}/notes")
+    void postPregnancyNote(
+            @Body PostingData pregnancyNote,
+            @Path("pregnancy_id") int pregnancyId,
+            @Header("Auth-Token") String authToken,
+            @Header("Api-Key") String apiKey,
+            Callback<ApiRootModel> callback);
+
+    @GET("/anti_dhistories")
+    void getAntiDHistories(
+            @Header("Auth-Token") String authToken,
+            @Header("Api-Key") String apiKey,
+            Callback<ApiRootModel> callback);
+
+    @GET("/anti_dhistories/{history_id}")
+    void getAntiDHistoriesById(
+            @Path("history_id") int historyId,
+            @Header("Auth-Token") String authToken,
+            @Header("Api-Key") String apiKey,
+            Callback<ApiRootModel> callback);
+
+    @GET("/anti_dhistories")
+    void getAntiDHistoriesForPregnacy(
+            @Query("pregnancy_id") int pregnancyId,
+            @Header("Auth-Token") String authToken,
+            @Header("Api-Key") String apiKey,
+            Callback<ApiRootModel> callback);
 }
