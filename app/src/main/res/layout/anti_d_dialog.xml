@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <ListView
+        android:id="@+id/lv_anti_d"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Spinner
+            android:id="@+id/spnr_anti_d"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/anti_d_list"/>
+
+        <ImageButton
+            android:id="@+id/btn_anti_d_save"
+            android:layout_width="70dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_content_save" />
+
+    </LinearLayout>
+</LinearLayout>
