@@ -74,6 +74,7 @@
             </TableRow>
 
             <TableRow
+                android:id="@+id/tr_post_anti_d"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border"
