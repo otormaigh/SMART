@@ -247,7 +247,7 @@ public class CreateAppointmentActivity extends BaseActivity {
 						//postOrAnte();
 						//getRecentPregnancy();
 						pd.dismiss();
-						buildeAlertDialog(searchResults);
+						buildAlertDialog(searchResults);
 					} else {
 						pd.dismiss();
 						Toast.makeText(getApplicationContext(), "No search results found", Toast.LENGTH_SHORT).show();
@@ -262,7 +262,7 @@ public class CreateAppointmentActivity extends BaseActivity {
 		);
 	}
 	
-	private void buildeAlertDialog(List<String> searchResults){      	    	
+	private void buildAlertDialog(List<String> searchResults){      	    	
 		LayoutInflater inflater = getLayoutInflater();
 		alertDialog = new AlertDialog.Builder(CreateAppointmentActivity.this);
 		View convertView = (View) inflater.inflate(R.layout.list, null);
