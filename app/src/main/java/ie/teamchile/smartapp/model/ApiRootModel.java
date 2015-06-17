@@ -36,7 +36,11 @@ public class ApiRootModel {
     @Expose
     private List<ServiceProvider> serviceProviders = new ArrayList<>();
     @Expose
+    private ServiceProvider serviceProvider = new ServiceProvider();
+    @Expose
     private List<Pregnancy> pregnancies = new ArrayList<>();
+    @Expose
+    private Pregnancy pregnancy = new Pregnancy();
     @Expose
     private List<Baby> babies = new ArrayList<>();
     @Expose
@@ -179,18 +183,20 @@ public class ApiRootModel {
         this.clinicsMap = clinicsMap;
     }
 
-    /**
-     * @return The service_providers
-     */
     public List<ServiceProvider> getServiceProviders() {
         return serviceProviders;
     }
 
-    /**
-     * @param serviceProviders The service_providers
-     */
     public void setServiceProviders(List<ServiceProvider> serviceProviders) {
         this.serviceProviders = serviceProviders;
+    }
+
+    public ServiceProvider getServiceProvider() {
+        return serviceProvider;
+    }
+
+    public void setServiceProvider(ServiceProvider serviceProvider) {
+        this.serviceProvider = serviceProvider;
     }
 
     /**
@@ -205,6 +211,14 @@ public class ApiRootModel {
      */
     public void setPregnancies(List<Pregnancy> pregnancies) {
         this.pregnancies = pregnancies;
+    }
+
+    public Pregnancy getPregnancy() {
+        return pregnancy;
+    }
+
+    public void updatePregnancies(int position, Pregnancy pregnancy) {
+        this.pregnancies.set(position, pregnancy);
     }
 
     /**
