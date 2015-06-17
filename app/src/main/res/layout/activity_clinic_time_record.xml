@@ -21,30 +21,28 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="2.0" >
+        android:orientation="horizontal" >
 
         <Button
             android:id="@+id/btn_check_in"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/start_clinic"
-            android:layout_weight="1.0"
             android:theme="@style/CallToActionButton"/>
 
-        <Button
+        <!--<Button
             android:id="@+id/btn_check_out"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/stop_clinic"
             android:layout_weight="1.0"
-            android:theme="@style/CallToActionButton"/>
+            android:theme="@style/CallToActionButton"/>-->
     </LinearLayout>
 
-    <EditText
+    <!--<EditText
         android:id="@+id/et_record_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Enter Record Id Here"/>
+        android:hint="Enter Record Id Here"/>-->
 
 </LinearLayout>
