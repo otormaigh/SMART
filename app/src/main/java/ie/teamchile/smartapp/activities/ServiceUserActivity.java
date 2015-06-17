@@ -28,9 +28,11 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -52,7 +54,7 @@ public class ServiceUserActivity extends BaseActivity {
             tvAnteBloodGroup, tvAnteRhesus, tvAnteLastPeriod;
     private TextView tvUsrHospitalNumber, tvUsrEmail, tvUsrMobileNumber, tvUsrRoad,
             tvUsrCounty, tvUsrPostCode, tvUsrNextOfKinName, tvUsrAge,
-            tvUsrKinContact, tvUsrGestation, tvUsrParity;
+            tvUsrKinContact, tvUsrGestation, tvUsrGestationTitle, tvUsrParity;
     private TextView tvPostBirthMode, tvPostPerineum, tvPostAntiD, tvPostDeliveryDate, tvPostDeliveryTIme,
             tvPostDaysSinceBirth, tvPostBabyGender, tvPostBirthWeight, tvPostVitK, tvPostHearing,
             tvPostFeeding, tvPostNBST;
@@ -83,6 +85,7 @@ public class ServiceUserActivity extends BaseActivity {
     private List<String> antiDDateTime = new ArrayList<>();
     private List<String> antiDProviderName = new ArrayList<>();
     private BaseAdapter adapter;
+    private int antiDOptionSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,6 +138,7 @@ public class ServiceUserActivity extends BaseActivity {
         tvUsrNextOfKinName = (TextView) findViewById(R.id.tv_usr_kin_name);
         tvUsrKinContact = (TextView) findViewById(R.id.tv_usr_kin_contact);
         tvUsrGestation = (TextView) findViewById(R.id.tv_usr_gestation);
+        tvUsrGestationTitle = (TextView) findViewById(R.id.tv_usr_gestation_title);
         tvUsrParity = (TextView) findViewById(R.id.tv_usr_partiy);
 
         tvPostBirthMode = (TextView) findViewById(R.id.tv_post_mode);
@@ -229,9 +233,11 @@ public class ServiceUserActivity extends BaseActivity {
             tvUsrPostCode.setText(postCode);
             tvUsrNextOfKinName.setText(kinName);
             tvUsrKinContact.setText(kinMobile);
-            tvUsrGestation.setText(gestation);
+            if(gestation == null)
+                tvUsrGestationTitle.setVisibility(View.GONE);
+            else
+                tvUsrGestation.setText(gestation);
             tvUsrParity.setText(parity);
-
             tvPostVitK.setText(vitK);
             tvPostHearing.setText(hearing);
             tvPostAntiD.setText(antiD);
@@ -508,29 +514,74 @@ public class ServiceUserActivity extends BaseActivity {
         return "Not Found";
     }
 
-    private void buildAlertDialog() {
+    private void antiDAlertDialog() {
         LayoutInflater inflater = getLayoutInflater();
         alertDialog = new AlertDialog.Builder(ServiceUserActivity.this);
         View convertView = (View) inflater.inflate(R.layout.anti_d_dialog, null);
         ListView list = (ListView) convertView.findViewById(R.id.lv_anti_d);
-        final Spinner spnrAntiD = (Spinner) convertView.findViewById(R.id.spnr_anti_d);
-        ImageButton antiDSave = (ImageButton) convertView.findViewById(R.id.btn_anti_d_save);
-        antiDSave.setOnClickListener(
+        Button btnAntiD = (Button) convertView.findViewById(R.id.btn_anti_d);
+        TextView tvDialogTitle = (TextView) convertView.findViewById(R.id.tv_anti_d_dialog_title);
+        btnAntiD.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String antiD = spnrAntiD.getSelectedItem().toString();
-                        putAntiD(antiD);
+                        //String antiD = spnrAntiD.getSelectedItem().toString();
+                        //putAntiD(antiD);
+                        ad.dismiss();
+
+                        updateAntiDAlertDialog();
                     }
                 });
 
         alertDialog.setView(convertView);
-        alertDialog.setTitle("Anti-D History");
+        tvDialogTitle.setText("Anti-D History");
         adapter = new MyListAdapter(
                 ServiceUserActivity.this,
                 antiDHistory,
                 antiDDateTime,
                 antiDProviderName);
+        list.setAdapter(adapter);
+        ad = alertDialog.show();
+    }
+
+    private void updateAntiDAlertDialog() {
+        String [] arrayFromXml = getResources().getStringArray(R.array.anti_d_list);
+        final List<String> antiDOptions = Arrays.asList(arrayFromXml);
+
+        LayoutInflater inflater = getLayoutInflater();
+        View convertView = (View) inflater.inflate(R.layout.anti_d_update_dialog, null);
+        final ListView list = (ListView) convertView.findViewById(R.id.lv_anti_d);
+        Button btnAntiD = (Button) convertView.findViewById(R.id.btn_anti_d);
+        TextView tvDialogTitle = (TextView) convertView.findViewById(R.id.tv_anti_d_dialog_title);
+
+        btnAntiD.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(list.isSelected()){
+                            String antiD = antiDOptions.get(antiDOptionSelected);
+                            putAntiD(antiD);
+                            Log.d("bugs", "anti d position button = " + antiDOptionSelected);
+                        } else
+                            Toast.makeText(ServiceUserActivity.this, "Please Make A Selection First", Toast.LENGTH_LONG).show();
+                    }
+                });
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                list.setSelected(true);
+                antiDOptionSelected = position;
+                Log.d("bugs", "anti d position list = " + position);
+            }
+        });
+
+        alertDialog.setView(convertView);
+        tvDialogTitle.setText("Select an option below");
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                ServiceUserActivity.this,
+                android.R.layout.simple_list_item_1,
+                antiDOptions);
         list.setAdapter(adapter);
         ad = alertDialog.show();
     }
@@ -548,34 +599,36 @@ public class ServiceUserActivity extends BaseActivity {
                 .setLogLevel(RestAdapter.LogLevel.FULL)
                 .build();
 
+        System.setProperty("http.keepAlive", "false");
+
         api = restAdapter.create(SmartApi.class);
 
         api.putAnitD(
-            puttingAntiD,
-            ApiRootModel.getInstance().getPregnancies().get(p).getId(),
-            ApiRootModel.getInstance().getLogin().getToken(),
-            SmartApi.API_KEY,
-            new Callback<ApiRootModel>() {
-                @Override
-                public void success(ApiRootModel apiRootModel, Response response) {
-                    String antiD = apiRootModel.getPregnancy().getAntiD();
-                    ad.dismiss();
-                    tvPostAntiD.setText(antiD);
-                    antiDHistory.add(0, antiD);
-                    antiDDateTime.add(0, dfHumanReadable.format(c.getTime()));
-                    antiDProviderName.add(0, ApiRootModel.getInstance().getServiceProvider().getName());
-                    ApiRootModel.getInstance().updatePregnancies(p, apiRootModel.getPregnancy());
-                    Log.d("retro", "retro success");
-                    pd.dismiss();
-                    ad.dismiss();
-                }
+                puttingAntiD,
+                ApiRootModel.getInstance().getPregnancies().get(p).getId(),
+                ApiRootModel.getInstance().getLogin().getToken(),
+                SmartApi.API_KEY,
+                new Callback<ApiRootModel>() {
+                    @Override
+                    public void success(ApiRootModel apiRootModel, Response response) {
+                        String antiD = apiRootModel.getPregnancy().getAntiD();
+                        ad.dismiss();
+                        tvPostAntiD.setText(antiD);
+                        antiDHistory.add(0, antiD);
+                        antiDDateTime.add(0, dfHumanReadable.format(c.getTime()));
+                        antiDProviderName.add(0, ApiRootModel.getInstance().getServiceProvider().getName());
+                        ApiRootModel.getInstance().updatePregnancies(p, apiRootModel.getPregnancy());
+                        Log.d("retro", "retro success");
+                        pd.dismiss();
+                        ad.dismiss();
+                    }
 
-                @Override
-                public void failure(RetrofitError error) {
-                    Log.d("retro", "retro failure = " + error);
-                    pd.dismiss();
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.d("retro", "retro failure = " + error);
+                        pd.dismiss();
+                    }
                 }
-            }
         );
     }
 
@@ -627,7 +680,7 @@ public class ServiceUserActivity extends BaseActivity {
                     startActivity(intent6);
                     break;
                 case R.id.tr_post_anti_d:
-                    buildAlertDialog();
+                    antiDAlertDialog();
                     break;
             }
         }
