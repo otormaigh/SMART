@@ -37,8 +37,8 @@ public class ClinicTimeRecordActivity extends BaseActivity {
     private String date;
     private int clinicId;
     private Button btnCheckIn;
-    private Button btnCheckOut;
-    private EditText etRecordId;
+    //private Button btnCheckOut;
+    //private EditText etRecordId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,11 +50,11 @@ public class ClinicTimeRecordActivity extends BaseActivity {
         lvTimeRecordClinics = (ListView) findViewById(R.id.lv_time_record_clinics);
         btnCheckIn = (Button) findViewById(R.id.btn_check_in);
         btnCheckIn.setOnClickListener(new Clicky());
-        btnCheckOut = (Button) findViewById(R.id.btn_check_out);
+        /*btnCheckOut = (Button) findViewById(R.id.btn_check_out);
         btnCheckOut.setOnClickListener(new Clicky());
         etRecordId = (EditText) findViewById(R.id.et_record_id);
 
-        btnCheckOut.setEnabled(false);
+        btnCheckOut.setEnabled(false);*/
 
         setActionBarTitle("Clinic Time");
 
@@ -126,13 +126,12 @@ public class ClinicTimeRecordActivity extends BaseActivity {
             Log.d("Checkin", "now = " + now + " then = " + then + " clinic id = " + clinicId);
             date = dfDateOnly.format(c.getTime());
             switch(v.getId()){
-
                 case R.id.btn_check_in:
                     putStartTime(now, clinicId);
                     break;
-                case R.id.btn_check_out:
+                /*case R.id.btn_check_out:
                     putEndTime(then, date, clinicId);
-                    break;
+                    break;*/
             }
         }
     }
@@ -174,7 +173,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                 });
     }
 
-    private void putEndTime(String then, String date, int clinicId){
+    /*private void putEndTime(String then, String date, int clinicId){
           int recordId = Integer.parseInt(etRecordId.getText().toString());
         //int recordId = ApiRootModel.getInstance().getClinicTimeRecords().get(0).getId();
         PostingData timeRecord = new PostingData();
@@ -208,5 +207,5 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                         pd.dismiss();
                     }
                 });
-    }
+    }*/
 }
