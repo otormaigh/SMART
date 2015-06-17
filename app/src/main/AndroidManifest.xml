@@ -82,7 +82,8 @@
         <activity
             android:name=".activities.ParityDetailsActivity"
             android:launchMode="singleTask"
-            android:parentActivityName=".activities.QuickMenuActivity" />
+            android:parentActivityName=".activities.QuickMenuActivity"
+            android:screenOrientation="sensorLandscape"/>
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value=".activities.QuickMenuActivity" />
