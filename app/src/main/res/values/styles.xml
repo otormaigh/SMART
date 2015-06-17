@@ -21,7 +21,7 @@
     </style>
 
     <style name="SecondaryButton">
-        <item name="colorButtonNormal">@color/lightBlue</item>
+        <item name="colorButtonNormal">@color/teal</item>
         <item name="android:textColor">@color/black</item>
     </style>
 </resources>

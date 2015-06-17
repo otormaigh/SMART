@@ -16,7 +16,7 @@
         android:id="@+id/lv_time_record_clinics"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:listSelector="@color/lightBlue"/>
+        android:listSelector="@color/teal"/>
 
     <LinearLayout
         android:layout_width="match_parent"

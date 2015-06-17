@@ -77,7 +77,7 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.navigation_drawer_layout);
 
-        spinnerWarning = getResources().getColor(R.color.lightBlue);
+        spinnerWarning = getResources().getColor(R.color.teal);
 
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //getActionBar().setCustomView(R.layout.action_bar_custom);
