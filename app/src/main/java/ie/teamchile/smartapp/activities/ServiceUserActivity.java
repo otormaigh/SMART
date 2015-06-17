@@ -41,6 +41,7 @@ import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.util.SmartApi;
 import ie.teamchile.smartapp.util.ToastAlert;
 import retrofit.Callback;
+import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -111,7 +112,7 @@ public class ServiceUserActivity extends BaseActivity {
             String formatted = "";
             try {
                 parsed = dfDateTimeWMillisZone.parse(ApiRootModel.getInstance().getAntiDHistories().get(i).getCreatedAt());
-                formatted = dfDateMonthNameYear.format(parsed);
+                formatted = dfHumanReadable.format(parsed);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -536,12 +537,12 @@ public class ServiceUserActivity extends BaseActivity {
 
         showProgressDialog(this, "Updating Anti D");
 
-        /*RestAdapter restAdapter = new RestAdapter.Builder()
+        RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(SmartApi.BASE_URL)
                 .setLogLevel(RestAdapter.LogLevel.FULL)
                 .build();
 
-        api = restAdapter.create(SmartApi.class);*/
+        api = restAdapter.create(SmartApi.class);
 
         api.putAnitD(
             puttingAntiD,
@@ -551,6 +552,9 @@ public class ServiceUserActivity extends BaseActivity {
             new Callback<ApiRootModel>() {
                 @Override
                 public void success(ApiRootModel apiRootModel, Response response) {
+                    for(int i = 0; i < apiRootModel.getAntiDHistories().size(); i++){
+                        ApiRootModel.getInstance().addAntiDHistory(apiRootModel.getAntiDHistories().get(i));
+                    }
                     Log.d("retro", "retro success");
                     pd.dismiss();
                 }

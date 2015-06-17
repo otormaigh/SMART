@@ -289,6 +289,10 @@ public class ApiRootModel {
         this.antiDHistories = antiDHistories;
     }
 
+    public void addAntiDHistory(AntiDHistory antiDHistory){
+        this.antiDHistories.add(antiDHistory);
+    }
+
     /**
      * @return The notes
      */
