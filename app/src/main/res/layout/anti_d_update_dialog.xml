@@ -20,7 +20,8 @@
     <ListView
         android:id="@+id/lv_anti_d"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:listSelector="@color/teal"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,8 +32,8 @@
             android:id="@+id/btn_anti_d"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Update History"
-            android:theme="@style/SecondaryButton"/>
+            android:text="Add to Anti D History"
+            android:theme="@style/CallToActionButton"/>
 
     </LinearLayout>
 </LinearLayout>

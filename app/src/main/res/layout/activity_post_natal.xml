@@ -100,6 +100,38 @@
             </TableRow>
 
             <TableRow
+                android:id="@+id/tr_post_anti_d_history"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:layout_marginTop="-0.8dp"
+                android:weightSum="1.0">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Anti D History"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/light_grey"
+                    android:textSize="@dimen/text_natal_field"
+                    android:layout_weight="0.1"/>
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.9"/>
+
+                <ImageView
+                    android:id="@+id/btn_post_anti_d"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:clickable="true"
+                    android:gravity="end"
+                    android:src="@drawable/ic_file_document"/>
+
+            </TableRow>
+
+            <TableRow
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border"
