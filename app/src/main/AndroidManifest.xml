@@ -12,13 +12,14 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_MEDIA_STORAGE" />
 
-<!--         android:name=".maiti.MaitiApplication" //this goes between application tags -->
+    <android:uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- android:name=".maiti.MaitiApplication" //this goes between application tags -->
     <application
         android:allowBackup="false"
         android:icon="@drawable/ic_launcher"
@@ -28,7 +29,8 @@
             android:name=".activities.LoginActivity"
             android:label="@string/app_name"
             android:screenOrientation="sensorPortrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"> >
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
+ >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,9 +39,10 @@
         </activity>
         <activity
             android:name=".activities.AppointmentCalendarActivity"
+            android:launchMode="singleTask"
             android:parentActivityName=".activities.QuickMenuActivity"
-            android:screenOrientation="sensorPortrait"
-            android:launchMode="singleTask" />
+            android:screenOrientation="sensorPortrait" />
+
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value=".activities.QuickMenuActivity" />
@@ -48,6 +51,7 @@
             android:name=".activities.AppointmentTypeSpinnerActivity"
             android:parentActivityName=".activities.QuickMenuActivity"
             android:screenOrientation="sensorPortrait" />
+
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value=".activities.QuickMenuActivity" />
@@ -56,6 +60,7 @@
             android:name=".activities.ClinicTimeRecordActivity"
             android:parentActivityName=".activities.QuickMenuActivity"
             android:screenOrientation="sensorPortrait" />
+
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value=".activities.QuickMenuActivity" />
@@ -63,18 +68,20 @@
         <activity
             android:name=".activities.ConfirmAppointmentActivity"
             android:launchMode="singleTask"
+            android:noHistory="true"
             android:parentActivityName=".activities.QuickMenuActivity"
-            android:screenOrientation="sensorPortrait" 
-            android:noHistory="true" />
+            android:screenOrientation="sensorPortrait" />
+
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value=".activities.QuickMenuActivity" />
 
         <activity
             android:name=".activities.CreateAppointmentActivity"
+            android:launchMode="singleTask"
             android:parentActivityName=".activities.QuickMenuActivity"
-            android:screenOrientation="sensorPortrait"
-            android:launchMode="singleTask" />
+            android:screenOrientation="sensorPortrait" />
+
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value=".activities.QuickMenuActivity" />
@@ -83,7 +90,8 @@
             android:name=".activities.ParityDetailsActivity"
             android:launchMode="singleTask"
             android:parentActivityName=".activities.QuickMenuActivity"
-            android:screenOrientation="sensorLandscape"/>
+            android:screenOrientation="sensorLandscape" />
+
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value=".activities.QuickMenuActivity" />
@@ -92,11 +100,11 @@
             android:name=".activities.QuickMenuActivity"
             android:launchMode="singleTask"
             android:screenOrientation="sensorPortrait" />
-
         <activity
             android:name=".activities.ServiceUserActivity"
             android:parentActivityName=".activities.QuickMenuActivity"
             android:screenOrientation="sensorPortrait" />
+
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value=".activities.QuickMenuActivity" />
@@ -105,6 +113,7 @@
             android:name=".activities.ServiceUserSearchActivity"
             android:parentActivityName=".activities.QuickMenuActivity"
             android:screenOrientation="sensorPortrait" />
+
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value=".activities.QuickMenuActivity" />
@@ -113,6 +122,16 @@
             android:name=".activities.TodayAppointmentActivity"
             android:parentActivityName=".activities.QuickMenuActivity"
             android:screenOrientation="sensorPortrait" />
+
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".activities.QuickMenuActivity" />
+
+        <activity
+            android:name=".activities.PregnancyNotesActivity"
+            android:parentActivityName=".activities.QuickMenuActivity"
+            android:screenOrientation="sensorPortrait" />
+
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value=".activities.QuickMenuActivity" />
