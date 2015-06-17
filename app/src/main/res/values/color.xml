@@ -6,8 +6,6 @@
     <color name="black">#000000</color>
     <color name="green">#2BE10E</color>
     <color name="blue">#198CFF</color>
-    <!--<color name="lightBlue">#66CCFF</color>-->
-    <color name="lightBlue">#EF9A9A</color>
     <color name="purple">#C80CDF</color>
     <color name="brown">#CC5E03</color>
     <color name="grey">#676766</color>
@@ -19,7 +17,7 @@
     <color name="spinner_warning">#B2DFDB</color>
     <color name="action_button">#43A047</color>
     <color name="free_slot">#81C784</color>
-
+    <color name="teal">#B2DFDB</color>
     <color name="unattended">#FFCC80</color>
     <color name="attended">#26A69A</color>
 
