@@ -132,6 +132,7 @@
             </TableRow>
 
             <TableRow
+                android:id="@+id/tr_midwife_notes"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border"
@@ -160,7 +161,7 @@
                     android:adjustViewBounds="true"
                     android:clickable="true"
                     android:gravity="end"
-                    android:src="@drawable/ic_action_forward"/>
+                    android:src="@drawable/ic_file_document"/>
             </TableRow>
         </LinearLayout>
 

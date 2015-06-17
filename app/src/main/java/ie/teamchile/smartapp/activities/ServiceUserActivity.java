@@ -72,7 +72,7 @@ public class ServiceUserActivity extends BaseActivity {
     private String sex_female = "emale";
     private Dialog dialog;
     private Button bookAppointmentButton;
-    private TableRow trParity, trAntiD;
+    private TableRow trParity, trAntiD, trMidwifeNotes;
     private Date dobAsDate = null;
     private Intent userCallIntent, userSmsIntent, userEmailIntent;
     private Calendar cal = Calendar.getInstance();
@@ -162,6 +162,9 @@ public class ServiceUserActivity extends BaseActivity {
 
         trAntiD = (TableRow) findViewById(R.id.tr_post_anti_d);
         trAntiD.setOnClickListener(new ButtonClick());
+
+        trMidwifeNotes = (TableRow) findViewById(R.id.tr_midwife_notes);
+        trMidwifeNotes.setOnClickListener(new ButtonClick());
 
         try {
             dob = ApiRootModel.getInstance().getServiceUsers().get(0).getPersonalFields().getDob();
@@ -659,12 +662,13 @@ public class ServiceUserActivity extends BaseActivity {
     }
 
     private class ButtonClick implements View.OnClickListener, DialogInterface {
+        Intent intent;
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.btn_usr_book_appointment:
                     setSharedPrefs();
-                    Intent intentBook = new Intent(ServiceUserActivity.this, AppointmentTypeSpinnerActivity.class);
-                    startActivity(intentBook);
+                    intent = new Intent(ServiceUserActivity.this, AppointmentTypeSpinnerActivity.class);
+                    startActivity(intent);
                     break;
                 case R.id.ll_usr_contact:
                     dialogContact(userContactList);
@@ -676,11 +680,15 @@ public class ServiceUserActivity extends BaseActivity {
                     gotoMaps();
                     break;
                 case R.id.tr_ante_parity:
-                    Intent intent6 = new Intent(ServiceUserActivity.this, ParityDetailsActivity.class);
-                    startActivity(intent6);
+                    intent = new Intent(ServiceUserActivity.this, ParityDetailsActivity.class);
+                    startActivity(intent);
                     break;
                 case R.id.tr_post_anti_d:
                     antiDAlertDialog();
+                    break;
+                case R.id.tr_midwife_notes:
+                    intent = new Intent(ServiceUserActivity.this, PregnancyNotesActivity.class);
+                    startActivity(intent);
                     break;
             }
         }
