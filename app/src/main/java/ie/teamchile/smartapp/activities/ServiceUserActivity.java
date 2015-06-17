@@ -82,6 +82,7 @@ public class ServiceUserActivity extends BaseActivity {
     private List<String> antiDHistory = new ArrayList<>();
     private List<String> antiDDateTime = new ArrayList<>();
     private List<String> antiDProviderName = new ArrayList<>();
+    private BaseAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,20 +108,7 @@ public class ServiceUserActivity extends BaseActivity {
 
         tabHost.setCurrentTab(1);
 
-        for(int i = 0; i < ApiRootModel.getInstance().getAntiDHistories().size(); i++) {
-            Date parsed;
-            String formatted = "";
-            try {
-                parsed = dfDateTimeWMillisZone.parse(ApiRootModel.getInstance().getAntiDHistories().get(i).getCreatedAt());
-                formatted = dfHumanReadable.format(parsed);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-            antiDHistory.add(ApiRootModel.getInstance().getAntiDHistories().get(i).getAntiD());
-            antiDDateTime.add(formatted);
-            antiDProviderName.add(ApiRootModel.getInstance().getAntiDHistories().get(i).getServiceProviderName());
-        }
+        setAntiD();
 
         llUserContact = (LinearLayout) findViewById(R.id.ll_usr_contact);
         llUserContact.setOnClickListener(new ButtonClick());
@@ -263,6 +251,23 @@ public class ServiceUserActivity extends BaseActivity {
             tvPostDaysSinceBirth.setText(daysSinceBirth);
         } catch (NullPointerException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void setAntiD(){
+        for(int i = 0; i < ApiRootModel.getInstance().getAntiDHistories().size(); i++) {
+            Date parsed;
+            String formatted = "";
+            try {
+                parsed = dfDateTimeWMillisZone.parse(ApiRootModel.getInstance().getAntiDHistories().get(i).getCreatedAt());
+                formatted = dfHumanReadable.format(parsed);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            antiDHistory.add(ApiRootModel.getInstance().getAntiDHistories().get(i).getAntiD());
+            antiDDateTime.add(formatted);
+            antiDProviderName.add(ApiRootModel.getInstance().getAntiDHistories().get(i).getServiceProviderName());
         }
     }
 
@@ -521,7 +526,7 @@ public class ServiceUserActivity extends BaseActivity {
 
         alertDialog.setView(convertView);
         alertDialog.setTitle("Anti-D History");
-        BaseAdapter adapter = new MyListAdapter(
+        adapter = new MyListAdapter(
                 ServiceUserActivity.this,
                 antiDHistory,
                 antiDDateTime,
@@ -531,6 +536,7 @@ public class ServiceUserActivity extends BaseActivity {
     }
 
     private void putAntiD(String antiD) {
+        c = Calendar.getInstance();
         PostingData puttingAntiD = new PostingData();
 
         puttingAntiD.putAntiD(antiD, userId);
@@ -552,10 +558,41 @@ public class ServiceUserActivity extends BaseActivity {
             new Callback<ApiRootModel>() {
                 @Override
                 public void success(ApiRootModel apiRootModel, Response response) {
-                    for(int i = 0; i < apiRootModel.getAntiDHistories().size(); i++){
-                        ApiRootModel.getInstance().addAntiDHistory(apiRootModel.getAntiDHistories().get(i));
-                    }
+                    String antiD = apiRootModel.getPregnancy().getAntiD();
+                    ad.dismiss();
+                    tvPostAntiD.setText(antiD);
+                    antiDHistory.add(0, antiD);
+                    antiDDateTime.add(0, dfHumanReadable.format(c.getTime()));
+                    antiDProviderName.add(0, ApiRootModel.getInstance().getServiceProvider().getName());
+                    ApiRootModel.getInstance().updatePregnancies(p, apiRootModel.getPregnancy());
                     Log.d("retro", "retro success");
+                    pd.dismiss();
+                    ad.dismiss();
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    Log.d("retro", "retro failure = " + error);
+                    pd.dismiss();
+                }
+            }
+        );
+    }
+
+    private void getAntiDHistory(){
+        showProgressDialog(this, "Updating Anti D");
+
+        api.getAntiDHistoriesForPregnacy(
+            ApiRootModel.getInstance().getPregnancies().get(0).getId(),
+            ApiRootModel.getInstance().getLogin().getToken(),
+            SmartApi.API_KEY,
+            new Callback<ApiRootModel>() {
+                @Override
+                public void success(ApiRootModel apiRootModel, Response response) {
+                    Log.d("retro", "retro success");
+                    ApiRootModel.getInstance().setAntiDHistories(apiRootModel.getAntiDHistories());
+                    setAntiD();
+                    adapter.notifyDataSetChanged();
                     pd.dismiss();
                 }
 
@@ -593,7 +630,6 @@ public class ServiceUserActivity extends BaseActivity {
                     buildAlertDialog();
                     break;
             }
-
         }
 
         @Override
@@ -607,7 +643,6 @@ public class ServiceUserActivity extends BaseActivity {
 
     private class MyListAdapter extends BaseAdapter {
         Context context;
-        LayoutInflater layoutInflater;
         List<String> antiDHistory = new ArrayList<>();
         List<String> antiDDateTime = new ArrayList<>();
         List<String> antiDProviderName = new ArrayList<>();

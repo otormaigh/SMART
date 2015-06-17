@@ -110,55 +110,76 @@ public class QuickMenuActivity extends BaseActivity {
 		showProgressDialog(QuickMenuActivity.this, "Updating Information");
 
 		api.getAllAppointments(
-				ApiRootModel.getInstance().getLogin().getToken(),
-				CredentialsEnum.API_KEY.toString(),
-				new Callback<ApiRootModel>() {
-					@Override
-					public void success(ApiRootModel apiRootModel, Response response) {
-						ApiRootModel.getInstance().setAppointments(apiRootModel.getAppointments());
-						List<Integer> apptIdList;
-						Map<String, List<Integer>> dateApptIdMap;
-						Map<Integer, Map<String, List<Integer>>> clinicDateApptIdMap = new HashMap<>();
-						Map<Integer, Appointment> idApptMap = new HashMap<>();
+                ApiRootModel.getInstance().getLogin().getToken(),
+                CredentialsEnum.API_KEY.toString(),
+                new Callback<ApiRootModel>() {
+                    @Override
+                    public void success(ApiRootModel apiRootModel, Response response) {
+                        ApiRootModel.getInstance().setAppointments(apiRootModel.getAppointments());
+                        List<Integer> apptIdList;
+                        Map<String, List<Integer>> dateApptIdMap;
+                        Map<Integer, Map<String, List<Integer>>> clinicDateApptIdMap = new HashMap<>();
+                        Map<Integer, Appointment> idApptMap = new HashMap<>();
 
-						for(int i = 0; i < apiRootModel.getAppointments().size(); i++){
-							apptIdList = new ArrayList<>();
-							dateApptIdMap = new HashMap<>();
-							String apptDate = apiRootModel.getAppointments().get(i).getDate();
-							int apptId = apiRootModel.getAppointments().get(i).getId();
-							int clinicId = apiRootModel.getAppointments().get(i).getClinicId();
-							Appointment appt = apiRootModel.getAppointments().get(i);
+                        for (int i = 0; i < apiRootModel.getAppointments().size(); i++) {
+                            apptIdList = new ArrayList<>();
+                            dateApptIdMap = new HashMap<>();
+                            String apptDate = apiRootModel.getAppointments().get(i).getDate();
+                            int apptId = apiRootModel.getAppointments().get(i).getId();
+                            int clinicId = apiRootModel.getAppointments().get(i).getClinicId();
+                            Appointment appt = apiRootModel.getAppointments().get(i);
 
-							if(clinicDateApptIdMap.get(clinicId) != null){
-								dateApptIdMap = clinicDateApptIdMap.get(clinicId);
-								if(dateApptIdMap.get(apptDate) != null){
-									apptIdList = dateApptIdMap.get(apptDate);
-								}
-							}
-							apptIdList.add(apptId);
-							dateApptIdMap.put(apptDate, apptIdList);
+                            if (clinicDateApptIdMap.get(clinicId) != null) {
+                                dateApptIdMap = clinicDateApptIdMap.get(clinicId);
+                                if (dateApptIdMap.get(apptDate) != null) {
+                                    apptIdList = dateApptIdMap.get(apptDate);
+                                }
+                            }
+                            apptIdList.add(apptId);
+                            dateApptIdMap.put(apptDate, apptIdList);
 
-							clinicDateApptIdMap.put(clinicId, dateApptIdMap);
-							idApptMap.put(apptId, appt);
-						}
-						ApiRootModel.getInstance().setClinicDateApptIdMap(clinicDateApptIdMap);
-						ApiRootModel.getInstance().setIdApptMap(idApptMap);
-						Log.d("Retrofit", "appointments finished");
-						done++;
-						Log.d("Retrofit", "done = " + done);
-					}
+                            clinicDateApptIdMap.put(clinicId, dateApptIdMap);
+                            idApptMap.put(apptId, appt);
+                        }
+                        ApiRootModel.getInstance().setClinicDateApptIdMap(clinicDateApptIdMap);
+                        ApiRootModel.getInstance().setIdApptMap(idApptMap);
+                        Log.d("Retrofit", "appointments finished");
+                        done++;
+                        Log.d("Retrofit", "done = " + done);
+                    }
 
-					@Override
-					public void failure(RetrofitError error) {
-						Log.d("Retrofit", "appointments retro failure " + error);
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.d("Retrofit", "appointments retro failure " + error);
                         done++;
                         Toast.makeText(QuickMenuActivity.this,
                                 "Error downloading appointments\n" +
-                                "please try again",
+                                        "please try again",
                                 Toast.LENGTH_LONG).show();
                     }
-				}
-		);
+                }
+        );
+
+        api.getServiceProviderById(
+                ApiRootModel.getInstance().getLogin().getId(),
+                ApiRootModel.getInstance().getLogin().getToken(),
+                SmartApi.API_KEY,
+                new Callback<ApiRootModel>() {
+                    @Override
+                    public void success(ApiRootModel apiRootModel, Response response) {
+                        Log.d("retro", "retro success");
+                        ApiRootModel.getInstance().setServiceProvider(apiRootModel.getServiceProviders().get(0));
+                        Log.d("Retrofit", "service provider finished");
+                        done++;
+                        Log.d("Retrofit", "done = " + done);
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.d("retro", "retro failure = " + error);
+                    }
+                }
+        );
 
 		api.getAllServiceOptions(
 				ApiRootModel.getInstance().getLogin().getToken(),
@@ -215,7 +236,7 @@ public class QuickMenuActivity extends BaseActivity {
 
 			@Override
 			public void onFinish() {
-				if(done == 3)
+				if(done == 4)
 					pd.dismiss();
 				else
 					timer.start();
