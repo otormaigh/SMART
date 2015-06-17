@@ -222,4 +222,8 @@
     <string name="start_clinic">Start Clinic</string>
     <string name="stop_clinic">End Clinic</string>
     <string name="select_clinic">Select a Clinic from Below</string>
+
+    <!-- PREGNANCY NOTES -->
+    <string name="enter_note_hint"><i>Enter Note Here . . .</i></string>
+
 </resources>
