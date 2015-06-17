@@ -150,7 +150,7 @@ public interface SmartApi {
 
     @GET("/service_providers/{service_provider_id}")
     void getServiceProviderById(
-            @Path("service_provider_id") String serviceProviderId,
+            @Path("service_provider_id") int serviceProviderId,
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
             Callback<ApiRootModel> callback);
