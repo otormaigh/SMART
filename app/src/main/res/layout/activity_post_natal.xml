@@ -18,11 +18,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="start"
                 android:text="@string/mother_info"
-                android:textColor="@color/grey"
                 android:textSize="@dimen/text_small"
-                android:paddingBottom="@dimen/padding_Xsmall"
-                android:paddingTop="@dimen/padding_Xsmall"
-                android:background="@color/very_light_grey"/>
+                android:theme="@style/SubSection"/>
 
             <TableRow
                 android:layout_width="fill_parent"
@@ -175,11 +172,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="start"
                 android:text="@string/baby_info"
-                android:textColor="@color/grey"
                 android:textSize="@dimen/text_small"
-                android:background="@color/very_light_grey"
-                android:paddingBottom="@dimen/padding_Xsmall"
-                android:paddingTop="@dimen/padding_Xsmall"/>
+                android:theme="@style/SubSection"/>
 
             <TableRow
                 android:layout_width="fill_parent"
