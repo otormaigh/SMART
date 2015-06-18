@@ -6,38 +6,16 @@
     android:orientation="vertical"
     tools:context="ie.teamchile.smartapp.activities.MidwiferyLogActivity">
 
+    <Button
+        android:id="@+id/btn_add_midwifery_note"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Pregnancy Note"
+        android:theme="@style/SecondaryButton" />
+
     <ListView
         android:id="@+id/lv_midwifery_log"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:orientation="vertical">
-
-            <EditText
-                android:id="@+id/et_midwifery_notes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:hint="@string/enter_note_hint"
-                android:textColor="@color/black"
-                android:textColorHint="#A9A9A9"/>
-
-            <Button
-                android:id="@+id/btn_add_midwifery_note"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Add Pregnancy Note"
-                android:theme="@style/CallToActionButton" />
-        </LinearLayout>
-
-    </RelativeLayout>
+        android:layout_height="match_parent"/>
 
 </LinearLayout>
