@@ -110,7 +110,7 @@
     <string name="mother_info">Mother</string>
     <string name="birth_mode">Birth Mode</string>
     <string name="perineum">Perineum</string>
-    <string name="anti_d">Anti D</string>
+    <string name="anti_d">Anti-D</string>
     <string name="midwives_notes">Midwifery Log</string>
     <string name="baby_info">Baby</string>
     <string name="delivery_date">Date of delivery</string>
@@ -226,5 +226,9 @@
     <!-- MIDWIFERY LOG -->
     <string name="enter_note_hint"><i>Enter Note Here . . .</i></string>
     <string name="midwifery_log">Midwifery Log</string>
+    
+    <!-- ANTI-D DIALOG -->
+    <string name="add_to_history">Add To Anti-D History</string>
+    <string name="save_option">Save Option</string>
 
 </resources>

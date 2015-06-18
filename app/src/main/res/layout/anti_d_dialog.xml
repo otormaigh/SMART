@@ -31,7 +31,7 @@
             android:id="@+id/btn_anti_d"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Update History"
+            android:text="@string/add_to_history"
             android:theme="@style/SecondaryButton"/>
 
     </LinearLayout>
