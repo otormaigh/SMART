@@ -3,6 +3,9 @@ package ie.teamchile.smartapp.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by user on 6/16/15.
  */
@@ -20,6 +23,10 @@ public class PregnancyNote {
     @SerializedName("service_provider_id")
     @Expose
     private Integer serviceProviderId;
+    @SerializedName("service_provider_name")
+    @Expose
+    private String serviceProviderName;
+
 
     /**
      * @return The createdAt
@@ -89,5 +96,13 @@ public class PregnancyNote {
      */
     public void setServiceProviderId(Integer serviceProviderId) {
         this.serviceProviderId = serviceProviderId;
+    }
+
+    public String getServiceProviderName() {
+        return serviceProviderName;
+    }
+
+    public void setServiceProviderName(String serviceProviderName) {
+        this.serviceProviderName = serviceProviderName;
     }
 }

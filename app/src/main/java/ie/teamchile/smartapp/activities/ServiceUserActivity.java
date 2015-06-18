@@ -268,7 +268,7 @@ public class ServiceUserActivity extends BaseActivity {
             String formatted = "";
             try {
                 parsed = dfDateTimeWMillisZone.parse(ApiRootModel.getInstance().getAntiDHistories().get(i).getCreatedAt());
-                formatted = dfHumanReadable.format(parsed);
+                formatted = dfHumanReadableTimeDate.format(parsed);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -617,7 +617,7 @@ public class ServiceUserActivity extends BaseActivity {
                         ad.dismiss();
                         tvPostAntiD.setText(antiD);
                         antiDHistory.add(0, antiD);
-                        antiDDateTime.add(0, dfHumanReadable.format(c.getTime()));
+                        antiDDateTime.add(0, dfHumanReadableTimeDate.format(c.getTime()));
                         antiDProviderName.add(0, ApiRootModel.getInstance().getServiceProvider().getName());
                         ApiRootModel.getInstance().updatePregnancies(p, apiRootModel.getPregnancy());
                         Log.d("retro", "retro success");
