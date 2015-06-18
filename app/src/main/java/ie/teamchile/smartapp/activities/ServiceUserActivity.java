@@ -531,7 +531,7 @@ public class ServiceUserActivity extends BaseActivity {
                 ad.dismiss();
             }
         });
-        
+
         btnAntiD.setOnClickListener(
                 new View.OnClickListener() {
                     @Override

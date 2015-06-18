@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/ll_list_footer"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/et_midwifery_notes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:hint="@string/enter_note_hint"
+        android:textColor="@color/black"
+        android:textColorHint="#A9A9A9"/>
+
+    <Button
+        android:id="@+id/btn_add_midwifery_note"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Pregnancy Note"
+        android:theme="@style/CallToActionButton"/>
+</LinearLayout>
