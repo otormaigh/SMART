@@ -133,32 +133,41 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border"
-                android:weightSum="1.0"
                 android:layout_marginTop="-0.8dp">
 
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.1"
-                    android:gravity="center_vertical"
-                    android:text="@string/midwives_notes"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_natal_field"
-                    android:textStyle="bold"/>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.9"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="@string/midwifery_log"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textColor="@color/light_grey"
+                        android:textSize="@dimen/text_natal_field"
+                        android:layout_alignParentLeft="true"/>
 
-                <ImageView
-                    android:id="@+id/tv_post_midwives_notes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:adjustViewBounds="true"
-                    android:clickable="true"
-                    android:gravity="end"
-                    android:src="@drawable/ic_file_document"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="View"
+                        android:textSize="@dimen/text_natal_field"
+                        android:paddingRight="@dimen/padding_Xsmall"
+                        android:layout_toLeftOf="@+id/tv_post_midwives_notes"/>
+
+                    <ImageView
+                        android:id="@+id/tv_post_midwives_notes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:clickable="true"
+                        android:gravity="end"
+                        android:src="@drawable/ic_file_document"
+                        android:layout_alignParentRight="true"/>
+
+                </RelativeLayout>
             </TableRow>
         </LinearLayout>
 
