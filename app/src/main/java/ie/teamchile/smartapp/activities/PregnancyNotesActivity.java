@@ -10,5 +10,7 @@ public class PregnancyNotesActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentForNav(R.layout.activity_pregnancy_notes);
+
+        setActionBarTitle(getResources().getString(R.string.midwifery_log));
     }
 }
