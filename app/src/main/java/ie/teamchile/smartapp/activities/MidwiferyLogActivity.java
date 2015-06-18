@@ -1,19 +1,25 @@
 package ie.teamchile.smartapp.activities;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import ie.teamchile.smartapp.R;
@@ -36,6 +42,8 @@ public class MidwiferyLogActivity extends BaseActivity {
     private List<String> authorList = new ArrayList<>();
     private List<String> notesList = new ArrayList<>();
     private BaseAdapter adapter;
+    private AlertDialog.Builder alertDialog;
+    private AlertDialog ad;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +57,10 @@ public class MidwiferyLogActivity extends BaseActivity {
         btnAddNote = (Button) findViewById(R.id.btn_add_midwifery_note);
         btnAddNote.setOnClickListener(new Clicky());
         etNote = (EditText) findViewById(R.id.et_midwifery_notes);
+
+       /* LayoutInflater inflater = getLayoutInflater();
+        ViewGroup footer = (ViewGroup) inflater.inflate(R.layout.midwifery_log_footer, lvNotes, false);
+        lvNotes.addFooterView(footer);*/
 
         ApiRootModel.getInstance().setPregnancyNotes(
                 ApiRootModel.getInstance().getPregnancies().get(p).getPregnancyNotes());
@@ -132,8 +144,9 @@ public class MidwiferyLogActivity extends BaseActivity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.btn_add_midwifery_note:
-                    note = etNote.getText().toString();
-                    postNote(note);
+                    //note = etNote.getText().toString();
+                    //postNote(note);
+                    addNoteDialog();
                     break;
             }
         }
@@ -183,5 +196,38 @@ public class MidwiferyLogActivity extends BaseActivity {
             tvNote.setText(notesList.get(position));
             return convertView;
         }
+    }
+
+    private void addNoteDialog() {
+        alertDialog = new AlertDialog.Builder(MidwiferyLogActivity.this);
+        LayoutInflater inflater = getLayoutInflater();
+        View convertView = (View) inflater.inflate(R.layout.dialog_add_note, null);
+        TextView tvDialogTitle = (TextView) convertView.findViewById(R.id.tv_dialog_title);
+        final EditText etEnterNote = (EditText) convertView.findViewById(R.id.et_midwifery_notes);
+        ImageView ivExit = (ImageView) convertView.findViewById(R.id.iv_exit_dialog);
+        ivExit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ad.dismiss();
+            }
+        });
+        Button btnSaveNote = (Button) convertView.findViewById(R.id.btn_save_note);
+        btnSaveNote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(etEnterNote.getText().toString().equals("")){
+                    etEnterNote.setError("This Cannot Be Empty");
+                } else {
+                    postNote(etEnterNote.getText().toString());
+                    ad.dismiss();
+                }
+            }
+        });
+
+        alertDialog.setView(convertView);
+
+        tvDialogTitle.setText("Add Note Below");
+
+        ad = alertDialog.show();
     }
 }
