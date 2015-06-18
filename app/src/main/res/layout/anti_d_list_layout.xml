@@ -11,8 +11,7 @@
         android:layout_height="wrap_content"
         android:text="11:11, 16/06/2015"
         android:textSize="@dimen/text_x_x_small"
-        android:textColor="@color/grey"
-        android:background="@color/very_light_grey"/>
+        android:textColor="@color/grey"/>
 
     <LinearLayout
         android:layout_width="match_parent"
