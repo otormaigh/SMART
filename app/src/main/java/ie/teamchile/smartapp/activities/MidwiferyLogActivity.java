@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
@@ -201,7 +202,6 @@ public class MidwiferyLogActivity extends BaseActivity {
     }
 
     private void addNoteDialog() {
-        alertDialog = new AlertDialog.Builder(MidwiferyLogActivity.this);
         LayoutInflater inflater = getLayoutInflater();
         View convertView = (View) inflater.inflate(R.layout.dialog_add_note, null);
         TextView tvDialogTitle = (TextView) convertView.findViewById(R.id.tv_dialog_title);
@@ -242,11 +242,11 @@ public class MidwiferyLogActivity extends BaseActivity {
             }
         });
 
-
+        alertDialog = new AlertDialog.Builder(MidwiferyLogActivity.this);
         alertDialog.setView(convertView);
-
         tvDialogTitle.setText("Add Note Below");
-
-        ad = alertDialog.show();
+        ad = alertDialog.create();
+        ad.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        ad.show();
     }
 }
