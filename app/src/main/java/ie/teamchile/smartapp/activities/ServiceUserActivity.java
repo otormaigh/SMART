@@ -18,17 +18,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.EOFException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -687,7 +684,7 @@ public class ServiceUserActivity extends BaseActivity {
                     antiDAlertDialog();
                     break;
                 case R.id.tr_midwife_notes:
-                    intent = new Intent(ServiceUserActivity.this, PregnancyNotesActivity.class);
+                    intent = new Intent(ServiceUserActivity.this, MidwiferyLogActivity.class);
                     startActivity(intent);
                     break;
             }

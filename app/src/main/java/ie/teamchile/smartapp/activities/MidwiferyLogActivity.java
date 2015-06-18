@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import ie.teamchile.smartapp.R;
 
-public class PregnancyNotesActivity extends BaseActivity {
+public class MidwiferyLogActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
