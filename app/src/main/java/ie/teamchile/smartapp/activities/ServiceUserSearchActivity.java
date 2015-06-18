@@ -37,6 +37,7 @@ public class ServiceUserSearchActivity extends BaseActivity {
 	private ArrayAdapter<String> adapter;
 	private List<String> hospitalNumberList = new ArrayList<>();
 	private LinearLayout llNoUserFound;
+    private Boolean changeActivity;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +73,7 @@ public class ServiceUserSearchActivity extends BaseActivity {
 	private class onItemListener implements OnItemClickListener {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            changeActivity = true;
 			searchForPatient("", hospitalNumberList.get(position), "");
 			intent = new Intent(ServiceUserSearchActivity.this, ServiceUserActivity.class);
 		}
@@ -82,6 +84,7 @@ public class ServiceUserSearchActivity extends BaseActivity {
 			switch (v.getId()) {
 
 			case R.id.btn_search:
+                changeActivity = false;
 				llNoUserFound.setVisibility(View.GONE);
 				tvSearchResults.setVisibility(View.GONE);
 				
@@ -137,9 +140,10 @@ public class ServiceUserSearchActivity extends BaseActivity {
 						ApiRootModel.getInstance().setPregnancies(apiRootModel.getPregnancies());
 						ApiRootModel.getInstance().setBabies(apiRootModel.getBabies());
                         ApiRootModel.getInstance().setAntiDHistories(apiRootModel.getAntiDHistories());
-						if (intent != null)
-							startActivity(intent);
-						else {
+						if (changeActivity) {
+                            getRecentPregnancy();
+                            startActivity(intent);
+                        } else {
 							searchResults.clear();
 							hospitalNumberList.clear();
 							for (int i = 0; i < apiRootModel.getServiceUsers().size(); i++) {
