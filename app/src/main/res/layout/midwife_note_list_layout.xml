@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_anti_d_date_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="11:11, 16/06/2015"
+        android:textSize="@dimen/text_x_x_small"
+        android:textColor="@color/grey"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1.0"
+        android:paddingLeft="@dimen/padding_small"
+        android:paddingRight="@dimen/padding_small">
+
+        <TextView
+            android:id="@+id/tv_anti_d_option"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Yes"
+            android:textSize="@dimen/text_Xsmall"
+            android:layout_weight="0.5"/>
+
+        <TextView
+            android:id="@+id/tv_anti_d_provider_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:text="App Team Chile"
+            android:textColor="@color/light_grey"
+            android:textSize="@dimen/text_Xsmall"
+            android:layout_weight="0.5"/>
+
+    </LinearLayout>
+
+</LinearLayout>
