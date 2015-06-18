@@ -42,6 +42,10 @@ public class Pregnancy {
     @SerializedName("service_user_id")
     @Expose
     private Integer serviceUserId;
+    @SerializedName("pregnancy_notes")
+    @Expose
+    private List<PregnancyNote> pregnancyNotes = new ArrayList<>();
+
 
     /**
      * @return The additionalInfo
@@ -209,6 +213,20 @@ public class Pregnancy {
      */
     public void setServiceUserId(Integer serviceUserId) {
         this.serviceUserId = serviceUserId;
+    }
+
+    /**
+     * @return The pregnancyNotes
+     */
+    public List<PregnancyNote> getPregnancyNotes() {
+        return pregnancyNotes;
+    }
+
+    /**
+     * @param pregnancyNotes The pregnancy_notes
+     */
+    public void setPregnancyNotes(List<PregnancyNote> pregnancyNotes) {
+        this.pregnancyNotes = pregnancyNotes;
     }
 
 }
