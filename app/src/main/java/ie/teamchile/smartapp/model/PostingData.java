@@ -18,6 +18,8 @@ public class PostingData {
     public PregnancyNote pregnancyNote;
     @SerializedName("pregnancy")
     public Pregnancy pregnancy;
+    @Expose
+    public Note note;
 
     public PostingData() {
     }
@@ -52,6 +54,10 @@ public class PostingData {
 
     public void putAntiD(String antiD, int serviceUserId){
         this.pregnancy = new Pregnancy(antiD, serviceUserId);
+    }
+
+    public void postNote(String note) {
+        this.note = new Note(note);
     }
     private class Login {
         private String username;
@@ -149,6 +155,15 @@ public class PostingData {
         public Pregnancy(String antiD, int serviceUserId){
             this.antiD = antiD;
             this.serviceUserId = serviceUserId;
+        }
+    }
+
+    private class Note {
+        @Expose
+        private String note;
+
+        public Note(String note) {
+            this.note = note;
         }
     }
 }
