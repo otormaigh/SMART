@@ -111,7 +111,7 @@
     <string name="birth_mode">Birth Mode</string>
     <string name="perineum">Perineum</string>
     <string name="anti_d">Anti D</string>
-    <string name="midwives_notes">Midwives Notes</string>
+    <string name="midwives_notes">Midwifery Log</string>
     <string name="baby_info">Baby</string>
     <string name="delivery_date">Date of delivery</string>
     <string name="delivery_time">Time of delivery</string>
@@ -223,7 +223,8 @@
     <string name="stop_clinic">End Clinic</string>
     <string name="select_clinic">Select a Clinic from Below</string>
 
-    <!-- PREGNANCY NOTES -->
+    <!-- MIDWIFERY LOG -->
     <string name="enter_note_hint"><i>Enter Note Here . . .</i></string>
+    <string name="midwifery_log">Midwifery Log</string>
 
 </resources>
