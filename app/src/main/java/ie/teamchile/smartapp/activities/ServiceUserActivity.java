@@ -579,7 +579,7 @@ public class ServiceUserActivity extends BaseActivity {
         });
 
         alertDialog.setView(convertView);
-        tvDialogTitle.setText("Select an option below");
+        tvDialogTitle.setText("Select an Anti-D option");
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 ServiceUserActivity.this,
                 android.R.layout.simple_list_item_1,
@@ -594,7 +594,7 @@ public class ServiceUserActivity extends BaseActivity {
 
         puttingAntiD.putAntiD(antiD, userId);
 
-        showProgressDialog(this, "Updating Anti D");
+        showProgressDialog(this, "Updating Anti-D");
 
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(SmartApi.BASE_URL)
@@ -620,14 +620,14 @@ public class ServiceUserActivity extends BaseActivity {
                         antiDDateTime.add(0, dfHumanReadableTimeDate.format(c.getTime()));
                         antiDProviderName.add(0, ApiRootModel.getInstance().getServiceProvider().getName());
                         ApiRootModel.getInstance().updatePregnancies(p, apiRootModel.getPregnancy());
-                        Log.d("retro", "retro success");
+                        Log.d("retro", "put anti-d retro success");
                         pd.dismiss();
                         ad.dismiss();
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
-                        Log.d("retro", "retro failure = " + error);
+                        Log.d("retro", "put anti-d retro failure = " + error);
                         pd.dismiss();
                     }
                 }
@@ -635,7 +635,7 @@ public class ServiceUserActivity extends BaseActivity {
     }
 
     private void getAntiDHistory(){
-        showProgressDialog(this, "Updating Anti D");
+        showProgressDialog(this, "Updating Anti-D");
 
         api.getAntiDHistoriesForPregnacy(
             ApiRootModel.getInstance().getPregnancies().get(0).getId(),
@@ -644,7 +644,7 @@ public class ServiceUserActivity extends BaseActivity {
             new Callback<ApiRootModel>() {
                 @Override
                 public void success(ApiRootModel apiRootModel, Response response) {
-                    Log.d("retro", "retro success");
+                    Log.d("retro", "get anti-d retro success");
                     ApiRootModel.getInstance().setAntiDHistories(apiRootModel.getAntiDHistories());
                     setAntiD();
                     adapter.notifyDataSetChanged();
@@ -653,7 +653,7 @@ public class ServiceUserActivity extends BaseActivity {
 
                 @Override
                 public void failure(RetrofitError error) {
-                    Log.d("retro", "retro failure = " + error);
+                    Log.d("retro", "get anti-d retro failure = " + error);
                     pd.dismiss();
                 }
             }
