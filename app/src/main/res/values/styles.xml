@@ -32,4 +32,11 @@
         <item name="android:paddingTop">@dimen/padding_small</item>
         <item name="android:paddingBottom">@dimen/padding_small</item>
     </style>
+
+    <style name="SubSection">
+        <item name="android:background">@color/very_light_grey</item>
+        <item name="android:textColor">@color/grey</item>
+        <item name="android:paddingTop">@dimen/padding_Xsmall</item>
+        <item name="android:paddingBottom">@dimen/padding_Xsmall</item>
+    </style>
 </resources>
