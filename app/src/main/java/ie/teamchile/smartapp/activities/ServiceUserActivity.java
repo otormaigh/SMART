@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TabHost;
@@ -523,6 +524,14 @@ public class ServiceUserActivity extends BaseActivity {
         ListView list = (ListView) convertView.findViewById(R.id.lv_anti_d);
         Button btnAntiD = (Button) convertView.findViewById(R.id.btn_anti_d);
         TextView tvDialogTitle = (TextView) convertView.findViewById(R.id.tv_anti_d_dialog_title);
+        ImageView ivExit = (ImageView) convertView.findViewById(R.id.iv_exit_dialog);
+        ivExit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ad.dismiss();
+            }
+        });
+        
         btnAntiD.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -555,6 +564,13 @@ public class ServiceUserActivity extends BaseActivity {
         final ListView list = (ListView) convertView.findViewById(R.id.lv_anti_d);
         Button btnAntiD = (Button) convertView.findViewById(R.id.btn_anti_d);
         TextView tvDialogTitle = (TextView) convertView.findViewById(R.id.tv_anti_d_dialog_title);
+        ImageView ivExit = (ImageView) convertView.findViewById(R.id.iv_exit_dialog);
+        ivExit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ad.dismiss();
+            }
+        });
 
         btnAntiD.setOnClickListener(
                 new View.OnClickListener() {
