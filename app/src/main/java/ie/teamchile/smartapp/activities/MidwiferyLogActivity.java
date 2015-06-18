@@ -3,6 +3,8 @@ package ie.teamchile.smartapp.activities;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -204,6 +206,22 @@ public class MidwiferyLogActivity extends BaseActivity {
         View convertView = (View) inflater.inflate(R.layout.dialog_add_note, null);
         TextView tvDialogTitle = (TextView) convertView.findViewById(R.id.tv_dialog_title);
         final EditText etEnterNote = (EditText) convertView.findViewById(R.id.et_midwifery_notes);
+        final int max = 140;
+        etEnterNote.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.length() > max)
+                    etEnterNote.setError("Error character limit exceeded");
+            }
+        });
         ImageView ivExit = (ImageView) convertView.findViewById(R.id.iv_exit_dialog);
         ivExit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -223,6 +241,7 @@ public class MidwiferyLogActivity extends BaseActivity {
                 }
             }
         });
+
 
         alertDialog.setView(convertView);
 
