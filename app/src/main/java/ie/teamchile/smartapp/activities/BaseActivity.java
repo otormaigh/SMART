@@ -60,7 +60,8 @@ public class BaseActivity extends AppCompatActivity {
     protected DateFormat dfMonthFullName = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
     protected DateFormat dfAMPM = new SimpleDateFormat("HH:mm a", Locale.getDefault());
     protected DateFormat dfDateTimeWMillisZone = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ", Locale.getDefault());
-    protected DateFormat dfHumanReadable = new SimpleDateFormat("HH:mm, dd/MM/yyyy", Locale.getDefault());
+    protected DateFormat dfHumanReadableTimeDate = new SimpleDateFormat("HH:mm, dd/MM/yyyy", Locale.getDefault());
+    protected DateFormat dfHumanReadableDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
     protected Calendar c = Calendar.getInstance();
 
     protected ProgressDialog pd;
