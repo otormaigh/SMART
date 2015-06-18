@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -41,7 +40,7 @@ public class MidwiferyLogActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentForNav(R.layout.activity_pregnancy_notes);
+        setContentForNav(R.layout.activity_midwifery_log);
 
         setActionBarTitle(getResources().getString(R.string.midwifery_log));
 
@@ -54,11 +53,19 @@ public class MidwiferyLogActivity extends BaseActivity {
         ApiRootModel.getInstance().setPregnancyNotes(
                 ApiRootModel.getInstance().getPregnancies().get(p).getPregnancyNotes());
 
+        setData();
+    }
+
+    private void setData(){
+        dateList = new ArrayList<>();
+        authorList = new ArrayList<>();
+        notesList = new ArrayList<>();
+
         int size = ApiRootModel.getInstance().getPregnancyNotes().size();
 
         Log.d("bugs", "size = " + size);
 
-        for(int i = 0; i < size; i++){
+        for(int i = size - 1; i > 0; i--){
             PregnancyNote theNote = ApiRootModel.getInstance().getPregnancyNotes().get(i);
             try {
                 dateList.add(dfHumanReadableDate.format(dfDateOnly.parse(theNote.getCreatedAt())));
@@ -67,7 +74,6 @@ public class MidwiferyLogActivity extends BaseActivity {
             }
             authorList.add(theNote.getServiceProviderName());
             notesList.add(theNote.getNote());
-
         }
 
         Log.d("bugs", "notesList = " + notesList);
@@ -102,6 +108,12 @@ public class MidwiferyLogActivity extends BaseActivity {
                     @Override
                     public void success(ApiRootModel apiRootModel, Response response) {
                         Log.d("retro", "retro success");
+                        ApiRootModel.getInstance().addPregnancyNote(apiRootModel.getPregnancyNote());
+
+                        Log.d("bugs", "note = " + apiRootModel.getPregnancyNote().getNote());
+
+                        adapter.notifyDataSetChanged();
+                        setData();
                         pd.dismiss();
                     }
 
@@ -111,7 +123,6 @@ public class MidwiferyLogActivity extends BaseActivity {
                         pd.dismiss();
                     }
                 }
-
         );
     }
 
