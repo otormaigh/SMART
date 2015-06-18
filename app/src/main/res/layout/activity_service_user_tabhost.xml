@@ -5,65 +5,62 @@
               android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/very_light_grey"
         android:gravity="center"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/padding_Xsmall"
-        android:paddingTop="@dimen/padding_Xsmall">
+        android:orientation="horizontal"
+        android:theme="@style/SubSection"
+        android:paddingBottom="-7dp"
+        android:paddingTop="-7dp">
 
-        <LinearLayout
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:gravity="center"
+            android:text="Age: "
+            android:textColor="@color/grey"
+            android:textSize="@dimen/text_small"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Age: "
-                android:textColor="@color/grey"
-                android:textSize="@dimen/text_small"/>
+        <TextView
+            android:id="@+id/tv_usr_age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_small"/>
 
-            <TextView
-                android:id="@+id/tv_usr_age"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textSize="@dimen/text_small"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text=", P: "
+            android:textColor="@color/grey"
+            android:textSize="@dimen/text_small"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text=", P: "
-                android:textColor="@color/grey"
-                android:textSize="@dimen/text_small"/>
+        <TextView
+            android:id="@+id/tv_usr_partiy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_small"/>
 
-            <TextView
-                android:id="@+id/tv_usr_partiy"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textSize="@dimen/text_small"/>
+        <TextView
+            android:id="@+id/tv_usr_gestation_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text=", G: "
+            android:textColor="@color/grey"
+            android:textSize="@dimen/text_small"/>
 
-            <TextView
-                android:id="@+id/tv_usr_gestation_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text=", G: "
-                android:textColor="@color/grey"
-                android:textSize="@dimen/text_small"/>
-
-            <TextView
-                android:id="@+id/tv_usr_gestation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textSize="@dimen/text_small"/>
-        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_usr_gestation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_small"/>
     </LinearLayout>
 
     <TabHost
