@@ -83,6 +83,7 @@ public class ServiceUserActivity extends BaseActivity {
     private List<String> antiDProviderName = new ArrayList<>();
     private BaseAdapter adapter;
     private int antiDOptionSelected;
+    private int pregnancyId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,6 +171,7 @@ public class ServiceUserActivity extends BaseActivity {
             getRecentPregnancy();
             getRecentBaby();
 
+            pregnancyId = ApiRootModel.getInstance().getPregnancies().get(p).getId();
             userId = ApiRootModel.getInstance().getServiceUsers().get(0).getId();
             hospitalNumber = ApiRootModel.getInstance().getServiceUsers().get(0).getHospitalNumber();
             email = ApiRootModel.getInstance().getServiceUsers().get(0).getPersonalFields().getEmail();
@@ -685,6 +687,7 @@ public class ServiceUserActivity extends BaseActivity {
                     break;
                 case R.id.tr_midwife_notes:
                     intent = new Intent(ServiceUserActivity.this, MidwiferyLogActivity.class);
+                    intent.putExtra("pregnancyId", String.valueOf(pregnancyId));
                     startActivity(intent);
                     break;
             }
