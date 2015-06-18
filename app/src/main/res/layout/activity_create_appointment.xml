@@ -41,7 +41,8 @@
                 android:layout_width="70dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
-                android:src="@drawable/ic_action_search" />
+                android:src="@drawable/ic_action_search"
+                android:theme="@style/SecondaryButton"/>
         </LinearLayout>
 
         <TextView
