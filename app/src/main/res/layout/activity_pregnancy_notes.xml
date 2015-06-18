@@ -7,7 +7,7 @@
     tools:context="ie.teamchile.smartapp.activities.MidwiferyLogActivity">
 
     <ListView
-        android:id="@+id/lv_pregnancy_notes"
+        android:id="@+id/lv_midwifery_log"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
@@ -22,6 +22,7 @@
             android:orientation="vertical">
 
             <EditText
+                android:id="@+id/et_midwifery_notes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
@@ -30,7 +31,7 @@
                 android:textColorHint="#A9A9A9"/>
 
             <Button
-                android:id="@+id/btn_add_pregnancy_note"
+                android:id="@+id/btn_add_midwifery_note"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Add Pregnancy Note"
