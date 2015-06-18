@@ -47,6 +47,7 @@ public class QuickMenuActivity extends BaseActivity {
 		btnClinicRecord.setOnClickListener(new ButtonClick());
         btnTodaysAppointments = (Button) findViewById(R.id.btn_todays_appointments);
         //btnTodaysAppointments.setOnClickListener(new ButtonClick());
+        btnTodaysAppointments.setEnabled(false);
 
 		isViewVisible = true;
 		updateData();
