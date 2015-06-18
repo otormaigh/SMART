@@ -229,4 +229,7 @@ public class Pregnancy {
         this.pregnancyNotes = pregnancyNotes;
     }
 
+    public void addPregnancyNote(PregnancyNote pregnancyNote) {
+        this.pregnancyNotes.add(pregnancyNote);
+    }
 }
