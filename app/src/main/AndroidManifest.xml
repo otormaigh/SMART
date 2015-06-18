@@ -128,7 +128,7 @@
             android:value=".activities.QuickMenuActivity" />
 
         <activity
-            android:name=".activities.PregnancyNotesActivity"
+            android:name=".activities.MidwiferyLogActivity"
             android:parentActivityName=".activities.QuickMenuActivity"
             android:screenOrientation="sensorPortrait" />
 
