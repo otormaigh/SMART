@@ -28,6 +28,16 @@
             android:layout_alignParentRight="true"
             android:padding="@dimen/padding_small"
             android:src="@drawable/ic_close"/>
+
+        <TextView
+            android:id="@+id/tv_note_char_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_exit_dialog"
+            android:layout_alignParentRight="true"
+            android:text="140/140"
+            android:paddingRight="@dimen/padding_small"
+            android:textColorHint="@color/light_grey"/>
     </RelativeLayout>
 
     <EditText
@@ -36,13 +46,13 @@
         android:layout_height="wrap_content"
         android:hint="@string/enter_note_hint"
         android:textColor="@color/black"
-        android:textColorHint="#A9A9A9"/>
+        android:textColorHint="@color/light_grey"/>
 
     <Button
         android:id="@+id/btn_save_note"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add Pregnancy Note"
+        android:text="@string/save_note"
         android:theme="@style/CallToActionButton"/>
 
 </LinearLayout>
