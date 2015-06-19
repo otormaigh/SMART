@@ -12,7 +12,7 @@
     <string name="secure_maternity">Secure Maternity</string>
     <string name="appointment_recording">Appointment Recording Tracker</string>
     <string name="maternity_hospital">© National Maternity Hospital, Ireland</string>
-    <string name="about">About</string>
+    <string name="about_url"><a href="http://www.nmh.ie/about-us.8.html">About</a></string>
 
     <!-- QUICK MENU -->
     <string name="patient_search">Search Patient</string>
