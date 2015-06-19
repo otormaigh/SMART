@@ -3,6 +3,7 @@ package ie.teamchile.smartapp.activities;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -20,9 +21,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import ie.teamchile.smartapp.R;
@@ -47,6 +53,7 @@ public class MidwiferyLogActivity extends BaseActivity {
     private BaseAdapter adapter;
     private AlertDialog.Builder alertDialog;
     private AlertDialog ad;
+    private int size;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,10 +68,6 @@ public class MidwiferyLogActivity extends BaseActivity {
         btnAddNote.setOnClickListener(new Clicky());
         etNote = (EditText) findViewById(R.id.et_midwifery_notes);
 
-       /* LayoutInflater inflater = getLayoutInflater();
-        ViewGroup footer = (ViewGroup) inflater.inflate(R.layout.midwifery_log_footer, lvNotes, false);
-        lvNotes.addFooterView(footer);*/
-
         ApiRootModel.getInstance().setPregnancyNotes(
                 ApiRootModel.getInstance().getPregnancies().get(p).getPregnancyNotes());
 
@@ -76,11 +79,24 @@ public class MidwiferyLogActivity extends BaseActivity {
         authorList = new ArrayList<>();
         notesList = new ArrayList<>();
 
-        int size = ApiRootModel.getInstance().getPregnancyNotes().size();
-
+        size = ApiRootModel.getInstance().getPregnancyNotes().size();
         Log.d("bugs", "size = " + size);
 
-        for(int i = size - 1; i > 0; i--){
+        Collections.sort(ApiRootModel.getInstance().getPregnancyNotes(), new Comparator<PregnancyNote>() {
+
+            @Override
+            public int compare(PregnancyNote a, PregnancyNote b) {
+                int valA;
+                int valB;
+
+                valA = a.getId();
+                valB = b.getId();
+
+                return ((Integer)valA).compareTo(valB);
+            }
+        });
+
+        for(int i = size - 1; i >= 0; i--){
             PregnancyNote theNote = ApiRootModel.getInstance().getPregnancyNotes().get(i);
             try {
                 dateList.add(dfHumanReadableDate.format(dfDateOnly.parse(theNote.getCreatedAt())));
@@ -128,6 +144,7 @@ public class MidwiferyLogActivity extends BaseActivity {
                         Log.d("bugs", "note = " + apiRootModel.getPregnancyNote().getNote());
 
                         adapter.notifyDataSetChanged();
+                        lvNotes.setAdapter(null);
                         setData();
                         pd.dismiss();
                     }
@@ -204,9 +221,11 @@ public class MidwiferyLogActivity extends BaseActivity {
     private void addNoteDialog() {
         LayoutInflater inflater = getLayoutInflater();
         View convertView = (View) inflater.inflate(R.layout.dialog_add_note, null);
+        final TextView tvCharCount = (TextView) convertView.findViewById(R.id.tv_note_char_count);
         TextView tvDialogTitle = (TextView) convertView.findViewById(R.id.tv_dialog_title);
         final EditText etEnterNote = (EditText) convertView.findViewById(R.id.et_midwifery_notes);
         final int max = 140;
+        tvCharCount.setText(String.valueOf(etEnterNote.getText().length()) + "/" + max);
         etEnterNote.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -214,6 +233,7 @@ public class MidwiferyLogActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tvCharCount.setText(String.valueOf(s.length()) + "/" + max);
             }
 
             @Override
@@ -235,6 +255,21 @@ public class MidwiferyLogActivity extends BaseActivity {
             public void onClick(View v) {
                 if(etEnterNote.getText().toString().equals("")){
                     etEnterNote.setError("This Cannot Be Empty");
+                } else if (etEnterNote.getText().length() > max) {
+                    showProgressDialog(MidwiferyLogActivity.this, "Error character limit exceeded");
+                    new CountDownTimer(2000, 1000) {
+
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            pd.dismiss();
+                        }
+                    }.start();
+
                 } else {
                     postNote(etEnterNote.getText().toString());
                     ad.dismiss();

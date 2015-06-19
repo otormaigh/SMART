@@ -23,6 +23,7 @@ import ie.teamchile.smartapp.model.ApiRootModel;
 import ie.teamchile.smartapp.model.ServiceUser;
 import ie.teamchile.smartapp.util.SmartApi;
 import retrofit.Callback;
+import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -126,6 +127,12 @@ public class ServiceUserSearchActivity extends BaseActivity {
 
 	private void searchForPatient(String name, String hospitalNumber, String dob){
 		showProgressDialog(ServiceUserSearchActivity.this, "Fetching Information");
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint(SmartApi.BASE_URL)
+                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .build();
+
+        api = restAdapter.create(SmartApi.class);
 		api.getServiceUserByNameDobHospitalNum(
 			name,
 			hospitalNumber,
