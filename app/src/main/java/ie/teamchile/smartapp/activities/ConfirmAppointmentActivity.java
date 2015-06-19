@@ -136,7 +136,7 @@ public class ConfirmAppointmentActivity extends BaseActivity {
 
                     @Override
                     public void failure(RetrofitError error) {
-                        Log.d("Retrofit", "retro failure error = " + error.getBody());
+                        Log.d("Retrofit", "retro failure error = " + error);
                         pd.dismiss();
                     }
                 }
