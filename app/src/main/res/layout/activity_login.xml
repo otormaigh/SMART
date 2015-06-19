@@ -79,7 +79,7 @@
             android:inputType="text"
             android:maxLines="1"
             android:textColor="@color/black"
-            android:textColorHint="#A9A9A9"/>
+            android:textColorHint="@color/light_grey"/>
 
         <EditText
             android:id="@+id/et_password"
@@ -91,7 +91,7 @@
             android:inputType="textPassword"
             android:maxLines="1"
             android:textColor="@color/black"
-            android:textColorHint="#A9A9A9"/>
+            android:textColorHint="@color/light_grey"/>
 
         <Button
             android:id="@+id/btn_login"
