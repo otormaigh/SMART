@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -24,7 +25,7 @@ import retrofit.client.Response;
 public class LoginActivity extends AppCompatActivity {
 	private String username, password;
 	private Button btnLogin;
-	private TextView tvUsername, tvPassword;
+	private TextView tvUsername, tvPassword, tvAbout;
 	private Intent intent;
 	private ProgressDialog pd;
 	private SmartApi api;
@@ -38,6 +39,9 @@ public class LoginActivity extends AppCompatActivity {
 		btnLogin.setOnClickListener(new ButtonClick());
 		tvUsername = (TextView) findViewById(R.id.et_username);
 		tvPassword = (TextView) findViewById(R.id.et_password);
+        tvAbout = (TextView) findViewById(R.id.tv_about);
+
+        tvAbout.setMovementMethod(LinkMovementMethod.getInstance());
 
 		initRetrofit();
 	}
