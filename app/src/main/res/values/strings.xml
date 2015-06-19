@@ -226,6 +226,8 @@
     <!-- MIDWIFERY LOG -->
     <string name="enter_note_hint"><i>Enter Note Here . . .</i></string>
     <string name="midwifery_log">Midwifery Log</string>
+    <string name="save_note">Save Note</string>
+    <string name="add_note">Add Pregnancy Note</string>
     
     <!-- ANTI-D DIALOG -->
     <string name="add_to_history">Add To Anti-D History</string>
