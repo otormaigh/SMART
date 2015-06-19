@@ -12,7 +12,10 @@ import java.util.List;
 public class ServiceOption {
     @SerializedName("clinic_ids")
     @Expose
-    private List<Integer> clinicIds = new ArrayList<Integer>();
+    private List<Integer> clinicIds = new ArrayList<>();
+    @SerializedName("home_visit")
+    @Expose
+    private Boolean homeVisit;
     @Expose
     private Integer id;
     @Expose
@@ -30,6 +33,20 @@ public class ServiceOption {
      */
     public void setClinicIds(List<Integer> clinicIds) {
         this.clinicIds = clinicIds;
+    }
+
+    /**
+     * @return The homeVisit
+     */
+    public Boolean getHomeVisit() {
+        return homeVisit;
+    }
+
+    /**
+     * @param homeVisit The home_visit
+     */
+    public void setHomeVisit(Boolean homeVisit) {
+        this.homeVisit = homeVisit;
     }
 
     /**
@@ -59,4 +76,5 @@ public class ServiceOption {
     public void setName(String name) {
         this.name = name;
     }
+
 }
