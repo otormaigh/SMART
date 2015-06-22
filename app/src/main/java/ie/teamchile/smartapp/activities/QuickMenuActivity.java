@@ -141,12 +141,18 @@ public class QuickMenuActivity extends BaseActivity {
                             }
 
                             if(appt.getPriority().equals("home-visit")){
+                                Log.d("bugs" , " appt ID = " + appt.getId());
                                 if (homeVisitClinicDateApptIdMap.get(serviceOptionId) != null) {
                                     homeVisitdateApptIdMap = homeVisitClinicDateApptIdMap.get(serviceOptionId);
                                     if (homeVisitdateApptIdMap.get(apptDate) != null) {
                                         homeApptIdList = homeVisitdateApptIdMap.get(apptDate);
                                     }
                                 }
+                                homeApptIdList.add(apptId);
+                                homeVisitdateApptIdMap.put(apptDate, homeApptIdList);
+
+                                homeVisitClinicDateApptIdMap.put(serviceOptionId, homeVisitdateApptIdMap);
+                                homeVisitIdApptMap.put(apptId, appt);
                             } else {
                                 if (clinicVisitClinicDateApptIdMap.get(clinicId) != null) {
                                     clinicVisitdateApptIdMap = clinicVisitClinicDateApptIdMap.get(clinicId);
@@ -154,19 +160,12 @@ public class QuickMenuActivity extends BaseActivity {
                                         clinicApptIdList = clinicVisitdateApptIdMap.get(apptDate);
                                     }
                                 }
+                                clinicApptIdList.add(apptId);
+                                clinicVisitdateApptIdMap.put(apptDate, clinicApptIdList);
+
+                                clinicVisitClinicDateApptIdMap.put(clinicId, clinicVisitdateApptIdMap);
+                                clinicVisitIdApptMap.put(apptId, appt);
                             }
-
-                            clinicApptIdList.add(apptId);
-                            clinicVisitdateApptIdMap.put(apptDate, clinicApptIdList);
-
-                            clinicVisitClinicDateApptIdMap.put(clinicId, clinicVisitdateApptIdMap);
-                            clinicVisitIdApptMap.put(apptId, appt);
-
-                            homeApptIdList.add(apptId);
-                            homeVisitdateApptIdMap.put(apptDate, homeApptIdList);
-
-                            homeVisitClinicDateApptIdMap.put(serviceOptionId, homeVisitdateApptIdMap);
-                            homeVisitIdApptMap.put(apptId, appt);
                         }
                         ApiRootModel.getInstance().setClinicVisitClinicDateApptIdMap(clinicVisitClinicDateApptIdMap);
                         ApiRootModel.getInstance().setClinicVisitIdApptMap(clinicVisitIdApptMap);
@@ -217,19 +216,21 @@ public class QuickMenuActivity extends BaseActivity {
 				new Callback<ApiRootModel>() {
 					@Override
 					public void success(ApiRootModel apiRootModel, Response response) {
-						List<ServiceOption> serviceOptionHomeList = new ArrayList<>();
+                        Map<Integer, ServiceOption> serviceOptionHomeMap = new HashMap<>();
+                        List<ServiceOption> serviceOptionHomeList = new ArrayList<>();
 						Map<Integer, ServiceOption> serviceOptionClinicMap = new HashMap<>();
                         ApiRootModel.getInstance().setServiceOptions(apiRootModel.getServiceOptions());
                         for(int i = 0; i < apiRootModel.getServiceOptions().size(); i++){
                             ServiceOption option = apiRootModel.getServiceOptions().get(i);
                             if(option.getHomeVisit()){
-                                serviceOptionHomeList.add(apiRootModel.getServiceOptions().get(i));
+                                serviceOptionHomeMap.put(option.getId(), option);
+                                serviceOptionHomeList.add(option);
                             } else {
-                                serviceOptionClinicMap.put(apiRootModel.getServiceOptions().get(i).getId(),
-                                        apiRootModel.getServiceOptions().get(i));
+                                serviceOptionClinicMap.put(option.getId(), option);
                             }
 						}
 						ApiRootModel.getInstance().setServiceOptionsHomeList(serviceOptionHomeList);
+						ApiRootModel.getInstance().setServiceOptionsHomeMap(serviceOptionHomeMap);
 						ApiRootModel.getInstance().setServiceOptionsClinicMap(serviceOptionClinicMap);
 						Log.d("Retrofit", "service options finished");
 						done++;
