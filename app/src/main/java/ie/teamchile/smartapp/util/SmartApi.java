@@ -44,6 +44,15 @@ public interface SmartApi {
             @Header("Api-Key") String apiKey,
             Callback<ApiRootModel> callback);
 
+    @GET("/appointments")
+    void getHomeVisitApptByDateId(
+            @Query("priority") String priority,
+            @Query("date") String date,
+            @Query("service_option_id") int serviceOptionId,
+            @Header("Auth-Token") String authToken,
+            @Header("Api-Key") String apiKey,
+            Callback<ApiRootModel> callback);
+
     @GET("/appointments/{appointment_id}")
     void getAppointmentById(
             @Path("appointment_id") int appointmentId,

@@ -86,10 +86,10 @@ public class CreateAppointmentActivity extends BaseActivity {
 		tvDate.setText(dfDateMonthNameYear.format(AppointmentCalendarActivity.daySelected));
 
 		clinicID = Integer.parseInt(getIntent().getStringExtra("clinicID"));
-		clinicName = ApiRootModel.getInstance().getClinicsMap().get(clinicID).getName();
+		clinicName = ApiRootModel.getInstance().getClinicMap().get(clinicID).getName();
 		tvClinic.setText(clinicName);
 
-		appointmentInterval = ApiRootModel.getInstance().getClinicsMap().get(clinicID).getAppointmentInterval();
+		appointmentInterval = ApiRootModel.getInstance().getClinicMap().get(clinicID).getAppointmentInterval();
         time = getIntent().getStringExtra("time");
         tvTime.setText(time);
         
