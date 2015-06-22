@@ -12,7 +12,7 @@
     <string name="secure_maternity">Secure Maternity</string>
     <string name="appointment_recording">Appointment Recording Tracker</string>
     <string name="maternity_hospital">© National Maternity Hospital, Ireland</string>
-    <string name="about_url"><a href="http://www.nmh.ie/about-us.8.html">About</a></string>
+    <string name="about_url"><a href="http://www.nmh.ie/maternity-care-options/community-midwives.220.html">About</a></string>
 
     <!-- QUICK MENU -->
     <string name="patient_search">Search Patient</string>
@@ -168,6 +168,7 @@
         <item>Select Visit Priority</item>
         <item>Scheduled</item>
         <item>Drop-In</item>
+        <item>Home-Visit</item>
     </string-array>
     <string-array name="visit_type_list">
         <item>Select Visit Type</item>
@@ -232,5 +233,8 @@
     <!-- ANTI-D DIALOG -->
     <string name="add_to_history">Add To Anti-D History</string>
     <string name="save_option">Save Option</string>
+    <string name="title_activity_home_visit_appointment">HomeVisitAppointmentActivity</string>
+
+    <string name="hello_world">Hello world!</string>
 
 </resources>
