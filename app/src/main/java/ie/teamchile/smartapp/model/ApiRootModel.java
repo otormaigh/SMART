@@ -29,6 +29,7 @@ public class ApiRootModel {
     @Expose
     private List<ServiceOption> serviceOptions = new ArrayList<>();
     private List<ServiceOption> serviceOptionsHomeList = new ArrayList<>();
+    private Map<Integer, ServiceOption> serviceOptionsHomeMap = new HashMap<>();
     private Map<Integer, ServiceOption> serviceOptionsClinicMap = new HashMap<>();
     @SerializedName("service_users")
     @Expose
@@ -181,6 +182,14 @@ public class ApiRootModel {
 
     public void setServiceOptionsHomeList(List<ServiceOption> serviceOptionsHomeList) {
         this.serviceOptionsHomeList = serviceOptionsHomeList;
+    }
+
+    public Map<Integer, ServiceOption> getServiceOptionsHomeMap() {
+        return serviceOptionsHomeMap;
+    }
+
+    public void setServiceOptionsHomeMap(Map<Integer, ServiceOption> serviceOptionsHomeMap) {
+        this.serviceOptionsHomeMap = serviceOptionsHomeMap;
     }
 
     public Map<Integer, ServiceOption> getServiceOptionsClinicMap() {

@@ -269,7 +269,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
                             visitOptionSelected = ApiRootModel.getInstance().
                                     getServiceOptionsHomeList().get(position - 1).getId();
 
-                            Log.d("bugs", "visitOptionSelected = " + visitOptionSelected);
+                            HomeVisitAppointmentActivity.visitOptionSelected = visitOptionSelected;
                             break;
                     }
                     break;
@@ -283,7 +283,10 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
                             Calendar cal = Calendar.getInstance();
                             cal.add(Calendar.DATE, position - 1);
                             daySelected = cal.getTime();
-                            Log.d("bugs", "daySelected visit = " + daySelected);
+
+                            HomeVisitAppointmentActivity.daySelected = daySelected;
+                            Intent intent = new Intent(AppointmentTypeSpinnerActivity.this, HomeVisitAppointmentActivity.class);
+                            startActivity(intent);
                             break;
                     }
                     break;
