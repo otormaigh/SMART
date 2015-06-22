@@ -158,6 +158,7 @@ public class CreateAppointmentActivity extends BaseActivity {
                 R.id.tv_spinner_item);
         visitPriorityAdapter.setDropDownViewResource(R.layout.spinner_layout);
         visitPrioritySpinner.setAdapter(visitPriorityAdapter);
+        visitPrioritySpinner.setSelection(1);
     }
 
 	private void setReturnTypeSpinner(){
