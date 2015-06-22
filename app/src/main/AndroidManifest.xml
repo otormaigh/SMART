@@ -18,8 +18,10 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_MEDIA_STORAGE" />
 
-    <android:uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- android:name=".maiti.MaitiApplication" //this goes between application tags -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <!-- android:name=".maiti.MaitiApplication" //this goes between application tags -->
     <application
         android:allowBackup="false"
         android:icon="@drawable/ic_launcher"
@@ -135,6 +137,11 @@
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value=".activities.QuickMenuActivity" />
+
+        <activity
+            android:name=".activities.HomeVisitAppointmentActivity"
+            android:label="@string/title_activity_home_visit_appointment" >
+        </activity>
     </application>
 
 </manifest>
