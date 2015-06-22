@@ -42,7 +42,7 @@ import retrofit.client.Response;
 
 public class AppointmentCalendarActivity extends BaseActivity {
 	private final int sdkVersion = Build.VERSION.SDK_INT;
-	private static int serviceOptionSelected, weekSelected, clinicSelected;
+	private static int serviceOptionSelected, weekSelected, clinicSelected, visitOptionSelected;
 	protected static Date daySelected;
 	private Date openingAsDate, closingAsDate;
 	private String clinicOpening, clinicClosing, closingMinusInterval,
@@ -76,9 +76,9 @@ public class AppointmentCalendarActivity extends BaseActivity {
         btnNextWeek = (Button) findViewById(R.id.btn_next);
         btnNextWeek.setOnClickListener(new ButtonClick());
 
-		clinicOpening = ApiRootModel.getInstance().getClinicsMap().get(clinicSelected).getOpeningTime();
-		clinicClosing = ApiRootModel.getInstance().getClinicsMap().get(clinicSelected).getClosingTime();
-		appointmentInterval = ApiRootModel.getInstance().getClinicsMap().get(clinicSelected).getAppointmentInterval();
+		clinicOpening = ApiRootModel.getInstance().getClinicMap().get(clinicSelected).getOpeningTime();
+		clinicClosing = ApiRootModel.getInstance().getClinicMap().get(clinicSelected).getClosingTime();
+		appointmentInterval = ApiRootModel.getInstance().getClinicMap().get(clinicSelected).getAppointmentInterval();
 		try {
 			openingAsDate = dfTimeOnly.parse(String.valueOf(clinicOpening));
 			closingAsDate = dfTimeOnly.parse(String.valueOf(clinicClosing));
@@ -236,11 +236,11 @@ public class AppointmentCalendarActivity extends BaseActivity {
 		
 		dateSelectedStr = dfDateOnly.format(dateSelected);		
 		dateInList.setText(dfDateWMonthName.format(dateSelected));
-    	nameOfClinic = ApiRootModel.getInstance().getClinicsMap().get(clinicSelected).getName();
+    	nameOfClinic = ApiRootModel.getInstance().getClinicMap().get(clinicSelected).getName();
 		setActionBarTitle(nameOfClinic);
 
-		if(ApiRootModel.getInstance().getClinicDateApptIdMap().containsKey(clinicSelected)){
-			listOfApptId = ApiRootModel.getInstance().getClinicDateApptIdMap().get(clinicSelected).get(dateSelectedStr);
+		if(ApiRootModel.getInstance().getClinicVisitClinicDateApptIdMap().containsKey(clinicSelected)){
+			listOfApptId = ApiRootModel.getInstance().getClinicVisitClinicDateApptIdMap().get(clinicSelected).get(dateSelectedStr);
 			//listOfApptId = removeZeros(listOfApptId);
 		} else
 			listOfApptId = new ArrayList<>();
@@ -258,7 +258,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
 		}
 		if (listOfApptId != null) {
 			for(int i = 0; i < listOfApptId.size(); i++) {
-				Appointment appointment = ApiRootModel.getInstance().getIdApptMap().get(listOfApptId.get(i));
+				Appointment appointment = ApiRootModel.getInstance().getClinicVisitIdApptMap().get(listOfApptId.get(i));
 				String timeOfAppt = "";
 				try {
 					timeOfAppt = dfTimeOnly.format(dfTimeWSec.parse(appointment.getTime()));
@@ -350,7 +350,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
                         intent.putExtra("clinicID", String.valueOf(clinicSelected));
                         startActivity(intent);
                     } else {
-                        int serviceUserId = ApiRootModel.getInstance().getIdApptMap().get(idList.get(position)).getServiceUserId();
+                        int serviceUserId = ApiRootModel.getInstance().getClinicVisitIdApptMap().get(idList.get(position)).getServiceUserId();
                         Log.d("bugs", "db string: " + "service_users" + "/" + serviceUserId);
                         showProgressDialog(AppointmentCalendarActivity.this,
                                 "Fetching Information");
@@ -421,7 +421,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
 				status,
 				clinicSelected,
 				ApiRootModel.getInstance().getLogin().getId(),
-				ApiRootModel.getInstance().getIdApptMap().get(idList.get(position)).getServiceUserId());
+				ApiRootModel.getInstance().getClinicVisitIdApptMap().get(idList.get(position)).getServiceUserId());
 
 		api.putAppointmentStatus(
 				attendedStatus,
@@ -484,5 +484,9 @@ public class AppointmentCalendarActivity extends BaseActivity {
 
 	public void setDaySelected(Date daySelected){
     	AppointmentCalendarActivity.daySelected = daySelected;
+    }
+
+    public void setVisitOption(int visitOptionSelected){
+        AppointmentCalendarActivity.visitOptionSelected = visitOptionSelected;
     }
 }
