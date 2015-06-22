@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import ie.teamchile.smartapp.R;
@@ -38,19 +39,20 @@ import retrofit.client.Response;
 public class CreateAppointmentActivity extends BaseActivity {
 	private ArrayAdapter<String> visitPriorityAdapter, returnTypeAdapter;
 	private String userName, apptDate, time, priority, visitType, clinicName;
-	private int appointmentInterval, userID;
+	private int userID;
 	private Calendar c, myCalendar;
+    private Date daySelected;
 	private List<Integer> idList = new ArrayList<>();
 	private AppointmentCalendarActivity passOptions = new AppointmentCalendarActivity();
 	private SharedPreferences prefs;
 	private AlertDialog.Builder alertDialog;
 	private AlertDialog ad;
-	private int clinicID;
+	private int clinicID, serviceOptionId;
 	private int p = 0;
 	private EditText etUserName;
 	private Button btnConfirmAppointment;
 	private ImageButton btnUserSearch;
-	private TextView tvTime, tvDate, tvClinic;
+	private TextView tvTime, tvTimeTitle, tvDate, tvClinic;
 	private Spinner visitReturnTypeSpinner, visitPrioritySpinner;
 	private List<ServiceUser> serviceUserList = new ArrayList<>();
 	private String returnType;
@@ -67,6 +69,7 @@ public class CreateAppointmentActivity extends BaseActivity {
 		btnConfirmAppointment = (Button) findViewById(R.id.btn_confirm_appointment);
 		btnUserSearch = (ImageButton) findViewById(R.id.btn_user_search);
 		tvTime = (TextView) findViewById(R.id.tv_visit_time);
+        tvTimeTitle = (TextView) findViewById(R.id.tv_visit_time_title);
 		tvDate = (TextView) findViewById(R.id.tv_visit_date);
 		tvClinic = (TextView) findViewById(R.id.tv_visit_clinic);
 
@@ -82,24 +85,41 @@ public class CreateAppointmentActivity extends BaseActivity {
 		Log.d("postAppointment", "time now: " + c.getTime());
 		getSharedPrefs();
 
-		myCalendar.setTime(AppointmentCalendarActivity.daySelected);
-		tvDate.setText(dfDateMonthNameYear.format(AppointmentCalendarActivity.daySelected));
+        clinicID = Integer.parseInt(getIntent().getStringExtra("clinicID"));
+        serviceOptionId = Integer.parseInt(getIntent().getStringExtra("serviceOptionId"));
 
-		clinicID = Integer.parseInt(getIntent().getStringExtra("clinicID"));
-		clinicName = ApiRootModel.getInstance().getClinicMap().get(clinicID).getName();
-		tvClinic.setText(clinicName);
+        checkDirectionOfIntent();
+        setReturnTypeSpinner();
+        setPrioritySpinner();
+        checkIfEditEmpty();
+	}
 
-		appointmentInterval = ApiRootModel.getInstance().getClinicMap().get(clinicID).getAppointmentInterval();
+    private void clinicAppt(){
+        getSharedPrefs();
+        daySelected = AppointmentCalendarActivity.daySelected;
+        clinicName = ApiRootModel.getInstance().getClinicMap().get(clinicID).getName();
         time = getIntent().getStringExtra("time");
         tvTime.setText(time);
-        
-		Log.d("postAppointment", "timeAfter: " + time);
-		
-		setReturnTypeSpinner();
-        setPrioritySpinner();
-		checkIfEditEmpty();
-		checkDirectionOfIntent();
-	}
+        visitPrioritySpinner.setSelection(1);
+
+        myCalendar.setTime(daySelected);
+        tvDate.setText(dfDateMonthNameYear.format(daySelected));
+
+        tvClinic.setText(clinicName);
+    }
+
+    private void homeVisitAppt(){
+        daySelected = HomeVisitAppointmentActivity.daySelected;
+        clinicName = ApiRootModel.getInstance().getServiceOptionsHomeMap().get(serviceOptionId).getName();
+        tvTime.setVisibility(View.GONE);
+        tvTimeTitle.setVisibility(View.GONE);
+        visitPrioritySpinner.setSelection(3);
+
+        myCalendar.setTime(daySelected);
+        tvDate.setText(dfDateMonthNameYear.format(daySelected));
+
+        tvClinic.setText(clinicName);
+    }
 
     @Override
 	protected void onResume() {
@@ -110,12 +130,17 @@ public class CreateAppointmentActivity extends BaseActivity {
 
 	private void checkDirectionOfIntent(){
 		String intentOrigin = getIntent().getStringExtra("from");
-		if(intentOrigin.equals("appointment")) {
-			getSharedPrefs();
+		if(intentOrigin.equals("clinic-appointment")) {
+			clinicAppt();
+            Log.d("bugs", "intent from clinic");
 		} else if (intentOrigin.equals("confirm")) {
 			etUserName.setText(getIntent().getStringExtra("userName"));
 			userID = Integer.parseInt(getIntent().getStringExtra("userId"));
-		}
+            Log.d("bugs", "intent from confirm");
+		} else if (intentOrigin.equals("home-visit")) {
+            homeVisitAppt();
+            Log.d("bugs", "intent from home visit");
+        }
 	}
 
 	private void checkIfEditEmpty(){
@@ -158,7 +183,6 @@ public class CreateAppointmentActivity extends BaseActivity {
                 R.id.tv_spinner_item);
         visitPriorityAdapter.setDropDownViewResource(R.layout.spinner_layout);
         visitPrioritySpinner.setAdapter(visitPriorityAdapter);
-        visitPrioritySpinner.setSelection(1);
     }
 
 	private void setReturnTypeSpinner(){
@@ -184,6 +208,7 @@ public class CreateAppointmentActivity extends BaseActivity {
             		Bundle extras = new Bundle();
             		extras.putString("clinicName", clinicName);
             		extras.putString("clinicID", String.valueOf(clinicID));
+            		extras.putString("serviceOptionId", String.valueOf(serviceOptionId));
             		extras.putString("date", apptDate);
             		extras.putString("time", time);
             		extras.putString("return_type", returnType);
@@ -310,6 +335,9 @@ public class CreateAppointmentActivity extends BaseActivity {
                     	priority = "drop-in";
                     	//Drop-In
                     	break;
+                    case 3:
+                        priority = "home-visit";
+                        break;
                     }
                     break;
                 case R.id.list_dialog:

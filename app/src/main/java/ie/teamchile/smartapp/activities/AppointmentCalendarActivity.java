@@ -56,6 +56,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
 	private List<String> nameList = new ArrayList<>();
 	private List<String> gestList = new ArrayList<>();
 	private List<Integer> idList = new ArrayList<>();
+	private int serviceOptionId;
 	private List<Boolean> attendedList = new ArrayList<>();
 	private List<Boolean> attendedSingle = new ArrayList<>();
 	private Button dateInList, btnPrevWeek, btnNextWeek;
@@ -76,6 +77,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
         btnNextWeek = (Button) findViewById(R.id.btn_next);
         btnNextWeek.setOnClickListener(new ButtonClick());
 
+        serviceOptionId = ApiRootModel.getInstance().getClinicMap().get(clinicSelected).getServiceOptionIds().get(0);
 		clinicOpening = ApiRootModel.getInstance().getClinicMap().get(clinicSelected).getOpeningTime();
 		clinicClosing = ApiRootModel.getInstance().getClinicMap().get(clinicSelected).getClosingTime();
 		appointmentInterval = ApiRootModel.getInstance().getClinicMap().get(clinicSelected).getAppointmentInterval();
@@ -345,9 +347,10 @@ public class AppointmentCalendarActivity extends BaseActivity {
                 public boolean onLongClick(View v) {
                     if (idList.get(position).equals(0)) {
                         intent = new Intent(AppointmentCalendarActivity.this, CreateAppointmentActivity.class);
-                        intent.putExtra("from", "appointment");
+                        intent.putExtra("from", "clinic-appointment");
                         intent.putExtra("time", timeList.get(position));
                         intent.putExtra("clinicID", String.valueOf(clinicSelected));
+                        intent.putExtra("serviceOptionId", String.valueOf(serviceOptionId));
                         startActivity(intent);
                     } else {
                         int serviceUserId = ApiRootModel.getInstance().getClinicVisitIdApptMap().get(idList.get(position)).getServiceUserId();
