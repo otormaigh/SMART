@@ -20,6 +20,7 @@ import ie.teamchile.smartapp.model.Appointment;
 import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.util.SmartApi;
 import retrofit.Callback;
+import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -28,10 +29,11 @@ public class ConfirmAppointmentActivity extends BaseActivity {
     				 txtEmailTo, txtSmsTo;
     private Button btnYes, btnNo;
     private String name, hospitalNumber, clinicName, date, monthDate, time,
-    		priority, visitType, timeBefore, timeAfter, email, sms;
+    		priority, visitType, timeBefore, timeAfter, email, sms, serviceOptionId;
     private int userId, clinicID;
     private Calendar cal = Calendar.getInstance();
     private String returnType;
+    private List<Integer> serviceOptionIdList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,17 +67,22 @@ public class ConfirmAppointmentActivity extends BaseActivity {
         timeBefore = getIntent().getStringExtra("timeBefore");
         timeAfter = getIntent().getStringExtra("timeAfter"); 
         userId = Integer.parseInt(getIntent().getStringExtra("userId"));
-        visitType = getIntent().getStringExtra("visitType"); 
-        
+        visitType = getIntent().getStringExtra("visitType");
+        serviceOptionId = getIntent().getStringExtra("serviceOptionId");
+
+        serviceOptionIdList.add(Integer.parseInt(serviceOptionId));
+        Log.d("bugs", "serviceOptionIdList = " + serviceOptionIdList);
+
         Log.d("appointment", "userId: " + userId + "\nclinicName: " + clinicName + 
         		"\nclinicID: " +  clinicID  + "\nDate: " + monthDate + 
 				"\nTime: " + time + "\nReturn Type: " + returnType +
-				"\nPriority: " + priority + "\nVisit Type: " + visitType);
+				"\nPriority: " + priority + "\nVisit Type: " + visitType +
+                "\nServiceOptionId: " + serviceOptionId);
         
-        name = ApiRootModel.getInstance().getServiceUsers().get(0).getPersonalFields().getName();
-        hospitalNumber = ApiRootModel.getInstance().getServiceUsers().get(0).getHospitalNumber();
-        email = ApiRootModel.getInstance().getServiceUsers().get(0).getPersonalFields().getEmail();
-        sms = ApiRootModel.getInstance().getServiceUsers().get(0).getPersonalFields().getMobilePhone();
+        name = ApiRootModel.getInstance().getServiceUser().getPersonalFields().getName();
+        hospitalNumber = ApiRootModel.getInstance().getServiceUser().getHospitalNumber();
+        email = ApiRootModel.getInstance().getServiceUser().getPersonalFields().getEmail();
+        sms = ApiRootModel.getInstance().getServiceUser().getPersonalFields().getMobilePhone();
         txtUserName.setText(name + " (" + hospitalNumber + ")");
         //txtHospitalNumber.setText(hospitalNumber);
         txtClinic.setText(clinicName);
@@ -110,7 +117,8 @@ public class ConfirmAppointmentActivity extends BaseActivity {
             		intent.putExtra("timeAfter", timeAfter);
             		intent.putExtra("userId", userId);
             		intent.putExtra("userName", name);
-            		startActivity(intent);
+                    intent.putExtra("serviceOptionId", serviceOptionId);
+                    startActivity(intent);
                     break;
             }
         }
@@ -118,7 +126,14 @@ public class ConfirmAppointmentActivity extends BaseActivity {
 
     private void postAppointment(){
         PostingData appointment = new PostingData();
-        appointment.postAppointment(date, time, userId, clinicID, priority, visitType, returnType);
+        appointment.postAppointment(date, time, userId, clinicID, priority, visitType, returnType, serviceOptionIdList);
+
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint(SmartApi.BASE_URL)
+                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .build();
+
+        api = restAdapter.create(SmartApi.class);
 
         api.postAppointment(
                 appointment,
@@ -130,7 +145,7 @@ public class ConfirmAppointmentActivity extends BaseActivity {
                         ApiRootModel.getInstance().addAppointment(apiRootModel.getAppointment());
                         Intent intent = new Intent(ConfirmAppointmentActivity.this, AppointmentCalendarActivity.class);
                         pd.dismiss();
-                        addNewApptToMaps();
+                        //addNewApptToMaps();
                         startActivity(intent);
                     }
 
