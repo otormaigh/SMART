@@ -3,6 +3,8 @@ package ie.teamchile.smartapp.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 /**
  * Created by user on 5/26/15.
  */
@@ -29,11 +31,12 @@ public class PostingData {
     }
 
     public void postAppointment(String date, String time, int service_user_id,
-                                int clinic_id, String priority, String visit_type, String return_type) {
+                                int clinic_id, String priority, String visit_type,
+                                String return_type, List<Integer> serviceOptionIds) {
         int service_provider_id = ApiRootModel.getInstance().getLogin().getId();
 
         this.appointment = new Appointment(date, time, service_provider_id, service_user_id, clinic_id,
-                priority, visit_type, return_type);
+                priority, visit_type, return_type, serviceOptionIds);
     }
 
     public void putAppointmentStatus(Boolean attended, int clinic_id, int service_provider_id, int service_user_id){
@@ -84,6 +87,8 @@ public class PostingData {
         @SerializedName("return_type")
         private String returnType;
         private Boolean attended;
+        @SerializedName("service_option_ids")
+        private List<Integer> serviceOptionIds;
 
         public Appointment(Boolean attended, int clinicId, int serviceProviderId, int serviceUserId){
             this.attended = attended;
@@ -93,7 +98,8 @@ public class PostingData {
         }
 
         public Appointment(String date, String time, int serviceProviderId, int serviceUserId,
-                           int clinicId, String priority, String visitType, String returnType){
+                           int clinicId, String priority, String visitType, String returnType,
+                           List<Integer> serviceOptionIds){
             this.date = date;
             this.time = time;
             this.serviceProviderId = serviceProviderId;
@@ -102,6 +108,7 @@ public class PostingData {
             this.priority = priority;
             this.visitType = visitType;
             this.returnType = returnType;
+            this.serviceOptionIds = serviceOptionIds;
         }
     }
 
