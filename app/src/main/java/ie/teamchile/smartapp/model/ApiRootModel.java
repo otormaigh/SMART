@@ -21,12 +21,15 @@ public class ApiRootModel {
     private Appointment appointment;
     @Expose
     private List<Appointment> appointments = new ArrayList<>();
-    private Map<Integer, Appointment> idApptMap = new HashMap<>();
-    private Map<Integer, Map<String, List<Integer>>> clinicDateApptIdMap = new HashMap<>();
+    private Map<Integer, Appointment> clinicVisitIdApptMap = new HashMap<>();
+    private Map<Integer, Map<String, List<Integer>>> clinicVisitClinicDateApptIdMap = new HashMap<>();
+    private Map<Integer, Appointment> homeVisitIdApptMap = new HashMap<>();
+    private Map<Integer, Map<String, List<Integer>>> homeVisitOptionDateApptIdMap = new HashMap<>();
     @SerializedName("service_options")
     @Expose
     private List<ServiceOption> serviceOptions = new ArrayList<>();
-    private Map<Integer, ServiceOption> serviceOptionsMap = new HashMap<>();
+    private List<ServiceOption> serviceOptionsHomeList = new ArrayList<>();
+    private Map<Integer, ServiceOption> serviceOptionsClinicMap = new HashMap<>();
     @SerializedName("service_users")
     @Expose
     private List<ServiceUser> serviceUsers = new ArrayList<>();
@@ -47,7 +50,7 @@ public class ApiRootModel {
     private List<Announcement> announcements = new ArrayList<>();
     @Expose
     private List<Clinic> clinics = new ArrayList<>();
-    private Map<Integer, Clinic> clinicsMap = new HashMap<>();
+    private Map<Integer, Clinic> clinicMap = new HashMap<>();
     @SerializedName("clinic_time_records")
     @Expose
     private List<ClinicTimeRecord> clinicTimeRecords = new ArrayList<>();
@@ -71,12 +74,12 @@ public class ApiRootModel {
         return instance;
     }
 
-    public void setLoginStatus(Boolean isLoggedIn) {
-        this.isLoggedIn = isLoggedIn;
-    }
-
     public Boolean getLoginStatus() {
         return isLoggedIn;
+    }
+
+    public void setLoginStatus(Boolean isLoggedIn) {
+        this.isLoggedIn = isLoggedIn;
     }
 
     /**
@@ -129,20 +132,36 @@ public class ApiRootModel {
         this.appointments.add(appointment);
     }
 
-    public void setClinicDateApptIdMap(Map<Integer, Map<String, List<Integer>>> clinicDateApptIdMap) {
-        this.clinicDateApptIdMap = clinicDateApptIdMap;
+    public Map<Integer, Map<String, List<Integer>>> getClinicVisitClinicDateApptIdMap() {
+        return clinicVisitClinicDateApptIdMap;
     }
 
-    public Map<Integer, Map<String, List<Integer>>> getClinicDateApptIdMap() {
-        return clinicDateApptIdMap;
+    public void setClinicVisitClinicDateApptIdMap(Map<Integer, Map<String, List<Integer>>> clinicVisitClinicDateApptIdMap) {
+        this.clinicVisitClinicDateApptIdMap = clinicVisitClinicDateApptIdMap;
     }
 
-    public void setIdApptMap(Map<Integer, Appointment> idApptMap) {
-        this.idApptMap = idApptMap;
+    public Map<Integer, Appointment> getClinicVisitIdApptMap() {
+        return clinicVisitIdApptMap;
     }
 
-    public Map<Integer, Appointment> getIdApptMap() {
-        return idApptMap;
+    public void setClinicVisitIdApptMap(Map<Integer, Appointment> clinicVisitIdApptMap) {
+        this.clinicVisitIdApptMap = clinicVisitIdApptMap;
+    }
+
+    public Map<Integer, Appointment> getHomeVisitIdApptMap() {
+        return homeVisitIdApptMap;
+    }
+
+    public void setHomeVisitIdApptMap(Map<Integer, Appointment> homeVisitIdApptMap) {
+        this.homeVisitIdApptMap = homeVisitIdApptMap;
+    }
+
+    public Map<Integer, Map<String, List<Integer>>> getHomeVisitOptionDateApptIdMap() {
+        return homeVisitOptionDateApptIdMap;
+    }
+
+    public void setHomeVisitOptionDateApptIdMap(Map<Integer, Map<String, List<Integer>>> homeVisitOptionDateApptIdMap) {
+        this.homeVisitOptionDateApptIdMap = homeVisitOptionDateApptIdMap;
     }
 
     public List<ServiceOption> getServiceOptions() {
@@ -156,12 +175,20 @@ public class ApiRootModel {
         this.serviceOptions = serviceOptions;
     }
 
-    public Map<Integer, ServiceOption> getServiceOptionsMap() {
-        return serviceOptionsMap;
+    public List<ServiceOption> getServiceOptionsHomeList() {
+        return serviceOptionsHomeList;
     }
 
-    public void setServiceOptionsMap(Map<Integer, ServiceOption> serviceOptionsMap) {
-        this.serviceOptionsMap = serviceOptionsMap;
+    public void setServiceOptionsHomeList(List<ServiceOption> serviceOptionsHomeList) {
+        this.serviceOptionsHomeList = serviceOptionsHomeList;
+    }
+
+    public Map<Integer, ServiceOption> getServiceOptionsClinicMap() {
+        return serviceOptionsClinicMap;
+    }
+
+    public void setServiceOptionsClinicMap(Map<Integer, ServiceOption> serviceOptionsClinicMap) {
+        this.serviceOptionsClinicMap = serviceOptionsClinicMap;
     }
 
     /**
@@ -178,12 +205,12 @@ public class ApiRootModel {
         this.clinics = clinics;
     }
 
-    public Map<Integer, Clinic> getClinicsMap() {
-        return clinicsMap;
+    public Map<Integer, Clinic> getClinicMap() {
+        return clinicMap;
     }
 
-    public void setClinicsMap(Map<Integer, Clinic> clinicsMap) {
-        this.clinicsMap = clinicsMap;
+    public void setClinicMap(Map<Integer, Clinic> clinicMap) {
+        this.clinicMap = clinicMap;
     }
 
     public List<ServiceProvider> getServiceProviders() {
@@ -306,7 +333,7 @@ public class ApiRootModel {
         this.antiDHistories = antiDHistories;
     }
 
-    public void addAntiDHistory(AntiDHistory antiDHistory){
+    public void addAntiDHistory(AntiDHistory antiDHistory) {
         this.antiDHistories.add(antiDHistory);
     }
 

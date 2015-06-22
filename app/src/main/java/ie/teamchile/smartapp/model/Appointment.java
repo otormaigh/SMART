@@ -1,10 +1,10 @@
 package ie.teamchile.smartapp.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Appointment {
 
@@ -21,7 +21,7 @@ public class Appointment {
     private String priority;
     @SerializedName("service_option_ids")
     @Expose
-    private List<Object> serviceOptionIds = new ArrayList<>();
+    private List<Integer> serviceOptionIds = new ArrayList<>();
     @SerializedName("service_provider_id")
     @Expose
     private Integer serviceProviderId;
@@ -140,20 +140,15 @@ public class Appointment {
     /**
      * @return The serviceOptionIds
      */
-    public List<Object> getServiceOptionIds() {
+    public List<Integer> getServiceOptionIds() {
         return serviceOptionIds;
     }
 
     /**
      * @param serviceOptionIds The service_option_ids
      */
-    public void setServiceOptionIds(List<Object> serviceOptionIds) {
+    public void setServiceOptionIds(List<Integer> serviceOptionIds) {
         this.serviceOptionIds = serviceOptionIds;
-    }
-
-    public Appointment withServiceOptionIds(List<Object> serviceOptionIds) {
-        this.serviceOptionIds = serviceOptionIds;
-        return this;
     }
 
     /**
