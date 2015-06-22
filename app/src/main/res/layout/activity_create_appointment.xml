@@ -78,6 +78,7 @@
             android:paddingLeft="@dimen/padding_Xsmall" />
 
         <TextView
+            android:id="@+id/tv_visit_time_title"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_small"
