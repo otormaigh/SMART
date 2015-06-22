@@ -52,6 +52,21 @@
         android:entries="@array/visit_service_option" />
 
     <TextView
+        android:id="@+id/tv_visit_day"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Day"
+        android:paddingTop="@dimen/padding_small"
+        android:paddingLeft="@dimen/padding_Xsmall"
+        android:textSize="@dimen/text_small"
+        android:textColor="@color/light_grey"/>
+
+    <Spinner
+        android:id="@+id/spnr_visit_day"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
         android:id="@+id/tv_clinic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

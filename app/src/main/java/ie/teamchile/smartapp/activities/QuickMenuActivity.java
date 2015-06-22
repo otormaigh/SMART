@@ -24,7 +24,6 @@ import ie.teamchile.smartapp.model.ServiceOption;
 import ie.teamchile.smartapp.util.SmartApi;
 import ie.teamchile.smartapp.util.ToastAlert;
 import retrofit.Callback;
-import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -117,33 +116,63 @@ public class QuickMenuActivity extends BaseActivity {
                     @Override
                     public void success(ApiRootModel apiRootModel, Response response) {
                         ApiRootModel.getInstance().setAppointments(apiRootModel.getAppointments());
-                        List<Integer> apptIdList;
-                        Map<String, List<Integer>> dateApptIdMap;
-                        Map<Integer, Map<String, List<Integer>>> clinicDateApptIdMap = new HashMap<>();
-                        Map<Integer, Appointment> idApptMap = new HashMap<>();
+                        List<Integer> clinicApptIdList;
+                        Map<String, List<Integer>> clinicVisitdateApptIdMap;
+                        Map<Integer, Map<String, List<Integer>>> clinicVisitClinicDateApptIdMap = new HashMap<>();
+                        Map<Integer, Appointment> clinicVisitIdApptMap = new HashMap<>();
+
+                        List<Integer> homeApptIdList;
+                        Map<String, List<Integer>> homeVisitdateApptIdMap;
+                        Map<Integer, Map<String, List<Integer>>> homeVisitClinicDateApptIdMap = new HashMap<>();
+                        Map<Integer, Appointment> homeVisitIdApptMap = new HashMap<>();
 
                         for (int i = 0; i < apiRootModel.getAppointments().size(); i++) {
-                            apptIdList = new ArrayList<>();
-                            dateApptIdMap = new HashMap<>();
-                            String apptDate = apiRootModel.getAppointments().get(i).getDate();
-                            int apptId = apiRootModel.getAppointments().get(i).getId();
-                            int clinicId = apiRootModel.getAppointments().get(i).getClinicId();
+                            clinicApptIdList = new ArrayList<>();
+                            homeApptIdList = new ArrayList<>();
+                            clinicVisitdateApptIdMap = new HashMap<>();
+                            homeVisitdateApptIdMap = new HashMap<>();
                             Appointment appt = apiRootModel.getAppointments().get(i);
+                            String apptDate = appt.getDate();
+                            int apptId = appt.getId();
+                            int clinicId = appt.getClinicId();
+                            int serviceOptionId = 0;
+                            if(appt.getServiceOptionIds().size() > 0) {
+                                serviceOptionId = appt.getServiceOptionIds().get(0);
+                            }
 
-                            if (clinicDateApptIdMap.get(clinicId) != null) {
-                                dateApptIdMap = clinicDateApptIdMap.get(clinicId);
-                                if (dateApptIdMap.get(apptDate) != null) {
-                                    apptIdList = dateApptIdMap.get(apptDate);
+                            if(appt.getPriority().equals("home-visit")){
+                                if (homeVisitClinicDateApptIdMap.get(serviceOptionId) != null) {
+                                    homeVisitdateApptIdMap = homeVisitClinicDateApptIdMap.get(serviceOptionId);
+                                    if (homeVisitdateApptIdMap.get(apptDate) != null) {
+                                        homeApptIdList = homeVisitdateApptIdMap.get(apptDate);
+                                    }
+                                }
+                            } else {
+                                if (clinicVisitClinicDateApptIdMap.get(clinicId) != null) {
+                                    clinicVisitdateApptIdMap = clinicVisitClinicDateApptIdMap.get(clinicId);
+                                    if (clinicVisitdateApptIdMap.get(apptDate) != null) {
+                                        clinicApptIdList = clinicVisitdateApptIdMap.get(apptDate);
+                                    }
                                 }
                             }
-                            apptIdList.add(apptId);
-                            dateApptIdMap.put(apptDate, apptIdList);
 
-                            clinicDateApptIdMap.put(clinicId, dateApptIdMap);
-                            idApptMap.put(apptId, appt);
+                            clinicApptIdList.add(apptId);
+                            clinicVisitdateApptIdMap.put(apptDate, clinicApptIdList);
+
+                            clinicVisitClinicDateApptIdMap.put(clinicId, clinicVisitdateApptIdMap);
+                            clinicVisitIdApptMap.put(apptId, appt);
+
+                            homeApptIdList.add(apptId);
+                            homeVisitdateApptIdMap.put(apptDate, homeApptIdList);
+
+                            homeVisitClinicDateApptIdMap.put(serviceOptionId, homeVisitdateApptIdMap);
+                            homeVisitIdApptMap.put(apptId, appt);
                         }
-                        ApiRootModel.getInstance().setClinicDateApptIdMap(clinicDateApptIdMap);
-                        ApiRootModel.getInstance().setIdApptMap(idApptMap);
+                        ApiRootModel.getInstance().setClinicVisitClinicDateApptIdMap(clinicVisitClinicDateApptIdMap);
+                        ApiRootModel.getInstance().setClinicVisitIdApptMap(clinicVisitIdApptMap);
+
+                        ApiRootModel.getInstance().setHomeVisitOptionDateApptIdMap(homeVisitClinicDateApptIdMap);
+                        ApiRootModel.getInstance().setHomeVisitIdApptMap(homeVisitIdApptMap);
                         Log.d("Retrofit", "appointments finished");
                         done++;
                         Log.d("Retrofit", "done = " + done);
@@ -187,14 +216,21 @@ public class QuickMenuActivity extends BaseActivity {
 				CredentialsEnum.API_KEY.toString(),
 				new Callback<ApiRootModel>() {
 					@Override
-					public void success(ApiRootModel things, Response response) {
-						Map<Integer, ServiceOption> serviceOptionMap = new HashMap<>();
-						ApiRootModel.getInstance().setServiceOptions(things.getServiceOptions());
-						for(int i = 0; i < things.getServiceOptions().size(); i++){
-							serviceOptionMap.put(things.getServiceOptions().get(i).getId(),
-									things.getServiceOptions().get(i));
+					public void success(ApiRootModel apiRootModel, Response response) {
+						List<ServiceOption> serviceOptionHomeList = new ArrayList<>();
+						Map<Integer, ServiceOption> serviceOptionClinicMap = new HashMap<>();
+                        ApiRootModel.getInstance().setServiceOptions(apiRootModel.getServiceOptions());
+                        for(int i = 0; i < apiRootModel.getServiceOptions().size(); i++){
+                            ServiceOption option = apiRootModel.getServiceOptions().get(i);
+                            if(option.getHomeVisit()){
+                                serviceOptionHomeList.add(apiRootModel.getServiceOptions().get(i));
+                            } else {
+                                serviceOptionClinicMap.put(apiRootModel.getServiceOptions().get(i).getId(),
+                                        apiRootModel.getServiceOptions().get(i));
+                            }
 						}
-						ApiRootModel.getInstance().setServiceOptionsMap(serviceOptionMap);
+						ApiRootModel.getInstance().setServiceOptionsHomeList(serviceOptionHomeList);
+						ApiRootModel.getInstance().setServiceOptionsClinicMap(serviceOptionClinicMap);
 						Log.d("Retrofit", "service options finished");
 						done++;
 						Log.d("Retrofit", "done = " + done);
@@ -218,7 +254,7 @@ public class QuickMenuActivity extends BaseActivity {
 							clinicMap.put(things.getClinics().get(i).getId(),
 									things.getClinics().get(i));
 						}
-						ApiRootModel.getInstance().setClinicsMap(clinicMap);
+						ApiRootModel.getInstance().setClinicMap(clinicMap);
 						Log.d("Retrofit", "clinics finished");
 						done++;
 						Log.d("Retrofit", "done = " + done);

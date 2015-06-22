@@ -339,8 +339,8 @@ public class BaseActivity extends AppCompatActivity {
                         clinicDateApptIdMap.put(clinicId, dateApptIdMap);
                         idApptMap.put(apptId, appt);
                     }
-                    ApiRootModel.getInstance().setClinicDateApptIdMap(clinicDateApptIdMap);
-                    ApiRootModel.getInstance().setIdApptMap(idApptMap);
+                    ApiRootModel.getInstance().setClinicVisitClinicDateApptIdMap(clinicDateApptIdMap);
+                    ApiRootModel.getInstance().setClinicVisitIdApptMap(idApptMap);
                     Log.d("Retrofit", "appointments finished");
                     pd.dismiss();
                 }
