@@ -283,6 +283,7 @@ public class CreateAppointmentActivity extends BaseActivity {
 				@Override
 				public void failure(RetrofitError error) {
 					Log.d("Retro", "retro failure error = " + error);
+                    pd.dismiss();
 				}
 			}
 		);
@@ -356,7 +357,8 @@ public class CreateAppointmentActivity extends BaseActivity {
 			switch (parent.getId()){
 				case R.id.list_dialog:
 					hideKeyboard();
-					ServiceUser serviceUser = serviceUserList.get(position);
+                    ServiceUser serviceUser = serviceUserList.get(position);
+                    ApiRootModel.getInstance().setServiceUser(serviceUser);
 					etUserName.setText(serviceUser.getPersonalFields().getName());
 					userID = serviceUser.getId();
 					postOrAnte();
