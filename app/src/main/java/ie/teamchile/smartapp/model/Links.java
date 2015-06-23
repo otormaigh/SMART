@@ -19,6 +19,15 @@ public class Links {
     private String serviceUser;
     @Expose
     private String announcements;
+    @SerializedName("hearing_histories")
+    @Expose
+    private String hearingHistories;
+    @SerializedName("nbst_histories")
+    @Expose
+    private String nbstHistories;
+    @SerializedName("vit_k_histories")
+    @Expose
+    private String vitKHistories;
 
     /**
      * @return The announcements
@@ -84,5 +93,44 @@ public class Links {
     public Links withServiceUser(String serviceUser) {
         this.serviceUser = serviceUser;
         return this;
+    }
+
+    public String getHearingHistories() {
+        return hearingHistories;
+    }
+
+    /**
+     * @param hearingHistories The hearing_histories
+     */
+    public void setHearingHistories(String hearingHistories) {
+        this.hearingHistories = hearingHistories;
+    }
+
+    /**
+     * @return The nbstHistories
+     */
+    public String getNbstHistories() {
+        return nbstHistories;
+    }
+
+    /**
+     * @param nbstHistories The nbst_histories
+     */
+    public void setNbstHistories(String nbstHistories) {
+        this.nbstHistories = nbstHistories;
+    }
+
+    /**
+     * @return The vitKHistories
+     */
+    public String getVitKHistories() {
+        return vitKHistories;
+    }
+
+    /**
+     * @param vitKHistories The vit_k_histories
+     */
+    public void setVitKHistories(String vitKHistories) {
+        this.vitKHistories = vitKHistories;
     }
 }

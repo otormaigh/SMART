@@ -183,9 +183,54 @@ public interface SmartApi {
             @Header("Api-Key") String apiKey,
             Callback<ApiRootModel> callback);
 
-    @GET("/babies/{baby_ids}")
+    @GET("/babies/{baby_id}")
     void getBabyById(
-            @Path("baby_ids") String babyyIds,
+            @Path("baby_id") int babyId,
+            @Header("Auth-Token") String authToken,
+            @Header("Api-Key") String apiKey,
+            Callback<ApiRootModel> callback);
+
+    @GET("/babies/{baby_id}/vit_khistories")
+    void getVitKHistories(
+            @Path("baby_id") int babyId,
+            @Header("Auth-Token") String authToken,
+            @Header("Api-Key") String apiKey,
+            Callback<ApiRootModel> callback);
+
+    @PUT("/babies/{baby_id}")
+    void putVitK(
+            @Body PostingData vitKUpdate,
+            @Path("baby_id") int babyId,
+            @Header("Auth-Token") String authToken,
+            @Header("Api-Key") String apiKey,
+            Callback<ApiRootModel> callback);
+
+    @PUT("/babies/{baby_id}")
+    void putHearing(
+            @Body PostingData hearingUpdate,
+            @Path("baby_id") int babyId,
+            @Header("Auth-Token") String authToken,
+            @Header("Api-Key") String apiKey,
+            Callback<ApiRootModel> callback);
+
+    @GET("/babies/{baby_id}/hearing_histories")
+    void getHearingHistories(
+            @Path("baby_id") int babyId,
+            @Header("Auth-Token") String authToken,
+            @Header("Api-Key") String apiKey,
+            Callback<ApiRootModel> callback);
+
+    @PUT("/babies/{baby_id}")
+    void putNBST(
+            @Body PostingData nbstUpdate,
+            @Path("baby_id") int babyId,
+            @Header("Auth-Token") String authToken,
+            @Header("Api-Key") String apiKey,
+            Callback<ApiRootModel> callback);
+
+    @GET("/babies/{baby_id}/nbst_histories")
+    void getNbstHistories(
+            @Path("baby_id") int babyId,
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
             Callback<ApiRootModel> callback);

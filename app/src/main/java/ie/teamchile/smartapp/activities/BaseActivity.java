@@ -71,6 +71,7 @@ public class BaseActivity extends AppCompatActivity {
     protected SmartApi api;
     protected int p = 0;
     protected int b = 0;
+    protected int bId = 0;
     protected int spinnerWarning;
     protected int done = 0;
 
@@ -289,7 +290,7 @@ public class BaseActivity extends AppCompatActivity {
             p = 0;
     }
 
-    protected void getRecentBaby() {
+    protected void getRecentBabyPosition() {
         List<Baby> babyList = ApiRootModel.getInstance().getBabies();
         List<Date> asDate = new ArrayList<>();
         if (babyList.size() != 1) {
@@ -306,10 +307,73 @@ public class BaseActivity extends AppCompatActivity {
             b = 0;
     }
 
+    protected void getRecentBabyId() {
+        List<Baby> babyList = ApiRootModel.getInstance().getBabies();
+        List<Integer> idList = new ArrayList<>();
+        List<Date> asDate = new ArrayList<>();
+        if (babyList.size() != 1) {
+            try {
+                for (int i = 0; i < babyList.size(); i++) {
+                    String deliveryDateTime = babyList.get(i).getDeliveryDateTime();
+                    idList.add(babyList.get(i).getId());
+                    asDate.add(dfDateTimeWZone.parse(deliveryDateTime));
+                }
+                bId = idList.get(asDate.indexOf(Collections.max(asDate)));
+            } catch (ParseException | NullPointerException e) {
+                e.printStackTrace();
+            }
+        } else
+            bId = babyList.get(0).getId();
+    }
+
     protected void updateAppointment(final Context context) {
         if (pd != null)
             if (!pd.isShowing())
                 showProgressDialog(context, "Updating Appointments");
+        /*api.getAllAppointments(
+            ApiRootModel.getInstance().getLogin().getToken(),
+            CredentialsEnum.API_KEY.toString(),
+            new Callback<ApiRootModel>() {
+                @Override
+                public void success(ApiRootModel apiRootModel, Response response) {
+                    ApiRootModel.getInstance().setAppointments(apiRootModel.getAppointments());
+                    List<Integer> apptIdList;
+                    Map<String, List<Integer>> dateApptIdMap;
+                    Map<Integer, Map<String, List<Integer>>> clinicDateApptIdMap = new HashMap<>();
+                    Map<Integer, Appointment> idApptMap = new HashMap<>();
+
+                    for (int i = 0; i < apiRootModel.getAppointments().size(); i++) {
+                        apptIdList = new ArrayList<>();
+                        dateApptIdMap = new HashMap<>();
+                        String apptDate = apiRootModel.getAppointments().get(i).getDate();
+                        int apptId = apiRootModel.getAppointments().get(i).getId();
+                        int clinicId = apiRootModel.getAppointments().get(i).getClinicId();
+                        Appointment appt = apiRootModel.getAppointments().get(i);
+
+                        if (clinicDateApptIdMap.get(clinicId) != null) {
+                            dateApptIdMap = clinicDateApptIdMap.get(clinicId);
+                            if (dateApptIdMap.get(apptDate) != null) {
+                                apptIdList = dateApptIdMap.get(apptDate);
+                            }
+                        }
+                        apptIdList.add(apptId);
+                        dateApptIdMap.put(apptDate, apptIdList);
+
+                        clinicDateApptIdMap.put(clinicId, dateApptIdMap);
+                        idApptMap.put(apptId, appt);
+                    }
+                    ApiRootModel.getInstance().setClinicVisitClinicDateApptIdMap(clinicDateApptIdMap);
+                    ApiRootModel.getInstance().setClinicVisitIdApptMap(idApptMap);
+                    Log.d("Retrofit", "appointments finished");
+                    pd.dismiss();
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    Log.d("Retrofit", "appointments retro failure " + error);
+                    pd.dismiss();
+                }
+            });*/
 
         api.getAllAppointments(
                 ApiRootModel.getInstance().getLogin().getToken(),

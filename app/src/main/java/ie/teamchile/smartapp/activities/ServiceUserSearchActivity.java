@@ -3,6 +3,7 @@ package ie.teamchile.smartapp.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -16,11 +17,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.model.ApiRootModel;
+import ie.teamchile.smartapp.model.HearingHistory;
+import ie.teamchile.smartapp.model.NbstHistory;
+import ie.teamchile.smartapp.model.PregnancyNote;
 import ie.teamchile.smartapp.model.ServiceUser;
+import ie.teamchile.smartapp.model.VitKHistory;
 import ie.teamchile.smartapp.util.SmartApi;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -80,7 +87,103 @@ public class ServiceUserSearchActivity extends BaseActivity {
 		}
 	}
 
-	private class ButtonClick implements View.OnClickListener {
+    private void getHistories() {
+        Log.d("bugs", "b = " + bId);
+        getRecentBabyId();
+        Log.d("bugs", "b = " + bId);
+        api.getVitKHistories(
+                bId,
+                ApiRootModel.getInstance().getLogin().getToken(),
+                SmartApi.API_KEY,
+                new Callback<ApiRootModel>() {
+                    @Override
+                    public void success(ApiRootModel apiRootModel, Response response) {
+                        Collections.sort(apiRootModel.getVitKHistories(), new Comparator<VitKHistory>() {
+
+                            @Override
+                            public int compare(VitKHistory a, VitKHistory b) {
+                                int valA;
+                                int valB;
+
+                                valA = a.getId();
+                                valB = b.getId();
+
+                                return -((Integer) valA).compareTo(valB);
+                            }
+                        });
+                        ApiRootModel.getInstance().setVitKHistories(apiRootModel.getVitKHistories());
+                        Log.d("retro", "vit k history done");
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.d("retro", "vit k history failure = " + error);
+                    }
+                }
+        );
+        api.getHearingHistories(
+                bId,
+                ApiRootModel.getInstance().getLogin().getToken(),
+                SmartApi.API_KEY,
+                new Callback<ApiRootModel>() {
+                    @Override
+                    public void success(ApiRootModel apiRootModel, Response response) {
+                        Collections.sort(apiRootModel.getHearingHistories(), new Comparator<HearingHistory>() {
+
+                            @Override
+                            public int compare(HearingHistory a, HearingHistory b) {
+                                int valA;
+                                int valB;
+
+                                valA = a.getId();
+                                valB = b.getId();
+
+                                return -((Integer) valA).compareTo(valB);
+                            }
+                        });
+                        ApiRootModel.getInstance().setHearingHistories(apiRootModel.getHearingHistories());
+                        Log.d("retro" , "hearing history done");
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.d("retro" , "hearing history failure = " + error);
+                    }
+                }
+        );
+        api.getNbstHistories(
+                bId,
+                ApiRootModel.getInstance().getLogin().getToken(),
+                SmartApi.API_KEY,
+                new Callback<ApiRootModel>() {
+                    @Override
+                    public void success(ApiRootModel apiRootModel, Response response) {
+                        Collections.sort(apiRootModel.getNbstHistories(), new Comparator<NbstHistory>() {
+
+                            @Override
+                            public int compare(NbstHistory a, NbstHistory b) {
+                                int valA;
+                                int valB;
+
+                                valA = a.getId();
+                                valB = b.getId();
+
+                                return -((Integer) valA).compareTo(valB);
+                            }
+                        });
+                        ApiRootModel.getInstance().setNbstHistories(apiRootModel.getNbstHistories());
+                        Log.d("retro" , "nbst history done");
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.d("retro" , "nbst history failure = " + error);
+                    }
+                }
+        );
+    }
+
+    private class ButtonClick implements View.OnClickListener {
 		public void onClick(View v) {
 			switch (v.getId()) {
 
@@ -126,6 +229,7 @@ public class ServiceUserSearchActivity extends BaseActivity {
 	}
 
 	private void searchForPatient(String name, String hospitalNumber, String dob){
+        Log.d("retro", "ServiceUserSearchActivity user search success");
 		showProgressDialog(ServiceUserSearchActivity.this, "Fetching Information");
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(SmartApi.BASE_URL)
@@ -149,6 +253,7 @@ public class ServiceUserSearchActivity extends BaseActivity {
                         ApiRootModel.getInstance().setAntiDHistories(apiRootModel.getAntiDHistories());
 						if (changeActivity) {
                             startActivity(intent);
+                            getHistories();
                         } else {
 							searchResults.clear();
 							hospitalNumberList.clear();
@@ -175,6 +280,7 @@ public class ServiceUserSearchActivity extends BaseActivity {
 
 				@Override
 				public void failure(RetrofitError error) {
+                    Log.d("retro", "ServiceUserSearchActivity user search failure = " + error);
                     llNoUserFound.setVisibility(View.VISIBLE);
                     pd.dismiss();
 				}
