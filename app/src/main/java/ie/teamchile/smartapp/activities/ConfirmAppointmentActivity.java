@@ -29,8 +29,8 @@ public class ConfirmAppointmentActivity extends BaseActivity {
     				 txtEmailTo, txtSmsTo;
     private Button btnYes, btnNo;
     private String name, hospitalNumber, clinicName, date, monthDate, time,
-    		priority, visitType, timeBefore, timeAfter, email, sms, serviceOptionId;
-    private int userId, clinicID;
+    		priority, visitType, timeBefore, timeAfter, email, sms;
+    private int userId, serviceOptionId;
     private Calendar cal = Calendar.getInstance();
     private String returnType;
     private List<Integer> serviceOptionIdList = new ArrayList<>();
@@ -50,9 +50,9 @@ public class ConfirmAppointmentActivity extends BaseActivity {
         btnYes.setOnClickListener(new ButtonClick());
         btnNo = (Button) findViewById(R.id.btn_confirm_no);
         btnNo.setOnClickListener(new ButtonClick());
-        
+
         clinicName = getIntent().getStringExtra("clinicName");
-        clinicID = Integer.parseInt(getIntent().getStringExtra("clinicID"));
+
         date = getIntent().getStringExtra("date");
         try {
         	cal.setTime(dfDateOnly.parse(date));
@@ -68,16 +68,7 @@ public class ConfirmAppointmentActivity extends BaseActivity {
         timeAfter = getIntent().getStringExtra("timeAfter"); 
         userId = Integer.parseInt(getIntent().getStringExtra("userId"));
         visitType = getIntent().getStringExtra("visitType");
-        serviceOptionId = getIntent().getStringExtra("serviceOptionId");
-
-        serviceOptionIdList.add(Integer.parseInt(serviceOptionId));
-        Log.d("bugs", "serviceOptionIdList = " + serviceOptionIdList);
-
-        Log.d("appointment", "userId: " + userId + "\nclinicName: " + clinicName + 
-        		"\nclinicID: " +  clinicID  + "\nDate: " + monthDate + 
-				"\nTime: " + time + "\nReturn Type: " + returnType +
-				"\nPriority: " + priority + "\nVisit Type: " + visitType +
-                "\nServiceOptionId: " + serviceOptionId);
+        serviceOptionId = Integer.parseInt(getIntent().getStringExtra("serviceOptionId"));
         
         name = ApiRootModel.getInstance().getServiceUser().getPersonalFields().getName();
         hospitalNumber = ApiRootModel.getInstance().getServiceUser().getHospitalNumber();
@@ -106,6 +97,7 @@ public class ConfirmAppointmentActivity extends BaseActivity {
                 case R.id.btn_confirm_no:
                 	Log.d("bugs", "no button clicked");
                 	Intent intent = new Intent(ConfirmAppointmentActivity.this, CreateAppointmentActivity.class);
+                    int clinicID = Integer.parseInt(getIntent().getStringExtra("clinicID"));
                 	intent.putExtra("from", "confirm");
                 	intent.putExtra("clinicName", clinicName);
             		intent.putExtra("clinicID", clinicID);
@@ -126,7 +118,14 @@ public class ConfirmAppointmentActivity extends BaseActivity {
 
     private void postAppointment(){
         PostingData appointment = new PostingData();
-        appointment.postAppointment(date, time, userId, clinicID, priority, visitType, returnType, serviceOptionIdList);
+        if(priority.equals("home-visit")){
+            Log.d("bugs", "homevisit");
+            appointment.postAppointment(date, userId, priority, visitType, returnType, serviceOptionId);
+        } else if(priority.equals("scheduled")){
+            Log.d("bugs", "scheduled");
+            int clinicID = Integer.parseInt(getIntent().getStringExtra("clinicID"));
+            appointment.postAppointment(date, time, userId, clinicID, priority, visitType, returnType);
+        }
 
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(SmartApi.BASE_URL)
@@ -143,10 +142,15 @@ public class ConfirmAppointmentActivity extends BaseActivity {
                     @Override
                     public void success(ApiRootModel apiRootModel, Response response) {
                         ApiRootModel.getInstance().addAppointment(apiRootModel.getAppointment());
-                        Intent intent = new Intent(ConfirmAppointmentActivity.this, AppointmentCalendarActivity.class);
+                        Intent intentClinic = new Intent(ConfirmAppointmentActivity.this, AppointmentCalendarActivity.class);
+                        Intent intentHome = new Intent(ConfirmAppointmentActivity.this, HomeVisitAppointmentActivity.class);
                         pd.dismiss();
-                        //addNewApptToMaps();
-                        startActivity(intent);
+                        addNewApptToMaps();
+
+                        if(priority.equals("home-visit"))
+                            startActivity(intentHome);
+                        else if(priority.equals("scheduled"))
+                            startActivity(intentClinic);
                     }
 
                     @Override

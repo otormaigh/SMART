@@ -30,13 +30,22 @@ public class PostingData {
         this.login = new Login(username, password);
     }
 
+    public void postAppointment(String date, int service_user_id,
+                                String priority, String visit_type,
+                                String return_type, int serviceOptionId) {
+        int service_provider_id = ApiRootModel.getInstance().getLogin().getId();
+
+        this.appointment = new Appointment(date, service_provider_id, service_user_id,
+                priority, visit_type, return_type, serviceOptionId);
+    }
+
     public void postAppointment(String date, String time, int service_user_id,
                                 int clinic_id, String priority, String visit_type,
-                                String return_type, List<Integer> serviceOptionIds) {
+                                String return_type) {
         int service_provider_id = ApiRootModel.getInstance().getLogin().getId();
 
         this.appointment = new Appointment(date, time, service_provider_id, service_user_id, clinic_id,
-                priority, visit_type, return_type, serviceOptionIds);
+                priority, visit_type, return_type);
     }
 
     public void putAppointmentStatus(Boolean attended, int clinic_id, int service_provider_id, int service_user_id){
@@ -76,7 +85,7 @@ public class PostingData {
         private String date;
         private String time;
         @SerializedName("clinic_id")
-        private int clinicId;
+        private Integer clinicId;
         @SerializedName("service_provider_id")
         private int serviceProviderId;
         @SerializedName("service_user_id")
@@ -87,8 +96,8 @@ public class PostingData {
         @SerializedName("return_type")
         private String returnType;
         private Boolean attended;
-        @SerializedName("service_option_ids")
-        private List<Integer> serviceOptionIds;
+        @SerializedName("service_option_id")
+        private Integer serviceOptionId;
 
         public Appointment(Boolean attended, int clinicId, int serviceProviderId, int serviceUserId){
             this.attended = attended;
@@ -97,9 +106,20 @@ public class PostingData {
             this.serviceUserId = serviceUserId;
         }
 
+        public Appointment(String date, int serviceProviderId, int serviceUserId,
+                           String priority, String visitType, String returnType,
+                           int serviceOptionId){
+            this.date = date;
+            this.serviceProviderId = serviceProviderId;
+            this.serviceUserId = serviceUserId;
+            this.priority = priority;
+            this.visitType = visitType;
+            this.returnType = returnType;
+            this.serviceOptionId = serviceOptionId;
+        }
+
         public Appointment(String date, String time, int serviceProviderId, int serviceUserId,
-                           int clinicId, String priority, String visitType, String returnType,
-                           List<Integer> serviceOptionIds){
+                           int clinicId, String priority, String visitType, String returnType){
             this.date = date;
             this.time = time;
             this.serviceProviderId = serviceProviderId;
@@ -108,7 +128,6 @@ public class PostingData {
             this.priority = priority;
             this.visitType = visitType;
             this.returnType = returnType;
-            this.serviceOptionIds = serviceOptionIds;
         }
     }
 
