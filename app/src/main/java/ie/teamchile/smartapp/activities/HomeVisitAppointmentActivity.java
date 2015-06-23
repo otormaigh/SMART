@@ -370,7 +370,6 @@ public class HomeVisitAppointmentActivity extends BaseActivity {
                         intent = new Intent(HomeVisitAppointmentActivity.this, CreateAppointmentActivity.class);
                         intent.putExtra("from", "home-visit");
                         intent.putExtra("serviceOptionId", String.valueOf(visitOptionSelected));
-                        intent.putExtra("clinicID", "0");
                         startActivity(intent);
                     } else {
                         int serviceUserId = ApiRootModel.getInstance().getHomeVisitIdApptMap().get(apptId.get(position)).getServiceUserId();
