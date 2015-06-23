@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -40,8 +41,9 @@ public class LoginActivity extends AppCompatActivity {
 		tvUsername = (TextView) findViewById(R.id.et_username);
 		tvPassword = (TextView) findViewById(R.id.et_password);
         tvAbout = (TextView) findViewById(R.id.tv_about);
+        tvAbout.setOnClickListener(new ButtonClick());
 
-        tvAbout.setMovementMethod(LinkMovementMethod.getInstance());
+        //tvAbout.setMovementMethod(LinkMovementMethod.getInstance());
 
 		initRetrofit();
 	}
@@ -67,6 +69,10 @@ public class LoginActivity extends AppCompatActivity {
 				getCredentials();
 				doRetrofit();
 				break;
+                case R.id.tv_about:
+                    Intent intent = new Intent(LoginActivity.this, AboutActivity.class);
+                    startActivity(intent);
+                    break;
 			}
 		}
 	}
