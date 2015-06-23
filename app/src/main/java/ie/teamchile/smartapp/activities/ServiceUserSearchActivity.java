@@ -23,6 +23,7 @@ import java.util.List;
 
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.model.ApiRootModel;
+import ie.teamchile.smartapp.model.FeedingHistory;
 import ie.teamchile.smartapp.model.HearingHistory;
 import ie.teamchile.smartapp.model.NbstHistory;
 import ie.teamchile.smartapp.model.PregnancyNote;
@@ -88,9 +89,9 @@ public class ServiceUserSearchActivity extends BaseActivity {
 	}
 
     private void getHistories() {
-        Log.d("bugs", "b = " + bId);
+        getRecentBabyPosition();
         getRecentBabyId();
-        Log.d("bugs", "b = " + bId);
+        getRecentPregnancy();
         api.getVitKHistories(
                 bId,
                 ApiRootModel.getInstance().getLogin().getToken(),
@@ -178,6 +179,36 @@ public class ServiceUserSearchActivity extends BaseActivity {
                     @Override
                     public void failure(RetrofitError error) {
                         Log.d("retro" , "nbst history failure = " + error);
+                    }
+                }
+        );
+        api.getFeedingHistoriesByPregId(
+                ApiRootModel.getInstance().getPregnancies().get(p).getId(),
+                ApiRootModel.getInstance().getLogin().getToken(),
+                SmartApi.API_KEY,
+                new Callback<ApiRootModel>() {
+                    @Override
+                    public void success(ApiRootModel apiRootModel, Response response) {
+                        Collections.sort(apiRootModel.getFeedingHistories(), new Comparator<FeedingHistory>() {
+
+                            @Override
+                            public int compare(FeedingHistory a, FeedingHistory b) {
+                                int valA;
+                                int valB;
+
+                                valA = a.getId();
+                                valB = b.getId();
+
+                                return -((Integer) valA).compareTo(valB);
+                            }
+                        });
+                        ApiRootModel.getInstance().setFeedingHistories(apiRootModel.getFeedingHistories());
+                        Log.d("retro", "feeding history done");
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.d("retro", "feeding history failure = " + error);
                     }
                 }
         );

@@ -70,6 +70,10 @@ public class PostingData {
         this.pregnancy = new Pregnancy(antiD, serviceUserId);
     }
 
+    public void putFeeding(String feeding, int serviceUserId){
+        this.pregnancy = new Pregnancy(serviceUserId, feeding);
+    }
+
     public void putVitK(String vitK, int serviceUserId, int pregnancyId){
         this.baby = new Baby(vitK, serviceUserId, pregnancyId);
     }
@@ -191,10 +195,16 @@ public class PostingData {
         private String antiD;
         @SerializedName("service_user_id")
         private int serviceUserId;
+        private String feeding;
 
         public Pregnancy(String antiD, int serviceUserId){
             this.antiD = antiD;
             this.serviceUserId = serviceUserId;
+        }
+
+        public Pregnancy(int serviceUserId, String feeding){
+            this.serviceUserId = serviceUserId;
+            this.feeding = feeding;
         }
     }
 

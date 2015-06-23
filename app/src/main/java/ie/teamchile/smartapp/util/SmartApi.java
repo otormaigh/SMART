@@ -235,6 +235,21 @@ public interface SmartApi {
             @Header("Api-Key") String apiKey,
             Callback<ApiRootModel> callback);
 
+    @PUT("/pregnancies/{pregnancy_id}")
+    void putFeeding(
+            @Body PostingData feedingUpdate,
+            @Path("pregnancy_id") int pregnancyId,
+            @Header("Auth-Token") String authToken,
+            @Header("Api-Key") String apiKey,
+            Callback<ApiRootModel> callback);
+
+    @GET("/feeding_histories")
+    void getFeedingHistoriesByPregId(
+            @Query("pregnancy_id") int pregnancyId,
+            @Header("Auth-Token") String authToken,
+            @Header("Api-Key") String apiKey,
+            Callback<ApiRootModel> callback);
+
     @POST("/clinics/{clinic_id}/time_records")
     void postTimeRecords(
             @Body PostingData timeRecords,
