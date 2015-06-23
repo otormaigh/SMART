@@ -30,7 +30,6 @@ import retrofit.client.Response;
 public class QuickMenuActivity extends BaseActivity {
     private boolean isViewVisible;
 	private Button btnPatientSearch, btnBookAppointment, btnClinicRecord, btnTodaysAppointments;
-	//private int done = 0;
 	private CountDownTimer timer;
 
     @Override
