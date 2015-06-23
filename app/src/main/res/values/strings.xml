@@ -12,7 +12,7 @@
     <string name="secure_maternity">Secure Maternity</string>
     <string name="appointment_recording">Appointment Recording Tracker</string>
     <string name="maternity_hospital">© National Maternity Hospital, Ireland</string>
-    <string name="about_url"><a href="http://www.nmh.ie/maternity-care-options/community-midwives.220.html">About</a></string>
+    <string name="about_url"><a href="http://54.72.7.91/#/about">About</a></string>
 
     <!-- QUICK MENU -->
     <string name="patient_search">Search Patient</string>
@@ -258,5 +258,8 @@
     <string name="add_to_history">Add To History</string>
     <string name="save_option">Save Option</string>
     <string name="title_activity_home_visit_appointment">HomeVisitAppointmentActivity</string>
+    <string name="title_activity_about">AboutActivity</string>
+
+    <string name="hello_world">Hello world!</string>
 
 </resources>
