@@ -85,9 +85,6 @@ public class CreateAppointmentActivity extends BaseActivity {
 		Log.d("postAppointment", "time now: " + c.getTime());
 		getSharedPrefs();
 
-        clinicID = Integer.parseInt(getIntent().getStringExtra("clinicID"));
-        serviceOptionId = Integer.parseInt(getIntent().getStringExtra("serviceOptionId"));
-
         checkDirectionOfIntent();
         setReturnTypeSpinner();
         setPrioritySpinner();
@@ -96,6 +93,7 @@ public class CreateAppointmentActivity extends BaseActivity {
 
     private void clinicAppt(){
         getSharedPrefs();
+        clinicID = Integer.parseInt(getIntent().getStringExtra("clinicID"));
         daySelected = AppointmentCalendarActivity.daySelected;
         clinicName = ApiRootModel.getInstance().getClinicMap().get(clinicID).getName();
         time = getIntent().getStringExtra("time");
@@ -110,6 +108,7 @@ public class CreateAppointmentActivity extends BaseActivity {
 
     private void homeVisitAppt(){
         daySelected = HomeVisitAppointmentActivity.daySelected;
+        serviceOptionId = Integer.parseInt(getIntent().getStringExtra("serviceOptionId"));
         clinicName = ApiRootModel.getInstance().getServiceOptionsHomeMap().get(serviceOptionId).getName();
         tvTime.setVisibility(View.GONE);
         tvTimeTitle.setVisibility(View.GONE);
