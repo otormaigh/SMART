@@ -74,7 +74,10 @@ public class ApiRootModel {
     private List<HearingHistory> hearingHistories = new ArrayList<>();
     @SerializedName("nbst_histories")
     @Expose
-    private List<NbstHistory> nbstHistories = new ArrayList<NbstHistory>();
+    private List<NbstHistory> nbstHistories = new ArrayList<>();
+    @SerializedName("feeding_histories")
+    @Expose
+    private List<FeedingHistory> feedingHistories = new ArrayList<>();
 
     private ApiRootModel() {
     }
@@ -407,5 +410,13 @@ public class ApiRootModel {
 
     public void setNbstHistories(List<NbstHistory> nbstHistories) {
         this.nbstHistories = nbstHistories;
+    }
+
+    public List<FeedingHistory> getFeedingHistories() {
+        return feedingHistories;
+    }
+
+    public void setFeedingHistories(List<FeedingHistory> feedingHistories) {
+        this.feedingHistories = feedingHistories;
     }
 }
