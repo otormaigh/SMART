@@ -26,37 +26,39 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class ClinicTimeRecordActivity extends BaseActivity {
+    private List<Integer> clinicStarted = new ArrayList<>();
+    private List<Integer> clinicStopped = new ArrayList<>();
     private List<Integer> idList = new ArrayList<>();
     private List<String> clinicDays = new ArrayList<>();
     private Map<String, List<String>> clinicMap = new HashMap<>();
     private Map<String, List<Integer>> clinicIdMap = new HashMap<>();
-    private ListView lvTimeRecordClinics;
-    private String today;
+    private ListView lvNotStarted;
+    private ListView lvStarted;
+    private String todayDay;
+    private String todayDate;
     private String now;
     private String then;
     private String date;
     private int clinicId;
-    private Button btnCheckIn;
-    //private Button btnCheckOut;
-    //private EditText etRecordId;
+    private Button btnStartClinic;
+    private Button btnStopClinic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentForNav(R.layout.activity_clinic_time_record);
         c = Calendar.getInstance();
-        today = dfDayLong.format(c.getTime());
-        Log.d("SMART", "today = " + today);
-        lvTimeRecordClinics = (ListView) findViewById(R.id.lv_time_record_clinics);
-        btnCheckIn = (Button) findViewById(R.id.btn_check_in);
-        btnCheckIn.setOnClickListener(new Clicky());
-        /*btnCheckOut = (Button) findViewById(R.id.btn_check_out);
-        btnCheckOut.setOnClickListener(new Clicky());
-        etRecordId = (EditText) findViewById(R.id.et_record_id);
+        todayDay = dfDayLong.format(c.getTime());
+        todayDate = dfDateOnly.format(c.getTime());
+        Log.d("SMART", "today = " + todayDay);
+        lvNotStarted = (ListView) findViewById(R.id.lv_clinics_not_started);
+        lvStarted = (ListView) findViewById(R.id.lv_clinics_started);
+        btnStartClinic = (Button) findViewById(R.id.btn_start_clinic);
+        btnStartClinic.setOnClickListener(new ButtonClicky());
+        btnStopClinic = (Button) findViewById(R.id.btn_stop_clinic);
+        btnStopClinic.setOnClickListener(new ButtonClicky());
 
-        btnCheckOut.setEnabled(false);*/
-
-        setActionBarTitle("Clinic Time");
+        setActionBarTitle("Start/Stop Clinics");
 
         thing();
     }
@@ -99,24 +101,49 @@ public class ClinicTimeRecordActivity extends BaseActivity {
         }
         Log.d("Clinic", "Record map = " + clinicMap);
 
+        for(int i = 0; i < clinicMap.get(todayDay).size(); i++){
+            getTimeRecords(clinicIdMap.get(todayDay).get(i), todayDate);
+        }
+
         ArrayAdapter adapter = new ArrayAdapter(
                 ClinicTimeRecordActivity.this,
                 android.R.layout.simple_list_item_1,
-                clinicMap.get(today));
+                clinicMap.get(todayDay));
 
-        lvTimeRecordClinics.setAdapter(adapter);
-        lvTimeRecordClinics.setOnItemClickListener(new ItemClicky());
+        lvNotStarted.setAdapter(adapter);
+        lvNotStarted.setOnItemClickListener(new ItemClicky());
+    }
+
+    private void getTimeRecords(int clinicId, String date) {
+        api.getTimeRecords(
+                clinicId,
+                date,
+                ApiRootModel.getInstance().getLogin().getToken(),
+                SmartApi.API_KEY,
+                new Callback<ApiRootModel>() {
+                    @Override
+                    public void success(ApiRootModel apiRootModel, Response response) {
+                        if(apiRootModel.getClinicTimeRecords().size() > 0){
+
+                        }
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+
+                    }
+                }
+        );
     }
 
     private class ItemClicky implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            clinicId = clinicIdMap.get(today).get(position);
+            clinicId = clinicIdMap.get(todayDay).get(position);
         }
     }
 
-    private class Clicky implements View.OnClickListener{
-
+    private class ButtonClicky implements View.OnClickListener{
         @Override
         public void onClick(View v) {
             c = Calendar.getInstance();
@@ -126,12 +153,12 @@ public class ClinicTimeRecordActivity extends BaseActivity {
             Log.d("Checkin", "now = " + now + " then = " + then + " clinic id = " + clinicId);
             date = dfDateOnly.format(c.getTime());
             switch(v.getId()){
-                case R.id.btn_check_in:
+                case R.id.btn_start_clinic:
                     putStartTime(now, clinicId);
                     break;
-                /*case R.id.btn_check_out:
+                case R.id.btn_stop_clinic:
                     putEndTime(then, date, clinicId);
-                    break;*/
+                    break;
             }
         }
     }
@@ -173,39 +200,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                 });
     }
 
-    /*private void putEndTime(String then, String date, int clinicId){
-          int recordId = Integer.parseInt(etRecordId.getText().toString());
-        //int recordId = ApiRootModel.getInstance().getClinicTimeRecords().get(0).getId();
-        PostingData timeRecord = new PostingData();
-        timeRecord.updateTimeRecords(then, date, clinicId);
+    private void putEndTime(String then, String date, int clinicId){
 
-        showProgressDialog(ClinicTimeRecordActivity.this, "Updating Clinic Time Records");
-
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(SmartApi.BASE_URL)
-                .setLogLevel(RestAdapter.LogLevel.FULL)
-                .build();
-
-        api = restAdapter.create(SmartApi.class);
-
-        api.putTimeRecords(
-                timeRecord,
-                clinicId,
-                recordId,
-                ApiRootModel.getInstance().getLogin().getToken(),
-                SmartApi.API_KEY,
-                new Callback<ApiRootModel>() {
-                    @Override
-                    public void success(ApiRootModel apiRootModel, Response response) {
-                        Log.d("SMART", "retro success");
-                        pd.dismiss();
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Log.d("SMART", "retro error = " + error);
-                        pd.dismiss();
-                    }
-                });
-    }*/
+    }
 }
