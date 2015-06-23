@@ -72,8 +72,8 @@ public class ParityDetailsActivity extends BaseActivity {
 			birthMode.add(putArrayToString(ApiRootModel.getInstance().getPregnancies().get(i).getBirthMode()));
 			birthOutcome.add(babyList.get(i).getBirthOutcome());
 			hearing.add(babyList.get(i).getHearing());
-			nbstList.add(babyList.get(i).getNewbornScreeningTest());
-			vitKList.add(babyList.get(i).getVitaminK());
+			nbstList.add(babyList.get(i).getNbst());
+			vitKList.add(babyList.get(i).getVitK());
 		}
 
         dobStr = new ArrayList<>();
