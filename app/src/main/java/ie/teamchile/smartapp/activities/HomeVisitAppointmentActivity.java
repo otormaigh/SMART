@@ -291,7 +291,7 @@ public class HomeVisitAppointmentActivity extends BaseActivity {
             switch (v.getId()) {
                 case R.id.btn_prev:
                     c.setTime(daySelected);
-                    c.add(Calendar.DAY_OF_YEAR, -7);
+                    c.add(Calendar.DAY_OF_YEAR, -1);
                     daySelected = c.getTime();
                     myCalendar.setTime(daySelected);
                     createDatePicker();
@@ -301,7 +301,7 @@ public class HomeVisitAppointmentActivity extends BaseActivity {
                     break;
                 case R.id.btn_next:
                     c.setTime(daySelected);
-                    c.add(Calendar.DAY_OF_YEAR, 7);
+                    c.add(Calendar.DAY_OF_YEAR, 1);
                     daySelected = c.getTime();
                     myCalendar.setTime(daySelected);
                     createDatePicker();
