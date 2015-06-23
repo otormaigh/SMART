@@ -163,7 +163,7 @@ public class ConfirmAppointmentActivity extends BaseActivity {
     }
 
     private void addNewApptToMaps(){
-        List<Integer> apptIdList;
+        /*List<Integer> apptIdList;
         Map<String, List<Integer>> dateApptIdMap;
         Map<Integer, Map<String, List<Integer>>> clinicDateApptIdMap = new HashMap<>();
         Map<Integer, Appointment> idApptMap = new HashMap<>();
@@ -188,8 +188,66 @@ public class ConfirmAppointmentActivity extends BaseActivity {
             clinicDateApptIdMap.put(clinicId, dateApptIdMap);
             idApptMap.put(apptId, appt);
         }
+
         ApiRootModel.getInstance().setClinicVisitClinicDateApptIdMap(clinicDateApptIdMap);
         ApiRootModel.getInstance().setClinicVisitIdApptMap(idApptMap);
+        Log.d("Retrofit", "appointments finished");*/
+
+        List<Integer> clinicApptIdList;
+        Map<String, List<Integer>> clinicVisitdateApptIdMap;
+        Map<Integer, Map<String, List<Integer>>> clinicVisitClinicDateApptIdMap = new HashMap<>();
+        Map<Integer, Appointment> clinicVisitIdApptMap = new HashMap<>();
+
+        List<Integer> homeApptIdList;
+        Map<String, List<Integer>> homeVisitdateApptIdMap;
+        Map<Integer, Map<String, List<Integer>>> homeVisitClinicDateApptIdMap = new HashMap<>();
+        Map<Integer, Appointment> homeVisitIdApptMap = new HashMap<>();
+        for (int i = 0; i < ApiRootModel.getInstance().getAppointments().size(); i++) {
+            clinicApptIdList = new ArrayList<>();
+            homeApptIdList = new ArrayList<>();
+            clinicVisitdateApptIdMap = new HashMap<>();
+            homeVisitdateApptIdMap = new HashMap<>();
+            Appointment appt = ApiRootModel.getInstance().getAppointments().get(i);
+            String apptDate = appt.getDate();
+            int apptId = appt.getId();
+            int clinicId = appt.getClinicId();
+            int serviceOptionId = 0;
+            if(appt.getServiceOptionIds().size() > 0) {
+                serviceOptionId = appt.getServiceOptionIds().get(0);
+            }
+
+            if(appt.getPriority().equals("home-visit")){
+                Log.d("bugs" , " appt ID = " + appt.getId());
+                if (homeVisitClinicDateApptIdMap.get(serviceOptionId) != null) {
+                    homeVisitdateApptIdMap = homeVisitClinicDateApptIdMap.get(serviceOptionId);
+                    if (homeVisitdateApptIdMap.get(apptDate) != null) {
+                        homeApptIdList = homeVisitdateApptIdMap.get(apptDate);
+                    }
+                }
+                homeApptIdList.add(apptId);
+                homeVisitdateApptIdMap.put(apptDate, homeApptIdList);
+
+                homeVisitClinicDateApptIdMap.put(serviceOptionId, homeVisitdateApptIdMap);
+                homeVisitIdApptMap.put(apptId, appt);
+            } else {
+                if (clinicVisitClinicDateApptIdMap.get(clinicId) != null) {
+                    clinicVisitdateApptIdMap = clinicVisitClinicDateApptIdMap.get(clinicId);
+                    if (clinicVisitdateApptIdMap.get(apptDate) != null) {
+                        clinicApptIdList = clinicVisitdateApptIdMap.get(apptDate);
+                    }
+                }
+                clinicApptIdList.add(apptId);
+                clinicVisitdateApptIdMap.put(apptDate, clinicApptIdList);
+
+                clinicVisitClinicDateApptIdMap.put(clinicId, clinicVisitdateApptIdMap);
+                clinicVisitIdApptMap.put(apptId, appt);
+            }
+        }
+        ApiRootModel.getInstance().setClinicVisitClinicDateApptIdMap(clinicVisitClinicDateApptIdMap);
+        ApiRootModel.getInstance().setClinicVisitIdApptMap(clinicVisitIdApptMap);
+
+        ApiRootModel.getInstance().setHomeVisitOptionDateApptIdMap(homeVisitClinicDateApptIdMap);
+        ApiRootModel.getInstance().setHomeVisitIdApptMap(homeVisitIdApptMap);
         Log.d("Retrofit", "appointments finished");
         pd.dismiss();
     }
