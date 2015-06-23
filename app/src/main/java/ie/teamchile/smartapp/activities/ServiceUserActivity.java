@@ -48,7 +48,8 @@ import retrofit.client.Response;
 public class ServiceUserActivity extends BaseActivity {
     private final CharSequence[] userContactList = {"Call Mobile", "Send SMS", "Send Email"};
     private final CharSequence[] kinContactList = {"Call Mobile", "Send SMS"};
-    private ImageView ivAntiDHistory, ivMidwiferyNotes, ivVitKHistory, ivHearingHistory, ivNbstHistory;
+    private ImageView ivAntiDHistory, ivMidwiferyNotes, ivVitKHistory, ivHearingHistory,
+            ivNbstHistory, ivFeeding;
     private TextView tvAnteAge, tvAnteGestation, tvAnteParity, tvAnteDeliveryTime,
             tvAnteBloodGroup, tvAnteRhesus, tvAnteLastPeriod;
     private TextView tvUsrHospitalNumber, tvUsrEmail, tvUsrMobileNumber, tvUsrRoad,
@@ -71,7 +72,7 @@ public class ServiceUserActivity extends BaseActivity {
     private String sex_female = "emale";
     private Dialog dialog;
     private Button bookAppointmentButton;
-    private TableRow trParity, trAntiD, trMidwifeNotes, trVitK, trHearing, trNbst;
+    private TableRow trParity, trAntiD, trMidwifeNotes, trVitK, trHearing, trNbst, trFeeding;
     private Date dobAsDate = null;
     private Intent userCallIntent, userSmsIntent, userEmailIntent;
     private Calendar cal = Calendar.getInstance();
@@ -170,6 +171,8 @@ public class ServiceUserActivity extends BaseActivity {
         ivHearingHistory.setOnClickListener(new ButtonClick());
         ivNbstHistory = (ImageView) findViewById(R.id.iv_nbst_history_icon);
         ivNbstHistory.setOnClickListener(new ButtonClick());
+        ivFeeding = (ImageView) findViewById(R.id.iv_feeding_history_icon);
+        ivFeeding.setOnClickListener(new ButtonClick());
 
         trAntiD = (TableRow) findViewById(R.id.tr_post_anti_d);
         trAntiD.setOnClickListener(new ButtonClick());
@@ -181,6 +184,8 @@ public class ServiceUserActivity extends BaseActivity {
         trHearing.setOnClickListener(new ButtonClick());
         trNbst = (TableRow) findViewById(R.id.tr_nbst);
         trNbst.setOnClickListener(new ButtonClick());
+        trFeeding = (TableRow) findViewById(R.id.tr_feeding);
+        trFeeding.setOnClickListener(new ButtonClick());
 
         try {
             dob = ApiRootModel.getInstance().getServiceUsers().get(0).getPersonalFields().getDob();
@@ -301,6 +306,30 @@ public class ServiceUserActivity extends BaseActivity {
             historyList.add(ApiRootModel.getInstance().getAntiDHistories().get(i).getAntiD());
             dateTimeList.add(formatted);
             providerNameList.add(ApiRootModel.getInstance().getAntiDHistories().get(i).getServiceProviderName());
+        }
+    }
+
+    private void setFeeding(){
+        historyList = new ArrayList<>();
+        dateTimeList = new ArrayList<>();
+        providerNameList = new ArrayList<>();
+
+        String [] arrayFromXml = getResources().getStringArray(R.array.feeding_list);
+        historyOptions = Arrays.asList(arrayFromXml);
+
+        for(int i = 0; i < ApiRootModel.getInstance().getFeedingHistories().size(); i++) {
+            Date parsed;
+            String formatted = "";
+            try {
+                parsed = dfDateTimeWMillisZone.parse(ApiRootModel.getInstance().getFeedingHistories().get(i).getCreatedAt());
+                formatted = dfHumanReadableTimeDate.format(parsed);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            historyList.add(ApiRootModel.getInstance().getFeedingHistories().get(i).getFeeding());
+            dateTimeList.add(formatted);
+            providerNameList.add(ApiRootModel.getInstance().getFeedingHistories().get(i).getServiceProviderName());
         }
     }
 
@@ -676,6 +705,8 @@ public class ServiceUserActivity extends BaseActivity {
                                 putHearing(optionSelected);
                             else if (title.equals("NBST"))
                                 putNBST(optionSelected);
+                            else if (title.equals("Feeding"))
+                                putFeeding(optionSelected);
 
                             Log.d("bugs", "anti d position button = " + optionPosition);
                         } else
@@ -736,6 +767,46 @@ public class ServiceUserActivity extends BaseActivity {
                     @Override
                     public void failure(RetrofitError error) {
                         Log.d("retro", "put anti-d retro failure = " + error);
+                        pd.dismiss();
+                    }
+                }
+        );
+    }
+
+    private void putFeeding(String feeding) {
+        Log.d("bugs", "putting antiD");
+        c = Calendar.getInstance();
+        PostingData puttingFeeding = new PostingData();
+
+        puttingFeeding.putFeeding(feeding, userId);
+
+        showProgressDialog(this, "Updating Feeding");
+
+        System.setProperty("http.keepAlive", "false");
+
+        api.putAnitD(
+                puttingFeeding,
+                ApiRootModel.getInstance().getPregnancies().get(p).getId(),
+                ApiRootModel.getInstance().getLogin().getToken(),
+                SmartApi.API_KEY,
+                new Callback<ApiRootModel>() {
+                    @Override
+                    public void success(ApiRootModel apiRootModel, Response response) {
+                        String feeding = apiRootModel.getPregnancy().getFeeding();
+                        ad.dismiss();
+                        tvPostFeeding.setText(feeding);
+                        historyList.add(0, feeding);
+                        dateTimeList.add(0, dfHumanReadableTimeDate.format(c.getTime()));
+                        providerNameList.add(0, ApiRootModel.getInstance().getServiceProvider().getName());
+                        ApiRootModel.getInstance().updatePregnancies(p, apiRootModel.getPregnancy());
+                        Log.d("retro", "put feeding retro success");
+                        pd.dismiss();
+                        ad.dismiss();
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.d("retro", "put feeding retro failure = " + error);
                         pd.dismiss();
                     }
                 }
@@ -938,6 +1009,8 @@ public class ServiceUserActivity extends BaseActivity {
                     break;
                 case R.id.tr_feeding:
                 case R.id.iv_feeding_history_icon:
+                    setFeeding();
+                    historyAlertDialog("Feeding");
                     break;
             }
         }
