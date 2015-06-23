@@ -206,6 +206,28 @@
         <item>Not Required</item>
         <item>Declined</item>
     </string-array>
+    <string-array name="vit_k_list">
+        <item>None</item>
+        <item>Oral</item>
+        <item>IM</item>
+        <item>Declined</item>
+    </string-array>
+    <string-array name="hearing_list">
+        <item>None</item>
+        <item>Complete</item>
+        <item>Appt Given</item>
+        <item>Declined</item>
+    </string-array>
+    <string-array name="feeding_list">
+        <item>Breast</item>
+        <item>Bottle</item>
+        <item>Mixed</item>
+    </string-array>
+    <string-array name="nbst_list">
+        <item>None</item>
+        <item>Done</item>
+        <item>Declined</item>
+    </string-array>
 
     <!-- NAVIGATION DRAWER-->
     <string-array name="nav_drawer_items">
@@ -233,10 +255,8 @@
     <string name="add_note">Add Pregnancy Note</string>
     
     <!-- ANTI-D DIALOG -->
-    <string name="add_to_history">Add To Anti-D History</string>
+    <string name="add_to_history">Add To History</string>
     <string name="save_option">Save Option</string>
     <string name="title_activity_home_visit_appointment">HomeVisitAppointmentActivity</string>
-
-    <string name="hello_world">Hello world!</string>
 
 </resources>

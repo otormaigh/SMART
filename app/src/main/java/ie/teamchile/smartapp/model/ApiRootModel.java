@@ -48,6 +48,8 @@ public class ApiRootModel {
     @Expose
     private List<Baby> babies = new ArrayList<>();
     @Expose
+    private Baby baby = new Baby();
+    @Expose
     private List<Announcement> announcements = new ArrayList<>();
     @Expose
     private List<Clinic> clinics = new ArrayList<>();
@@ -64,6 +66,15 @@ public class ApiRootModel {
     @SerializedName("pregnancy_note")
     @Expose
     private PregnancyNote pregnancyNote = new PregnancyNote();
+    @SerializedName("vit_k_histories")
+    @Expose
+    private List<VitKHistory> vitKHistories = new ArrayList<>();
+    @SerializedName("hearing_histories")
+    @Expose
+    private List<HearingHistory> hearingHistories = new ArrayList<>();
+    @SerializedName("nbst_histories")
+    @Expose
+    private List<NbstHistory> nbstHistories = new ArrayList<NbstHistory>();
 
     private ApiRootModel() {
     }
@@ -274,6 +285,14 @@ public class ApiRootModel {
         this.babies = babies;
     }
 
+    public Baby getBaby() {
+        return baby;
+    }
+
+    public void setBaby(Baby baby) {
+        this.baby = baby;
+    }
+
     /**
      * @return The announcements
      */
@@ -364,5 +383,29 @@ public class ApiRootModel {
 
     public void setPregnancyNote(PregnancyNote pregnancyNote) {
         this.pregnancyNote = pregnancyNote;
+    }
+
+    public List<VitKHistory> getVitKHistories() {
+        return vitKHistories;
+    }
+
+    public void setVitKHistories(List<VitKHistory> vitKHistories) {
+        this.vitKHistories = vitKHistories;
+    }
+
+    public List<HearingHistory> getHearingHistories() {
+        return hearingHistories;
+    }
+
+    public void setHearingHistories(List<HearingHistory> hearingHistories) {
+        this.hearingHistories = hearingHistories;
+    }
+
+    public List<NbstHistory> getNbstHistories() {
+        return nbstHistories;
+    }
+
+    public void setNbstHistories(List<NbstHistory> nbstHistories) {
+        this.nbstHistories = nbstHistories;
     }
 }

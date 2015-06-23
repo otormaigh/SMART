@@ -10,30 +10,32 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/tv_anti_d_dialog_title"
+            android:id="@+id/tv_history_dialog_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/clinical_blue"
-            android:gravity="center_horizontal"
-            android:padding="@dimen/padding_small"
             android:paddingLeft="-48dp"
+            android:padding="@dimen/padding_small"
+            android:textSize="@dimen/text_Xsmall"
+            android:gravity="center_horizontal"
+            android:background="@color/clinical_blue"
             android:text="SMART"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_Xsmall"/>
+            android:textColor="@color/white" />
 
         <ImageView
             android:id="@+id/iv_exit_dialog"
+            android:padding="@dimen/padding_small"
+            android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:padding="@dimen/padding_small"
             android:src="@drawable/ic_close"/>
+
     </RelativeLayout>
 
     <ListView
-        android:id="@+id/lv_anti_d"
+        android:id="@+id/lv_history_options"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:listSelector="@color/teal"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -41,11 +43,11 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btn_anti_d"
+            android:id="@+id/btn_add_history"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/add_to_history"
-            android:theme="@style/SecondaryButton"/>
+            android:text="@string/save_option"
+            android:theme="@style/CallToActionButton"/>
 
     </LinearLayout>
 </LinearLayout>

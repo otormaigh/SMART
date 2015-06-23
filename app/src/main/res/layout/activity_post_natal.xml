@@ -94,24 +94,23 @@
                         android:id="@+id/tv_post_anti_d"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_toLeftOf="@+id/iv_history_icon"
+                        android:layout_toLeftOf="@+id/iv_anti_d_history_icon"
                         android:gravity="end"
                         android:paddingRight="@dimen/padding_Xsmall"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:textSize="@dimen/text_natal_data"/>
 
                     <ImageView
-                        android:id="@+id/iv_history_icon"
+                        android:id="@+id/iv_anti_d_history_icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:adjustViewBounds="true"
                         android:clickable="true"
                         android:gravity="end"
-                        android:src="@drawable/ic_file_document"/>
+                        android:src="@drawable/ic_file_document" />
 
                 </RelativeLayout>
-
             </TableRow>
 
             <TableRow
@@ -138,13 +137,13 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toLeftOf="@+id/tv_post_midwives_notes"
+                        android:layout_toLeftOf="@+id/iv_post_midwives_notes"
                         android:paddingRight="@dimen/padding_Xsmall"
                         android:text="View"
                         android:textSize="@dimen/text_natal_field"/>
 
                     <ImageView
-                        android:id="@+id/tv_post_midwives_notes"
+                        android:id="@+id/iv_post_midwives_notes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -287,95 +286,177 @@
             </TableRow>
 
             <TableRow
+                android:id="@+id/tr_vit_k"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-0.8dp"
                 android:background="@drawable/border">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/vit_k"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/light_grey"
-                    android:textSize="@dimen/text_natal_field"/>
-
-                <TextView
-                    android:id="@+id/tv_post_vit_k"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_natal_data"/>
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:text="@string/vit_k"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textColor="@color/light_grey"
+                        android:textSize="@dimen/text_natal_field"/>
+
+                    <TextView
+                        android:id="@+id/tv_post_vit_k"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toLeftOf="@+id/iv_vit_k_history_icon"
+                        android:gravity="end"
+                        android:paddingRight="@dimen/padding_Xsmall"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textSize="@dimen/text_natal_data"/>
+
+                    <ImageView
+                        android:id="@+id/iv_vit_k_history_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:adjustViewBounds="true"
+                        android:clickable="true"
+                        android:gravity="end"
+                        android:src="@drawable/ic_file_document"/>
+
+                </RelativeLayout>
+
             </TableRow>
 
             <TableRow
+                android:id="@+id/tr_hearing"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-0.8dp"
                 android:background="@drawable/border">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/baby_hearing"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/light_grey"
-                    android:textSize="@dimen/text_natal_field"/>
-
-                <TextView
-                    android:id="@+id/tv_post_hearing"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_natal_data"/>
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:text="@string/baby_hearing"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textColor="@color/light_grey"
+                        android:textSize="@dimen/text_natal_field"/>
+
+                    <TextView
+                        android:id="@+id/tv_post_hearing"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toLeftOf="@+id/iv_hearing_history_icon"
+                        android:gravity="end"
+                        android:paddingRight="@dimen/padding_Xsmall"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textSize="@dimen/text_natal_data"/>
+
+                    <ImageView
+                        android:id="@+id/iv_hearing_history_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:adjustViewBounds="true"
+                        android:clickable="true"
+                        android:gravity="end"
+                        android:src="@drawable/ic_file_document"/>
+
+                </RelativeLayout>
+
             </TableRow>
 
             <TableRow
+                android:id="@+id/tr_feeding"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-0.8dp"
                 android:background="@drawable/border">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/baby_feeding"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/light_grey"
-                    android:textSize="@dimen/text_natal_field"/>
-
-                <TextView
-                    android:id="@+id/tv_post_feeding"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_natal_data"/>
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:text="@string/baby_feeding"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textColor="@color/light_grey"
+                        android:textSize="@dimen/text_natal_field"/>
+
+                    <TextView
+                        android:id="@+id/tv_post_feeding"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:paddingRight="@dimen/padding_Xsmall"
+                        android:layout_toLeftOf="@+id/iv_feeding_history_icon"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textSize="@dimen/text_natal_data"/>
+
+                    <ImageView
+                        android:id="@+id/iv_feeding_history_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:adjustViewBounds="true"
+                        android:clickable="true"
+                        android:gravity="end"
+                        android:src="@drawable/ic_file_document"/>
+                </RelativeLayout>
+
             </TableRow>
 
             <TableRow
+                android:id="@+id/tr_nbst"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-0.8dp"
                 android:background="@drawable/border">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/nbst"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/light_grey"
-                    android:textSize="@dimen/text_natal_field"/>
-
-                <TextView
-                    android:id="@+id/tv_post_nbst"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="@dimen/text_natal_data"/>
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:text="@string/nbst"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textColor="@color/light_grey"
+                        android:textSize="@dimen/text_natal_field"/>
+
+                    <TextView
+                        android:id="@+id/tv_post_nbst"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toLeftOf="@+id/iv_nbst_history_icon"
+                        android:gravity="end"
+                        android:paddingRight="@dimen/padding_Xsmall"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textSize="@dimen/text_natal_data"/>
+
+                    <ImageView
+                        android:id="@+id/iv_nbst_history_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:adjustViewBounds="true"
+                        android:clickable="true"
+                        android:gravity="end"
+                        android:src="@drawable/ic_file_document"/>
+
+                </RelativeLayout>
             </TableRow>
         </LinearLayout>
     </LinearLayout>
