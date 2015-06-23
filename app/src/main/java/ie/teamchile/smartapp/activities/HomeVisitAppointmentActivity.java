@@ -26,6 +26,8 @@ import com.daimajia.swipe.SwipeLayout;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -33,6 +35,7 @@ import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.model.ApiRootModel;
 import ie.teamchile.smartapp.model.Appointment;
 import ie.teamchile.smartapp.model.PostingData;
+import ie.teamchile.smartapp.model.PregnancyNote;
 import ie.teamchile.smartapp.util.SmartApi;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -183,6 +186,19 @@ public class HomeVisitAppointmentActivity extends BaseActivity {
             if(ApiRootModel.getInstance().getHomeVisitOptionDateApptIdMap().get(visitOptionSelected).containsKey(dateSelectedStr)) {
                 idList = ApiRootModel.getInstance().getHomeVisitOptionDateApptIdMap().get(visitOptionSelected).get(dateSelectedStr);
                 removeZeros(idList);
+                Collections.sort(idList, new Comparator<Integer>() {
+
+                    @Override
+                    public int compare(Integer a, Integer b) {
+                        int valA;
+                        int valB;
+
+                        valA = a;
+                        valB = b ;
+
+                        return ((Integer) valA).compareTo(valB);
+                    }
+                });
                 for (int i = 0; i < idList.size(); i++) {
                     if (idList.get(i) != 0) {
                         Appointment appointment = ApiRootModel.getInstance().getHomeVisitIdApptMap().get(idList.get(i));
