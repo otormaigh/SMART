@@ -22,6 +22,8 @@ public class PostingData {
     public Pregnancy pregnancy;
     @Expose
     public Note note;
+    @Expose
+    public Baby baby;
 
     public PostingData() {
     }
@@ -66,6 +68,18 @@ public class PostingData {
 
     public void putAntiD(String antiD, int serviceUserId){
         this.pregnancy = new Pregnancy(antiD, serviceUserId);
+    }
+
+    public void putVitK(String vitK, int serviceUserId, int pregnancyId){
+        this.baby = new Baby(vitK, serviceUserId, pregnancyId);
+    }
+
+    public void putHearing(String hearing, int serviceUserId, int pregnancyId){
+        this.baby = new Baby(serviceUserId, hearing, pregnancyId);
+    }
+
+    public void putNBST(String nbst, int serviceUserId, int pregnancyId){
+        this.baby = new Baby(serviceUserId, pregnancyId, nbst);
     }
 
     public void postNote(String note) {
@@ -190,6 +204,36 @@ public class PostingData {
 
         public Note(String note) {
             this.note = note;
+        }
+    }
+
+    private class Baby {
+        @SerializedName("vit_k")
+        private String vitK;
+        @SerializedName("service_user_id")
+        private int serviceUserId;
+        @SerializedName("pregnancy_id")
+        private int pregnancyId;
+        private String hearing;
+        private String nbst;
+
+
+        public Baby(String vitK, int serviceUserId, int pregnancyId){
+            this.vitK = vitK;
+            this.serviceUserId = serviceUserId;
+            this.pregnancyId = pregnancyId;
+        }
+
+        public Baby(int serviceUserId, String hearing, int pregnancyId){
+            this.serviceUserId = serviceUserId;
+            this.hearing = hearing;
+            this.pregnancyId = pregnancyId;
+        }
+
+        public Baby(int serviceUserId, int pregnancyId, String nbst){
+            this.serviceUserId = serviceUserId;
+            this.pregnancyId = pregnancyId;
+            this.nbst = nbst;
         }
     }
 }

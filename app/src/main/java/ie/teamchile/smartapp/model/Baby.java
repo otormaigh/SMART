@@ -3,10 +3,14 @@ package ie.teamchile.smartapp.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by user on 5/26/15.
  */
 public class Baby {
+
     @SerializedName("birth_outcome")
     @Expose
     private String birthOutcome;
@@ -17,22 +21,32 @@ public class Baby {
     private String gender;
     @Expose
     private String hearing;
+    @SerializedName("hearing_history_ids")
+    @Expose
+    private List<Object> hearingHistoryIds = new ArrayList<Object>();
     @SerializedName("hospital_number")
     @Expose
     private String hospitalNumber;
     @Expose
     private Integer id;
     @Expose
-    private String name;
-    @SerializedName("newborn_screening_test")
+    private Links links;
     @Expose
-    private String newbornScreeningTest;
+    private String name;
+    @Expose
+    private String nbst;
+    @SerializedName("nbst_history_ids")
+    @Expose
+    private List<Object> nbstHistoryIds = new ArrayList<Object>();
     @SerializedName("pregnancy_id")
     @Expose
     private Integer pregnancyId;
-    @SerializedName("vitamin_k")
+    @SerializedName("vit_k")
     @Expose
-    private String vitaminK;
+    private String vitK;
+    @SerializedName("vit_k_history_ids")
+    @Expose
+    private List<Object> vitKHistoryIds = new ArrayList<Object>();
     @Expose
     private Integer weight;
 
@@ -93,6 +107,20 @@ public class Baby {
     }
 
     /**
+     * @return The hearingHistoryIds
+     */
+    public List<Object> getHearingHistoryIds() {
+        return hearingHistoryIds;
+    }
+
+    /**
+     * @param hearingHistoryIds The hearing_history_ids
+     */
+    public void setHearingHistoryIds(List<Object> hearingHistoryIds) {
+        this.hearingHistoryIds = hearingHistoryIds;
+    }
+
+    /**
      * @return The hospitalNumber
      */
     public String getHospitalNumber() {
@@ -121,6 +149,20 @@ public class Baby {
     }
 
     /**
+     * @return The links
+     */
+    public Links getLinks() {
+        return links;
+    }
+
+    /**
+     * @param links The links
+     */
+    public void setLinks(Links links) {
+        this.links = links;
+    }
+
+    /**
      * @return The name
      */
     public String getName() {
@@ -135,17 +177,31 @@ public class Baby {
     }
 
     /**
-     * @return The newbornScreeningTest
+     * @return The nbst
      */
-    public String getNewbornScreeningTest() {
-        return newbornScreeningTest;
+    public String getNbst() {
+        return nbst;
     }
 
     /**
-     * @param newbornScreeningTest The newborn_screening_test
+     * @param nbst The nbst
      */
-    public void setNewbornScreeningTest(String newbornScreeningTest) {
-        this.newbornScreeningTest = newbornScreeningTest;
+    public void setNbst(String nbst) {
+        this.nbst = nbst;
+    }
+
+    /**
+     * @return The nbstHistoryIds
+     */
+    public List<Object> getNbstHistoryIds() {
+        return nbstHistoryIds;
+    }
+
+    /**
+     * @param nbstHistoryIds The nbst_history_ids
+     */
+    public void setNbstHistoryIds(List<Object> nbstHistoryIds) {
+        this.nbstHistoryIds = nbstHistoryIds;
     }
 
     /**
@@ -163,17 +219,31 @@ public class Baby {
     }
 
     /**
-     * @return The vitaminK
+     * @return The vitK
      */
-    public String getVitaminK() {
-        return vitaminK;
+    public String getVitK() {
+        return vitK;
     }
 
     /**
-     * @param vitaminK The vitamin_k
+     * @param vitK The vit_k
      */
-    public void setVitaminK(String vitaminK) {
-        this.vitaminK = vitaminK;
+    public void setVitK(String vitK) {
+        this.vitK = vitK;
+    }
+
+    /**
+     * @return The vitKHistoryIds
+     */
+    public List<Object> getVitKHistoryIds() {
+        return vitKHistoryIds;
+    }
+
+    /**
+     * @param vitKHistoryIds The vit_k_history_ids
+     */
+    public void setVitKHistoryIds(List<Object> vitKHistoryIds) {
+        this.vitKHistoryIds = vitKHistoryIds;
     }
 
     /**
