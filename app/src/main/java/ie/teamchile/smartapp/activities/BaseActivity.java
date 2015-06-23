@@ -72,6 +72,7 @@ public class BaseActivity extends AppCompatActivity {
     protected int p = 0;
     protected int b = 0;
     protected int spinnerWarning;
+    protected int done = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -305,9 +306,11 @@ public class BaseActivity extends AppCompatActivity {
             b = 0;
     }
 
-    protected void updateAppointment(Context context) {
-        showProgressDialog(context, "Updating Appointments");
-        api.getAllAppointments(
+    protected void updateAppointment(final Context context) {
+        if (pd != null)
+            if (!pd.isShowing())
+                showProgressDialog(context, "Updating Appointments");
+        /*api.getAllAppointments(
             ApiRootModel.getInstance().getLogin().getToken(),
             CredentialsEnum.API_KEY.toString(),
             new Callback<ApiRootModel>() {
@@ -350,6 +353,86 @@ public class BaseActivity extends AppCompatActivity {
                     Log.d("Retrofit", "appointments retro failure " + error);
                     pd.dismiss();
                 }
-            });
+            });*/
+
+        api.getAllAppointments(
+                ApiRootModel.getInstance().getLogin().getToken(),
+                CredentialsEnum.API_KEY.toString(),
+                new Callback<ApiRootModel>() {
+                    @Override
+                    public void success(ApiRootModel apiRootModel, Response response) {
+                        ApiRootModel.getInstance().setAppointments(apiRootModel.getAppointments());
+                        List<Integer> clinicApptIdList;
+                        Map<String, List<Integer>> clinicVisitdateApptIdMap;
+                        Map<Integer, Map<String, List<Integer>>> clinicVisitClinicDateApptIdMap = new HashMap<>();
+                        Map<Integer, Appointment> clinicVisitIdApptMap = new HashMap<>();
+
+                        List<Integer> homeApptIdList;
+                        Map<String, List<Integer>> homeVisitdateApptIdMap;
+                        Map<Integer, Map<String, List<Integer>>> homeVisitClinicDateApptIdMap = new HashMap<>();
+                        Map<Integer, Appointment> homeVisitIdApptMap = new HashMap<>();
+
+                        for (int i = 0; i < apiRootModel.getAppointments().size(); i++) {
+                            clinicApptIdList = new ArrayList<>();
+                            homeApptIdList = new ArrayList<>();
+                            clinicVisitdateApptIdMap = new HashMap<>();
+                            homeVisitdateApptIdMap = new HashMap<>();
+                            Appointment appt = apiRootModel.getAppointments().get(i);
+                            String apptDate = appt.getDate();
+                            int apptId = appt.getId();
+                            int clinicId = appt.getClinicId();
+                            int serviceOptionId = 0;
+                            if(appt.getServiceOptionIds().size() > 0) {
+                                serviceOptionId = appt.getServiceOptionIds().get(0);
+                            }
+
+                            if(appt.getPriority().equals("home-visit")){
+                                if (homeVisitClinicDateApptIdMap.get(serviceOptionId) != null) {
+                                    homeVisitdateApptIdMap = homeVisitClinicDateApptIdMap.get(serviceOptionId);
+                                    if (homeVisitdateApptIdMap.get(apptDate) != null) {
+                                        homeApptIdList = homeVisitdateApptIdMap.get(apptDate);
+                                    }
+                                }
+                                homeApptIdList.add(apptId);
+                                homeVisitdateApptIdMap.put(apptDate, homeApptIdList);
+
+                                homeVisitClinicDateApptIdMap.put(serviceOptionId, homeVisitdateApptIdMap);
+                                homeVisitIdApptMap.put(apptId, appt);
+                            } else {
+                                if (clinicVisitClinicDateApptIdMap.get(clinicId) != null) {
+                                    clinicVisitdateApptIdMap = clinicVisitClinicDateApptIdMap.get(clinicId);
+                                    if (clinicVisitdateApptIdMap.get(apptDate) != null) {
+                                        clinicApptIdList = clinicVisitdateApptIdMap.get(apptDate);
+                                    }
+                                }
+                                clinicApptIdList.add(apptId);
+                                clinicVisitdateApptIdMap.put(apptDate, clinicApptIdList);
+
+                                clinicVisitClinicDateApptIdMap.put(clinicId, clinicVisitdateApptIdMap);
+                                clinicVisitIdApptMap.put(apptId, appt);
+                            }
+                        }
+                        ApiRootModel.getInstance().setClinicVisitClinicDateApptIdMap(clinicVisitClinicDateApptIdMap);
+                        ApiRootModel.getInstance().setClinicVisitIdApptMap(clinicVisitIdApptMap);
+
+                        ApiRootModel.getInstance().setHomeVisitOptionDateApptIdMap(homeVisitClinicDateApptIdMap);
+                        ApiRootModel.getInstance().setHomeVisitIdApptMap(homeVisitIdApptMap);
+                        Log.d("Retrofit", "appointments finished");
+                        done++;
+                        Log.d("Retrofit", "done = " + done);
+                        pd.dismiss();
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.d("Retrofit", "appointments retro failure " + error);
+                        Toast.makeText(context,
+                                "Error downloading appointments\n" +
+                                        "please try again",
+                                Toast.LENGTH_LONG).show();
+                        pd.dismiss();
+                    }
+                }
+        );
     }
 }
