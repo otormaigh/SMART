@@ -114,6 +114,49 @@
             </TableRow>
 
             <TableRow
+                android:id="@+id/tr_feeding"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-0.8dp"
+                android:background="@drawable/border">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:text="@string/baby_feeding"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textColor="@color/light_grey"
+                        android:textSize="@dimen/text_natal_field"/>
+
+                    <TextView
+                        android:id="@+id/tv_post_feeding"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:paddingRight="@dimen/padding_Xsmall"
+                        android:layout_toLeftOf="@+id/iv_feeding_history_icon"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textSize="@dimen/text_natal_data"/>
+
+                    <ImageView
+                        android:id="@+id/iv_feeding_history_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:adjustViewBounds="true"
+                        android:clickable="true"
+                        android:gravity="end"
+                        android:src="@drawable/ic_file_document"/>
+                </RelativeLayout>
+
+            </TableRow>
+
+            <TableRow
                 android:id="@+id/tr_midwife_notes"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -369,49 +412,6 @@
                         android:gravity="end"
                         android:src="@drawable/ic_file_document"/>
 
-                </RelativeLayout>
-
-            </TableRow>
-
-            <TableRow
-                android:id="@+id/tr_feeding"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="-0.8dp"
-                android:background="@drawable/border">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:text="@string/baby_feeding"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:textColor="@color/light_grey"
-                        android:textSize="@dimen/text_natal_field"/>
-
-                    <TextView
-                        android:id="@+id/tv_post_feeding"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
-                        android:paddingRight="@dimen/padding_Xsmall"
-                        android:layout_toLeftOf="@+id/iv_feeding_history_icon"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:textSize="@dimen/text_natal_data"/>
-
-                    <ImageView
-                        android:id="@+id/iv_feeding_history_icon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:adjustViewBounds="true"
-                        android:clickable="true"
-                        android:gravity="end"
-                        android:src="@drawable/ic_file_document"/>
                 </RelativeLayout>
 
             </TableRow>
