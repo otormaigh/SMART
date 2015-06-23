@@ -38,7 +38,8 @@ import retrofit.client.Response;
 
 public class CreateAppointmentActivity extends BaseActivity {
 	private ArrayAdapter<String> visitPriorityAdapter, returnTypeAdapter;
-	private String userName, apptDate, time, priority, visitType, clinicName;
+	private String userName, apptDate, time, priority, visitType, clinicName,
+            hospitalNumber, email, sms;
 	private int userID;
 	private Calendar c, myCalendar;
     private Date daySelected;
@@ -73,6 +74,8 @@ public class CreateAppointmentActivity extends BaseActivity {
 		tvDate = (TextView) findViewById(R.id.tv_visit_date);
 		tvClinic = (TextView) findViewById(R.id.tv_visit_clinic);
 
+        etUserName.setText("");
+
         btnConfirmAppointment.setOnClickListener(new ButtonClick());
         btnUserSearch.setOnClickListener(new ButtonClick());
 
@@ -85,11 +88,11 @@ public class CreateAppointmentActivity extends BaseActivity {
 		Log.d("postAppointment", "time now: " + c.getTime());
 		getSharedPrefs();
 
-        checkDirectionOfIntent();
         setReturnTypeSpinner();
         setPrioritySpinner();
         checkIfEditEmpty();
-	}
+        checkDirectionOfIntent();
+    }
 
     private void clinicAppt(){
         getSharedPrefs();
@@ -120,11 +123,29 @@ public class CreateAppointmentActivity extends BaseActivity {
         tvClinic.setText(clinicName);
     }
 
+    private void fromConfirm(){
+        etUserName.setText(getIntent().getStringExtra("userName"));
+        priority = getIntent().getStringExtra("priority");
+        userID = Integer.parseInt(getIntent().getStringExtra("userId"));
+        //clinicName = getIntent().getStringExtra("clinicName");
+        //clinicID = Integer.parseInt(getIntent().getStringExtra("clinicID"));
+        apptDate = getIntent().getStringExtra("date");
+        time = getIntent().getStringExtra("time");
+
+        if (priority.equals("home-visit"))
+            homeVisitAppt();
+        else if (priority.equals("scheduled"))
+            clinicAppt();
+    }
+
     @Override
 	protected void onResume() {
 		super.onResume();
 		Log.d("MYLOG", "In onResume CreateAppointment");
 		checkDirectionOfIntent();
+        //setReturnTypeSpinner();
+        //setPrioritySpinner();
+        checkIfEditEmpty();
 	}
 
 	private void checkDirectionOfIntent(){
@@ -133,8 +154,7 @@ public class CreateAppointmentActivity extends BaseActivity {
 			clinicAppt();
             Log.d("bugs", "intent from clinic");
 		} else if (intentOrigin.equals("confirm")) {
-			etUserName.setText(getIntent().getStringExtra("userName"));
-			userID = Integer.parseInt(getIntent().getStringExtra("userId"));
+            fromConfirm();
             Log.d("bugs", "intent from confirm");
 		} else if (intentOrigin.equals("home-visit")) {
             homeVisitAppt();
@@ -149,7 +169,7 @@ public class CreateAppointmentActivity extends BaseActivity {
 	}
 
     private Boolean checkIfOkToGo(){
-        if(!userName.isEmpty() &&
+        if(userID != 0 &&
                 visitPrioritySpinner.getSelectedItemPosition() != 0 &&
                 visitReturnTypeSpinner.getSelectedItemPosition() != 0){
             return true;
@@ -197,7 +217,6 @@ public class CreateAppointmentActivity extends BaseActivity {
         public void onClick(View v) {
             switch (v.getId()) {
             case R.id.btn_confirm_appointment:
-            	userName = etUserName.getText().toString();
             	apptDate = dfDateOnly.format(myCalendar.getTime());
             	passOptions.setDaySelected(myCalendar.getTime());
             	checkIfEditEmpty();
@@ -205,6 +224,10 @@ public class CreateAppointmentActivity extends BaseActivity {
             	if(checkIfOkToGo()) {
             		Intent intent = new Intent(CreateAppointmentActivity.this, ConfirmAppointmentActivity.class);
             		Bundle extras = new Bundle();
+            		extras.putString("userName", userName);
+            		extras.putString("hospitalNumber", hospitalNumber);
+            		extras.putString("email", email);
+            		extras.putString("sms", sms);
             		extras.putString("clinicName", clinicName);
             		extras.putString("clinicID", String.valueOf(clinicID));
             		extras.putString("serviceOptionId", String.valueOf(serviceOptionId));
@@ -358,7 +381,12 @@ public class CreateAppointmentActivity extends BaseActivity {
 					hideKeyboard();
                     ServiceUser serviceUser = serviceUserList.get(position);
                     ApiRootModel.getInstance().setServiceUser(serviceUser);
-					etUserName.setText(serviceUser.getPersonalFields().getName());
+                    userName = serviceUser.getPersonalFields().getName();
+                    hospitalNumber = serviceUser.getHospitalNumber();
+                    email = serviceUser.getPersonalFields().getEmail();
+                    sms = serviceUser.getPersonalFields().getMobilePhone();
+
+					etUserName.setText(userName);
 					userID = serviceUser.getId();
 					postOrAnte();
 					ad.cancel();
