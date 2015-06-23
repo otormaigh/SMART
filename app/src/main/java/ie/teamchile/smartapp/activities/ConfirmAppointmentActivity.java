@@ -26,10 +26,10 @@ import retrofit.client.Response;
 
 public class ConfirmAppointmentActivity extends BaseActivity {
     private TextView txtUserName, txtClinic, txtDateTime,
-    				 txtEmailTo, txtSmsTo;
+            txtEmailTo, txtSmsTo;
     private Button btnYes, btnNo;
     private String name, hospitalNumber, clinicName, date, monthDate, time,
-    		priority, visitType, timeBefore, timeAfter, email, sms;
+            priority, visitType, timeBefore, timeAfter, email, sms;
     private int userId, serviceOptionId;
     private Calendar cal = Calendar.getInstance();
     private String returnType;
@@ -39,7 +39,7 @@ public class ConfirmAppointmentActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentForNav(R.layout.activity_confirm_appointment);
-        
+
         txtUserName = (TextView) findViewById(R.id.tv_confirm_name);
         txtClinic = (TextView) findViewById(R.id.tv_confirm_location);
         txtDateTime = (TextView) findViewById(R.id.tv_confirm_time);
@@ -55,25 +55,25 @@ public class ConfirmAppointmentActivity extends BaseActivity {
 
         date = getIntent().getStringExtra("date");
         try {
-        	cal.setTime(dfDateOnly.parse(date));
-        	monthDate = dfDateMonthNameYear.format(dfDateOnly.parse(date));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+            cal.setTime(dfDateOnly.parse(date));
+            monthDate = dfDateMonthNameYear.format(dfDateOnly.parse(date));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         time = getIntent().getStringExtra("time");
         returnType = getIntent().getStringExtra("return_type");
         priority = getIntent().getStringExtra("priority");
         visitType = getIntent().getStringExtra("visitType");
         timeBefore = getIntent().getStringExtra("timeBefore");
-        timeAfter = getIntent().getStringExtra("timeAfter"); 
+        timeAfter = getIntent().getStringExtra("timeAfter");
         userId = Integer.parseInt(getIntent().getStringExtra("userId"));
         visitType = getIntent().getStringExtra("visitType");
         serviceOptionId = Integer.parseInt(getIntent().getStringExtra("serviceOptionId"));
-        
-        name = ApiRootModel.getInstance().getServiceUser().getPersonalFields().getName();
-        hospitalNumber = ApiRootModel.getInstance().getServiceUser().getHospitalNumber();
-        email = ApiRootModel.getInstance().getServiceUser().getPersonalFields().getEmail();
-        sms = ApiRootModel.getInstance().getServiceUser().getPersonalFields().getMobilePhone();
+        name = getIntent().getStringExtra("userName");
+        hospitalNumber = getIntent().getStringExtra("hospitalNumber");
+        email = getIntent().getStringExtra("email");
+        sms = getIntent().getStringExtra("sms");
+
         txtUserName.setText(name + " (" + hospitalNumber + ")");
         //txtHospitalNumber.setText(hospitalNumber);
         txtClinic.setText(clinicName);
@@ -81,47 +81,16 @@ public class ConfirmAppointmentActivity extends BaseActivity {
         //txtTime.setText(time);
         txtEmailTo.setText(email);
         txtSmsTo.setText(sms);
+
+        Log.d("bugs", "userId = " + userId);
     }
 
-	private class ButtonClick implements View.OnClickListener {
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.btn_confirm_yes:
-                    Log.d("bugs", "yes 	 button clicked");
-                    showProgressDialog(ConfirmAppointmentActivity.this,
-                            "Booking Appointment");
-                    postAppointment();
-                	//new CreateAppointmentLongOperation(ConfirmAppointmentActivity.this).execute("appointments");
-                    //passOptions.setDaySelected(cal.getTime());
-                    break;
-                case R.id.btn_confirm_no:
-                	Log.d("bugs", "no button clicked");
-                	Intent intent = new Intent(ConfirmAppointmentActivity.this, CreateAppointmentActivity.class);
-                    int clinicID = Integer.parseInt(getIntent().getStringExtra("clinicID"));
-                	intent.putExtra("from", "confirm");
-                	intent.putExtra("clinicName", clinicName);
-            		intent.putExtra("clinicID", clinicID);
-            		intent.putExtra("date", date);
-            		intent.putExtra("time", time);
-            		intent.putExtra("return_type", returnType);
-            		intent.putExtra("priority", priority);
-            		intent.putExtra("timeBefore", timeBefore);
-            		intent.putExtra("timeAfter", timeAfter);
-            		intent.putExtra("userId", userId);
-            		intent.putExtra("userName", name);
-                    intent.putExtra("serviceOptionId", serviceOptionId);
-                    startActivity(intent);
-                    break;
-            }
-        }
-    }
-
-    private void postAppointment(){
+    private void postAppointment() {
         PostingData appointment = new PostingData();
-        if(priority.equals("home-visit")){
+        if (priority.equals("home-visit")) {
             Log.d("bugs", "homevisit");
             appointment.postAppointment(date, userId, priority, visitType, returnType, serviceOptionId);
-        } else if(priority.equals("scheduled")){
+        } else if (priority.equals("scheduled")) {
             Log.d("bugs", "scheduled");
             int clinicID = Integer.parseInt(getIntent().getStringExtra("clinicID"));
             appointment.postAppointment(date, time, userId, clinicID, priority, visitType, returnType);
@@ -147,9 +116,9 @@ public class ConfirmAppointmentActivity extends BaseActivity {
                         pd.dismiss();
                         addNewApptToMaps();
 
-                        if(priority.equals("home-visit"))
+                        if (priority.equals("home-visit"))
                             startActivity(intentHome);
-                        else if(priority.equals("scheduled"))
+                        else if (priority.equals("scheduled"))
                             startActivity(intentClinic);
                     }
 
@@ -162,37 +131,7 @@ public class ConfirmAppointmentActivity extends BaseActivity {
         );
     }
 
-    private void addNewApptToMaps(){
-        /*List<Integer> apptIdList;
-        Map<String, List<Integer>> dateApptIdMap;
-        Map<Integer, Map<String, List<Integer>>> clinicDateApptIdMap = new HashMap<>();
-        Map<Integer, Appointment> idApptMap = new HashMap<>();
-
-        for(int i = 0; i < ApiRootModel.getInstance().getAppointments().size(); i++){
-            apptIdList = new ArrayList<>();
-            dateApptIdMap = new HashMap<>();
-            String apptDate = ApiRootModel.getInstance().getAppointments().get(i).getDate();
-            int apptId = ApiRootModel.getInstance().getAppointments().get(i).getId();
-            int clinicId = ApiRootModel.getInstance().getAppointments().get(i).getClinicId();
-            Appointment appt = ApiRootModel.getInstance().getAppointments().get(i);
-
-            if(clinicDateApptIdMap.get(clinicId) != null){
-                dateApptIdMap = clinicDateApptIdMap.get(clinicId);
-                if(dateApptIdMap.get(apptDate) != null){
-                    apptIdList = dateApptIdMap.get(apptDate);
-                }
-            }
-            apptIdList.add(apptId);
-            dateApptIdMap.put(apptDate, apptIdList);
-
-            clinicDateApptIdMap.put(clinicId, dateApptIdMap);
-            idApptMap.put(apptId, appt);
-        }
-
-        ApiRootModel.getInstance().setClinicVisitClinicDateApptIdMap(clinicDateApptIdMap);
-        ApiRootModel.getInstance().setClinicVisitIdApptMap(idApptMap);
-        Log.d("Retrofit", "appointments finished");*/
-
+    private void addNewApptToMaps() {
         List<Integer> clinicApptIdList;
         Map<String, List<Integer>> clinicVisitdateApptIdMap;
         Map<Integer, Map<String, List<Integer>>> clinicVisitClinicDateApptIdMap = new HashMap<>();
@@ -212,12 +151,12 @@ public class ConfirmAppointmentActivity extends BaseActivity {
             int apptId = appt.getId();
             int clinicId = appt.getClinicId();
             int serviceOptionId = 0;
-            if(appt.getServiceOptionIds().size() > 0) {
+            if (appt.getServiceOptionIds().size() > 0) {
                 serviceOptionId = appt.getServiceOptionIds().get(0);
             }
 
-            if(appt.getPriority().equals("home-visit")){
-                Log.d("bugs" , " appt ID = " + appt.getId());
+            if (appt.getPriority().equals("home-visit")) {
+                Log.d("bugs", " appt ID = " + appt.getId());
                 if (homeVisitClinicDateApptIdMap.get(serviceOptionId) != null) {
                     homeVisitdateApptIdMap = homeVisitClinicDateApptIdMap.get(serviceOptionId);
                     if (homeVisitdateApptIdMap.get(apptDate) != null) {
@@ -250,5 +189,42 @@ public class ConfirmAppointmentActivity extends BaseActivity {
         ApiRootModel.getInstance().setHomeVisitIdApptMap(homeVisitIdApptMap);
         Log.d("Retrofit", "appointments finished");
         pd.dismiss();
+    }
+
+    private class ButtonClick implements View.OnClickListener {
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.btn_confirm_yes:
+                    Log.d("bugs", "yes 	 button clicked");
+                    showProgressDialog(ConfirmAppointmentActivity.this,
+                            "Booking Appointment");
+                    postAppointment();
+                    //new CreateAppointmentLongOperation(ConfirmAppointmentActivity.this).execute("appointments");
+                    //passOptions.setDaySelected(cal.getTime());
+                    break;
+                case R.id.btn_confirm_no:
+                    Log.d("bugs", "no button clicked");
+                    Intent intentHome = new Intent(ConfirmAppointmentActivity.this, HomeVisitAppointmentActivity.class);
+                    Intent intentClinic = new Intent(ConfirmAppointmentActivity.this, CreateAppointmentActivity.class);
+                    if (priority.equals("home-visit"))
+                        startActivity(intentHome);
+                    else if (priority.equals("scheduled"))
+                        startActivity(intentClinic);
+                    /*int clinicID = Integer.parseInt(getIntent().getStringExtra("clinicID"));
+                    intent.putExtra("from", "confirm");
+                    intent.putExtra("clinicName", clinicName);
+                    intent.putExtra("clinicID", String.valueOf(clinicID));
+                    intent.putExtra("date", date);
+                    intent.putExtra("time", time);
+                    intent.putExtra("return_type", returnType);
+                    intent.putExtra("priority", priority);
+                    intent.putExtra("timeBefore", timeBefore);
+                    intent.putExtra("timeAfter", timeAfter);
+                    intent.putExtra("userId", String.valueOf(userId));
+                    intent.putExtra("userName", name);
+                    intent.putExtra("serviceOptionId", String.valueOf(serviceOptionId));*/
+                    break;
+            }
+        }
     }
 }
