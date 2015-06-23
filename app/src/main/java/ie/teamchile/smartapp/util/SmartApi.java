@@ -207,6 +207,14 @@ public interface SmartApi {
             @Header("Api-Key") String apiKey,
             Callback<ApiRootModel> callback);
 
+    @PUT("/clinics/{clinic_id}/time_records")
+    void getTimeRecords(
+            @Path("clinic_id") int clinicId,
+            @Query("date") String date,
+            @Header("Auth-Token") String authToken,
+            @Header("Api-Key") String apiKey,
+            Callback<ApiRootModel> callback);
+
     @GET("/pregnancies/{pregnancy_id}/notes")
     void getPregnancyNotes(
             @Path("pregnancy_id") int recordId,
