@@ -42,7 +42,6 @@
         <activity
             android:name=".activities.AppointmentCalendarActivity"
             android:launchMode="singleTask"
-            android:parentActivityName=".activities.QuickMenuActivity"
             android:screenOrientation="sensorPortrait" />
 
         <meta-data
@@ -51,96 +50,52 @@
 
         <activity
             android:name=".activities.AppointmentTypeSpinnerActivity"
-            android:parentActivityName=".activities.QuickMenuActivity"
             android:screenOrientation="sensorPortrait" />
-
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".activities.QuickMenuActivity" />
 
         <activity
             android:name=".activities.ClinicTimeRecordActivity"
-            android:parentActivityName=".activities.QuickMenuActivity"
             android:screenOrientation="sensorPortrait" />
-
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".activities.QuickMenuActivity" />
 
         <activity
             android:name=".activities.ConfirmAppointmentActivity"
             android:launchMode="singleTask"
             android:noHistory="true"
-            android:parentActivityName=".activities.QuickMenuActivity"
             android:screenOrientation="sensorPortrait" />
-
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".activities.QuickMenuActivity" />
 
         <activity
             android:name=".activities.CreateAppointmentActivity"
             android:launchMode="singleTask"
-            android:parentActivityName=".activities.QuickMenuActivity"
             android:screenOrientation="sensorPortrait" />
-
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".activities.QuickMenuActivity" />
 
         <activity
             android:name=".activities.ParityDetailsActivity"
             android:launchMode="singleTask"
-            android:parentActivityName=".activities.QuickMenuActivity"
             android:screenOrientation="sensorLandscape" />
-
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".activities.QuickMenuActivity" />
 
         <activity
             android:name=".activities.QuickMenuActivity"
             android:launchMode="singleTask"
             android:screenOrientation="sensorPortrait" />
+
         <activity
             android:name=".activities.ServiceUserActivity"
-            android:parentActivityName=".activities.QuickMenuActivity"
             android:screenOrientation="sensorPortrait" />
-
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".activities.QuickMenuActivity" />
 
         <activity
             android:name=".activities.ServiceUserSearchActivity"
-            android:parentActivityName=".activities.QuickMenuActivity"
             android:screenOrientation="sensorPortrait" />
-
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".activities.QuickMenuActivity" />
 
         <activity
             android:name=".activities.TodayAppointmentActivity"
-            android:parentActivityName=".activities.QuickMenuActivity"
             android:screenOrientation="sensorPortrait" />
-
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".activities.QuickMenuActivity" />
 
         <activity
             android:name=".activities.MidwiferyLogActivity"
-            android:parentActivityName=".activities.QuickMenuActivity"
             android:screenOrientation="sensorPortrait" />
-
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".activities.QuickMenuActivity" />
 
         <activity
             android:name=".activities.HomeVisitAppointmentActivity"
-            android:label="@string/title_activity_home_visit_appointment" >
+            android:screenOrientation="sensorPortrait" >
         </activity>
     </application>
 
