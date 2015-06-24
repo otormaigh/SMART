@@ -484,13 +484,6 @@ public class CreateAppointmentActivity extends BaseActivity {
             appointment.postAppointment(apptDate, time, userID, clinicID, priority, visitType, returnType);
         }
 
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(SmartApi.BASE_URL)
-                .setLogLevel(RestAdapter.LogLevel.FULL)
-                .build();
-
-        api = restAdapter.create(SmartApi.class);
-
         api.postAppointment(
                 appointment,
                 ApiRootModel.getInstance().getLogin().getToken(),
@@ -499,20 +492,36 @@ public class CreateAppointmentActivity extends BaseActivity {
                     @Override
                     public void success(ApiRootModel apiRootModel, Response response) {
                         ApiRootModel.getInstance().addAppointment(apiRootModel.getAppointment());
-                        Intent intentClinic = new Intent(CreateAppointmentActivity.this, AppointmentCalendarActivity.class);
-                        Intent intentHome = new Intent(CreateAppointmentActivity.this, HomeVisitAppointmentActivity.class);
-                        pd.dismiss();
-                        addNewApptToMaps();
-
-                        if (priority.equals("home-visit"))
-                            startActivity(intentHome);
-                        else if (priority.equals("scheduled"))
-                            startActivity(intentClinic);
+                        if (returnType.equals("returning"))
+                            addNewApptToMaps();
+                        else if (returnType.equals("new"))
+                            getAppointmentById(apiRootModel.getAppointment().getId());
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
                         Log.d("Retrofit", "retro failure error = " + error);
+                        pd.dismiss();
+                    }
+                }
+        );
+    }
+
+    private void getAppointmentById(int apptId){
+        api.getAppointmentById(
+                apptId + 1,
+                ApiRootModel.getInstance().getLogin().getToken(),
+                SmartApi.API_KEY,
+                new Callback<ApiRootModel>() {
+                    @Override
+                    public void success(ApiRootModel apiRootModel, Response response) {
+                        Log.d("retro", "getAppointmentById success");
+                        addNewApptToMaps();
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.d("retro", "getAppointmentById failure = " + error);
                         pd.dismiss();
                     }
                 }
@@ -575,7 +584,17 @@ public class CreateAppointmentActivity extends BaseActivity {
 
         ApiRootModel.getInstance().setHomeVisitOptionDateApptIdMap(homeVisitClinicDateApptIdMap);
         ApiRootModel.getInstance().setHomeVisitIdApptMap(homeVisitIdApptMap);
-        Log.d("Retrofit", "appointments finished");
+
+        Intent intentClinic = new Intent(CreateAppointmentActivity.this, AppointmentCalendarActivity.class);
+        Intent intentHome = new Intent(CreateAppointmentActivity.this, HomeVisitAppointmentActivity.class);
+
+        if (priority.equals("home-visit"))
+            startActivity(intentHome);
+        else if (priority.equals("scheduled"))
+            startActivity(intentClinic);
+        else if (priority.equals("drop-in"))
+            startActivity(intentClinic);
+
         pd.dismiss();
     }
 
