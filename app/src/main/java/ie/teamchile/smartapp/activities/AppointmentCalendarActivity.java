@@ -87,7 +87,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-				
+
 		myCalendar.setTime(closingAsDate);
 		myCalendar.add(Calendar.MINUTE, (-appointmentInterval));
 		closingMinusInterval = dfTimeOnly.format(myCalendar.getTime());

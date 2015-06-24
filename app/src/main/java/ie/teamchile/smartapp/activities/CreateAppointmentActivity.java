@@ -86,7 +86,14 @@ public class CreateAppointmentActivity extends BaseActivity {
         visitPrioritySpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
 
 		Log.d("postAppointment", "time now: " + c.getTime());
-		getSharedPrefs();
+
+        Log.d("bugs", "name before = " + userName);
+        Log.d("bugs", "id before = " + userID);
+
+        getSharedPrefs();
+
+        Log.d("bugs", "name after = " + userName);
+        Log.d("bugs", "id after = " + userID);
 
         setReturnTypeSpinner();
         setPrioritySpinner();
@@ -95,7 +102,6 @@ public class CreateAppointmentActivity extends BaseActivity {
     }
 
     private void clinicAppt(){
-        getSharedPrefs();
         clinicID = Integer.parseInt(getIntent().getStringExtra("clinicID"));
         daySelected = AppointmentCalendarActivity.daySelected;
         clinicName = ApiRootModel.getInstance().getClinicMap().get(clinicID).getName();
@@ -151,14 +157,14 @@ public class CreateAppointmentActivity extends BaseActivity {
 	private void checkDirectionOfIntent(){
 		String intentOrigin = getIntent().getStringExtra("from");
 		if(intentOrigin.equals("clinic-appointment")) {
-			clinicAppt();
             Log.d("bugs", "intent from clinic");
+            clinicAppt();
 		} else if (intentOrigin.equals("confirm")) {
-            fromConfirm();
             Log.d("bugs", "intent from confirm");
+            fromConfirm();
 		} else if (intentOrigin.equals("home-visit")) {
-            homeVisitAppt();
             Log.d("bugs", "intent from home visit");
+            homeVisitAppt();
         }
 	}
 
@@ -181,10 +187,18 @@ public class CreateAppointmentActivity extends BaseActivity {
 		prefs = getSharedPreferences("SMART", MODE_PRIVATE);
 
 		if (prefs != null && prefs.getBoolean("reuse", false)) {
-			etUserName.setText(prefs.getString("name", null));
-			userID = Integer.parseInt(prefs.getString("id", ""));
-			visitType = prefs.getString("visit_type", null);
-		}
+            userName = prefs.getString("name", null);
+            userID = Integer.parseInt(prefs.getString("id", ""));
+            visitType = prefs.getString("visit_type", null);
+            hospitalNumber = prefs.getString("hospitalNumber", "");
+            email = prefs.getString("email", "");
+            sms = prefs.getString("mobile", "");
+
+            etUserName.setText(userName);
+        }
+
+        Log.d("bugs", "name pref = " + prefs.getString("name", null));
+        Log.d("bugs", "id pref = " + prefs.getString("id", ""));
 	}
 
 /*    private void setSharedPrefs(){
