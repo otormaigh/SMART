@@ -277,12 +277,14 @@ public class CreateAppointmentActivity extends BaseActivity {
                 }
             	break;
             case R.id.btn_user_search:
-            	hideKeyboard();
-            	userID = 0;
-            	userName = etUserName.getText().toString();
-            	checkIfEditEmpty();
-				showProgressDialog(CreateAppointmentActivity.this, "Fetching Information");
-				searchPatient(userName);
+                if(!checkIfEditEmpty()) {
+                    hideKeyboard();
+                    userID = 0;
+                    userName = etUserName.getText().toString();
+                    checkIfEditEmpty();
+                    showProgressDialog(CreateAppointmentActivity.this, "Fetching Information");
+                    searchPatient(userName);
+                }
             	break;
             }
         }
