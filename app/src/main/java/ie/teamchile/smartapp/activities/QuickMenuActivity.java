@@ -109,6 +109,7 @@ public class QuickMenuActivity extends BaseActivity {
 		showProgressDialog(QuickMenuActivity.this, "Updating Information");
 
         updateAppointment(QuickMenuActivity.this);
+        showDialog = false;
 
         api.getServiceProviderById(
                 ApiRootModel.getInstance().getLogin().getId(),

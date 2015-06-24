@@ -17,22 +17,29 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.model.ApiRootModel;
+import ie.teamchile.smartapp.model.Appointment;
+import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.model.ServiceUser;
 import ie.teamchile.smartapp.util.AdapterSpinner;
 import ie.teamchile.smartapp.util.SmartApi;
 import retrofit.Callback;
+import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -241,9 +248,8 @@ public class CreateAppointmentActivity extends BaseActivity {
             	apptDate = dfDateOnly.format(myCalendar.getTime());
             	passOptions.setDaySelected(myCalendar.getTime());
             	checkIfEditEmpty();
-
-            	if(checkIfOkToGo()) {
-            		Intent intent = new Intent(CreateAppointmentActivity.this, ConfirmAppointmentActivity.class);
+            	//if(checkIfOkToGo()) {
+            		/*Intent intent = new Intent(CreateAppointmentActivity.this, ConfirmAppointmentActivity.class);
             		Bundle extras = new Bundle();
             		extras.putString("userName", userName);
             		extras.putString("hospitalNumber", hospitalNumber);
@@ -259,8 +265,10 @@ public class CreateAppointmentActivity extends BaseActivity {
             		extras.putString("userId", String.valueOf(userID));
             		extras.putString("visitType", visitType);
             		intent.putExtras(extras);
-            		startActivity(intent);
-            	} else {
+            		startActivity(intent);*/
+
+                    makeAlertDialog();
+            	/*} else {
 					showProgressDialog(
 							CreateAppointmentActivity.this,
 							"Cannot proceed, \nSome fields are empty!");
@@ -272,7 +280,7 @@ public class CreateAppointmentActivity extends BaseActivity {
 						@Override
 						public void onTick(long millisUntilFinished) { }
         			}.start();
-            	}
+            	}*/
             	break;
             case R.id.btn_user_search:
             	hideKeyboard();
@@ -282,7 +290,7 @@ public class CreateAppointmentActivity extends BaseActivity {
 				showProgressDialog(CreateAppointmentActivity.this, "Fetching Information");
 				searchPatient(userName);
             	break;
-            } 
+            }
         }
 	}
 
@@ -414,44 +422,167 @@ public class CreateAppointmentActivity extends BaseActivity {
 	}
 	
 	private void postOrAnte(){
-
-
-		visitType = "post-natal";		//this need to be changed
-
-
-		/*//babyIDs = ;
-		if(babyIDs.get(p).equals("[]")){
-			visitType = "ante-natal";
-    	}else {
-    		visitType = "post-natal";
-    	}*/
+		visitType = "post-natal";		//TODO: this need to be changed
 	}
-	/*
-    private void getRecentPregnancy(){
-    	List<String> edd = new ArrayList<String>();
-    	List<Date> asDate = new ArrayList<Date>();
-    	
-    	edd = getPregnancyEstimatedDeliveryDate();
-    	Log.d("bugs", "edd.size(): " + edd.size());
-    	if(edd.size() > 0){
-    		for(int i = 0; i < edd.size(); i++){
-    			if(!edd.get(i).equals("null")){
-	    			Log.d("bugs", "edd.get(i): " + edd.get(i));
-	        		try {
-	    				asDate.add(dfDateOnly.parse(edd.get(i)));
-	    			} catch (ParseException e) {
-	    				e.printStackTrace();
-	    			}
-    			}
-        	}    
-    		try {
-    			p = asDate.indexOf(Collections.max(asDate));
-    		} catch (NoSuchElementException e) {
-				e.printStackTrace();
-			}
-    	}    	
-    }*/
-    
+
+    private void makeAlertDialog() {
+        String dateWords = dfDateMonthNameYear.format(daySelected);
+        String dateDay = dfDayShort.format(daySelected);
+
+        Log.d("bugs", "making alertDialog");
+        LayoutInflater inflater = getLayoutInflater();
+        alertDialog = new AlertDialog.Builder(CreateAppointmentActivity.this);
+        View convertView = (View) inflater.inflate(R.layout.activity_confirm_appointment, null);
+        TextView txtUserName = (TextView) convertView.findViewById(R.id.tv_confirm_name);
+        TextView txtClinic = (TextView) convertView.findViewById(R.id.tv_confirm_location);
+        TextView txtDateTime = (TextView) convertView.findViewById(R.id.tv_confirm_time);
+        TextView txtEmailTo = (TextView) convertView.findViewById(R.id.tv_confirm_email);
+        TextView txtSmsTo = (TextView) convertView.findViewById(R.id.tv_confirm_sms);
+
+        txtUserName.setText(userName + " (" + hospitalNumber + ")");
+        txtClinic.setText(clinicName);
+        if (priority.equals("home-visit"))
+            txtDateTime.setText(dateDay + ", " + dateWords);
+        else if (priority.equals("scheduled"))
+            txtDateTime.setText(time + " on " + dateWords);
+        txtEmailTo.setText(email);
+        txtSmsTo.setText(sms);
+
+        Button btnYes = (Button) convertView.findViewById(R.id.btn_confirm_yes);
+        btnYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("bugs", "yes 	 button clicked");
+                showProgressDialog(CreateAppointmentActivity.this,
+                        "Booking Appointment");
+                postAppointment();
+            }
+        });
+        Button btnNo = (Button) convertView.findViewById(R.id.btn_confirm_no);
+        btnNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ad.cancel();
+            }
+        });
+        ImageView ivExit = (ImageView) convertView.findViewById(R.id.iv_exit_dialog);
+        ivExit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ad.cancel();
+            }
+        });
+
+        alertDialog.setView(convertView);
+        ad = alertDialog.show();
+    }
+
+    private void postAppointment() {
+        PostingData appointment = new PostingData();
+        if (priority.equals("home-visit")) {
+            Log.d("bugs", "homevisit");
+            appointment.postAppointment(apptDate, userID, priority, visitType, returnType, serviceOptionId);
+        } else if (priority.equals("scheduled")) {
+            Log.d("bugs", "scheduled");
+            int clinicID = Integer.parseInt(getIntent().getStringExtra("clinicID"));
+            appointment.postAppointment(apptDate, time, userID, clinicID, priority, visitType, returnType);
+        }
+
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint(SmartApi.BASE_URL)
+                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .build();
+
+        api = restAdapter.create(SmartApi.class);
+
+        api.postAppointment(
+                appointment,
+                ApiRootModel.getInstance().getLogin().getToken(),
+                SmartApi.API_KEY,
+                new Callback<ApiRootModel>() {
+                    @Override
+                    public void success(ApiRootModel apiRootModel, Response response) {
+                        ApiRootModel.getInstance().addAppointment(apiRootModel.getAppointment());
+                        Intent intentClinic = new Intent(CreateAppointmentActivity.this, AppointmentCalendarActivity.class);
+                        Intent intentHome = new Intent(CreateAppointmentActivity.this, HomeVisitAppointmentActivity.class);
+                        pd.dismiss();
+                        addNewApptToMaps();
+
+                        if (priority.equals("home-visit"))
+                            startActivity(intentHome);
+                        else if (priority.equals("scheduled"))
+                            startActivity(intentClinic);
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.d("Retrofit", "retro failure error = " + error);
+                        pd.dismiss();
+                    }
+                }
+        );
+    }
+
+    private void addNewApptToMaps() {
+        List<Integer> clinicApptIdList;
+        Map<String, List<Integer>> clinicVisitdateApptIdMap;
+        Map<Integer, Map<String, List<Integer>>> clinicVisitClinicDateApptIdMap = new HashMap<>();
+        Map<Integer, Appointment> clinicVisitIdApptMap = new HashMap<>();
+
+        List<Integer> homeApptIdList;
+        Map<String, List<Integer>> homeVisitdateApptIdMap;
+        Map<Integer, Map<String, List<Integer>>> homeVisitClinicDateApptIdMap = new HashMap<>();
+        Map<Integer, Appointment> homeVisitIdApptMap = new HashMap<>();
+        for (int i = 0; i < ApiRootModel.getInstance().getAppointments().size(); i++) {
+            clinicApptIdList = new ArrayList<>();
+            homeApptIdList = new ArrayList<>();
+            clinicVisitdateApptIdMap = new HashMap<>();
+            homeVisitdateApptIdMap = new HashMap<>();
+            Appointment appt = ApiRootModel.getInstance().getAppointments().get(i);
+            String apptDate = appt.getDate();
+            int apptId = appt.getId();
+            int clinicId = appt.getClinicId();
+            int serviceOptionId = 0;
+            if (appt.getServiceOptionIds().size() > 0) {
+                serviceOptionId = appt.getServiceOptionIds().get(0);
+            }
+
+            if (appt.getPriority().equals("home-visit")) {
+                Log.d("bugs", " appt ID = " + appt.getId());
+                if (homeVisitClinicDateApptIdMap.get(serviceOptionId) != null) {
+                    homeVisitdateApptIdMap = homeVisitClinicDateApptIdMap.get(serviceOptionId);
+                    if (homeVisitdateApptIdMap.get(apptDate) != null) {
+                        homeApptIdList = homeVisitdateApptIdMap.get(apptDate);
+                    }
+                }
+                homeApptIdList.add(apptId);
+                homeVisitdateApptIdMap.put(apptDate, homeApptIdList);
+
+                homeVisitClinicDateApptIdMap.put(serviceOptionId, homeVisitdateApptIdMap);
+                homeVisitIdApptMap.put(apptId, appt);
+            } else {
+                if (clinicVisitClinicDateApptIdMap.get(clinicId) != null) {
+                    clinicVisitdateApptIdMap = clinicVisitClinicDateApptIdMap.get(clinicId);
+                    if (clinicVisitdateApptIdMap.get(apptDate) != null) {
+                        clinicApptIdList = clinicVisitdateApptIdMap.get(apptDate);
+                    }
+                }
+                clinicApptIdList.add(apptId);
+                clinicVisitdateApptIdMap.put(apptDate, clinicApptIdList);
+
+                clinicVisitClinicDateApptIdMap.put(clinicId, clinicVisitdateApptIdMap);
+                clinicVisitIdApptMap.put(apptId, appt);
+            }
+        }
+        ApiRootModel.getInstance().setClinicVisitClinicDateApptIdMap(clinicVisitClinicDateApptIdMap);
+        ApiRootModel.getInstance().setClinicVisitIdApptMap(clinicVisitIdApptMap);
+
+        ApiRootModel.getInstance().setHomeVisitOptionDateApptIdMap(homeVisitClinicDateApptIdMap);
+        ApiRootModel.getInstance().setHomeVisitIdApptMap(homeVisitIdApptMap);
+        Log.d("Retrofit", "appointments finished");
+        pd.dismiss();
+    }
+
 	private void hideKeyboard() {
 		InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);

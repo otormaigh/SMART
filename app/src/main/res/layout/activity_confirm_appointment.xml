@@ -1,128 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="${relativePackage}.${activityClass}" >
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context="${relativePackage}.${activityClass}">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/padding_Xsmall"
-        android:paddingRight="@dimen/padding_Xsmall">
+        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_Xsmall"
-            android:text="@string/appointment_for"
-            android:textSize="@dimen/text_small"
-            android:textStyle="bold" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/tv_confirm_name"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/padding_Xsmall"
-            android:textSize="@dimen/text_medium"
-            android:textColor="@color/black" />
+            <TextView
+                android:id="@+id/tv_dialog_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/clinical_blue"
+                android:gravity="center_horizontal"
+                android:padding="@dimen/padding_small"
+                android:paddingLeft="-48dp"
+                android:text="Confirm Details"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_Xsmall"/>
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_Xsmall"
-            android:text="@string/to_attend"
-            android:textSize="@dimen/text_small"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tv_confirm_location"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/padding_Xsmall"
-            android:textSize="@dimen/text_medium"
-            android:textColor="@color/black" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_Xsmall"
-            android:text="@string/at"
-            android:textSize="@dimen/text_small"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tv_confirm_time"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/padding_Xsmall"
-            android:textSize="@dimen/text_medium"
-            android:textColor="@color/black" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_Xsmall"
-            android:text="@string/confirm_email"
-            android:textSize="@dimen/text_small"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tv_confirm_email"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/padding_Xsmall"
-            android:textSize="@dimen/text_medium"
-            android:textColor="@color/black" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_Xsmall"
-            android:text="@string/confirm_sms"
-            android:textSize="@dimen/text_small"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tv_confirm_sms"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/padding_Xsmall"
-            android:textSize="@dimen/text_medium"
-            android:textColor="@color/black" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_large"
-            android:text="@string/book_question"
-            android:textSize="@dimen/text_small"
-            android:textStyle="bold" />
+            <ImageView
+                android:id="@+id/iv_exit_dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:padding="@dimen/padding_small"
+                android:src="@drawable/ic_close"/>
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="1.0"
-            android:layout_marginBottom="@dimen/padding_Xsmall"
-            android:layout_marginTop="@dimen/padding_medium">
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/padding_Xsmall"
+            android:paddingRight="@dimen/padding_Xsmall">
 
-            <Button
-                android:id="@+id/btn_confirm_yes"
+            <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:theme="@style/CallToActionButton"
-                android:text="@string/book" />
+                android:layout_marginTop="@dimen/padding_Xsmall"
+                android:text="@string/appointment_for"
+                android:textSize="@dimen/text_small"
+                android:textStyle="bold"/>
 
-            <Button
-                android:id="@+id/btn_confirm_no"
+            <TextView
+                android:id="@+id/tv_confirm_name"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:theme="@style/NotToAction"
-                android:text="@string/cancel" />
+                android:paddingLeft="@dimen/padding_Xsmall"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_medium"/>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_Xsmall"
+                android:text="@string/to_attend"
+                android:textSize="@dimen/text_small"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/tv_confirm_location"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/padding_Xsmall"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_medium"/>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_Xsmall"
+                android:text="@string/at"
+                android:textSize="@dimen/text_small"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/tv_confirm_time"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/padding_Xsmall"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_medium"/>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_Xsmall"
+                android:text="@string/confirm_email"
+                android:textSize="@dimen/text_small"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/tv_confirm_email"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/padding_Xsmall"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_medium"/>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_Xsmall"
+                android:text="@string/confirm_sms"
+                android:textSize="@dimen/text_small"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/tv_confirm_sms"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/padding_Xsmall"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_medium"/>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_large"
+                android:text="@string/book_question"
+                android:textSize="@dimen/text_small"
+                android:textStyle="bold"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/padding_Xsmall"
+                android:layout_marginTop="@dimen/padding_medium"
+                android:orientation="horizontal"
+                android:weightSum="1.0">
+
+                <Button
+                    android:id="@+id/btn_confirm_yes"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="@string/book"
+                    android:theme="@style/CallToActionButton"/>
+
+                <Button
+                    android:id="@+id/btn_confirm_no"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="@string/cancel"
+                    android:theme="@style/NotToAction"/>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
