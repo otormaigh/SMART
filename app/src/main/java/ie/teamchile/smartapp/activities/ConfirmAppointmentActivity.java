@@ -205,7 +205,7 @@ public class ConfirmAppointmentActivity extends BaseActivity {
                 case R.id.btn_confirm_no:
                     Log.d("bugs", "no button clicked");
                     Intent intentHome = new Intent(ConfirmAppointmentActivity.this, HomeVisitAppointmentActivity.class);
-                    Intent intentClinic = new Intent(ConfirmAppointmentActivity.this, CreateAppointmentActivity.class);
+                    Intent intentClinic = new Intent(ConfirmAppointmentActivity.this, AppointmentCalendarActivity.class);
                     if (priority.equals("home-visit"))
                         startActivity(intentHome);
                     else if (priority.equals("scheduled"))
