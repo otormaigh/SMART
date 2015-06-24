@@ -156,26 +156,30 @@ public class BaseActivity extends AppCompatActivity {
         Intent intent;
         //drawerLayout.closeDrawer(drawerList);
         switch (position) {
-            case 0:         //Patient Search
+            case 0:         //Home
+                intent = new Intent(getApplicationContext(), QuickMenuActivity.class);
+                startActivity(intent);
+                break;
+            case 1:         //Patient Search
                 intent = new Intent(getApplicationContext(), ServiceUserSearchActivity.class);
                 startActivity(intent);
                 break;
-            case 1:         //Book Appointment
+            case 2:         //Book Appointment
                 intent = new Intent(getApplicationContext(), AppointmentTypeSpinnerActivity.class);
                 startActivity(intent);
                 break;
-            case 2:         //TimeRecords
+            case 3:         //TimeRecords
                 intent = new Intent(getApplicationContext(), ClinicTimeRecordActivity.class);
                 startActivity(intent);
                 break;
-            case 3:         //Todays Appointments
+            case 4:         //Todays Appointments
                 //intent = new Intent(getApplicationContext(), TodayAppointmentActivity.class);
                 //startActivity(intent);
                 break;
-            case 4:         //Sync
+            case 5:         //Sync
                 updateAppointment(this);
                 break;
-            case 5:         //Logout
+            case 6:         //Logout
                 new AlertDialog.Builder(this)
                         .setTitle(R.string.Logout_title)
                         .setMessage(R.string.Logout_dialog_message)

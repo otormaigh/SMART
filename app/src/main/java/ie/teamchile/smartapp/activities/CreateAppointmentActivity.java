@@ -53,7 +53,7 @@ public class CreateAppointmentActivity extends BaseActivity {
 	private EditText etUserName;
 	private Button btnConfirmAppointment;
 	private ImageButton btnUserSearch;
-	private TextView tvTime, tvTimeTitle, tvDate, tvClinic;
+	private TextView tvTime, tvTimeTitle, tvDate, tvClinic, tvReturnTitle, tvPriorityTitle;
 	private Spinner visitReturnTypeSpinner, visitPrioritySpinner;
 	private List<ServiceUser> serviceUserList = new ArrayList<>();
 	private String returnType;
@@ -73,6 +73,8 @@ public class CreateAppointmentActivity extends BaseActivity {
         tvTimeTitle = (TextView) findViewById(R.id.tv_visit_time_title);
 		tvDate = (TextView) findViewById(R.id.tv_visit_date);
 		tvClinic = (TextView) findViewById(R.id.tv_visit_clinic);
+        tvReturnTitle = (TextView) findViewById(R.id.tv_return_type_title);
+        tvPriorityTitle = (TextView) findViewById(R.id.tv_prioirty_title);
 
         etUserName.setText("");
 
@@ -121,7 +123,12 @@ public class CreateAppointmentActivity extends BaseActivity {
         clinicName = ApiRootModel.getInstance().getServiceOptionsHomeMap().get(serviceOptionId).getName();
         tvTime.setVisibility(View.GONE);
         tvTimeTitle.setVisibility(View.GONE);
-        visitPrioritySpinner.setSelection(3);
+        visitReturnTypeSpinner.setVisibility(View.GONE);
+        visitPrioritySpinner.setVisibility(View.GONE);
+        tvPriorityTitle.setVisibility(View.GONE);
+        tvReturnTitle.setVisibility(View.GONE);
+
+        priority = "home-visit";
 
         myCalendar.setTime(daySelected);
         tvDate.setText(dfDateMonthNameYear.format(daySelected));
@@ -372,9 +379,6 @@ public class CreateAppointmentActivity extends BaseActivity {
                     	priority = "drop-in";
                     	//Drop-In
                     	break;
-                    case 3:
-                        priority = "home-visit";
-                        break;
                     }
                     break;
                 case R.id.list_dialog:

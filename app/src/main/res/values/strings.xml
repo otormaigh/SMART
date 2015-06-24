@@ -168,7 +168,6 @@
         <item>Select Visit Priority</item>
         <item>Scheduled</item>
         <item>Drop-In</item>
-        <item>Home-Visit</item>
     </string-array>
     <string-array name="visit_type_list">
         <item>Select Visit Type</item>
@@ -231,6 +230,7 @@
 
     <!-- NAVIGATION DRAWER-->
     <string-array name="nav_drawer_items">
+        <item>Home</item>
         <item>Search Patient</item>
         <item>Book Appointment</item>
         <item>Start/Stop Clinic</item>

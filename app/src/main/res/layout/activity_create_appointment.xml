@@ -95,6 +95,7 @@
             android:paddingLeft="@dimen/padding_Xsmall" />
 
         <TextView
+            android:id="@+id/tv_return_type_title"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_small"
@@ -110,6 +111,7 @@
             android:entries="@array/visit_return_type"/>
 
         <TextView
+            android:id="@+id/tv_prioirty_title"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Priority"
