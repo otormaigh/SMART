@@ -110,7 +110,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void initRetrofit() {
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(SmartApi.BASE_URL)
-                        //.setLogLevel(RestAdapter.LogLevel.FULL)
+                //.setLogLevel(RestAdapter.LogLevel.FULL)
                 .build();
 
         api = restAdapter.create(SmartApi.class);
