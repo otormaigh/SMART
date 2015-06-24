@@ -182,10 +182,12 @@ public class CreateAppointmentActivity extends BaseActivity {
         }
 	}
 
-	private void checkIfEditEmpty(){
+	private Boolean checkIfEditEmpty(){
 		if(TextUtils.equals(String.valueOf(userID), "") || TextUtils.equals(etUserName.getText(), "")) {
 		    etUserName.setError("Field Empty");
-        }
+            return true;
+        } else
+            return false;
 	}
 
     private Boolean checkIfOkToGo(){
@@ -241,46 +243,38 @@ public class CreateAppointmentActivity extends BaseActivity {
 		visitReturnTypeSpinner.setAdapter(returnTypeAdapter);
 	}
 
+    private void showEmptyFieldDialog(){
+        showProgressDialog(
+                CreateAppointmentActivity.this,
+                "Cannot proceed, \nSome fields are empty!");
+        new CountDownTimer(2000, 1000){
+            @Override
+            public void onFinish() {
+                pd.dismiss();
+            }
+            @Override
+            public void onTick(long millisUntilFinished) { }
+        }.start();
+    }
+
 	private class ButtonClick implements View.OnClickListener {
         public void onClick(View v) {
             switch (v.getId()) {
             case R.id.btn_confirm_appointment:
             	apptDate = dfDateOnly.format(myCalendar.getTime());
             	passOptions.setDaySelected(myCalendar.getTime());
-            	checkIfEditEmpty();
-            	//if(checkIfOkToGo()) {
-            		/*Intent intent = new Intent(CreateAppointmentActivity.this, ConfirmAppointmentActivity.class);
-            		Bundle extras = new Bundle();
-            		extras.putString("userName", userName);
-            		extras.putString("hospitalNumber", hospitalNumber);
-            		extras.putString("email", email);
-            		extras.putString("sms", sms);
-            		extras.putString("clinicName", clinicName);
-            		extras.putString("clinicID", String.valueOf(clinicID));
-            		extras.putString("serviceOptionId", String.valueOf(serviceOptionId));
-            		extras.putString("date", apptDate);
-            		extras.putString("time", time);
-            		extras.putString("return_type", returnType);
-            		extras.putString("priority", priority);
-            		extras.putString("userId", String.valueOf(userID));
-            		extras.putString("visitType", visitType);
-            		intent.putExtras(extras);
-            		startActivity(intent);*/
 
-                    makeAlertDialog();
-            	/*} else {
-					showProgressDialog(
-							CreateAppointmentActivity.this,
-							"Cannot proceed, \nSome fields are empty!");
-        			new CountDownTimer(2000, 1000){
-						@Override
-						public void onFinish() {
-							pd.dismiss();
-						}
-						@Override
-						public void onTick(long millisUntilFinished) { }
-        			}.start();
-            	}*/
+                if(priority.equals("home-visit")) {
+                    if (!checkIfEditEmpty())
+                        makeAlertDialog();
+                    else
+                        showEmptyFieldDialog();
+                } else if(priority.equals("scheduled")) {
+                    if (checkIfOkToGo())
+                        makeAlertDialog();
+                    else
+                        showEmptyFieldDialog();
+                }
             	break;
             case R.id.btn_user_search:
             	hideKeyboard();
