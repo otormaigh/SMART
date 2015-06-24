@@ -74,6 +74,7 @@ public class BaseActivity extends AppCompatActivity {
     protected int bId = 0;
     protected int spinnerWarning;
     protected int done = 0;
+    protected boolean showDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -178,6 +179,7 @@ public class BaseActivity extends AppCompatActivity {
                 break;
             case 5:         //Sync
                 updateAppointment(this);
+                showProgressDialog(this, "Updating Appointments");
                 break;
             case 6:         //Logout
                 new AlertDialog.Builder(this)
@@ -250,19 +252,6 @@ public class BaseActivity extends AppCompatActivity {
         );
     }
 
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView parent, View view, final int position, long id) {
-            drawerLayout.closeDrawers();
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    selectItem(position);
-                }
-            },210);
-        }
-    }
-
     protected String putArrayToString(List<String> badList) {
         String listAsString = "";
         int listSize = badList.size();
@@ -331,54 +320,6 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected void updateAppointment(final Context context) {
-        if (pd != null)
-            if (!pd.isShowing())
-                showProgressDialog(context, "Updating Appointments");
-        /*api.getAllAppointments(
-            ApiRootModel.getInstance().getLogin().getToken(),
-            CredentialsEnum.API_KEY.toString(),
-            new Callback<ApiRootModel>() {
-                @Override
-                public void success(ApiRootModel apiRootModel, Response response) {
-                    ApiRootModel.getInstance().setAppointments(apiRootModel.getAppointments());
-                    List<Integer> apptIdList;
-                    Map<String, List<Integer>> dateApptIdMap;
-                    Map<Integer, Map<String, List<Integer>>> clinicDateApptIdMap = new HashMap<>();
-                    Map<Integer, Appointment> idApptMap = new HashMap<>();
-
-                    for (int i = 0; i < apiRootModel.getAppointments().size(); i++) {
-                        apptIdList = new ArrayList<>();
-                        dateApptIdMap = new HashMap<>();
-                        String apptDate = apiRootModel.getAppointments().get(i).getDate();
-                        int apptId = apiRootModel.getAppointments().get(i).getId();
-                        int clinicId = apiRootModel.getAppointments().get(i).getClinicId();
-                        Appointment appt = apiRootModel.getAppointments().get(i);
-
-                        if (clinicDateApptIdMap.get(clinicId) != null) {
-                            dateApptIdMap = clinicDateApptIdMap.get(clinicId);
-                            if (dateApptIdMap.get(apptDate) != null) {
-                                apptIdList = dateApptIdMap.get(apptDate);
-                            }
-                        }
-                        apptIdList.add(apptId);
-                        dateApptIdMap.put(apptDate, apptIdList);
-
-                        clinicDateApptIdMap.put(clinicId, dateApptIdMap);
-                        idApptMap.put(apptId, appt);
-                    }
-                    ApiRootModel.getInstance().setClinicVisitClinicDateApptIdMap(clinicDateApptIdMap);
-                    ApiRootModel.getInstance().setClinicVisitIdApptMap(idApptMap);
-                    Log.d("Retrofit", "appointments finished");
-                    pd.dismiss();
-                }
-
-                @Override
-                public void failure(RetrofitError error) {
-                    Log.d("Retrofit", "appointments retro failure " + error);
-                    pd.dismiss();
-                }
-            });*/
-
         api.getAllAppointments(
                 ApiRootModel.getInstance().getLogin().getToken(),
                 CredentialsEnum.API_KEY.toString(),
@@ -406,11 +347,11 @@ public class BaseActivity extends AppCompatActivity {
                             int apptId = appt.getId();
                             int clinicId = appt.getClinicId();
                             int serviceOptionId = 0;
-                            if(appt.getServiceOptionIds().size() > 0) {
+                            if (appt.getServiceOptionIds().size() > 0) {
                                 serviceOptionId = appt.getServiceOptionIds().get(0);
                             }
 
-                            if(appt.getPriority().equals("home-visit")){
+                            if (appt.getPriority().equals("home-visit")) {
                                 if (homeVisitClinicDateApptIdMap.get(serviceOptionId) != null) {
                                     homeVisitdateApptIdMap = homeVisitClinicDateApptIdMap.get(serviceOptionId);
                                     if (homeVisitdateApptIdMap.get(apptDate) != null) {
@@ -458,5 +399,18 @@ public class BaseActivity extends AppCompatActivity {
                     }
                 }
         );
+    }
+
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView parent, View view, final int position, long id) {
+            drawerLayout.closeDrawers();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    selectItem(position);
+                }
+            }, 210);
+        }
     }
 }
