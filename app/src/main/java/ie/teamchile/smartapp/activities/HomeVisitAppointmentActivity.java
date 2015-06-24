@@ -132,27 +132,8 @@ public class HomeVisitAppointmentActivity extends BaseActivity {
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                Log.d("postAppointment", "datePicker: " + myCalendar.getTime());
-                Log.d("postAppointment", "datePicker formatted: " +
-                        dfDateOnly.format(myCalendar.getTime()));
-                Log.d("bugs", "c.getDay: " + dayOfWeek);
-                Log.d("bugs", "myCalendar.getDay: " + myCalendar.get(Calendar.DAY_OF_WEEK));
-                if (myCalendar.get(Calendar.DAY_OF_WEEK) == dayOfWeek) {
-                    dateInList.setText(dfDateWMonthName.format(myCalendar.getTime()));
-                    newSetToList(myCalendar.getTime());
-                } else {
-                    Log.d("bugs", "wrong date");
-                    showProgressDialog(HomeVisitAppointmentActivity.this,
-                            "Invalid day selected\nPlease choose another");
-                    Handler mHandler = new Handler();
-                    mHandler.postDelayed(new Runnable() {
-                        public void run() {
-                            pd.dismiss();
-                            Log.d("bugs", "dismissed");
-                            Log.d("bugs", "dismissed" + pd.isShowing());
-                        }
-                    }, 2000);
-                }
+                dateInList.setText(dfDateWMonthName.format(myCalendar.getTime()));
+                newSetToList(myCalendar.getTime());
             }
         };
         dateInList.setOnClickListener(new View.OnClickListener() {
