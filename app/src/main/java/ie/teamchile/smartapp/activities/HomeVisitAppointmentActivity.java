@@ -159,7 +159,7 @@ public class HomeVisitAppointmentActivity extends BaseActivity {
         nameOfClinic = ApiRootModel.getInstance().getServiceOptionsHomeMap().get(visitOptionSelected).getName();
         setActionBarTitle(nameOfClinic);
 
-        nameList.add("Free Slot");
+        nameList.add("Book Home Visit");
         gestList.add("");
         attendedList.add(false);
 
