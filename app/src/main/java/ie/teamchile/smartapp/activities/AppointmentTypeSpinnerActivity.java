@@ -41,8 +41,8 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
         setContentForNav(R.layout.activity_appointment_type_spinner);
 
         c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        Log.d("MYLOG", "Date set to " + c.getTime());       
-        
+        Log.d("MYLOG", "Date set to " + c.getTime());
+
         spinnerWarning = getResources().getColor(R.color.spinner_warning);
 
         tvAppointmentType = (TextView) findViewById(R.id.tv_appointment_type);

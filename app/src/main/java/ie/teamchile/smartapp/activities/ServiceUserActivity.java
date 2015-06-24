@@ -612,8 +612,12 @@ public class ServiceUserActivity extends BaseActivity {
             prefs.putString("visit_type", "post-natal");
         }
         prefs.putString("name", userName);
+        prefs.putString("hospitalNumber", hospitalNumber);
+        prefs.putString("email", email);
+        prefs.putString("mobile", mobile);
         prefs.putString("id", String.valueOf(userId));
         prefs.putBoolean("reuse", true);
+
         prefs.commit();
     }
 
@@ -733,12 +737,13 @@ public class ServiceUserActivity extends BaseActivity {
         ad = alertDialog.show();
     }
 
-    private void putAntiD(String antiD) {
+    private void putAntiD(String putAntiD) {
         Log.d("bugs", "putting antiD");
+        Log.d("bugs", "antiD = " + putAntiD);
         c = Calendar.getInstance();
         PostingData puttingAntiD = new PostingData();
 
-        puttingAntiD.putAntiD(antiD, userId);
+        puttingAntiD.putAntiD(putAntiD, userId);
 
         showProgressDialog(this, "Updating Anti-D");
 
@@ -773,12 +778,13 @@ public class ServiceUserActivity extends BaseActivity {
         );
     }
 
-    private void putFeeding(String feeding) {
+    private void putFeeding(String putFeeding) {
         Log.d("bugs", "putting antiD");
+        Log.d("bugs", "feeding = " + putFeeding);
         c = Calendar.getInstance();
         PostingData puttingFeeding = new PostingData();
 
-        puttingFeeding.putFeeding(feeding, userId);
+        puttingFeeding.putFeeding(putFeeding, userId);
 
         showProgressDialog(this, "Updating Feeding");
 
@@ -813,14 +819,15 @@ public class ServiceUserActivity extends BaseActivity {
         );
     }
 
-    private void putVitK(String vitK) {
+    private void putVitK(String putVitK) {
         Log.d("bugs", "putting vitK");
+        Log.d("bugs", "vitK = " + putVitK);
         c = Calendar.getInstance();
         getRecentBabyId();
         Log.d("bugs", "preg id = " + ApiRootModel.getInstance().getPregnancies().get(0).getId());
         PostingData puttingVitK = new PostingData();
 
-        puttingVitK.putVitK(vitK, userId, ApiRootModel.getInstance().getPregnancies().get(0).getId());
+        puttingVitK.putVitK(putVitK, userId, ApiRootModel.getInstance().getPregnancies().get(0).getId());
 
         showProgressDialog(this, "Updating Vit-K");
 
@@ -862,14 +869,15 @@ public class ServiceUserActivity extends BaseActivity {
         );
     }
 
-    private void putHearing(String hearing) {
+    private void putHearing(String putHearing) {
         Log.d("bugs", "putting hearing");
+        Log.d("bugs", "hearing = " + putHearing);
         c = Calendar.getInstance();
         getRecentBabyId();
         Log.d("bugs", "preg id = " + ApiRootModel.getInstance().getPregnancies().get(0).getId());
         PostingData puttingHearing = new PostingData();
 
-        puttingHearing.putHearing(hearing, userId, ApiRootModel.getInstance().getPregnancies().get(0).getId());
+        puttingHearing.putHearing(putHearing, userId, ApiRootModel.getInstance().getPregnancies().get(0).getId());
 
         showProgressDialog(this, "Updating Hearing");
 
@@ -911,8 +919,9 @@ public class ServiceUserActivity extends BaseActivity {
         );
     }
 
-    private void putNBST(String nbst) {
+    private void putNBST(String putNbst) {
         Log.d("bugs", "putting hearing");
+        Log.d("bugs", "nbst = " + putNbst);
         c = Calendar.getInstance();
         getRecentBabyId();
         Log.d("bugs", "preg id = " + ApiRootModel.getInstance().getPregnancies().get(0).getId());
@@ -966,6 +975,9 @@ public class ServiceUserActivity extends BaseActivity {
                 case R.id.btn_usr_book_appointment:
                     setSharedPrefs();
                     intent = new Intent(ServiceUserActivity.this, AppointmentTypeSpinnerActivity.class);
+                    //intent.putExtra("from", "user");
+                    //intent.putExtra("userName", userName);
+                    intent.putExtra("userId", String.valueOf(userId));
                     startActivity(intent);
                     break;
                 case R.id.ll_usr_contact:
