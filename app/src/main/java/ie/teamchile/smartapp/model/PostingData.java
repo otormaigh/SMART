@@ -54,11 +54,11 @@ public class PostingData {
         this.appointment = new Appointment(attended, clinic_id, service_provider_id, service_user_id);
     }
 
-    public void postTimeRecords(String startTime, int clinicId, String date){
+    public void putStartTimeRecord(String startTime, int clinicId, String date){
         this.clinicTimeRecord = new ClinicTimeRecord(startTime, clinicId, date);
     }
 
-    public void updateTimeRecords(String endTime, String date, int clinicId){
+    public void putEndTimeRecord(String endTime, String date, int clinicId){
         this.clinicTimeRecord = new ClinicTimeRecord(endTime, date, clinicId);
     }
 
