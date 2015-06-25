@@ -7,11 +7,11 @@
     tools:context="ie.teamchile.smartapp.activities.ClinicTimeRecordActivity">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/clinics_not_started"
         android:textSize="@dimen/text_medium"
-        android:textStyle="bold"/>
+        android:theme="@style/SubSection"/>
 
     <ListView
         android:id="@+id/lv_clinics_not_started"
@@ -27,11 +27,11 @@
         android:theme="@style/CallToActionButton"/>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/clinics_not_started"
+        android:text="@string/clinics_started"
         android:textSize="@dimen/text_medium"
-        android:textStyle="bold"/>
+        android:theme="@style/SubSection" />
 
     <ListView
         android:id="@+id/lv_clinics_started"
@@ -45,5 +45,16 @@
         android:layout_height="wrap_content"
         android:text="@string/stop_clinic"
         android:theme="@style/CallToActionButton"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/clinics_stopped"
+        android:textSize="@dimen/text_medium"
+        android:theme="@style/SubSection"/>
+    <ListView
+        android:id="@+id/lv_clinics_stopped"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>
