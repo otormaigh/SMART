@@ -57,6 +57,9 @@ public class ApiRootModel {
     @SerializedName("clinic_time_records")
     @Expose
     private List<ClinicTimeRecord> clinicTimeRecords = new ArrayList<>();
+    @SerializedName("clinic_time_record")
+    @Expose
+    private ClinicTimeRecord clinicTimeRecord = new ClinicTimeRecord();
     @SerializedName("anti_d_histories")
     @Expose
     private List<AntiDHistory> antiDHistories = new ArrayList<>();
@@ -341,6 +344,14 @@ public class ApiRootModel {
      */
     public List<ClinicTimeRecord> getClinicTimeRecords() {
         return clinicTimeRecords;
+    }
+
+    public void setClinicTimeRecord(ClinicTimeRecord clinicTimeRecord) {
+        this.clinicTimeRecord = clinicTimeRecord;
+    }
+
+    public ClinicTimeRecord getClinicTimeRecord() {
+        return clinicTimeRecord;
     }
 
     /**
