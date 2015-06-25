@@ -23,7 +23,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -39,7 +38,6 @@ import ie.teamchile.smartapp.model.ServiceUser;
 import ie.teamchile.smartapp.util.AdapterSpinner;
 import ie.teamchile.smartapp.util.SmartApi;
 import retrofit.Callback;
-import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -428,7 +426,7 @@ public class CreateAppointmentActivity extends BaseActivity {
         Log.d("bugs", "making alertDialog");
         LayoutInflater inflater = getLayoutInflater();
         alertDialog = new AlertDialog.Builder(CreateAppointmentActivity.this);
-        View convertView = (View) inflater.inflate(R.layout.activity_confirm_appointment, null);
+        View convertView = (View) inflater.inflate(R.layout.dialog_confirm_appointment, null);
         TextView txtUserName = (TextView) convertView.findViewById(R.id.tv_confirm_name);
         TextView txtClinic = (TextView) convertView.findViewById(R.id.tv_confirm_location);
         TextView txtDateTime = (TextView) convertView.findViewById(R.id.tv_confirm_time);
