@@ -350,6 +350,10 @@ public class ApiRootModel {
         this.clinicTimeRecords = clinicTimeRecords;
     }
 
+    public void addClinicTimeRecord(ClinicTimeRecord clinicTimeRecord) {
+        clinicTimeRecords.add(clinicTimeRecord);
+    }
+
     /**
      * @return The antiDHistories
      */
