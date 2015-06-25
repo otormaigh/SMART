@@ -44,6 +44,7 @@ import ie.teamchile.smartapp.util.SmartApi;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
+import retrofit.client.OkClient;
 import retrofit.client.Response;
 
 public class BaseActivity extends AppCompatActivity {
@@ -111,6 +112,7 @@ public class BaseActivity extends AppCompatActivity {
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(SmartApi.BASE_URL)
                 //.setLogLevel(RestAdapter.LogLevel.FULL)
+                .setClient(new OkClient())
                 .build();
 
         api = restAdapter.create(SmartApi.class);
