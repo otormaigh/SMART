@@ -45,8 +45,8 @@ public class ClinicTimeRecordActivity extends BaseActivity {
     private String date;
     private int clinicStartedId;
     private int clinicNotStartedId;
-    private Button btnStartClinic;
-    private Button btnStopClinic;
+    private Button btnStartClinic, btnStartClinicDisable;
+    private Button btnStopClinic, btnStopClinicDisable;
     private ArrayAdapter adapterNotStart;
     private ArrayAdapter adapterStart;
     private ArrayAdapter adapterStop;
@@ -69,6 +69,14 @@ public class ClinicTimeRecordActivity extends BaseActivity {
         btnStartClinic.setOnClickListener(new ButtonClicky());
         btnStopClinic = (Button) findViewById(R.id.btn_stop_clinic);
         btnStopClinic.setOnClickListener(new ButtonClicky());
+        btnStartClinicDisable = (Button) findViewById(R.id.btn_start_clinic_disable);
+        btnStopClinicDisable = (Button) findViewById(R.id.btn_stop_clinic_disable);
+
+        btnStartClinicDisable.setEnabled(false);
+        btnStopClinicDisable.setEnabled(false);
+
+        btnStartClinicDisable.setVisibility(View.GONE);
+        btnStopClinicDisable.setVisibility(View.GONE);
 
         setActionBarTitle("Start/Stop Clinics");
 
@@ -249,10 +257,12 @@ public class ClinicTimeRecordActivity extends BaseActivity {
         if (clinicNotStarted.size() == 0) {
             clinicNotStartedName.add("No clinics to be started");
             lvNotStarted.setEnabled(false);
-            btnStartClinic.setEnabled(false);
+            btnStartClinic.setVisibility(View.GONE);
+            btnStartClinicDisable.setVisibility(View.VISIBLE);
         } else {
             lvNotStarted.setEnabled(true);
-            btnStartClinic.setEnabled(true);
+            btnStartClinic.setVisibility(View.VISIBLE);
+            btnStartClinicDisable.setVisibility(View.GONE);
             for (int i = 0; i < clinicNotStarted.size(); i++) {
                 clinicNotStartedName.add(clinicIdMap.get(clinicNotStarted.get(i)).getName());
             }
@@ -272,10 +282,12 @@ public class ClinicTimeRecordActivity extends BaseActivity {
         if (clinicStarted.size() == 0) {
             clinicStartedName.add("No clinics currently started");
             lvStarted.setEnabled(false);
-            btnStopClinic.setEnabled(false);
+            btnStopClinic.setVisibility(View.GONE);
+            btnStopClinicDisable.setVisibility(View.VISIBLE);
         } else {
             lvStarted.setEnabled(true);
-            btnStopClinic.setEnabled(true);
+            btnStopClinic.setVisibility(View.VISIBLE);
+            btnStopClinicDisable.setVisibility(View.GONE);
             for (int i = 0; i < clinicStarted.size(); i++) {
                 clinicStartedName.add(clinicIdMap.get(clinicStarted.get(i)).getName());
             }
