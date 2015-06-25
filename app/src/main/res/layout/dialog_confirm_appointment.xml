@@ -48,7 +48,7 @@
                 android:layout_marginTop="@dimen/padding_Xsmall"
                 android:text="@string/appointment_for"
                 android:textSize="@dimen/text_small"
-                android:textStyle="bold"/>
+                android:textColor="@color/light_grey"/>
 
             <TextView
                 android:id="@+id/tv_confirm_name"
@@ -64,7 +64,7 @@
                 android:layout_marginTop="@dimen/padding_Xsmall"
                 android:text="@string/to_attend"
                 android:textSize="@dimen/text_small"
-                android:textStyle="bold"/>
+                android:textColor="@color/light_grey"/>
 
             <TextView
                 android:id="@+id/tv_confirm_location"
@@ -80,7 +80,7 @@
                 android:layout_marginTop="@dimen/padding_Xsmall"
                 android:text="@string/at"
                 android:textSize="@dimen/text_small"
-                android:textStyle="bold"/>
+                android:textColor="@color/light_grey"/>
 
             <TextView
                 android:id="@+id/tv_confirm_time"
@@ -96,7 +96,7 @@
                 android:layout_marginTop="@dimen/padding_Xsmall"
                 android:text="@string/confirm_email"
                 android:textSize="@dimen/text_small"
-                android:textStyle="bold"/>
+                android:textColor="@color/light_grey"/>
 
             <TextView
                 android:id="@+id/tv_confirm_email"
@@ -112,7 +112,7 @@
                 android:layout_marginTop="@dimen/padding_Xsmall"
                 android:text="@string/confirm_sms"
                 android:textSize="@dimen/text_small"
-                android:textStyle="bold"/>
+                android:textColor="@color/light_grey"/>
 
             <TextView
                 android:id="@+id/tv_confirm_sms"

@@ -18,7 +18,7 @@
             android:layout_marginTop="@dimen/padding_Xsmall"
             android:text="@string/service_user"
             android:textSize="@dimen/text_small"
-            android:textStyle="bold" />
+            android:textColor="@color/light_grey"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -51,7 +51,7 @@
             android:layout_marginTop="@dimen/padding_small"
             android:text="@string/appointment_clinic"
             android:textSize="@dimen/text_small"
-            android:textStyle="bold" />
+            android:textColor="@color/light_grey"/>
 
         <TextView
             android:id="@+id/tv_visit_clinic"
@@ -67,7 +67,7 @@
             android:layout_marginTop="@dimen/padding_small"
             android:text="@string/appointment_date"
             android:textSize="@dimen/text_small"
-            android:textStyle="bold" />
+            android:textColor="@color/light_grey"/>
 
         <TextView
             android:id="@+id/tv_visit_date"
@@ -84,7 +84,7 @@
             android:layout_marginTop="@dimen/padding_small"
             android:text="@string/appointment_time"
             android:textSize="@dimen/text_small"
-            android:textStyle="bold" />
+            android:textColor="@color/light_grey"/>
 
         <TextView
             android:id="@+id/tv_visit_time"
@@ -101,7 +101,7 @@
             android:layout_marginTop="@dimen/padding_small"
             android:text="@string/appointment_type"
             android:textSize="@dimen/text_small"
-            android:textStyle="bold"
+            android:textColor="@color/light_grey"
             android:layout_marginBottom="-12dp"/>
 
         <Spinner
@@ -116,7 +116,7 @@
             android:layout_height="wrap_content"
             android:text="Priority"
             android:textSize="@dimen/text_small"
-            android:textStyle="bold"
+            android:textColor="@color/light_grey"
             android:layout_marginBottom="-12dp"/>
 
         <Spinner
