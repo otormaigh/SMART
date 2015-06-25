@@ -38,7 +38,7 @@ public class ConfirmAppointmentActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentForNav(R.layout.activity_confirm_appointment);
+        setContentForNav(R.layout.dialog_confirm_appointment);
 
         txtUserName = (TextView) findViewById(R.id.tv_confirm_name);
         txtClinic = (TextView) findViewById(R.id.tv_confirm_location);
