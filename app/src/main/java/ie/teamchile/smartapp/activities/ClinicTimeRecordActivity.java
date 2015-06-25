@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -27,11 +26,12 @@ import retrofit.client.Response;
 
 public class ClinicTimeRecordActivity extends BaseActivity {
     private List<Integer> clinicStarted = new ArrayList<>();
-    private List<Integer> clinicStopped = new ArrayList<>();
+    private List<Integer> clinicNotStarted = new ArrayList<>();
     private List<Integer> idList = new ArrayList<>();
-    private List<String> clinicDays = new ArrayList<>();
-    private Map<String, List<String>> clinicMap = new HashMap<>();
-    private Map<String, List<Integer>> clinicIdMap = new HashMap<>();
+    private List<String> clinicNotStartedName = new ArrayList<>();
+    private List<String> clinicStartedName = new ArrayList<>();
+    private Map<String, List<Integer>> clinicDayMap = new HashMap<>();
+    private Map<Integer, Clinic> clinicIdMap = new HashMap<>();
     private ListView lvNotStarted;
     private ListView lvStarted;
     private String todayDay;
@@ -52,7 +52,9 @@ public class ClinicTimeRecordActivity extends BaseActivity {
         todayDate = dfDateOnly.format(c.getTime());
         Log.d("SMART", "today = " + todayDay);
         lvNotStarted = (ListView) findViewById(R.id.lv_clinics_not_started);
+        lvNotStarted.setOnItemClickListener(new ItemClicky());
         lvStarted = (ListView) findViewById(R.id.lv_clinics_started);
+        lvStarted.setOnItemClickListener(new ItemClicky());
         btnStartClinic = (Button) findViewById(R.id.btn_start_clinic);
         btnStartClinic.setOnClickListener(new ButtonClicky());
         btnStopClinic = (Button) findViewById(R.id.btn_stop_clinic);
@@ -60,18 +62,21 @@ public class ClinicTimeRecordActivity extends BaseActivity {
 
         setActionBarTitle("Start/Stop Clinics");
 
-        thing();
+        setRecordsToList();
     }
 
-    private void thing() {
-        List<Clinic> clinic = ApiRootModel.getInstance().getClinics();
+    private void setRecordsToList() {
+        List<Clinic> clinics = ApiRootModel.getInstance().getClinics();
 
-        for (int i = 0; i < clinic.size(); i++) {
-            List<String> trueDays = clinic.get(i).getTrueDays();
+        for (int i = 0; i < clinics.size(); i++) {
+            List<String> trueDays = clinics.get(i).getTrueDays();
             for (int j = 0; j < trueDays.size(); j++) {
-                String clinicName = clinic.get(i).getName();
-                int clinicId = clinic.get(i).getId();
-                switch (clinic.get(i).getId()) {
+                Clinic clinic = clinics.get(i);
+                String clinicName = clinics.get(i).getName();
+                int clinicId = clinics.get(i).getId();
+                clinicIdMap.put(clinicId, clinic);
+
+                switch (clinics.get(i).getId()) {
                     case 6:
                         clinicName += " (Domino)";
                         break;
@@ -80,41 +85,35 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                         break;
                 }
 
-                if (clinicMap.get(trueDays.get(j)) != null) {
-                    clinicDays = new ArrayList<>();
+                if (clinicDayMap.get(trueDays.get(j)) != null) {
                     idList = new ArrayList<>();
-                    clinicDays = clinicMap.get(trueDays.get(j));
-                    idList = clinicIdMap.get(trueDays.get(j));
-                    clinicDays.add(clinicName);
+                    idList = clinicDayMap.get(trueDays.get(j));
                     idList.add(clinicId);
-                    clinicMap.put(trueDays.get(j), clinicDays);
-                    clinicIdMap.put(trueDays.get(j), idList);
+                    clinicDayMap.put(trueDays.get(j), idList);
                 } else {
-                    clinicDays = new ArrayList<>();
                     idList = new ArrayList<>();
-                    clinicDays.add(clinicName);
                     idList.add(clinicId);
-                    clinicMap.put(trueDays.get(j), clinicDays);
-                    clinicIdMap.put(trueDays.get(j), idList);
+                    clinicDayMap.put(trueDays.get(j), idList);
                 }
             }
         }
-        Log.d("Clinic", "Record map = " + clinicMap);
+        Log.d("Clinic", "Record map = " + clinicDayMap);
 
-        for(int i = 0; i < clinicMap.get(todayDay).size(); i++){
-            getTimeRecords(clinicIdMap.get(todayDay).get(i), todayDate);
+        idList = clinicDayMap.get(todayDay);
+
+        for (int i = 0; i < idList.size(); i++) {
+            getTimeRecords(idList.get(i), todayDate, i);
         }
-
-        ArrayAdapter adapter = new ArrayAdapter(
-                ClinicTimeRecordActivity.this,
-                android.R.layout.simple_list_item_1,
-                clinicMap.get(todayDay));
-
-        lvNotStarted.setAdapter(adapter);
-        lvNotStarted.setOnItemClickListener(new ItemClicky());
     }
 
-    private void getTimeRecords(int clinicId, String date) {
+    private void getTimeRecords(final int clinicId, String date, final int position) {
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint(SmartApi.BASE_URL)
+                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .build();
+
+        api = restAdapter.create(SmartApi.class);
+
         api.getTimeRecords(
                 clinicId,
                 date,
@@ -123,52 +122,77 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                 new Callback<ApiRootModel>() {
                     @Override
                     public void success(ApiRootModel apiRootModel, Response response) {
-                        if(apiRootModel.getClinicTimeRecords().size() > 0){
+                        Log.d("retro", "get time record success");
+                        if (apiRootModel.getClinicTimeRecords().size() > 0) {
+                            clinicStarted.add(clinicId);
 
+                        } else {
+                            clinicNotStarted.add(clinicId);
+                            clinicStartedName.add(clinicIdMap.get(clinicId).getName());
                         }
+
+                        setNotStartedList();
+                        setStartedList();
+
+                        Log.d("bugs", "clinicStarted = " + clinicStarted);
+                        Log.d("bugs", "clinicNotStarted = " + clinicNotStarted);
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
-
+                        Log.d("retro", "get time record failure = " + error);
                     }
                 }
         );
     }
 
-    private class ItemClicky implements AdapterView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            clinicId = clinicIdMap.get(todayDay).get(position);
-        }
-    }
-
-    private class ButtonClicky implements View.OnClickListener{
-        @Override
-        public void onClick(View v) {
-            c = Calendar.getInstance();
-            now =  dfDateTime.format(c.getTime());
-            c.add(Calendar.HOUR, 1);
-            then = dfDateTime.format(c.getTime());
-            Log.d("Checkin", "now = " + now + " then = " + then + " clinic id = " + clinicId);
-            date = dfDateOnly.format(c.getTime());
-            switch(v.getId()){
-                case R.id.btn_start_clinic:
-                    putStartTime(now, clinicId);
-                    break;
-                case R.id.btn_stop_clinic:
-                    putEndTime(then, date, clinicId);
-                    break;
-            }
-        }
-    }
-
-    private void putStartTime(String now, int clinicId){
+    private void putStartTime(String now, final int clinicId) {
         PostingData timeRecord = new PostingData();
-        timeRecord.postTimeRecords(
+        timeRecord.putStartTimeRecord(
                 now,
                 clinicId,
                 date);
+
+        showProgressDialog(ClinicTimeRecordActivity.this, "Updating Clinic Time Records");
+
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint(SmartApi.BASE_URL)
+                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .build();
+
+        api = restAdapter.create(SmartApi.class);
+
+        api.postTimeRecords(
+                timeRecord,
+                clinicId,
+                ApiRootModel.getInstance().getLogin().getToken(),
+                SmartApi.API_KEY,
+                new Callback<ApiRootModel>() {
+                    @Override
+                    public void success(ApiRootModel apiRootModel, Response response) {
+                        Log.d("SMART", "retro success");
+                        ApiRootModel.getInstance().setClinicTimeRecords(apiRootModel.getClinicTimeRecords());
+                        clinicNotStarted.remove(clinicNotStarted.indexOf(clinicId));
+                        clinicStarted.add(clinicId);
+                        setNotStartedList();
+                        setStartedList();
+                        pd.dismiss();
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.d("SMART", "retro error = " + error.getResponse());
+                        pd.dismiss();
+                    }
+                });
+    }
+
+    private void putEndTime(String then, String date, int clinicId) {
+        PostingData timeRecord = new PostingData();
+        timeRecord.putEndTimeRecord(
+                then,
+                date,
+                clinicId);
 
         showProgressDialog(ClinicTimeRecordActivity.this, "Updating Clinic Time Records");
 
@@ -200,7 +224,84 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                 });
     }
 
-    private void putEndTime(String then, String date, int clinicId){
+    private void setNotStartedList() {
+        clinicNotStartedName = new ArrayList<>();
+        for (int i = 0; i < clinicNotStarted.size(); i++) {
+            clinicNotStartedName.add(clinicIdMap.get(clinicNotStarted.get(i)).getName());
+        }
 
+        ArrayAdapter adapterNotStart = new ArrayAdapter(
+                ClinicTimeRecordActivity.this,
+                android.R.layout.simple_list_item_1,
+                clinicNotStartedName);
+
+        adapterNotStart.notifyDataSetChanged();
+        lvNotStarted.setAdapter(adapterNotStart);
+    }
+
+    private void setStartedList() {
+            clinicStartedName = new ArrayList<>();
+            for (int i = 0; i < clinicStarted.size(); i++) {
+                clinicStartedName.add(clinicIdMap.get(clinicStarted.get(i)).getName());
+            }
+
+            ArrayAdapter adapterStart = new ArrayAdapter(
+                    ClinicTimeRecordActivity.this,
+                    android.R.layout.simple_list_item_1,
+                    clinicStartedName);
+
+            adapterStart.notifyDataSetChanged();
+            lvStarted.setAdapter(adapterStart);
+    }
+
+    private class ItemClicky implements AdapterView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            switch (parent.getId()) {
+                case R.id.lv_clinics_not_started:
+                    Log.d("bugs", "not started clinic list pressed");
+                    clinicId = clinicNotStarted.get(position);
+                    Log.d("bugs", "clinicId = " + clinicId);
+                    break;
+                case R.id.lv_clinics_started:
+                    Log.d("bugs", "started clinic list pressed");
+                    clinicId = clinicStarted.get(position);
+                    Log.d("bugs", "clinicId = " + clinicId);
+                    break;
+            }
+        }
+    }
+
+    private class ButtonClicky implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.btn_start_clinic:
+                    Log.d("bugs", "start clinic btn pressed");
+                    break;
+                case R.id.btn_stop_clinic:
+                    Log.d("bugs", "stop clinic btn pressed");
+                    break;
+            }
+            if (clinicId != 0) {
+                c = Calendar.getInstance();
+                now = dfDateTime.format(c.getTime());
+                c.add(Calendar.HOUR, 1);
+                then = dfDateTime.format(c.getTime());
+                Log.d("Checkin", "now = " + now + " then = " + then + " clinic id = " + clinicId);
+                date = dfDateOnly.format(c.getTime());
+                switch (v.getId()) {
+                    case R.id.btn_start_clinic:
+                        Log.d("bugs", "start clinic btn pressed");
+                        putStartTime(now, clinicId);
+                        break;
+                    case R.id.btn_stop_clinic:
+                        putEndTime(then, date, clinicId);
+                        Log.d("bugs", "stop clinic btn pressed");
+                        break;
+                }
+            }
+            clinicId = 0;
+        }
     }
 }
