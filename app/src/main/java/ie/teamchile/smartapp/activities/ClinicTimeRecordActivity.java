@@ -123,9 +123,9 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                     @Override
                     public void success(ApiRootModel apiRootModel, Response response) {
                         Log.d("retro", "get time record success");
-                        if (apiRootModel.getClinicTimeRecords().size() > 0){
+                        if (apiRootModel.getClinicTimeRecords().size() > 0) {
                             ApiRootModel.getInstance().addClinicTimeRecord(apiRootModel.getClinicTimeRecords().get(0));
-                            if(apiRootModel.getClinicTimeRecords().get(0).getEndTime() == null)
+                            if (apiRootModel.getClinicTimeRecords().get(0).getEndTime() == null)
                                 clinicStarted.add(clinicId);
                             else
                                 clinicStopped.add(clinicId);
@@ -197,7 +197,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
         final List<ClinicTimeRecord> records = ApiRootModel.getInstance().getClinicTimeRecords();
 
         for (int i = 0; i < records.size(); i++) {
-            if(records.get(i).getClinicId() == clinicId){
+            if (records.get(i).getClinicId() == clinicId) {
                 recordId = records.get(i).getId();
             }
             Log.d("bugs", "record id = " + recordId);
@@ -228,7 +228,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                     public void success(ApiRootModel apiRootModel, Response response) {
                         Log.d("SMART", "retro success");
                         for (int i = 0; i < records.size(); i++) {
-                            if(records.get(i).getId() == recordId){
+                            if (records.get(i).getId() == recordId) {
                                 ApiRootModel.getInstance().getClinicTimeRecords().remove(i);
                             }
                         }
@@ -246,8 +246,16 @@ public class ClinicTimeRecordActivity extends BaseActivity {
 
     private void setNotStartedList() {
         clinicNotStartedName = new ArrayList<>();
-        for (int i = 0; i < clinicNotStarted.size(); i++) {
-            clinicNotStartedName.add(clinicIdMap.get(clinicNotStarted.get(i)).getName());
+        if (clinicNotStarted.size() == 0) {
+            clinicNotStartedName.add("No clinics to be started");
+            lvNotStarted.setEnabled(false);
+            btnStartClinic.setEnabled(false);
+        } else {
+            lvNotStarted.setEnabled(true);
+            btnStartClinic.setEnabled(true);
+            for (int i = 0; i < clinicNotStarted.size(); i++) {
+                clinicNotStartedName.add(clinicIdMap.get(clinicNotStarted.get(i)).getName());
+            }
         }
 
         adapterNotStart = new ArrayAdapter(
@@ -260,24 +268,37 @@ public class ClinicTimeRecordActivity extends BaseActivity {
     }
 
     private void setStartedList() {
-            clinicStartedName = new ArrayList<>();
+        clinicStartedName = new ArrayList<>();
+        if (clinicStarted.size() == 0) {
+            clinicStartedName.add("No clinics currently started");
+            lvStarted.setEnabled(false);
+            btnStopClinic.setEnabled(false);
+        } else {
+            lvStarted.setEnabled(true);
+            btnStopClinic.setEnabled(true);
             for (int i = 0; i < clinicStarted.size(); i++) {
                 clinicStartedName.add(clinicIdMap.get(clinicStarted.get(i)).getName());
             }
+        }
 
-            adapterStart = new ArrayAdapter(
-                    ClinicTimeRecordActivity.this,
-                    android.R.layout.simple_list_item_1,
-                    clinicStartedName);
+        adapterStart = new ArrayAdapter(
+                ClinicTimeRecordActivity.this,
+                android.R.layout.simple_list_item_1,
+                clinicStartedName);
 
-            adapterStart.notifyDataSetChanged();
-            lvStarted.setAdapter(adapterStart);
+        adapterStart.notifyDataSetChanged();
+        lvStarted.setAdapter(adapterStart);
     }
 
     private void setStoppedList() {
         clinicStoppedName = new ArrayList<>();
-        for (int i = 0; i < clinicStopped.size(); i++) {
-            clinicStoppedName.add(clinicIdMap.get(clinicStopped.get(i)).getName());
+
+        if (clinicStopped.size() == 0) {
+            clinicStoppedName.add("No clinics currently stopped");
+        } else {
+            for (int i = 0; i < clinicStopped.size(); i++) {
+                clinicStoppedName.add(clinicIdMap.get(clinicStopped.get(i)).getName());
+            }
         }
 
         adapterStop = new ArrayAdapter(
