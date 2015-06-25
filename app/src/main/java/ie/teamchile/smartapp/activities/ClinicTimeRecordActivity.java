@@ -23,6 +23,7 @@ import ie.teamchile.smartapp.util.SmartApi;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
+import retrofit.client.OkClient;
 import retrofit.client.Response;
 
 public class ClinicTimeRecordActivity extends BaseActivity {
@@ -57,7 +58,8 @@ public class ClinicTimeRecordActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentForNav(R.layout.activity_clinic_time_record);
         c = Calendar.getInstance();
-        todayDay = dfDayLong.format(c.getTime());
+        //todayDay = dfDayLong.format(c.getTime());
+        todayDay = "Monday";
         todayDate = dfDateOnly.format(c.getTime());
         Log.d("SMART", "today = " + todayDay);
         lvNotStarted = (ListView) findViewById(R.id.lv_clinics_not_started);
@@ -172,6 +174,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(SmartApi.BASE_URL)
                 .setLogLevel(RestAdapter.LogLevel.FULL)
+                .setClient(new OkClient())
                 .build();
 
         api = restAdapter.create(SmartApi.class);
@@ -185,7 +188,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                     @Override
                     public void success(ApiRootModel apiRootModel, Response response) {
                         Log.d("SMART", "retro success");
-                        ApiRootModel.getInstance().setClinicTimeRecords(apiRootModel.getClinicTimeRecords());
+                        ApiRootModel.getInstance().addClinicTimeRecord(apiRootModel.getClinicTimeRecord());
                         clinicNotStarted.remove(clinicNotStarted.indexOf(clinicId));
                         clinicStarted.add(clinicId);
                         setNotStartedList();
@@ -201,15 +204,17 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                 });
     }
 
-    private void putEndTime(String then, String date, int clinicId) {
+    private void putEndTime(String then, String date, final int clinicId) {
         final List<ClinicTimeRecord> records = ApiRootModel.getInstance().getClinicTimeRecords();
 
         for (int i = 0; i < records.size(); i++) {
             if (records.get(i).getClinicId() == clinicId) {
                 recordId = records.get(i).getId();
+                Log.d("bugs", "recordId = " + recordId);
             }
             Log.d("bugs", "record id = " + recordId);
         }
+
         PostingData timeRecord = new PostingData();
         timeRecord.putEndTimeRecord(
                 then,
@@ -234,13 +239,20 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                 new Callback<ApiRootModel>() {
                     @Override
                     public void success(ApiRootModel apiRootModel, Response response) {
+                        Log.d("bugs", "records.size() = " + records.size());
                         Log.d("SMART", "retro success");
                         for (int i = 0; i < records.size(); i++) {
                             if (records.get(i).getId() == recordId) {
-                                ApiRootModel.getInstance().getClinicTimeRecords().remove(i);
+                                Log.d("bugs", "record id = " + records.get(i).getId());
+                                records.remove(i);
+                                clinicStarted.remove(clinicStarted.indexOf(clinicId));
+                                clinicStopped.add(clinicId);
+                                setStartedList();
+                                setStoppedList();
                             }
                         }
-                        ApiRootModel.getInstance().setClinicTimeRecords(apiRootModel.getClinicTimeRecords());
+                        Log.d("bugs", "records.size() = " + records.size());
+                        ApiRootModel.getInstance().addClinicTimeRecord(apiRootModel.getClinicTimeRecord());
                         pd.dismiss();
                     }
 
@@ -253,6 +265,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
     }
 
     private void setNotStartedList() {
+        String clinicName = new String();
         clinicNotStartedName = new ArrayList<>();
         if (clinicNotStarted.size() == 0) {
             clinicNotStartedName.add("No clinics to be started");
@@ -264,7 +277,17 @@ public class ClinicTimeRecordActivity extends BaseActivity {
             btnStartClinic.setVisibility(View.VISIBLE);
             btnStartClinicDisable.setVisibility(View.GONE);
             for (int i = 0; i < clinicNotStarted.size(); i++) {
-                clinicNotStartedName.add(clinicIdMap.get(clinicNotStarted.get(i)).getName());
+                clinicName = clinicIdMap.get(clinicNotStarted.get(i)).getName();
+                int clinicId = clinicNotStarted.get(i);
+                switch (clinicId) {
+                    case 6:
+                        clinicName += " (Domino)";
+                        break;
+                    case 10:
+                        clinicName += " (Satellite)";
+                        break;
+                }
+                clinicNotStartedName.add(clinicName);
             }
         }
 
@@ -289,7 +312,17 @@ public class ClinicTimeRecordActivity extends BaseActivity {
             btnStopClinic.setVisibility(View.VISIBLE);
             btnStopClinicDisable.setVisibility(View.GONE);
             for (int i = 0; i < clinicStarted.size(); i++) {
-                clinicStartedName.add(clinicIdMap.get(clinicStarted.get(i)).getName());
+                String clinicName = clinicIdMap.get(clinicStarted.get(i)).getName();
+                int clinicId = clinicStarted.get(i);
+                switch (clinicId) {
+                    case 6:
+                        clinicName += " (Domino)";
+                        break;
+                    case 10:
+                        clinicName += " (Satellite)";
+                        break;
+                }
+                clinicStartedName.add(clinicName);
             }
         }
 
@@ -309,7 +342,17 @@ public class ClinicTimeRecordActivity extends BaseActivity {
             clinicStoppedName.add("No clinics currently stopped");
         } else {
             for (int i = 0; i < clinicStopped.size(); i++) {
-                clinicStoppedName.add(clinicIdMap.get(clinicStopped.get(i)).getName());
+                String clinicName = clinicIdMap.get(clinicStopped.get(i)).getName();
+                int clinicId = clinicStopped.get(i);
+                switch (clinicId) {
+                    case 6:
+                        clinicName += " (Domino)";
+                        break;
+                    case 10:
+                        clinicName += " (Satellite)";
+                        break;
+                }
+                clinicStoppedName.add(clinicName);
             }
         }
 
