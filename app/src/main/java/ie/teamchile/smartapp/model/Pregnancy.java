@@ -32,6 +32,9 @@ public class Pregnancy {
     private String feeding;
     @Expose
     private String gestation;
+    @SerializedName("baby_age")
+    @Expose
+    private String babyAge;
     @Expose
     private Integer id;
     @SerializedName("last_menstrual_period")
@@ -157,6 +160,14 @@ public class Pregnancy {
      */
     public void setGestation(String gestation) {
         this.gestation = gestation;
+    }
+
+    public String getBabyAge() {
+        return babyAge;
+    }
+
+    public void setBabyAge(String babyAge) {
+        this.babyAge = babyAge;
     }
 
     /**
