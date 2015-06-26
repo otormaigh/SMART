@@ -217,6 +217,7 @@ public class BaseActivity extends AppCompatActivity {
 
     private void doLogout(final Intent intent) {
         api.postLogout(
+                "",
                 ApiRootModel.getInstance().getLogin().getToken(),
                 SmartApi.API_KEY,
                 new Callback<ApiRootModel>() {
