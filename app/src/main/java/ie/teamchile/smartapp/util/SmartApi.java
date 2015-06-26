@@ -27,6 +27,7 @@ public interface SmartApi {
 
     @POST("/logout")
     void postLogout(
+            @Body String body,
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
             Callback<ApiRootModel> callback);
