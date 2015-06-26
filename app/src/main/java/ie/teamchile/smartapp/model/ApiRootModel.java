@@ -54,6 +54,10 @@ public class ApiRootModel {
     @Expose
     private List<Clinic> clinics = new ArrayList<>();
     private Map<Integer, Clinic> clinicMap = new HashMap<>();
+    private List<Integer> clinicStopped = new ArrayList<>();
+    private List<Integer> clinicStarted = new ArrayList<>();
+    private List<Integer> clinicNotStarted = new ArrayList<>();
+    private Map<String, List<Integer>> clinicDayMap = new HashMap<>();
     @SerializedName("clinic_time_records")
     @Expose
     private List<ClinicTimeRecord> clinicTimeRecords = new ArrayList<>();
@@ -346,19 +350,19 @@ public class ApiRootModel {
         return clinicTimeRecords;
     }
 
-    public void setClinicTimeRecord(ClinicTimeRecord clinicTimeRecord) {
-        this.clinicTimeRecord = clinicTimeRecord;
+    /**
+     * @param clinicTimeRecords The clinic_time_records
+     */
+    public void setClinicTimeRecords(List<ClinicTimeRecord> clinicTimeRecords) {
+        this.clinicTimeRecords = clinicTimeRecords;
     }
 
     public ClinicTimeRecord getClinicTimeRecord() {
         return clinicTimeRecord;
     }
 
-    /**
-     * @param clinicTimeRecords The clinic_time_records
-     */
-    public void setClinicTimeRecords(List<ClinicTimeRecord> clinicTimeRecords) {
-        this.clinicTimeRecords = clinicTimeRecords;
+    public void setClinicTimeRecord(ClinicTimeRecord clinicTimeRecord) {
+        this.clinicTimeRecord = clinicTimeRecord;
     }
 
     public void addClinicTimeRecord(ClinicTimeRecord clinicTimeRecord) {
@@ -433,5 +437,49 @@ public class ApiRootModel {
 
     public void setFeedingHistories(List<FeedingHistory> feedingHistories) {
         this.feedingHistories = feedingHistories;
+    }
+
+    public List<Integer> getClinicStopped() {
+        return clinicStopped;
+    }
+
+    public void setClinicStopped(List<Integer> clinicStopped) {
+        this.clinicStopped = clinicStopped;
+    }
+
+    public void addClinicStopped(int clinicStopped) {
+        this.clinicStopped.add(clinicStopped);
+    }
+
+    public List<Integer> getClinicStarted() {
+        return clinicStarted;
+    }
+
+    public void setClinicStarted(List<Integer> clinicStarted) {
+        this.clinicStarted = clinicStarted;
+    }
+
+    public void addClinicStarted(int clinicStarted) {
+        this.clinicStarted.add(clinicStarted);
+    }
+
+    public List<Integer> getClinicNotStarted() {
+        return clinicNotStarted;
+    }
+
+    public void setClinicNotStarted(List<Integer> clinicNotStarted) {
+        this.clinicNotStarted = clinicNotStarted;
+    }
+
+    public void addClinicNotStarted(int clinicNotStarted) {
+        this.clinicNotStarted.add(clinicNotStarted);
+    }
+
+    public Map<String, List<Integer>> getClinicDayMap() {
+        return clinicDayMap;
+    }
+
+    public void setClinicDayMap(Map<String, List<Integer>> clinicDayMap) {
+        this.clinicDayMap = clinicDayMap;
     }
 }

@@ -46,7 +46,6 @@ public class QuickMenuActivity extends BaseActivity {
         btnTodaysAppointments = (Button) findViewById(R.id.btn_todays_appointments);
         //btnTodaysAppointments.setOnClickListener(new ButtonClick());
         btnTodaysAppointments.setEnabled(false);
-
 		isViewVisible = true;
 		updateData();
     }
@@ -56,7 +55,7 @@ public class QuickMenuActivity extends BaseActivity {
 	    super.onNewIntent(intent);
 	    setIntent(intent);
 	}
-	
+
     private class ButtonClick implements View.OnClickListener {
 		Intent intent;
         public void onClick(View v) {
