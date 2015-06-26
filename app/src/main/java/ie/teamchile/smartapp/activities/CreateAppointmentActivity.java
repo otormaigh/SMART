@@ -415,6 +415,12 @@ public class CreateAppointmentActivity extends BaseActivity {
                     @Override
                     public void failure(RetrofitError error) {
                         Log.d("Retrofit", "retro failure error = " + error);
+                        if(error.getResponse().getStatus() == 422){
+                            ApiRootModel body = (ApiRootModel) error.getBodyAs(ApiRootModel.class);
+                            Toast.makeText(CreateAppointmentActivity.this,
+                                    body.getError().getAppointmentTaken(), Toast.LENGTH_LONG).show();
+                            ad.cancel();
+                        }
                         pd.dismiss();
                     }
                 }
@@ -430,6 +436,7 @@ public class CreateAppointmentActivity extends BaseActivity {
                     @Override
                     public void success(ApiRootModel apiRootModel, Response response) {
                         Log.d("retro", "getAppointmentById success");
+                        ApiRootModel.getInstance().addAppointment(apiRootModel.getAppointment());
                         addNewApptToMaps();
                     }
 
