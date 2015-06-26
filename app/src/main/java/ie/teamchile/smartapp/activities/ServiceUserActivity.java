@@ -258,7 +258,7 @@ public class ServiceUserActivity extends BaseActivity {
             tvUsrPostCode.setText(postCode);
             tvUsrNextOfKinName.setText(kinName);
             tvUsrKinContact.setText(kinMobile);
-            if(gestation == null)
+            if (gestation == null)
                 tvUsrGestationTitle.setVisibility(View.GONE);
             else
                 tvUsrGestation.setText(gestation);
@@ -285,15 +285,15 @@ public class ServiceUserActivity extends BaseActivity {
         }
     }
 
-    private void setAntiD(){
+    private void setAntiD() {
         historyList = new ArrayList<>();
         dateTimeList = new ArrayList<>();
         providerNameList = new ArrayList<>();
 
-        String [] arrayFromXml = getResources().getStringArray(R.array.anti_d_list);
+        String[] arrayFromXml = getResources().getStringArray(R.array.anti_d_list);
         historyOptions = Arrays.asList(arrayFromXml);
 
-        for(int i = 0; i < ApiRootModel.getInstance().getAntiDHistories().size(); i++) {
+        for (int i = 0; i < ApiRootModel.getInstance().getAntiDHistories().size(); i++) {
             Date parsed;
             String formatted = "";
             try {
@@ -309,15 +309,15 @@ public class ServiceUserActivity extends BaseActivity {
         }
     }
 
-    private void setFeeding(){
+    private void setFeeding() {
         historyList = new ArrayList<>();
         dateTimeList = new ArrayList<>();
         providerNameList = new ArrayList<>();
 
-        String [] arrayFromXml = getResources().getStringArray(R.array.feeding_list);
+        String[] arrayFromXml = getResources().getStringArray(R.array.feeding_list);
         historyOptions = Arrays.asList(arrayFromXml);
 
-        for(int i = 0; i < ApiRootModel.getInstance().getFeedingHistories().size(); i++) {
+        for (int i = 0; i < ApiRootModel.getInstance().getFeedingHistories().size(); i++) {
             Date parsed;
             String formatted = "";
             try {
@@ -333,15 +333,15 @@ public class ServiceUserActivity extends BaseActivity {
         }
     }
 
-    private void setVitK(){
+    private void setVitK() {
         historyList = new ArrayList<>();
         dateTimeList = new ArrayList<>();
         providerNameList = new ArrayList<>();
 
-        String [] arrayFromXml = getResources().getStringArray(R.array.vit_k_list);
+        String[] arrayFromXml = getResources().getStringArray(R.array.vit_k_list);
         historyOptions = Arrays.asList(arrayFromXml);
 
-        for(int i = 0; i < ApiRootModel.getInstance().getVitKHistories().size(); i++) {
+        for (int i = 0; i < ApiRootModel.getInstance().getVitKHistories().size(); i++) {
             Date parsed;
             String formatted = "";
             try {
@@ -357,15 +357,15 @@ public class ServiceUserActivity extends BaseActivity {
         }
     }
 
-    private void setHearing(){
+    private void setHearing() {
         historyList = new ArrayList<>();
         dateTimeList = new ArrayList<>();
         providerNameList = new ArrayList<>();
 
-        String [] arrayFromXml = getResources().getStringArray(R.array.hearing_list);
+        String[] arrayFromXml = getResources().getStringArray(R.array.hearing_list);
         historyOptions = Arrays.asList(arrayFromXml);
 
-        for(int i = 0; i < ApiRootModel.getInstance().getHearingHistories().size(); i++) {
+        for (int i = 0; i < ApiRootModel.getInstance().getHearingHistories().size(); i++) {
             Date parsed;
             String formatted = "";
             try {
@@ -381,15 +381,15 @@ public class ServiceUserActivity extends BaseActivity {
         }
     }
 
-    private void setNBST(){
+    private void setNBST() {
         historyList = new ArrayList<>();
         dateTimeList = new ArrayList<>();
         providerNameList = new ArrayList<>();
 
-        String [] arrayFromXml = getResources().getStringArray(R.array.nbst_list);
+        String[] arrayFromXml = getResources().getStringArray(R.array.nbst_list);
         historyOptions = Arrays.asList(arrayFromXml);
 
-        for(int i = 0; i < ApiRootModel.getInstance().getNbstHistories().size(); i++) {
+        for (int i = 0; i < ApiRootModel.getInstance().getNbstHistories().size(); i++) {
             Date parsed;
             String formatted = "";
             try {
@@ -699,9 +699,9 @@ public class ServiceUserActivity extends BaseActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(list.isSelected()){
+                        if (list.isSelected()) {
                             String optionSelected = historyOptions.get(optionPosition);
-                            if(title.equals("Anti-D"))
+                            if (title.equals("Anti-D"))
                                 putAntiD(optionSelected);
                             else if (title.equals("Vit-K"))
                                 putVitK(optionSelected);
@@ -747,8 +747,6 @@ public class ServiceUserActivity extends BaseActivity {
 
         showProgressDialog(this, "Updating Anti-D");
 
-        System.setProperty("http.keepAlive", "false");
-
         api.putAnitD(
                 puttingAntiD,
                 ApiRootModel.getInstance().getPregnancies().get(p).getId(),
@@ -787,8 +785,6 @@ public class ServiceUserActivity extends BaseActivity {
         puttingFeeding.putFeeding(putFeeding, userId);
 
         showProgressDialog(this, "Updating Feeding");
-
-        System.setProperty("http.keepAlive", "false");
 
         api.putAnitD(
                 puttingFeeding,
@@ -831,15 +827,6 @@ public class ServiceUserActivity extends BaseActivity {
 
         showProgressDialog(this, "Updating Vit-K");
 
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(SmartApi.BASE_URL)
-                .setLogLevel(RestAdapter.LogLevel.FULL)
-                .build();
-
-        api = restAdapter.create(SmartApi.class);
-
-        System.setProperty("http.keepAlive", "false");
-
         api.putVitK(
                 puttingVitK,
                 bId,
@@ -880,15 +867,6 @@ public class ServiceUserActivity extends BaseActivity {
         puttingHearing.putHearing(putHearing, userId, ApiRootModel.getInstance().getPregnancies().get(0).getId());
 
         showProgressDialog(this, "Updating Hearing");
-
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(SmartApi.BASE_URL)
-                .setLogLevel(RestAdapter.LogLevel.FULL)
-                .build();
-
-        api = restAdapter.create(SmartApi.class);
-
-        System.setProperty("http.keepAlive", "false");
 
         api.putHearing(
                 puttingHearing,
@@ -931,15 +909,6 @@ public class ServiceUserActivity extends BaseActivity {
 
         showProgressDialog(this, "Updating NBST");
 
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(SmartApi.BASE_URL)
-                .setLogLevel(RestAdapter.LogLevel.FULL)
-                .build();
-
-        api = restAdapter.create(SmartApi.class);
-
-        System.setProperty("http.keepAlive", "false");
-
         api.putNBST(
                 puttingNbst,
                 bId,
@@ -970,6 +939,7 @@ public class ServiceUserActivity extends BaseActivity {
 
     private class ButtonClick implements View.OnClickListener, DialogInterface {
         Intent intent;
+
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.btn_usr_book_appointment:
