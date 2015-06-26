@@ -50,27 +50,28 @@ public class ServiceUserSearchActivity extends BaseActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentForNav(R.layout.activity_service_user_search);
+        super.onCreate(savedInstanceState);
+        setContentForNav(R.layout.activity_service_user_search);
 
-		searchName = (EditText) findViewById(R.id.et_search_name);
-		searchHospitalNumber = (EditText) findViewById(R.id.et_search_hospital_number);
-		searchDOBDay = (EditText) findViewById(R.id.et_search_dob_day);
-		searchDOBMonth = (EditText) findViewById(R.id.et_search_dob_month);
-		searchDOBYear = (EditText) findViewById(R.id.et_search_dob_year);
-		tvSearchResults = (TextView) findViewById(R.id.tv_search_results);
-		llNoUserFound = (LinearLayout) findViewById(R.id.ll_no_user_found);
+        searchName = (EditText) findViewById(R.id.et_search_name);
+        searchHospitalNumber = (EditText) findViewById(R.id.et_search_hospital_number);
+        searchDOBDay = (EditText) findViewById(R.id.et_search_dob_day);
+        searchDOBMonth = (EditText) findViewById(R.id.et_search_dob_month);
+        searchDOBYear = (EditText) findViewById(R.id.et_search_dob_year);
+        tvSearchResults = (TextView) findViewById(R.id.tv_search_results);
+        llNoUserFound = (LinearLayout) findViewById(R.id.ll_no_user_found);
 
-		search = (Button) findViewById(R.id.btn_search);
-		search.setOnClickListener(new ButtonClick());
+        search = (Button) findViewById(R.id.btn_search);
+        search.setOnClickListener(new ButtonClick());
 
-		lvSearchResults = (ListView) findViewById(R.id.lv_search_results);
-		lvSearchResults.setOnItemClickListener(new onItemListener());
+        lvSearchResults = (ListView) findViewById(R.id.lv_search_results);
+        lvSearchResults.setOnItemClickListener(new onItemListener());
 
-		llNoUserFound.setVisibility(View.GONE);
-		//tvNoUserFound.setVisibility(View.GONE);
-		tvSearchResults.setVisibility(View.GONE);
-	}
+        llNoUserFound.setVisibility(View.GONE);
+        //tvNoUserFound.setVisibility(View.GONE);
+        tvSearchResults.setVisibility(View.GONE);
+
+    }
 
 	private void createResultList(ArrayList<String> searchResults) {
 		adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, searchResults);
