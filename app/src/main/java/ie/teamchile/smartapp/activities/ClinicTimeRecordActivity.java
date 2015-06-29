@@ -60,7 +60,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
         setContentForNav(R.layout.activity_clinic_time_record);
         c = Calendar.getInstance();
         //todayDay = dfDayLong.format(c.getTime());
-        todayDay = "Tuesday";
+        todayDay = "Saturday";
         todayDate = dfDateOnly.format(c.getTime());
         Log.d("SMART", "today = " + todayDay);
         lvNotStarted = (ListView) findViewById(R.id.lv_clinics_not_started);
@@ -156,9 +156,16 @@ public class ClinicTimeRecordActivity extends BaseActivity {
 
         idList = clinicDayMap.get(todayDay);
 
-        for (int i = 0; i < idList.size(); i++) {
-            getTimeRecords(idList.get(i), todayDate);
+        if(clinicDayMap.containsKey(todayDay)){
+            for (int i = 0; i < idList.size(); i++) {
+                getTimeRecords(idList.get(i), todayDate);
+            }
+        } else {
+            setNotStartedList();
+            setStartedList();
+            setStoppedList();
         }
+
     }
 
     private void getTimeRecords(final int clinicId, String date) {
