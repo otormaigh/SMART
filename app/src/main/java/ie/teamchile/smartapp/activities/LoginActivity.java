@@ -11,7 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.model.ApiRootModel;
+import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.util.SmartApi;
 import retrofit.Callback;
@@ -57,11 +57,11 @@ public class LoginActivity extends AppCompatActivity {
         PostingData login = new PostingData();
         login.postLogin(username, password);
 
-        api.postLogin(login, new Callback<ApiRootModel>() {
+        api.postLogin(login, new Callback<BaseModel>() {
             @Override
-            public void success(ApiRootModel json, Response response) {
-                ApiRootModel.getInstance().setLogin(json.getLogin());
-                ApiRootModel.getInstance().setLoginStatus(true);
+            public void success(BaseModel baseModel, Response response) {
+                BaseModel.getInstance().setLogin(baseModel.getLogin());
+                BaseModel.getInstance().setLoginStatus(true);
                 pd.dismiss();
                 intent = new Intent(LoginActivity.this, QuickMenuActivity.class);
                 startActivity(intent);
@@ -70,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void failure(RetrofitError error) {
                 if (error.getResponse() != null) {
-                    ApiRootModel body = (ApiRootModel) error.getBodyAs(ApiRootModel.class);
+                    BaseModel body = (BaseModel) error.getBodyAs(BaseModel.class);
                     Log.d("Retrofit", "retro error = " + body.getError().getError());
                     Toast.makeText(LoginActivity.this, body.getError().getError(), Toast.LENGTH_LONG).show();
                 }

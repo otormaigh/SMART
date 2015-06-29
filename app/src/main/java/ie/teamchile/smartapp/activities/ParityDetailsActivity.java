@@ -6,12 +6,10 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -21,10 +19,9 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.zip.Inflater;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.model.ApiRootModel;
+import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.Baby;
 import ie.teamchile.smartapp.util.DividerItemDecoration;
 
@@ -56,20 +53,20 @@ public class ParityDetailsActivity extends BaseActivity {
 		/*lvParity = (ListView)findViewById(R.id.lv_parity);*/
 		rvParity = (RecyclerView) findViewById(R.id.rv_parity);
 
-		patientName = ApiRootModel.getInstance().getServiceUsers().get(0).getPersonalFields().getName();
-		patientParity = ApiRootModel.getInstance().getServiceUsers().get(0).getClinicalFields().getParity();
+		patientName = BaseModel.getInstance().getServiceUsers().get(0).getPersonalFields().getName();
+		patientParity = BaseModel.getInstance().getServiceUsers().get(0).getClinicalFields().getParity();
 		setActionBarTitle(patientName + " (" + patientParity + ")");
 
-		List<Baby> babyList = ApiRootModel.getInstance().getBabies();
+		List<Baby> babyList = BaseModel.getInstance().getBabies();
 
 		for(int i = 0; i < babyList.size(); i++){
 			nameBaby.add(babyList.get(i).getName());
 			hospitalNumber.add(babyList.get(i).getHospitalNumber());
 			dobBaby.add(babyList.get(i).getDeliveryDateTime());
 			genderBaby.add(babyList.get(i).getGender());
-			gestationBaby.add(ApiRootModel.getInstance().getPregnancies().get(i).getGestation());
+			gestationBaby.add(BaseModel.getInstance().getPregnancies().get(i).getGestation());
 			weightBaby.add(babyList.get(i).getWeight());
-			birthMode.add(putArrayToString(ApiRootModel.getInstance().getPregnancies().get(i).getBirthMode()));
+			birthMode.add(putArrayToString(BaseModel.getInstance().getPregnancies().get(i).getBirthMode()));
 			birthOutcome.add(babyList.get(i).getBirthOutcome());
 			hearing.add(babyList.get(i).getHearing());
 			nbstList.add(babyList.get(i).getNbst());

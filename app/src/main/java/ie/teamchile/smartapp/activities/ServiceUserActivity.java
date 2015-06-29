@@ -36,12 +36,11 @@ import java.util.Date;
 import java.util.List;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.model.ApiRootModel;
+import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.util.SmartApi;
 import ie.teamchile.smartapp.util.ToastAlert;
 import retrofit.Callback;
-import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -188,52 +187,52 @@ public class ServiceUserActivity extends BaseActivity {
         trFeeding.setOnClickListener(new ButtonClick());
 
         try {
-            dob = ApiRootModel.getInstance().getServiceUsers().get(0).getPersonalFields().getDob();
+            dob = BaseModel.getInstance().getServiceUsers().get(0).getPersonalFields().getDob();
             if (dob != null)
                 age = getAge(dob);
             getRecentPregnancy();
             getRecentBabyPosition();
 
-            pregnancyId = ApiRootModel.getInstance().getPregnancies().get(p).getId();
-            userId = ApiRootModel.getInstance().getServiceUsers().get(0).getId();
-            hospitalNumber = ApiRootModel.getInstance().getServiceUsers().get(0).getHospitalNumber();
-            email = ApiRootModel.getInstance().getServiceUsers().get(0).getPersonalFields().getEmail();
-            mobile = ApiRootModel.getInstance().getServiceUsers().get(0).getPersonalFields().getMobilePhone();
-            userName = ApiRootModel.getInstance().getServiceUsers().get(0).getPersonalFields().getName();
-            kinName = ApiRootModel.getInstance().getServiceUsers().get(0).getPersonalFields().getNextOfKinName();
-            kinMobile = ApiRootModel.getInstance().getServiceUsers().get(0).getPersonalFields().getNextOfKinPhone();
-            road = ApiRootModel.getInstance().getServiceUsers().get(0).getPersonalFields().getHomeAddress();
-            county = ApiRootModel.getInstance().getServiceUsers().get(0).getPersonalFields().getHomeCounty();
-            postCode = ApiRootModel.getInstance().getServiceUsers().get(0).getPersonalFields().getHomePostCode();
-            perineum = ApiRootModel.getInstance().getPregnancies().get(p).getPerineum();
-            List<String> birthModeList = ApiRootModel.getInstance().getPregnancies().get(p).getBirthMode();
+            pregnancyId = BaseModel.getInstance().getPregnancies().get(p).getId();
+            userId = BaseModel.getInstance().getServiceUsers().get(0).getId();
+            hospitalNumber = BaseModel.getInstance().getServiceUsers().get(0).getHospitalNumber();
+            email = BaseModel.getInstance().getServiceUsers().get(0).getPersonalFields().getEmail();
+            mobile = BaseModel.getInstance().getServiceUsers().get(0).getPersonalFields().getMobilePhone();
+            userName = BaseModel.getInstance().getServiceUsers().get(0).getPersonalFields().getName();
+            kinName = BaseModel.getInstance().getServiceUsers().get(0).getPersonalFields().getNextOfKinName();
+            kinMobile = BaseModel.getInstance().getServiceUsers().get(0).getPersonalFields().getNextOfKinPhone();
+            road = BaseModel.getInstance().getServiceUsers().get(0).getPersonalFields().getHomeAddress();
+            county = BaseModel.getInstance().getServiceUsers().get(0).getPersonalFields().getHomeCounty();
+            postCode = BaseModel.getInstance().getServiceUsers().get(0).getPersonalFields().getHomePostCode();
+            perineum = BaseModel.getInstance().getPregnancies().get(p).getPerineum();
+            List<String> birthModeList = BaseModel.getInstance().getPregnancies().get(p).getBirthMode();
             if (birthModeList != null)
-                birthMode = putArrayToString(ApiRootModel.getInstance().getPregnancies().get(p).getBirthMode());
+                birthMode = putArrayToString(BaseModel.getInstance().getPregnancies().get(p).getBirthMode());
             else
                 birthMode = "";
-            babyGender = ApiRootModel.getInstance().getBabies().get(b).getGender();
-            if (ApiRootModel.getInstance().getBabies().get(b).getWeight() != null)
-                babyWeightKg = getGramsToKg(ApiRootModel.getInstance().getBabies().get(b).getWeight());
+            babyGender = BaseModel.getInstance().getBabies().get(b).getGender();
+            if (BaseModel.getInstance().getBabies().get(b).getWeight() != null)
+                babyWeightKg = getGramsToKg(BaseModel.getInstance().getBabies().get(b).getWeight());
             else
                 babyWeightKg = "";
-            babyID = ApiRootModel.getInstance().getServiceUsers().get(0).getBabyIds();
-            gestation = ApiRootModel.getInstance().getPregnancies().get(p).getGestation();
-            parity = ApiRootModel.getInstance().getServiceUsers().get(0).getClinicalFields().getParity();
-            estimtedDelivery = ApiRootModel.getInstance().getPregnancies().get(p).getEstimatedDeliveryDate();
-            lastPeriodDate = ApiRootModel.getInstance().getPregnancies().get(p).getLastMenstrualPeriod();
-            vitK = ApiRootModel.getInstance().getBabies().get(b).getVitK();
-            hearing = ApiRootModel.getInstance().getBabies().get(b).getHearing();
-            antiD = ApiRootModel.getInstance().getPregnancies().get(p).getAntiD();
-            feeding = ApiRootModel.getInstance().getPregnancies().get(p).getFeeding();
-            rhesus = ApiRootModel.getInstance().getServiceUsers().get(0).getClinicalFields().getRhesus();
+            babyID = BaseModel.getInstance().getServiceUsers().get(0).getBabyIds();
+            gestation = BaseModel.getInstance().getPregnancies().get(p).getGestation();
+            parity = BaseModel.getInstance().getServiceUsers().get(0).getClinicalFields().getParity();
+            estimtedDelivery = BaseModel.getInstance().getPregnancies().get(p).getEstimatedDeliveryDate();
+            lastPeriodDate = BaseModel.getInstance().getPregnancies().get(p).getLastMenstrualPeriod();
+            vitK = BaseModel.getInstance().getBabies().get(b).getVitK();
+            hearing = BaseModel.getInstance().getBabies().get(b).getHearing();
+            antiD = BaseModel.getInstance().getPregnancies().get(p).getAntiD();
+            feeding = BaseModel.getInstance().getPregnancies().get(p).getFeeding();
+            rhesus = BaseModel.getInstance().getServiceUsers().get(0).getClinicalFields().getRhesus();
             if (rhesus)
                 tvAnteRhesus.setText("Yes");
             else if (!rhesus)
                 tvAnteRhesus.setText("No");
             if (feeding == null)
                 feeding = "";
-            nbst = ApiRootModel.getInstance().getBabies().get(b).getNbst();
-            deliveryDateTime = ApiRootModel.getInstance().getBabies().get(b).getDeliveryDateTime();
+            nbst = BaseModel.getInstance().getBabies().get(b).getNbst();
+            deliveryDateTime = BaseModel.getInstance().getBabies().get(b).getDeliveryDateTime();
             if (deliveryDateTime != null)
                 daysSinceBirth = getNoOfDays(deliveryDateTime);
             setActionBarTitle(userName);
@@ -242,7 +241,7 @@ public class ServiceUserActivity extends BaseActivity {
                 trParity.setEnabled(false);
             tvAnteParity.setText(parity);
             tvAnteGestation.setText(gestation);
-            tvAnteBloodGroup.setText(ApiRootModel.getInstance().getServiceUsers().get(0).getClinicalFields().getBloodGroup());
+            tvAnteBloodGroup.setText(BaseModel.getInstance().getServiceUsers().get(0).getClinicalFields().getBloodGroup());
             if (estimtedDelivery != null)
                 tvAnteDeliveryTime.setText(getEstimateDeliveryDate(estimtedDelivery));
             else
@@ -293,19 +292,19 @@ public class ServiceUserActivity extends BaseActivity {
         String[] arrayFromXml = getResources().getStringArray(R.array.anti_d_list);
         historyOptions = Arrays.asList(arrayFromXml);
 
-        for (int i = 0; i < ApiRootModel.getInstance().getAntiDHistories().size(); i++) {
+        for (int i = 0; i < BaseModel.getInstance().getAntiDHistories().size(); i++) {
             Date parsed;
             String formatted = "";
             try {
-                parsed = dfDateTimeWMillisZone.parse(ApiRootModel.getInstance().getAntiDHistories().get(i).getCreatedAt());
+                parsed = dfDateTimeWMillisZone.parse(BaseModel.getInstance().getAntiDHistories().get(i).getCreatedAt());
                 formatted = dfHumanReadableTimeDate.format(parsed);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
 
-            historyList.add(ApiRootModel.getInstance().getAntiDHistories().get(i).getAntiD());
+            historyList.add(BaseModel.getInstance().getAntiDHistories().get(i).getAntiD());
             dateTimeList.add(formatted);
-            providerNameList.add(ApiRootModel.getInstance().getAntiDHistories().get(i).getServiceProviderName());
+            providerNameList.add(BaseModel.getInstance().getAntiDHistories().get(i).getServiceProviderName());
         }
     }
 
@@ -317,19 +316,19 @@ public class ServiceUserActivity extends BaseActivity {
         String[] arrayFromXml = getResources().getStringArray(R.array.feeding_list);
         historyOptions = Arrays.asList(arrayFromXml);
 
-        for (int i = 0; i < ApiRootModel.getInstance().getFeedingHistories().size(); i++) {
+        for (int i = 0; i < BaseModel.getInstance().getFeedingHistories().size(); i++) {
             Date parsed;
             String formatted = "";
             try {
-                parsed = dfDateTimeWMillisZone.parse(ApiRootModel.getInstance().getFeedingHistories().get(i).getCreatedAt());
+                parsed = dfDateTimeWMillisZone.parse(BaseModel.getInstance().getFeedingHistories().get(i).getCreatedAt());
                 formatted = dfHumanReadableTimeDate.format(parsed);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
 
-            historyList.add(ApiRootModel.getInstance().getFeedingHistories().get(i).getFeeding());
+            historyList.add(BaseModel.getInstance().getFeedingHistories().get(i).getFeeding());
             dateTimeList.add(formatted);
-            providerNameList.add(ApiRootModel.getInstance().getFeedingHistories().get(i).getServiceProviderName());
+            providerNameList.add(BaseModel.getInstance().getFeedingHistories().get(i).getServiceProviderName());
         }
     }
 
@@ -341,19 +340,19 @@ public class ServiceUserActivity extends BaseActivity {
         String[] arrayFromXml = getResources().getStringArray(R.array.vit_k_list);
         historyOptions = Arrays.asList(arrayFromXml);
 
-        for (int i = 0; i < ApiRootModel.getInstance().getVitKHistories().size(); i++) {
+        for (int i = 0; i < BaseModel.getInstance().getVitKHistories().size(); i++) {
             Date parsed;
             String formatted = "";
             try {
-                parsed = dfDateTimeWMillisZone.parse(ApiRootModel.getInstance().getVitKHistories().get(i).getCreatedAt());
+                parsed = dfDateTimeWMillisZone.parse(BaseModel.getInstance().getVitKHistories().get(i).getCreatedAt());
                 formatted = dfHumanReadableTimeDate.format(parsed);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
 
-            historyList.add(ApiRootModel.getInstance().getVitKHistories().get(i).getVitK());
+            historyList.add(BaseModel.getInstance().getVitKHistories().get(i).getVitK());
             dateTimeList.add(formatted);
-            providerNameList.add(ApiRootModel.getInstance().getVitKHistories().get(i).getServiceProviderName());
+            providerNameList.add(BaseModel.getInstance().getVitKHistories().get(i).getServiceProviderName());
         }
     }
 
@@ -365,19 +364,19 @@ public class ServiceUserActivity extends BaseActivity {
         String[] arrayFromXml = getResources().getStringArray(R.array.hearing_list);
         historyOptions = Arrays.asList(arrayFromXml);
 
-        for (int i = 0; i < ApiRootModel.getInstance().getHearingHistories().size(); i++) {
+        for (int i = 0; i < BaseModel.getInstance().getHearingHistories().size(); i++) {
             Date parsed;
             String formatted = "";
             try {
-                parsed = dfDateTimeWMillisZone.parse(ApiRootModel.getInstance().getHearingHistories().get(i).getCreatedAt());
+                parsed = dfDateTimeWMillisZone.parse(BaseModel.getInstance().getHearingHistories().get(i).getCreatedAt());
                 formatted = dfHumanReadableTimeDate.format(parsed);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
 
-            historyList.add(ApiRootModel.getInstance().getHearingHistories().get(i).getHearing());
+            historyList.add(BaseModel.getInstance().getHearingHistories().get(i).getHearing());
             dateTimeList.add(formatted);
-            providerNameList.add(ApiRootModel.getInstance().getHearingHistories().get(i).getServiceProviderName());
+            providerNameList.add(BaseModel.getInstance().getHearingHistories().get(i).getServiceProviderName());
         }
     }
 
@@ -389,19 +388,19 @@ public class ServiceUserActivity extends BaseActivity {
         String[] arrayFromXml = getResources().getStringArray(R.array.nbst_list);
         historyOptions = Arrays.asList(arrayFromXml);
 
-        for (int i = 0; i < ApiRootModel.getInstance().getNbstHistories().size(); i++) {
+        for (int i = 0; i < BaseModel.getInstance().getNbstHistories().size(); i++) {
             Date parsed;
             String formatted = "";
             try {
-                parsed = dfDateTimeWMillisZone.parse(ApiRootModel.getInstance().getNbstHistories().get(i).getCreatedAt());
+                parsed = dfDateTimeWMillisZone.parse(BaseModel.getInstance().getNbstHistories().get(i).getCreatedAt());
                 formatted = dfHumanReadableTimeDate.format(parsed);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
 
-            historyList.add(ApiRootModel.getInstance().getNbstHistories().get(i).getNbst());
+            historyList.add(BaseModel.getInstance().getNbstHistories().get(i).getNbst());
             dateTimeList.add(formatted);
-            providerNameList.add(ApiRootModel.getInstance().getNbstHistories().get(i).getServiceProviderName());
+            providerNameList.add(BaseModel.getInstance().getNbstHistories().get(i).getServiceProviderName());
         }
     }
 
@@ -749,19 +748,19 @@ public class ServiceUserActivity extends BaseActivity {
 
         api.putAnitD(
                 puttingAntiD,
-                ApiRootModel.getInstance().getPregnancies().get(p).getId(),
-                ApiRootModel.getInstance().getLogin().getToken(),
+                BaseModel.getInstance().getPregnancies().get(p).getId(),
+                BaseModel.getInstance().getLogin().getToken(),
                 SmartApi.API_KEY,
-                new Callback<ApiRootModel>() {
+                new Callback<BaseModel>() {
                     @Override
-                    public void success(ApiRootModel apiRootModel, Response response) {
-                        String antiD = apiRootModel.getPregnancy().getAntiD();
+                    public void success(BaseModel baseModel, Response response) {
+                        String antiD = baseModel.getPregnancy().getAntiD();
                         ad.dismiss();
                         tvPostAntiD.setText(antiD);
                         historyList.add(0, antiD);
                         dateTimeList.add(0, dfHumanReadableTimeDate.format(c.getTime()));
-                        providerNameList.add(0, ApiRootModel.getInstance().getServiceProvider().getName());
-                        ApiRootModel.getInstance().updatePregnancies(p, apiRootModel.getPregnancy());
+                        providerNameList.add(0, BaseModel.getInstance().getServiceProvider().getName());
+                        BaseModel.getInstance().updatePregnancies(p, baseModel.getPregnancy());
                         Log.d("retro", "put anti-d retro success");
                         pd.dismiss();
                         ad.dismiss();
@@ -788,19 +787,19 @@ public class ServiceUserActivity extends BaseActivity {
 
         api.putAnitD(
                 puttingFeeding,
-                ApiRootModel.getInstance().getPregnancies().get(p).getId(),
-                ApiRootModel.getInstance().getLogin().getToken(),
+                BaseModel.getInstance().getPregnancies().get(p).getId(),
+                BaseModel.getInstance().getLogin().getToken(),
                 SmartApi.API_KEY,
-                new Callback<ApiRootModel>() {
+                new Callback<BaseModel>() {
                     @Override
-                    public void success(ApiRootModel apiRootModel, Response response) {
-                        String feeding = apiRootModel.getPregnancy().getFeeding();
+                    public void success(BaseModel baseModel, Response response) {
+                        String feeding = baseModel.getPregnancy().getFeeding();
                         ad.dismiss();
                         tvPostFeeding.setText(feeding);
                         historyList.add(0, feeding);
                         dateTimeList.add(0, dfHumanReadableTimeDate.format(c.getTime()));
-                        providerNameList.add(0, ApiRootModel.getInstance().getServiceProvider().getName());
-                        ApiRootModel.getInstance().updatePregnancies(p, apiRootModel.getPregnancy());
+                        providerNameList.add(0, BaseModel.getInstance().getServiceProvider().getName());
+                        BaseModel.getInstance().updatePregnancies(p, baseModel.getPregnancy());
                         Log.d("retro", "put feeding retro success");
                         pd.dismiss();
                         ad.dismiss();
@@ -820,28 +819,28 @@ public class ServiceUserActivity extends BaseActivity {
         Log.d("bugs", "vitK = " + putVitK);
         c = Calendar.getInstance();
         getRecentBabyId();
-        Log.d("bugs", "preg id = " + ApiRootModel.getInstance().getPregnancies().get(0).getId());
+        Log.d("bugs", "preg id = " + BaseModel.getInstance().getPregnancies().get(0).getId());
         PostingData puttingVitK = new PostingData();
 
-        puttingVitK.putVitK(putVitK, userId, ApiRootModel.getInstance().getPregnancies().get(0).getId());
+        puttingVitK.putVitK(putVitK, userId, BaseModel.getInstance().getPregnancies().get(0).getId());
 
         showProgressDialog(this, "Updating Vit-K");
 
         api.putVitK(
                 puttingVitK,
                 bId,
-                ApiRootModel.getInstance().getLogin().getToken(),
+                BaseModel.getInstance().getLogin().getToken(),
                 SmartApi.API_KEY,
-                new Callback<ApiRootModel>() {
+                new Callback<BaseModel>() {
                     @Override
-                    public void success(ApiRootModel apiRootModel, Response response) {
-                        String vitK = apiRootModel.getBaby().getVitK();
+                    public void success(BaseModel baseModel, Response response) {
+                        String vitK = baseModel.getBaby().getVitK();
                         ad.dismiss();
                         tvPostVitK.setText(vitK);
                         historyList.add(0, vitK);
                         dateTimeList.add(0, dfHumanReadableTimeDate.format(c.getTime()));
-                        providerNameList.add(0, ApiRootModel.getInstance().getServiceProvider().getName());
-                        //ApiRootModel.getInstance().updatePregnancies(p, apiRootModel.getPregnancy());
+                        providerNameList.add(0, BaseModel.getInstance().getServiceProvider().getName());
+                        //BaseModel.getInstance().updatePregnancies(p, baseModel.getPregnancy());
                         Log.d("retro", "put vit k retro success");
                         pd.dismiss();
                         ad.dismiss();
@@ -861,28 +860,28 @@ public class ServiceUserActivity extends BaseActivity {
         Log.d("bugs", "hearing = " + putHearing);
         c = Calendar.getInstance();
         getRecentBabyId();
-        Log.d("bugs", "preg id = " + ApiRootModel.getInstance().getPregnancies().get(0).getId());
+        Log.d("bugs", "preg id = " + BaseModel.getInstance().getPregnancies().get(0).getId());
         PostingData puttingHearing = new PostingData();
 
-        puttingHearing.putHearing(putHearing, userId, ApiRootModel.getInstance().getPregnancies().get(0).getId());
+        puttingHearing.putHearing(putHearing, userId, BaseModel.getInstance().getPregnancies().get(0).getId());
 
         showProgressDialog(this, "Updating Hearing");
 
         api.putHearing(
                 puttingHearing,
                 bId,
-                ApiRootModel.getInstance().getLogin().getToken(),
+                BaseModel.getInstance().getLogin().getToken(),
                 SmartApi.API_KEY,
-                new Callback<ApiRootModel>() {
+                new Callback<BaseModel>() {
                     @Override
-                    public void success(ApiRootModel apiRootModel, Response response) {
-                        String hearing = apiRootModel.getBaby().getHearing();
+                    public void success(BaseModel baseModel, Response response) {
+                        String hearing = baseModel.getBaby().getHearing();
                         ad.dismiss();
                         tvPostHearing.setText(hearing);
                         historyList.add(0, hearing);
                         dateTimeList.add(0, dfHumanReadableTimeDate.format(c.getTime()));
-                        providerNameList.add(0, ApiRootModel.getInstance().getServiceProvider().getName());
-                        //ApiRootModel.getInstance().updatePregnancies(p, apiRootModel.getPregnancy());
+                        providerNameList.add(0, BaseModel.getInstance().getServiceProvider().getName());
+                        //BaseModel.getInstance().updatePregnancies(p, baseModel.getPregnancy());
                         Log.d("retro", "put hearing retro success");
                         pd.dismiss();
                         ad.dismiss();
@@ -902,27 +901,27 @@ public class ServiceUserActivity extends BaseActivity {
         Log.d("bugs", "nbst = " + putNbst);
         c = Calendar.getInstance();
         getRecentBabyId();
-        Log.d("bugs", "preg id = " + ApiRootModel.getInstance().getPregnancies().get(0).getId());
+        Log.d("bugs", "preg id = " + BaseModel.getInstance().getPregnancies().get(0).getId());
         PostingData puttingNbst = new PostingData();
 
-        puttingNbst.putNBST(nbst, userId, ApiRootModel.getInstance().getPregnancies().get(0).getId());
+        puttingNbst.putNBST(nbst, userId, BaseModel.getInstance().getPregnancies().get(0).getId());
 
         showProgressDialog(this, "Updating NBST");
 
         api.putNBST(
                 puttingNbst,
                 bId,
-                ApiRootModel.getInstance().getLogin().getToken(),
+                BaseModel.getInstance().getLogin().getToken(),
                 SmartApi.API_KEY,
-                new Callback<ApiRootModel>() {
+                new Callback<BaseModel>() {
                     @Override
-                    public void success(ApiRootModel apiRootModel, Response response) {
-                        String nbst = apiRootModel.getBaby().getNbst();
+                    public void success(BaseModel baseModel, Response response) {
+                        String nbst = baseModel.getBaby().getNbst();
                         ad.dismiss();
                         tvPostNBST.setText(nbst);
                         historyList.add(0, nbst);
                         dateTimeList.add(0, dfHumanReadableTimeDate.format(c.getTime()));
-                        providerNameList.add(0, ApiRootModel.getInstance().getServiceProvider().getName());
+                        providerNameList.add(0, BaseModel.getInstance().getServiceProvider().getName());
                         Log.d("retro", "put nbst retro success");
                         pd.dismiss();
                         ad.dismiss();

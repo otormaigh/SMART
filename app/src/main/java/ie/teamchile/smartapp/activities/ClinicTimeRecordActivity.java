@@ -10,20 +10,20 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.model.ApiRootModel;
+import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.Clinic;
 import ie.teamchile.smartapp.model.ClinicTimeRecord;
 import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.util.SmartApi;
 import retrofit.Callback;
-import retrofit.RestAdapter;
 import retrofit.RetrofitError;
-import retrofit.client.OkClient;
 import retrofit.client.Response;
 
 public class ClinicTimeRecordActivity extends BaseActivity {
@@ -59,8 +59,8 @@ public class ClinicTimeRecordActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentForNav(R.layout.activity_clinic_time_record);
         c = Calendar.getInstance();
-        //todayDay = dfDayLong.format(c.getTime());
-        todayDay = "Saturday";
+        todayDay = dfDayLong.format(c.getTime());
+        //todayDay = "Saturday";
         todayDate = dfDateOnly.format(c.getTime());
         Log.d("SMART", "today = " + todayDay);
         lvNotStarted = (ListView) findViewById(R.id.lv_clinics_not_started);
@@ -83,7 +83,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
 
         setActionBarTitle("Start/Stop Clinics");
 
-        if (ApiRootModel.getInstance().getClinicStarted().size() == 0) {
+        if (BaseModel.getInstance().getClinicStarted().size() == 0) {
             Log.d("bugs", "time records null");
             getDataFromDb();
         } else {
@@ -97,23 +97,23 @@ public class ClinicTimeRecordActivity extends BaseActivity {
         super.onPause();
         Log.d("bugs", "setting data to singleton");
 
-        ApiRootModel.getInstance().setClinicTimeRecords(clinicTimeRecords);
-        ApiRootModel.getInstance().setClinicStopped(clinicStopped);
-        ApiRootModel.getInstance().setClinicStarted(clinicStarted);
-        ApiRootModel.getInstance().setClinicNotStarted(clinicNotStarted);
-        ApiRootModel.getInstance().setClinicMap(clinicIdMap);
-        ApiRootModel.getInstance().setClinicDayMap(clinicDayMap);
+        BaseModel.getInstance().setClinicTimeRecords(clinicTimeRecords);
+        BaseModel.getInstance().setClinicStopped(clinicStopped);
+        BaseModel.getInstance().setClinicStarted(clinicStarted);
+        BaseModel.getInstance().setClinicNotStarted(clinicNotStarted);
+        BaseModel.getInstance().setClinicMap(clinicIdMap);
+        BaseModel.getInstance().setClinicDayMap(clinicDayMap);
     }
 
     private void getDataFromSingle() {
         Log.d("bugs", "getting data from singleton");
 
-        clinicTimeRecords = ApiRootModel.getInstance().getClinicTimeRecords();
-        clinicStopped = ApiRootModel.getInstance().getClinicStopped();
-        clinicStarted = ApiRootModel.getInstance().getClinicStarted();
-        clinicNotStarted = ApiRootModel.getInstance().getClinicNotStarted();
-        clinicIdMap = ApiRootModel.getInstance().getClinicMap();
-        clinicDayMap = ApiRootModel.getInstance().getClinicDayMap();
+        clinicTimeRecords = BaseModel.getInstance().getClinicTimeRecords();
+        clinicStopped = BaseModel.getInstance().getClinicStopped();
+        clinicStarted = BaseModel.getInstance().getClinicStarted();
+        clinicNotStarted = BaseModel.getInstance().getClinicNotStarted();
+        clinicIdMap = BaseModel.getInstance().getClinicMap();
+        clinicDayMap = BaseModel.getInstance().getClinicDayMap();
 
         for (int i = 0; i < clinicNotStarted.size(); i++) {
             getTimeRecords(clinicNotStarted.get(i), todayDate);
@@ -131,7 +131,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
     private void getDataFromDb() {
         Log.d("bugs", "getting data from db");
 
-        List<Clinic> clinics = ApiRootModel.getInstance().getClinics();
+        List<Clinic> clinics = BaseModel.getInstance().getClinics();
 
         for (int i = 0; i < clinics.size(); i++) {
             List<String> trueDays = clinics.get(i).getTrueDays();
@@ -169,25 +169,18 @@ public class ClinicTimeRecordActivity extends BaseActivity {
     }
 
     private void getTimeRecords(final int clinicId, String date) {
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(SmartApi.BASE_URL)
-                .setLogLevel(RestAdapter.LogLevel.FULL)
-                .build();
-
-        api = restAdapter.create(SmartApi.class);
-
         api.getTimeRecords(
                 clinicId,
                 date,
-                ApiRootModel.getInstance().getLogin().getToken(),
+                BaseModel.getInstance().getLogin().getToken(),
                 SmartApi.API_KEY,
-                new Callback<ApiRootModel>() {
+                new Callback<BaseModel>() {
                     @Override
-                    public void success(ApiRootModel apiRootModel, Response response) {
+                    public void success(BaseModel baseModel, Response response) {
                         Log.d("retro", "get time record success");
-                        if (apiRootModel.getClinicTimeRecords().size() > 0) {
-                            clinicTimeRecords.add(apiRootModel.getClinicTimeRecords().get(0));
-                            if (apiRootModel.getClinicTimeRecords().get(0).getEndTime() == null) {
+                        if (baseModel.getClinicTimeRecords().size() > 0) {
+                            clinicTimeRecords.add(baseModel.getClinicTimeRecords().get(0));
+                            if (baseModel.getClinicTimeRecords().get(0).getEndTime() == null) {
                                 if (!clinicStarted.contains(clinicId))
                                     clinicStarted.add(clinicId);
                             } else {
@@ -227,24 +220,16 @@ public class ClinicTimeRecordActivity extends BaseActivity {
 
         showProgressDialog(ClinicTimeRecordActivity.this, "Updating Clinic Time Records");
 
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(SmartApi.BASE_URL)
-                .setLogLevel(RestAdapter.LogLevel.FULL)
-                .setClient(new OkClient())
-                .build();
-
-        api = restAdapter.create(SmartApi.class);
-
         api.postTimeRecords(
                 timeRecord,
                 clinicId,
-                ApiRootModel.getInstance().getLogin().getToken(),
+                BaseModel.getInstance().getLogin().getToken(),
                 SmartApi.API_KEY,
-                new Callback<ApiRootModel>() {
+                new Callback<BaseModel>() {
                     @Override
-                    public void success(ApiRootModel apiRootModel, Response response) {
+                    public void success(BaseModel baseModel, Response response) {
                         Log.d("SMART", "retro success");
-                        clinicTimeRecords.add(apiRootModel.getClinicTimeRecord());
+                        clinicTimeRecords.add(baseModel.getClinicTimeRecord());
                         clinicNotStarted.remove(clinicNotStarted.indexOf(clinicId));
                         clinicStarted.add(clinicId);
                         setNotStartedList();
@@ -275,22 +260,15 @@ public class ClinicTimeRecordActivity extends BaseActivity {
 
         showProgressDialog(ClinicTimeRecordActivity.this, "Updating Clinic Time Records");
 
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(SmartApi.BASE_URL)
-                .setLogLevel(RestAdapter.LogLevel.FULL)
-                .build();
-
-        api = restAdapter.create(SmartApi.class);
-
         api.putTimeRecords(
                 timeRecord,
                 clinicId,
                 recordId,
-                ApiRootModel.getInstance().getLogin().getToken(),
+                BaseModel.getInstance().getLogin().getToken(),
                 SmartApi.API_KEY,
-                new Callback<ApiRootModel>() {
+                new Callback<BaseModel>() {
                     @Override
-                    public void success(ApiRootModel apiRootModel, Response response) {
+                    public void success(BaseModel baseModel, Response response) {
                         Log.d("SMART", "retro success");
                         for (int i = 0; i < clinicTimeRecords.size(); i++) {
                             if (clinicTimeRecords.get(i).getId() == recordId) {
@@ -302,7 +280,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                                 setStoppedList();
                             }
                         }
-                        clinicTimeRecords.add(apiRootModel.getClinicTimeRecord());
+                        clinicTimeRecords.add(baseModel.getClinicTimeRecord());
                         pd.dismiss();
                     }
 
@@ -415,6 +393,14 @@ public class ClinicTimeRecordActivity extends BaseActivity {
         lvStopped.setAdapter(adapterStop);
     }
 
+    private void sortListApha(List<String> badList){
+        Collections.sort(badList, new Comparator<String>() {
+            @Override
+            public int compare(String lhs, String rhs) {
+                return lhs.compareToIgnoreCase(rhs);
+            }
+        });
+    }
     private class ItemClicky implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

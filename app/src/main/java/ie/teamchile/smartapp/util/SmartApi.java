@@ -2,7 +2,7 @@ package ie.teamchile.smartapp.util;
 
 import java.util.List;
 
-import ie.teamchile.smartapp.model.ApiRootModel;
+import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.Appointment;
 import ie.teamchile.smartapp.model.PostingData;
 import retrofit.Callback;
@@ -23,27 +23,27 @@ public interface SmartApi {
     @POST("/login")
     void postLogin(
             @Body PostingData login,
-            Callback<ApiRootModel> callback);
+            Callback<BaseModel> callback);
 
     @POST("/logout")
     void postLogout(
             @Body String body,
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
-            Callback<ApiRootModel> callback);
+            Callback<BaseModel> callback);
 
     @POST("/appointments")
     void postAppointment(
             @Body PostingData appointment,
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
-            Callback<ApiRootModel> callback);
+            Callback<BaseModel> callback);
 
     @GET("/appointments")
     void getAllAppointments(
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
-            Callback<ApiRootModel> callback);
+            Callback<BaseModel> callback);
 
     @GET("/appointments")
     void getHomeVisitApptByDateId(
@@ -52,21 +52,21 @@ public interface SmartApi {
             @Query("service_option_id") int serviceOptionId,
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
-            Callback<ApiRootModel> callback);
+            Callback<BaseModel> callback);
 
     @GET("/appointments/{appointment_id}")
     void getAppointmentById(
             @Path("appointment_id") int appointmentId,
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
-            Callback<ApiRootModel> callback);
+            Callback<BaseModel> callback);
 
     @DELETE("/appointments/{appointment_id}")
     void deleteAppointmentById(
             @Path("appointment_id") String appointmentId,
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
-            Callback<ApiRootModel> callback);
+            Callback<BaseModel> callback);
 
     @GET("/appointments")
     void getAppointmentsForDayClinic(
@@ -80,40 +80,40 @@ public interface SmartApi {
             @Path("id") int appointmentId,
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
-            Callback<ApiRootModel> callback);
+            Callback<BaseModel> callback);
 
     @GET("/service_options")
     void getAllServiceOptions(
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
-            Callback<ApiRootModel> callback);
+            Callback<BaseModel> callback);
 
     @GET("/service_options/{service_option_id}")
     void getServiceOptionById(
             @Path("service_option_id") String serviceOptionId,
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
-            Callback<ApiRootModel> callback);
+            Callback<BaseModel> callback);
 
     @GET("/clinics")
     void getAllClinics(
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
-            Callback<ApiRootModel> callback);
+            Callback<BaseModel> callback);
 
     @GET("/clinics/{clinic_id}")
     void getClinicById(
             @Path("clinic_id") String clinicId,
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
-            Callback<ApiRootModel> callback);
+            Callback<BaseModel> callback);
 
     @GET("/clinics/{clinic_id}/announcements")
     void getAllAnnouncementsForClinic(
             @Path("clinic_id") String clinicId,
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
-            Callback<ApiRootModel> callback);
+            Callback<BaseModel> callback);
 
     @GET("/clinics/{clinic_id}/announcements/{announcement_id}")
     void getAnnouncementForClinicById(
@@ -121,27 +121,27 @@ public interface SmartApi {
             @Path("announcement_id") String announcementId,
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
-            Callback<ApiRootModel> callback);
+            Callback<BaseModel> callback);
 
     @GET("/service_users")
     void getAllServiceUsers(
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
-            Callback<ApiRootModel> callback);
+            Callback<BaseModel> callback);
 
     @GET("/service_users/{service_user_id}")
     void getServiceUserById(
             @Path("service_user_id") int serviceUserId,
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
-            Callback<ApiRootModel> callback);
+            Callback<BaseModel> callback);
 
     @GET("/service_users")
     void getServiceUserByName(
             @Query("name") String serviceUserName,
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
-            Callback<ApiRootModel> callback);
+            Callback<BaseModel> callback);
 
     @GET("/service_users")
     void getServiceUserByNameDobHospitalNum(
@@ -150,53 +150,53 @@ public interface SmartApi {
             @Query("dob") String dob,
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
-            Callback<ApiRootModel> callback);
+            Callback<BaseModel> callback);
 
     @GET("/service_providers")
     void getAllServiceProviders(
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
-            Callback<ApiRootModel> callback);
+            Callback<BaseModel> callback);
 
     @GET("/service_providers/{service_provider_id}")
     void getServiceProviderById(
             @Path("service_provider_id") int serviceProviderId,
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
-            Callback<ApiRootModel> callback);
+            Callback<BaseModel> callback);
 
     @GET("/pregnancies")
     void getAllPregnancies(
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
-            Callback<ApiRootModel> callback);
+            Callback<BaseModel> callback);
 
     @GET("/pregnancies/{pregnancy_ids}")
     void getPregnancyById(
             @Path("pregnancy_ids") String pregnancyIds,
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
-            Callback<ApiRootModel> callback);
+            Callback<BaseModel> callback);
 
     @GET("/babies")
     void getAllBabies(
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
-            Callback<ApiRootModel> callback);
+            Callback<BaseModel> callback);
 
     @GET("/babies/{baby_id}")
     void getBabyById(
             @Path("baby_id") int babyId,
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
-            Callback<ApiRootModel> callback);
+            Callback<BaseModel> callback);
 
     @GET("/babies/{baby_id}/vit_khistories")
     void getVitKHistories(
             @Path("baby_id") int babyId,
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
-            Callback<ApiRootModel> callback);
+            Callback<BaseModel> callback);
 
     @PUT("/babies/{baby_id}")
     void putVitK(
@@ -204,7 +204,7 @@ public interface SmartApi {
             @Path("baby_id") int babyId,
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
-            Callback<ApiRootModel> callback);
+            Callback<BaseModel> callback);
 
     @PUT("/babies/{baby_id}")
     void putHearing(
@@ -212,14 +212,14 @@ public interface SmartApi {
             @Path("baby_id") int babyId,
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
-            Callback<ApiRootModel> callback);
+            Callback<BaseModel> callback);
 
     @GET("/babies/{baby_id}/hearing_histories")
     void getHearingHistories(
             @Path("baby_id") int babyId,
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
-            Callback<ApiRootModel> callback);
+            Callback<BaseModel> callback);
 
     @PUT("/babies/{baby_id}")
     void putNBST(
@@ -227,14 +227,14 @@ public interface SmartApi {
             @Path("baby_id") int babyId,
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
-            Callback<ApiRootModel> callback);
+            Callback<BaseModel> callback);
 
     @GET("/babies/{baby_id}/nbst_histories")
     void getNbstHistories(
             @Path("baby_id") int babyId,
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
-            Callback<ApiRootModel> callback);
+            Callback<BaseModel> callback);
 
     @PUT("/pregnancies/{pregnancy_id}")
     void putFeeding(
@@ -242,14 +242,14 @@ public interface SmartApi {
             @Path("pregnancy_id") int pregnancyId,
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
-            Callback<ApiRootModel> callback);
+            Callback<BaseModel> callback);
 
     @GET("/feeding_histories")
     void getFeedingHistoriesByPregId(
             @Query("pregnancy_id") int pregnancyId,
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
-            Callback<ApiRootModel> callback);
+            Callback<BaseModel> callback);
 
     @POST("/clinics/{clinic_id}/time_records")
     void postTimeRecords(
@@ -257,7 +257,7 @@ public interface SmartApi {
             @Path("clinic_id") int clinicId,
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
-            Callback<ApiRootModel> callback);
+            Callback<BaseModel> callback);
 
     @PUT("/clinics/{clinic_id}/time_records/{record_id}")
     void putTimeRecords(
@@ -266,7 +266,7 @@ public interface SmartApi {
             @Path("record_id") int recordId,
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
-            Callback<ApiRootModel> callback);
+            Callback<BaseModel> callback);
 
     @GET("/clinics/{clinic_id}/time_records")
     void getTimeRecords(
@@ -274,14 +274,14 @@ public interface SmartApi {
             @Query("date") String date,
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
-            Callback<ApiRootModel> callback);
+            Callback<BaseModel> callback);
 
     @GET("/pregnancies/{pregnancy_id}/notes")
     void getPregnancyNotes(
             @Path("pregnancy_id") int recordId,
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
-            Callback<ApiRootModel> callback);
+            Callback<BaseModel> callback);
 
     @GET("/pregnancies/{pregnancy_id}/notes/{note_id}")
     void getPregnancyNoteById(
@@ -289,7 +289,7 @@ public interface SmartApi {
             @Path("pregnancy_id") int noteId,
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
-            Callback<ApiRootModel> callback);
+            Callback<BaseModel> callback);
 
     @POST("/pregnancies/{pregnancy_id}/notes")
     void postPregnancyNote(
@@ -297,27 +297,27 @@ public interface SmartApi {
             @Path("pregnancy_id") int pregnancyId,
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
-            Callback<ApiRootModel> callback);
+            Callback<BaseModel> callback);
 
     @GET("/anti_dhistories")
     void getAntiDHistories(
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
-            Callback<ApiRootModel> callback);
+            Callback<BaseModel> callback);
 
     @GET("/anti_dhistories/{history_id}")
     void getAntiDHistoriesById(
             @Path("history_id") int historyId,
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
-            Callback<ApiRootModel> callback);
+            Callback<BaseModel> callback);
 
     @GET("/anti_dhistories")
     void getAntiDHistoriesForPregnacy(
             @Query("pregnancy_id") int pregnancyId,
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
-            Callback<ApiRootModel> callback);
+            Callback<BaseModel> callback);
 
     @PUT("/pregnancies/{pregnancy_id}")
     void putAnitD(
@@ -325,5 +325,5 @@ public interface SmartApi {
             @Path("pregnancy_id") int pregnancyId,
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
-            Callback<ApiRootModel> callback);
+            Callback<BaseModel> callback);
 }
