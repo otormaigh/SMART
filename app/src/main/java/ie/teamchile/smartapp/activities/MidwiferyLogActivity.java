@@ -12,28 +12,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.model.ApiRootModel;
+import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.model.PregnancyNote;
 import ie.teamchile.smartapp.util.SmartApi;
@@ -69,8 +62,8 @@ public class MidwiferyLogActivity extends BaseActivity {
         btnAddNote.setOnClickListener(new Clicky());
         etNote = (EditText) findViewById(R.id.et_midwifery_notes);
 
-        ApiRootModel.getInstance().setPregnancyNotes(
-                ApiRootModel.getInstance().getPregnancies().get(p).getPregnancyNotes());
+        BaseModel.getInstance().setPregnancyNotes(
+                BaseModel.getInstance().getPregnancies().get(p).getPregnancyNotes());
 
         setData();
     }
@@ -80,10 +73,10 @@ public class MidwiferyLogActivity extends BaseActivity {
         authorList = new ArrayList<>();
         notesList = new ArrayList<>();
 
-        size = ApiRootModel.getInstance().getPregnancyNotes().size();
+        size = BaseModel.getInstance().getPregnancyNotes().size();
         Log.d("bugs", "size = " + size);
 
-        Collections.sort(ApiRootModel.getInstance().getPregnancyNotes(), new Comparator<PregnancyNote>() {
+        Collections.sort(BaseModel.getInstance().getPregnancyNotes(), new Comparator<PregnancyNote>() {
 
             @Override
             public int compare(PregnancyNote a, PregnancyNote b) {
@@ -98,7 +91,7 @@ public class MidwiferyLogActivity extends BaseActivity {
         });
 
         for(int i = size - 1; i >= 0; i--){
-            PregnancyNote theNote = ApiRootModel.getInstance().getPregnancyNotes().get(i);
+            PregnancyNote theNote = BaseModel.getInstance().getPregnancyNotes().get(i);
             try {
                 dateList.add(dfHumanReadableDate.format(dfDateOnly.parse(theNote.getCreatedAt())));
             } catch (ParseException e) {
@@ -134,15 +127,15 @@ public class MidwiferyLogActivity extends BaseActivity {
         api.postPregnancyNote(
                 postNote,
                 pregnancyId,
-                ApiRootModel.getInstance().getLogin().getToken(),
+                BaseModel.getInstance().getLogin().getToken(),
                 SmartApi.API_KEY,
-                new Callback<ApiRootModel>() {
+                new Callback<BaseModel>() {
                     @Override
-                    public void success(ApiRootModel apiRootModel, Response response) {
+                    public void success(BaseModel baseModel, Response response) {
                         Log.d("retro", "retro success");
-                        ApiRootModel.getInstance().addPregnancyNote(apiRootModel.getPregnancyNote());
+                        BaseModel.getInstance().addPregnancyNote(baseModel.getPregnancyNote());
 
-                        Log.d("bugs", "note = " + apiRootModel.getPregnancyNote().getNote());
+                        Log.d("bugs", "note = " + baseModel.getPregnancyNote().getNote());
 
                         adapter.notifyDataSetChanged();
                         lvNotes.setAdapter(null);

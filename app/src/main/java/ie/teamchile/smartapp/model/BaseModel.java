@@ -11,8 +11,8 @@ import java.util.Map;
 /**
  * Created by user on 5/26/15.
  */
-public class ApiRootModel {
-    private static ApiRootModel instance;
+public class BaseModel {
+    private static BaseModel instance;
     private Boolean isLoggedIn;
     @Expose
     private Error errors;
@@ -86,12 +86,12 @@ public class ApiRootModel {
     @Expose
     private List<FeedingHistory> feedingHistories = new ArrayList<>();
 
-    private ApiRootModel() {
+    private BaseModel() {
     }
 
-    public static synchronized ApiRootModel getInstance() {
+    public static synchronized BaseModel getInstance() {
         if (instance == null) {
-            instance = new ApiRootModel();
+            instance = new BaseModel();
         }
         return instance;
     }
