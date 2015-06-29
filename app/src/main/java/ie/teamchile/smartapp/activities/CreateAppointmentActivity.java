@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.model.ApiRootModel;
+import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.Appointment;
 import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.model.ServiceUser;
@@ -121,7 +121,7 @@ public class CreateAppointmentActivity extends BaseActivity {
     private void clinicAppt() {
         clinicID = Integer.parseInt(getIntent().getStringExtra("clinicID"));
         daySelected = AppointmentCalendarActivity.daySelected;
-        clinicName = ApiRootModel.getInstance().getClinicMap().get(clinicID).getName();
+        clinicName = BaseModel.getInstance().getClinicMap().get(clinicID).getName();
         time = getIntent().getStringExtra("time");
         tvTime.setText(time);
         visitPrioritySpinner.setSelection(1);
@@ -135,7 +135,7 @@ public class CreateAppointmentActivity extends BaseActivity {
     private void homeVisitAppt() {
         daySelected = HomeVisitAppointmentActivity.daySelected;
         serviceOptionId = Integer.parseInt(getIntent().getStringExtra("serviceOptionId"));
-        clinicName = ApiRootModel.getInstance().getServiceOptionsHomeMap().get(serviceOptionId).getName();
+        clinicName = BaseModel.getInstance().getServiceOptionsHomeMap().get(serviceOptionId).getName();
         tvTime.setVisibility(View.GONE);
         tvTimeTitle.setVisibility(View.GONE);
         visitReturnTypeSpinner.setVisibility(View.GONE);
@@ -225,14 +225,6 @@ public class CreateAppointmentActivity extends BaseActivity {
         Log.d("bugs", "id pref = " + prefs.getString("id", ""));
     }
 
-/*    private void setSharedPrefs(){
-        SharedPreferences.Editor prefs = getSharedPreferences("SMART", MODE_PRIVATE).edit();
-		prefs.putString("userName", ApiRootModel.getInstance().getServiceUsers().get(0).getPersonalFields().getName(););
-		prefs.putString("id", ApiRootModel.getInstance().getServiceUsers().get(0).getId().toString());
-		prefs.putBoolean("reuse", true);
-		prefs.commit();
-    }*/
-
     private void setPrioritySpinner() {
         visitPriorityAdapter = new AdapterSpinner(this,
                 R.array.visit_priority_list,
@@ -270,20 +262,20 @@ public class CreateAppointmentActivity extends BaseActivity {
     private void searchPatient(String serviceUserName) {
         api.getServiceUserByName(
                 serviceUserName,
-                ApiRootModel.getInstance().getLogin().getToken(),
+                BaseModel.getInstance().getLogin().getToken(),
                 SmartApi.API_KEY,
-                new Callback<ApiRootModel>() {
+                new Callback<BaseModel>() {
                     @Override
-                    public void success(ApiRootModel apiRootModel, Response response) {
+                    public void success(BaseModel baseModel, Response response) {
                         String name, hospitalNumber, dob;
                         List<String> searchResults = new ArrayList<>();
                         int id;
-                        if (apiRootModel.getServiceUsers().size() != 0) {
-                            ApiRootModel.getInstance().setServiceUsers(apiRootModel.getServiceUsers());
-                            ApiRootModel.getInstance().setPregnancies(apiRootModel.getPregnancies());
-                            ApiRootModel.getInstance().setBabies(apiRootModel.getBabies());
-                            for (int i = 0; i < apiRootModel.getServiceUsers().size(); i++) {
-                                ServiceUser serviceUserItem = apiRootModel.getServiceUsers().get(i);
+                        if (baseModel.getServiceUsers().size() != 0) {
+                            BaseModel.getInstance().setServiceUsers(baseModel.getServiceUsers());
+                            BaseModel.getInstance().setPregnancies(baseModel.getPregnancies());
+                            BaseModel.getInstance().setBabies(baseModel.getBabies());
+                            for (int i = 0; i < baseModel.getServiceUsers().size(); i++) {
+                                ServiceUser serviceUserItem = baseModel.getServiceUsers().get(i);
                                 serviceUserList.add(serviceUserItem);
                                 name = serviceUserItem.getPersonalFields().getName();
                                 hospitalNumber = serviceUserItem.getHospitalNumber();
@@ -400,23 +392,23 @@ public class CreateAppointmentActivity extends BaseActivity {
 
         api.postAppointment(
                 appointment,
-                ApiRootModel.getInstance().getLogin().getToken(),
+                BaseModel.getInstance().getLogin().getToken(),
                 SmartApi.API_KEY,
-                new Callback<ApiRootModel>() {
+                new Callback<BaseModel>() {
                     @Override
-                    public void success(ApiRootModel apiRootModel, Response response) {
-                        ApiRootModel.getInstance().addAppointment(apiRootModel.getAppointment());
+                    public void success(BaseModel baseModel, Response response) {
+                        BaseModel.getInstance().addAppointment(baseModel.getAppointment());
                         if (returnType.equals("returning"))
                             addNewApptToMaps();
                         else if (returnType.equals("new"))
-                            getAppointmentById(apiRootModel.getAppointment().getId());
+                            getAppointmentById(baseModel.getAppointment().getId());
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
                         Log.d("Retrofit", "retro failure error = " + error);
                         if(error.getResponse().getStatus() == 422){
-                            ApiRootModel body = (ApiRootModel) error.getBodyAs(ApiRootModel.class);
+                            BaseModel body = (BaseModel) error.getBodyAs(BaseModel.class);
                             Toast.makeText(CreateAppointmentActivity.this,
                                     body.getError().getAppointmentTaken(), Toast.LENGTH_LONG).show();
                             ad.cancel();
@@ -430,13 +422,13 @@ public class CreateAppointmentActivity extends BaseActivity {
     private void getAppointmentById(int apptId) {
         api.getAppointmentById(
                 apptId + 1,
-                ApiRootModel.getInstance().getLogin().getToken(),
+                BaseModel.getInstance().getLogin().getToken(),
                 SmartApi.API_KEY,
-                new Callback<ApiRootModel>() {
+                new Callback<BaseModel>() {
                     @Override
-                    public void success(ApiRootModel apiRootModel, Response response) {
+                    public void success(BaseModel baseModel, Response response) {
                         Log.d("retro", "getAppointmentById success");
-                        ApiRootModel.getInstance().addAppointment(apiRootModel.getAppointment());
+                        BaseModel.getInstance().addAppointment(baseModel.getAppointment());
                         addNewApptToMaps();
                     }
 
@@ -459,12 +451,12 @@ public class CreateAppointmentActivity extends BaseActivity {
         Map<String, List<Integer>> homeVisitdateApptIdMap;
         Map<Integer, Map<String, List<Integer>>> homeVisitClinicDateApptIdMap = new HashMap<>();
         Map<Integer, Appointment> homeVisitIdApptMap = new HashMap<>();
-        for (int i = 0; i < ApiRootModel.getInstance().getAppointments().size(); i++) {
+        for (int i = 0; i < BaseModel.getInstance().getAppointments().size(); i++) {
             clinicApptIdList = new ArrayList<>();
             homeApptIdList = new ArrayList<>();
             clinicVisitdateApptIdMap = new HashMap<>();
             homeVisitdateApptIdMap = new HashMap<>();
-            Appointment appt = ApiRootModel.getInstance().getAppointments().get(i);
+            Appointment appt = BaseModel.getInstance().getAppointments().get(i);
             String apptDate = appt.getDate();
             int apptId = appt.getId();
             int clinicId = appt.getClinicId();
@@ -500,11 +492,11 @@ public class CreateAppointmentActivity extends BaseActivity {
                 clinicVisitIdApptMap.put(apptId, appt);
             }
         }
-        ApiRootModel.getInstance().setClinicVisitClinicDateApptIdMap(clinicVisitClinicDateApptIdMap);
-        ApiRootModel.getInstance().setClinicVisitIdApptMap(clinicVisitIdApptMap);
+        BaseModel.getInstance().setClinicVisitClinicDateApptIdMap(clinicVisitClinicDateApptIdMap);
+        BaseModel.getInstance().setClinicVisitIdApptMap(clinicVisitIdApptMap);
 
-        ApiRootModel.getInstance().setHomeVisitOptionDateApptIdMap(homeVisitClinicDateApptIdMap);
-        ApiRootModel.getInstance().setHomeVisitIdApptMap(homeVisitIdApptMap);
+        BaseModel.getInstance().setHomeVisitOptionDateApptIdMap(homeVisitClinicDateApptIdMap);
+        BaseModel.getInstance().setHomeVisitIdApptMap(homeVisitIdApptMap);
 
         Intent intentClinic = new Intent(CreateAppointmentActivity.this, AppointmentCalendarActivity.class);
         Intent intentHome = new Intent(CreateAppointmentActivity.this, HomeVisitAppointmentActivity.class);
@@ -607,7 +599,7 @@ public class CreateAppointmentActivity extends BaseActivity {
                 case R.id.list_dialog:
                     hideKeyboard();
                     ServiceUser serviceUser = serviceUserList.get(position);
-                    ApiRootModel.getInstance().setServiceUser(serviceUser);
+                    BaseModel.getInstance().setServiceUser(serviceUser);
                     userName = serviceUser.getPersonalFields().getName();
                     hospitalNumber = serviceUser.getHospitalNumber();
                     email = serviceUser.getPersonalFields().getEmail();

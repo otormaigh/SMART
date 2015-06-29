@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.model.ApiRootModel;
+import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.Appointment;
 import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.util.SmartApi;
@@ -105,12 +105,12 @@ public class ConfirmAppointmentActivity extends BaseActivity {
 
         api.postAppointment(
                 appointment,
-                ApiRootModel.getInstance().getLogin().getToken(),
+                BaseModel.getInstance().getLogin().getToken(),
                 SmartApi.API_KEY,
-                new Callback<ApiRootModel>() {
+                new Callback<BaseModel>() {
                     @Override
-                    public void success(ApiRootModel apiRootModel, Response response) {
-                        ApiRootModel.getInstance().addAppointment(apiRootModel.getAppointment());
+                    public void success(BaseModel baseModel, Response response) {
+                        BaseModel.getInstance().addAppointment(baseModel.getAppointment());
                         Intent intentClinic = new Intent(ConfirmAppointmentActivity.this, AppointmentCalendarActivity.class);
                         Intent intentHome = new Intent(ConfirmAppointmentActivity.this, HomeVisitAppointmentActivity.class);
                         pd.dismiss();
@@ -141,12 +141,12 @@ public class ConfirmAppointmentActivity extends BaseActivity {
         Map<String, List<Integer>> homeVisitdateApptIdMap;
         Map<Integer, Map<String, List<Integer>>> homeVisitClinicDateApptIdMap = new HashMap<>();
         Map<Integer, Appointment> homeVisitIdApptMap = new HashMap<>();
-        for (int i = 0; i < ApiRootModel.getInstance().getAppointments().size(); i++) {
+        for (int i = 0; i < BaseModel.getInstance().getAppointments().size(); i++) {
             clinicApptIdList = new ArrayList<>();
             homeApptIdList = new ArrayList<>();
             clinicVisitdateApptIdMap = new HashMap<>();
             homeVisitdateApptIdMap = new HashMap<>();
-            Appointment appt = ApiRootModel.getInstance().getAppointments().get(i);
+            Appointment appt = BaseModel.getInstance().getAppointments().get(i);
             String apptDate = appt.getDate();
             int apptId = appt.getId();
             int clinicId = appt.getClinicId();
@@ -182,11 +182,11 @@ public class ConfirmAppointmentActivity extends BaseActivity {
                 clinicVisitIdApptMap.put(apptId, appt);
             }
         }
-        ApiRootModel.getInstance().setClinicVisitClinicDateApptIdMap(clinicVisitClinicDateApptIdMap);
-        ApiRootModel.getInstance().setClinicVisitIdApptMap(clinicVisitIdApptMap);
+        BaseModel.getInstance().setClinicVisitClinicDateApptIdMap(clinicVisitClinicDateApptIdMap);
+        BaseModel.getInstance().setClinicVisitIdApptMap(clinicVisitIdApptMap);
 
-        ApiRootModel.getInstance().setHomeVisitOptionDateApptIdMap(homeVisitClinicDateApptIdMap);
-        ApiRootModel.getInstance().setHomeVisitIdApptMap(homeVisitIdApptMap);
+        BaseModel.getInstance().setHomeVisitOptionDateApptIdMap(homeVisitClinicDateApptIdMap);
+        BaseModel.getInstance().setHomeVisitIdApptMap(homeVisitIdApptMap);
         Log.d("Retrofit", "appointments finished");
         pd.dismiss();
     }

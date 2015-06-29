@@ -3,8 +3,6 @@ package ie.teamchile.smartapp.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
 /**
  * Created by user on 5/26/15.
  */
@@ -35,7 +33,7 @@ public class PostingData {
     public void postAppointment(String date, int service_user_id,
                                 String priority, String visit_type,
                                 String return_type, int serviceOptionId) {
-        int service_provider_id = ApiRootModel.getInstance().getLogin().getId();
+        int service_provider_id = BaseModel.getInstance().getLogin().getId();
 
         this.appointment = new Appointment(date, service_provider_id, service_user_id,
                 priority, visit_type, return_type, serviceOptionId);
@@ -44,7 +42,7 @@ public class PostingData {
     public void postAppointment(String date, String time, int service_user_id,
                                 int clinic_id, String priority, String visit_type,
                                 String return_type) {
-        int service_provider_id = ApiRootModel.getInstance().getLogin().getId();
+        int service_provider_id = BaseModel.getInstance().getLogin().getId();
 
         this.appointment = new Appointment(date, time, service_provider_id, service_user_id, clinic_id,
                 priority, visit_type, return_type);

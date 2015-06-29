@@ -31,7 +31,7 @@ import java.util.Date;
 import java.util.List;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.model.ApiRootModel;
+import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.Appointment;
 import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.util.SmartApi;
@@ -77,10 +77,10 @@ public class AppointmentCalendarActivity extends BaseActivity {
         btnNextWeek = (Button) findViewById(R.id.btn_next);
         btnNextWeek.setOnClickListener(new ButtonClick());
 
-        serviceOptionId = ApiRootModel.getInstance().getClinicMap().get(clinicSelected).getServiceOptionIds().get(0);
-		clinicOpening = ApiRootModel.getInstance().getClinicMap().get(clinicSelected).getOpeningTime();
-		clinicClosing = ApiRootModel.getInstance().getClinicMap().get(clinicSelected).getClosingTime();
-		appointmentInterval = ApiRootModel.getInstance().getClinicMap().get(clinicSelected).getAppointmentInterval();
+        serviceOptionId = BaseModel.getInstance().getClinicMap().get(clinicSelected).getServiceOptionIds().get(0);
+		clinicOpening = BaseModel.getInstance().getClinicMap().get(clinicSelected).getOpeningTime();
+		clinicClosing = BaseModel.getInstance().getClinicMap().get(clinicSelected).getClosingTime();
+		appointmentInterval = BaseModel.getInstance().getClinicMap().get(clinicSelected).getAppointmentInterval();
 		try {
 			openingAsDate = dfTimeOnly.parse(String.valueOf(clinicOpening));
 			closingAsDate = dfTimeOnly.parse(String.valueOf(clinicClosing));
@@ -238,11 +238,11 @@ public class AppointmentCalendarActivity extends BaseActivity {
 		
 		dateSelectedStr = dfDateOnly.format(dateSelected);		
 		dateInList.setText(dfDateWMonthName.format(dateSelected));
-    	nameOfClinic = ApiRootModel.getInstance().getClinicMap().get(clinicSelected).getName();
+    	nameOfClinic = BaseModel.getInstance().getClinicMap().get(clinicSelected).getName();
 		setActionBarTitle(nameOfClinic);
 
-		if(ApiRootModel.getInstance().getClinicVisitClinicDateApptIdMap().containsKey(clinicSelected)){
-			listOfApptId = ApiRootModel.getInstance().getClinicVisitClinicDateApptIdMap().get(clinicSelected).get(dateSelectedStr);
+		if(BaseModel.getInstance().getClinicVisitClinicDateApptIdMap().containsKey(clinicSelected)){
+			listOfApptId = BaseModel.getInstance().getClinicVisitClinicDateApptIdMap().get(clinicSelected).get(dateSelectedStr);
 			//listOfApptId = removeZeros(listOfApptId);
 		} else
 			listOfApptId = new ArrayList<>();
@@ -260,7 +260,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
 		}
 		if (listOfApptId != null) {
 			for(int i = 0; i < listOfApptId.size(); i++) {
-				Appointment appointment = ApiRootModel.getInstance().getClinicVisitIdApptMap().get(listOfApptId.get(i));
+				Appointment appointment = BaseModel.getInstance().getClinicVisitIdApptMap().get(listOfApptId.get(i));
 				String timeOfAppt = "";
 				try {
 					timeOfAppt = dfTimeOnly.format(dfTimeWSec.parse(appointment.getTime()));
@@ -353,7 +353,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
                         intent.putExtra("serviceOptionId", String.valueOf(serviceOptionId));
                         startActivity(intent);
                     } else {
-                        int serviceUserId = ApiRootModel.getInstance().getClinicVisitIdApptMap().get(idList.get(position)).getServiceUserId();
+                        int serviceUserId = BaseModel.getInstance().getClinicVisitIdApptMap().get(idList.get(position)).getServiceUserId();
                         Log.d("bugs", "db string: " + "service_users" + "/" + serviceUserId);
                         showProgressDialog(AppointmentCalendarActivity.this,
                                 "Fetching Information");
@@ -423,17 +423,17 @@ public class AppointmentCalendarActivity extends BaseActivity {
 		attendedStatus.putAppointmentStatus(
 				status,
 				clinicSelected,
-				ApiRootModel.getInstance().getLogin().getId(),
-				ApiRootModel.getInstance().getClinicVisitIdApptMap().get(idList.get(position)).getServiceUserId());
+				BaseModel.getInstance().getLogin().getId(),
+				BaseModel.getInstance().getClinicVisitIdApptMap().get(idList.get(position)).getServiceUserId());
 
 		api.putAppointmentStatus(
 				attendedStatus,
 				idList.get(position),
-				ApiRootModel.getInstance().getLogin().getToken(),
+				BaseModel.getInstance().getLogin().getToken(),
 				SmartApi.API_KEY,
-				new Callback<ApiRootModel>() {
+				new Callback<BaseModel>() {
 					@Override
-					public void success(ApiRootModel apiRootModel, Response response) {
+					public void success(BaseModel baseModel, Response response) {
 						Toast.makeText(AppointmentCalendarActivity.this,
 								"status changed", Toast.LENGTH_LONG).show();
 						pd.dismiss();
@@ -450,14 +450,14 @@ public class AppointmentCalendarActivity extends BaseActivity {
 
 	private void searchServiceUser(int serviceUserId, final Intent intent) {
 		api.getServiceUserById(serviceUserId,
-				ApiRootModel.getInstance().getLogin().getToken(),
+				BaseModel.getInstance().getLogin().getToken(),
 				SmartApi.API_KEY,
-				new Callback<ApiRootModel>() {
+				new Callback<BaseModel>() {
 					@Override
-					public void success(ApiRootModel apiRootModel, Response response) {
-						ApiRootModel.getInstance().setServiceUsers(apiRootModel.getServiceUsers());
-						ApiRootModel.getInstance().setBabies(apiRootModel.getBabies());
-						ApiRootModel.getInstance().setPregnancies(apiRootModel.getPregnancies());
+					public void success(BaseModel baseModel, Response response) {
+						BaseModel.getInstance().setServiceUsers(baseModel.getServiceUsers());
+						BaseModel.getInstance().setBabies(baseModel.getBabies());
+						BaseModel.getInstance().setPregnancies(baseModel.getPregnancies());
 						startActivity(intent);
 						pd.dismiss();
 					}
