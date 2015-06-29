@@ -8,7 +8,6 @@ import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,8 +16,7 @@ import java.util.Map;
 
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.enums.CredentialsEnum;
-import ie.teamchile.smartapp.model.ApiRootModel;
-import ie.teamchile.smartapp.model.Appointment;
+import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.Clinic;
 import ie.teamchile.smartapp.model.ServiceOption;
 import ie.teamchile.smartapp.util.SmartApi;
@@ -79,7 +77,7 @@ public class QuickMenuActivity extends BaseActivity {
     
     @Override
     public void onBackPressed() {
-    	if(ApiRootModel.getInstance().getLoginStatus()) {
+    	if(BaseModel.getInstance().getLoginStatus()) {
     		new ToastAlert(getBaseContext(), 
         			"Already logged in, \n  Logout?", false);
     	}
@@ -111,14 +109,14 @@ public class QuickMenuActivity extends BaseActivity {
         showDialog = false;
 
         api.getServiceProviderById(
-                ApiRootModel.getInstance().getLogin().getId(),
-                ApiRootModel.getInstance().getLogin().getToken(),
+                BaseModel.getInstance().getLogin().getId(),
+                BaseModel.getInstance().getLogin().getToken(),
                 SmartApi.API_KEY,
-                new Callback<ApiRootModel>() {
+                new Callback<BaseModel>() {
                     @Override
-                    public void success(ApiRootModel apiRootModel, Response response) {
+                    public void success(BaseModel baseModel, Response response) {
                         Log.d("retro", "retro success");
-                        ApiRootModel.getInstance().setServiceProvider(apiRootModel.getServiceProviders().get(0));
+                        BaseModel.getInstance().setServiceProvider(baseModel.getServiceProviders().get(0));
                         Log.d("Retrofit", "service provider finished");
                         done++;
                         Log.d("Retrofit", "done = " + done);
@@ -132,17 +130,17 @@ public class QuickMenuActivity extends BaseActivity {
         );
 
 		api.getAllServiceOptions(
-				ApiRootModel.getInstance().getLogin().getToken(),
+				BaseModel.getInstance().getLogin().getToken(),
 				CredentialsEnum.API_KEY.toString(),
-				new Callback<ApiRootModel>() {
+				new Callback<BaseModel>() {
 					@Override
-					public void success(ApiRootModel apiRootModel, Response response) {
+					public void success(BaseModel baseModel, Response response) {
                         Map<Integer, ServiceOption> serviceOptionHomeMap = new HashMap<>();
                         List<ServiceOption> serviceOptionHomeList = new ArrayList<>();
 						Map<Integer, ServiceOption> serviceOptionClinicMap = new HashMap<>();
-                        ApiRootModel.getInstance().setServiceOptions(apiRootModel.getServiceOptions());
-                        for(int i = 0; i < apiRootModel.getServiceOptions().size(); i++){
-                            ServiceOption option = apiRootModel.getServiceOptions().get(i);
+                        BaseModel.getInstance().setServiceOptions(baseModel.getServiceOptions());
+                        for(int i = 0; i < baseModel.getServiceOptions().size(); i++){
+                            ServiceOption option = baseModel.getServiceOptions().get(i);
                             if(option.getHomeVisit()){
                                 serviceOptionHomeMap.put(option.getId(), option);
                                 serviceOptionHomeList.add(option);
@@ -150,9 +148,9 @@ public class QuickMenuActivity extends BaseActivity {
                                 serviceOptionClinicMap.put(option.getId(), option);
                             }
 						}
-						ApiRootModel.getInstance().setServiceOptionsHomeList(serviceOptionHomeList);
-						ApiRootModel.getInstance().setServiceOptionsHomeMap(serviceOptionHomeMap);
-						ApiRootModel.getInstance().setServiceOptionsClinicMap(serviceOptionClinicMap);
+						BaseModel.getInstance().setServiceOptionsHomeList(serviceOptionHomeList);
+						BaseModel.getInstance().setServiceOptionsHomeMap(serviceOptionHomeMap);
+						BaseModel.getInstance().setServiceOptionsClinicMap(serviceOptionClinicMap);
 						Log.d("Retrofit", "service options finished");
 						done++;
 						Log.d("Retrofit", "done = " + done);
@@ -165,18 +163,18 @@ public class QuickMenuActivity extends BaseActivity {
 				}
 		);
 		api.getAllClinics(
-				ApiRootModel.getInstance().getLogin().getToken(),
+				BaseModel.getInstance().getLogin().getToken(),
 				CredentialsEnum.API_KEY.toString(),
-				new Callback<ApiRootModel>() {
+				new Callback<BaseModel>() {
 					@Override
-					public void success(ApiRootModel things, Response response) {
+					public void success(BaseModel things, Response response) {
 						Map<Integer, Clinic> clinicMap = new HashMap<>();
-						ApiRootModel.getInstance().setClinics(things.getClinics());
+						BaseModel.getInstance().setClinics(things.getClinics());
 						for(int i = 0; i < things.getClinics().size(); i++){
 							clinicMap.put(things.getClinics().get(i).getId(),
 									things.getClinics().get(i));
 						}
-						ApiRootModel.getInstance().setClinicMap(clinicMap);
+						BaseModel.getInstance().setClinicMap(clinicMap);
 						Log.d("Retrofit", "clinics finished");
 						done++;
 						Log.d("Retrofit", "done = " + done);

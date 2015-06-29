@@ -7,7 +7,6 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +22,6 @@ import android.widget.Toast;
 
 import com.daimajia.swipe.SwipeLayout;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -32,10 +30,9 @@ import java.util.Date;
 import java.util.List;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.model.ApiRootModel;
+import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.Appointment;
 import ie.teamchile.smartapp.model.PostingData;
-import ie.teamchile.smartapp.model.PregnancyNote;
 import ie.teamchile.smartapp.util.SmartApi;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -156,16 +153,16 @@ public class HomeVisitAppointmentActivity extends BaseActivity {
 
         dateSelectedStr = dfDateOnly.format(dateSelected);
         dateInList.setText(dfDateWMonthName.format(dateSelected));
-        nameOfClinic = ApiRootModel.getInstance().getServiceOptionsHomeMap().get(visitOptionSelected).getName();
+        nameOfClinic = BaseModel.getInstance().getServiceOptionsHomeMap().get(visitOptionSelected).getName();
         setActionBarTitle(nameOfClinic);
 
         nameList.add("Book Home Visit");
         gestList.add("");
         attendedList.add(false);
 
-        if (ApiRootModel.getInstance().getHomeVisitOptionDateApptIdMap().containsKey(visitOptionSelected)) {
-            if(ApiRootModel.getInstance().getHomeVisitOptionDateApptIdMap().get(visitOptionSelected).containsKey(dateSelectedStr)) {
-                idList = ApiRootModel.getInstance().getHomeVisitOptionDateApptIdMap().get(visitOptionSelected).get(dateSelectedStr);
+        if (BaseModel.getInstance().getHomeVisitOptionDateApptIdMap().containsKey(visitOptionSelected)) {
+            if(BaseModel.getInstance().getHomeVisitOptionDateApptIdMap().get(visitOptionSelected).containsKey(dateSelectedStr)) {
+                idList = BaseModel.getInstance().getHomeVisitOptionDateApptIdMap().get(visitOptionSelected).get(dateSelectedStr);
                 removeZeros(idList);
                 Collections.sort(idList, new Comparator<Integer>() {
 
@@ -182,7 +179,7 @@ public class HomeVisitAppointmentActivity extends BaseActivity {
                 });
                 for (int i = 0; i < idList.size(); i++) {
                     if (idList.get(i) != 0) {
-                        Appointment appointment = ApiRootModel.getInstance().getHomeVisitIdApptMap().get(idList.get(i));
+                        Appointment appointment = BaseModel.getInstance().getHomeVisitIdApptMap().get(idList.get(i));
                         nameList.add(appointment.getServiceUser().getName());
                         gestList.add(appointment.getServiceUser().getGestation());
 
@@ -225,17 +222,17 @@ public class HomeVisitAppointmentActivity extends BaseActivity {
         attendedStatus.putAppointmentStatus(
                 status,
                 0,
-                ApiRootModel.getInstance().getLogin().getId(),
-                ApiRootModel.getInstance().getHomeVisitIdApptMap().get(idList.get(position)).getServiceUserId());
+                BaseModel.getInstance().getLogin().getId(),
+                BaseModel.getInstance().getHomeVisitIdApptMap().get(idList.get(position)).getServiceUserId());
 
         api.putAppointmentStatus(
                 attendedStatus,
                 idList.get(position),
-                ApiRootModel.getInstance().getLogin().getToken(),
+                BaseModel.getInstance().getLogin().getToken(),
                 SmartApi.API_KEY,
-                new Callback<ApiRootModel>() {
+                new Callback<BaseModel>() {
                     @Override
-                    public void success(ApiRootModel apiRootModel, Response response) {
+                    public void success(BaseModel baseModel, Response response) {
                         Toast.makeText(HomeVisitAppointmentActivity.this,
                                 "status changed", Toast.LENGTH_LONG).show();
                         pd.dismiss();
@@ -252,14 +249,14 @@ public class HomeVisitAppointmentActivity extends BaseActivity {
 
     private void searchServiceUser(int serviceUserId, final Intent intent) {
         api.getServiceUserById(serviceUserId,
-                ApiRootModel.getInstance().getLogin().getToken(),
+                BaseModel.getInstance().getLogin().getToken(),
                 SmartApi.API_KEY,
-                new Callback<ApiRootModel>() {
+                new Callback<BaseModel>() {
                     @Override
-                    public void success(ApiRootModel apiRootModel, Response response) {
-                        ApiRootModel.getInstance().setServiceUsers(apiRootModel.getServiceUsers());
-                        ApiRootModel.getInstance().setBabies(apiRootModel.getBabies());
-                        ApiRootModel.getInstance().setPregnancies(apiRootModel.getPregnancies());
+                    public void success(BaseModel baseModel, Response response) {
+                        BaseModel.getInstance().setServiceUsers(baseModel.getServiceUsers());
+                        BaseModel.getInstance().setBabies(baseModel.getBabies());
+                        BaseModel.getInstance().setPregnancies(baseModel.getPregnancies());
                         startActivity(intent);
                         pd.dismiss();
                     }
@@ -369,7 +366,7 @@ public class HomeVisitAppointmentActivity extends BaseActivity {
                         intent.putExtra("serviceOptionId", String.valueOf(visitOptionSelected));
                         startActivity(intent);
                     } else {
-                        int serviceUserId = ApiRootModel.getInstance().getHomeVisitIdApptMap().get(apptId.get(position)).getServiceUserId();
+                        int serviceUserId = BaseModel.getInstance().getHomeVisitIdApptMap().get(apptId.get(position)).getServiceUserId();
                         Log.d("bugs", "db string: " + "service_users" + "/" + serviceUserId);
                         showProgressDialog(HomeVisitAppointmentActivity.this,
                                 "Fetching Information");

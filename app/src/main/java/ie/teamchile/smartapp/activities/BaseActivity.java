@@ -36,7 +36,7 @@ import java.util.Map;
 
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.enums.CredentialsEnum;
-import ie.teamchile.smartapp.model.ApiRootModel;
+import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.Appointment;
 import ie.teamchile.smartapp.model.Baby;
 import ie.teamchile.smartapp.model.Pregnancy;
@@ -198,7 +198,7 @@ public class BaseActivity extends AppCompatActivity {
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
                                         Intent.FLAG_ACTIVITY_CLEAR_TASK |
                                         Intent.FLAG_ACTIVITY_NEW_TASK);
-                                if (ApiRootModel.getInstance().getLoginStatus() == false) {
+                                if (BaseModel.getInstance().getLoginStatus() == false) {
                                     startActivity(intent);
                                 } else {
                                     doLogout(intent);
@@ -218,11 +218,11 @@ public class BaseActivity extends AppCompatActivity {
     private void doLogout(final Intent intent) {
         api.postLogout(
                 "",
-                ApiRootModel.getInstance().getLogin().getToken(),
+                BaseModel.getInstance().getLogin().getToken(),
                 SmartApi.API_KEY,
-                new Callback<ApiRootModel>() {
+                new Callback<BaseModel>() {
                     @Override
-                    public void success(ApiRootModel apiRootModel, Response response) {
+                    public void success(BaseModel baseModel, Response response) {
                         switch (response.getStatus()) {
                             case 200:
                                 Log.d("Retro", "in logout success 200");
@@ -237,7 +237,7 @@ public class BaseActivity extends AppCompatActivity {
                     public void failure(RetrofitError error) {
                         Log.d("Retro", "in logout failure error = " + error);
                         if (error.getResponse().getStatus() == 401) {
-                            ApiRootModel.getInstance().setLoginStatus(false);
+                            BaseModel.getInstance().setLoginStatus(false);
                             Toast.makeText(getApplicationContext(),
                                     "You are now logged out",
                                     Toast.LENGTH_SHORT).show();
@@ -268,7 +268,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected void getRecentPregnancy() {
-        List<Pregnancy> pregnancyList = ApiRootModel.getInstance().getPregnancies();
+        List<Pregnancy> pregnancyList = BaseModel.getInstance().getPregnancies();
         List<Date> asDate = new ArrayList<>();
         String edd;
         Log.d("Retro", "pregnancyList size = " + pregnancyList.size());
@@ -287,7 +287,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected void getRecentBabyPosition() {
-        List<Baby> babyList = ApiRootModel.getInstance().getBabies();
+        List<Baby> babyList = BaseModel.getInstance().getBabies();
         List<Date> asDate = new ArrayList<>();
         if (babyList.size() != 1) {
             try {
@@ -304,7 +304,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected void getRecentBabyId() {
-        List<Baby> babyList = ApiRootModel.getInstance().getBabies();
+        List<Baby> babyList = BaseModel.getInstance().getBabies();
         List<Integer> idList = new ArrayList<>();
         List<Date> asDate = new ArrayList<>();
         if (babyList.size() != 1) {
@@ -324,12 +324,12 @@ public class BaseActivity extends AppCompatActivity {
 
     protected void updateAppointment(final Context context) {
         api.getAllAppointments(
-                ApiRootModel.getInstance().getLogin().getToken(),
+                BaseModel.getInstance().getLogin().getToken(),
                 CredentialsEnum.API_KEY.toString(),
-                new Callback<ApiRootModel>() {
+                new Callback<BaseModel>() {
                     @Override
-                    public void success(ApiRootModel apiRootModel, Response response) {
-                        ApiRootModel.getInstance().setAppointments(apiRootModel.getAppointments());
+                    public void success(BaseModel baseModel, Response response) {
+                        BaseModel.getInstance().setAppointments(baseModel.getAppointments());
                         List<Integer> clinicApptIdList;
                         Map<String, List<Integer>> clinicVisitdateApptIdMap;
                         Map<Integer, Map<String, List<Integer>>> clinicVisitClinicDateApptIdMap = new HashMap<>();
@@ -340,12 +340,12 @@ public class BaseActivity extends AppCompatActivity {
                         Map<Integer, Map<String, List<Integer>>> homeVisitClinicDateApptIdMap = new HashMap<>();
                         Map<Integer, Appointment> homeVisitIdApptMap = new HashMap<>();
 
-                        for (int i = 0; i < apiRootModel.getAppointments().size(); i++) {
+                        for (int i = 0; i < baseModel.getAppointments().size(); i++) {
                             clinicApptIdList = new ArrayList<>();
                             homeApptIdList = new ArrayList<>();
                             clinicVisitdateApptIdMap = new HashMap<>();
                             homeVisitdateApptIdMap = new HashMap<>();
-                            Appointment appt = apiRootModel.getAppointments().get(i);
+                            Appointment appt = baseModel.getAppointments().get(i);
                             String apptDate = appt.getDate();
                             int apptId = appt.getId();
                             int clinicId = appt.getClinicId();
@@ -380,11 +380,11 @@ public class BaseActivity extends AppCompatActivity {
                                 clinicVisitIdApptMap.put(apptId, appt);
                             }
                         }
-                        ApiRootModel.getInstance().setClinicVisitClinicDateApptIdMap(clinicVisitClinicDateApptIdMap);
-                        ApiRootModel.getInstance().setClinicVisitIdApptMap(clinicVisitIdApptMap);
+                        BaseModel.getInstance().setClinicVisitClinicDateApptIdMap(clinicVisitClinicDateApptIdMap);
+                        BaseModel.getInstance().setClinicVisitIdApptMap(clinicVisitIdApptMap);
 
-                        ApiRootModel.getInstance().setHomeVisitOptionDateApptIdMap(homeVisitClinicDateApptIdMap);
-                        ApiRootModel.getInstance().setHomeVisitIdApptMap(homeVisitIdApptMap);
+                        BaseModel.getInstance().setHomeVisitOptionDateApptIdMap(homeVisitClinicDateApptIdMap);
+                        BaseModel.getInstance().setHomeVisitIdApptMap(homeVisitIdApptMap);
                         Log.d("Retrofit", "appointments finished");
                         done++;
                         Log.d("Retrofit", "done = " + done);

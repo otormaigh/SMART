@@ -22,11 +22,10 @@ import java.util.Comparator;
 import java.util.List;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.model.ApiRootModel;
+import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.FeedingHistory;
 import ie.teamchile.smartapp.model.HearingHistory;
 import ie.teamchile.smartapp.model.NbstHistory;
-import ie.teamchile.smartapp.model.PregnancyNote;
 import ie.teamchile.smartapp.model.ServiceUser;
 import ie.teamchile.smartapp.model.VitKHistory;
 import ie.teamchile.smartapp.util.SmartApi;
@@ -95,12 +94,12 @@ public class ServiceUserSearchActivity extends BaseActivity {
         getRecentPregnancy();
         api.getVitKHistories(
                 bId,
-                ApiRootModel.getInstance().getLogin().getToken(),
+                BaseModel.getInstance().getLogin().getToken(),
                 SmartApi.API_KEY,
-                new Callback<ApiRootModel>() {
+                new Callback<BaseModel>() {
                     @Override
-                    public void success(ApiRootModel apiRootModel, Response response) {
-                        Collections.sort(apiRootModel.getVitKHistories(), new Comparator<VitKHistory>() {
+                    public void success(BaseModel baseModel, Response response) {
+                        Collections.sort(baseModel.getVitKHistories(), new Comparator<VitKHistory>() {
 
                             @Override
                             public int compare(VitKHistory a, VitKHistory b) {
@@ -113,7 +112,7 @@ public class ServiceUserSearchActivity extends BaseActivity {
                                 return -((Integer) valA).compareTo(valB);
                             }
                         });
-                        ApiRootModel.getInstance().setVitKHistories(apiRootModel.getVitKHistories());
+                        BaseModel.getInstance().setVitKHistories(baseModel.getVitKHistories());
                         Log.d("retro", "vit k history done");
                     }
 
@@ -125,12 +124,12 @@ public class ServiceUserSearchActivity extends BaseActivity {
         );
         api.getHearingHistories(
                 bId,
-                ApiRootModel.getInstance().getLogin().getToken(),
+                BaseModel.getInstance().getLogin().getToken(),
                 SmartApi.API_KEY,
-                new Callback<ApiRootModel>() {
+                new Callback<BaseModel>() {
                     @Override
-                    public void success(ApiRootModel apiRootModel, Response response) {
-                        Collections.sort(apiRootModel.getHearingHistories(), new Comparator<HearingHistory>() {
+                    public void success(BaseModel baseModel, Response response) {
+                        Collections.sort(baseModel.getHearingHistories(), new Comparator<HearingHistory>() {
 
                             @Override
                             public int compare(HearingHistory a, HearingHistory b) {
@@ -143,7 +142,7 @@ public class ServiceUserSearchActivity extends BaseActivity {
                                 return -((Integer) valA).compareTo(valB);
                             }
                         });
-                        ApiRootModel.getInstance().setHearingHistories(apiRootModel.getHearingHistories());
+                        BaseModel.getInstance().setHearingHistories(baseModel.getHearingHistories());
                         Log.d("retro" , "hearing history done");
                     }
 
@@ -155,12 +154,12 @@ public class ServiceUserSearchActivity extends BaseActivity {
         );
         api.getNbstHistories(
                 bId,
-                ApiRootModel.getInstance().getLogin().getToken(),
+                BaseModel.getInstance().getLogin().getToken(),
                 SmartApi.API_KEY,
-                new Callback<ApiRootModel>() {
+                new Callback<BaseModel>() {
                     @Override
-                    public void success(ApiRootModel apiRootModel, Response response) {
-                        Collections.sort(apiRootModel.getNbstHistories(), new Comparator<NbstHistory>() {
+                    public void success(BaseModel baseModel, Response response) {
+                        Collections.sort(baseModel.getNbstHistories(), new Comparator<NbstHistory>() {
 
                             @Override
                             public int compare(NbstHistory a, NbstHistory b) {
@@ -173,7 +172,7 @@ public class ServiceUserSearchActivity extends BaseActivity {
                                 return -((Integer) valA).compareTo(valB);
                             }
                         });
-                        ApiRootModel.getInstance().setNbstHistories(apiRootModel.getNbstHistories());
+                        BaseModel.getInstance().setNbstHistories(baseModel.getNbstHistories());
                         Log.d("retro" , "nbst history done");
                     }
 
@@ -184,13 +183,13 @@ public class ServiceUserSearchActivity extends BaseActivity {
                 }
         );
         api.getFeedingHistoriesByPregId(
-                ApiRootModel.getInstance().getPregnancies().get(p).getId(),
-                ApiRootModel.getInstance().getLogin().getToken(),
+                BaseModel.getInstance().getPregnancies().get(p).getId(),
+                BaseModel.getInstance().getLogin().getToken(),
                 SmartApi.API_KEY,
-                new Callback<ApiRootModel>() {
+                new Callback<BaseModel>() {
                     @Override
-                    public void success(ApiRootModel apiRootModel, Response response) {
-                        Collections.sort(apiRootModel.getFeedingHistories(), new Comparator<FeedingHistory>() {
+                    public void success(BaseModel baseModel, Response response) {
+                        Collections.sort(baseModel.getFeedingHistories(), new Comparator<FeedingHistory>() {
 
                             @Override
                             public int compare(FeedingHistory a, FeedingHistory b) {
@@ -203,7 +202,7 @@ public class ServiceUserSearchActivity extends BaseActivity {
                                 return -((Integer) valA).compareTo(valB);
                             }
                         });
-                        ApiRootModel.getInstance().setFeedingHistories(apiRootModel.getFeedingHistories());
+                        BaseModel.getInstance().setFeedingHistories(baseModel.getFeedingHistories());
                         Log.d("retro", "feeding history done");
                     }
 
@@ -273,24 +272,24 @@ public class ServiceUserSearchActivity extends BaseActivity {
 			name,
 			hospitalNumber,
 			dob,
-			ApiRootModel.getInstance().getLogin().getToken(),
+			BaseModel.getInstance().getLogin().getToken(),
 			SmartApi.API_KEY,
-			new Callback<ApiRootModel>() {
+			new Callback<BaseModel>() {
 				@Override
-				public void success(ApiRootModel apiRootModel, Response response) {
-					if (apiRootModel.getServiceUsers().size() > 0) {
-						ApiRootModel.getInstance().setServiceUsers(apiRootModel.getServiceUsers());
-						ApiRootModel.getInstance().setPregnancies(apiRootModel.getPregnancies());
-						ApiRootModel.getInstance().setBabies(apiRootModel.getBabies());
-                        ApiRootModel.getInstance().setAntiDHistories(apiRootModel.getAntiDHistories());
+				public void success(BaseModel baseModel, Response response) {
+					if (baseModel.getServiceUsers().size() > 0) {
+						BaseModel.getInstance().setServiceUsers(baseModel.getServiceUsers());
+						BaseModel.getInstance().setPregnancies(baseModel.getPregnancies());
+						BaseModel.getInstance().setBabies(baseModel.getBabies());
+                        BaseModel.getInstance().setAntiDHistories(baseModel.getAntiDHistories());
 						if (changeActivity) {
                             startActivity(intent);
                             getHistories();
                         } else {
 							searchResults.clear();
 							hospitalNumberList.clear();
-							for (int i = 0; i < apiRootModel.getServiceUsers().size(); i++) {
-								ServiceUser serviceUser = ApiRootModel.getInstance().getServiceUsers().get(i);
+							for (int i = 0; i < baseModel.getServiceUsers().size(); i++) {
+								ServiceUser serviceUser = BaseModel.getInstance().getServiceUsers().get(i);
 								String name = serviceUser.getPersonalFields().getName();
 								String hospitalNumber = serviceUser.getHospitalNumber();
 								String dob = serviceUser.getPersonalFields().getDob();

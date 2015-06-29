@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Locale;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.model.ApiRootModel;
+import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.util.AdapterSpinner;
 
 public class AppointmentTypeSpinnerActivity extends BaseActivity {
@@ -92,12 +92,12 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
     }
 	
 	private void setServiceOptionSpinner(){
-        int mapSize = ApiRootModel.getInstance().getServiceOptionsClinicMap().size();
+        int mapSize = BaseModel.getInstance().getServiceOptionsClinicMap().size();
         serviceOptionNameList = new ArrayList<>();
         serviceOptionNameList.add("Select Service Option");
 
         for(int i = 1; i <= mapSize; i++){
-            serviceOptionNameList.add("- " + ApiRootModel.getInstance().getServiceOptionsClinicMap().get(i).getName());
+            serviceOptionNameList.add("- " + BaseModel.getInstance().getServiceOptionsClinicMap().get(i).getName());
         }
         serviceOptionAdapter = new AdapterSpinner(this, R.layout.spinner_layout, serviceOptionNameList, R.id.tv_spinner_item);
         serviceOptionAdapter.setDropDownViewResource(R.layout.spinner_layout);
@@ -105,14 +105,14 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
 	}
 	
 	private void setClinicSpinner(int z){
-        idList = ApiRootModel.getInstance().getServiceOptionsClinicMap().get(z).getClinicIds();
+        idList = BaseModel.getInstance().getServiceOptionsClinicMap().get(z).getClinicIds();
         Log.d("Retrofit", "clinic id list = " + idList);
 		List<String> clinicNames = new ArrayList<>();
 		clinicNames.add("Select Clinic");
 
 		if(idList != null){
 			for(int i = 0; i < idList.size(); i++){
-				clinicNames.add("- " + ApiRootModel.getInstance().getClinicMap().get(idList.get(i)).getName());
+				clinicNames.add("- " + BaseModel.getInstance().getClinicMap().get(idList.get(i)).getName());
 			}
 		}
 
@@ -123,7 +123,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
 	}
 
     private void setVisitSpinner(){
-        int size = ApiRootModel.getInstance().getServiceOptionsHomeList().size();
+        int size = BaseModel.getInstance().getServiceOptionsHomeList().size();
 
         Log.d("Retrofit", "clinic id list = " + idList);
         List<String> visitClinics = new ArrayList<>();
@@ -131,7 +131,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
 
         if(size != 0){
             for(int i = 0; i < size; i++){
-                visitClinics.add("- " + ApiRootModel.getInstance().getServiceOptionsHomeList().get(i).getName());
+                visitClinics.add("- " + BaseModel.getInstance().getServiceOptionsHomeList().get(i).getName());
             }
         }
 
@@ -266,7 +266,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
                             visitDaySpinner.setVisibility(View.VISIBLE);
                             tvVisitDay.setVisibility(View.VISIBLE);
                             visitDaySpinner.setSelection(0);
-                            visitOptionSelected = ApiRootModel.getInstance().
+                            visitOptionSelected = BaseModel.getInstance().
                                     getServiceOptionsHomeList().get(position - 1).getId();
 
                             HomeVisitAppointmentActivity.visitOptionSelected = visitOptionSelected;
@@ -356,7 +356,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
                         	weekSpinner.setSelection(0);
                             
                         	clinicSelected = idList.get(position - 1);
-                            List<String> trueDays = ApiRootModel.getInstance().getClinicMap().get(clinicSelected).getTrueDays();
+                            List<String> trueDays = BaseModel.getInstance().getClinicMap().get(clinicSelected).getTrueDays();
 
                             if(trueDays.size() > 1){
                                 setDaySpinner(trueDays);
