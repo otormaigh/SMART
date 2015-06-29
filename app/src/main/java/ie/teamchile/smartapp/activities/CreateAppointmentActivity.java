@@ -31,8 +31,8 @@ import java.util.List;
 import java.util.Map;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.Appointment;
+import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.model.ServiceUser;
 import ie.teamchile.smartapp.util.AdapterSpinner;
@@ -46,7 +46,7 @@ import retrofit.client.Response;
 public class CreateAppointmentActivity extends BaseActivity {
     private ArrayAdapter<String> visitPriorityAdapter, returnTypeAdapter;
     private String userName, apptDate, time, priority, visitType, clinicName,
-            hospitalNumber, email, sms;
+            hospitalNumber, email, sms, address;
     private int userID;
     private Calendar c, myCalendar;
     private Date daySelected;
@@ -335,20 +335,22 @@ public class CreateAppointmentActivity extends BaseActivity {
         LayoutInflater inflater = getLayoutInflater();
         alertDialog = new AlertDialog.Builder(CreateAppointmentActivity.this);
         View convertView = (View) inflater.inflate(R.layout.dialog_confirm_appointment, null);
-        TextView txtUserName = (TextView) convertView.findViewById(R.id.tv_confirm_name);
-        TextView txtClinic = (TextView) convertView.findViewById(R.id.tv_confirm_location);
-        TextView txtDateTime = (TextView) convertView.findViewById(R.id.tv_confirm_time);
-        TextView txtEmailTo = (TextView) convertView.findViewById(R.id.tv_confirm_email);
-        TextView txtSmsTo = (TextView) convertView.findViewById(R.id.tv_confirm_sms);
+        TextView tvConfirmUserName = (TextView) convertView.findViewById(R.id.tv_confirm_name);
+        TextView tvConfirmLocation = (TextView) convertView.findViewById(R.id.tv_confirm_location);
+        TextView tvConfirmDateTime = (TextView) convertView.findViewById(R.id.tv_confirm_time);
+        TextView tvConfirmEmailTo = (TextView) convertView.findViewById(R.id.tv_confirm_email);
+        TextView tvConfirmSmsTo = (TextView) convertView.findViewById(R.id.tv_confirm_sms);
 
-        txtUserName.setText(userName + " (" + hospitalNumber + ")");
-        txtClinic.setText(clinicName);
-        if (priority.equals("home-visit"))
-            txtDateTime.setText(dateDay + ", " + dateWords);
+        tvConfirmUserName.setText(userName + " (" + hospitalNumber + ")");
+        if (priority.equals("home-visit")) {
+            tvConfirmLocation.setText(address);
+            tvConfirmDateTime.setText(dateDay + ", " + dateWords);
+        }
         else if (priority.equals("scheduled"))
-            txtDateTime.setText(time + " on " + dateWords);
-        txtEmailTo.setText(email);
-        txtSmsTo.setText(sms);
+            tvConfirmLocation.setText(clinicName);
+            tvConfirmDateTime.setText(time + " on " + dateWords);
+        tvConfirmEmailTo.setText(email);
+        tvConfirmSmsTo.setText(sms);
 
         Button btnYes = (Button) convertView.findViewById(R.id.btn_confirm_yes);
         btnYes.setOnClickListener(new View.OnClickListener() {
@@ -407,7 +409,7 @@ public class CreateAppointmentActivity extends BaseActivity {
                     @Override
                     public void failure(RetrofitError error) {
                         Log.d("Retrofit", "retro failure error = " + error);
-                        if(error.getResponse().getStatus() == 422){
+                        if (error.getResponse().getStatus() == 422) {
                             BaseModel body = (BaseModel) error.getBodyAs(BaseModel.class);
                             Toast.makeText(CreateAppointmentActivity.this,
                                     body.getError().getAppointmentTaken(), Toast.LENGTH_LONG).show();
@@ -604,6 +606,7 @@ public class CreateAppointmentActivity extends BaseActivity {
                     hospitalNumber = serviceUser.getHospitalNumber();
                     email = serviceUser.getPersonalFields().getEmail();
                     sms = serviceUser.getPersonalFields().getMobilePhone();
+                    address = serviceUser.getPersonalFields().getHomeAddress();
 
                     etUserName.setText(userName);
                     userID = serviceUser.getId();
