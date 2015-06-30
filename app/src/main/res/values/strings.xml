@@ -258,7 +258,5 @@
     <!-- ANTI-D DIALOG -->
     <string name="add_to_history">Add To History</string>
     <string name="save_option">Save Option</string>
-    <string name="title_activity_home_visit_appointment">HomeVisitAppointmentActivity</string>
-    <string name="title_activity_about">AboutActivity</string>
 
 </resources>
