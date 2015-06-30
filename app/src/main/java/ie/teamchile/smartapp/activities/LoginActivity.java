@@ -43,6 +43,14 @@ public class LoginActivity extends AppCompatActivity {
         initRetrofit();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        BaseModel.getInstance().deleteInstance();
+        System.gc();
+        finish();
+    }
+
     private void initRetrofit() {
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(SmartApi.BASE_URL)

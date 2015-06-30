@@ -1,5 +1,7 @@
 package ie.teamchile.smartapp.model;
 
+import android.util.Log;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -13,7 +15,7 @@ import java.util.Map;
  */
 public class BaseModel {
     private static BaseModel instance;
-    private Boolean isLoggedIn;
+    private Boolean isLoggedIn = false;
     @Expose
     private Error errors;
     private Login login;
@@ -86,14 +88,20 @@ public class BaseModel {
     @Expose
     private List<FeedingHistory> feedingHistories = new ArrayList<>();
 
-    private BaseModel() {
-    }
+    private BaseModel() { }
 
     public static synchronized BaseModel getInstance() {
         if (instance == null) {
             instance = new BaseModel();
         }
         return instance;
+    }
+
+    public void deleteInstance(){
+        if (instance == null) {
+            instance = null;
+        } else
+            instance = null;
     }
 
     public Boolean getLoginStatus() {
