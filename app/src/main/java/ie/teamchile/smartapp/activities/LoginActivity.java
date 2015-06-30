@@ -113,6 +113,7 @@ public class LoginActivity extends AppCompatActivity {
                     break;
                 case R.id.tv_about:
                     Intent intent = new Intent(LoginActivity.this, AboutActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                     startActivity(intent);
                     break;
             }

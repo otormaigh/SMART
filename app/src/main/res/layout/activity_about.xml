@@ -5,10 +5,18 @@
     android:layout_height="match_parent"
     tools:context="ie.teamchile.smartapp.activities.AboutActivity">
 
+    <ProgressBar
+        android:id="@+id/pb_webview"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"/>
+
     <WebView
         android:id="@+id/wv_about"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_below="@+id/pb_webview"/>
 
 </RelativeLayout>
