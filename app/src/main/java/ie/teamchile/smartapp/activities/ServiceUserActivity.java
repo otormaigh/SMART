@@ -472,11 +472,11 @@ public class ServiceUserActivity extends BaseActivity {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.user_address_title)
                 .setMessage(R.string.user_address_message)
-                .setNegativeButton(R.string.No, new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialoginterface, int i) {
                     }
                 })
-                .setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialoginterface, int i) {
                         String addr = tvUsrRoad.getText().toString() + ", "
                                 + tvUsrCounty.getText().toString() + ", "

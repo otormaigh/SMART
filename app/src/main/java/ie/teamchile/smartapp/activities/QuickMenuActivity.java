@@ -34,6 +34,9 @@ public class QuickMenuActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentForNav(R.layout.activity_quick_menu);
 
+        Log.d("bugs", "quick menu in on create");
+        checkIfLoggedIn();
+
         btnPatientSearch = (Button) findViewById(R.id.btn_patient_search);
         btnPatientSearch.setOnClickListener(new ButtonClick());
         btnBookAppointment = (Button) findViewById(R.id.btn_book_appointment);
@@ -44,7 +47,6 @@ public class QuickMenuActivity extends BaseActivity {
         //btnTodaysAppointments.setOnClickListener(new ButtonClick());
         btnTodaysAppointments.setEnabled(false);
         isViewVisible = true;
-        updateData();
     }
 
     @Override
@@ -55,14 +57,17 @@ public class QuickMenuActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (BaseModel.getInstance().getLoginStatus()) {
+        /*if (BaseModel.getInstance().getLoginStatus()) {
             showLogoutDialog();
-        }
+        }*/
+        moveTaskToBack(true);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        Log.d("bugs", "quick menu in on resume");
+        checkIfLoggedIn();
         isViewVisible = true;
         SharedPreferences.Editor prefs = getSharedPreferences("SMART", MODE_PRIVATE).edit();
         prefs.putBoolean("reuse", false);
@@ -79,7 +84,26 @@ public class QuickMenuActivity extends BaseActivity {
             isViewVisible = true;
     }
 
+    private void checkIfLoggedIn() {
+        if (BaseModel.getInstance().getLoginStatus()) {
+            Log.d("bugs", "logged in = " + BaseModel.getInstance().getLoginStatus());
+            if (BaseModel.getInstance().getClinics().size() == 0 ||
+                    BaseModel.getInstance().getServiceOptions().size() == 0 ||
+                    BaseModel.getInstance().getAppointments().size() == 0) {
+                Log.d("bugs", "quick menu no data available");
+                updateData();
+            } else {
+                Log.d("bugs", "quick menu data available");
+            }
+        } else {
+            Log.d("bugs", "logged in = " + BaseModel.getInstance().getLoginStatus());
+            Intent login = new Intent(QuickMenuActivity.this, LoginActivity.class);
+            startActivity(login);
+        }
+    }
+
     private void updateData() {
+        done = 0;
         showProgressDialog(QuickMenuActivity.this, "Updating Information");
 
         updateAppointment(QuickMenuActivity.this);
