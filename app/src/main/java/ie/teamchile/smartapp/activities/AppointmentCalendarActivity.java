@@ -334,7 +334,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
 		
 		@Override
 		public View getView(final int position, View convertView, ViewGroup parent) {
-			convertView = layoutInflater.inflate(R.layout.list_appointment_layout, null);
+			convertView = layoutInflater.inflate(R.layout.list_layout_appointment, null);
 			TextView timeText = (TextView) convertView.findViewById(R.id.tv_time);
 			TextView nameText = (TextView) convertView.findViewById(R.id.tv_name);
 			TextView gestText = (TextView) convertView.findViewById(R.id.tv_gestation);

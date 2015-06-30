@@ -2,8 +2,8 @@ package ie.teamchile.smartapp.util;
 
 import java.util.List;
 
-import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.Appointment;
+import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.PostingData;
 import retrofit.Callback;
 import retrofit.http.Body;
