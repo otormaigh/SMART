@@ -35,10 +35,9 @@ import java.util.Locale;
 import java.util.Map;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.enums.CredentialsEnum;
-import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.Appointment;
 import ie.teamchile.smartapp.model.Baby;
+import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.Pregnancy;
 import ie.teamchile.smartapp.util.SmartApi;
 import retrofit.Callback;
@@ -84,10 +83,6 @@ public class BaseActivity extends AppCompatActivity {
 
         spinnerWarning = getResources().getColor(R.color.teal);
 
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //getActionBar().setCustomView(R.layout.action_bar_custom);
-        //getSupportActionBar().setCustomView(R.layout.action_bar_custom);
-
         getSupportActionBar().setDisplayOptions(android.support.v7.app.ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.action_bar_custom);
 
@@ -111,7 +106,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void initRetrofit() {
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(SmartApi.BASE_URL)
-                //.setLogLevel(RestAdapter.LogLevel.FULL)
+                        //.setLogLevel(RestAdapter.LogLevel.FULL)
                 .setClient(new OkClient())
                 .build();
 
@@ -184,35 +179,39 @@ public class BaseActivity extends AppCompatActivity {
                 showProgressDialog(this, "Updating Appointments");
                 break;
             case 6:         //Logout
-                new AlertDialog.Builder(this)
-                        .setTitle(R.string.Logout_title)
-                        .setMessage(R.string.Logout_dialog_message)
-                        .setNegativeButton(R.string.No, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialoginterface, int i) {
-                            }
-                        })
-                        .setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialoginterface, int i) {
-                                Log.d("MYLOG", "Logout button pressed");
-                                final Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                                        Intent.FLAG_ACTIVITY_CLEAR_TASK |
-                                        Intent.FLAG_ACTIVITY_NEW_TASK);
-                                if (BaseModel.getInstance().getLoginStatus() == false) {
-                                    startActivity(intent);
-                                } else {
-                                    doLogout(intent);
-                                    pd = new ProgressDialog(BaseActivity.this);
-                                    pd.setMessage("Logging Out");
-                                    pd.setCanceledOnTouchOutside(false);
-                                    pd.setCancelable(false);
-                                    pd.show();
-                                }
-                            }
-                        }).show();
+                showLogoutDialog();
                 break;
             default:
         }
+    }
+
+    protected void showLogoutDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.logout_title)
+                .setMessage(R.string.logout_dialog_message)
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialoginterface, int i) {
+                    }
+                })
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialoginterface, int i) {
+                        Log.d("MYLOG", "Logout button pressed");
+                        final Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                                Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                                Intent.FLAG_ACTIVITY_NEW_TASK);
+                        if (BaseModel.getInstance().getLoginStatus() == false) {
+                            startActivity(intent);
+                        } else {
+                            doLogout(intent);
+                            pd = new ProgressDialog(BaseActivity.this);
+                            pd.setMessage("Logging Out");
+                            pd.setCanceledOnTouchOutside(false);
+                            pd.setCancelable(false);
+                            pd.show();
+                        }
+                    }
+                }).show();
     }
 
     private void doLogout(final Intent intent) {
@@ -325,7 +324,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void updateAppointment(final Context context) {
         api.getAllAppointments(
                 BaseModel.getInstance().getLogin().getToken(),
-                CredentialsEnum.API_KEY.toString(),
+                SmartApi.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {

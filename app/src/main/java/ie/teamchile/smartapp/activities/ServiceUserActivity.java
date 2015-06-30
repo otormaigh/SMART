@@ -637,7 +637,6 @@ public class ServiceUserActivity extends BaseActivity {
             Log.d("Coordinates Found", String.valueOf(latitude));
             Log.d("Coordinates Found", String.valueOf(longitude));
             //"geo:47.6,-122.3?z=18"
-            new ToastAlert(this, "geo:" + String.valueOf(latitude) + "," + String.valueOf(longitude) + "", false);
             return "geo:" + String.valueOf(latitude) + "," + String.valueOf(longitude) + "?z=12" +
                     "&q=" + String.valueOf(latitude) + "," + String.valueOf(longitude) +
                     "(" + userName + ")";

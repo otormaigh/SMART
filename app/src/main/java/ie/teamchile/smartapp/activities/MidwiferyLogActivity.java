@@ -203,7 +203,7 @@ public class MidwiferyLogActivity extends BaseActivity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             LayoutInflater inflater = getLayoutInflater();
-            convertView = (View) inflater.inflate(R.layout.midwife_note_list_layout, null);
+            convertView = (View) inflater.inflate(R.layout.list_layout_midwife_note, null);
             TextView tvDate = (TextView) convertView.findViewById(R.id.tv_note_date);
             TextView tvName = (TextView) convertView.findViewById(R.id.tv_note_provider_name);
             TextView tvNote = (TextView) convertView.findViewById(R.id.tv_note);
