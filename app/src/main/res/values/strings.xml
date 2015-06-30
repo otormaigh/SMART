@@ -261,6 +261,4 @@
     <string name="title_activity_home_visit_appointment">HomeVisitAppointmentActivity</string>
     <string name="title_activity_about">AboutActivity</string>
 
-    <string name="hello_world">Hello world!</string>
-
 </resources>
