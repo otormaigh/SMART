@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.enums.CredentialsEnum;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.Clinic;
 import ie.teamchile.smartapp.model.ServiceOption;
@@ -27,83 +26,61 @@ import retrofit.client.Response;
 
 public class QuickMenuActivity extends BaseActivity {
     private boolean isViewVisible;
-	private Button btnPatientSearch, btnBookAppointment, btnClinicRecord, btnTodaysAppointments;
-	private CountDownTimer timer;
+    private Button btnPatientSearch, btnBookAppointment, btnClinicRecord, btnTodaysAppointments;
+    private CountDownTimer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-		setContentForNav(R.layout.activity_quick_menu);
+        setContentForNav(R.layout.activity_quick_menu);
 
         btnPatientSearch = (Button) findViewById(R.id.btn_patient_search);
         btnPatientSearch.setOnClickListener(new ButtonClick());
         btnBookAppointment = (Button) findViewById(R.id.btn_book_appointment);
         btnBookAppointment.setOnClickListener(new ButtonClick());
         btnClinicRecord = (Button) findViewById(R.id.btn_clinic_record);
-		btnClinicRecord.setOnClickListener(new ButtonClick());
+        btnClinicRecord.setOnClickListener(new ButtonClick());
         btnTodaysAppointments = (Button) findViewById(R.id.btn_todays_appointments);
         //btnTodaysAppointments.setOnClickListener(new ButtonClick());
         btnTodaysAppointments.setEnabled(false);
-		isViewVisible = true;
-		updateData();
+        isViewVisible = true;
+        updateData();
     }
-    
-	@Override
-	protected void onNewIntent(Intent intent) {
-	    super.onNewIntent(intent);
-	    setIntent(intent);
-	}
 
-    private class ButtonClick implements View.OnClickListener {
-		Intent intent;
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.btn_patient_search:
-                    intent = new Intent(QuickMenuActivity.this, ServiceUserSearchActivity.class);
-                    break;
-                case R.id.btn_book_appointment:
-					intent = new Intent(QuickMenuActivity.this, AppointmentTypeSpinnerActivity.class);
-                    break;
-                case R.id.btn_clinic_record:
-					intent = new Intent(QuickMenuActivity.this, ClinicTimeRecordActivity.class);
-                    break;
-                /*case R.id.btn_todays_appointments:
-                    intent = new Intent(QuickMenuActivity.this, TodayAppointmentActivity.class);
-                    break;*/
-            }
-			startActivity(intent);
-        }
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
     }
-    
+
     @Override
     public void onBackPressed() {
-    	if(BaseModel.getInstance().getLoginStatus()) {
-    		new ToastAlert(getBaseContext(), 
-        			"Already logged in, \n  Logout?", false);
-    	}
+        if (BaseModel.getInstance().getLoginStatus()) {
+            showLogoutDialog();
+        }
     }
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		isViewVisible = true;
-		SharedPreferences.Editor prefs = getSharedPreferences("SMART", MODE_PRIVATE).edit();
-		prefs.putBoolean("reuse", false);
-		prefs.commit();
-	}
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isViewVisible = true;
+        SharedPreferences.Editor prefs = getSharedPreferences("SMART", MODE_PRIVATE).edit();
+        prefs.putBoolean("reuse", false);
+        prefs.commit();
+    }
 
-	@Override
-	public void onTrimMemory(int level) {
-		super.onTrimMemory(level);
-		if(level >= ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
-			isViewVisible = false;
-			new ToastAlert(getBaseContext(), "View is now hidden", false);
-		} else
-			isViewVisible = true;
-	}
+    @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+        if (level >= ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
+            isViewVisible = false;
+            new ToastAlert(getBaseContext(), "View is now hidden", false);
+        } else
+            isViewVisible = true;
+    }
 
-	private void updateData(){
-		showProgressDialog(QuickMenuActivity.this, "Updating Information");
+    private void updateData() {
+        showProgressDialog(QuickMenuActivity.this, "Updating Information");
 
         updateAppointment(QuickMenuActivity.this);
         showDialog = false;
@@ -129,75 +106,98 @@ public class QuickMenuActivity extends BaseActivity {
                 }
         );
 
-		api.getAllServiceOptions(
-				BaseModel.getInstance().getLogin().getToken(),
-				CredentialsEnum.API_KEY.toString(),
-				new Callback<BaseModel>() {
-					@Override
-					public void success(BaseModel baseModel, Response response) {
+        api.getAllServiceOptions(
+                BaseModel.getInstance().getLogin().getToken(),
+                SmartApi.API_KEY,
+                new Callback<BaseModel>() {
+                    @Override
+                    public void success(BaseModel baseModel, Response response) {
                         Map<Integer, ServiceOption> serviceOptionHomeMap = new HashMap<>();
                         List<ServiceOption> serviceOptionHomeList = new ArrayList<>();
-						Map<Integer, ServiceOption> serviceOptionClinicMap = new HashMap<>();
+                        Map<Integer, ServiceOption> serviceOptionClinicMap = new HashMap<>();
                         BaseModel.getInstance().setServiceOptions(baseModel.getServiceOptions());
-                        for(int i = 0; i < baseModel.getServiceOptions().size(); i++){
+                        for (int i = 0; i < baseModel.getServiceOptions().size(); i++) {
                             ServiceOption option = baseModel.getServiceOptions().get(i);
-                            if(option.getHomeVisit()){
+                            if (option.getHomeVisit()) {
                                 serviceOptionHomeMap.put(option.getId(), option);
                                 serviceOptionHomeList.add(option);
                             } else {
                                 serviceOptionClinicMap.put(option.getId(), option);
                             }
-						}
-						BaseModel.getInstance().setServiceOptionsHomeList(serviceOptionHomeList);
-						BaseModel.getInstance().setServiceOptionsHomeMap(serviceOptionHomeMap);
-						BaseModel.getInstance().setServiceOptionsClinicMap(serviceOptionClinicMap);
-						Log.d("Retrofit", "service options finished");
-						done++;
-						Log.d("Retrofit", "done = " + done);
-					}
+                        }
+                        BaseModel.getInstance().setServiceOptionsHomeList(serviceOptionHomeList);
+                        BaseModel.getInstance().setServiceOptionsHomeMap(serviceOptionHomeMap);
+                        BaseModel.getInstance().setServiceOptionsClinicMap(serviceOptionClinicMap);
+                        Log.d("Retrofit", "service options finished");
+                        done++;
+                        Log.d("Retrofit", "done = " + done);
+                    }
 
-					@Override
-					public void failure(RetrofitError error) {
-						Log.d("Retrofit", "service options retro failure " + error);
-					}
-				}
-		);
-		api.getAllClinics(
-				BaseModel.getInstance().getLogin().getToken(),
-				CredentialsEnum.API_KEY.toString(),
-				new Callback<BaseModel>() {
-					@Override
-					public void success(BaseModel things, Response response) {
-						Map<Integer, Clinic> clinicMap = new HashMap<>();
-						BaseModel.getInstance().setClinics(things.getClinics());
-						for(int i = 0; i < things.getClinics().size(); i++){
-							clinicMap.put(things.getClinics().get(i).getId(),
-									things.getClinics().get(i));
-						}
-						BaseModel.getInstance().setClinicMap(clinicMap);
-						Log.d("Retrofit", "clinics finished");
-						done++;
-						Log.d("Retrofit", "done = " + done);
-					}
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.d("Retrofit", "service options retro failure " + error);
+                    }
+                }
+        );
+        api.getAllClinics(
+                BaseModel.getInstance().getLogin().getToken(),
+                SmartApi.API_KEY,
+                new Callback<BaseModel>() {
+                    @Override
+                    public void success(BaseModel things, Response response) {
+                        Map<Integer, Clinic> clinicMap = new HashMap<>();
+                        BaseModel.getInstance().setClinics(things.getClinics());
+                        for (int i = 0; i < things.getClinics().size(); i++) {
+                            clinicMap.put(things.getClinics().get(i).getId(),
+                                    things.getClinics().get(i));
+                        }
+                        BaseModel.getInstance().setClinicMap(clinicMap);
+                        Log.d("Retrofit", "clinics finished");
+                        done++;
+                        Log.d("Retrofit", "done = " + done);
+                    }
 
-					@Override
-					public void failure(RetrofitError error) {
-						Log.d("Retrofit", "clinics retro failure " + error);
-					}
-				}
-		);
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.d("Retrofit", "clinics retro failure " + error);
+                    }
+                }
+        );
 
-		timer = new CountDownTimer(200, 100) {
-			@Override
-			public void onTick(long millisUntilFinished) { }
+        timer = new CountDownTimer(200, 100) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+            }
 
-			@Override
-			public void onFinish() {
-				if(done == 4)
-					pd.dismiss();
-				else
-					timer.start();
-			}
-		}.start();
-	}
+            @Override
+            public void onFinish() {
+                if (done == 4)
+                    pd.dismiss();
+                else
+                    timer.start();
+            }
+        }.start();
+    }
+
+    private class ButtonClick implements View.OnClickListener {
+        Intent intent;
+
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.btn_patient_search:
+                    intent = new Intent(QuickMenuActivity.this, ServiceUserSearchActivity.class);
+                    break;
+                case R.id.btn_book_appointment:
+                    intent = new Intent(QuickMenuActivity.this, AppointmentTypeSpinnerActivity.class);
+                    break;
+                case R.id.btn_clinic_record:
+                    intent = new Intent(QuickMenuActivity.this, ClinicTimeRecordActivity.class);
+                    break;
+                /*case R.id.btn_todays_appointments:
+                    intent = new Intent(QuickMenuActivity.this, TodayAppointmentActivity.class);
+                    break;*/
+            }
+            startActivity(intent);
+        }
+    }
 }

@@ -8,10 +8,6 @@
         <item name="spinBars">true</item>
     </style>
 
-    <style name="spinner_style" >
-        <item name="android:background">@drawable/spinner_bg</item>
-    </style>
-
    <style name="CallToActionButton" >
        <item name="colorButtonNormal">@color/action_button</item>
        <item name="android:textColor">@color/white</item>

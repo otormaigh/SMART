@@ -137,10 +137,10 @@
     <string name="parity_vit_k">Vit K</string>
      
     <!-- LOGOUT SESSION -->
-    <string name="Yes">Yes</string>
-    <string name="No">No</string>
-    <string name="Logout_dialog_message">Are you sure you want to Logout?</string>
-    <string name="Logout_title">Logout</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="logout_dialog_message">Would you like to Logout?</string>
+    <string name="logout_title">Logout</string>
 
     <!-- CONTACT DETAILS -->
     <string name="midwife_name">Name:</string>
