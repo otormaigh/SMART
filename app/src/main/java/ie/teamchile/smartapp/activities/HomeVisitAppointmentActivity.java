@@ -350,7 +350,7 @@ public class HomeVisitAppointmentActivity extends BaseActivity {
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-            convertView = layoutInflater.inflate(R.layout.list_home_visit_appointment_layout, null);
+            convertView = layoutInflater.inflate(R.layout.list_layout_home_visit_appointment, null);
             TextView nameText = (TextView) convertView.findViewById(R.id.tv_name);
             TextView gestText = (TextView) convertView.findViewById(R.id.tv_gestation);
             final Button btnChangeStatus = (Button) convertView.findViewById(R.id.btn_change_status);

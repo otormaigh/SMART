@@ -187,7 +187,7 @@ public class ParityDetailsActivity extends BaseActivity {
 			//ButterKnife.inject(this, convertView);
 			this.position = position;
 			
-			convertView = layoutInflater.inflate(R.layout.parity_list_layout, parent, false);
+			convertView = layoutInflater.inflate(R.layout.list_layout_parity, parent, false);
 			TextView dobText = (TextView) convertView.findViewById(R.id.tv_parity_dob);
 			TextView genderText = (TextView) convertView.findViewById(R.id.tv_parity_gender);
 			TextView gestationText = (TextView) convertView.findViewById(R.id.tv_parity_gestation);
@@ -275,7 +275,7 @@ public class ParityDetailsActivity extends BaseActivity {
 
 		@Override
 		public MyRecycleAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-			View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.parity_list_layout, parent, false);
+			View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_layout_parity, parent, false);
 			ViewHolder myViewHolder = new ViewHolder(view);
 
             //RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.rv_parity);
@@ -428,13 +428,13 @@ public class ParityDetailsActivity extends BaseActivity {
             nameBaby.set(i, nameBaby.get(i) + " (" + genderBaby.get(i) + ")");
         }
 
-        newAdapter = new NewListAdapter(this, R.layout.parity_list_layout, nameBaby, hospitalNumber, dobStr);
+        newAdapter = new NewListAdapter(this, R.layout.list_layout_parity, nameBaby, hospitalNumber, dobStr);
         lvNew.setAdapter(newAdapter);
-        newAdapter = new NewListAdapter(this, R.layout.parity_list_layout, nameBaby, gestationBaby, weightBabyInKg);
+        newAdapter = new NewListAdapter(this, R.layout.list_layout_parity, nameBaby, gestationBaby, weightBabyInKg);
         lvNew2.setAdapter(newAdapter);
-        newAdapter = new NewListAdapter(this, R.layout.parity_list_layout, nameBaby, birthMode, birthOutcome);
+        newAdapter = new NewListAdapter(this, R.layout.list_layout_parity, nameBaby, birthMode, birthOutcome);
         lvNew3.setAdapter(newAdapter);
-        newAdapter = new NewListAdapter(this, R.layout.parity_list_layout, nameBaby, hearing, nbstList);
+        newAdapter = new NewListAdapter(this, R.layout.list_layout_parity, nameBaby, hearing, nbstList);
         lvNew4.setAdapter(newAdapter);
     }
 }
