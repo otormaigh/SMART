@@ -44,6 +44,13 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        BaseModel.getInstance().deleteInstance();
+        System.gc();
+    }
+
+    @Override
     public void onBackPressed() {
         super.onBackPressed();
         BaseModel.getInstance().deleteInstance();
