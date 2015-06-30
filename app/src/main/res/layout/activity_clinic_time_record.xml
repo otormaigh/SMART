@@ -12,7 +12,8 @@
         android:text="@string/clinics_not_started"
         android:textSize="@dimen/text_medium"
         android:textColor="@color/light_grey"
-        android:textStyle="italic"/>
+        android:textStyle="italic"
+        android:paddingLeft="@dimen/padding_Xsmall"/>
 
     <ListView
         android:id="@+id/lv_clinics_not_started"
@@ -40,7 +41,8 @@
         android:text="@string/clinics_started"
         android:textSize="@dimen/text_medium"
         android:textColor="@color/light_grey"
-        android:textStyle="italic"/>
+        android:textStyle="italic"
+        android:paddingLeft="@dimen/padding_Xsmall"/>
 
     <ListView
         android:id="@+id/lv_clinics_started"
@@ -68,7 +70,9 @@
         android:text="@string/clinics_stopped"
         android:textSize="@dimen/text_medium"
         android:textColor="@color/light_grey"
-        android:textStyle="italic"/>
+        android:textStyle="italic"
+        android:paddingLeft="@dimen/padding_Xsmall"/>
+
     <ListView
         android:id="@+id/lv_clinics_stopped"
         android:layout_width="match_parent"
