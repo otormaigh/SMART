@@ -89,9 +89,11 @@ public class BaseModel {
     @SerializedName("service_user_actions")
     @Expose
     private List<ServiceUserAction> serviceUserActions = new ArrayList<>();
+    @SerializedName("pregnancy_actions")
+    @Expose
+    private List<PregnancyAction> pregnancyActions = new ArrayList<>();
 
-    private BaseModel() {
-    }
+    private BaseModel() { }
 
     public static synchronized BaseModel getInstance() {
         if (instance == null) {
@@ -433,5 +435,13 @@ public class BaseModel {
 
     public void setServiceUserActions(List<ServiceUserAction> serviceUserActions) {
         this.serviceUserActions = serviceUserActions;
+    }
+
+    public List<PregnancyAction> getPregnancyActions() {
+        return pregnancyActions;
+    }
+
+    public void setPregnancyActions(List<PregnancyAction> pregnancyActions) {
+        this.pregnancyActions = pregnancyActions;
     }
 }
