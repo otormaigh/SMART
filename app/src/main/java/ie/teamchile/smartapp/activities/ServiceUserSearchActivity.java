@@ -28,27 +28,27 @@ import ie.teamchile.smartapp.model.HearingHistory;
 import ie.teamchile.smartapp.model.NbstHistory;
 import ie.teamchile.smartapp.model.ServiceUser;
 import ie.teamchile.smartapp.model.VitKHistory;
+import ie.teamchile.smartapp.util.NotKeys;
 import ie.teamchile.smartapp.util.SmartApi;
 import retrofit.Callback;
-import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class ServiceUserSearchActivity extends BaseActivity {
-	private EditText searchName, searchHospitalNumber, 
-					 searchDOBDay, searchDOBMonth, searchDOBYear;
-	private Button search;
-	private TextView tvSearchResults;
-	private ArrayList<String> searchResults = new ArrayList<>();
-	private Intent intent;
-	private ListView lvSearchResults;
-	private ArrayAdapter<String> adapter;
-	private List<String> hospitalNumberList = new ArrayList<>();
-	private LinearLayout llNoUserFound;
+    private EditText searchName, searchHospitalNumber,
+            searchDOBDay, searchDOBMonth, searchDOBYear;
+    private Button search;
+    private TextView tvSearchResults;
+    private ArrayList<String> searchResults = new ArrayList<>();
+    private Intent intent;
+    private ListView lvSearchResults;
+    private ArrayAdapter<String> adapter;
+    private List<String> hospitalNumberList = new ArrayList<>();
+    private LinearLayout llNoUserFound;
     private Boolean changeActivity;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentForNav(R.layout.activity_service_user_search);
 
@@ -72,21 +72,12 @@ public class ServiceUserSearchActivity extends BaseActivity {
 
     }
 
-	private void createResultList(ArrayList<String> searchResults) {
-		adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, searchResults);
-		adapter.notifyDataSetChanged();
-		lvSearchResults.setAdapter(adapter);
-		adapter.notifyDataSetChanged();
-	}
-
-	private class onItemListener implements OnItemClickListener {
-		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            changeActivity = true;
-			searchForPatient("", hospitalNumberList.get(position), "");
-			intent = new Intent(ServiceUserSearchActivity.this, ServiceUserActivity.class);
-		}
-	}
+    private void createResultList(ArrayList<String> searchResults) {
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, searchResults);
+        adapter.notifyDataSetChanged();
+        lvSearchResults.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+    }
 
     private void getHistories() {
         getRecentBabyPosition();
@@ -95,7 +86,7 @@ public class ServiceUserSearchActivity extends BaseActivity {
         api.getVitKHistories(
                 bId,
                 BaseModel.getInstance().getLogin().getToken(),
-                SmartApi.API_KEY,
+                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
@@ -125,7 +116,7 @@ public class ServiceUserSearchActivity extends BaseActivity {
         api.getHearingHistories(
                 bId,
                 BaseModel.getInstance().getLogin().getToken(),
-                SmartApi.API_KEY,
+                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
@@ -143,19 +134,19 @@ public class ServiceUserSearchActivity extends BaseActivity {
                             }
                         });
                         BaseModel.getInstance().setHearingHistories(baseModel.getHearingHistories());
-                        Log.d("retro" , "hearing history done");
+                        Log.d("retro", "hearing history done");
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
-                        Log.d("retro" , "hearing history failure = " + error);
+                        Log.d("retro", "hearing history failure = " + error);
                     }
                 }
         );
         api.getNbstHistories(
                 bId,
                 BaseModel.getInstance().getLogin().getToken(),
-                SmartApi.API_KEY,
+                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
@@ -173,19 +164,19 @@ public class ServiceUserSearchActivity extends BaseActivity {
                             }
                         });
                         BaseModel.getInstance().setNbstHistories(baseModel.getNbstHistories());
-                        Log.d("retro" , "nbst history done");
+                        Log.d("retro", "nbst history done");
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
-                        Log.d("retro" , "nbst history failure = " + error);
+                        Log.d("retro", "nbst history failure = " + error);
                     }
                 }
         );
         api.getFeedingHistoriesByPregId(
                 BaseModel.getInstance().getPregnancies().get(p).getId(),
                 BaseModel.getInstance().getLogin().getToken(),
-                SmartApi.API_KEY,
+                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
@@ -214,108 +205,112 @@ public class ServiceUserSearchActivity extends BaseActivity {
         );
     }
 
-    private class ButtonClick implements View.OnClickListener {
-		public void onClick(View v) {
-			switch (v.getId()) {
-
-			case R.id.btn_search:
-                changeActivity = false;
-				llNoUserFound.setVisibility(View.GONE);
-				tvSearchResults.setVisibility(View.GONE);
-				
-				InputMethodManager inputManager = (InputMethodManager)
-                getSystemService(Context.INPUT_METHOD_SERVICE); 
-				inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
-                InputMethodManager.HIDE_NOT_ALWAYS);
-				
-				String dob = "";
-				
-				if(searchName.getText().toString().length() > 0 ||
-				   searchHospitalNumber.getText().toString().length() > 0 ||
-				   searchDOBDay.getText().toString().length() > 0 &&
-				   searchDOBMonth.getText().toString().length() > 0 &&
-				   searchDOBYear.getText().toString().length() > 0){
-					
-					if(searchDOBDay.getText().toString().length() > 0 &&
-				       searchDOBMonth.getText().toString().length() > 0 &&
-				       searchDOBYear.getText().toString().length() > 0){
-						
-						dob = searchDOBYear.getText() + "-" +
-							  searchDOBMonth.getText() + "-" + 
-							  searchDOBDay.getText();
-					}
-
-					searchForPatient(
-							searchName.getText().toString(),
-							searchHospitalNumber.getText().toString(),
-							dob);
-				} else {
-					Toast.makeText(getApplicationContext(),
-							"Please enter something in the search fields", Toast.LENGTH_LONG).show();
-                    lvSearchResults.setAdapter(null);
-				}				
-				break;
-			}
-		}
-	}
-
-	private void searchForPatient(String name, String hospitalNumber, String dob){
+    private void searchForPatient(String name, String hospitalNumber, String dob) {
         Log.d("retro", "ServiceUserSearchActivity user search success");
-		showProgressDialog(ServiceUserSearchActivity.this, "Fetching Information");
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(SmartApi.BASE_URL)
-                .setLogLevel(RestAdapter.LogLevel.FULL)
-                .build();
+        showProgressDialog(ServiceUserSearchActivity.this, "Fetching Information");
 
-        api = restAdapter.create(SmartApi.class);
-		api.getServiceUserByNameDobHospitalNum(
-			name,
-			hospitalNumber,
-			dob,
-			BaseModel.getInstance().getLogin().getToken(),
-			SmartApi.API_KEY,
-			new Callback<BaseModel>() {
-				@Override
-				public void success(BaseModel baseModel, Response response) {
-					if (baseModel.getServiceUsers().size() > 0) {
-						BaseModel.getInstance().setServiceUsers(baseModel.getServiceUsers());
-						BaseModel.getInstance().setPregnancies(baseModel.getPregnancies());
-						BaseModel.getInstance().setBabies(baseModel.getBabies());
-                        BaseModel.getInstance().setAntiDHistories(baseModel.getAntiDHistories());
-						if (changeActivity) {
-                            startActivity(intent);
-                            getHistories();
+        api.getServiceUserByNameDobHospitalNum(
+                name,
+                hospitalNumber,
+                dob,
+                BaseModel.getInstance().getLogin().getToken(),
+                NotKeys.API_KEY,
+                new Callback<BaseModel>() {
+                    @Override
+                    public void success(BaseModel baseModel, Response response) {
+                        if (baseModel.getServiceUsers().size() > 0) {
+                            BaseModel.getInstance().setServiceUsers(baseModel.getServiceUsers());
+                            BaseModel.getInstance().setPregnancies(baseModel.getPregnancies());
+                            BaseModel.getInstance().setBabies(baseModel.getBabies());
+                            BaseModel.getInstance().setAntiDHistories(baseModel.getAntiDHistories());
+                            if (changeActivity) {
+                                startActivity(intent);
+                                getHistories();
+                            } else {
+                                searchResults.clear();
+                                hospitalNumberList.clear();
+                                for (int i = 0; i < baseModel.getServiceUsers().size(); i++) {
+                                    ServiceUser serviceUser = BaseModel.getInstance().getServiceUsers().get(i);
+                                    String name = serviceUser.getPersonalFields().getName();
+                                    String hospitalNumber = serviceUser.getHospitalNumber();
+                                    String dob = serviceUser.getPersonalFields().getDob();
+
+                                    searchResults.add(name + " - " + hospitalNumber + " - " + dob);
+                                    hospitalNumberList.add(hospitalNumber);
+                                }
+                                createResultList(searchResults);
+                                adapter.notifyDataSetChanged();
+                            }
                         } else {
-							searchResults.clear();
-							hospitalNumberList.clear();
-							for (int i = 0; i < baseModel.getServiceUsers().size(); i++) {
-								ServiceUser serviceUser = BaseModel.getInstance().getServiceUsers().get(i);
-								String name = serviceUser.getPersonalFields().getName();
-								String hospitalNumber = serviceUser.getHospitalNumber();
-								String dob = serviceUser.getPersonalFields().getDob();
+                            llNoUserFound.setVisibility(View.VISIBLE);
+                            if (adapter != null) {
+                                adapter.clear();
+                            }
+                        }
+                        pd.dismiss();
+                    }
 
-								searchResults.add(name + " - " + hospitalNumber + " - " + dob);
-								hospitalNumberList.add(hospitalNumber);
-							}
-							createResultList(searchResults);
-							adapter.notifyDataSetChanged();
-						}
-					} else {
-						llNoUserFound.setVisibility(View.VISIBLE);
-						if(adapter != null){
-							adapter.clear();
-						}
-					}
-					pd.dismiss();
-				}
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.d("retro", "ServiceUserSearchActivity user search failure = " + error);
+                        llNoUserFound.setVisibility(View.VISIBLE);
+                        pd.dismiss();
+                    }
+                }
+        );
+    }
 
-				@Override
-				public void failure(RetrofitError error) {
-                    Log.d("retro", "ServiceUserSearchActivity user search failure = " + error);
-                    llNoUserFound.setVisibility(View.VISIBLE);
-                    pd.dismiss();
-				}
-			}
-		);
-	}
+    private class onItemListener implements OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            changeActivity = true;
+            searchForPatient("", hospitalNumberList.get(position), "");
+            intent = new Intent(ServiceUserSearchActivity.this, ServiceUserActivity.class);
+        }
+    }
+
+    private class ButtonClick implements View.OnClickListener {
+        public void onClick(View v) {
+            switch (v.getId()) {
+
+                case R.id.btn_search:
+                    changeActivity = false;
+                    llNoUserFound.setVisibility(View.GONE);
+                    tvSearchResults.setVisibility(View.GONE);
+
+                    InputMethodManager inputManager = (InputMethodManager)
+                            getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                            InputMethodManager.HIDE_NOT_ALWAYS);
+
+                    String dob = "";
+
+                    if (searchName.getText().toString().length() > 0 ||
+                            searchHospitalNumber.getText().toString().length() > 0 ||
+                            searchDOBDay.getText().toString().length() > 0 &&
+                                    searchDOBMonth.getText().toString().length() > 0 &&
+                                    searchDOBYear.getText().toString().length() > 0) {
+
+                        if (searchDOBDay.getText().toString().length() > 0 &&
+                                searchDOBMonth.getText().toString().length() > 0 &&
+                                searchDOBYear.getText().toString().length() > 0) {
+
+                            dob = searchDOBYear.getText() + "-" +
+                                    searchDOBMonth.getText() + "-" +
+                                    searchDOBDay.getText();
+                        }
+
+                        searchForPatient(
+                                searchName.getText().toString(),
+                                searchHospitalNumber.getText().toString(),
+                                dob);
+                    } else {
+                        Toast.makeText(getApplicationContext(),
+                                "Please enter something in the search fields", Toast.LENGTH_LONG).show();
+                        lvSearchResults.setAdapter(null);
+                    }
+                    break;
+            }
+        }
+    }
 }

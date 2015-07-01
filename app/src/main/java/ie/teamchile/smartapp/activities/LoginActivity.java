@@ -13,6 +13,7 @@ import android.widget.Toast;
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.PostingData;
+import ie.teamchile.smartapp.util.NotKeys;
 import ie.teamchile.smartapp.util.SmartApi;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -40,6 +41,9 @@ public class LoginActivity extends AppCompatActivity {
         tvAbout = (TextView) findViewById(R.id.tv_about);
         tvAbout.setOnClickListener(new ButtonClick());
 
+        tvUsername.setText(NotKeys.USERNAME);
+        tvPassword.setText(NotKeys.PASSWORD);
+
         initRetrofit();
     }
 
@@ -60,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void initRetrofit() {
         RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(SmartApi.BASE_URL)
+                .setEndpoint(NotKeys.BASE_URL)
                 .setLogLevel(RestAdapter.LogLevel.FULL)
                 .setClient(new OkClient())
                 .build();

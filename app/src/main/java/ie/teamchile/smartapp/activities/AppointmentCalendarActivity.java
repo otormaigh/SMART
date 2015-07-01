@@ -34,6 +34,7 @@ import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.Appointment;
 import ie.teamchile.smartapp.model.PostingData;
+import ie.teamchile.smartapp.util.NotKeys;
 import ie.teamchile.smartapp.util.SmartApi;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -413,7 +414,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
 		showProgressDialog(AppointmentCalendarActivity.this, "Changing Attended Status");
 		attendedList.set(position, status);
 		RestAdapter restAdapter = new RestAdapter.Builder()
-				.setEndpoint(SmartApi.BASE_URL)
+				.setEndpoint(NotKeys.BASE_URL)
 				.setLogLevel(RestAdapter.LogLevel.FULL)
 				.build();
 
@@ -430,7 +431,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
 				attendedStatus,
 				idList.get(position),
 				BaseModel.getInstance().getLogin().getToken(),
-				SmartApi.API_KEY,
+				NotKeys.API_KEY,
 				new Callback<BaseModel>() {
 					@Override
 					public void success(BaseModel baseModel, Response response) {
@@ -451,7 +452,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
 	private void searchServiceUser(int serviceUserId, final Intent intent) {
 		api.getServiceUserById(serviceUserId,
 				BaseModel.getInstance().getLogin().getToken(),
-				SmartApi.API_KEY,
+				NotKeys.API_KEY,
 				new Callback<BaseModel>() {
 					@Override
 					public void success(BaseModel baseModel, Response response) {
