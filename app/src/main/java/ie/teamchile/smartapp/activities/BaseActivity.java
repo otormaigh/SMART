@@ -39,6 +39,7 @@ import ie.teamchile.smartapp.model.Appointment;
 import ie.teamchile.smartapp.model.Baby;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.Pregnancy;
+import ie.teamchile.smartapp.util.NotKeys;
 import ie.teamchile.smartapp.util.SmartApi;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -105,7 +106,7 @@ public class BaseActivity extends AppCompatActivity {
 
     protected void initRetrofit() {
         RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(SmartApi.BASE_URL)
+                .setEndpoint(NotKeys.BASE_URL)
                         //.setLogLevel(RestAdapter.LogLevel.FULL)
                 .setClient(new OkClient())
                 .build();
@@ -218,7 +219,7 @@ public class BaseActivity extends AppCompatActivity {
         api.postLogout(
                 "",
                 BaseModel.getInstance().getLogin().getToken(),
-                SmartApi.API_KEY,
+                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
@@ -324,7 +325,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void updateAppointment(final Context context) {
         api.getAllAppointments(
                 BaseModel.getInstance().getLogin().getToken(),
-                SmartApi.API_KEY,
+                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {

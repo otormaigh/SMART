@@ -36,6 +36,7 @@ import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.model.ServiceUser;
 import ie.teamchile.smartapp.util.AdapterSpinner;
+import ie.teamchile.smartapp.util.NotKeys;
 import ie.teamchile.smartapp.util.SmartApi;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -69,14 +70,6 @@ public class CreateAppointmentActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentForNav(R.layout.activity_create_appointment);
-
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(SmartApi.BASE_URL)
-                .setLogLevel(RestAdapter.LogLevel.FULL)
-                .setClient(new OkClient())
-                .build();
-
-        api = restAdapter.create(SmartApi.class);
 
         c = Calendar.getInstance();
         myCalendar = Calendar.getInstance();
@@ -263,7 +256,7 @@ public class CreateAppointmentActivity extends BaseActivity {
         api.getServiceUserByName(
                 serviceUserName,
                 BaseModel.getInstance().getLogin().getToken(),
-                SmartApi.API_KEY,
+                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
@@ -395,7 +388,7 @@ public class CreateAppointmentActivity extends BaseActivity {
         api.postAppointment(
                 appointment,
                 BaseModel.getInstance().getLogin().getToken(),
-                SmartApi.API_KEY,
+                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
@@ -425,7 +418,7 @@ public class CreateAppointmentActivity extends BaseActivity {
         api.getAppointmentById(
                 apptId + 1,
                 BaseModel.getInstance().getLogin().getToken(),
-                SmartApi.API_KEY,
+                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
