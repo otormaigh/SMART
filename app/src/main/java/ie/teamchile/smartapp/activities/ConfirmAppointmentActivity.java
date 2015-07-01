@@ -18,6 +18,7 @@ import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.Appointment;
 import ie.teamchile.smartapp.model.PostingData;
+import ie.teamchile.smartapp.util.NotKeys;
 import ie.teamchile.smartapp.util.SmartApi;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -97,7 +98,7 @@ public class ConfirmAppointmentActivity extends BaseActivity {
         }
 
         RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(SmartApi.BASE_URL)
+                .setEndpoint(NotKeys.BASE_URL)
                 .setLogLevel(RestAdapter.LogLevel.FULL)
                 .build();
 
@@ -106,7 +107,7 @@ public class ConfirmAppointmentActivity extends BaseActivity {
         api.postAppointment(
                 appointment,
                 BaseModel.getInstance().getLogin().getToken(),
-                SmartApi.API_KEY,
+                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
