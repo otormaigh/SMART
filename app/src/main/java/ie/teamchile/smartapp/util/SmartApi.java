@@ -19,7 +19,6 @@ import retrofit.http.Query;
  * Created by user on 5/26/15.
  */
 public interface SmartApi {
-
     @POST("/login")
     void postLogin(
             @Body PostingData login,

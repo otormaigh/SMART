@@ -29,6 +29,7 @@ import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.model.PregnancyNote;
+import ie.teamchile.smartapp.util.NotKeys;
 import ie.teamchile.smartapp.util.SmartApi;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -117,18 +118,11 @@ public class MidwiferyLogActivity extends BaseActivity {
 
         showProgressDialog(this, "Adding Note");
 
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(SmartApi.BASE_URL)
-                .setLogLevel(RestAdapter.LogLevel.FULL)
-                .build();
-
-        api = restAdapter.create(SmartApi.class);
-
         api.postPregnancyNote(
                 postNote,
                 pregnancyId,
                 BaseModel.getInstance().getLogin().getToken(),
-                SmartApi.API_KEY,
+                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {

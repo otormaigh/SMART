@@ -21,6 +21,7 @@ import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.Clinic;
 import ie.teamchile.smartapp.model.ClinicTimeRecord;
 import ie.teamchile.smartapp.model.PostingData;
+import ie.teamchile.smartapp.util.NotKeys;
 import ie.teamchile.smartapp.util.SmartApi;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -173,7 +174,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                 clinicId,
                 date,
                 BaseModel.getInstance().getLogin().getToken(),
-                SmartApi.API_KEY,
+                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
@@ -224,7 +225,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                 timeRecord,
                 clinicId,
                 BaseModel.getInstance().getLogin().getToken(),
-                SmartApi.API_KEY,
+                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
@@ -265,7 +266,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                 clinicId,
                 recordId,
                 BaseModel.getInstance().getLogin().getToken(),
-                SmartApi.API_KEY,
+                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {

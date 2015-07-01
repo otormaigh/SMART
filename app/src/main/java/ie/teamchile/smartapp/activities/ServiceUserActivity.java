@@ -38,6 +38,7 @@ import java.util.List;
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.PostingData;
+import ie.teamchile.smartapp.util.NotKeys;
 import ie.teamchile.smartapp.util.SmartApi;
 import ie.teamchile.smartapp.util.ToastAlert;
 import retrofit.Callback;
@@ -749,7 +750,7 @@ public class ServiceUserActivity extends BaseActivity {
                 puttingAntiD,
                 BaseModel.getInstance().getPregnancies().get(p).getId(),
                 BaseModel.getInstance().getLogin().getToken(),
-                SmartApi.API_KEY,
+                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
@@ -788,7 +789,7 @@ public class ServiceUserActivity extends BaseActivity {
                 puttingFeeding,
                 BaseModel.getInstance().getPregnancies().get(p).getId(),
                 BaseModel.getInstance().getLogin().getToken(),
-                SmartApi.API_KEY,
+                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
@@ -829,7 +830,7 @@ public class ServiceUserActivity extends BaseActivity {
                 puttingVitK,
                 bId,
                 BaseModel.getInstance().getLogin().getToken(),
-                SmartApi.API_KEY,
+                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
@@ -870,7 +871,7 @@ public class ServiceUserActivity extends BaseActivity {
                 puttingHearing,
                 bId,
                 BaseModel.getInstance().getLogin().getToken(),
-                SmartApi.API_KEY,
+                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
@@ -911,7 +912,7 @@ public class ServiceUserActivity extends BaseActivity {
                 puttingNbst,
                 bId,
                 BaseModel.getInstance().getLogin().getToken(),
-                SmartApi.API_KEY,
+                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {

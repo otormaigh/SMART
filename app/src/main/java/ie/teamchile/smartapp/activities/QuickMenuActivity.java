@@ -18,6 +18,7 @@ import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.Clinic;
 import ie.teamchile.smartapp.model.ServiceOption;
+import ie.teamchile.smartapp.util.NotKeys;
 import ie.teamchile.smartapp.util.SmartApi;
 import ie.teamchile.smartapp.util.ToastAlert;
 import retrofit.Callback;
@@ -114,7 +115,7 @@ public class QuickMenuActivity extends BaseActivity {
         api.getServiceProviderById(
                 BaseModel.getInstance().getLogin().getId(),
                 BaseModel.getInstance().getLogin().getToken(),
-                SmartApi.API_KEY,
+                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
@@ -134,7 +135,7 @@ public class QuickMenuActivity extends BaseActivity {
 
         api.getAllServiceOptions(
                 BaseModel.getInstance().getLogin().getToken(),
-                SmartApi.API_KEY,
+                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
@@ -167,7 +168,7 @@ public class QuickMenuActivity extends BaseActivity {
         );
         api.getAllClinics(
                 BaseModel.getInstance().getLogin().getToken(),
-                SmartApi.API_KEY,
+                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel things, Response response) {
