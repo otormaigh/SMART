@@ -41,190 +41,118 @@ public class Clinic {
     @Expose
     private String type;
 
-    /**
-     * @return The address
-     */
     public String getAddress() {
         return address;
     }
 
-    /**
-     * @param address The address
-     */
     public void setAddress(String address) {
         this.address = address;
     }
 
-    /**
-     * @return The announcementIds
-     */
     public List<Integer> getAnnouncementIds() {
         return announcementIds;
     }
 
-    /**
-     * @param announcementIds The announcement_ids
-     */
     public void setAnnouncementIds(List<Integer> announcementIds) {
         this.announcementIds = announcementIds;
     }
 
-    /**
-     * @return The appointmentInterval
-     */
     public Integer getAppointmentInterval() {
         return appointmentInterval;
     }
 
-    /**
-     * @param appointmentInterval The appointment_interval
-     */
     public void setAppointmentInterval(Integer appointmentInterval) {
         this.appointmentInterval = appointmentInterval;
     }
 
-    /**
-     * @return The closingTime
-     */
     public String getClosingTime() {
         return closingTime;
     }
 
-    /**
-     * @param closingTime The closing_time
-     */
     public void setClosingTime(String closingTime) {
         this.closingTime = closingTime;
     }
 
-    /**
-     * @return The days
-     */
     public Days getDays() {
         return days;
     }
 
-    /**
-     * @param days The days
-     */
     public void setDays(Days days) {
         this.days = days;
     }
 
-    public List<String> getTrueDays(){
+    public List<String> getTrueDays() {
         List<String> trueDays = new ArrayList<>();
-        if(days.getMonday())
+        if (days.getMonday())
             trueDays.add("Monday");
-        if(days.getTuesday())
+        if (days.getTuesday())
             trueDays.add("Tuesday");
-        if(days.getWednesday())
+        if (days.getWednesday())
             trueDays.add("Wednesday");
-        if(days.getThursday())
+        if (days.getThursday())
             trueDays.add("Thursday");
-        if(days.getFriday())
+        if (days.getFriday())
             trueDays.add("Friday");
-        if(days.getSaturday())
+        if (days.getSaturday())
             trueDays.add("Saturday");
-        if(days.getSunday())
+        if (days.getSunday())
             trueDays.add("Sunday");
 
         return trueDays;
     }
 
-    /**
-     * @return The id
-     */
     public Integer getId() {
         return id;
     }
 
-    /**
-     * @param id The id
-     */
     public void setId(Integer id) {
         this.id = id;
     }
 
-    /**
-     * @return The links
-     */
     public Links getLinks() {
         return links;
     }
 
-    /**
-     * @param links The links
-     */
     public void setLinks(Links links) {
         this.links = links;
     }
 
-    /**
-     * @return The name
-     */
     public String getName() {
         return name;
     }
 
-    /**
-     * @param name The name
-     */
     public void setName(String name) {
         this.name = name;
     }
 
-    /**
-     * @return The openingTime
-     */
     public String getOpeningTime() {
         return openingTime;
     }
 
-    /**
-     * @param openingTime The opening_time
-     */
     public void setOpeningTime(String openingTime) {
         this.openingTime = openingTime;
     }
 
-    /**
-     * @return The recurrence
-     */
     public String getRecurrence() {
         return recurrence;
     }
 
-    /**
-     * @param recurrence The recurrence
-     */
     public void setRecurrence(String recurrence) {
         this.recurrence = recurrence;
     }
 
-    /**
-     * @return The serviceOptionIds
-     */
     public List<Integer> getServiceOptionIds() {
         return serviceOptionIds;
     }
 
-    /**
-     * @param serviceOptionIds The service_option_ids
-     */
     public void setServiceOptionIds(List<Integer> serviceOptionIds) {
         this.serviceOptionIds = serviceOptionIds;
     }
 
-    /**
-     * @return The type
-     */
     public String getType() {
         return type;
     }
 
-    /**
-     * @param type The type
-     */
     public void setType(String type) {
         this.type = type;
     }
