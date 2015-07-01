@@ -21,60 +21,35 @@ public class ServiceOption {
     @Expose
     private String name;
 
-    /**
-     * @return The clinicIds
-     */
     public List<Integer> getClinicIds() {
         return clinicIds;
     }
 
-    /**
-     * @param clinicIds The clinic_ids
-     */
     public void setClinicIds(List<Integer> clinicIds) {
         this.clinicIds = clinicIds;
     }
 
-    /**
-     * @return The homeVisit
-     */
     public Boolean getHomeVisit() {
         return homeVisit;
     }
 
-    /**
-     * @param homeVisit The home_visit
-     */
     public void setHomeVisit(Boolean homeVisit) {
         this.homeVisit = homeVisit;
     }
 
-    /**
-     * @return The id
-     */
     public Integer getId() {
         return id;
     }
 
-    /**
-     * @param id The id
-     */
     public void setId(Integer id) {
         this.id = id;
     }
 
-    /**
-     * @return The name
-     */
     public String getName() {
         return name;
     }
 
-    /**
-     * @param name The name
-     */
     public void setName(String name) {
         this.name = name;
     }
-
 }

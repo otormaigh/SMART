@@ -1,7 +1,5 @@
 package ie.teamchile.smartapp.model;
 
-import android.util.Log;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -18,6 +16,7 @@ public class BaseModel {
     private Boolean isLoggedIn = false;
     @Expose
     private Error errors;
+    @Expose
     private Login login;
     @Expose
     private Appointment appointment;
@@ -87,8 +86,12 @@ public class BaseModel {
     @SerializedName("feeding_histories")
     @Expose
     private List<FeedingHistory> feedingHistories = new ArrayList<>();
+    @SerializedName("service_user_actions")
+    @Expose
+    private List<ServiceUserAction> serviceUserActions = new ArrayList<>();
 
-    private BaseModel() { }
+    private BaseModel() {
+    }
 
     public static synchronized BaseModel getInstance() {
         if (instance == null) {
@@ -97,7 +100,7 @@ public class BaseModel {
         return instance;
     }
 
-    public void deleteInstance(){
+    public void deleteInstance() {
         if (instance == null) {
             instance = null;
         } else
@@ -112,30 +115,18 @@ public class BaseModel {
         this.isLoggedIn = isLoggedIn;
     }
 
-    /**
-     * @return The errors
-     */
     public Error getError() {
         return errors;
     }
 
-    /**
-     * @param errors The errors
-     */
     public void setError(Error errors) {
         this.errors = errors;
     }
 
-    /**
-     * @return The login
-     */
     public Login getLogin() {
         return login;
     }
 
-    /**
-     * @param login The login
-     */
     public void setLogin(Login login) {
         this.login = login;
     }
@@ -144,16 +135,10 @@ public class BaseModel {
         return appointment;
     }
 
-    /**
-     * @return The appointments
-     */
     public List<Appointment> getAppointments() {
         return appointments;
     }
 
-    /**
-     * @param appointments The appointments
-     */
     public void setAppointments(List<Appointment> appointments) {
         this.appointments = appointments;
     }
@@ -198,9 +183,6 @@ public class BaseModel {
         return serviceOptions;
     }
 
-    /**
-     * @param serviceOptions The service_options
-     */
     public void setServiceOptions(List<ServiceOption> serviceOptions) {
         this.serviceOptions = serviceOptions;
     }
@@ -229,16 +211,10 @@ public class BaseModel {
         this.serviceOptionsClinicMap = serviceOptionsClinicMap;
     }
 
-    /**
-     * @return The clinics
-     */
     public List<Clinic> getClinics() {
         return clinics;
     }
 
-    /**
-     * @param clinics The clinics
-     */
     public void setClinics(List<Clinic> clinics) {
         this.clinics = clinics;
     }
@@ -267,16 +243,10 @@ public class BaseModel {
         this.serviceProvider = serviceProvider;
     }
 
-    /**
-     * @return The pregnancies
-     */
     public List<Pregnancy> getPregnancies() {
         return pregnancies;
     }
 
-    /**
-     * @param pregnancies The pregnancies
-     */
     public void setPregnancies(List<Pregnancy> pregnancies) {
         this.pregnancies = pregnancies;
     }
@@ -289,16 +259,10 @@ public class BaseModel {
         this.pregnancies.set(position, pregnancy);
     }
 
-    /**
-     * @return The babies
-     */
     public List<Baby> getBabies() {
         return babies;
     }
 
-    /**
-     * @param babies The babies
-     */
     public void setBabies(List<Baby> babies) {
         this.babies = babies;
     }
@@ -311,31 +275,18 @@ public class BaseModel {
         this.baby = baby;
     }
 
-    /**
-     * @return The announcements
-     */
     public List<Announcement> getAnnouncements() {
         return announcements;
     }
-
-    /**
-     * @param announcements The announcements
-     */
 
     public void setAnnouncements(List<Announcement> announcements) {
         this.announcements = announcements;
     }
 
-    /**
-     * @return The serviceUsers
-     */
     public List<ServiceUser> getServiceUsers() {
         return serviceUsers;
     }
 
-    /**
-     * @param serviceUsers The service_users
-     */
     public void setServiceUsers(List<ServiceUser> serviceUsers) {
         this.serviceUsers = serviceUsers;
     }
@@ -344,23 +295,14 @@ public class BaseModel {
         return serviceUser;
     }
 
-    /**
-     * @param serviceUser The service_user
-     */
     public void setServiceUser(ServiceUser serviceUser) {
         this.serviceUser = serviceUser;
     }
 
-    /**
-     * @return The clinicTimeRecords
-     */
     public List<ClinicTimeRecord> getClinicTimeRecords() {
         return clinicTimeRecords;
     }
 
-    /**
-     * @param clinicTimeRecords The clinic_time_records
-     */
     public void setClinicTimeRecords(List<ClinicTimeRecord> clinicTimeRecords) {
         this.clinicTimeRecords = clinicTimeRecords;
     }
@@ -377,16 +319,10 @@ public class BaseModel {
         clinicTimeRecords.add(clinicTimeRecord);
     }
 
-    /**
-     * @return The antiDHistories
-     */
     public List<AntiDHistory> getAntiDHistories() {
         return antiDHistories;
     }
 
-    /**
-     * @param antiDHistories The anti_d_histories
-     */
     public void setAntiDHistories(List<AntiDHistory> antiDHistories) {
         this.antiDHistories = antiDHistories;
     }
@@ -489,5 +425,13 @@ public class BaseModel {
 
     public void setClinicDayMap(Map<String, List<Integer>> clinicDayMap) {
         this.clinicDayMap = clinicDayMap;
+    }
+
+    public List<ServiceUserAction> getServiceUserActions() {
+        return serviceUserActions;
+    }
+
+    public void setServiceUserActions(List<ServiceUserAction> serviceUserActions) {
+        this.serviceUserActions = serviceUserActions;
     }
 }

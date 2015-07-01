@@ -325,4 +325,10 @@ public interface SmartApi {
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
             Callback<BaseModel> callback);
+
+    @GET("/service_user_actions")
+    void getServiceUserActions(
+            @Header("Auth-Token") String authToken,
+            @Header("Api-Key") String apiKey,
+            Callback<BaseModel> callback);
 }

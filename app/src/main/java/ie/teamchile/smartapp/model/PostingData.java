@@ -48,45 +48,46 @@ public class PostingData {
                 priority, visit_type, return_type);
     }
 
-    public void putAppointmentStatus(Boolean attended, int clinic_id, int service_provider_id, int service_user_id){
+    public void putAppointmentStatus(Boolean attended, int clinic_id, int service_provider_id, int service_user_id) {
         this.appointment = new Appointment(attended, clinic_id, service_provider_id, service_user_id);
     }
 
-    public void putStartTimeRecord(String startTime, int clinicId, String date){
+    public void putStartTimeRecord(String startTime, int clinicId, String date) {
         this.clinicTimeRecord = new ClinicTimeRecord(startTime, clinicId, date);
     }
 
-    public void putEndTimeRecord(String endTime, String date, int clinicId){
+    public void putEndTimeRecord(String endTime, String date, int clinicId) {
         this.clinicTimeRecord = new ClinicTimeRecord(endTime, date, clinicId);
     }
 
-    public void postPregnancyNote(int id, String note, int pregnancyId, int serviceProviderId){
+    public void postPregnancyNote(int id, String note, int pregnancyId, int serviceProviderId) {
         this.pregnancyNote = new PregnancyNote(id, note, pregnancyId, serviceProviderId);
     }
 
-    public void putAntiD(String antiD, int serviceUserId){
+    public void putAntiD(String antiD, int serviceUserId) {
         this.pregnancy = new Pregnancy(antiD, serviceUserId);
     }
 
-    public void putFeeding(String feeding, int serviceUserId){
+    public void putFeeding(String feeding, int serviceUserId) {
         this.pregnancy = new Pregnancy(serviceUserId, feeding);
     }
 
-    public void putVitK(String vitK, int serviceUserId, int pregnancyId){
+    public void putVitK(String vitK, int serviceUserId, int pregnancyId) {
         this.baby = new Baby(vitK, serviceUserId, pregnancyId);
     }
 
-    public void putHearing(String hearing, int serviceUserId, int pregnancyId){
+    public void putHearing(String hearing, int serviceUserId, int pregnancyId) {
         this.baby = new Baby(serviceUserId, hearing, pregnancyId);
     }
 
-    public void putNBST(String nbst, int serviceUserId, int pregnancyId){
+    public void putNBST(String nbst, int serviceUserId, int pregnancyId) {
         this.baby = new Baby(serviceUserId, pregnancyId, nbst);
     }
 
     public void postNote(String note) {
         this.note = new Note(note);
     }
+
     private class Login {
         private String username;
         private String password;
@@ -115,7 +116,7 @@ public class PostingData {
         @SerializedName("service_option_id")
         private Integer serviceOptionId;
 
-        public Appointment(Boolean attended, int clinicId, int serviceProviderId, int serviceUserId){
+        public Appointment(Boolean attended, int clinicId, int serviceProviderId, int serviceUserId) {
             this.attended = attended;
             this.clinicId = clinicId;
             this.serviceProviderId = serviceProviderId;
@@ -124,7 +125,7 @@ public class PostingData {
 
         public Appointment(String date, int serviceProviderId, int serviceUserId,
                            String priority, String visitType, String returnType,
-                           int serviceOptionId){
+                           int serviceOptionId) {
             this.date = date;
             this.serviceProviderId = serviceProviderId;
             this.serviceUserId = serviceUserId;
@@ -135,7 +136,7 @@ public class PostingData {
         }
 
         public Appointment(String date, String time, int serviceProviderId, int serviceUserId,
-                           int clinicId, String priority, String visitType, String returnType){
+                           int clinicId, String priority, String visitType, String returnType) {
             this.date = date;
             this.time = time;
             this.serviceProviderId = serviceProviderId;
@@ -163,7 +164,7 @@ public class PostingData {
             this.date = date;
         }
 
-        public ClinicTimeRecord(String endTime, String date, int clinicId){
+        public ClinicTimeRecord(String endTime, String date, int clinicId) {
             this.endTime = endTime;
             this.date = date;
             this.clinicId = clinicId;
@@ -180,8 +181,8 @@ public class PostingData {
         @SerializedName("service_provider_id")
         private int serviceProviderId;
 
-        public PregnancyNote(int id, String note, int pregnancyId, int serviceProviderId){
-            this.id  = id;
+        public PregnancyNote(int id, String note, int pregnancyId, int serviceProviderId) {
+            this.id = id;
             this.note = note;
             this.pregnancyId = pregnancyId;
             this.serviceProviderId = serviceProviderId;
@@ -195,12 +196,12 @@ public class PostingData {
         private int serviceUserId;
         private String feeding;
 
-        public Pregnancy(String antiD, int serviceUserId){
+        public Pregnancy(String antiD, int serviceUserId) {
             this.antiD = antiD;
             this.serviceUserId = serviceUserId;
         }
 
-        public Pregnancy(int serviceUserId, String feeding){
+        public Pregnancy(int serviceUserId, String feeding) {
             this.serviceUserId = serviceUserId;
             this.feeding = feeding;
         }
@@ -226,19 +227,19 @@ public class PostingData {
         private String nbst;
 
 
-        public Baby(String vitK, int serviceUserId, int pregnancyId){
+        public Baby(String vitK, int serviceUserId, int pregnancyId) {
             this.vitK = vitK;
             this.serviceUserId = serviceUserId;
             this.pregnancyId = pregnancyId;
         }
 
-        public Baby(int serviceUserId, String hearing, int pregnancyId){
+        public Baby(int serviceUserId, String hearing, int pregnancyId) {
             this.serviceUserId = serviceUserId;
             this.hearing = hearing;
             this.pregnancyId = pregnancyId;
         }
 
-        public Baby(int serviceUserId, int pregnancyId, String nbst){
+        public Baby(int serviceUserId, int pregnancyId, String nbst) {
             this.serviceUserId = serviceUserId;
             this.pregnancyId = pregnancyId;
             this.nbst = nbst;
