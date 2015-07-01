@@ -413,12 +413,6 @@ public class AppointmentCalendarActivity extends BaseActivity {
 	private void changeAttendStatus(Boolean status, int position){
 		showProgressDialog(AppointmentCalendarActivity.this, "Changing Attended Status");
 		attendedList.set(position, status);
-		RestAdapter restAdapter = new RestAdapter.Builder()
-				.setEndpoint(NotKeys.BASE_URL)
-				.setLogLevel(RestAdapter.LogLevel.FULL)
-				.build();
-
-		api = restAdapter.create(SmartApi.class);
 
 		PostingData attendedStatus = new PostingData();
 		attendedStatus.putAppointmentStatus(
