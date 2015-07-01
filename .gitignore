@@ -79,4 +79,3 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 
-app/src/main/java/ie/teamchile/smartapp/util/NotKeys.java
