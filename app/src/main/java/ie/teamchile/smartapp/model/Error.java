@@ -13,30 +13,18 @@ public class Error {
     @Expose
     private String AppointmentTaken;
 
-    /**
-     * @return The Error
-     */
     public String getError() {
         return Error;
     }
 
-    /**
-     * @param Error The Error
-     */
     public void setError(String Error) {
         this.Error = Error;
     }
 
-    /**
-     * @return The AppointmentTaken
-     */
     public String getAppointmentTaken() {
         return AppointmentTaken;
     }
 
-    /**
-     * @param AppointmentTaken The Appointment taken
-     */
     public void setAppointmentTaken(String AppointmentTaken) {
         this.AppointmentTaken = AppointmentTaken;
     }
