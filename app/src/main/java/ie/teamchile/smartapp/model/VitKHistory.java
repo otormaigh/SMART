@@ -72,5 +72,4 @@ public class VitKHistory {
     public void setVitK(String vitK) {
         this.vitK = vitK;
     }
-
 }
