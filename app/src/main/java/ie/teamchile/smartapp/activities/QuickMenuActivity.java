@@ -75,16 +75,6 @@ public class QuickMenuActivity extends BaseActivity {
         prefs.commit();
     }
 
-    @Override
-    public void onTrimMemory(int level) {
-        super.onTrimMemory(level);
-        if (level >= ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
-            isViewVisible = false;
-            new ToastAlert(getBaseContext(), "View is now hidden", false);
-        } else
-            isViewVisible = true;
-    }
-
     private void checkIfLoggedIn() {
         if (BaseModel.getInstance().getClinics().size() == 0 ||
                 BaseModel.getInstance().getServiceOptions().size() == 0 ||
