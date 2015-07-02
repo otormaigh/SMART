@@ -3,11 +3,16 @@ package ie.teamchile.smartapp.activities;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.app.Service;
+import android.content.ComponentCallbacks2;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
+import android.os.IBinder;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -41,6 +46,7 @@ import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.Pregnancy;
 import ie.teamchile.smartapp.util.NotKeys;
 import ie.teamchile.smartapp.util.SmartApi;
+import ie.teamchile.smartapp.util.ToastAlert;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -64,6 +70,7 @@ public class BaseActivity extends AppCompatActivity {
     protected DateFormat dfHumanReadableTimeDate = new SimpleDateFormat("HH:mm, dd/MM/yyyy", Locale.getDefault());
     protected DateFormat dfHumanReadableDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
     protected Calendar c = Calendar.getInstance();
+    private LogoutService logServ;
 
     protected ProgressDialog pd;
     protected DrawerLayout drawerLayout;
@@ -96,6 +103,28 @@ public class BaseActivity extends AppCompatActivity {
         initRetrofit();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(logServ != null) {
+            Log.d("bugs", "logServ not null");
+            logServ.startTimer(false);
+        } else {
+            Log.d("bugs", "logServ null");
+        }
+    }
+
+    @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+        if (level >= ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
+            new ToastAlert(getBaseContext(), "View is now hidden", false);
+            //startLogoutTimer();
+            logServ = new LogoutService();
+            logServ.startTimer(true);
+        } else {}
+    }
+
     protected void showProgressDialog(Context context, String message) {
         pd = new ProgressDialog(context);
         pd.setMessage(message);
@@ -107,7 +136,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void initRetrofit() {
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(NotKeys.BASE_URL)
-                        //.setLogLevel(RestAdapter.LogLevel.FULL)
+                .setLogLevel(RestAdapter.LogLevel.BASIC)
                 .setClient(new OkClient())
                 .build();
 
@@ -143,7 +172,94 @@ public class BaseActivity extends AppCompatActivity {
         drawerToggle.syncState();
     }
 
-    @Override
+    protected void startLogoutTimer(){
+        Handler mHandler = new Handler();
+        mHandler.postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                Toast.makeText(getBaseContext(), "Time Finished", Toast.LENGTH_LONG).show();
+                doLogoutWithoutIntent();
+                Log.d("bugs", "timer finished");
+            }
+
+        }, 10000);
+    }
+
+    protected void showTimerDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Exit App")
+                .setMessage("You will be logged out after 5 minutes\nif you do not reopen the app")
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialoginterface, int i) {
+                    }
+                })
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialoginterface, int i) {
+                        Log.d("MYLOG", "yes button pressed");
+                        //startLogoutTimer();
+                        final Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                                Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                                Intent.FLAG_ACTIVITY_NEW_TASK);
+                        if (BaseModel.getInstance().getLoginStatus() == false) {
+                            startActivity(intent);
+                        } else {
+                            doLogout(intent);
+                            pd = new ProgressDialog(BaseActivity.this);
+                            pd.setMessage("Logging Out");
+                            pd.setCanceledOnTouchOutside(false);
+                            pd.setCancelable(false);
+                            pd.show();
+                        }
+                    }
+                }).show();
+    }
+
+    public class LogoutService extends Service {
+        public CountDownTimer timer;
+
+        @Override
+        public void onCreate() {
+            super.onCreate();
+            Log.d("logout", "LogoutService onCreate()");
+
+        }
+
+        public void startTimer(Boolean startTimer){
+            if(startTimer) {
+                timerThing();
+                timer.start();
+            } else {
+                if(timer != null)
+                    timer.cancel();
+            }
+        }
+
+        public void timerThing(){
+            timer = new CountDownTimer(1 * 10 * 1000, 1000) {
+                public void onTick(long millisUntilFinished) {
+                    //Some code
+                    Log.d("logout", "Service Started");
+                }
+
+                public void onFinish() {
+                    Log.d("logout", "Call Logout by Service");
+                    // Code for Logout
+                    stopSelf();
+                    doLogoutWithoutIntent();
+                }
+            };
+        }
+
+        @Override
+        public IBinder onBind(Intent intent) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+    }
+
+        @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
@@ -250,6 +366,30 @@ public class BaseActivity extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                             pd.dismiss();
                         }
+                    }
+                }
+        );
+    }
+
+    private void doLogoutWithoutIntent() {
+        Log.d("logout", "doLogoutWithoutIntent called");
+        api.postLogout(
+                "",
+                BaseModel.getInstance().getLogin().getToken(),
+                NotKeys.API_KEY,
+                new Callback<BaseModel>() {
+                    @Override
+                    public void success(BaseModel baseModel, Response response) {
+                        Log.d("logout", "in logout success");
+                        finish();
+                        BaseModel.getInstance().setLoginStatus(false);
+                        BaseModel.getInstance().deleteInstance();
+                        System.gc();
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.d("logout", "in logout failure error = " + error);
                     }
                 }
         );

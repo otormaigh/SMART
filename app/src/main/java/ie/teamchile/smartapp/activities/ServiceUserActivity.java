@@ -42,7 +42,9 @@ import ie.teamchile.smartapp.util.NotKeys;
 import ie.teamchile.smartapp.util.SmartApi;
 import ie.teamchile.smartapp.util.ToastAlert;
 import retrofit.Callback;
+import retrofit.RestAdapter;
 import retrofit.RetrofitError;
+import retrofit.client.OkClient;
 import retrofit.client.Response;
 
 public class ServiceUserActivity extends BaseActivity {
@@ -76,8 +78,6 @@ public class ServiceUserActivity extends BaseActivity {
     private Date dobAsDate = null;
     private Intent userCallIntent, userSmsIntent, userEmailIntent;
     private Calendar cal = Calendar.getInstance();
-    private int b;        //position of most recent baby in list
-    private int p;        //position of most recent pregnancy in list
     private int userId;
     private AlertDialog.Builder alertDialog;
     private AlertDialog ad;
@@ -283,6 +283,15 @@ public class ServiceUserActivity extends BaseActivity {
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
+
+        Log.d("bugs", "baby ids fro user = " + BaseModel.getInstance().getServiceUsers().get(0).getBabyIds().get(b));
+        getRecentBabyId();
+        getRecentBabyPosition();
+        Log.d("bugs", "recent baby id before = " + bId);
+        Log.d("bugs", "recent baby position before = " + b);
+        pregnancyId = BaseModel.getInstance().getBabies().get(b).getPregnancyId();
+        Log.d("bugs", "recent baby id after = " + bId);
+        Log.d("bugs", "recent baby position after = " + b);
     }
 
     private void setAntiD() {
@@ -901,12 +910,20 @@ public class ServiceUserActivity extends BaseActivity {
         Log.d("bugs", "nbst = " + putNbst);
         c = Calendar.getInstance();
         getRecentBabyId();
-        Log.d("bugs", "preg id = " + BaseModel.getInstance().getPregnancies().get(0).getId());
+        Log.d("bugs", "preg id = " + BaseModel.getInstance().getBabies().get(b).getPregnancyId());
         PostingData puttingNbst = new PostingData();
 
         puttingNbst.putNBST(nbst, userId, BaseModel.getInstance().getPregnancies().get(0).getId());
 
         showProgressDialog(this, "Updating NBST");
+
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint(NotKeys.BASE_URL)
+                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .setClient(new OkClient())
+                .build();
+
+        api = restAdapter.create(SmartApi.class);
 
         api.putNBST(
                 puttingNbst,
@@ -944,8 +961,6 @@ public class ServiceUserActivity extends BaseActivity {
                 case R.id.btn_usr_book_appointment:
                     setSharedPrefs();
                     intent = new Intent(ServiceUserActivity.this, AppointmentTypeSpinnerActivity.class);
-                    //intent.putExtra("from", "user");
-                    //intent.putExtra("userName", userName);
                     intent.putExtra("userId", String.valueOf(userId));
                     startActivity(intent);
                     break;
