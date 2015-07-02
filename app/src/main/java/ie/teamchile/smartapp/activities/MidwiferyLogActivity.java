@@ -152,12 +152,7 @@ public class MidwiferyLogActivity extends BaseActivity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.btn_add_midwifery_note:
-                    //note = etNote.getText().toString();
-                    //postNote(note);
-                    if(TextUtils.equals(etNote.getText(), ""))
-                        etNote.setError("Field Empty");
-                    else
-                        addNoteDialog();
+                    addNoteDialog();
                     break;
             }
         }
