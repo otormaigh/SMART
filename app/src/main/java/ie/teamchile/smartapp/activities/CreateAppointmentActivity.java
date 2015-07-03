@@ -137,6 +137,7 @@ public class CreateAppointmentActivity extends BaseActivity {
         tvReturnTitle.setVisibility(View.GONE);
 
         priority = "home-visit";
+        returnType = "returning";
 
         myCalendar.setTime(daySelected);
         tvDate.setText(dfDateMonthNameYear.format(daySelected));
