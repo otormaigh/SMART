@@ -9,6 +9,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -28,8 +29,8 @@ import ie.teamchile.smartapp.model.HearingHistory;
 import ie.teamchile.smartapp.model.NbstHistory;
 import ie.teamchile.smartapp.model.ServiceUser;
 import ie.teamchile.smartapp.model.VitKHistory;
+import ie.teamchile.smartapp.util.AdapterListResults;
 import ie.teamchile.smartapp.util.NotKeys;
-import ie.teamchile.smartapp.util.SmartApi;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -40,12 +41,16 @@ public class ServiceUserSearchActivity extends BaseActivity {
     private Button search;
     private TextView tvSearchResults;
     private ArrayList<String> searchResults = new ArrayList<>();
+    private ArrayList<String> listName = new ArrayList<>();
+    private ArrayList<String> listDob = new ArrayList<>();
+    private ArrayList<String> listHospitalNumber = new ArrayList<>();
     private Intent intent;
     private ListView lvSearchResults;
-    private ArrayAdapter<String> adapter;
+    //private ArrayAdapter<String> adapter;
     private List<String> hospitalNumberList = new ArrayList<>();
     private LinearLayout llNoUserFound;
     private Boolean changeActivity;
+    private BaseAdapter  baseAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,11 +77,12 @@ public class ServiceUserSearchActivity extends BaseActivity {
 
     }
 
-    private void createResultList(ArrayList<String> searchResults) {
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, searchResults);
-        adapter.notifyDataSetChanged();
-        lvSearchResults.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+    private void createResultList(List<String> listName, List<String> listDob, List<String> listHospitalNumber) {
+        //adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, searchResults);
+        baseAdapter = new AdapterListResults(ServiceUserSearchActivity.this, listName, listDob, listHospitalNumber);
+        baseAdapter.notifyDataSetChanged();
+        lvSearchResults.setAdapter(baseAdapter);
+        baseAdapter.notifyDataSetChanged();
     }
 
     private void getHistories() {
@@ -206,6 +212,9 @@ public class ServiceUserSearchActivity extends BaseActivity {
     }
 
     private void searchForPatient(String name, String hospitalNumber, String dob) {
+        listName.clear();
+        listDob.clear();
+        listHospitalNumber.clear();
         Log.d("retro", "ServiceUserSearchActivity user search success");
         showProgressDialog(ServiceUserSearchActivity.this, "Fetching Information");
 
@@ -232,19 +241,23 @@ public class ServiceUserSearchActivity extends BaseActivity {
                                 for (int i = 0; i < baseModel.getServiceUsers().size(); i++) {
                                     ServiceUser serviceUser = BaseModel.getInstance().getServiceUsers().get(i);
                                     String name = serviceUser.getPersonalFields().getName();
-                                    String hospitalNumber = serviceUser.getHospitalNumber();
                                     String dob = serviceUser.getPersonalFields().getDob();
+                                    String hospitalNumber = serviceUser.getHospitalNumber();
+
+                                    listName.add(name);
+                                    listDob.add(dob);
+                                    listHospitalNumber.add(hospitalNumber);
 
                                     searchResults.add(name + " - " + hospitalNumber + " - " + dob);
                                     hospitalNumberList.add(hospitalNumber);
                                 }
-                                createResultList(searchResults);
-                                adapter.notifyDataSetChanged();
+                                createResultList(listName, listDob, listHospitalNumber);
+                                baseAdapter.notifyDataSetChanged();
                             }
                         } else {
                             llNoUserFound.setVisibility(View.VISIBLE);
-                            if (adapter != null) {
-                                adapter.clear();
+                            if (baseAdapter != null) {
+                                createResultList(null, null, null);
                             }
                         }
                         pd.dismiss();
