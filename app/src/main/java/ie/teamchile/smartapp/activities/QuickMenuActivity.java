@@ -197,6 +197,24 @@ public class QuickMenuActivity extends BaseActivity {
                 }
         );
 
+        api.getServiceUserActions(
+                BaseModel.getInstance().getLogin().getToken(),
+                NotKeys.API_KEY,
+                new Callback<BaseModel>() {
+                    @Override
+                    public void success(BaseModel baseModel, Response response) {
+                        Log.d("Retrofit", "actions retro success");
+                        done++;
+                        BaseModel.getInstance().setServiceUserActions(baseModel.getServiceUserActions());
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.d("Retrofit", "actions retro failure " + error);
+                    }
+                }
+        );
+
         timer = new CountDownTimer(200, 100) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -204,7 +222,7 @@ public class QuickMenuActivity extends BaseActivity {
 
             @Override
             public void onFinish() {
-                if (done >= 4)
+                if (done >= 5)
                     pd.dismiss();
                 else
                     timer.start();
