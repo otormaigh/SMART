@@ -24,7 +24,9 @@ import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.util.NotKeys;
 import ie.teamchile.smartapp.util.SmartApi;
 import retrofit.Callback;
+import retrofit.RestAdapter;
 import retrofit.RetrofitError;
+import retrofit.client.OkClient;
 import retrofit.client.Response;
 
 public class ClinicTimeRecordActivity extends BaseActivity {
@@ -48,8 +50,10 @@ public class ClinicTimeRecordActivity extends BaseActivity {
     private String date;
     private int clinicStartedId;
     private int clinicNotStartedId;
+    private int clinicStoppedId;
     private Button btnStartClinic, btnStartClinicDisable;
     private Button btnStopClinic, btnStopClinicDisable;
+    private Button btnResetRecord;
     private ArrayAdapter adapterNotStart;
     private ArrayAdapter adapterStart;
     private ArrayAdapter adapterStop;
@@ -60,8 +64,8 @@ public class ClinicTimeRecordActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentForNav(R.layout.activity_clinic_time_record);
         c = Calendar.getInstance();
-        todayDay = dfDayLong.format(c.getTime());
-        //todayDay = "Saturday";
+        //todayDay = dfDayLong.format(c.getTime());
+        todayDay = "Monday";
         todayDate = dfDateOnly.format(c.getTime());
         Log.d("SMART", "today = " + todayDay);
         lvNotStarted = (ListView) findViewById(R.id.lv_clinics_not_started);
@@ -69,12 +73,15 @@ public class ClinicTimeRecordActivity extends BaseActivity {
         lvStarted = (ListView) findViewById(R.id.lv_clinics_started);
         lvStarted.setOnItemClickListener(new ItemClicky());
         lvStopped = (ListView) findViewById(R.id.lv_clinics_stopped);
+        lvStopped.setOnItemClickListener(new ItemClicky());
         btnStartClinic = (Button) findViewById(R.id.btn_start_clinic);
         btnStartClinic.setOnClickListener(new ButtonClicky());
         btnStopClinic = (Button) findViewById(R.id.btn_stop_clinic);
         btnStopClinic.setOnClickListener(new ButtonClicky());
         btnStartClinicDisable = (Button) findViewById(R.id.btn_start_clinic_disable);
         btnStopClinicDisable = (Button) findViewById(R.id.btn_stop_clinic_disable);
+        btnResetRecord = (Button) findViewById(R.id.btn_reset_clinic_record);
+        btnResetRecord.setOnClickListener(new ButtonClicky());
 
         btnStartClinicDisable.setEnabled(false);
         btnStopClinicDisable.setEnabled(false);
@@ -184,6 +191,9 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                             if (baseModel.getClinicTimeRecords().get(0).getEndTime() == null) {
                                 if (!clinicStarted.contains(clinicId))
                                     clinicStarted.add(clinicId);
+                            } else if (baseModel.getClinicTimeRecords().get(0).getEndTime() == null &&
+                                    baseModel.getClinicTimeRecords().get(0).getStartTime() == null){
+                                clinicNotStarted.add(clinicId);
                             } else {
                                 if (!clinicStopped.contains(clinicId))
                                     clinicStopped.add(clinicId);
@@ -191,7 +201,6 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                         } else {
                             if (!clinicNotStarted.contains(clinicId)) {
                                 clinicNotStarted.add(clinicId);
-                                clinicStartedName.add(clinicIdMap.get(clinicId).getName());
                             }
                         }
 
@@ -292,6 +301,64 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                     }
                 });
     }
+
+    private void resetRecord(final int clinicId) {
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint(NotKeys.BASE_URL)
+                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .setClient(new OkClient())
+                .build();
+
+        api = restAdapter.create(SmartApi.class);
+
+        for (int i = 0; i < clinicTimeRecords.size(); i++) {
+            if (clinicTimeRecords.get(i).getClinicId() == clinicId) {
+                recordId = clinicTimeRecords.get(i).getId();
+            }
+        }
+
+        PostingData timeRecord = new PostingData();
+        timeRecord.resetTimeRecord(
+                "",
+                "",
+                date,
+                clinicId);
+
+        showProgressDialog(ClinicTimeRecordActivity.this, "Updating Clinic Time Records");
+
+        api.resetTimeRecordById(
+                timeRecord,
+                clinicId,
+                recordId,
+                BaseModel.getInstance().getLogin().getToken(),
+                NotKeys.API_KEY,
+                new Callback<BaseModel>() {
+                    @Override
+                    public void success(BaseModel baseModel, Response response) {
+                        Log.d("SMART", "retro success");
+                        for (int i = 0; i < clinicTimeRecords.size(); i++) {
+                            if (clinicTimeRecords.get(i).getId() == recordId) {
+                                Log.d("bugs", "record id = " + clinicTimeRecords.get(i).getId());
+                                clinicTimeRecords.remove(i);
+                                clinicStopped.remove(clinicStopped.indexOf(clinicId));
+                                clinicNotStarted.add(clinicId);
+                                setStartedList();
+                                setStoppedList();
+                                setNotStartedList();
+                            }
+                        }
+                        clinicTimeRecords.add(baseModel.getClinicTimeRecord());
+                        pd.dismiss();
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.d("SMART", "retro error = " + error.getResponse());
+                        pd.dismiss();
+                    }
+                });
+    }
+
 
     private void setNotStartedList() {
         String clinicName = new String();
@@ -422,6 +489,10 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                     clinicStartedId = clinicStarted.get(position);
                     Log.d("bugs", "clinicStartedId = " + clinicStartedId);
                     break;
+                case R.id.lv_clinics_stopped:
+                    clinicStoppedId = clinicStopped.get(position);
+                    Log.d("timeRecord", "reset clinic id = " + clinicStoppedId);
+                    break;
             }
         }
     }
@@ -446,6 +517,10 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                         putEndTime(then, date, clinicStartedId);
                         Log.d("bugs", "stop clinic btn pressed");
                     }
+                    break;
+                case R.id.btn_reset_clinic_record:
+                    Log.d("timeRecord", "reset clinic id = " + clinicStoppedId);
+                    resetRecord(clinicStoppedId);
                     break;
             }
             clinicNotStartedId = 0;
