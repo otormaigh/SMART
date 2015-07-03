@@ -14,6 +14,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -35,6 +36,7 @@ import ie.teamchile.smartapp.model.Appointment;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.model.ServiceUser;
+import ie.teamchile.smartapp.util.AdapterListResults;
 import ie.teamchile.smartapp.util.AdapterSpinner;
 import ie.teamchile.smartapp.util.NotKeys;
 import ie.teamchile.smartapp.util.SmartApi;
@@ -65,6 +67,9 @@ public class CreateAppointmentActivity extends BaseActivity {
     private Spinner visitReturnTypeSpinner, visitPrioritySpinner;
     private List<ServiceUser> serviceUserList = new ArrayList<>();
     private String returnType;
+    private ArrayList<String> listName = new ArrayList<>();
+    private ArrayList<String> listDob = new ArrayList<>();
+    private ArrayList<String> listHospitalNumber = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -254,6 +259,10 @@ public class CreateAppointmentActivity extends BaseActivity {
     }
 
     private void searchPatient(String serviceUserName) {
+        listName.clear();
+        listDob.clear();
+        listHospitalNumber.clear();
+
         api.getServiceUserByName(
                 serviceUserName,
                 BaseModel.getInstance().getLogin().getToken(),
@@ -272,9 +281,13 @@ public class CreateAppointmentActivity extends BaseActivity {
                                 ServiceUser serviceUserItem = baseModel.getServiceUsers().get(i);
                                 serviceUserList.add(serviceUserItem);
                                 name = serviceUserItem.getPersonalFields().getName();
-                                hospitalNumber = serviceUserItem.getHospitalNumber();
                                 dob = serviceUserItem.getPersonalFields().getDob();
+                                hospitalNumber = serviceUserItem.getHospitalNumber();
                                 id = serviceUserItem.getId();
+
+                                listName.add(name);
+                                listDob.add(dob);
+                                listHospitalNumber.add(hospitalNumber);
 
                                 Log.d("Retro", name + "\n" + hospitalNumber + "\n" + dob + "\n" + id);
                                 idList.add(id);
@@ -283,7 +296,7 @@ public class CreateAppointmentActivity extends BaseActivity {
                             //postOrAnte();
                             //getRecentPregnancy();
                             pd.dismiss();
-                            buildAlertDialog(searchResults);
+                            userSearchDialog("Search Results");
                         } else {
                             pd.dismiss();
                             Toast.makeText(getApplicationContext(), "No search results found", Toast.LENGTH_SHORT).show();
@@ -314,6 +327,34 @@ public class CreateAppointmentActivity extends BaseActivity {
                 android.R.layout.simple_list_item_1,
                 searchResults);
         list.setAdapter(adapter);
+        ad = alertDialog.show();
+    }
+
+    private void userSearchDialog(final String title) {
+        LayoutInflater inflater = getLayoutInflater();
+        alertDialog = new AlertDialog.Builder(CreateAppointmentActivity.this);
+        View convertView = (View) inflater.inflate(R.layout.dialog_user_search_results, null);
+        ListView list = (ListView) convertView.findViewById(R.id.lv_search_results);
+
+        list.setOnItemClickListener(new onItemListener());
+
+        TextView tvDialogTitle = (TextView) convertView.findViewById(R.id.tv_result_dialog_title);
+        ImageView ivExit = (ImageView) convertView.findViewById(R.id.iv_result_exit_dialog);
+        ivExit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ad.dismiss();
+            }
+        });
+
+        alertDialog.setView(convertView);
+        tvDialogTitle.setText(title);
+        BaseAdapter baseAdapter = new AdapterListResults(
+                CreateAppointmentActivity.this,
+                listName,
+                listDob,
+                listHospitalNumber);
+        list.setAdapter(baseAdapter);
         ad = alertDialog.show();
     }
 
@@ -593,7 +634,7 @@ public class CreateAppointmentActivity extends BaseActivity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             switch (parent.getId()) {
-                case R.id.list_dialog:
+                case R.id.lv_history:
                     hideKeyboard();
                     ServiceUser serviceUser = serviceUserList.get(position);
                     BaseModel.getInstance().setServiceUser(serviceUser);
