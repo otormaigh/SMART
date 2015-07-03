@@ -31,16 +31,17 @@
             android:src="@drawable/ic_close"/>
     </RelativeLayout>
 
+    <ListView
+        android:id="@+id/lv_history"
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"/>
+
     <Button
         android:id="@+id/btn_add_history"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/add_to_history"
         android:theme="@style/SecondaryButton"/>
-
-    <ListView
-        android:id="@+id/lv_history"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
 
 </LinearLayout>
