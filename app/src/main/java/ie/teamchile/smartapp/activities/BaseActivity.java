@@ -1,14 +1,17 @@
 package ie.teamchile.smartapp.activities;
 
 import android.app.ActionBar;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.app.Service;
-import android.content.ComponentCallbacks2;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -54,6 +57,7 @@ import retrofit.client.OkClient;
 import retrofit.client.Response;
 
 public class BaseActivity extends AppCompatActivity {
+    protected static CountDownTimer timer;
     protected DateFormat dfDateTimeWZone = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault());
     protected DateFormat dfDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
     protected DateFormat dfDateOnly = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
@@ -70,8 +74,6 @@ public class BaseActivity extends AppCompatActivity {
     protected DateFormat dfHumanReadableTimeDate = new SimpleDateFormat("HH:mm, dd/MM/yyyy", Locale.getDefault());
     protected DateFormat dfHumanReadableDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
     protected Calendar c = Calendar.getInstance();
-    private LogoutService logServ;
-
     protected ProgressDialog pd;
     protected DrawerLayout drawerLayout;
     protected ListView drawerList;
@@ -83,6 +85,9 @@ public class BaseActivity extends AppCompatActivity {
     protected int spinnerWarning;
     protected int done = 0;
     protected boolean showDialog;
+    protected int thingALing = 0;
+    protected LogoutService logServ;
+    protected NotificationManager notificationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,23 +111,64 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(logServ != null) {
+        if (BaseModel.getInstance().getLogin() == null) {
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
+        }
+
+        while (thingALing != 0) {
+            thingALing--;
+            Log.d("logout", "thingALing resume = " + thingALing);
             Log.d("bugs", "logServ not null");
             logServ.startTimer(false);
-        } else {
-            Log.d("bugs", "logServ null");
         }
+        if (notificationManager != null)
+            notificationManager.cancelAll();
     }
 
     @Override
-    public void onTrimMemory(int level) {
-        super.onTrimMemory(level);
-        if (level >= ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
+    protected void onStop() {
+        super.onStop();
+        Log.d("logout", "base onStop called");
+        Log.d("logout", "isMyServiceRunning() = " + isMyServiceRunning());
+
+        if (isMyServiceRunning()) {
             new ToastAlert(getBaseContext(), "View is now hidden", false);
-            //startLogoutTimer();
+            thingALing++;
+            Log.d("logout", "thingALing trim = " + thingALing);
+            Log.d("logout", "logout timer made");
+            showNotification("SMART", "You will be logged out of SMART soon", QuickMenuActivity.class);
             logServ = new LogoutService();
             logServ.startTimer(true);
-        } else {}
+        }
+    }
+
+    private boolean isMyServiceRunning() {
+        ActivityManager am = (ActivityManager) this.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> tasks = am.getRunningTasks(1);
+        if (!tasks.isEmpty()) {
+            ComponentName topActivity = tasks.get(0).topActivity;
+            if (!topActivity.getPackageName().equals(this.getPackageName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    protected void showNotification(String title, String message, Class activity) {
+        notificationManager = (NotificationManager)
+                getSystemService(NOTIFICATION_SERVICE);
+        Intent intent = new Intent(BaseActivity.this, activity);
+        PendingIntent pIntent = PendingIntent.getActivity(BaseActivity.this, 0, intent, 0);
+
+        Notification n = new Notification.Builder(this)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setSmallIcon(R.drawable.ic_launcher)
+                .setContentIntent(pIntent)
+                .setAutoCancel(true).build();
+
+        notificationManager.notify(0, n);
     }
 
     protected void showProgressDialog(Context context, String message) {
@@ -172,94 +218,7 @@ public class BaseActivity extends AppCompatActivity {
         drawerToggle.syncState();
     }
 
-    protected void startLogoutTimer(){
-        Handler mHandler = new Handler();
-        mHandler.postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                Toast.makeText(getBaseContext(), "Time Finished", Toast.LENGTH_LONG).show();
-                doLogoutWithoutIntent();
-                Log.d("bugs", "timer finished");
-            }
-
-        }, 10000);
-    }
-
-    protected void showTimerDialog() {
-        new AlertDialog.Builder(this)
-                .setTitle("Exit App")
-                .setMessage("You will be logged out after 5 minutes\nif you do not reopen the app")
-                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialoginterface, int i) {
-                    }
-                })
-                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialoginterface, int i) {
-                        Log.d("MYLOG", "yes button pressed");
-                        //startLogoutTimer();
-                        final Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                                Intent.FLAG_ACTIVITY_CLEAR_TASK |
-                                Intent.FLAG_ACTIVITY_NEW_TASK);
-                        if (BaseModel.getInstance().getLoginStatus() == false) {
-                            startActivity(intent);
-                        } else {
-                            doLogout(intent);
-                            pd = new ProgressDialog(BaseActivity.this);
-                            pd.setMessage("Logging Out");
-                            pd.setCanceledOnTouchOutside(false);
-                            pd.setCancelable(false);
-                            pd.show();
-                        }
-                    }
-                }).show();
-    }
-
-    public class LogoutService extends Service {
-        public CountDownTimer timer;
-
-        @Override
-        public void onCreate() {
-            super.onCreate();
-            Log.d("logout", "LogoutService onCreate()");
-
-        }
-
-        public void startTimer(Boolean startTimer){
-            if(startTimer) {
-                timerThing();
-                timer.start();
-            } else {
-                if(timer != null)
-                    timer.cancel();
-            }
-        }
-
-        public void timerThing(){
-            timer = new CountDownTimer(1 * 10 * 1000, 1000) {
-                public void onTick(long millisUntilFinished) {
-                    //Some code
-                    Log.d("logout", "Service Started");
-                }
-
-                public void onFinish() {
-                    Log.d("logout", "Call Logout by Service");
-                    // Code for Logout
-                    stopSelf();
-                    doLogoutWithoutIntent();
-                }
-            };
-        }
-
-        @Override
-        public IBinder onBind(Intent intent) {
-            // TODO Auto-generated method stub
-            return null;
-        }
-    }
-
-        @Override
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
@@ -382,14 +341,23 @@ public class BaseActivity extends AppCompatActivity {
                     public void success(BaseModel baseModel, Response response) {
                         Log.d("logout", "in logout success");
                         finish();
-                        BaseModel.getInstance().setLoginStatus(false);
                         BaseModel.getInstance().deleteInstance();
+                        BaseModel.getInstance().setLoginStatus(false);
                         System.gc();
+                        if (notificationManager != null) {
+                            notificationManager.cancelAll();
+                            showNotification("SMART", "You have been logged out of SMART", SplashScreenActivity.class);
+                        } else
+                            showNotification("SMART", "You have been logged out of SMART", SplashScreenActivity.class);
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
                         Log.d("logout", "in logout failure error = " + error);
+                        finish();
+                        BaseModel.getInstance().deleteInstance();
+                        BaseModel.getInstance().setLoginStatus(false);
+                        System.gc();
                     }
                 }
         );
@@ -542,6 +510,47 @@ public class BaseActivity extends AppCompatActivity {
                     }
                 }
         );
+    }
+
+    public class LogoutService extends Service {
+        @Override
+        public void onCreate() {
+            super.onCreate();
+            Log.d("logout", "LogoutService onCreate()");
+
+        }
+
+        public void startTimer(Boolean startTimer) {
+            if (startTimer) {
+                Log.d("logout", "timer started");
+                timerThing();
+                timer.start();
+            } else {
+                if (timer != null) {
+                    Log.d("logout", "timer stopped");
+                    timer.cancel();
+                }
+            }
+        }
+
+        public void timerThing() {
+            timer = new CountDownTimer(30 * 1000, 1000) {
+                public void onTick(long millisUntilFinished) {
+                }
+
+                public void onFinish() {
+                    Log.d("logout", "Call Logout by Service");
+                    stopSelf();
+                    doLogoutWithoutIntent();
+                }
+            };
+        }
+
+        @Override
+        public IBinder onBind(Intent intent) {
+            // TODO Auto-generated method stub
+            return null;
+        }
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
