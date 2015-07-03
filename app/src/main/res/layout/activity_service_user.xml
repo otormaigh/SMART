@@ -149,18 +149,35 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <Button
-                android:id="@+id/btn_usr_book_appointment"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1.0"
-                android:text="@string/book_appointment"
-                android:theme="@style/CallToActionButton"
-                android:paddingLeft="@dimen/padding_Xsmall"
-                android:paddingRight="@dimen/padding_Xsmall"
-                android:textSize="@dimen/text_large" />
+                android:weightSum="2.0">
+
+                <Button
+                    android:id="@+id/btn_usr_book_appointment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1.0"
+                    android:text="@string/book_appointment"
+                    android:theme="@style/CallToActionButton"
+                    android:paddingLeft="@dimen/padding_Xsmall"
+                    android:paddingRight="@dimen/padding_Xsmall"
+                    android:textSize="@dimen/text_medium" />
+
+                <Button
+                    android:id="@+id/btn_usr_actions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1.0"
+                    android:text="@string/add_action"
+                    android:theme="@style/SecondaryButton"
+                    android:paddingLeft="@dimen/padding_Xsmall"
+                    android:paddingRight="@dimen/padding_Xsmall"
+                    android:textSize="@dimen/text_medium" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-
 </LinearLayout>
