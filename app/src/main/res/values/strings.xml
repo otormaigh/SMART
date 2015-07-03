@@ -95,6 +95,7 @@
     <string name="post_code">Post Code</string>
     <string name="kin_name">Next Of Kin Name</string>
     <string name="kin_contact">Next Of Kin Contact Number</string>
+    <string name="add_action">Add \nAction</string>
 
 	<!-- ANTE NATAL -->
 	<string name="age">Age</string>
