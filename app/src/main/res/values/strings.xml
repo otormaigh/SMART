@@ -175,7 +175,7 @@
         <item>Post-Natal</item>
  	</string-array>
     <string-array name="return_type_list">
-        <item>Select Return Type</item>
+        <item>Select Appointment Type</item>
         <item>Follow-up (15 min)</item>
         <item>New (30 min)</item>
     </string-array>
