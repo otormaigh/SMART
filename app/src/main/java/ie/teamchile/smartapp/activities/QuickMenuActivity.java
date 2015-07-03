@@ -73,6 +73,22 @@ public class QuickMenuActivity extends BaseActivity {
         SharedPreferences.Editor prefs = getSharedPreferences("SMART", MODE_PRIVATE).edit();
         prefs.putBoolean("reuse", false);
         prefs.commit();
+
+        if (BaseModel.getInstance().getLogin() == null) {
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
+        }
+
+        if(logServ != null){
+            Log.d("logout", "thingALing resume = " + thingALing);
+            Log.d("bugs", "logServ not null stopping timer");
+            logServ.startTimer(false);
+        }
+
+        if (notificationManager != null) {
+            notificationManager.cancelAll();
+            Log.d("logout", "clear notifs");
+        }
     }
 
     private void checkIfLoggedIn() {
