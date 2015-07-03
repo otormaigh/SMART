@@ -204,7 +204,7 @@ public class QuickMenuActivity extends BaseActivity {
 
             @Override
             public void onFinish() {
-                if (done == 4)
+                if (done >= 4)
                     pd.dismiss();
                 else
                     timer.start();
