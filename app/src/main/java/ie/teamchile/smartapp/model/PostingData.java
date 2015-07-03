@@ -60,6 +60,10 @@ public class PostingData {
         this.clinicTimeRecord = new ClinicTimeRecord(endTime, date, clinicId);
     }
 
+    public void resetTimeRecord(String startTime, String endTime, String date, int clinicId) {
+        this.clinicTimeRecord = new ClinicTimeRecord(startTime,endTime, date, clinicId);
+    }
+
     public void postPregnancyNote(int id, String note, int pregnancyId, int serviceProviderId) {
         this.pregnancyNote = new PregnancyNote(id, note, pregnancyId, serviceProviderId);
     }
@@ -165,6 +169,13 @@ public class PostingData {
         }
 
         public ClinicTimeRecord(String endTime, String date, int clinicId) {
+            this.endTime = endTime;
+            this.date = date;
+            this.clinicId = clinicId;
+        }
+
+        public ClinicTimeRecord(String startTime, String endTime, String date, int clinicId) {
+            this.startTime = startTime;
             this.endTime = endTime;
             this.date = date;
             this.clinicId = clinicId;
