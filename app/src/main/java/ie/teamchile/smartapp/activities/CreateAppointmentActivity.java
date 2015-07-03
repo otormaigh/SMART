@@ -339,10 +339,11 @@ public class CreateAppointmentActivity extends BaseActivity {
         if (priority.equals("home-visit")) {
             tvConfirmLocation.setText(address);
             tvConfirmDateTime.setText(dateDay + ", " + dateWords);
-        }
-        else if (priority.equals("scheduled"))
+        } else if (priority.equals("scheduled")) {
             tvConfirmLocation.setText(clinicName);
             tvConfirmDateTime.setText(time + " on " + dateWords);
+        }
+
         tvConfirmEmailTo.setText(email);
         tvConfirmSmsTo.setText(sms);
 
