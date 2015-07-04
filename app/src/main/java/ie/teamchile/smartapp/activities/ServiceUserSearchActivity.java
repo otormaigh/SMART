@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -46,11 +48,10 @@ public class ServiceUserSearchActivity extends BaseActivity {
     private ArrayList<String> listHospitalNumber = new ArrayList<>();
     private Intent intent;
     private ListView lvSearchResults;
-    //private ArrayAdapter<String> adapter;
     private List<String> hospitalNumberList = new ArrayList<>();
     private LinearLayout llNoUserFound;
     private Boolean changeActivity;
-    private BaseAdapter  baseAdapter;
+    private static AdapterListResultsInner adapterListResults;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,15 +75,14 @@ public class ServiceUserSearchActivity extends BaseActivity {
         llNoUserFound.setVisibility(View.GONE);
         //tvNoUserFound.setVisibility(View.GONE);
         tvSearchResults.setVisibility(View.GONE);
-
     }
 
-    private void createResultList(List<String> listName, List<String> listDob, List<String> listHospitalNumber) {
+    private void createResultList() {
         //adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, searchResults);
-        baseAdapter = new AdapterListResults(ServiceUserSearchActivity.this, listName, listDob, listHospitalNumber);
-        baseAdapter.notifyDataSetChanged();
-        lvSearchResults.setAdapter(baseAdapter);
-        baseAdapter.notifyDataSetChanged();
+        adapterListResults = new AdapterListResultsInner(this, listName, listDob, listHospitalNumber);
+        adapterListResults.notifyDataSetChanged();
+        lvSearchResults.setAdapter(adapterListResults);
+        //adapterListResults.notifyDataSetChanged();
     }
 
     private void getHistories() {
@@ -251,13 +251,14 @@ public class ServiceUserSearchActivity extends BaseActivity {
                                     searchResults.add(name + " - " + hospitalNumber + " - " + dob);
                                     hospitalNumberList.add(hospitalNumber);
                                 }
-                                createResultList(listName, listDob, listHospitalNumber);
-                                baseAdapter.notifyDataSetChanged();
+                                createResultList();
+                                adapterListResults.notifyDataSetChanged();
                             }
                         } else {
                             llNoUserFound.setVisibility(View.VISIBLE);
-                            if (baseAdapter != null) {
-                                createResultList(null, null, null);
+                            if (adapterListResults != null) {
+                                lvSearchResults.setAdapter(null);
+                                adapterListResults.notifyDataSetChanged();
                             }
                         }
                         pd.dismiss();
@@ -326,4 +327,61 @@ public class ServiceUserSearchActivity extends BaseActivity {
             }
         }
     }
+
+    public class AdapterListResultsInner extends BaseAdapter {
+        private Context context;
+        private List<String> resultName;
+        private List<String> resultDob;
+        private List<String> resultHospitalNumber;
+       // private LayoutInflater layoutInflater;
+
+
+        public AdapterListResultsInner(
+                Context context,
+                List<String> resultName,
+                List<String> resultDob,
+                List<String> resultHospitalNumber){
+            this.context = context;
+            this.resultName = resultName;
+            this.resultDob = resultDob;
+            this.resultHospitalNumber = resultHospitalNumber;
+
+            //layoutInflater = LayoutInflater.from(context);
+
+        }
+        @Override
+        public int getCount() {
+            return resultName.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            LayoutInflater layoutInflater = getLayoutInflater();
+            convertView = layoutInflater.inflate(R.layout.list_layout_search_results, null);
+            TextView tvName = (TextView) convertView.findViewById(R.id.tv_results_name);
+            TextView tvDob = (TextView) convertView.findViewById(R.id.tv_results_dob);
+            TextView tvHospitalNumber = (TextView) convertView.findViewById(R.id.tv_results_hospital_number);
+
+            tvName.setText(resultName.get(position));
+            tvDob.setText(resultDob.get(position));
+            tvHospitalNumber.setText(resultHospitalNumber.get(position));
+            return convertView;
+        }
+
+        @Override
+        public void notifyDataSetChanged() {
+            super.notifyDataSetChanged();
+        }
+    }
+
 }

@@ -32,7 +32,7 @@ public class AdapterListResults extends BaseAdapter {
         this.resultDob = resultDob;
         this.resultHospitalNumber = resultHospitalNumber;
 
-        layoutInflater = LayoutInflater.from(context);
+       layoutInflater = LayoutInflater.from(context);
 
     }
     @Override
@@ -61,5 +61,10 @@ public class AdapterListResults extends BaseAdapter {
         tvDob.setText(resultDob.get(position));
         tvHospitalNumber.setText(resultHospitalNumber.get(position));
         return convertView;
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
     }
 }
