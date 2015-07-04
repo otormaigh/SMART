@@ -58,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         BaseModel.getInstance().deleteInstance();
+        BaseModel.getInstance().setLoginStatus(false);
         System.gc();
         finish();
     }
