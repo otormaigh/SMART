@@ -267,6 +267,7 @@ public class ServiceUserSearchActivity extends BaseActivity {
                     @Override
                     public void failure(RetrofitError error) {
                         Log.d("retro", "ServiceUserSearchActivity user search failure = " + error);
+                        checkRetroError(error, ServiceUserSearchActivity.this);
                         llNoUserFound.setVisibility(View.VISIBLE);
                         pd.dismiss();
                     }
