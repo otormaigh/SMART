@@ -12,6 +12,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -30,6 +32,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.net.ConnectException;
+import java.net.UnknownHostException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -41,6 +45,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import javax.net.ssl.SSLHandshakeException;
 
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.model.Appointment;
@@ -187,6 +193,41 @@ public class BaseActivity extends AppCompatActivity {
                 .build();
 
         api = restAdapter.create(SmartApi.class);
+    }
+
+    protected void checkRetroError(RetrofitError error, Context context) {
+        try {
+            throw (error.getCause());
+        } catch (UnknownHostException e) {
+            Log.d("retro", "UnknownHostException");
+            // unknown host
+        } catch (SSLHandshakeException e) {
+            Log.d("retro", "SSLHandshakeException");
+        } catch (ConnectException e) {
+            Log.d("retro", "ConnectException");
+            checkIfConnected(context);
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+            Log.d("retro", "Throwable");
+        }
+        Log.d("retro_error", error.toString());
+    }
+
+    private boolean checkIfConnected(Context context) {
+        ConnectivityManager conMgr = (ConnectivityManager) getApplicationContext()
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
+
+        if (netInfo == null) {
+            Toast.makeText(context, "No Internet connection!", Toast.LENGTH_LONG).show();
+            Log.d("retro", "no internet");
+            return false;
+        } else if(netInfo != null || !netInfo.isConnected() || !netInfo.isAvailable()){
+            Toast.makeText(context, "No Internet connection!", Toast.LENGTH_LONG).show();
+            Log.d("retro", "no internet");
+            return false;
+        }
+        return true;
     }
 
     protected void setContentForNav(int layout) {
@@ -512,57 +553,57 @@ public class BaseActivity extends AppCompatActivity {
         );
     }
 
-    public class LogoutService extends Service {
-        @Override
-        public void onCreate() {
-            super.onCreate();
-            Log.d("logout", "LogoutService onCreate()");
+public class LogoutService extends Service {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        Log.d("logout", "LogoutService onCreate()");
 
-        }
+    }
 
-        public void startTimer(Boolean startTimer) {
-            if (startTimer) {
-                Log.d("logout", "timer started");
-                timerThing();
-                timer.start();
-            } else {
-                if (timer != null) {
-                    Log.d("logout", "timer stopped");
-                    timer.cancel();
-                }
+    public void startTimer(Boolean startTimer) {
+        if (startTimer) {
+            Log.d("logout", "timer started");
+            timerThing();
+            timer.start();
+        } else {
+            if (timer != null) {
+                Log.d("logout", "timer stopped");
+                timer.cancel();
             }
         }
-
-        public void timerThing() {
-            timer = new CountDownTimer(30 * 1000, 1000) {
-                public void onTick(long millisUntilFinished) {
-                }
-
-                public void onFinish() {
-                    Log.d("logout", "Call Logout by Service");
-                    stopSelf();
-                    doLogoutWithoutIntent();
-                }
-            };
-        }
-
-        @Override
-        public IBinder onBind(Intent intent) {
-            // TODO Auto-generated method stub
-            return null;
-        }
     }
 
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView parent, View view, final int position, long id) {
-            drawerLayout.closeDrawers();
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    selectItem(position);
-                }
-            }, 210);
-        }
+    public void timerThing() {
+        timer = new CountDownTimer(30 * 1000, 1000) {
+            public void onTick(long millisUntilFinished) {
+            }
+
+            public void onFinish() {
+                Log.d("logout", "Call Logout by Service");
+                stopSelf();
+                doLogoutWithoutIntent();
+            }
+        };
     }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+}
+
+private class DrawerItemClickListener implements ListView.OnItemClickListener {
+    @Override
+    public void onItemClick(AdapterView parent, View view, final int position, long id) {
+        drawerLayout.closeDrawers();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                selectItem(position);
+            }
+        }, 210);
+    }
+}
 }
