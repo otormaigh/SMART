@@ -30,13 +30,11 @@ import java.util.Date;
 import java.util.List;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.Appointment;
+import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.util.NotKeys;
-import ie.teamchile.smartapp.util.SmartApi;
 import retrofit.Callback;
-import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -162,7 +160,7 @@ public class HomeVisitAppointmentActivity extends BaseActivity {
         attendedList.add(false);
 
         if (BaseModel.getInstance().getHomeVisitOptionDateApptIdMap().containsKey(visitOptionSelected)) {
-            if(BaseModel.getInstance().getHomeVisitOptionDateApptIdMap().get(visitOptionSelected).containsKey(dateSelectedStr)) {
+            if (BaseModel.getInstance().getHomeVisitOptionDateApptIdMap().get(visitOptionSelected).containsKey(dateSelectedStr)) {
                 idList = BaseModel.getInstance().getHomeVisitOptionDateApptIdMap().get(visitOptionSelected).get(dateSelectedStr);
                 removeZeros(idList);
                 Collections.sort(idList, new Comparator<Integer>() {
@@ -173,7 +171,7 @@ public class HomeVisitAppointmentActivity extends BaseActivity {
                         int valB;
 
                         valA = a;
-                        valB = b ;
+                        valB = b;
 
                         return ((Integer) valA).compareTo(valB);
                     }

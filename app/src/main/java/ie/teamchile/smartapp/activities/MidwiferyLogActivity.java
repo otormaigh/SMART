@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,9 +29,7 @@ import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.model.PregnancyNote;
 import ie.teamchile.smartapp.util.NotKeys;
-import ie.teamchile.smartapp.util.SmartApi;
 import retrofit.Callback;
-import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -69,7 +66,7 @@ public class MidwiferyLogActivity extends BaseActivity {
         setData();
     }
 
-    private void setData(){
+    private void setData() {
         dateList = new ArrayList<>();
         authorList = new ArrayList<>();
         notesList = new ArrayList<>();
@@ -87,11 +84,11 @@ public class MidwiferyLogActivity extends BaseActivity {
                 valA = a.getId();
                 valB = b.getId();
 
-                return ((Integer)valA).compareTo(valB);
+                return ((Integer) valA).compareTo(valB);
             }
         });
 
-        for(int i = size - 1; i >= 0; i--){
+        for (int i = size - 1; i >= 0; i--) {
             PregnancyNote theNote = BaseModel.getInstance().getPregnancyNotes().get(i);
             try {
                 dateList.add(dfHumanReadableDate.format(dfDateOnly.parse(theNote.getCreatedAt())));
@@ -146,6 +143,73 @@ public class MidwiferyLogActivity extends BaseActivity {
         );
     }
 
+    private void addNoteDialog() {
+        LayoutInflater inflater = getLayoutInflater();
+        View convertView = (View) inflater.inflate(R.layout.dialog_add_note, null);
+        final TextView tvCharCount = (TextView) convertView.findViewById(R.id.tv_note_char_count);
+        TextView tvDialogTitle = (TextView) convertView.findViewById(R.id.tv_dialog_title);
+        final EditText etEnterNote = (EditText) convertView.findViewById(R.id.et_midwifery_notes);
+        final int max = 140;
+        tvCharCount.setText(String.valueOf(etEnterNote.getText().length()) + "/" + max);
+        etEnterNote.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tvCharCount.setText(String.valueOf(s.length()) + "/" + max);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > max)
+                    etEnterNote.setError("Error character limit exceeded");
+            }
+        });
+        ImageView ivExit = (ImageView) convertView.findViewById(R.id.iv_exit_dialog);
+        ivExit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ad.dismiss();
+            }
+        });
+        Button btnSaveNote = (Button) convertView.findViewById(R.id.btn_save_note);
+        btnSaveNote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (etEnterNote.getText().toString().equals("")) {
+                    etEnterNote.setError("This Cannot Be Empty");
+                } else if (etEnterNote.getText().length() > max) {
+                    showProgressDialog(MidwiferyLogActivity.this, "Error character limit exceeded");
+                    new CountDownTimer(2000, 1000) {
+
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            pd.dismiss();
+                        }
+                    }.start();
+
+                } else {
+                    postNote(etEnterNote.getText().toString());
+                    ad.dismiss();
+                }
+            }
+        });
+
+        alertDialog = new AlertDialog.Builder(MidwiferyLogActivity.this);
+        alertDialog.setView(convertView);
+        tvDialogTitle.setText("Add Note Below");
+        ad = alertDialog.create();
+        ad.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        ad.show();
+    }
+
     private class Clicky implements View.OnClickListener {
 
         @Override
@@ -167,7 +231,7 @@ public class MidwiferyLogActivity extends BaseActivity {
         public MyAdapter(Context context,
                          List<String> dateList,
                          List<String> authorList,
-                         List<String> notesList){
+                         List<String> notesList) {
             this.context = context;
             this.dateList = dateList;
             this.authorList = authorList;
@@ -202,72 +266,5 @@ public class MidwiferyLogActivity extends BaseActivity {
             tvNote.setText(notesList.get(position));
             return convertView;
         }
-    }
-
-    private void addNoteDialog() {
-        LayoutInflater inflater = getLayoutInflater();
-        View convertView = (View) inflater.inflate(R.layout.dialog_add_note, null);
-        final TextView tvCharCount = (TextView) convertView.findViewById(R.id.tv_note_char_count);
-        TextView tvDialogTitle = (TextView) convertView.findViewById(R.id.tv_dialog_title);
-        final EditText etEnterNote = (EditText) convertView.findViewById(R.id.et_midwifery_notes);
-        final int max = 140;
-        tvCharCount.setText(String.valueOf(etEnterNote.getText().length()) + "/" + max);
-        etEnterNote.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                tvCharCount.setText(String.valueOf(s.length()) + "/" + max);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if(s.length() > max)
-                    etEnterNote.setError("Error character limit exceeded");
-            }
-        });
-        ImageView ivExit = (ImageView) convertView.findViewById(R.id.iv_exit_dialog);
-        ivExit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ad.dismiss();
-            }
-        });
-        Button btnSaveNote = (Button) convertView.findViewById(R.id.btn_save_note);
-        btnSaveNote.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(etEnterNote.getText().toString().equals("")){
-                    etEnterNote.setError("This Cannot Be Empty");
-                } else if (etEnterNote.getText().length() > max) {
-                    showProgressDialog(MidwiferyLogActivity.this, "Error character limit exceeded");
-                    new CountDownTimer(2000, 1000) {
-
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-
-                        }
-
-                        @Override
-                        public void onFinish() {
-                            pd.dismiss();
-                        }
-                    }.start();
-
-                } else {
-                    postNote(etEnterNote.getText().toString());
-                    ad.dismiss();
-                }
-            }
-        });
-
-        alertDialog = new AlertDialog.Builder(MidwiferyLogActivity.this);
-        alertDialog.setView(convertView);
-        tvDialogTitle.setText("Add Note Below");
-        ad = alertDialog.create();
-        ad.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-        ad.show();
     }
 }
