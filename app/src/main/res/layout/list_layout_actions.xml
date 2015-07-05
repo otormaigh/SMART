@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.daimajia.swipe.SwipeLayout
+        android:id="@+id/swipe_action_list"
+        xmlns:swipe="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        swipe:leftEdgeSwipeOffset="0dp"
+        swipe:rightEdgeSwipeOffset="0dp">
+
+        <!--Bottom View Start-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/spinner_warning"
+            android:gravity="center"
+            android:paddingRight="5dp"
+            android:tag="Bottom3"
+            android:weightSum="10">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="6"
+                android:paddingLeft="@dimen/padding_small"
+                android:text="Book Action?"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_Xsmall"/>
+
+            <Button
+                android:id="@+id/btn_book_action"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:text="Yes"
+                android:textSize="@dimen/text_Xsmall"
+                android:theme="@style/CallToActionButton"/>
+        </LinearLayout>
+        <!--Bottom View End-->
+
+        <!--Surface View Start-->
+        <RelativeLayout
+            android:id="@+id/rl_action_list_item"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?android:attr/selectableItemBackground"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/padding_small"
+            android:paddingTop="@dimen/padding_small">
+
+            <TextView
+                android:id="@+id/tv_action"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="start|center"
+                android:layout_alignParentLeft="true"
+                android:paddingLeft="@dimen/padding_small"
+                android:textSize="@dimen/text_small"/>
+
+            <ImageView
+                android:layout_alignParentRight="true"
+                android:id="@+id/img_status"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/border"
+                android:paddingLeft="5dp"/>
+
+            <!--Surface View End-->
+        </RelativeLayout>
+    </com.daimajia.swipe.SwipeLayout>
+</LinearLayout>
+

@@ -39,11 +39,8 @@ import ie.teamchile.smartapp.model.ServiceUser;
 import ie.teamchile.smartapp.util.AdapterListResults;
 import ie.teamchile.smartapp.util.AdapterSpinner;
 import ie.teamchile.smartapp.util.NotKeys;
-import ie.teamchile.smartapp.util.SmartApi;
 import retrofit.Callback;
-import retrofit.RestAdapter;
 import retrofit.RetrofitError;
-import retrofit.client.OkClient;
 import retrofit.client.Response;
 
 public class CreateAppointmentActivity extends BaseActivity {
@@ -333,13 +330,13 @@ public class CreateAppointmentActivity extends BaseActivity {
     private void userSearchDialog(final String title) {
         LayoutInflater inflater = getLayoutInflater();
         alertDialog = new AlertDialog.Builder(CreateAppointmentActivity.this);
-        View convertView = (View) inflater.inflate(R.layout.dialog_user_search_results, null);
-        ListView list = (ListView) convertView.findViewById(R.id.lv_search_results);
+        View convertView = (View) inflater.inflate(R.layout.dialog_list_only, null);
+        ListView list = (ListView) convertView.findViewById(R.id.lv_dialog);
 
         list.setOnItemClickListener(new onItemListener());
 
-        TextView tvDialogTitle = (TextView) convertView.findViewById(R.id.tv_result_dialog_title);
-        ImageView ivExit = (ImageView) convertView.findViewById(R.id.iv_result_exit_dialog);
+        TextView tvDialogTitle = (TextView) convertView.findViewById(R.id.tv_dialog_title);
+        ImageView ivExit = (ImageView) convertView.findViewById(R.id.iv_exit_dialog);
         ivExit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

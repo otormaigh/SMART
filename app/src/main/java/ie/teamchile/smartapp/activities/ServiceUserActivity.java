@@ -21,11 +21,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.daimajia.swipe.SwipeLayout;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -40,7 +43,6 @@ import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.util.NotKeys;
 import ie.teamchile.smartapp.util.SmartApi;
-import ie.teamchile.smartapp.util.ToastAlert;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -73,7 +75,7 @@ public class ServiceUserActivity extends BaseActivity {
     private String sex_male = "ale";
     private String sex_female = "emale";
     private Dialog dialog;
-    private Button bookAppointmentButton;
+    private Button bookAppointmentButton, btnBookAction;
     private TableRow trParity, trAntiD, trMidwifeNotes, trVitK, trHearing, trNbst, trFeeding;
     private Date dobAsDate = null;
     private Intent userCallIntent, userSmsIntent, userEmailIntent;
@@ -115,6 +117,11 @@ public class ServiceUserActivity extends BaseActivity {
 
         setAntiD();
 
+        bookAppointmentButton = (Button) findViewById(R.id.btn_usr_book_appointment);
+        bookAppointmentButton.setOnClickListener(new ButtonClick());
+        btnBookAction = (Button) findViewById(R.id.btn_usr_actions);
+        btnBookAction.setOnClickListener(new ButtonClick());
+
         llUserContact = (LinearLayout) findViewById(R.id.ll_usr_contact);
         llUserContact.setOnClickListener(new ButtonClick());
         llUserAddress = (LinearLayout) findViewById(R.id.ll_usr_address);
@@ -155,9 +162,6 @@ public class ServiceUserActivity extends BaseActivity {
         tvPostHearing = (TextView) findViewById(R.id.tv_post_hearing);
         tvPostFeeding = (TextView) findViewById(R.id.tv_post_feeding);
         tvPostNBST = (TextView) findViewById(R.id.tv_post_nbst);
-
-        bookAppointmentButton = (Button) findViewById(R.id.btn_usr_book_appointment);
-        bookAppointmentButton.setOnClickListener(new ButtonClick());
 
         trParity = (TableRow) findViewById(R.id.tr_ante_parity);
         trParity.setOnClickListener(new ButtonClick());
@@ -953,6 +957,93 @@ public class ServiceUserActivity extends BaseActivity {
         );
     }
 
+    private void putPregnancyActions(){
+
+    }
+
+    private void showActionsDialog() {
+        Log.d("bugs", "in show dialog method");
+        List<String> listServiceActions = new ArrayList<>();
+        for(int i = 0; i < BaseModel.getInstance().getServiceUserActions().size(); i++){
+            String shortCode = BaseModel.getInstance().getServiceUserActions().get(i).getShortCode();
+            listServiceActions.add(shortCode);
+            Log.d("bugs", "shortCode = " + shortCode);
+        }
+
+        LayoutInflater inflater = getLayoutInflater();
+        alertDialog = new AlertDialog.Builder(ServiceUserActivity.this);
+        View convertView = (View) inflater.inflate(R.layout.dialog_list_only, null);
+        ListView list = (ListView) convertView.findViewById(R.id.lv_dialog);
+        TextView tvDialogTitle = (TextView) convertView.findViewById(R.id.tv_dialog_title);
+        ImageView ivExit = (ImageView) convertView.findViewById(R.id.iv_exit_dialog);
+        ivExit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ad.dismiss();
+            }
+        });
+
+        alertDialog.setView(convertView);
+        //tvDialogTitle.setText(title + " History");
+        ActionsBaseAdapter adapter = new ActionsBaseAdapter(
+                ServiceUserActivity.this,
+                listServiceActions);
+        list.setAdapter(adapter);
+        ad = alertDialog.show();
+    }
+
+    private class ActionsBaseAdapter extends BaseAdapter {
+        Context context;
+        List<String> listServiceActions = new ArrayList<>();
+
+        public ActionsBaseAdapter(Context context, List<String> listServiceActions) {
+            this.context = context;
+            this.listServiceActions = listServiceActions;
+        }
+
+        @Override
+        public void notifyDataSetChanged() {
+            super.notifyDataSetChanged();
+        }
+
+        @Override
+        public int getCount() {
+            return listServiceActions.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            LayoutInflater inflater = getLayoutInflater();
+            convertView = inflater.inflate(R.layout.list_layout_actions, null);
+            TextView tvAction = (TextView) convertView.findViewById(R.id.tv_action);
+            final Button btnBookAction = (Button) convertView.findViewById(R.id.btn_book_action);
+            final ImageView ivStatus = (ImageView) convertView.findViewById(R.id.img_status);
+            final SwipeLayout swipeLayout = (SwipeLayout) convertView.findViewById(R.id.swipe_action_list);
+            RelativeLayout llActionListItem = (RelativeLayout) convertView.findViewById(R.id.rl_action_list_item);
+
+            btnBookAction.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    swipeLayout.close();
+                }
+            });
+
+            tvAction.setText(listServiceActions.get(position));
+
+            return convertView;
+        }
+    }
+
     private class ButtonClick implements View.OnClickListener, DialogInterface {
         Intent intent;
 
@@ -963,6 +1054,10 @@ public class ServiceUserActivity extends BaseActivity {
                     intent = new Intent(ServiceUserActivity.this, AppointmentTypeSpinnerActivity.class);
                     intent.putExtra("userId", String.valueOf(userId));
                     startActivity(intent);
+                    break;
+                case R.id.btn_usr_actions:
+                    Log.d("bugs", "action btn pressed");
+                    showActionsDialog();
                     break;
                 case R.id.ll_usr_contact:
                     dialogContact(userContactList);
