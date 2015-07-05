@@ -331,4 +331,28 @@ public interface SmartApi {
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
             Callback<BaseModel> callback);
+
+    @GET("/pregnancies/{pregnancy_id}/actions")
+    void getPregnancyActions(
+            @Path("pregnancy_id") int pregnancyId,
+            @Header("Auth-Token") String authToken,
+            @Header("Api-Key") String apiKey,
+            Callback<BaseModel> callback);
+
+    @POST("/pregnancies/{pregnancy_id}/actions")
+    void postPregnancyAction(
+            @Body PostingData postPregnancyAction,
+            @Path("pregnancy_id") int pregnancyId,
+            @Header("Auth-Token") String authToken,
+            @Header("Api-Key") String apiKey,
+            Callback<BaseModel> callback);
+
+    @PUT("/pregnancies/{pregnancy_id}/actions/{action_id}")
+    void putPregnancyAction(
+            @Body PostingData postPregnancyAction,
+            @Path("pregnancy_id") int pregnancyId,
+            @Path("action_id") int actionId,
+            @Header("Auth-Token") String authToken,
+            @Header("Api-Key") String apiKey,
+            Callback<BaseModel> callback);
 }
