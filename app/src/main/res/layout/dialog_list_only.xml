@@ -3,16 +3,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/padding_small">
+    android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/rl_result_dialog_title"
+        android:id="@+id/rl_dialog_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/tv_result_dialog_title"
+            android:id="@+id/tv_dialog_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/clinical_blue"
@@ -24,7 +23,7 @@
             android:textSize="@dimen/text_Xsmall"/>
 
         <ImageView
-            android:id="@+id/iv_result_exit_dialog"
+            android:id="@+id/iv_exit_dialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -33,7 +32,7 @@
     </RelativeLayout>
 
     <ListView
-        android:id="@+id/lv_search_results"
+        android:id="@+id/lv_dialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
