@@ -41,6 +41,7 @@ import java.util.List;
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.PostingData;
+import ie.teamchile.smartapp.model.ServiceUserAction;
 import ie.teamchile.smartapp.util.NotKeys;
 import ie.teamchile.smartapp.util.SmartApi;
 import retrofit.Callback;
@@ -957,8 +958,27 @@ public class ServiceUserActivity extends BaseActivity {
         );
     }
 
-    private void putPregnancyActions(){
+    private void postPregnancyActions(String action){
+        PostingData postAction = new PostingData();
+        postAction.postPregnancyAction(action);
 
+        api.postPregnancyAction(
+                postAction,
+                BaseModel.getInstance().getServiceUsers().get(0).getPregnancyIds().get(p),
+                BaseModel.getInstance().getLogin().getToken(),
+                NotKeys.API_KEY,
+                new Callback<BaseModel>() {
+                    @Override
+                    public void success(BaseModel baseModel, Response response) {
+                        Log.d("retro", "post pregnancy action retro success");
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.d("retro", "post pregnancy action retro failure = " + error);
+                    }
+                }
+        );
     }
 
     private void showActionsDialog() {
@@ -995,6 +1015,9 @@ public class ServiceUserActivity extends BaseActivity {
     private class ActionsBaseAdapter extends BaseAdapter {
         Context context;
         List<String> listServiceActions = new ArrayList<>();
+        List<ServiceUserAction> serviceUserActionList =
+                BaseModel.getInstance().getServiceUserActions();
+        List<Integer> actionIdList = new ArrayList<>();
 
         public ActionsBaseAdapter(Context context, List<String> listServiceActions) {
             this.context = context;
@@ -1034,7 +1057,10 @@ public class ServiceUserActivity extends BaseActivity {
             btnBookAction.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    ivStatus.setBackgroundResource(R.color.attended);
                     swipeLayout.close();
+                    //actionIdList.add(serviceUserActionList.get(position).getId());
+                    postPregnancyActions(listServiceActions.get(position));
                 }
             });
 
