@@ -250,6 +250,14 @@ public interface SmartApi {
             @Header("Api-Key") String apiKey,
             Callback<BaseModel> callback);
 
+    @GET("/clinics/{clinic_id}/time_records")
+    void getTimeRecords(
+            @Path("clinic_id") int clinicId,
+            @Query("date") String date,
+            @Header("Auth-Token") String authToken,
+            @Header("Api-Key") String apiKey,
+            Callback<BaseModel> callback);
+
     @POST("/clinics/{clinic_id}/time_records")
     void postTimeRecords(
             @Body PostingData timeRecords,
@@ -267,9 +275,10 @@ public interface SmartApi {
             @Header("Api-Key") String apiKey,
             Callback<BaseModel> callback);
 
-    @GET("/clinics/{clinic_id}/time_records")
-    void getTimeRecords(
+    @DELETE("/clinics/{clinic_id}/time_records/({record_id}")
+    void deleteTimeRecordById(
             @Path("clinic_id") int clinicId,
+            @Path("record_id") int recordId,
             @Query("date") String date,
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
