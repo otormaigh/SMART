@@ -11,7 +11,7 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/tv_history_dialog_title"
+            android:id="@+id/tv_dialog_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/clinical_blue"
@@ -32,16 +32,8 @@
     </RelativeLayout>
 
     <ListView
-        android:id="@+id/lv_history"
+        android:id="@+id/lv_dialog"
         android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1"/>
-
-    <Button
-        android:id="@+id/btn_add_history"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/add_to_history"
-        android:theme="@style/SecondaryButton"/>
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

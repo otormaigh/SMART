@@ -164,7 +164,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
 
         idList = clinicDayMap.get(todayDay);
 
-        if(clinicDayMap.containsKey(todayDay)){
+        if (clinicDayMap.containsKey(todayDay)) {
             for (int i = 0; i < idList.size(); i++) {
                 getTimeRecords(idList.get(i), todayDate);
             }
@@ -192,7 +192,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                                 if (!clinicStarted.contains(clinicId))
                                     clinicStarted.add(clinicId);
                             } else if (baseModel.getClinicTimeRecords().get(0).getEndTime() == null &&
-                                    baseModel.getClinicTimeRecords().get(0).getStartTime() == null){
+                                    baseModel.getClinicTimeRecords().get(0).getStartTime() == null) {
                                 clinicNotStarted.add(clinicId);
                             } else {
                                 if (!clinicStopped.contains(clinicId))
@@ -461,7 +461,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
         lvStopped.setAdapter(adapterStop);
     }
 
-    private void sortListApha(List<String> badList){
+    private void sortListApha(List<String> badList) {
         Collections.sort(badList, new Comparator<String>() {
             @Override
             public int compare(String lhs, String rhs) {
@@ -469,6 +469,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
             }
         });
     }
+
     private class ItemClicky implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

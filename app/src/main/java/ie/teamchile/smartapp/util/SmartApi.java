@@ -250,6 +250,14 @@ public interface SmartApi {
             @Header("Api-Key") String apiKey,
             Callback<BaseModel> callback);
 
+    @GET("/clinics/{clinic_id}/time_records")
+    void getTimeRecords(
+            @Path("clinic_id") int clinicId,
+            @Query("date") String date,
+            @Header("Auth-Token") String authToken,
+            @Header("Api-Key") String apiKey,
+            Callback<BaseModel> callback);
+
     @POST("/clinics/{clinic_id}/time_records")
     void postTimeRecords(
             @Body PostingData timeRecords,
@@ -267,10 +275,10 @@ public interface SmartApi {
             @Header("Api-Key") String apiKey,
             Callback<BaseModel> callback);
 
-    @GET("/clinics/{clinic_id}/time_records")
-    void getTimeRecords(
+    @DELETE("/clinics/{clinic_id}/time_records/({record_id}")
+    void deleteTimeRecordById(
             @Path("clinic_id") int clinicId,
-            @Query("date") String date,
+            @Path("record_id") int recordId,
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
             Callback<BaseModel> callback);
@@ -337,6 +345,30 @@ public interface SmartApi {
 
     @GET("/service_user_actions")
     void getServiceUserActions(
+            @Header("Auth-Token") String authToken,
+            @Header("Api-Key") String apiKey,
+            Callback<BaseModel> callback);
+
+    @GET("/pregnancies/{pregnancy_id}/actions")
+    void getPregnancyActions(
+            @Path("pregnancy_id") int pregnancyId,
+            @Header("Auth-Token") String authToken,
+            @Header("Api-Key") String apiKey,
+            Callback<BaseModel> callback);
+
+    @POST("/pregnancies/{pregnancy_id}/actions")
+    void postPregnancyAction(
+            @Body PostingData postPregnancyAction,
+            @Path("pregnancy_id") int pregnancyId,
+            @Header("Auth-Token") String authToken,
+            @Header("Api-Key") String apiKey,
+            Callback<BaseModel> callback);
+
+    @PUT("/pregnancies/{pregnancy_id}/actions/{action_id}")
+    void putPregnancyAction(
+            @Body PostingData postPregnancyAction,
+            @Path("pregnancy_id") int pregnancyId,
+            @Path("action_id") int actionId,
             @Header("Auth-Token") String authToken,
             @Header("Api-Key") String apiKey,
             Callback<BaseModel> callback);
