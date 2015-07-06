@@ -93,8 +93,8 @@ public class ClinicTimeRecordActivity extends BaseActivity {
         btnStartClinicDisable.setEnabled(false);
         btnStopClinicDisable.setEnabled(false);
 
-        btnStartClinicDisable.setVisibility(View.GONE);
-        btnStopClinicDisable.setVisibility(View.GONE);
+        btnStartClinic.setVisibility(View.GONE);
+        btnStopClinic.setVisibility(View.GONE);
 
         setActionBarTitle("Start/Stop Clinics");
 
@@ -262,6 +262,10 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
                         Log.d("SMART", "retro success");
+                        btnStartClinic.setVisibility(View.GONE);
+                        btnStopClinic.setVisibility(View.GONE);
+                        btnStartClinicDisable.setVisibility(View.VISIBLE);
+                        btnStopClinicDisable.setVisibility(View.VISIBLE);
                         clinicTimeRecords.add(baseModel.getClinicTimeRecord());
                         clinicNotStarted.remove(clinicNotStarted.indexOf(clinicId));
                         clinicStarted.add(clinicId);
@@ -303,6 +307,10 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
                         Log.d("SMART", "retro success");
+                        btnStartClinic.setVisibility(View.GONE);
+                        btnStopClinic.setVisibility(View.GONE);
+                        btnStartClinicDisable.setVisibility(View.VISIBLE);
+                        btnStopClinicDisable.setVisibility(View.VISIBLE);
                         for (int i = 0; i < clinicTimeRecords.size(); i++) {
                             if (clinicTimeRecords.get(i).getId() == recordId) {
                                 Log.d("bugs", "record id = " + clinicTimeRecords.get(i).getId());
@@ -428,17 +436,13 @@ public class ClinicTimeRecordActivity extends BaseActivity {
 
     private void setNotStartedList() {
         recordGetDone ++;
-        String clinicName = new String();
+        String clinicName = "";
         clinicNotStartedName = new ArrayList<>();
         if (clinicNotStarted.size() == 0) {
             clinicNotStartedName.add("No clinics to be started");
             lvNotStarted.setEnabled(false);
-            btnStartClinic.setVisibility(View.GONE);
-            btnStartClinicDisable.setVisibility(View.VISIBLE);
         } else {
             lvNotStarted.setEnabled(true);
-            btnStartClinic.setVisibility(View.VISIBLE);
-            btnStartClinicDisable.setVisibility(View.GONE);
             for (int i = 0; i < clinicNotStarted.size(); i++) {
                 clinicName = clinicIdMap.get(clinicNotStarted.get(i)).getName();
                 int clinicId = clinicNotStarted.get(i);
@@ -469,12 +473,8 @@ public class ClinicTimeRecordActivity extends BaseActivity {
         if (clinicStarted.size() == 0) {
             clinicStartedName.add("No clinics currently started");
             lvStarted.setEnabled(false);
-            btnStopClinic.setVisibility(View.GONE);
-            btnStopClinicDisable.setVisibility(View.VISIBLE);
         } else {
             lvStarted.setEnabled(true);
-            btnStopClinic.setVisibility(View.VISIBLE);
-            btnStopClinicDisable.setVisibility(View.GONE);
             for (int i = 0; i < clinicStarted.size(); i++) {
                 String clinicName = clinicIdMap.get(clinicStarted.get(i)).getName();
                 int clinicId = clinicStarted.get(i);
@@ -505,7 +505,9 @@ public class ClinicTimeRecordActivity extends BaseActivity {
 
         if (clinicStopped.size() == 0) {
             clinicStoppedName.add("No clinics currently stopped");
+            lvStopped.setEnabled(false);
         } else {
+            lvStopped.setEnabled(true);
             for (int i = 0; i < clinicStopped.size(); i++) {
                 String clinicName = clinicIdMap.get(clinicStopped.get(i)).getName();
                 int clinicId = clinicStopped.get(i);
@@ -544,6 +546,8 @@ public class ClinicTimeRecordActivity extends BaseActivity {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             switch (parent.getId()) {
                 case R.id.lv_clinics_not_started:
+                    btnStartClinic.setVisibility(View.VISIBLE);
+                    btnStartClinicDisable.setVisibility(View.GONE);
                     clinicStartedId = 0;
                     adapterStart.notifyDataSetChanged();
                     lvStarted.setAdapter(adapterStart);
@@ -552,6 +556,8 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                     Log.d("bugs", "clinicNotStartedId = " + clinicNotStartedId);
                     break;
                 case R.id.lv_clinics_started:
+                    btnStopClinic.setVisibility(View.VISIBLE);
+                    btnStopClinicDisable.setVisibility(View.GONE);
                     clinicNotStartedId = 0;
                     adapterNotStart.notifyDataSetChanged();
                     lvNotStarted.setAdapter(adapterNotStart);
