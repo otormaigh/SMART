@@ -1,7 +1,9 @@
 package ie.teamchile.smartapp.activities;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -566,8 +568,10 @@ public class ClinicTimeRecordActivity extends BaseActivity {
 
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            Vibrator vibe = (Vibrator) ClinicTimeRecordActivity.this.getSystemService(Context.VIBRATOR_SERVICE);
             switch(parent.getId()){
                 case R.id.lv_clinics_stopped:
+                    vibe.vibrate(50);
                     clinicIdForDelete = clinicStopped.get(position);
                     for (int i = 0; i < clinicTimeRecords.size(); i++) {
                         if (clinicTimeRecords.get(i).getClinicId() == clinicIdForDelete) {
