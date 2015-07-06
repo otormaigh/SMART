@@ -6,16 +6,17 @@
     android:orientation="vertical"
     tools:context="ie.teamchile.smartapp.activities.MidwiferyLogActivity">
 
+    <ListView
+        android:id="@+id/lv_midwifery_log"
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"/>
+
     <Button
         android:id="@+id/btn_add_midwifery_note"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/add_note"
-        android:theme="@style/SecondaryButton" />
-
-    <ListView
-        android:id="@+id/lv_midwifery_log"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:theme="@style/SecondaryButton"/>
 
 </LinearLayout>
