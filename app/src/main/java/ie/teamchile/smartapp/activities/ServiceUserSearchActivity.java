@@ -51,7 +51,7 @@ public class ServiceUserSearchActivity extends BaseActivity {
     private List<String> hospitalNumberList = new ArrayList<>();
     private LinearLayout llNoUserFound;
     private Boolean changeActivity;
-    private static AdapterListResultsInner adapterListResults;
+    private static BaseAdapter adapterListResults;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -212,6 +212,10 @@ public class ServiceUserSearchActivity extends BaseActivity {
     }
 
     private void searchForPatient(String name, String hospitalNumber, String dob) {
+        if(name.equals("."))
+            name = " ";
+        else
+            name = name.trim();
         listName.clear();
         listDob.clear();
         listHospitalNumber.clear();
@@ -220,8 +224,8 @@ public class ServiceUserSearchActivity extends BaseActivity {
 
         api.getServiceUserByNameDobHospitalNum(
                 name,
-                hospitalNumber,
-                dob,
+                hospitalNumber.trim(),
+                dob.trim(),
                 BaseModel.getInstance().getLogin().getToken(),
                 NotKeys.API_KEY,
                 new Callback<BaseModel>() {
@@ -334,8 +338,7 @@ public class ServiceUserSearchActivity extends BaseActivity {
         private List<String> resultName;
         private List<String> resultDob;
         private List<String> resultHospitalNumber;
-       // private LayoutInflater layoutInflater;
-
+        private LayoutInflater layoutInflater;
 
         public AdapterListResultsInner(
                 Context context,
@@ -346,9 +349,7 @@ public class ServiceUserSearchActivity extends BaseActivity {
             this.resultName = resultName;
             this.resultDob = resultDob;
             this.resultHospitalNumber = resultHospitalNumber;
-
-            //layoutInflater = LayoutInflater.from(context);
-
+            layoutInflater = LayoutInflater.from(context);
         }
         @Override
         public int getCount() {
@@ -367,7 +368,6 @@ public class ServiceUserSearchActivity extends BaseActivity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            LayoutInflater layoutInflater = getLayoutInflater();
             convertView = layoutInflater.inflate(R.layout.list_layout_search_results, null);
             TextView tvName = (TextView) convertView.findViewById(R.id.tv_results_name);
             TextView tvDob = (TextView) convertView.findViewById(R.id.tv_results_dob);
