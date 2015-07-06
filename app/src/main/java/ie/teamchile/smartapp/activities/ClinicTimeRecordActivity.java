@@ -1,6 +1,7 @@
 package ie.teamchile.smartapp.activities;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -58,6 +59,9 @@ public class ClinicTimeRecordActivity extends BaseActivity {
     private ArrayAdapter adapterStart;
     private ArrayAdapter adapterStop;
     private int recordId = 0;
+    private int recordIdForDelete;
+    private int clinicIdForDelete;
+    private int recordGetDone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +78,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
         lvStarted.setOnItemClickListener(new ItemClicky());
         lvStopped = (ListView) findViewById(R.id.lv_clinics_stopped);
         lvStopped.setOnItemClickListener(new ItemClicky());
+        lvStopped.setOnItemLongClickListener(new ItemClicky());
         btnStartClinic = (Button) findViewById(R.id.btn_start_clinic);
         btnStartClinic.setOnClickListener(new ButtonClicky());
         btnStopClinic = (Button) findViewById(R.id.btn_stop_clinic);
@@ -91,13 +96,15 @@ public class ClinicTimeRecordActivity extends BaseActivity {
 
         setActionBarTitle("Start/Stop Clinics");
 
-        if (BaseModel.getInstance().getClinicStarted().size() == 0) {
+        getDataFromDb();
+
+        /*if (BaseModel.getInstance().getClinicStarted().size() == 0) {
             Log.d("bugs", "time records null");
             getDataFromDb();
         } else {
             Log.d("bugs", "time records not null");
             getDataFromSingle();
-        }
+        }*/
     }
 
     @Override
@@ -138,6 +145,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
 
     private void getDataFromDb() {
         Log.d("bugs", "getting data from db");
+        recordGetDone = 0;
 
         List<Clinic> clinics = BaseModel.getInstance().getClinics();
 
@@ -165,6 +173,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
         idList = clinicDayMap.get(todayDay);
 
         if (clinicDayMap.containsKey(todayDay)) {
+            showProgressDialog(ClinicTimeRecordActivity.this, "Updating Time Records");
             for (int i = 0; i < idList.size(); i++) {
                 getTimeRecords(idList.get(i), todayDate);
             }
@@ -173,7 +182,19 @@ public class ClinicTimeRecordActivity extends BaseActivity {
             setStartedList();
             setStoppedList();
         }
+        timer = new CountDownTimer(200, 100) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+            }
 
+            @Override
+            public void onFinish() {
+                if (recordGetDone >= 3)
+                    pd.dismiss();
+                else
+                    timer.start();
+            }
+        }.start();
     }
 
     private void getTimeRecords(final int clinicId, String date) {
@@ -359,8 +380,52 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                 });
     }
 
+    private void deleteTimeRecord(final int clinicIdForDelete, final int recordIdForDelete){
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint(NotKeys.BASE_URL)
+                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .setClient(new OkClient())
+                .build();
+
+        api = restAdapter.create(SmartApi.class);
+
+        showProgressDialog(ClinicTimeRecordActivity.this, "Deleting Time Record");
+
+        api.deleteTimeRecordById(
+                clinicIdForDelete,
+                recordIdForDelete,
+                BaseModel.getInstance().getLogin().getToken(),
+                NotKeys.API_KEY,
+                new Callback<BaseModel>() {
+                    @Override
+                    public void success(BaseModel baseModel, Response response) {
+                        Log.d("retro", "deleteTimeRecord success");
+                        for (int i = 0; i < clinicTimeRecords.size(); i++) {
+                            if (clinicTimeRecords.get(i).getId() == recordIdForDelete) {
+                                Log.d("bugs", "record id = " + clinicTimeRecords.get(i).getId());
+                                clinicTimeRecords.remove(i);
+                                clinicStopped.remove(clinicStopped.indexOf(clinicIdForDelete));
+                                clinicNotStarted.add(clinicIdForDelete);
+                                setStartedList();
+                                setStoppedList();
+                                setNotStartedList();
+                            }
+                        }
+                        pd.dismiss();
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.d("retro", "deleteTimeRecord failure = "  + error);
+                        pd.dismiss();
+                    }
+                }
+        );
+    }
+
 
     private void setNotStartedList() {
+        recordGetDone ++;
         String clinicName = new String();
         clinicNotStartedName = new ArrayList<>();
         if (clinicNotStarted.size() == 0) {
@@ -397,6 +462,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
     }
 
     private void setStartedList() {
+        recordGetDone ++;
         clinicStartedName = new ArrayList<>();
         if (clinicStarted.size() == 0) {
             clinicStartedName.add("No clinics currently started");
@@ -432,6 +498,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
     }
 
     private void setStoppedList() {
+        recordGetDone ++;
         clinicStoppedName = new ArrayList<>();
 
         if (clinicStopped.size() == 0) {
@@ -470,7 +537,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
         });
     }
 
-    private class ItemClicky implements AdapterView.OnItemClickListener {
+    private class ItemClicky implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener{
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             switch (parent.getId()) {
@@ -496,6 +563,24 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                     break;
             }
         }
+
+        @Override
+        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            switch(parent.getId()){
+                case R.id.lv_clinics_stopped:
+                    clinicIdForDelete = clinicStopped.get(position);
+                    for (int i = 0; i < clinicTimeRecords.size(); i++) {
+                        if (clinicTimeRecords.get(i).getClinicId() == clinicIdForDelete) {
+                            Log.d("bugs", "record id = " + clinicTimeRecords.get(i).getId());
+                            recordIdForDelete = clinicTimeRecords.get(i).getId();
+                        }
+                    }
+                    Log.d("bugs", "clinicIdForDelete = " + clinicIdForDelete);
+                    Log.d("bugs", "recordIdForDelete = " + recordIdForDelete);
+                    break;
+            }
+            return false;
+        }
     }
 
     private class ButtonClicky implements View.OnClickListener {
@@ -520,8 +605,9 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                     }
                     break;
                 case R.id.btn_reset_clinic_record:
-                    Log.d("timeRecord", "reset clinic id = " + clinicStoppedId);
-                    resetRecord(clinicStoppedId);
+                    //Log.d("timeRecord", "reset clinic id = " + clinicStoppedId);
+                    //resetRecord(clinicStoppedId);
+                    deleteTimeRecord(clinicIdForDelete, recordIdForDelete);
                     break;
             }
             clinicNotStartedId = 0;

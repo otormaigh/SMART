@@ -275,7 +275,7 @@ public interface SmartApi {
             @Header("Api-Key") String apiKey,
             Callback<BaseModel> callback);
 
-    @DELETE("/clinics/{clinic_id}/time_records/({record_id}")
+    @DELETE("/clinics/{clinic_id}/time_records/{record_id}")
     void deleteTimeRecordById(
             @Path("clinic_id") int clinicId,
             @Path("record_id") int recordId,
