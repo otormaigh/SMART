@@ -4,11 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -28,8 +31,8 @@ import ie.teamchile.smartapp.model.HearingHistory;
 import ie.teamchile.smartapp.model.NbstHistory;
 import ie.teamchile.smartapp.model.ServiceUser;
 import ie.teamchile.smartapp.model.VitKHistory;
+import ie.teamchile.smartapp.util.AdapterListResults;
 import ie.teamchile.smartapp.util.NotKeys;
-import ie.teamchile.smartapp.util.SmartApi;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -40,12 +43,15 @@ public class ServiceUserSearchActivity extends BaseActivity {
     private Button search;
     private TextView tvSearchResults;
     private ArrayList<String> searchResults = new ArrayList<>();
+    private ArrayList<String> listName = new ArrayList<>();
+    private ArrayList<String> listDob = new ArrayList<>();
+    private ArrayList<String> listHospitalNumber = new ArrayList<>();
     private Intent intent;
     private ListView lvSearchResults;
-    private ArrayAdapter<String> adapter;
     private List<String> hospitalNumberList = new ArrayList<>();
     private LinearLayout llNoUserFound;
     private Boolean changeActivity;
+    private static AdapterListResultsInner adapterListResults;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,14 +75,14 @@ public class ServiceUserSearchActivity extends BaseActivity {
         llNoUserFound.setVisibility(View.GONE);
         //tvNoUserFound.setVisibility(View.GONE);
         tvSearchResults.setVisibility(View.GONE);
-
     }
 
-    private void createResultList(ArrayList<String> searchResults) {
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, searchResults);
-        adapter.notifyDataSetChanged();
-        lvSearchResults.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+    private void createResultList() {
+        //adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, searchResults);
+        adapterListResults = new AdapterListResultsInner(this, listName, listDob, listHospitalNumber);
+        adapterListResults.notifyDataSetChanged();
+        lvSearchResults.setAdapter(adapterListResults);
+        //adapterListResults.notifyDataSetChanged();
     }
 
     private void getHistories() {
@@ -206,6 +212,9 @@ public class ServiceUserSearchActivity extends BaseActivity {
     }
 
     private void searchForPatient(String name, String hospitalNumber, String dob) {
+        listName.clear();
+        listDob.clear();
+        listHospitalNumber.clear();
         Log.d("retro", "ServiceUserSearchActivity user search success");
         showProgressDialog(ServiceUserSearchActivity.this, "Fetching Information");
 
@@ -232,19 +241,24 @@ public class ServiceUserSearchActivity extends BaseActivity {
                                 for (int i = 0; i < baseModel.getServiceUsers().size(); i++) {
                                     ServiceUser serviceUser = BaseModel.getInstance().getServiceUsers().get(i);
                                     String name = serviceUser.getPersonalFields().getName();
-                                    String hospitalNumber = serviceUser.getHospitalNumber();
                                     String dob = serviceUser.getPersonalFields().getDob();
+                                    String hospitalNumber = serviceUser.getHospitalNumber();
+
+                                    listName.add(name);
+                                    listDob.add(dob);
+                                    listHospitalNumber.add(hospitalNumber);
 
                                     searchResults.add(name + " - " + hospitalNumber + " - " + dob);
                                     hospitalNumberList.add(hospitalNumber);
                                 }
-                                createResultList(searchResults);
-                                adapter.notifyDataSetChanged();
+                                createResultList();
+                                adapterListResults.notifyDataSetChanged();
                             }
                         } else {
                             llNoUserFound.setVisibility(View.VISIBLE);
-                            if (adapter != null) {
-                                adapter.clear();
+                            if (adapterListResults != null) {
+                                lvSearchResults.setAdapter(null);
+                                adapterListResults.notifyDataSetChanged();
                             }
                         }
                         pd.dismiss();
@@ -253,6 +267,7 @@ public class ServiceUserSearchActivity extends BaseActivity {
                     @Override
                     public void failure(RetrofitError error) {
                         Log.d("retro", "ServiceUserSearchActivity user search failure = " + error);
+                        checkRetroError(error, ServiceUserSearchActivity.this);
                         llNoUserFound.setVisibility(View.VISIBLE);
                         pd.dismiss();
                     }
@@ -313,4 +328,61 @@ public class ServiceUserSearchActivity extends BaseActivity {
             }
         }
     }
+
+    public class AdapterListResultsInner extends BaseAdapter {
+        private Context context;
+        private List<String> resultName;
+        private List<String> resultDob;
+        private List<String> resultHospitalNumber;
+       // private LayoutInflater layoutInflater;
+
+
+        public AdapterListResultsInner(
+                Context context,
+                List<String> resultName,
+                List<String> resultDob,
+                List<String> resultHospitalNumber){
+            this.context = context;
+            this.resultName = resultName;
+            this.resultDob = resultDob;
+            this.resultHospitalNumber = resultHospitalNumber;
+
+            //layoutInflater = LayoutInflater.from(context);
+
+        }
+        @Override
+        public int getCount() {
+            return resultName.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            LayoutInflater layoutInflater = getLayoutInflater();
+            convertView = layoutInflater.inflate(R.layout.list_layout_search_results, null);
+            TextView tvName = (TextView) convertView.findViewById(R.id.tv_results_name);
+            TextView tvDob = (TextView) convertView.findViewById(R.id.tv_results_dob);
+            TextView tvHospitalNumber = (TextView) convertView.findViewById(R.id.tv_results_hospital_number);
+
+            tvName.setText(resultName.get(position));
+            tvDob.setText(resultDob.get(position));
+            tvHospitalNumber.setText(resultHospitalNumber.get(position));
+            return convertView;
+        }
+
+        @Override
+        public void notifyDataSetChanged() {
+            super.notifyDataSetChanged();
+        }
+    }
+
 }

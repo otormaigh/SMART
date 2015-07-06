@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +19,9 @@ import java.util.Map;
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.Clinic;
+import ie.teamchile.smartapp.model.PregnancyAction;
 import ie.teamchile.smartapp.model.ServiceOption;
+import ie.teamchile.smartapp.model.ServiceUserAction;
 import ie.teamchile.smartapp.util.NotKeys;
 import ie.teamchile.smartapp.util.SmartApi;
 import ie.teamchile.smartapp.util.ToastAlert;
@@ -197,6 +201,30 @@ public class QuickMenuActivity extends BaseActivity {
                 }
         );
 
+        api.getServiceUserActions(
+                BaseModel.getInstance().getLogin().getToken(),
+                NotKeys.API_KEY,
+                new Callback<BaseModel>() {
+                    @Override
+                    public void success(BaseModel baseModel, Response response) {
+                        Log.d("Retrofit", "actions retro success");
+                        done++;
+                        Collections.sort(baseModel.getServiceUserActions(), new Comparator<ServiceUserAction>() {
+                            @Override
+                            public int compare(ServiceUserAction lhs, ServiceUserAction rhs) {
+                                return (lhs.getShortCode()).compareTo(rhs.getShortCode());
+                            }
+                        });
+                        BaseModel.getInstance().setServiceUserActions(baseModel.getServiceUserActions());
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.d("Retrofit", "actions retro failure " + error);
+                    }
+                }
+        );
+
         timer = new CountDownTimer(200, 100) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -204,7 +232,7 @@ public class QuickMenuActivity extends BaseActivity {
 
             @Override
             public void onFinish() {
-                if (done == 4)
+                if (done >= 5)
                     pd.dismiss();
                 else
                     timer.start();
