@@ -66,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
     private void initRetrofit() {
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(NotKeys.BASE_URL)
-                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .setLogLevel(RestAdapter.LogLevel.BASIC)
                 .setClient(new OkClient())
                 .build();
 
