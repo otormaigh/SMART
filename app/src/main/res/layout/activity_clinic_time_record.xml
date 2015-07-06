@@ -82,7 +82,7 @@
         android:id="@+id/btn_reset_clinic_record"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Reset Clinic Record"
+        android:text="@string/reset_record"
         android:textSize="@dimen/text_medium"/>
 
 </LinearLayout>
