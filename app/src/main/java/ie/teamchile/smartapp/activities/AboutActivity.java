@@ -1,5 +1,6 @@
 package ie.teamchile.smartapp.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.util.Linkify;
@@ -41,5 +42,12 @@ public class AboutActivity extends AppCompatActivity {
             }
         });
         webView.loadUrl("http://54.72.7.91/#/about");
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
     }
 }

@@ -92,6 +92,7 @@ public class BaseModel {
     @SerializedName("pregnancy_actions")
     @Expose
     private List<PregnancyAction> pregnancyActions = new ArrayList<>();
+    private Map<Integer, ServiceUserAction> serviceUserActionMap = new HashMap<>();
 
     private BaseModel() { }
 
@@ -443,5 +444,13 @@ public class BaseModel {
 
     public void setPregnancyActions(List<PregnancyAction> pregnancyActions) {
         this.pregnancyActions = pregnancyActions;
+    }
+
+    public Map<Integer, ServiceUserAction> getServiceUserActionMap() {
+        return serviceUserActionMap;
+    }
+
+    public void setServiceUserActionMap(Map<Integer, ServiceUserAction> serviceUserActionMap) {
+        this.serviceUserActionMap = serviceUserActionMap;
     }
 }

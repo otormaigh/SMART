@@ -22,6 +22,8 @@ public class PostingData {
     public Note note;
     @Expose
     public Baby baby;
+    @SerializedName("pregnancy_action")
+    public PregnancyAction pregnancyAction;
 
     public PostingData() {
     }
@@ -90,6 +92,14 @@ public class PostingData {
 
     public void postNote(String note) {
         this.note = new Note(note);
+    }
+
+    public void postPregnancyAction(String action){
+        this.pregnancyAction = new PregnancyAction(action);
+    }
+
+    public void putPregnancyActionStatus(boolean complete){
+        this.pregnancyAction = new PregnancyAction(complete);
     }
 
     private class Login {
@@ -254,6 +264,20 @@ public class PostingData {
             this.serviceUserId = serviceUserId;
             this.pregnancyId = pregnancyId;
             this.nbst = nbst;
+        }
+    }
+
+    private class PregnancyAction {
+        @Expose
+        private String action;
+        @Expose
+        private boolean complete;
+
+        public PregnancyAction(String action){
+            this.action = action;
+        }
+        public PregnancyAction(boolean complete){
+            this.complete = complete;
         }
     }
 }
