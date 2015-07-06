@@ -247,9 +247,10 @@
     <string name="start_clinic">Start Clinic</string>
     <string name="stop_clinic">End Clinic</string>
     <string name="select_clinic">Select a Clinic from Below</string>
-    <string name="clinics_started">Clinics Started Today</string>
-    <string name="clinics_stopped">Clinics Stopped Today</string>
-    <string name="clinics_not_started">Clinics Not Running</string>
+    <string name="clinics_started">Already In-progress</string>
+    <string name="clinics_stopped">Already Finished Today</string>
+    <string name="clinics_not_started">Waiting to be Started Today</string>
+    <string name="reset_record">Reset Clinic Times</string>
 
     <!-- MIDWIFERY LOG -->
     <string name="enter_note_hint"><i>Enter Note Here . . .</i></string>
