@@ -96,6 +96,10 @@ public class QuickMenuActivity extends BaseActivity {
     }
 
     private void checkIfLoggedIn() {
+        Log.d("bugs", "clinics.size() = " + BaseModel.getInstance().getClinics().size());
+        Log.d("bugs", "getServiceOptions.size() = " + BaseModel.getInstance().getServiceOptions().size());
+        Log.d("bugs", "getAppointments.size() = " + BaseModel.getInstance().getAppointments().size());
+
         if (BaseModel.getInstance().getClinics().size() == 0 ||
                 BaseModel.getInstance().getServiceOptions().size() == 0 ||
                 BaseModel.getInstance().getAppointments().size() == 0) {
