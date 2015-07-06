@@ -631,7 +631,7 @@ public class CreateAppointmentActivity extends BaseActivity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             switch (parent.getId()) {
-                case R.id.lv_search_results:
+                case R.id.lv_dialog:
                     hideKeyboard();
                     ServiceUser serviceUser = serviceUserList.get(position);
                     BaseModel.getInstance().setServiceUser(serviceUser);
