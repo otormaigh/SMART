@@ -74,6 +74,8 @@
         android:id="@+id/tv_search_results"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="@dimen/padding_Xsmall"
+        android:paddingLeft="@dimen/padding_Xsmall"
         android:text="@string/search_result" />
 
     <LinearLayout
