@@ -56,7 +56,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
     private int clinicStoppedId;
     private Button btnStartClinic, btnStartClinicDisable;
     private Button btnStopClinic, btnStopClinicDisable;
-    private Button btnResetRecord;
+    private Button btnResetRecord, btnResetRecordDisable;
     private ArrayAdapter adapterNotStart;
     private ArrayAdapter adapterStart;
     private ArrayAdapter adapterStop;
@@ -71,7 +71,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
         setContentForNav(R.layout.activity_clinic_time_record);
         c = Calendar.getInstance();
         //todayDay = dfDayLong.format(c.getTime());
-        todayDay = "Monday";
+        todayDay = "Tuesday";
         todayDate = dfDateOnly.format(c.getTime());
         Log.d("SMART", "today = " + todayDay);
         lvNotStarted = (ListView) findViewById(R.id.lv_clinics_not_started);
@@ -88,6 +88,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
         btnStartClinicDisable = (Button) findViewById(R.id.btn_start_clinic_disable);
         btnStopClinicDisable = (Button) findViewById(R.id.btn_stop_clinic_disable);
         btnResetRecord = (Button) findViewById(R.id.btn_reset_clinic_record);
+        btnResetRecordDisable = (Button) findViewById(R.id.btn_reset_clinic_record_disable);
         btnResetRecord.setOnClickListener(new ButtonClicky());
 
         btnStartClinicDisable.setEnabled(false);
@@ -95,6 +96,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
 
         btnStartClinic.setVisibility(View.GONE);
         btnStopClinic.setVisibility(View.GONE);
+        btnResetRecord.setVisibility(View.GONE);
 
         setActionBarTitle("Start/Stop Clinics");
 
@@ -264,8 +266,11 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                         Log.d("SMART", "retro success");
                         btnStartClinic.setVisibility(View.GONE);
                         btnStopClinic.setVisibility(View.GONE);
+                        btnResetRecord.setVisibility(View.GONE);
                         btnStartClinicDisable.setVisibility(View.VISIBLE);
                         btnStopClinicDisable.setVisibility(View.VISIBLE);
+                        btnResetRecordDisable.setVisibility(View.VISIBLE);
+
                         clinicTimeRecords.add(baseModel.getClinicTimeRecord());
                         clinicNotStarted.remove(clinicNotStarted.indexOf(clinicId));
                         clinicStarted.add(clinicId);
@@ -309,8 +314,11 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                         Log.d("SMART", "retro success");
                         btnStartClinic.setVisibility(View.GONE);
                         btnStopClinic.setVisibility(View.GONE);
+                        btnResetRecord.setVisibility(View.GONE);
                         btnStartClinicDisable.setVisibility(View.VISIBLE);
                         btnStopClinicDisable.setVisibility(View.VISIBLE);
+                        btnResetRecordDisable.setVisibility(View.VISIBLE);
+
                         for (int i = 0; i < clinicTimeRecords.size(); i++) {
                             if (clinicTimeRecords.get(i).getId() == recordId) {
                                 Log.d("bugs", "record id = " + clinicTimeRecords.get(i).getId());
@@ -566,6 +574,8 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                     Log.d("bugs", "clinicStartedId = " + clinicStartedId);
                     break;
                 case R.id.lv_clinics_stopped:
+                    btnResetRecord.setVisibility(View.VISIBLE);
+                    btnResetRecordDisable.setVisibility(View.GONE);
                     clinicStoppedId = clinicStopped.get(position);
                     Log.d("timeRecord", "reset clinic id = " + clinicStoppedId);
                     break;

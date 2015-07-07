@@ -20,5 +20,6 @@
     <color name="teal">#B2DFDB</color>
     <color name="unattended">#FFCC80</color>
     <color name="attended">#26A69A</color>
+    <color name="salmon">#E57373</color>
 
 </resources>

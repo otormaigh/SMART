@@ -16,6 +16,14 @@
        <item name="android:paddingBottom">@dimen/padding_small</item>
     </style>
 
+    <style name="WarningCta" >
+        <item name="colorButtonNormal">@color/salmon</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/text_medium</item>
+        <item name="android:paddingTop">@dimen/padding_small</item>
+        <item name="android:paddingBottom">@dimen/padding_small</item>
+    </style>
+
     <style name="DisableCTA" >
         <item name="colorButtonNormal">@color/light_grey</item>
         <item name="android:textColor">@color/black</item>
