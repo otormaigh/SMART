@@ -79,7 +79,6 @@ public class ClinicTimeRecordActivity extends BaseActivity {
         lvStarted = (ListView) findViewById(R.id.lv_clinics_started);
         lvStarted.setOnItemClickListener(new ItemClicky());
         lvStopped = (ListView) findViewById(R.id.lv_clinics_stopped);
-        lvStopped.setOnItemClickListener(new ItemClicky());
         lvStopped.setOnItemLongClickListener(new ItemClicky());
         btnStartClinic = (Button) findViewById(R.id.btn_start_clinic);
         btnStartClinic.setOnClickListener(new ButtonClicky());
@@ -573,12 +572,6 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                     clinicStartedId = clinicStarted.get(position);
                     Log.d("bugs", "clinicStartedId = " + clinicStartedId);
                     break;
-                case R.id.lv_clinics_stopped:
-                    btnResetRecord.setVisibility(View.VISIBLE);
-                    btnResetRecordDisable.setVisibility(View.GONE);
-                    clinicStoppedId = clinicStopped.get(position);
-                    Log.d("timeRecord", "reset clinic id = " + clinicStoppedId);
-                    break;
             }
         }
 
@@ -587,6 +580,8 @@ public class ClinicTimeRecordActivity extends BaseActivity {
             Vibrator vibe = (Vibrator) ClinicTimeRecordActivity.this.getSystemService(Context.VIBRATOR_SERVICE);
             switch(parent.getId()){
                 case R.id.lv_clinics_stopped:
+                    btnResetRecord.setVisibility(View.VISIBLE);
+                    btnResetRecordDisable.setVisibility(View.GONE);
                     vibe.vibrate(50);
                     clinicIdForDelete = clinicStopped.get(position);
                     for (int i = 0; i < clinicTimeRecords.size(); i++) {
