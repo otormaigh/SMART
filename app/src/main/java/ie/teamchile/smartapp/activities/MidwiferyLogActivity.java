@@ -60,9 +60,6 @@ public class MidwiferyLogActivity extends BaseActivity {
         btnAddNote.setOnClickListener(new Clicky());
         etNote = (EditText) findViewById(R.id.et_midwifery_notes);
 
-        BaseModel.getInstance().setPregnancyNotes(
-                BaseModel.getInstance().getPregnancies().get(p).getPregnancyNotes());
-
         setData();
     }
 
