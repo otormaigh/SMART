@@ -76,6 +76,9 @@
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/padding_Xsmall"
         android:paddingLeft="@dimen/padding_Xsmall"
+        android:paddingBottom="@dimen/padding_Xsmall"
+        android:background="@color/very_light_grey"
+        android:textSize="@dimen/text_small"
         android:text="@string/search_result" />
 
     <LinearLayout
@@ -115,7 +118,6 @@
             android:textColor="@color/black"
             android:textSize="@dimen/text_small" />
     </LinearLayout>
-
 
     <ListView
         android:id="@+id/lv_search_results"
