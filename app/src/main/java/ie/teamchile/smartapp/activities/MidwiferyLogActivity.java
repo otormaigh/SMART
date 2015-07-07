@@ -60,7 +60,31 @@ public class MidwiferyLogActivity extends BaseActivity {
         btnAddNote.setOnClickListener(new Clicky());
         etNote = (EditText) findViewById(R.id.et_midwifery_notes);
 
-        setData();
+        showProgressDialog(MidwiferyLogActivity.this, "Updating Notes");
+        getMidwiferyNotes();
+    }
+
+    private void getMidwiferyNotes(){
+        api.getPregnancyNotes(
+                BaseModel.getInstance().getServiceUsers().get(0).getPregnancyIds().get(p),
+                BaseModel.getInstance().getLogin().getToken(),
+                NotKeys.API_KEY,
+                new Callback<BaseModel>() {
+                    @Override
+                    public void success(BaseModel baseModel, Response response) {
+                        Log.d("retro", "put getMidwiferyNotes retro success");
+                        BaseModel.getInstance().setPregnancyNotes(baseModel.getPregnancyNotes());
+                        pd.dismiss();
+                        setData();
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.d("retro", "put getMidwiferyNotes retro failure = " + error);
+                        pd.dismiss();
+                    }
+                }
+        );
     }
 
     private void setData() {
