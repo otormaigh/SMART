@@ -70,8 +70,10 @@ public interface SmartApi {
     @GET("/appointments")
     void getAppointmentsForDayClinic(
             @Query("date") String date,
-            @Query("clinic_id") String clinic,
-            Callback<List<Appointment>> callback);
+            @Query("clinic_id") int clinicId,
+            @Header("Auth-Token") String authToken,
+            @Header("Api-Key") String apiKey,
+            Callback<BaseModel> callback);
 
     @PUT("/appointments/{id}")
     void putAppointmentStatus(
