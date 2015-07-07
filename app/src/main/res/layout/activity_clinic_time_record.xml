@@ -6,83 +6,93 @@
     android:orientation="vertical"
     tools:context="ie.teamchile.smartapp.activities.ClinicTimeRecordActivity">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/clinics_not_started"
-        android:textSize="@dimen/text_medium"
-        android:textColor="@color/light_grey"
-        android:textStyle="italic"
-        android:paddingLeft="@dimen/padding_Xsmall"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/padding_Xsmall"
+            android:text="@string/clinics_not_started"
+            android:textColor="@color/light_grey"
+            android:textSize="@dimen/text_medium"
+            android:textStyle="italic"/>
 
-    <ListView
-        android:id="@+id/lv_clinics_not_started"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:listSelector="@color/teal"/>
+        <ListView
+            android:id="@+id/lv_clinics_not_started"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:listSelector="@color/teal"/>
 
-    <Button
-        android:id="@+id/btn_start_clinic"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/start_clinic"
-        android:theme="@style/CallToActionButton"/>
+        <Button
+            android:id="@+id/btn_start_clinic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/start_clinic"
+            android:theme="@style/CallToActionButton"/>
 
-    <Button
-        android:id="@+id/btn_start_clinic_disable"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/start_clinic"
-        android:textSize="@dimen/text_medium"/>
+        <Button
+            android:id="@+id/btn_start_clinic_disable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="@string/start_clinic"
+            android:textSize="@dimen/text_medium"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/clinics_started"
-        android:textSize="@dimen/text_medium"
-        android:textColor="@color/light_grey"
-        android:textStyle="italic"
-        android:paddingLeft="@dimen/padding_Xsmall"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/padding_Xsmall"
+            android:text="@string/clinics_started"
+            android:textColor="@color/light_grey"
+            android:textSize="@dimen/text_medium"
+            android:textStyle="italic"/>
 
-    <ListView
-        android:id="@+id/lv_clinics_started"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:listSelector="@color/teal"/>
+        <ListView
+            android:id="@+id/lv_clinics_started"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:listSelector="@color/teal"/>
 
-    <Button
-        android:id="@+id/btn_stop_clinic"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/stop_clinic"
-        android:theme="@style/CallToActionButton"/>
+        <Button
+            android:id="@+id/btn_stop_clinic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/stop_clinic"
+            android:theme="@style/CallToActionButton"/>
 
-    <Button
-        android:id="@+id/btn_stop_clinic_disable"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/stop_clinic"
-        android:textSize="@dimen/text_medium"/>
+        <Button
+            android:id="@+id/btn_stop_clinic_disable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="@string/stop_clinic"
+            android:textSize="@dimen/text_medium"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/clinics_stopped"
-        android:textSize="@dimen/text_medium"
-        android:textColor="@color/light_grey"
-        android:textStyle="italic"
-        android:paddingLeft="@dimen/padding_Xsmall"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/padding_Xsmall"
+            android:text="@string/clinics_stopped"
+            android:textColor="@color/light_grey"
+            android:textSize="@dimen/text_medium"
+            android:textStyle="italic"/>
 
-    <ListView
-        android:id="@+id/lv_clinics_stopped"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        <ListView
+            android:id="@+id/lv_clinics_stopped"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
-    <Button
-        android:id="@+id/btn_reset_clinic_record"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/reset_record"
-        android:textSize="@dimen/text_medium"/>
+        <Button
+            android:id="@+id/btn_reset_clinic_record"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/reset_record"
+            android:textSize="@dimen/text_medium"
+            android:theme="@style/WarningCta"/>
 
+        <Button
+            android:id="@+id/btn_reset_clinic_record_disable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="@string/reset_record"
+            android:textSize="@dimen/text_medium"/>
 </LinearLayout>
