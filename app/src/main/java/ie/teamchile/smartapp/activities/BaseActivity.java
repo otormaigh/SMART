@@ -222,7 +222,7 @@ public class BaseActivity extends AppCompatActivity {
             Toast.makeText(context, "No Internet connection!", Toast.LENGTH_LONG).show();
             Log.d("retro", "no internet");
             return false;
-        } else if(netInfo != null || !netInfo.isConnected() || !netInfo.isAvailable()){
+        } else if (netInfo != null || !netInfo.isConnected() || !netInfo.isAvailable()) {
             Toast.makeText(context, "No Internet connection!", Toast.LENGTH_LONG).show();
             Log.d("retro", "no internet");
             return false;
@@ -471,6 +471,41 @@ public class BaseActivity extends AppCompatActivity {
             bId = babyList.get(0).getId();
     }
 
+    protected void showErrorDialog(String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(message)
+                .setTitle("Error")
+                .setIcon(R.drawable.ic_alert_triangle_red)
+                .setCancelable(false)
+                .setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //do things
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    protected void showWarningDialog(String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(message)
+                .setTitle("Warning")
+                .setIcon(R.drawable.ic_alert_triangle_yellow)
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //do things
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //do things
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
     protected void updateAppointment(final Context context) {
         api.getAllAppointments(
                 BaseModel.getInstance().getLogin().getToken(),
@@ -553,57 +588,57 @@ public class BaseActivity extends AppCompatActivity {
         );
     }
 
-public class LogoutService extends Service {
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        Log.d("logout", "LogoutService onCreate()");
+    public class LogoutService extends Service {
+        @Override
+        public void onCreate() {
+            super.onCreate();
+            Log.d("logout", "LogoutService onCreate()");
 
-    }
+        }
 
-    public void startTimer(Boolean startTimer) {
-        if (startTimer) {
-            Log.d("logout", "timer started");
-            timerThing();
-            timer.start();
-        } else {
-            if (timer != null) {
-                Log.d("logout", "timer stopped");
-                timer.cancel();
+        public void startTimer(Boolean startTimer) {
+            if (startTimer) {
+                Log.d("logout", "timer started");
+                timerThing();
+                timer.start();
+            } else {
+                if (timer != null) {
+                    Log.d("logout", "timer stopped");
+                    timer.cancel();
+                }
             }
+        }
+
+        public void timerThing() {
+            timer = new CountDownTimer(30 * 1000, 1000) {
+                public void onTick(long millisUntilFinished) {
+                }
+
+                public void onFinish() {
+                    Log.d("logout", "Call Logout by Service");
+                    stopSelf();
+                    doLogoutWithoutIntent();
+                }
+            };
+        }
+
+        @Override
+        public IBinder onBind(Intent intent) {
+            // TODO Auto-generated method stub
+            return null;
         }
     }
 
-    public void timerThing() {
-        timer = new CountDownTimer(30 * 1000, 1000) {
-            public void onTick(long millisUntilFinished) {
-            }
-
-            public void onFinish() {
-                Log.d("logout", "Call Logout by Service");
-                stopSelf();
-                doLogoutWithoutIntent();
-            }
-        };
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView parent, View view, final int position, long id) {
+            drawerLayout.closeDrawers();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    selectItem(position);
+                }
+            }, 210);
+        }
     }
-
-    @Override
-    public IBinder onBind(Intent intent) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-}
-
-private class DrawerItemClickListener implements ListView.OnItemClickListener {
-    @Override
-    public void onItemClick(AdapterView parent, View view, final int position, long id) {
-        drawerLayout.closeDrawers();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                selectItem(position);
-            }
-        }, 210);
-    }
-}
 }

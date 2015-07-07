@@ -48,7 +48,7 @@ public class QuickMenuActivity extends BaseActivity {
         btnClinicRecord = (Button) findViewById(R.id.btn_clinic_record);
         btnClinicRecord.setOnClickListener(new ButtonClick());
         btnTodaysAppointments = (Button) findViewById(R.id.btn_todays_appointments);
-        //btnTodaysAppointments.setOnClickListener(new ButtonClick());
+        btnTodaysAppointments.setOnClickListener(new ButtonClick());
         btnTodaysAppointments.setEnabled(false);
         isViewVisible = true;
         //checkIfLoggedIn();
@@ -258,9 +258,9 @@ public class QuickMenuActivity extends BaseActivity {
                 case R.id.btn_clinic_record:
                     intent = new Intent(QuickMenuActivity.this, ClinicTimeRecordActivity.class);
                     break;
-                /*case R.id.btn_todays_appointments:
+                case R.id.btn_todays_appointments:
                     intent = new Intent(QuickMenuActivity.this, TodayAppointmentActivity.class);
-                    break;*/
+                    break;
             }
             startActivity(intent);
         }
