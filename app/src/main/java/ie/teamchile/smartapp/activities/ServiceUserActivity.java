@@ -297,6 +297,9 @@ public class ServiceUserActivity extends BaseActivity {
         pregnancyId = BaseModel.getInstance().getBabies().get(b).getPregnancyId();
         Log.d("bugs", "recent baby id after = " + bId);
         Log.d("bugs", "recent baby position after = " + b);
+
+        BaseModel.getInstance().setPregnancyNotes(
+                BaseModel.getInstance().getPregnancies().get(p).getPregnancyNotes());
     }
 
     private void setAntiD() {
@@ -958,6 +961,28 @@ public class ServiceUserActivity extends BaseActivity {
         );
     }
 
+    private void getMidwiferyNotes(){
+        api.getPregnancyNotes(
+                BaseModel.getInstance().getServiceUsers().get(0).getPregnancyIds().get(p),
+                BaseModel.getInstance().getLogin().getToken(),
+                NotKeys.API_KEY,
+                new Callback<BaseModel>() {
+                    @Override
+                    public void success(BaseModel baseModel, Response response) {
+                        Log.d("retro", "put getMidwiferyNotes retro success");
+                        BaseModel.getInstance().setPregnancyNotes(baseModel.getPregnancyNotes());
+                        pd.dismiss();
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.d("retro", "put getMidwiferyNotes retro failure = " + error);
+                        pd.dismiss();
+                    }
+                }
+        );
+    }
+
     private void postPregnancyActions(String action){
         PostingData postAction = new PostingData();
         postAction.postPregnancyAction(action);
@@ -992,13 +1017,23 @@ public class ServiceUserActivity extends BaseActivity {
 
         LayoutInflater inflater = getLayoutInflater();
         alertDialog = new AlertDialog.Builder(ServiceUserActivity.this);
-        View convertView = (View) inflater.inflate(R.layout.dialog_list_only, null);
+        View convertView = (View) inflater.inflate(R.layout.dialog_list_button, null);
         ListView list = (ListView) convertView.findViewById(R.id.lv_dialog);
         TextView tvDialogTitle = (TextView) convertView.findViewById(R.id.tv_dialog_title);
-        ImageView ivExit = (ImageView) convertView.findViewById(R.id.iv_exit_dialog);
-        ivExit.setOnClickListener(new View.OnClickListener() {
+        ImageView ivDialogExit = (ImageView) convertView.findViewById(R.id.iv_dialog_exit);
+        Button btnDialog = (Button) convertView.findViewById(R.id.btn_dialog);
+        ivDialogExit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ad.dismiss();
+            }
+        });
+
+        btnDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showProgressDialog(ServiceUserActivity.this, "Adding Actions");
+                getMidwiferyNotes();
                 ad.dismiss();
             }
         });

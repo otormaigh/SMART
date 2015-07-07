@@ -309,6 +309,7 @@ public class ServiceUserSearchActivity extends BaseActivity {
                             searchDOBDay.getText().toString().length() > 0 &&
                                     searchDOBMonth.getText().toString().length() > 0 &&
                                     searchDOBYear.getText().toString().length() > 0) {
+                        tvSearchResults.setVisibility(View.VISIBLE);
 
                         if (searchDOBDay.getText().toString().length() > 0 &&
                                 searchDOBMonth.getText().toString().length() > 0 &&
