@@ -1,6 +1,5 @@
 package ie.teamchile.smartapp.activities;
 
-import android.content.ComponentCallbacks2;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -19,12 +18,9 @@ import java.util.Map;
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.Clinic;
-import ie.teamchile.smartapp.model.PregnancyAction;
 import ie.teamchile.smartapp.model.ServiceOption;
 import ie.teamchile.smartapp.model.ServiceUserAction;
 import ie.teamchile.smartapp.util.NotKeys;
-import ie.teamchile.smartapp.util.SmartApi;
-import ie.teamchile.smartapp.util.ToastAlert;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -51,7 +47,6 @@ public class QuickMenuActivity extends BaseActivity {
         btnTodaysAppointments.setOnClickListener(new ButtonClick());
         btnTodaysAppointments.setEnabled(false);
         isViewVisible = true;
-        //checkIfLoggedIn();
     }
 
     @Override

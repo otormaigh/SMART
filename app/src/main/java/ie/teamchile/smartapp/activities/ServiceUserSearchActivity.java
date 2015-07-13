@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,13 +30,13 @@ import ie.teamchile.smartapp.model.HearingHistory;
 import ie.teamchile.smartapp.model.NbstHistory;
 import ie.teamchile.smartapp.model.ServiceUser;
 import ie.teamchile.smartapp.model.VitKHistory;
-import ie.teamchile.smartapp.util.AdapterListResults;
 import ie.teamchile.smartapp.util.NotKeys;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class ServiceUserSearchActivity extends BaseActivity {
+    private static BaseAdapter adapterListResults;
     private EditText searchName, searchHospitalNumber,
             searchDOBDay, searchDOBMonth, searchDOBYear;
     private Button search;
@@ -51,7 +50,6 @@ public class ServiceUserSearchActivity extends BaseActivity {
     private List<String> hospitalNumberList = new ArrayList<>();
     private LinearLayout llNoUserFound;
     private Boolean changeActivity;
-    private static BaseAdapter adapterListResults;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -212,7 +210,7 @@ public class ServiceUserSearchActivity extends BaseActivity {
     }
 
     private void searchForPatient(String name, String hospitalNumber, String dob) {
-        if(name.equals("."))
+        if (name.equals("."))
             name = " ";
         else
             name = name.trim();
@@ -271,7 +269,6 @@ public class ServiceUserSearchActivity extends BaseActivity {
                     @Override
                     public void failure(RetrofitError error) {
                         Log.d("retro", "ServiceUserSearchActivity user search failure = " + error);
-                        checkRetroError(error, ServiceUserSearchActivity.this);
                         llNoUserFound.setVisibility(View.VISIBLE);
                         pd.dismiss();
                     }
@@ -345,13 +342,14 @@ public class ServiceUserSearchActivity extends BaseActivity {
                 Context context,
                 List<String> resultName,
                 List<String> resultDob,
-                List<String> resultHospitalNumber){
+                List<String> resultHospitalNumber) {
             this.context = context;
             this.resultName = resultName;
             this.resultDob = resultDob;
             this.resultHospitalNumber = resultHospitalNumber;
             layoutInflater = LayoutInflater.from(context);
         }
+
         @Override
         public int getCount() {
             return resultName.size();
