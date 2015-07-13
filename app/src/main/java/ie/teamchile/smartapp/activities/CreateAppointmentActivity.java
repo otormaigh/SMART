@@ -39,11 +39,13 @@ import ie.teamchile.smartapp.model.ServiceUser;
 import ie.teamchile.smartapp.util.AdapterListResults;
 import ie.teamchile.smartapp.util.AdapterSpinner;
 import ie.teamchile.smartapp.util.NotKeys;
+import ie.teamchile.smartapp.util.SharedPrefs;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class CreateAppointmentActivity extends BaseActivity {
+    protected CountDownTimer timer;
     private ArrayAdapter<String> visitPriorityAdapter, returnTypeAdapter;
     private String userName, apptDate, time, priority, visitType, clinicName,
             hospitalNumber, email, sms, address;
@@ -67,6 +69,7 @@ public class CreateAppointmentActivity extends BaseActivity {
     private ArrayList<String> listName = new ArrayList<>();
     private ArrayList<String> listDob = new ArrayList<>();
     private ArrayList<String> listHospitalNumber = new ArrayList<>();
+    private SharedPrefs prefsUtil = new SharedPrefs();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -390,8 +393,7 @@ public class CreateAppointmentActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Log.d("bugs", "yes 	 button clicked");
-                showProgressDialog(CreateAppointmentActivity.this,
-                        "Booking Appointment");
+                showProgressDialog(CreateAppointmentActivity.this, "Booking Appointment");
                 postAppointment();
             }
         });
@@ -415,7 +417,7 @@ public class CreateAppointmentActivity extends BaseActivity {
     }
 
     private void postAppointment() {
-        PostingData appointment = new PostingData();
+        final PostingData appointment = new PostingData();
         if (priority.equals("home-visit")) {
             Log.d("bugs", "homevisit");
             appointment.postAppointment(apptDate, userID, priority, visitType, returnType, serviceOptionId);
@@ -442,13 +444,27 @@ public class CreateAppointmentActivity extends BaseActivity {
                     @Override
                     public void failure(RetrofitError error) {
                         Log.d("Retrofit", "retro failure error = " + error);
-                        if (error.getResponse().getStatus() == 422) {
-                            BaseModel body = (BaseModel) error.getBodyAs(BaseModel.class);
+                        checkRetroError(error, CreateAppointmentActivity.this);
+                        if (error.getKind() != RetrofitError.Kind.NETWORK) {
+                            if (error.getResponse().getStatus() == 422) {
+                                BaseModel body = (BaseModel) error.getBodyAs(BaseModel.class);
+                                Toast.makeText(CreateAppointmentActivity.this,
+                                        body.getError().getAppointmentTaken(), Toast.LENGTH_LONG).show();
+                            }
+                        } else {
+                            c = Calendar.getInstance();
+                            String time = dfTimeWSec.format(c.getTime());
+                            String prefsTag = "appointment_post_" + time;
+                            SharedPrefs prefsUstil = new SharedPrefs();
+                            prefsUstil.setPrefs(CreateAppointmentActivity.this, appointment, prefsTag);
                             Toast.makeText(CreateAppointmentActivity.this,
-                                    body.getError().getAppointmentTaken(), Toast.LENGTH_LONG).show();
-                            ad.cancel();
+                                    "No internet, appointment will be booked when available",
+                                    Toast.LENGTH_LONG).show();
                         }
-                        pd.dismiss();
+                        if (ad.isShowing())
+                            ad.cancel();
+                        if (pd.isShowing())
+                            pd.dismiss();
                     }
                 }
         );
@@ -543,8 +559,10 @@ public class CreateAppointmentActivity extends BaseActivity {
         else if (priority.equals("drop-in"))
             startActivity(intentClinic);
 
-        ad.cancel();
-        pd.dismiss();
+        if (ad.isShowing())
+            ad.cancel();
+        if (pd.isShowing())
+            pd.dismiss();
     }
 
     private void hideKeyboard() {
