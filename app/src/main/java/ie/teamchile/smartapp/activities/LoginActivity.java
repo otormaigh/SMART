@@ -2,6 +2,7 @@ package ie.teamchile.smartapp.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -10,10 +11,13 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Map;
+
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.util.NotKeys;
+import ie.teamchile.smartapp.util.SharedPrefs;
 import ie.teamchile.smartapp.util.SmartApi;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -22,6 +26,8 @@ import retrofit.client.OkClient;
 import retrofit.client.Response;
 
 public class LoginActivity extends AppCompatActivity {
+    private SharedPreferences prefs;
+    private SharedPrefs prefsUtil = new SharedPrefs();
     private String username, password;
     private Button btnLogin;
     private TextView tvUsername, tvPassword, tvAbout;
@@ -73,6 +79,22 @@ public class LoginActivity extends AppCompatActivity {
         api = restAdapter.create(SmartApi.class);
     }
 
+    private void getSharedPrefs() {
+        Log.d("prefs", "getSharedPrefs called");
+        prefs = this.getSharedPreferences("SMART", MODE_PRIVATE);
+        Map<String, ?> prefsMap = prefs.getAll();
+        for(Map.Entry<String,?> entry : prefsMap.entrySet()){
+            Log.d("prefs", "key = " + entry.getKey());
+            if(entry.getKey().contains("appointment_post")){
+                Log.d("prefs", "get key = " + prefs.getString(entry.getKey(), ""));
+                prefsUtil.postAppointment(
+                        prefsUtil.getObjectFromString(
+                                prefs.getString(entry.getKey(), "")),
+                        this, entry.getKey());
+            }
+        }
+    }
+
     private void doRetrofit() {
         PostingData login = new PostingData();
         login.postLogin(username, password);
@@ -83,6 +105,7 @@ public class LoginActivity extends AppCompatActivity {
                 BaseModel.getInstance().setLogin(baseModel.getLogin());
                 BaseModel.getInstance().setLoginStatus(true);
                 pd.dismiss();
+                getSharedPrefs();
                 intent = new Intent(LoginActivity.this, QuickMenuActivity.class);
                 startActivity(intent);
             }

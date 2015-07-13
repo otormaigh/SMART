@@ -196,6 +196,8 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected void checkRetroError(RetrofitError error, Context context) {
+        c = Calendar.getInstance();
+        String time = dfTimeWSec.format(c.getTime());
         try {
             throw (error.getCause());
         } catch (UnknownHostException e) {
@@ -205,7 +207,9 @@ public class BaseActivity extends AppCompatActivity {
             Log.d("retro", "SSLHandshakeException");
         } catch (ConnectException e) {
             Log.d("retro", "ConnectException");
-            checkIfConnected(context);
+            /*if(!checkIfConnected(context)){
+                new SharedPrefs().setPrefs(data, time);
+            }*/
         } catch (Throwable throwable) {
             throwable.printStackTrace();
             Log.d("retro", "Throwable");
@@ -213,17 +217,17 @@ public class BaseActivity extends AppCompatActivity {
         Log.d("retro_error", error.toString());
     }
 
-    private boolean checkIfConnected(Context context) {
+    protected boolean checkIfConnected(Context context) {
         ConnectivityManager conMgr = (ConnectivityManager) getApplicationContext()
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
 
         if (netInfo == null) {
-            Toast.makeText(context, "No Internet connection!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "No Internet connection!", Toast.LENGTH_LONG).show();
             Log.d("retro", "no internet");
             return false;
-        } else if (netInfo != null || !netInfo.isConnected() || !netInfo.isAvailable()) {
-            Toast.makeText(context, "No Internet connection!", Toast.LENGTH_LONG).show();
+        } else if (!netInfo.isConnected() || !netInfo.isAvailable()) {
+            Toast.makeText(getApplicationContext(), "No Internet connection!", Toast.LENGTH_LONG).show();
             Log.d("retro", "no internet");
             return false;
         }
