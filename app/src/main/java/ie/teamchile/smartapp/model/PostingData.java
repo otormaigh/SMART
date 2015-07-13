@@ -32,9 +32,9 @@ public class PostingData {
         this.login = new Login(username, password);
     }
 
-    public void postAppointment(String date, int service_user_id,
-                                String priority, String visit_type,
-                                String return_type, int serviceOptionId) {
+        public void postAppointment(String date, int service_user_id,
+                                    String priority, String visit_type,
+                                    String return_type, int serviceOptionId) {
         int service_provider_id = BaseModel.getInstance().getLogin().getId();
 
         this.appointment = new Appointment(date, service_provider_id, service_user_id,
