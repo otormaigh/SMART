@@ -6,12 +6,15 @@ import android.os.Bundle;
 import android.util.Log;
 
 import ie.teamchile.smartapp.model.BaseModel;
+import ie.teamchile.smartapp.util.CheckForRoot;
 
 public class SplashScreenActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Log.d("isDeviceRooted", "isDeviceRooted() = " + new CheckForRoot().isDeviceRooted());
 
         if (BaseModel.getInstance().getLoginStatus()) {
             Log.d("bugs", "logged in = " + BaseModel.getInstance().getLoginStatus());
