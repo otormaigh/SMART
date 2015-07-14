@@ -456,7 +456,7 @@ public class CreateAppointmentActivity extends BaseActivity {
                             String time = dfTimeWSec.format(c.getTime());
                             String prefsTag = "appointment_post_" + time;
                             SharedPrefs prefsUstil = new SharedPrefs();
-                            prefsUstil.setPrefs(CreateAppointmentActivity.this, appointment, prefsTag);
+                            prefsUstil.setJsonPrefs(CreateAppointmentActivity.this, appointment, prefsTag);
                             Toast.makeText(CreateAppointmentActivity.this,
                                     "No internet, appointment will be booked when available",
                                     Toast.LENGTH_LONG).show();
