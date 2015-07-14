@@ -223,7 +223,6 @@ public class AppointmentCalendarActivity extends BaseActivity {
             listOfApptId = new ArrayList<>();
 
         while (!closingAsDate.before(apptTime)) {
-            Log.d("appointment", "Free Slot Here");
             timeList.add(dfTimeOnly.format(apptTime));
             nameList.add("Free Slot");
             gestList.add("");

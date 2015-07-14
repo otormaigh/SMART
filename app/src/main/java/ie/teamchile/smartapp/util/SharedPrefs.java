@@ -71,9 +71,12 @@ public class SharedPrefs extends BaseActivity {
 
     public void deletePrefs(Context context, String tag) {
         Log.d("prefs", "deletePrefs called");
+        prefs = context.getSharedPreferences("SMART", MODE_PRIVATE);
         editor = context.getSharedPreferences("SMART", MODE_PRIVATE).edit();
-        editor.remove(tag);
-        editor.apply();
+        if(prefs.contains(tag)) {
+            editor.remove(tag);
+            editor.apply();
+        }
     }
 
     public void postAppointment(PostingData data, final Context context, final String tag) {

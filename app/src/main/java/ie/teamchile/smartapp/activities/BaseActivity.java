@@ -296,7 +296,7 @@ public class BaseActivity extends AppCompatActivity {
                 //startActivity(intent);
                 break;
             case 5:         //Sync
-                updateAppointment(this);
+                getAllAppointments(this);
                 showProgressDialog(this, "Updating Appointments");
                 break;
             case 6:         //Logout
@@ -510,7 +510,7 @@ public class BaseActivity extends AppCompatActivity {
         alert.show();
     }
 
-    protected void updateAppointment(final Context context) {
+    protected void getAllAppointments(final Context context) {
         api.getAllAppointments(
                 BaseModel.getInstance().getLogin().getToken(),
                 NotKeys.API_KEY,

@@ -96,8 +96,8 @@ public class QuickMenuActivity extends BaseActivity {
         Log.d("bugs", "getAppointments.size() = " + BaseModel.getInstance().getAppointments().size());
 
         if (BaseModel.getInstance().getClinics().size() == 0 ||
-                BaseModel.getInstance().getServiceOptions().size() == 0 ||
-                BaseModel.getInstance().getAppointments().size() == 0) {
+                BaseModel.getInstance().getServiceOptions().size() == 0/* ||
+                BaseModel.getInstance().getAppointments().size() == 0*/) {
             Log.d("bugs", "quick menu no data available");
             updateData();
         } else {
@@ -118,7 +118,7 @@ public class QuickMenuActivity extends BaseActivity {
         done = 0;
         showProgressDialog(QuickMenuActivity.this, "Updating Information");
 
-        updateAppointment(QuickMenuActivity.this);
+        //getAllAppointments(QuickMenuActivity.this);
         showDialog = false;
 
         api.getServiceProviderById(
@@ -137,7 +137,8 @@ public class QuickMenuActivity extends BaseActivity {
 
                     @Override
                     public void failure(RetrofitError error) {
-                        Log.d("retro", "retro failure = " + error);
+                        Log.d("retro", "serviceProvider failure = " + error);
+                        done++;
                     }
                 }
         );
@@ -172,6 +173,7 @@ public class QuickMenuActivity extends BaseActivity {
                     @Override
                     public void failure(RetrofitError error) {
                         Log.d("Retrofit", "service options retro failure " + error);
+                        done++;
                     }
                 }
         );
@@ -196,6 +198,7 @@ public class QuickMenuActivity extends BaseActivity {
                     @Override
                     public void failure(RetrofitError error) {
                         Log.d("Retrofit", "clinics retro failure " + error);
+                        done++;
                     }
                 }
         );
@@ -219,7 +222,8 @@ public class QuickMenuActivity extends BaseActivity {
 
                     @Override
                     public void failure(RetrofitError error) {
-                        Log.d("Retrofit", "actions retro failure " + error);
+                        Log.d("Retrofit", "serviceActions retro failure " + error);
+                        done++;
                     }
                 }
         );
@@ -231,7 +235,7 @@ public class QuickMenuActivity extends BaseActivity {
 
             @Override
             public void onFinish() {
-                if (done >= 5)
+                if (done >= 4)
                     pd.dismiss();
                 else
                     timer.start();
