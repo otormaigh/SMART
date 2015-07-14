@@ -53,6 +53,7 @@ import ie.teamchile.smartapp.model.Appointment;
 import ie.teamchile.smartapp.model.Baby;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.Pregnancy;
+import ie.teamchile.smartapp.util.ClearData;
 import ie.teamchile.smartapp.util.NotKeys;
 import ie.teamchile.smartapp.util.SmartApi;
 import ie.teamchile.smartapp.util.ToastAlert;
@@ -343,6 +344,7 @@ public class BaseActivity extends AppCompatActivity {
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
+                        Log.d("Retro", "logout success");
                         switch (response.getStatus()) {
                             case 200:
                                 Log.d("Retro", "in logout success 200");
@@ -370,6 +372,7 @@ public class BaseActivity extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                             pd.dismiss();
                         }
+                        new ClearData(BaseActivity.this);
                     }
                 }
         );
@@ -385,24 +388,21 @@ public class BaseActivity extends AppCompatActivity {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
                         Log.d("logout", "in logout success");
+                        new ClearData(BaseActivity.this);
                         finish();
-                        BaseModel.getInstance().deleteInstance();
-                        BaseModel.getInstance().setLoginStatus(false);
-                        System.gc();
                         if (notificationManager != null) {
                             notificationManager.cancelAll();
                             showNotification("SMART", "You have been logged out of SMART", SplashScreenActivity.class);
                         } else
                             showNotification("SMART", "You have been logged out of SMART", SplashScreenActivity.class);
+                        new ClearData(BaseActivity.this);
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
                         Log.d("logout", "in logout failure error = " + error);
                         finish();
-                        BaseModel.getInstance().deleteInstance();
-                        BaseModel.getInstance().setLoginStatus(false);
-                        System.gc();
+                        new ClearData(BaseActivity.this);
                     }
                 }
         );
@@ -614,7 +614,7 @@ public class BaseActivity extends AppCompatActivity {
         }
 
         public void timerThing() {
-            timer = new CountDownTimer(30 * 1000, 1000) {
+            timer = new CountDownTimer(300 * 1000, 1000) {
                 public void onTick(long millisUntilFinished) {
                 }
 
