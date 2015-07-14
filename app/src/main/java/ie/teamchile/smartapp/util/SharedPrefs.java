@@ -6,6 +6,9 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import ie.teamchile.smartapp.activities.BaseActivity;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.PostingData;
@@ -42,6 +45,31 @@ public class SharedPrefs extends BaseActivity {
             deletePrefs(context, tag);
 
         setStringPrefs(context, data, tag);
+    }
+
+    public Set<String> getStringSetPrefs(Context context, String tag){
+        prefs = context.getSharedPreferences("SMART", MODE_PRIVATE);
+        Set<String>prefsData = prefs.getStringSet(tag, null);
+        if(prefsData == null)
+            return new HashSet<>();
+        else
+            return prefsData;
+    }
+
+
+    public void setStringSetPrefs(Context context, Set<String> data, String tag) {
+        editor = context.getSharedPreferences("SMART", MODE_PRIVATE).edit();
+        editor.putStringSet(tag, data);
+        editor.commit();
+    }
+
+    public void addToStringSetPrefs(Context context, String tag, String data){
+        prefs = context.getSharedPreferences("SMART", MODE_PRIVATE);
+        Set<String> prefsData = prefs.getStringSet(tag, null);
+        if(prefsData == null)
+            prefsData = new HashSet<>();
+        prefsData.add(data);
+        setStringSetPrefs(context, prefsData, tag);
     }
 
     public PostingData getObjectFromString(String dataAsString){

@@ -20,6 +20,8 @@ import java.util.Locale;
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.util.AdapterSpinner;
+import ie.teamchile.smartapp.util.AppointmentHelper;
+import ie.teamchile.smartapp.util.SharedPrefs;
 
 public class AppointmentTypeSpinnerActivity extends BaseActivity {
     private ArrayAdapter<String> appointmentAdapter, visitAdapter, visitDayAdapter,
@@ -34,6 +36,8 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
     private Spinner appointmentTypeSpinner, serviceOptionSpinner, 
     		visitOptionSpinner, visitDaySpinner, clinicSpinner, daySpinner, weekSpinner;
     private TextView tvAppointmentType, tvServiceOption, tvVisit, tvVisitDay, tvClinic, tvDay, tvWeek;
+    private SharedPrefs sharedPrefs = new SharedPrefs();
+    private AppointmentHelper apptHelp = new AppointmentHelper();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -369,6 +373,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
                                     weekSpinner.setVisibility(View.VISIBLE);
                                     weekSpinner.setSelection(0);
                                     dayOfWeek = dfDayShort.parse(trueDays.get(0));
+                                    getAppointment(clinicSelected, dayOfWeek);
                                     setWeekSpinner(dayOfWeek);
                                 } catch (ParseException e) {
                                     e.printStackTrace();
@@ -391,6 +396,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
                         	weekSpinner.setSelection(0);
 							try {
 								dayOfWeek = dfDayShort.parse(daySpinner.getSelectedItem().toString());
+                                getAppointment(clinicSelected, dayOfWeek);
 								setWeekSpinner(dayOfWeek);
 							} catch (ParseException e) {
 								e.printStackTrace();
@@ -410,10 +416,10 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
                         	weekSpinner.setBackgroundColor(Color.TRANSPARENT);
                             c = Calendar.getInstance();
                     		c.add(Calendar.DAY_OF_YEAR, 7 * position);
-                			Log.d("MYLOG", "Plus " + (7 * position)  + " days is: " + c.getTime());	
+                			Log.d("MYLOG", "Plus " + (7 * position) + " days is: " + c.getTime());
                 			daySelected = c.getTime();
                 			addDayToTime(dayOfWeek);
-                			changeActivity();
+                            changeActivity();
                         	break;
                     }
                     break;
@@ -421,6 +427,22 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
         }
         @Override
         public void onNothingSelected(AdapterView<?> parent) { }
+    }
+
+    private void getAppointment(int clinicId, Date dayOfWeek){
+        Calendar myCal = Calendar.getInstance();
+        myCal.setTime(dayOfWeek);
+        int dayAsInt = myCal.get(Calendar.DAY_OF_WEEK);
+        myCal = Calendar.getInstance();
+        myCal.set(Calendar.DAY_OF_WEEK, dayAsInt);
+        Date todayDate = myCal.getTime();
+
+        if(!sharedPrefs.getStringSetPrefs(AppointmentTypeSpinnerActivity.this,
+                "appts_got").contains(String.valueOf(clinicId))) {
+            apptHelp.weekDateLooper(todayDate, clinicId);
+            sharedPrefs.addToStringSetPrefs(AppointmentTypeSpinnerActivity.this,
+                    "appts_got", String.valueOf(clinicId));
+        }
     }
     
     public void changeActivity(){
@@ -435,10 +457,10 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
     }
     
     public void addDayToTime(Date dayOfWeek){
-    	c.setTime(dayOfWeek);
-		int dayAsInt = c.get(Calendar.DAY_OF_WEEK);
-		c.setTime(daySelected);
-		c.set(Calendar.DAY_OF_WEEK, dayAsInt);
-		daySelected = c.getTime();
+        c.setTime(dayOfWeek);
+        int dayAsInt = c.get(Calendar.DAY_OF_WEEK);
+        c.setTime(daySelected);
+        c.set(Calendar.DAY_OF_WEEK, dayAsInt);
+        daySelected = c.getTime();
     }
 }

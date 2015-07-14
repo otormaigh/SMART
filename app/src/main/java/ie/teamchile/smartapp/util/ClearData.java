@@ -1,7 +1,6 @@
 package ie.teamchile.smartapp.util;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.Log;
 
 import java.io.File;
@@ -13,21 +12,19 @@ import ie.teamchile.smartapp.model.BaseModel;
  * Created by user on 7/4/15.
  */
 public class ClearData extends BaseActivity{
+    private SharedPrefs sharedPrefs = new SharedPrefs();
+
     public ClearData(Context context) {
         Log.d("purge", "ClearData called");
         startPurge(context);
+        deleteSharedPref(context);
     }
 
     public void startPurge(Context context) {
         Log.d("purge", "startPurge called");
-        //android.os.Process.killProcess(android.os.Process.myPid());
-        /*SharedPreferences.Editor editor = getSharedPreferences("SMART", Context.MODE_PRIVATE).edit();
-        editor.clear();
-        editor.commit();*/
         BaseModel.getInstance().deleteInstance();
         BaseModel.getInstance().setLoginStatus(false);
         System.gc();
-        //finish();
         trimCache(context);
     }
 
@@ -54,5 +51,11 @@ public class ClearData extends BaseActivity{
             }
         }
         return dir.delete();
+    }
+
+    public void deleteSharedPref(Context context){
+        sharedPrefs.deletePrefs(context, "appts_got");
+        sharedPrefs.deletePrefs(context, "clinic_started");
+        sharedPrefs.deletePrefs(context, "reuse");
     }
 }
