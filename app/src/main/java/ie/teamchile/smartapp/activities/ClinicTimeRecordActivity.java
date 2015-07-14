@@ -24,13 +24,11 @@ import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.Clinic;
 import ie.teamchile.smartapp.model.ClinicTimeRecord;
 import ie.teamchile.smartapp.model.PostingData;
+import ie.teamchile.smartapp.util.AppointmentHelper;
 import ie.teamchile.smartapp.util.NotKeys;
 import ie.teamchile.smartapp.util.SharedPrefs;
-import ie.teamchile.smartapp.util.SmartApi;
 import retrofit.Callback;
-import retrofit.RestAdapter;
 import retrofit.RetrofitError;
-import retrofit.client.OkClient;
 import retrofit.client.Response;
 
 public class ClinicTimeRecordActivity extends BaseActivity {
@@ -66,14 +64,15 @@ public class ClinicTimeRecordActivity extends BaseActivity {
     private int clinicIdForDelete;
     private int recordGetDone;
     private SharedPrefs sharedPrefs = new SharedPrefs();
+    private AppointmentHelper appointmentHelper = new AppointmentHelper();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentForNav(R.layout.activity_clinic_time_record);
         c = Calendar.getInstance();
-        //todayDay = dfDayLong.format(c.getTime());
-        todayDay = "Tuesday";
+        todayDay = dfDayLong.format(c.getTime());
+        //todayDay = "Tuesday";
         todayDate = dfDateOnly.format(c.getTime());
         Log.d("SMART", "today = " + todayDay);
         lvNotStarted = (ListView) findViewById(R.id.lv_clinics_not_started);
@@ -94,22 +93,13 @@ public class ClinicTimeRecordActivity extends BaseActivity {
 
         btnStartClinicDisable.setEnabled(false);
         btnStopClinicDisable.setEnabled(false);
+        btnResetRecord.setEnabled(false);
 
-        btnStartClinic.setVisibility(View.GONE);
-        btnStopClinic.setVisibility(View.GONE);
-        btnResetRecord.setVisibility(View.GONE);
+        enableDisabledButtons();
 
         setActionBarTitle("Start/Stop Clinics");
 
         getDataFromDb();
-
-        /*if (BaseModel.getInstance().getClinicStarted().size() == 0) {
-            Log.d("bugs", "time records null");
-            getDataFromDb();
-        } else {
-            Log.d("bugs", "time records not null");
-            getDataFromSingle();
-        }*/
     }
 
     @Override
@@ -123,6 +113,15 @@ public class ClinicTimeRecordActivity extends BaseActivity {
         BaseModel.getInstance().setClinicNotStarted(clinicNotStarted);
         BaseModel.getInstance().setClinicMap(clinicIdMap);
         BaseModel.getInstance().setClinicDayMap(clinicDayMap);
+    }
+
+    private void enableDisabledButtons(){
+        btnStartClinic.setVisibility(View.GONE);
+        btnStopClinic.setVisibility(View.GONE);
+        btnResetRecord.setVisibility(View.GONE);
+        btnStartClinicDisable.setVisibility(View.VISIBLE);
+        btnStopClinicDisable.setVisibility(View.VISIBLE);
+        btnResetRecordDisable.setVisibility(View.VISIBLE);
     }
 
     private void getDataFromSingle() {
@@ -265,12 +264,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
                         Log.d("SMART", "retro success");
-                        btnStartClinic.setVisibility(View.GONE);
-                        btnStopClinic.setVisibility(View.GONE);
-                        btnResetRecord.setVisibility(View.GONE);
-                        btnStartClinicDisable.setVisibility(View.VISIBLE);
-                        btnStopClinicDisable.setVisibility(View.VISIBLE);
-                        btnResetRecordDisable.setVisibility(View.VISIBLE);
+                        enableDisabledButtons();
 
                         clinicTimeRecords.add(baseModel.getClinicTimeRecord());
                         clinicNotStarted.remove(clinicNotStarted.indexOf(clinicId));
@@ -313,12 +307,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
                         Log.d("SMART", "retro success");
-                        btnStartClinic.setVisibility(View.GONE);
-                        btnStopClinic.setVisibility(View.GONE);
-                        btnResetRecord.setVisibility(View.GONE);
-                        btnStartClinicDisable.setVisibility(View.VISIBLE);
-                        btnStopClinicDisable.setVisibility(View.VISIBLE);
-                        btnResetRecordDisable.setVisibility(View.VISIBLE);
+                        enableDisabledButtons();
 
                         for (int i = 0; i < clinicTimeRecords.size(); i++) {
                             if (clinicTimeRecords.get(i).getId() == recordId) {
@@ -342,72 +331,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                 });
     }
 
-    private void resetRecord(final int clinicId) {
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(NotKeys.BASE_URL)
-                .setLogLevel(RestAdapter.LogLevel.FULL)
-                .setClient(new OkClient())
-                .build();
-
-        api = restAdapter.create(SmartApi.class);
-
-        for (int i = 0; i < clinicTimeRecords.size(); i++) {
-            if (clinicTimeRecords.get(i).getClinicId() == clinicId) {
-                recordId = clinicTimeRecords.get(i).getId();
-            }
-        }
-
-        PostingData timeRecord = new PostingData();
-        timeRecord.resetTimeRecord(
-                "",
-                "",
-                date,
-                clinicId);
-
-        showProgressDialog(ClinicTimeRecordActivity.this, "Updating Clinic Time Records");
-
-        api.resetTimeRecordById(
-                timeRecord,
-                clinicId,
-                recordId,
-                BaseModel.getInstance().getLogin().getToken(),
-                NotKeys.API_KEY,
-                new Callback<BaseModel>() {
-                    @Override
-                    public void success(BaseModel baseModel, Response response) {
-                        Log.d("SMART", "retro success");
-                        for (int i = 0; i < clinicTimeRecords.size(); i++) {
-                            if (clinicTimeRecords.get(i).getId() == recordId) {
-                                Log.d("bugs", "record id = " + clinicTimeRecords.get(i).getId());
-                                clinicTimeRecords.remove(i);
-                                clinicStopped.remove(clinicStopped.indexOf(clinicId));
-                                clinicNotStarted.add(clinicId);
-                                setStartedList();
-                                setStoppedList();
-                                setNotStartedList();
-                            }
-                        }
-                        clinicTimeRecords.add(baseModel.getClinicTimeRecord());
-                        pd.dismiss();
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Log.d("SMART", "retro error = " + error.getResponse());
-                        pd.dismiss();
-                    }
-                });
-    }
-
     private void deleteTimeRecord(final int clinicIdForDelete, final int recordIdForDelete){
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(NotKeys.BASE_URL)
-                .setLogLevel(RestAdapter.LogLevel.FULL)
-                .setClient(new OkClient())
-                .build();
-
-        api = restAdapter.create(SmartApi.class);
-
         showProgressDialog(ClinicTimeRecordActivity.this, "Deleting Time Record");
 
         api.deleteTimeRecordById(
@@ -419,6 +343,8 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
                         Log.d("retro", "deleteTimeRecord success");
+                        enableDisabledButtons();
+
                         for (int i = 0; i < clinicTimeRecords.size(); i++) {
                             if (clinicTimeRecords.get(i).getId() == recordIdForDelete) {
                                 Log.d("bugs", "record id = " + clinicTimeRecords.get(i).getId());
@@ -584,6 +510,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                 case R.id.lv_clinics_stopped:
                     btnResetRecord.setVisibility(View.VISIBLE);
                     btnResetRecordDisable.setVisibility(View.GONE);
+                    btnResetRecord.setEnabled(true);
                     vibe.vibrate(50);
                     clinicIdForDelete = clinicStopped.get(position);
                     for (int i = 0; i < clinicTimeRecords.size(); i++) {
@@ -615,6 +542,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                         sharedPrefs.overWriteStringPrefs(ClinicTimeRecordActivity.this,
                                 "clinic_started", String.valueOf(clinicNotStartedId));
                         putStartTime(now, clinicNotStartedId);
+                        appointmentHelper.weekDateLooper(clinicNotStartedId);
                     }
                     break;
                 case R.id.btn_stop_clinic:
@@ -633,4 +561,6 @@ public class ClinicTimeRecordActivity extends BaseActivity {
             clinicStartedId = 0;
         }
     }
+
+
 }
