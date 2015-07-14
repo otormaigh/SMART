@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -541,26 +542,27 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                         Log.d("bugs", "start clinic btn pressed");
                         sharedPrefs.overWriteStringPrefs(ClinicTimeRecordActivity.this,
                                 "clinic_started", String.valueOf(clinicNotStartedId));
+                        sharedPrefs.addToStringSetPrefs(ClinicTimeRecordActivity.this,
+                                "appts_got", String.valueOf(clinicNotStartedId));
                         putStartTime(now, clinicNotStartedId);
-                        appointmentHelper.weekDateLooper(clinicNotStartedId);
+                        c = Calendar.getInstance();
+                        Date todayDate = c.getTime();
+                        appointmentHelper.weekDateLooper(todayDate, clinicNotStartedId);
                     }
                     break;
                 case R.id.btn_stop_clinic:
-                    if (clinicStartedId != 0) {
+                    Log.d("bugs", "stop clinic btn pressed");
+                    if (clinicStartedId != 0)
                         putEndTime(then, date, clinicStartedId);
-                        Log.d("bugs", "stop clinic btn pressed");
-                    }
                     break;
                 case R.id.btn_reset_clinic_record:
                     Log.d("timeRecord", "delete record clinic id = " + clinicStoppedId);
-                    //resetRecord(clinicStoppedId);
-                    deleteTimeRecord(clinicIdForDelete, recordIdForDelete);
+                    if(clinicStoppedId != 0)
+                        deleteTimeRecord(clinicIdForDelete, recordIdForDelete);
                     break;
             }
             clinicNotStartedId = 0;
             clinicStartedId = 0;
         }
     }
-
-
 }
