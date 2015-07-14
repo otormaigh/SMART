@@ -208,7 +208,7 @@ public class BaseActivity extends AppCompatActivity {
         } catch (ConnectException e) {
             Log.d("retro", "ConnectException");
             /*if(!checkIfConnected(context)){
-                new SharedPrefs().setPrefs(data, time);
+                new SharedPrefs().setJsonPrefs(data, time);
             }*/
         } catch (Throwable throwable) {
             throwable.printStackTrace();
