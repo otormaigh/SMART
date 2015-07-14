@@ -23,6 +23,27 @@ public class SharedPrefs extends BaseActivity {
     public SharedPrefs() {
     }
 
+    public String getStringPrefs(Context context, String tag){
+        prefs = context.getSharedPreferences("SMART", MODE_PRIVATE);
+        String prefsData = prefs.getString(tag, "");
+        return prefsData;
+    }
+
+
+    public void setStringPrefs(Context context, String data, String tag) {
+        editor = context.getSharedPreferences("SMART", MODE_PRIVATE).edit();
+        editor.putString(tag, data);
+        editor.commit();
+    }
+
+    public void overWriteStringPrefs(Context context, String tag, String data){
+        prefs = context.getSharedPreferences("SMART", MODE_PRIVATE);
+        if(prefs.contains(tag))
+            deletePrefs(context, tag);
+
+        setStringPrefs(context, data, tag);
+    }
+
     public PostingData getObjectFromString(String dataAsString){
         Gson gson = new Gson();
         String json = dataAsString;
@@ -30,7 +51,7 @@ public class SharedPrefs extends BaseActivity {
         return data;
     }
 
-    public PostingData getPrefs(String tag, Context context) {
+    public PostingData getJsonPrefs(String tag, Context context) {
         prefs = context.getSharedPreferences("SMART", MODE_PRIVATE);
         String dataAsString = prefs.getString(tag, "");
         Gson gson = new Gson();
@@ -40,7 +61,7 @@ public class SharedPrefs extends BaseActivity {
         return data;
     }
 
-    public void setPrefs(Context context, PostingData data, String tag) {
+    public void setJsonPrefs(Context context, PostingData data, String tag) {
         editor = context.getSharedPreferences("SMART", MODE_PRIVATE).edit();
         Gson gson = new Gson();
         String json = gson.toJson(data);
