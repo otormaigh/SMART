@@ -25,6 +25,7 @@ import ie.teamchile.smartapp.model.Clinic;
 import ie.teamchile.smartapp.model.ClinicTimeRecord;
 import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.util.NotKeys;
+import ie.teamchile.smartapp.util.SharedPrefs;
 import ie.teamchile.smartapp.util.SmartApi;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -64,6 +65,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
     private int recordIdForDelete;
     private int clinicIdForDelete;
     private int recordGetDone;
+    private SharedPrefs sharedPrefs = new SharedPrefs();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -610,6 +612,8 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                 case R.id.btn_start_clinic:
                     if (clinicNotStartedId != 0) {
                         Log.d("bugs", "start clinic btn pressed");
+                        sharedPrefs.overWriteStringPrefs(ClinicTimeRecordActivity.this,
+                                "clinic_started", String.valueOf(clinicNotStartedId));
                         putStartTime(now, clinicNotStartedId);
                     }
                     break;
@@ -620,7 +624,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                     }
                     break;
                 case R.id.btn_reset_clinic_record:
-                    //Log.d("timeRecord", "reset clinic id = " + clinicStoppedId);
+                    Log.d("timeRecord", "delete record clinic id = " + clinicStoppedId);
                     //resetRecord(clinicStoppedId);
                     deleteTimeRecord(clinicIdForDelete, recordIdForDelete);
                     break;
