@@ -95,6 +95,7 @@ public class BaseActivity extends AppCompatActivity {
     protected int thingALing = 0;
     protected LogoutService logServ;
     protected NotificationManager notificationManager;
+    protected static int apptDone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
