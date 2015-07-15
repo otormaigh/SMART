@@ -556,8 +556,8 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                         putEndTime(then, date, clinicStartedId);
                     break;
                 case R.id.btn_reset_clinic_record:
-                    Log.d("timeRecord", "delete record clinic id = " + clinicStoppedId);
-                    if(clinicStoppedId != 0)
+                    Log.d("timeRecord", "delete record clinic id = " + clinicIdForDelete);
+                    if(clinicIdForDelete != 0)
                         deleteTimeRecord(clinicIdForDelete, recordIdForDelete);
                     break;
             }
