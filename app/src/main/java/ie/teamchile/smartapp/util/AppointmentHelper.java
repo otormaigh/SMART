@@ -20,22 +20,13 @@ import retrofit.client.Response;
  * Created by user on 7/14/15.
  */
 public class AppointmentHelper extends BaseActivity {
-    private int apptDone;
 
     public AppointmentHelper() {
     }
 
-    public int getDoneCounter(){
-        return apptDone;
-    }
-
-    public void setDoneCounter(int apptDone){
-        this.apptDone = apptDone;
-    }
-
     public void weekDateLooper(Date todayDate, int clinicId) {
         Log.d("MYLOG", "getAppointmentsForClinic called");
-        setDoneCounter(0);
+        Log.d("MYLOG", "todayDate = " + dfDateOnly.format(todayDate) + ", clinicId = " + clinicId);
         initRetrofit();
         Calendar c = Calendar.getInstance();
         //Date todayDate = c.getTime();
@@ -65,7 +56,7 @@ public class AppointmentHelper extends BaseActivity {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
                         Log.d("retro", "getAppointmentsForClinic success");
-                        apptDone++;
+                        BaseActivity.apptDone++;
                         if (baseModel.getAppointments().size() > 0)
                             addApptsToMaps(baseModel.getAppointments());
                     }
@@ -73,7 +64,7 @@ public class AppointmentHelper extends BaseActivity {
                     @Override
                     public void failure(RetrofitError error) {
                         Log.d("retro", "getAppointmentsForClinic failure = " + error);
-                        apptDone++;
+                        BaseActivity.apptDone++;
                     }
                 }
         );

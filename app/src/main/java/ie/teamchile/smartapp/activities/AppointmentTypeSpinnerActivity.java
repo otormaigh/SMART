@@ -3,6 +3,7 @@ package ie.teamchile.smartapp.activities;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -33,11 +34,12 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
     private Calendar c = Calendar.getInstance();
     private AppointmentCalendarActivity passOptions = new AppointmentCalendarActivity();
     private int spinnerWarning;
-    private Spinner appointmentTypeSpinner, serviceOptionSpinner, 
+    private Spinner appointmentTypeSpinner, serviceOptionSpinner,
     		visitOptionSpinner, visitDaySpinner, clinicSpinner, daySpinner, weekSpinner;
     private TextView tvAppointmentType, tvServiceOption, tvVisit, tvVisitDay, tvClinic, tvDay, tvWeek;
     private SharedPrefs sharedPrefs = new SharedPrefs();
     private AppointmentHelper apptHelp = new AppointmentHelper();
+    private CountDownTimer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +87,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
         tvClinic.setVisibility(View.GONE);
         tvDay.setVisibility(View.GONE);
         tvWeek.setVisibility(View.GONE);
-        
+
         appointmentTypeSpinner.setVisibility(View.VISIBLE);
         serviceOptionSpinner.setVisibility(View.GONE);
         visitOptionSpinner.setVisibility(View.GONE);
@@ -94,7 +96,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
         daySpinner.setVisibility(View.GONE);
         weekSpinner.setVisibility(View.GONE);
     }
-	
+
 	private void setServiceOptionSpinner(){
         int mapSize = BaseModel.getInstance().getServiceOptionsClinicMap().size();
         serviceOptionNameList = new ArrayList<>();
@@ -107,7 +109,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
         serviceOptionAdapter.setDropDownViewResource(R.layout.spinner_layout);
         serviceOptionSpinner.setAdapter(serviceOptionAdapter);
 	}
-	
+
 	private void setClinicSpinner(int z){
         idList = BaseModel.getInstance().getServiceOptionsClinicMap().get(z).getClinicIds();
         Log.d("Retrofit", "clinic id list = " + idList);
@@ -171,11 +173,11 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
         appointmentAdapter.setDropDownViewResource(R.layout.spinner_layout);
         appointmentTypeSpinner.setAdapter(appointmentAdapter);
     }
-	
+
 	private void setWeekSpinner(Date dayOfWeek){
 		List<String> weeks = new ArrayList<>();
 		weeks.add("Select Week");
-		
+
 		for(int i = 1; i <= 10; i++){
             c = Calendar.getInstance();
             Log.d("MYLOG", "Week " + i + " selected");
@@ -183,27 +185,27 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
     		c.set(Calendar.DAY_OF_WEEK, dayOfWeek.getDay() + 1);
     		weeks.add("- Week " + i + " (" + dfDowMonthDay.format(c.getTime()) + ")");
 		}
-		
+
 		weekAdapter = new AdapterSpinner(this, R.layout.spinner_layout, weeks, R.id.tv_spinner_item);
         weekAdapter.setDropDownViewResource(R.layout.spinner_layout);
         weekSpinner.setAdapter(weekAdapter);
 	}
-	
+
 	private void setDaySpinner(List<String> days){
 		for(int i = 0; i < days.size(); i++){
 			String dayFirstLetterUpperCase = Character.toString(days.get(i).charAt(0))
-					.toUpperCase(Locale.getDefault()) 
+					.toUpperCase(Locale.getDefault())
 					+ days.get(i).substring(1);
 			days.set(i, dayFirstLetterUpperCase);
 		}
 		days.add(0, "Select Day");
-		
+
 		daySpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
         dayAdapter = new AdapterSpinner(this, R.layout.spinner_layout, days, R.id.tv_spinner_item);
         dayAdapter.setDropDownViewResource(R.layout.spinner_layout);
         daySpinner.setAdapter(dayAdapter);
 	}
-	
+
     private class MySpinnerOnItemSelectedListener implements AdapterView.OnItemSelectedListener {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -358,7 +360,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
                         	daySpinner.setSelection(0);
                         	weekSpinner.setVisibility(View.GONE);
                         	weekSpinner.setSelection(0);
-                            
+
                         	clinicSelected = idList.get(position - 1);
                             List<String> trueDays = BaseModel.getInstance().getClinicMap().get(clinicSelected).getTrueDays();
 
@@ -381,7 +383,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
                             }
                         	break;
                     }
-                    break;   
+                    break;
                 case R.id.spnr_day:
                     switch (position) {
                         case 0:
@@ -419,7 +421,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
                 			Log.d("MYLOG", "Plus " + (7 * position) + " days is: " + c.getTime());
                 			daySelected = c.getTime();
                 			addDayToTime(dayOfWeek);
-                            changeActivity();
+                            doneChecker();
                         	break;
                     }
                     break;
@@ -439,23 +441,44 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
 
         if(!sharedPrefs.getStringSetPrefs(AppointmentTypeSpinnerActivity.this,
                 "appts_got").contains(String.valueOf(clinicId))) {
+            BaseActivity.apptDone = 0;
             apptHelp.weekDateLooper(todayDate, clinicId);
             sharedPrefs.addToStringSetPrefs(AppointmentTypeSpinnerActivity.this,
                     "appts_got", String.valueOf(clinicId));
         }
     }
-    
+
+    private void doneChecker(){
+        showProgressDialog(AppointmentTypeSpinnerActivity.this,
+                "Gettting Appointments");
+        timer = new CountDownTimer(200, 100) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                Log.d("bugs", "getDoneCounter() = " + BaseActivity.apptDone);
+            }
+
+            @Override
+            public void onFinish() {
+                if (BaseActivity.apptDone >= 10) {
+                    pd.dismiss();
+                    changeActivity();
+                } else
+                    timer.start();
+            }
+        }.start();
+    }
+
     public void changeActivity(){
     	passOptions.setServiceOptionSelected(serviceOptionSelected);
         passOptions.setClinicSelected(clinicSelected);
         passOptions.setWeekSelected(weekSelected);
         passOptions.setDaySelected(daySelected);
         passOptions.setVisitOption(visitOptionSelected);
-        
+
         Intent intent = new Intent(AppointmentTypeSpinnerActivity.this, AppointmentCalendarActivity.class);
         startActivity(intent);
     }
-    
+
     public void addDayToTime(Date dayOfWeek){
         c.setTime(dayOfWeek);
         int dayAsInt = c.get(Calendar.DAY_OF_WEEK);
