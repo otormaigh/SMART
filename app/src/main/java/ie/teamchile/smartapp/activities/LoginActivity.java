@@ -102,6 +102,7 @@ public class LoginActivity extends AppCompatActivity {
         api.postLogin(login, new Callback<BaseModel>() {
             @Override
             public void success(BaseModel baseModel, Response response) {
+                prefsUtil.deletePrefs(LoginActivity.this, "appts_got");
                 BaseModel.getInstance().setLogin(baseModel.getLogin());
                 BaseModel.getInstance().setLoginStatus(true);
                 pd.dismiss();
