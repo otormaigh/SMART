@@ -57,5 +57,6 @@ public class ClearData extends BaseActivity{
         sharedPrefs.deletePrefs(context, "appts_got");
         sharedPrefs.deletePrefs(context, "clinic_started");
         sharedPrefs.deletePrefs(context, "reuse");
+        sharedPrefs.deletePrefs(context, "root_check");
     }
 }

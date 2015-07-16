@@ -39,18 +39,16 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import javax.net.ssl.SSLHandshakeException;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.model.Appointment;
 import ie.teamchile.smartapp.model.Baby;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.Pregnancy;
+import ie.teamchile.smartapp.util.AppointmentHelper;
 import ie.teamchile.smartapp.util.ClearData;
 import ie.teamchile.smartapp.util.NotKeys;
 import ie.teamchile.smartapp.util.SmartApi;
@@ -386,9 +384,11 @@ public class BaseActivity extends AppCompatActivity {
                         finish();
                         if (notificationManager != null) {
                             notificationManager.cancelAll();
-                            showNotification("SMART", "You have been logged out of SMART", SplashScreenActivity.class);
+                            showNotification("SMART", "You have been logged out of SMART",
+                                    SplashScreenActivity.class);
                         } else
-                            showNotification("SMART", "You have been logged out of SMART", SplashScreenActivity.class);
+                            showNotification("SMART", "You have been logged out of SMART",
+                                    SplashScreenActivity.class);
                         new ClearData(BaseActivity.this);
                     }
 
@@ -477,7 +477,7 @@ public class BaseActivity extends AppCompatActivity {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
                         BaseModel.getInstance().setAppointments(baseModel.getAppointments());
-                        List<Integer> clinicApptIdList;
+                        /*List<Integer> clinicApptIdList;
                         Map<String, List<Integer>> clinicVisitdateApptIdMap;
                         Map<Integer, Map<String, List<Integer>>> clinicVisitClinicDateApptIdMap = new HashMap<>();
                         Map<Integer, Appointment> clinicVisitIdApptMap = new HashMap<>();
@@ -531,7 +531,8 @@ public class BaseActivity extends AppCompatActivity {
                         BaseModel.getInstance().setClinicVisitIdApptMap(clinicVisitIdApptMap);
 
                         BaseModel.getInstance().setHomeVisitOptionDateApptIdMap(homeVisitClinicDateApptIdMap);
-                        BaseModel.getInstance().setHomeVisitIdApptMap(homeVisitIdApptMap);
+                        BaseModel.getInstance().setHomeVisitIdApptMap(homeVisitIdApptMap);*/
+                        new AppointmentHelper().addApptsToMaps(baseModel.getAppointments());
                         Log.d("Retrofit", "appointments finished");
                         done++;
                         Log.d("Retrofit", "done = " + done);

@@ -9,12 +9,18 @@ import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.util.CheckForRoot;
 
 public class SplashScreenActivity extends Activity {
+    private String rootMsg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Log.d("isDeviceRooted", "isDeviceRooted() = " + new CheckForRoot().isDeviceRooted());
+
+        if(new CheckForRoot().isDeviceRooted())
+            rootMsg = "Deivce Rooted";
+        else
+            rootMsg = "Deivce Not Rooted";
 
         if (BaseModel.getInstance().getLoginStatus()) {
             Log.d("bugs", "logged in = " + BaseModel.getInstance().getLoginStatus());
@@ -23,6 +29,7 @@ public class SplashScreenActivity extends Activity {
         } else {
             Log.d("bugs", "logged in = " + BaseModel.getInstance().getLoginStatus());
             Intent intent = new Intent(SplashScreenActivity.this, LoginActivity.class);
+            intent.putExtra("root_check", rootMsg);
             startActivity(intent);
         }
     }
