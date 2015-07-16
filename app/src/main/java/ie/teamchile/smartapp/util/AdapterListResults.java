@@ -15,7 +15,6 @@ import ie.teamchile.smartapp.R;
  * Created by user on 7/3/15.
  */
 public class AdapterListResults extends BaseAdapter {
-    private Context context;
     private List<String> resultName;
     private List<String> resultDob;
     private List<String> resultHospitalNumber;
@@ -27,7 +26,6 @@ public class AdapterListResults extends BaseAdapter {
             List<String> resultName,
             List<String> resultDob,
             List<String> resultHospitalNumber){
-        this.context = context;
         this.resultName = resultName;
         this.resultDob = resultDob;
         this.resultHospitalNumber = resultHospitalNumber;
@@ -52,15 +50,30 @@ public class AdapterListResults extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        convertView = layoutInflater.inflate(R.layout.list_layout_search_results, null);
-        TextView tvName = (TextView) convertView.findViewById(R.id.tv_results_name);
-        TextView tvDob = (TextView) convertView.findViewById(R.id.tv_results_dob);
-        TextView tvHospitalNumber = (TextView) convertView.findViewById(R.id.tv_results_hospital_number);
+        ViewHolder holder;
+        if (convertView == null) {
+            convertView = layoutInflater.inflate(R.layout.list_layout_search_results, null);
+            holder = new ViewHolder(convertView);
+            convertView.setTag(holder);
+        } else
+            holder = (ViewHolder) convertView.getTag();
 
-        tvName.setText(resultName.get(position));
-        tvDob.setText(resultDob.get(position));
-        tvHospitalNumber.setText(resultHospitalNumber.get(position));
+        holder.tvName.setText(resultName.get(position));
+        holder.tvDob.setText(resultDob.get(position));
+        holder.tvHospitalNumber.setText(resultHospitalNumber.get(position));
         return convertView;
+    }
+
+    private class ViewHolder {
+        TextView tvName;
+        TextView tvDob;
+        TextView tvHospitalNumber;
+
+        public ViewHolder(View view) {
+            tvName = (TextView) view.findViewById(R.id.tv_results_name);
+            tvDob = (TextView) view.findViewById(R.id.tv_results_dob);
+            tvHospitalNumber = (TextView) view.findViewById(R.id.tv_results_hospital_number);
+        }
     }
 
     @Override

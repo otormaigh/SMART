@@ -67,20 +67,33 @@ public class AdapterSpinner extends ArrayAdapter<String> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        convertView = View.inflate(context, layoutresource, null);
-        TextView tvSpinnerItem = (TextView) convertView.findViewById(tvResource);
-        tvSpinnerItem.setText(list.get(position));
+        ViewHolder holder;
+        if (convertView == null) {
+            convertView = View.inflate(context, layoutresource, null);
+            holder = new ViewHolder(convertView);
+            convertView.setTag(holder);
+        } else
+            holder = (ViewHolder) convertView.getTag();
+
+        holder.tvSpinnerItem.setText(list.get(position));
         switch (position) {
             case 0:
-                tvSpinnerItem.setTypeface(null, Typeface.ITALIC);
-                tvSpinnerItem.setTextColor(context.getResources().getColor(R.color.grey));
+                holder.tvSpinnerItem.setTypeface(null, Typeface.ITALIC);
+                holder.tvSpinnerItem.setTextColor(context.getResources().getColor(R.color.grey));
                 break;
             default:
-                tvSpinnerItem.setTextColor(context.getResources().getColor(R.color.black));
-                tvSpinnerItem.setTypeface(Typeface.DEFAULT);
+                holder.tvSpinnerItem.setTextColor(context.getResources().getColor(R.color.black));
+                holder.tvSpinnerItem.setTypeface(Typeface.DEFAULT);
                 break;
         }
-        //return super.getView(position, convertView, parent);
         return convertView;
+    }
+
+    private class ViewHolder {
+        TextView tvSpinnerItem;
+
+        public ViewHolder(View view) {
+            tvSpinnerItem = (TextView) view.findViewById(tvResource);
+        }
     }
 }
