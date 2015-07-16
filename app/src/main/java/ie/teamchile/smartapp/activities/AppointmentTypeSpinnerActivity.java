@@ -274,6 +274,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
                             visitDaySpinner.setSelection(0);
                             visitOptionSelected = BaseModel.getInstance().
                                     getServiceOptionsHomeList().get(position - 1).getId();
+                            loopForServiceOptionDay(visitOptionSelected);
 
                             HomeVisitAppointmentActivity.visitOptionSelected = visitOptionSelected;
                             break;
@@ -292,7 +293,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
 
                             HomeVisitAppointmentActivity.daySelected = daySelected;
                             Intent intent = new Intent(AppointmentTypeSpinnerActivity.this, HomeVisitAppointmentActivity.class);
-                            startActivity(intent);
+                            doneChecker(intent);
                             break;
                     }
                     break;
@@ -421,7 +422,8 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
                 			Log.d("MYLOG", "Plus " + (7 * position) + " days is: " + c.getTime());
                 			daySelected = c.getTime();
                 			addDayToTime(dayOfWeek);
-                            doneChecker();
+                            Intent intent = new Intent(AppointmentTypeSpinnerActivity.this, AppointmentCalendarActivity.class);
+                            doneChecker(intent);
                         	break;
                     }
                     break;
@@ -429,6 +431,24 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
         }
         @Override
         public void onNothingSelected(AdapterView<?> parent) { }
+    }
+
+    private void loopForServiceOptionDay(int visitOption){
+        Calendar c = Calendar.getInstance();
+        Date todayDate = c.getTime();
+        c.setTime(todayDate);
+        c.add(Calendar.DAY_OF_YEAR, 10);
+        Date todayPlus10Day = c.getTime();
+
+        while (todayDate.before(todayPlus10Day)) {
+            Log.d("MYLOG", "todayDate = " + c.getTime());
+            c.setTime(todayDate);
+            String date = dfDateOnly.format(c.getTime());
+            c.add(Calendar.DAY_OF_YEAR, 1);
+            todayDate = c.getTime();
+
+            apptHelp.getAppointmentsHomeVisit(date, visitOption);
+        }
     }
 
     private void getAppointment(int clinicId, Date dayOfWeek){
@@ -448,7 +468,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
         }
     }
 
-    private void doneChecker(){
+    private void doneChecker(final Intent intent){
         showProgressDialog(AppointmentTypeSpinnerActivity.this,
                 "Gettting Appointments");
         timer = new CountDownTimer(200, 100) {
@@ -461,21 +481,21 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
             public void onFinish() {
                 if (BaseActivity.apptDone >= 10) {
                     pd.dismiss();
-                    changeActivity();
+                    changeActivity(intent);
                 } else
                     timer.start();
             }
         }.start();
     }
 
-    public void changeActivity(){
+    public void changeActivity(Intent intent){
     	passOptions.setServiceOptionSelected(serviceOptionSelected);
         passOptions.setClinicSelected(clinicSelected);
         passOptions.setWeekSelected(weekSelected);
         passOptions.setDaySelected(daySelected);
         passOptions.setVisitOption(visitOptionSelected);
 
-        Intent intent = new Intent(AppointmentTypeSpinnerActivity.this, AppointmentCalendarActivity.class);
+        //Intent intent = new Intent(AppointmentTypeSpinnerActivity.this, AppointmentCalendarActivity.class);
         startActivity(intent);
     }
 
