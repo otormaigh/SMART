@@ -476,41 +476,6 @@ public class BaseActivity extends AppCompatActivity {
             bId = babyList.get(0).getId();
     }
 
-    protected void showErrorDialog(String message) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(message)
-                .setTitle("Error")
-                .setIcon(R.drawable.ic_alert_triangle_red)
-                .setCancelable(false)
-                .setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        //do things
-                    }
-                });
-        AlertDialog alert = builder.create();
-        alert.show();
-    }
-
-    protected void showWarningDialog(String message) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(message)
-                .setTitle("Warning")
-                .setIcon(R.drawable.ic_alert_triangle_yellow)
-                .setCancelable(false)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        //do things
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        //do things
-                    }
-                });
-        AlertDialog alert = builder.create();
-        alert.show();
-    }
-
     protected void getAllAppointments(final Context context) {
         api.getAllAppointments(
                 BaseModel.getInstance().getLogin().getToken(),
