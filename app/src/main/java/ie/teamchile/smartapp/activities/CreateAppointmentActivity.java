@@ -38,6 +38,7 @@ import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.model.ServiceUser;
 import ie.teamchile.smartapp.util.AdapterListResults;
 import ie.teamchile.smartapp.util.AdapterSpinner;
+import ie.teamchile.smartapp.util.CustomDialogs;
 import ie.teamchile.smartapp.util.NotKeys;
 import ie.teamchile.smartapp.util.SharedPrefs;
 import retrofit.Callback;
@@ -299,13 +300,22 @@ public class CreateAppointmentActivity extends BaseActivity {
                             userSearchDialog("Search Results");
                         } else {
                             pd.dismiss();
-                            Toast.makeText(getApplicationContext(), "No search results found", Toast.LENGTH_SHORT).show();
+                            new CustomDialogs().showWarningDialog(CreateAppointmentActivity.this,
+                                    "No search results found");
                         }
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
                         Log.d("Retro", "retro failure error = " + error);
+                        if(!error.getKind().equals(RetrofitError.Kind.NETWORK)){
+                            switch (error.getResponse().getStatus()){
+                                case 500:
+                                    new CustomDialogs().showWarningDialog(CreateAppointmentActivity.this,
+                                            "No search results found");
+                                    break;
+                            }
+                        }
                         pd.dismiss();
                     }
                 }
