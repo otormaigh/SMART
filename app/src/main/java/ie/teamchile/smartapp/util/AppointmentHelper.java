@@ -22,6 +22,7 @@ import retrofit.client.Response;
 public class AppointmentHelper extends BaseActivity {
 
     public AppointmentHelper() {
+        initRetrofit();
     }
 
     public void weekDateLooper(Date todayDate, int clinicId) {
@@ -50,6 +51,31 @@ public class AppointmentHelper extends BaseActivity {
         api.getAppointmentsForDayClinic(
                 date,
                 clinicId,
+                BaseModel.getInstance().getLogin().getToken(),
+                NotKeys.API_KEY,
+                new Callback<BaseModel>() {
+                    @Override
+                    public void success(BaseModel baseModel, Response response) {
+                        Log.d("retro", "getAppointmentsForClinic success");
+                        BaseActivity.apptDone++;
+                        if (baseModel.getAppointments().size() > 0)
+                            addApptsToMaps(baseModel.getAppointments());
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.d("retro", "getAppointmentsForClinic failure = " + error);
+                        BaseActivity.apptDone++;
+                    }
+                }
+        );
+    }
+
+    public void getAppointmentsHomeVisit(String date, int serviceOptionId) {
+        api.getHomeVisitApptByDateId(
+                "home-visit",
+                date,
+                serviceOptionId,
                 BaseModel.getInstance().getLogin().getToken(),
                 NotKeys.API_KEY,
                 new Callback<BaseModel>() {
