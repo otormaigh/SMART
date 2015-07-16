@@ -16,6 +16,7 @@ import java.util.Map;
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.PostingData;
+import ie.teamchile.smartapp.util.CustomDialogs;
 import ie.teamchile.smartapp.util.NotKeys;
 import ie.teamchile.smartapp.util.SharedPrefs;
 import ie.teamchile.smartapp.util.SmartApi;
@@ -51,6 +52,10 @@ public class LoginActivity extends AppCompatActivity {
         tvPassword.setText(NotKeys.PASSWORD);
 
         initRetrofit();
+
+        Intent intent = getIntent();
+        String rootMsg = intent.getStringExtra("root_check");
+        new CustomDialogs().showWarningDialog(LoginActivity.this, rootMsg);
     }
 
     @Override
