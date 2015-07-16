@@ -168,20 +168,8 @@ public class AppointmentCalendarActivity extends BaseActivity {
                     mHandler.postDelayed(new Runnable() {
                         public void run() {
                             pd.dismiss();
-                            Log.d("bugs", "dismissed");
-                            Log.d("bugs", "dismissed" + pd.isShowing());
                         }
                     }, 2000);
-                    /*new CountDownTimer(2000, 1000){
-                        @Override
-						public void onFinish() {
-                            Log.d("bugs", "time finished");
-							//pd.dismiss();
-						}
-						@Override
-						public void onTick(long millisUntilFinished) {
-						}
-        			}.start();*/
                 }
             }
         };
@@ -218,7 +206,6 @@ public class AppointmentCalendarActivity extends BaseActivity {
 
         if (BaseModel.getInstance().getClinicVisitClinicDateApptIdMap().containsKey(clinicSelected)) {
             listOfApptId = BaseModel.getInstance().getClinicVisitClinicDateApptIdMap().get(clinicSelected).get(dateSelectedStr);
-            //listOfApptId = removeZeros(listOfApptId);
         } else
             listOfApptId = new ArrayList<>();
 
@@ -386,6 +373,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
         LayoutInflater layoutInflater;
         List<String> aptTime, aptName, aptGest;
         List<Boolean> attendedList;
+        ViewHolder holder;
 
         public ListElementAdapter(Context context, List<String> aptTime,
                                   List<String> aptName, List<String> aptGest,
@@ -422,15 +410,14 @@ public class AppointmentCalendarActivity extends BaseActivity {
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-            convertView = layoutInflater.inflate(R.layout.list_layout_appointment, null);
-            TextView timeText = (TextView) convertView.findViewById(R.id.tv_time);
-            TextView nameText = (TextView) convertView.findViewById(R.id.tv_name);
-            TextView gestText = (TextView) convertView.findViewById(R.id.tv_gestation);
-            final Button btnChangeStatus = (Button) convertView.findViewById(R.id.btn_change_status);
-            final ImageView ivAttend = (ImageView) convertView.findViewById(R.id.img_attended);
-            final SwipeLayout swipeLayout = (SwipeLayout) convertView.findViewById(R.id.swipe_appt_list);
-            LinearLayout llApptListItem = (LinearLayout) convertView.findViewById(R.id.ll_appt_list_item);
-            llApptListItem.setOnLongClickListener(new View.OnLongClickListener() {
+            if (convertView == null) {
+                convertView = layoutInflater.inflate(R.layout.list_layout_appointment, null);
+                holder = new ViewHolder(convertView);
+                convertView.setTag(holder);
+            } else
+                holder = (ViewHolder) convertView.getTag();
+
+            holder.llApptListItem.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
                     if (idList.get(position).equals(0)) {
@@ -452,48 +439,68 @@ public class AppointmentCalendarActivity extends BaseActivity {
                 }
             });
 
-            btnChangeStatus.setOnClickListener(new OnClickListener() {
+            holder.btnChangeStatus.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
                     Log.d("Button", "position = " + position);
-                    swipeLayout.close();
+                    holder.swipeLayout.close();
                     if (!attendedList.get(position)) {
                         changeAttendStatus(true, position);
-                        ivAttend.setBackgroundResource(R.color.attended);
+                        holder.ivAttend.setBackgroundResource(R.color.attended);
                         notifyDataSetChanged();
                     } else if (attendedList.get(position)) {
                         changeAttendStatus(false, position);
-                        ivAttend.setBackgroundResource(R.color.unattended);
+                        holder.ivAttend.setBackgroundResource(R.color.unattended);
                         notifyDataSetChanged();
                     }
                 }
             });
 
             if (idList.get(position).equals(0)) {
-                timeText.setText(aptTime.get(position));
-                nameText.setText(aptName.get(position));
-                gestText.setText(aptGest.get(position));
-                swipeLayout.setSwipeEnabled(false);
+                holder.timeText.setText(aptTime.get(position));
+                holder.nameText.setText(aptName.get(position));
+                holder.gestText.setText(aptGest.get(position));
+                holder.swipeLayout.setSwipeEnabled(false);
 
-                nameText.setTextColor(getResources().getColor(R.color.free_slot));
-                nameText.setTypeface(null, Typeface.ITALIC);
+                holder.nameText.setTextColor(getResources().getColor(R.color.free_slot));
+                holder.nameText.setTypeface(null, Typeface.ITALIC);
             } else {
-                timeText.setText(aptTime.get(position));
-                nameText.setText(aptName.get(position));
-                gestText.setText(aptGest.get(position));
+                holder.timeText.setText(aptTime.get(position));
+                holder.nameText.setText(aptName.get(position));
+                holder.gestText.setText(aptGest.get(position));
 
                 if (attendedList.get(position)) {
-                    ivAttend.setBackgroundResource(R.color.attended);
-                    btnChangeStatus.setText("No");
+                    holder.ivAttend.setBackgroundResource(R.color.attended);
+                    holder.btnChangeStatus.setText("No");
                     //btnChangeStatus.setEnabled(false);
                 } else if (!attendedList.get(position)) {
-                    ivAttend.setBackgroundResource(R.color.unattended);
-                    btnChangeStatus.setText("Yes");
+                    holder.ivAttend.setBackgroundResource(R.color.unattended);
+                    holder.btnChangeStatus.setText("Yes");
                     //btnChangeStatus.setEnabled(true);
                 }
             }
             return convertView;
+        }
+
+        private class ViewHolder {
+            TextView timeText;
+            TextView nameText;
+            TextView gestText;
+            Button btnChangeStatus;
+            ImageView ivAttend;
+            SwipeLayout swipeLayout;
+            LinearLayout llApptListItem;
+
+             public ViewHolder(View view) {
+                 timeText = (TextView) view.findViewById(R.id.tv_time);
+                 nameText = (TextView) view.findViewById(R.id.tv_name);
+                 gestText = (TextView) view.findViewById(R.id.tv_gestation);
+                 btnChangeStatus = (Button) view.findViewById(R.id.btn_change_status);
+                 ivAttend = (ImageView) view.findViewById(R.id.img_attended);
+                 swipeLayout = (SwipeLayout) view.findViewById(R.id.swipe_appt_list);
+                 llApptListItem = (LinearLayout) view.findViewById(R.id.ll_appt_list_item);
+             }
         }
     }
 }
