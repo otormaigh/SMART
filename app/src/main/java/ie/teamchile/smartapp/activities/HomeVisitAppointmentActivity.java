@@ -344,7 +344,6 @@ public class HomeVisitAppointmentActivity extends BaseActivity {
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-
             if (convertView == null) {
                 convertView = layoutInflater.inflate(R.layout.list_layout_home_visit_appointment, null);
                 holder = new ViewHolder(convertView);

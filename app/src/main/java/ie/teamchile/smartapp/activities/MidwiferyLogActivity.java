@@ -277,15 +277,30 @@ public class MidwiferyLogActivity extends BaseActivity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             LayoutInflater inflater = getLayoutInflater();
-            convertView = (View) inflater.inflate(R.layout.list_layout_midwife_note, null);
-            TextView tvDate = (TextView) convertView.findViewById(R.id.tv_note_date);
-            TextView tvName = (TextView) convertView.findViewById(R.id.tv_note_provider_name);
-            TextView tvNote = (TextView) convertView.findViewById(R.id.tv_note);
+            ViewHolder holder;
+            if (convertView == null) {
+                convertView = inflater.inflate(R.layout.list_layout_midwife_note, null);
+                holder = new ViewHolder(convertView);
+                convertView.setTag(holder);
+            } else
+                holder = (ViewHolder) convertView.getTag();
 
-            tvDate.setText(dateList.get(position));
-            tvName.setText(authorList.get(position));
-            tvNote.setText(notesList.get(position));
+            holder.tvDate.setText(dateList.get(position));
+            holder.tvName.setText(authorList.get(position));
+            holder.tvNote.setText(notesList.get(position));
             return convertView;
+        }
+
+        private class ViewHolder {
+            TextView tvDate;
+            TextView tvName;
+            TextView tvNote;
+
+            public ViewHolder(View view) {
+                tvDate = (TextView) view.findViewById(R.id.tv_note_date);
+                tvName = (TextView) view.findViewById(R.id.tv_note_provider_name);
+                tvNote = (TextView) view.findViewById(R.id.tv_note);
+            }
         }
     }
 }
