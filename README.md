@@ -33,9 +33,9 @@ Before being able to run the application fully you must first get an API-key,
  endpoint URL, username and password.
 
 To request these details for testing purposes, email the [The Product Works]
-(http://www.theproduct.works/contact-us) with your details and why you neede access to the API.
+(http://www.theproduct.works/contact-us) with your details and why you need access to them.
 
-Once you have obtain the relevant details enter API-key and URL into a file called NotKeys.java located at
+Once you have obtain the relevant details enter the API-key and URL into a file called NotKeys.java located at
 
 ```
 app/src/main/java/ie/teamchile/smartapp/util/NotKeys.java
