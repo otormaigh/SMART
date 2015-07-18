@@ -17,11 +17,6 @@ public class SplashScreenActivity extends Activity {
 
         Log.d("isDeviceRooted", "isDeviceRooted() = " + new CheckForRoot().isDeviceRooted());
 
-        if(new CheckForRoot().isDeviceRooted())
-            rootMsg = "Deivce Rooted";
-        else
-            rootMsg = "Deivce Not Rooted";
-
         if (BaseModel.getInstance().getLoginStatus()) {
             Log.d("bugs", "logged in = " + BaseModel.getInstance().getLoginStatus());
             Intent intent = new Intent(SplashScreenActivity.this, QuickMenuActivity.class);
@@ -29,7 +24,6 @@ public class SplashScreenActivity extends Activity {
         } else {
             Log.d("bugs", "logged in = " + BaseModel.getInstance().getLoginStatus());
             Intent intent = new Intent(SplashScreenActivity.this, LoginActivity.class);
-            intent.putExtra("root_check", rootMsg);
             startActivity(intent);
         }
     }
