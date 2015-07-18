@@ -83,7 +83,7 @@ public class AppointmentHelper extends BaseActivity {
                     public void success(BaseModel baseModel, Response response) {
                         Log.d("retro", "getAppointmentsForClinic success");
                         BaseActivity.apptDone++;
-                        if (baseModel.getAppointments().size() > 0)
+                        //if (baseModel.getAppointments().size() > 0)
                             addApptsToMaps(baseModel.getAppointments());
                     }
 
@@ -110,26 +110,24 @@ public class AppointmentHelper extends BaseActivity {
                 BaseModel.getInstance().getHomeVisitOptionDateApptIdMap();
         Map<Integer, Appointment> homeVisitIdApptMap =
                 BaseModel.getInstance().getHomeVisitIdApptMap();
-        for (int i = 0; i < appointments.size(); i++) {
+
+        for (Appointment appt : appointments) {
             clinicApptIdList = new ArrayList<>();
             homeApptIdList = new ArrayList<>();
             clinicVisitdateApptIdMap = new HashMap<>();
             homeVisitdateApptIdMap = new HashMap<>();
-            Appointment appt = appointments.get(i);
             String apptDate = appt.getDate();
             int apptId = appt.getId();
             int clinicId = appt.getClinicId();
             int serviceOptionId = 0;
-            if (appt.getServiceOptionIds().size() > 0) {
+            if (appt.getServiceOptionIds().size() > 0)
                 serviceOptionId = appt.getServiceOptionIds().get(0);
-            }
 
             if (appt.getPriority().equals("home-visit")) {
                 if (homeVisitClinicDateApptIdMap.get(serviceOptionId) != null) {
                     homeVisitdateApptIdMap = homeVisitClinicDateApptIdMap.get(serviceOptionId);
-                    if (homeVisitdateApptIdMap.get(apptDate) != null) {
+                    if (homeVisitdateApptIdMap.get(apptDate) != null)
                         homeApptIdList = homeVisitdateApptIdMap.get(apptDate);
-                    }
                 }
                 homeApptIdList.add(apptId);
                 homeVisitdateApptIdMap.put(apptDate, homeApptIdList);
@@ -139,9 +137,8 @@ public class AppointmentHelper extends BaseActivity {
             } else {
                 if (clinicVisitClinicDateApptIdMap.get(clinicId) != null) {
                     clinicVisitdateApptIdMap = clinicVisitClinicDateApptIdMap.get(clinicId);
-                    if (clinicVisitdateApptIdMap.get(apptDate) != null) {
+                    if (clinicVisitdateApptIdMap.get(apptDate) != null)
                         clinicApptIdList = clinicVisitdateApptIdMap.get(apptDate);
-                    }
                 }
                 clinicApptIdList.add(apptId);
                 clinicVisitdateApptIdMap.put(apptDate, clinicApptIdList);
