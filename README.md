@@ -12,16 +12,16 @@ South Dublin and North Wicklow area.
 
 ####Download
 
-First download the project using either git or by downlaod a zipped up copy of the project
+First download the project using either git clone or by downloading a zipped up copy of the project
 
 Git
 ```
-    git clone https://github.com/otormaigh/Smart-App.git
+    git clone https://github.com/otormaigh/SMART.git
 ```
 
 Zipped file
 ```
-    https://github.com/otormaigh/Smart-App/archive/master.zip
+    https://github.com/otormaigh/SMART/archive/master.zip
 ```
 
 ####Import
