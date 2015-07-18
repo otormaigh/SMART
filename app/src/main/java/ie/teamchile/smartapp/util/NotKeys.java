@@ -6,6 +6,4 @@ package ie.teamchile.smartapp.util;
 public interface NotKeys {
     String BASE_URL = "http://";
     String API_KEY = "";
-    String USERNAME = "";
-    String PASSWORD = "";
 }
