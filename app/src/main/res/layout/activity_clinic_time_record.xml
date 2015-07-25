@@ -28,14 +28,6 @@
             android:text="@string/start_clinic"
             android:theme="@style/CallToActionButton"/>
 
-        <Button
-            android:id="@+id/btn_start_clinic_disable"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:enabled="false"
-            android:text="@string/start_clinic"
-            android:textSize="@dimen/text_medium"/>
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -57,14 +49,6 @@
             android:layout_height="wrap_content"
             android:text="@string/stop_clinic"
             android:theme="@style/CallToActionButton"/>
-
-        <Button
-            android:id="@+id/btn_stop_clinic_disable"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:enabled="false"
-            android:text="@string/stop_clinic"
-            android:textSize="@dimen/text_medium"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -88,11 +72,4 @@
             android:textSize="@dimen/text_medium"
             android:theme="@style/WarningCta"/>
 
-        <Button
-            android:id="@+id/btn_reset_clinic_record_disable"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:enabled="false"
-            android:text="@string/reset_record"
-            android:textSize="@dimen/text_medium"/>
 </LinearLayout>
