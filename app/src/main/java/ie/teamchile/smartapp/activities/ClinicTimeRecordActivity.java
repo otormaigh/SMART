@@ -54,9 +54,9 @@ public class ClinicTimeRecordActivity extends BaseActivity {
     private int clinicStartedId;
     private int clinicNotStartedId;
     private int clinicStoppedId;
-    private Button btnStartClinic, btnStartClinicDisable;
-    private Button btnStopClinic, btnStopClinicDisable;
-    private Button btnResetRecord, btnResetRecordDisable;
+    private Button btnStartClinic;
+    private Button btnStopClinic;
+    private Button btnResetRecord;
     private ArrayAdapter adapterNotStart;
     private ArrayAdapter adapterStart;
     private ArrayAdapter adapterStop;
@@ -73,7 +73,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
         setContentForNav(R.layout.activity_clinic_time_record);
         c = Calendar.getInstance();
         todayDay = dfDayLong.format(c.getTime());
-        //todayDay = "Tuesday";
+        todayDay = "Tuesday";
         todayDate = dfDateOnly.format(c.getTime());
         Log.d("SMART", "today = " + todayDay);
         lvNotStarted = (ListView) findViewById(R.id.lv_clinics_not_started);
@@ -86,21 +86,15 @@ public class ClinicTimeRecordActivity extends BaseActivity {
         btnStartClinic.setOnClickListener(new ButtonClicky());
         btnStopClinic = (Button) findViewById(R.id.btn_stop_clinic);
         btnStopClinic.setOnClickListener(new ButtonClicky());
-        btnStartClinicDisable = (Button) findViewById(R.id.btn_start_clinic_disable);
-        btnStopClinicDisable = (Button) findViewById(R.id.btn_stop_clinic_disable);
         btnResetRecord = (Button) findViewById(R.id.btn_reset_clinic_record);
-        btnResetRecordDisable = (Button) findViewById(R.id.btn_reset_clinic_record_disable);
         btnResetRecord.setOnClickListener(new ButtonClicky());
 
-        btnStartClinicDisable.setEnabled(false);
-        btnStopClinicDisable.setEnabled(false);
-        btnResetRecord.setEnabled(false);
-
-        enableDisabledButtons();
+        disableButtons();
 
         setActionBarTitle("Start/Stop Clinics");
 
-        getDataFromDb();
+        if(!todayDay.equals("Saturday") || !todayDay.equals("Sunday"))
+            getDataFromDb();
     }
 
     @Override
@@ -116,13 +110,10 @@ public class ClinicTimeRecordActivity extends BaseActivity {
         BaseModel.getInstance().setClinicDayMap(clinicDayMap);
     }
 
-    private void enableDisabledButtons(){
-        btnStartClinic.setVisibility(View.GONE);
-        btnStopClinic.setVisibility(View.GONE);
-        btnResetRecord.setVisibility(View.GONE);
-        btnStartClinicDisable.setVisibility(View.VISIBLE);
-        btnStopClinicDisable.setVisibility(View.VISIBLE);
-        btnResetRecordDisable.setVisibility(View.VISIBLE);
+    private void disableButtons(){
+        btnStartClinic.setEnabled(false);
+        btnStopClinic.setEnabled(false);
+        btnResetRecord.setEnabled(false);
     }
 
     private void getDataFromSingle() {
@@ -265,7 +256,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
                         Log.d("SMART", "retro success");
-                        enableDisabledButtons();
+                        disableButtons();
 
                         clinicTimeRecords.add(baseModel.getClinicTimeRecord());
                         clinicNotStarted.remove(clinicNotStarted.indexOf(clinicId));
@@ -279,6 +270,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                     public void failure(RetrofitError error) {
                         Log.d("SMART", "retro error = " + error.getResponse());
                         pd.dismiss();
+                        disableButtons();
                     }
                 });
     }
@@ -308,7 +300,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
                         Log.d("SMART", "retro success");
-                        enableDisabledButtons();
+                        disableButtons();
 
                         for (int i = 0; i < clinicTimeRecords.size(); i++) {
                             if (clinicTimeRecords.get(i).getId() == recordId) {
@@ -328,6 +320,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                     public void failure(RetrofitError error) {
                         Log.d("SMART", "retro error = " + error.getResponse());
                         pd.dismiss();
+                        disableButtons();
                     }
                 });
     }
@@ -344,7 +337,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
                         Log.d("retro", "deleteTimeRecord success");
-                        enableDisabledButtons();
+                        disableButtons();
 
                         for (int i = 0; i < clinicTimeRecords.size(); i++) {
                             if (clinicTimeRecords.get(i).getId() == recordIdForDelete) {
@@ -364,6 +357,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                     public void failure(RetrofitError error) {
                         Log.d("retro", "deleteTimeRecord failure = "  + error);
                         pd.dismiss();
+                        disableButtons();
                     }
                 }
         );
@@ -482,8 +476,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             switch (parent.getId()) {
                 case R.id.lv_clinics_not_started:
-                    btnStartClinic.setVisibility(View.VISIBLE);
-                    btnStartClinicDisable.setVisibility(View.GONE);
+                    btnStartClinic.setEnabled(true);
                     clinicStartedId = 0;
                     adapterStart.notifyDataSetChanged();
                     lvStarted.setAdapter(adapterStart);
@@ -492,8 +485,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                     Log.d("bugs", "clinicNotStartedId = " + clinicNotStartedId);
                     break;
                 case R.id.lv_clinics_started:
-                    btnStopClinic.setVisibility(View.VISIBLE);
-                    btnStopClinicDisable.setVisibility(View.GONE);
+                    btnStopClinic.setEnabled(true);
                     clinicNotStartedId = 0;
                     adapterNotStart.notifyDataSetChanged();
                     lvNotStarted.setAdapter(adapterNotStart);
@@ -509,8 +501,6 @@ public class ClinicTimeRecordActivity extends BaseActivity {
             Vibrator vibe = (Vibrator) ClinicTimeRecordActivity.this.getSystemService(Context.VIBRATOR_SERVICE);
             switch(parent.getId()){
                 case R.id.lv_clinics_stopped:
-                    btnResetRecord.setVisibility(View.VISIBLE);
-                    btnResetRecordDisable.setVisibility(View.GONE);
                     btnResetRecord.setEnabled(true);
                     vibe.vibrate(50);
                     clinicIdForDelete = clinicStopped.get(position);
