@@ -1,25 +1,13 @@
 package ie.teamchile.smartapp.model;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
 /**
  * Created by user on 6/16/15.
  */
 public class AntiDHistory {
-    @Expose
     private Integer id;
-    @SerializedName("anti_d")
-    @Expose
     private String antiD;
-    @SerializedName("created_at")
-    @Expose
     private String createdAt;
-    @SerializedName("pregnancy_id")
-    @Expose
     private Integer pregnancyId;
-    @SerializedName("service_provider_name")
-    @Expose
     private String serviceProviderName;
 
     public Integer getId() {
@@ -61,5 +49,4 @@ public class AntiDHistory {
     public void setServiceProviderName(String serviceProviderName) {
         this.serviceProviderName = serviceProviderName;
     }
-
 }

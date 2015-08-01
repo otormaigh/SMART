@@ -4,29 +4,13 @@ package ie.teamchile.smartapp.model;
  * Created by user on 5/26/15.
  */
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
 public class Links {
-    @SerializedName("service_options")
-    @Expose
     private String serviceOptions;
-    @SerializedName("service_provider")
-    @Expose
     private String serviceProvider;
-    @SerializedName("service_user")
-    @Expose
     private String serviceUser;
-    @Expose
     private String announcements;
-    @SerializedName("hearing_histories")
-    @Expose
     private String hearingHistories;
-    @SerializedName("nbst_histories")
-    @Expose
     private String nbstHistories;
-    @SerializedName("vit_k_histories")
-    @Expose
     private String vitKHistories;
 
     public String getAnnouncements() {

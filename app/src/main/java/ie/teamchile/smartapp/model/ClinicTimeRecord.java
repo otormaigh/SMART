@@ -1,23 +1,12 @@
 package ie.teamchile.smartapp.model;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
 /**
  * Created by user on 6/3/15.
  */
 public class ClinicTimeRecord {
-
-    @SerializedName("clinic_id")
-    @Expose
     private Integer clinicId;
-    @SerializedName("end_time")
-    @Expose
     private Object endTime;
-    @Expose
     private Integer id;
-    @SerializedName("start_time")
-    @Expose
     private String startTime;
 
     public Integer getClinicId() {

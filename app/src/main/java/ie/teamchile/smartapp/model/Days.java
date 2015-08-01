@@ -1,25 +1,15 @@
 package ie.teamchile.smartapp.model;
 
-import com.google.gson.annotations.Expose;
-
 /**
  * Created by user on 5/26/15.
  */
 public class Days {
-
-    @Expose
     private Boolean friday;
-    @Expose
     private Boolean monday;
-    @Expose
     private Boolean saturday;
-    @Expose
     private Boolean sunday;
-    @Expose
     private Boolean thursday;
-    @Expose
     private Boolean tuesday;
-    @Expose
     private Boolean wednesday;
 
     public Boolean getFriday() {

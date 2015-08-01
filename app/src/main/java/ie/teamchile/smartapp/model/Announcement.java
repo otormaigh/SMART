@@ -1,18 +1,12 @@
 package ie.teamchile.smartapp.model;
 
-import com.google.gson.annotations.Expose;
-
 /**
  * Created by user on 5/26/15.
  */
 public class Announcement {
-    @Expose
     private Boolean blocking;
-    @Expose
     private String date;
-    @Expose
     private Integer id;
-    @Expose
     private String note;
 
     public Boolean getBlocking() {
