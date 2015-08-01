@@ -1,8 +1,5 @@
 package ie.teamchile.smartapp.model;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,87 +11,48 @@ import java.util.Map;
 public class BaseModel {
     private static BaseModel instance;
     private Boolean isLoggedIn = false;
-    @Expose
     private Error errors;
-    @Expose
     private Login login;
-    @Expose
     private Appointment appointment;
-    @Expose
     private List<Appointment> appointments = new ArrayList<>();
     private Map<Integer, Appointment> clinicVisitIdApptMap = new HashMap<>();
     private Map<Integer, Map<String, List<Integer>>> clinicVisitClinicDateApptIdMap = new HashMap<>();
     private Map<Integer, Appointment> homeVisitIdApptMap = new HashMap<>();
     private Map<Integer, Map<String, List<Integer>>> homeVisitOptionDateApptIdMap = new HashMap<>();
-    @SerializedName("service_options")
-    @Expose
     private List<ServiceOption> serviceOptions = new ArrayList<>();
     private List<ServiceOption> serviceOptionsHomeList = new ArrayList<>();
     private Map<Integer, ServiceOption> serviceOptionsHomeMap = new HashMap<>();
     private Map<Integer, ServiceOption> serviceOptionsClinicMap = new HashMap<>();
-    @SerializedName("service_users")
-    @Expose
     private List<ServiceUser> serviceUsers = new ArrayList<>();
-    @Expose
     private ServiceUser serviceUser;
-    @SerializedName("service_providers")
-    @Expose
     private List<ServiceProvider> serviceProviders = new ArrayList<>();
-    @Expose
     private ServiceProvider serviceProvider = new ServiceProvider();
-    @Expose
     private List<Pregnancy> pregnancies = new ArrayList<>();
-    @Expose
     private Pregnancy pregnancy = new Pregnancy();
-    @Expose
     private List<Baby> babies = new ArrayList<>();
-    @Expose
     private Baby baby = new Baby();
-    @Expose
     private List<Announcement> announcements = new ArrayList<>();
-    @Expose
     private List<Clinic> clinics = new ArrayList<>();
     private Map<Integer, Clinic> clinicMap = new HashMap<>();
     private List<Integer> clinicStopped = new ArrayList<>();
     private List<Integer> clinicStarted = new ArrayList<>();
     private List<Integer> clinicNotStarted = new ArrayList<>();
     private Map<String, List<Integer>> clinicDayMap = new HashMap<>();
-    @SerializedName("clinic_time_records")
-    @Expose
     private List<ClinicTimeRecord> clinicTimeRecords = new ArrayList<>();
-    @SerializedName("clinic_time_record")
-    @Expose
     private ClinicTimeRecord clinicTimeRecord = new ClinicTimeRecord();
-    @SerializedName("anti_d_histories")
-    @Expose
     private List<AntiDHistory> antiDHistories = new ArrayList<>();
-    @SerializedName("pregnancy_notes")
-    @Expose
     private List<PregnancyNote> pregnancyNotes = new ArrayList<>();
-    @SerializedName("pregnancy_note")
-    @Expose
     private PregnancyNote pregnancyNote = new PregnancyNote();
-    @SerializedName("vit_k_histories")
-    @Expose
     private List<VitKHistory> vitKHistories = new ArrayList<>();
-    @SerializedName("hearing_histories")
-    @Expose
     private List<HearingHistory> hearingHistories = new ArrayList<>();
-    @SerializedName("nbst_histories")
-    @Expose
     private List<NbstHistory> nbstHistories = new ArrayList<>();
-    @SerializedName("feeding_histories")
-    @Expose
     private List<FeedingHistory> feedingHistories = new ArrayList<>();
-    @SerializedName("service_user_actions")
-    @Expose
     private List<ServiceUserAction> serviceUserActions = new ArrayList<>();
-    @SerializedName("pregnancy_actions")
-    @Expose
     private List<PregnancyAction> pregnancyActions = new ArrayList<>();
     private Map<Integer, ServiceUserAction> serviceUserActionMap = new HashMap<>();
 
-    private BaseModel() { }
+    private BaseModel() {
+    }
 
     public static synchronized BaseModel getInstance() {
         if (instance == null) {

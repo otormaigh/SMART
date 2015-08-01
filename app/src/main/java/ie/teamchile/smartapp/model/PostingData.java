@@ -1,28 +1,17 @@
 package ie.teamchile.smartapp.model;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
 /**
  * Created by user on 5/26/15.
  */
 
 public class PostingData {
-    @Expose
     public Login login;
-    @Expose
     public Appointment appointment;
-    @SerializedName("clinic_time_record")
     public ClinicTimeRecord clinicTimeRecord;
-    @SerializedName("notes")
     public PregnancyNote pregnancyNote;
-    @SerializedName("pregnancy")
     public Pregnancy pregnancy;
-    @Expose
     public Note note;
-    @Expose
     public Baby baby;
-    @SerializedName("pregnancy_action")
     public PregnancyAction pregnancyAction;
 
     public PostingData() {
@@ -32,9 +21,9 @@ public class PostingData {
         this.login = new Login(username, password);
     }
 
-        public void postAppointment(String date, int service_user_id,
-                                    String priority, String visit_type,
-                                    String return_type, int serviceOptionId) {
+    public void postAppointment(String date, int service_user_id,
+                                String priority, String visit_type,
+                                String return_type, int serviceOptionId) {
         int service_provider_id = BaseModel.getInstance().getLogin().getId();
 
         this.appointment = new Appointment(date, service_provider_id, service_user_id,
@@ -63,7 +52,7 @@ public class PostingData {
     }
 
     public void resetTimeRecord(String startTime, String endTime, String date, int clinicId) {
-        this.clinicTimeRecord = new ClinicTimeRecord(startTime,endTime, date, clinicId);
+        this.clinicTimeRecord = new ClinicTimeRecord(startTime, endTime, date, clinicId);
     }
 
     public void postPregnancyNote(int id, String note, int pregnancyId, int serviceProviderId) {
@@ -94,11 +83,11 @@ public class PostingData {
         this.note = new Note(note);
     }
 
-    public void postPregnancyAction(String action){
+    public void postPregnancyAction(String action) {
         this.pregnancyAction = new PregnancyAction(action);
     }
 
-    public void putPregnancyActionStatus(boolean complete){
+    public void putPregnancyActionStatus(boolean complete) {
         this.pregnancyAction = new PregnancyAction(complete);
     }
 
@@ -115,19 +104,13 @@ public class PostingData {
     private class Appointment {
         private String date;
         private String time;
-        @SerializedName("clinic_id")
         private Integer clinicId;
-        @SerializedName("service_provider_id")
         private int serviceProviderId;
-        @SerializedName("service_user_id")
         private int serviceUserId;
         private String priority;
-        @SerializedName("visit_type")
         private String visitType;
-        @SerializedName("return_type")
         private String returnType;
         private Boolean attended;
-        @SerializedName("service_option_id")
         private Integer serviceOptionId;
 
         public Appointment(Boolean attended, int clinicId, int serviceProviderId, int serviceUserId) {
@@ -163,13 +146,9 @@ public class PostingData {
     }
 
     private class ClinicTimeRecord {
-        @SerializedName("start_time")
         private String startTime;
-        @SerializedName("end_time")
         private String endTime;
-        @SerializedName("clinic_id")
         private int clinicId;
-        @Expose
         private String date;
 
         public ClinicTimeRecord(String startTime, int clinicId, String date) {
@@ -193,13 +172,9 @@ public class PostingData {
     }
 
     private class PregnancyNote {
-        @Expose
         private int id;
-        @Expose
         private String note;
-        @SerializedName("pregnancy_id")
         private int pregnancyId;
-        @SerializedName("service_provider_id")
         private int serviceProviderId;
 
         public PregnancyNote(int id, String note, int pregnancyId, int serviceProviderId) {
@@ -211,9 +186,7 @@ public class PostingData {
     }
 
     private class Pregnancy {
-        @SerializedName("anti_d")
         private String antiD;
-        @SerializedName("service_user_id")
         private int serviceUserId;
         private String feeding;
 
@@ -229,7 +202,6 @@ public class PostingData {
     }
 
     private class Note {
-        @Expose
         private String note;
 
         public Note(String note) {
@@ -238,11 +210,8 @@ public class PostingData {
     }
 
     private class Baby {
-        @SerializedName("vit_k")
         private String vitK;
-        @SerializedName("service_user_id")
         private int serviceUserId;
-        @SerializedName("pregnancy_id")
         private int pregnancyId;
         private String hearing;
         private String nbst;
@@ -268,15 +237,14 @@ public class PostingData {
     }
 
     private class PregnancyAction {
-        @Expose
         private String action;
-        @Expose
         private boolean complete;
 
-        public PregnancyAction(String action){
+        public PregnancyAction(String action) {
             this.action = action;
         }
-        public PregnancyAction(boolean complete){
+
+        public PregnancyAction(boolean complete) {
             this.complete = complete;
         }
     }

@@ -1,8 +1,5 @@
 package ie.teamchile.smartapp.model;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,43 +7,19 @@ import java.util.List;
  * Created by user on 5/26/15.
  */
 public class Pregnancy {
-    @SerializedName("additional_info")
-    @Expose
     private String additionalInfo;
-    @SerializedName("anti_d")
-    @Expose
     private String antiD;
-    @SerializedName("baby_ids")
-    @Expose
     private List<Integer> babyIds = new ArrayList<Integer>();
-    @SerializedName("birth_mode")
-    @Expose
     private List<String> birthMode = new ArrayList<String>();
-    @SerializedName("created_at")
-    @Expose
     private String createdAt;
-    @SerializedName("estimated_delivery_date")
-    @Expose
     private String estimatedDeliveryDate;
-    @Expose
     private String feeding;
-    @Expose
     private String gestation;
-    @SerializedName("baby_age")
-    @Expose
     private String babyAge;
-    @Expose
     private Integer id;
-    @SerializedName("last_menstrual_period")
-    @Expose
     private String lastMenstrualPeriod;
-    @Expose
     private String perineum;
-    @SerializedName("service_user_id")
-    @Expose
     private Integer serviceUserId;
-    @SerializedName("pregnancy_notes")
-    @Expose
     private List<PregnancyNote> pregnancyNotes = new ArrayList<>();
 
     public String getAdditionalInfo() {

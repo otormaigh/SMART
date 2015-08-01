@@ -1,45 +1,21 @@
 package ie.teamchile.smartapp.model;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class Appointment {
-
-    @SerializedName("clinic_id")
-    @Expose
     private Integer clinicId;
-    @Expose
     private String date;
-    @Expose
     private Integer id;
-    @Expose
     private Links links;
-    @Expose
     private String priority;
-    @SerializedName("service_option_ids")
-    @Expose
     private List<Integer> serviceOptionIds = new ArrayList<>();
-    @SerializedName("service_provider_id")
-    @Expose
     private Integer serviceProviderId;
-    @SerializedName("service_user")
-    @Expose
     private ServiceUser serviceUser;
-    @SerializedName("service_user_id")
-    @Expose
     private Integer serviceUserId;
-    @Expose
     private String time;
-    @SerializedName("visit_logs")
-    @Expose
     private List<Object> visitLogs = new ArrayList<>();
-    @SerializedName("visit_type")
-    @Expose
     private String visitType;
-    @Expose
     private Boolean attended;
 
     public Integer getClinicId() {

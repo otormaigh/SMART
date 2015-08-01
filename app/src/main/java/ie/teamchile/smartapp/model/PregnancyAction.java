@@ -1,26 +1,14 @@
 package ie.teamchile.smartapp.model;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
 /**
  * Created by user on 7/1/15.
  */
 public class PregnancyAction {
-    @Expose
     private String action;
-    @Expose
     private Boolean complete;
-    @SerializedName("created_at")
-    @Expose
     private String createdAt;
-    @Expose
     private Integer id;
-    @SerializedName("pregnancy_id")
-    @Expose
     private Integer pregnancyId;
-    @SerializedName("service_provider_id")
-    @Expose
     private Integer serviceProviderId;
 
     public String getAction() {
