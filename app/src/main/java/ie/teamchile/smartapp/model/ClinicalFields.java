@@ -1,23 +1,13 @@
 package ie.teamchile.smartapp.model;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
 /**
  * Created by user on 5/27/15.
  */
 public class ClinicalFields {
-    @SerializedName("blood_group")
-    @Expose
     private String bloodGroup;
-    @Expose
     private String bmi;
-    @Expose
     private String parity;
-    @SerializedName("previous_obstetric_history")
-    @Expose
     private String previousObstetricHistory;
-    @Expose
     private Boolean rhesus;
 
     public String getBloodGroup() {

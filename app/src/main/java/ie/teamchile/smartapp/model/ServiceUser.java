@@ -4,33 +4,17 @@ package ie.teamchile.smartapp.model;
  * Created by user on 5/26/15.
  */
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class ServiceUser {
-    @Expose
     private String gestation;
-    @Expose
     private Integer id;
-    @Expose
     private String name;
-    @SerializedName("baby_ids")
-    @Expose
     private List<Integer> babyIds = new ArrayList<Integer>();
-    @SerializedName("clinical_fields")
-    @Expose
     private ClinicalFields clinicalFields;
-    @SerializedName("hospital_number")
-    @Expose
     private String hospitalNumber;
-    @SerializedName("personal_fields")
-    @Expose
     private PersonalFields personalFields;
-    @SerializedName("pregnancy_ids")
-    @Expose
     private List<Integer> pregnancyIds = new ArrayList<Integer>();
 
     public String getGestation() {

@@ -1,37 +1,19 @@
 package ie.teamchile.smartapp.model;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
 /**
  * Created by user on 5/26/15.
  */
 public class ServiceProvider {
-    @Expose
     private Boolean active;
-    @Expose
     private Boolean admin;
-    @Expose
     private String email;
-    @Expose
     private Integer id;
-    @SerializedName("job_level")
-    @Expose
     private String jobLevel;
-    @SerializedName("job_occupation")
-    @Expose
     private String jobOccupation;
-    @Expose
     private String name;
-    @Expose
     private String password;
-    @SerializedName("primary_phone")
-    @Expose
     private String primaryPhone;
-    @SerializedName("secondary_phone")
-    @Expose
     private String secondaryPhone;
-    @Expose
     private String username;
 
     public Boolean getActive() {
