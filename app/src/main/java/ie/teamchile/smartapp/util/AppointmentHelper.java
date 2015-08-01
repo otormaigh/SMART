@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import ie.teamchile.smartapp.activities.BaseActivity;
+import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.Appointment;
 import ie.teamchile.smartapp.model.BaseModel;
 import retrofit.Callback;
@@ -22,13 +23,11 @@ import retrofit.client.Response;
 public class AppointmentHelper extends BaseActivity {
 
     public AppointmentHelper() {
-        initRetrofit();
     }
 
     public void weekDateLooper(Date todayDate, int clinicId) {
         Log.d("MYLOG", "getAppointmentsForClinic called");
         Log.d("MYLOG", "todayDate = " + dfDateOnly.format(todayDate) + ", clinicId = " + clinicId);
-        initRetrofit();
         Calendar c = Calendar.getInstance();
         //Date todayDate = c.getTime();
         c.setTime(todayDate);
@@ -48,11 +47,9 @@ public class AppointmentHelper extends BaseActivity {
     }
 
     public void getAppointmentsForClinic(String date, int clinicId) {
-        api.getAppointmentsForDayClinic(
+        SmartApiClient.getAuthorizedApiClient().getAppointmentsForDayClinic(
                 date,
                 clinicId,
-                BaseModel.getInstance().getLogin().getToken(),
-                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
@@ -72,19 +69,17 @@ public class AppointmentHelper extends BaseActivity {
     }
 
     public void getAppointmentsHomeVisit(String date, int serviceOptionId) {
-        api.getHomeVisitApptByDateId(
+        SmartApiClient.getAuthorizedApiClient().getHomeVisitApptByDateId(
                 "home-visit",
                 date,
                 serviceOptionId,
-                BaseModel.getInstance().getLogin().getToken(),
-                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
                         Log.d("retro", "getAppointmentsForClinic success");
                         BaseActivity.apptDone++;
                         //if (baseModel.getAppointments().size() > 0)
-                            addApptsToMaps(baseModel.getAppointments());
+                        addApptsToMaps(baseModel.getAppointments());
                     }
 
                     @Override

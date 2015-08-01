@@ -21,12 +21,12 @@ import java.util.List;
 import java.util.Map;
 
 import ie.teamchile.smartapp.R;
+import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.Clinic;
 import ie.teamchile.smartapp.model.ClinicTimeRecord;
 import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.util.AppointmentHelper;
-import ie.teamchile.smartapp.util.NotKeys;
 import ie.teamchile.smartapp.util.SharedPrefs;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -93,7 +93,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
 
         setActionBarTitle("Start/Stop Clinics");
 
-        if(!todayDay.equals("Saturday") || !todayDay.equals("Sunday"))
+        if (!todayDay.equals("Saturday") || !todayDay.equals("Sunday"))
             getDataFromDb();
     }
 
@@ -110,7 +110,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
         BaseModel.getInstance().setClinicDayMap(clinicDayMap);
     }
 
-    private void disableButtons(){
+    private void disableButtons() {
         btnStartClinic.setEnabled(false);
         btnStopClinic.setEnabled(false);
         btnResetRecord.setEnabled(false);
@@ -194,11 +194,9 @@ public class ClinicTimeRecordActivity extends BaseActivity {
     }
 
     private void getTimeRecords(final int clinicId, String date) {
-        api.getTimeRecords(
+        SmartApiClient.getAuthorizedApiClient().getTimeRecords(
                 clinicId,
                 date,
-                BaseModel.getInstance().getLogin().getToken(),
-                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
@@ -247,11 +245,9 @@ public class ClinicTimeRecordActivity extends BaseActivity {
 
         showProgressDialog(ClinicTimeRecordActivity.this, "Updating Clinic Time Records");
 
-        api.postTimeRecords(
+        SmartApiClient.getAuthorizedApiClient().postTimeRecords(
                 timeRecord,
                 clinicId,
-                BaseModel.getInstance().getLogin().getToken(),
-                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
@@ -290,12 +286,10 @@ public class ClinicTimeRecordActivity extends BaseActivity {
 
         showProgressDialog(ClinicTimeRecordActivity.this, "Updating Clinic Time Records");
 
-        api.putTimeRecords(
+        SmartApiClient.getAuthorizedApiClient().putTimeRecords(
                 timeRecord,
                 clinicId,
                 recordId,
-                BaseModel.getInstance().getLogin().getToken(),
-                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
@@ -325,14 +319,12 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                 });
     }
 
-    private void deleteTimeRecord(final int clinicIdForDelete, final int recordIdForDelete){
+    private void deleteTimeRecord(final int clinicIdForDelete, final int recordIdForDelete) {
         showProgressDialog(ClinicTimeRecordActivity.this, "Deleting Time Record");
 
-        api.deleteTimeRecordById(
+        SmartApiClient.getAuthorizedApiClient().deleteTimeRecordById(
                 clinicIdForDelete,
                 recordIdForDelete,
-                BaseModel.getInstance().getLogin().getToken(),
-                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
@@ -355,7 +347,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
 
                     @Override
                     public void failure(RetrofitError error) {
-                        Log.d("retro", "deleteTimeRecord failure = "  + error);
+                        Log.d("retro", "deleteTimeRecord failure = " + error);
                         pd.dismiss();
                         disableButtons();
                     }
@@ -365,7 +357,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
 
 
     private void setNotStartedList() {
-        recordGetDone ++;
+        recordGetDone++;
         String clinicName = "";
         clinicNotStartedName = new ArrayList<>();
         if (clinicNotStarted.size() == 0) {
@@ -398,7 +390,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
     }
 
     private void setStartedList() {
-        recordGetDone ++;
+        recordGetDone++;
         clinicStartedName = new ArrayList<>();
         if (clinicStarted.size() == 0) {
             clinicStartedName.add("No clinics currently started");
@@ -430,7 +422,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
     }
 
     private void setStoppedList() {
-        recordGetDone ++;
+        recordGetDone++;
         clinicStoppedName = new ArrayList<>();
 
         if (clinicStopped.size() == 0) {
@@ -471,7 +463,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
         });
     }
 
-    private class ItemClicky implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener{
+    private class ItemClicky implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             switch (parent.getId()) {
@@ -499,7 +491,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
             Vibrator vibe = (Vibrator) ClinicTimeRecordActivity.this.getSystemService(Context.VIBRATOR_SERVICE);
-            switch(parent.getId()){
+            switch (parent.getId()) {
                 case R.id.lv_clinics_stopped:
                     btnResetRecord.setEnabled(true);
                     vibe.vibrate(50);
@@ -547,7 +539,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                     break;
                 case R.id.btn_reset_clinic_record:
                     Log.d("timeRecord", "delete record clinic id = " + clinicIdForDelete);
-                    if(clinicIdForDelete != 0)
+                    if (clinicIdForDelete != 0)
                         deleteTimeRecord(clinicIdForDelete, recordIdForDelete);
                     break;
             }

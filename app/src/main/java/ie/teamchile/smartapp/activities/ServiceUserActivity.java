@@ -39,15 +39,12 @@ import java.util.Date;
 import java.util.List;
 
 import ie.teamchile.smartapp.R;
+import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.model.ServiceUserAction;
-import ie.teamchile.smartapp.util.NotKeys;
-import ie.teamchile.smartapp.util.SmartApi;
 import retrofit.Callback;
-import retrofit.RestAdapter;
 import retrofit.RetrofitError;
-import retrofit.client.OkClient;
 import retrofit.client.Response;
 
 public class ServiceUserActivity extends BaseActivity {
@@ -763,11 +760,9 @@ public class ServiceUserActivity extends BaseActivity {
 
         showProgressDialog(this, "Updating Anti-D");
 
-        api.putAnitD(
+        SmartApiClient.getAuthorizedApiClient().putAnitD(
                 puttingAntiD,
                 BaseModel.getInstance().getPregnancies().get(p).getId(),
-                BaseModel.getInstance().getLogin().getToken(),
-                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
@@ -802,11 +797,9 @@ public class ServiceUserActivity extends BaseActivity {
 
         showProgressDialog(this, "Updating Feeding");
 
-        api.putAnitD(
+        SmartApiClient.getAuthorizedApiClient().putAnitD(
                 puttingFeeding,
                 BaseModel.getInstance().getPregnancies().get(p).getId(),
-                BaseModel.getInstance().getLogin().getToken(),
-                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
@@ -843,11 +836,9 @@ public class ServiceUserActivity extends BaseActivity {
 
         showProgressDialog(this, "Updating Vit-K");
 
-        api.putVitK(
+        SmartApiClient.getAuthorizedApiClient().putVitK(
                 puttingVitK,
                 bId,
-                BaseModel.getInstance().getLogin().getToken(),
-                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
@@ -884,11 +875,9 @@ public class ServiceUserActivity extends BaseActivity {
 
         showProgressDialog(this, "Updating Hearing");
 
-        api.putHearing(
+        SmartApiClient.getAuthorizedApiClient().putHearing(
                 puttingHearing,
                 bId,
-                BaseModel.getInstance().getLogin().getToken(),
-                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
@@ -925,19 +914,9 @@ public class ServiceUserActivity extends BaseActivity {
 
         showProgressDialog(this, "Updating NBST");
 
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(NotKeys.BASE_URL)
-                .setLogLevel(RestAdapter.LogLevel.FULL)
-                .setClient(new OkClient())
-                .build();
-
-        api = restAdapter.create(SmartApi.class);
-
-        api.putNBST(
+        SmartApiClient.getAuthorizedApiClient().putNBST(
                 puttingNbst,
                 bId,
-                BaseModel.getInstance().getLogin().getToken(),
-                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
@@ -962,10 +941,8 @@ public class ServiceUserActivity extends BaseActivity {
     }
 
     private void getMidwiferyNotes(){
-        api.getPregnancyNotes(
+        SmartApiClient.getAuthorizedApiClient().getPregnancyNotes(
                 BaseModel.getInstance().getServiceUsers().get(0).getPregnancyIds().get(p),
-                BaseModel.getInstance().getLogin().getToken(),
-                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
@@ -987,11 +964,9 @@ public class ServiceUserActivity extends BaseActivity {
         PostingData postAction = new PostingData();
         postAction.postPregnancyAction(action);
 
-        api.postPregnancyAction(
+        SmartApiClient.getAuthorizedApiClient().postPregnancyAction(
                 postAction,
                 BaseModel.getInstance().getServiceUsers().get(0).getPregnancyIds().get(p),
-                BaseModel.getInstance().getLogin().getToken(),
-                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
