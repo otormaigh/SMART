@@ -45,18 +45,15 @@ import java.util.Locale;
 import javax.net.ssl.SSLHandshakeException;
 
 import ie.teamchile.smartapp.R;
+import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.Baby;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.Pregnancy;
 import ie.teamchile.smartapp.util.AppointmentHelper;
 import ie.teamchile.smartapp.util.ClearData;
-import ie.teamchile.smartapp.util.NotKeys;
-import ie.teamchile.smartapp.util.SmartApi;
 import ie.teamchile.smartapp.util.ToastAlert;
 import retrofit.Callback;
-import retrofit.RestAdapter;
 import retrofit.RetrofitError;
-import retrofit.client.OkClient;
 import retrofit.client.Response;
 
 public class BaseActivity extends AppCompatActivity {
@@ -81,7 +78,6 @@ public class BaseActivity extends AppCompatActivity {
     protected DrawerLayout drawerLayout;
     protected ListView drawerList;
     protected ActionBarDrawerToggle drawerToggle;
-    protected SmartApi api;
     protected int p = 0;
     protected int b = 0;
     protected int bId = 0;
@@ -104,7 +100,6 @@ public class BaseActivity extends AppCompatActivity {
         getSupportActionBar().setCustomView(R.layout.action_bar_custom);
 
         createNavDrawer();
-        initRetrofit();
     }
 
     @Override
@@ -176,16 +171,6 @@ public class BaseActivity extends AppCompatActivity {
         pd.setCanceledOnTouchOutside(false);
         pd.setCancelable(false);
         pd.show();
-    }
-
-    protected void initRetrofit() {
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(NotKeys.BASE_URL)
-                .setLogLevel(RestAdapter.LogLevel.BASIC)
-                .setClient(new OkClient())
-                .build();
-
-        api = restAdapter.create(SmartApi.class);
     }
 
     protected void checkRetroError(RetrofitError error, Context context) {
@@ -329,10 +314,8 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     private void doLogout(final Intent intent) {
-        api.postLogout(
+        SmartApiClient.getAuthorizedApiClient().postLogout(
                 "",
-                BaseModel.getInstance().getLogin().getToken(),
-                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
@@ -372,10 +355,8 @@ public class BaseActivity extends AppCompatActivity {
 
     private void doLogoutWithoutIntent() {
         Log.d("logout", "doLogoutWithoutIntent called");
-        api.postLogout(
+        SmartApiClient.getAuthorizedApiClient().postLogout(
                 "",
-                BaseModel.getInstance().getLogin().getToken(),
-                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
@@ -470,9 +451,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected void getAllAppointments(final Context context) {
-        api.getAllAppointments(
-                BaseModel.getInstance().getLogin().getToken(),
-                NotKeys.API_KEY,
+        SmartApiClient.getAuthorizedApiClient().getAllAppointments(
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {

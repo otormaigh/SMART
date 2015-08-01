@@ -24,13 +24,13 @@ import java.util.Comparator;
 import java.util.List;
 
 import ie.teamchile.smartapp.R;
+import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.FeedingHistory;
 import ie.teamchile.smartapp.model.HearingHistory;
 import ie.teamchile.smartapp.model.NbstHistory;
 import ie.teamchile.smartapp.model.ServiceUser;
 import ie.teamchile.smartapp.model.VitKHistory;
-import ie.teamchile.smartapp.util.NotKeys;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -87,10 +87,8 @@ public class ServiceUserSearchActivity extends BaseActivity {
         getRecentBabyPosition();
         getRecentBabyId();
         getRecentPregnancy();
-        api.getVitKHistories(
+        SmartApiClient.getAuthorizedApiClient().getVitKHistories(
                 bId,
-                BaseModel.getInstance().getLogin().getToken(),
-                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
@@ -117,10 +115,8 @@ public class ServiceUserSearchActivity extends BaseActivity {
                     }
                 }
         );
-        api.getHearingHistories(
+        SmartApiClient.getAuthorizedApiClient().getHearingHistories(
                 bId,
-                BaseModel.getInstance().getLogin().getToken(),
-                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
@@ -147,10 +143,8 @@ public class ServiceUserSearchActivity extends BaseActivity {
                     }
                 }
         );
-        api.getNbstHistories(
+        SmartApiClient.getAuthorizedApiClient().getNbstHistories(
                 bId,
-                BaseModel.getInstance().getLogin().getToken(),
-                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
@@ -177,10 +171,8 @@ public class ServiceUserSearchActivity extends BaseActivity {
                     }
                 }
         );
-        api.getFeedingHistoriesByPregId(
+        SmartApiClient.getAuthorizedApiClient().getFeedingHistoriesByPregId(
                 BaseModel.getInstance().getPregnancies().get(p).getId(),
-                BaseModel.getInstance().getLogin().getToken(),
-                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
@@ -220,12 +212,10 @@ public class ServiceUserSearchActivity extends BaseActivity {
         Log.d("retro", "ServiceUserSearchActivity user search success");
         showProgressDialog(ServiceUserSearchActivity.this, "Fetching Information");
 
-        api.getServiceUserByNameDobHospitalNum(
+        SmartApiClient.getAuthorizedApiClient().getServiceUserByNameDobHospitalNum(
                 name,
                 hospitalNumber.trim(),
                 dob.trim(),
-                BaseModel.getInstance().getLogin().getToken(),
-                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {

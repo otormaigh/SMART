@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 import ie.teamchile.smartapp.R;
+import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.Appointment;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.PostingData;
@@ -39,7 +40,6 @@ import ie.teamchile.smartapp.model.ServiceUser;
 import ie.teamchile.smartapp.util.AdapterListResults;
 import ie.teamchile.smartapp.util.AdapterSpinner;
 import ie.teamchile.smartapp.util.CustomDialogs;
-import ie.teamchile.smartapp.util.NotKeys;
 import ie.teamchile.smartapp.util.SharedPrefs;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -264,10 +264,8 @@ public class CreateAppointmentActivity extends BaseActivity {
         listDob.clear();
         listHospitalNumber.clear();
 
-        api.getServiceUserByName(
+        SmartApiClient.getAuthorizedApiClient().getServiceUserByName(
                 serviceUserName,
-                BaseModel.getInstance().getLogin().getToken(),
-                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
@@ -308,8 +306,8 @@ public class CreateAppointmentActivity extends BaseActivity {
                     @Override
                     public void failure(RetrofitError error) {
                         Log.d("Retro", "retro failure error = " + error);
-                        if(!error.getKind().equals(RetrofitError.Kind.NETWORK)){
-                            switch (error.getResponse().getStatus()){
+                        if (!error.getKind().equals(RetrofitError.Kind.NETWORK)) {
+                            switch (error.getResponse().getStatus()) {
                                 case 500:
                                     new CustomDialogs().showWarningDialog(CreateAppointmentActivity.this,
                                             "No search results found");
@@ -437,10 +435,8 @@ public class CreateAppointmentActivity extends BaseActivity {
             appointment.postAppointment(apptDate, time, userID, clinicID, priority, visitType, returnType);
         }
 
-        api.postAppointment(
+        SmartApiClient.getAuthorizedApiClient().postAppointment(
                 appointment,
-                BaseModel.getInstance().getLogin().getToken(),
-                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
@@ -481,10 +477,8 @@ public class CreateAppointmentActivity extends BaseActivity {
     }
 
     private void getAppointmentById(int apptId) {
-        api.getAppointmentById(
+        SmartApiClient.getAuthorizedApiClient().getAppointmentById(
                 apptId + 1,
-                BaseModel.getInstance().getLogin().getToken(),
-                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
