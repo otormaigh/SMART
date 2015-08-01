@@ -1,46 +1,21 @@
 package ie.teamchile.smartapp.model;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
 /**
  * Created by user on 5/27/15.
  */
 public class PersonalFields {
-    @Expose
     private String directions;
-    @Expose
     private String dob;
-    @Expose
     private String email;
-    @SerializedName("home_address_line1")
-    @Expose
     private String homeAddress;
-    @SerializedName("home_county")
-    @Expose
     private String homeCounty;
-    @SerializedName("home_city")
-    @Expose
     private String homeCity;
-    @SerializedName("home_phone")
-    @Expose
     private String homePhone;
-    @SerializedName("home_post_code")
-    @Expose
     private String homePostCode;
-    @SerializedName("home_type")
-    @Expose
     private String homeType;
-    @SerializedName("mobile_phone")
-    @Expose
     private String mobilePhone;
-    @Expose
     private String name;
-    @SerializedName("next_of_kin_name")
-    @Expose
     private String nextOfKinName;
-    @SerializedName("next_of_kin_phone")
-    @Expose
     private String nextOfKinPhone;
 
     public String getDirections() {

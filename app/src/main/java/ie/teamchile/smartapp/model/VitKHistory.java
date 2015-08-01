@@ -1,28 +1,14 @@
 package ie.teamchile.smartapp.model;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
 /**
  * Created by user on 6/23/15.
  */
 public class VitKHistory {
-    @SerializedName("baby_id")
-    @Expose
     private Integer babyId;
-    @SerializedName("created_at")
-    @Expose
     private String createdAt;
-    @Expose
     private Integer id;
-    @SerializedName("service_provider_id")
-    @Expose
     private Integer serviceProviderId;
-    @SerializedName("service_provider_name")
-    @Expose
     private String serviceProviderName;
-    @SerializedName("vit_k")
-    @Expose
     private String vitK;
 
     public Integer getBabyId() {

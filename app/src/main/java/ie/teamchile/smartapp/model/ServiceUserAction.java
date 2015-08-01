@@ -1,18 +1,11 @@
 package ie.teamchile.smartapp.model;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
 /**
  * Created by user on 7/1/15.
  */
 public class ServiceUserAction {
-    @Expose
     private String description;
-    @Expose
     private Integer id;
-    @SerializedName("short_code")
-    @Expose
     private String shortCode;
 
     public String getDescription() {

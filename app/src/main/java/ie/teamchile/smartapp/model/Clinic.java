@@ -1,8 +1,5 @@
 package ie.teamchile.smartapp.model;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,35 +7,17 @@ import java.util.List;
  * Created by user on 5/26/15.
  */
 public class Clinic {
-
-    @Expose
     private String address;
-    @SerializedName("announcement_ids")
-    @Expose
     private List<Integer> announcementIds = new ArrayList<Integer>();
-    @SerializedName("appointment_interval")
-    @Expose
     private Integer appointmentInterval;
-    @SerializedName("closing_time")
-    @Expose
     private String closingTime;
-    @Expose
     private Days days;
-    @Expose
     private Integer id;
-    @Expose
     private Links links;
-    @Expose
     private String name;
-    @SerializedName("opening_time")
-    @Expose
     private String openingTime;
-    @Expose
     private String recurrence;
-    @SerializedName("service_option_ids")
-    @Expose
     private List<Integer> serviceOptionIds = new ArrayList<Integer>();
-    @Expose
     private String type;
 
     public String getAddress() {
