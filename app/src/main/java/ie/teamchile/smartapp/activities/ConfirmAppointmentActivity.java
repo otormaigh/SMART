@@ -15,13 +15,11 @@ import java.util.List;
 import java.util.Map;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.model.BaseModel;
+import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.Appointment;
+import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.PostingData;
-import ie.teamchile.smartapp.util.NotKeys;
-import ie.teamchile.smartapp.util.SmartApi;
 import retrofit.Callback;
-import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -97,17 +95,8 @@ public class ConfirmAppointmentActivity extends BaseActivity {
             appointment.postAppointment(date, time, userId, clinicID, priority, visitType, returnType);
         }
 
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(NotKeys.BASE_URL)
-                .setLogLevel(RestAdapter.LogLevel.FULL)
-                .build();
-
-        api = restAdapter.create(SmartApi.class);
-
-        api.postAppointment(
+        SmartApiClient.getAuthorizedApiClient().postAppointment(
                 appointment,
-                BaseModel.getInstance().getLogin().getToken(),
-                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {

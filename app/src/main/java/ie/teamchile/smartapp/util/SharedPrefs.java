@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import ie.teamchile.smartapp.activities.BaseActivity;
+import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.PostingData;
 import retrofit.Callback;
@@ -108,12 +109,8 @@ public class SharedPrefs extends BaseActivity {
     }
 
     public void postAppointment(PostingData data, final Context context, final String tag) {
-        initRetrofit();
-
-        api.postAppointment(
+        SmartApiClient.getAuthorizedApiClient().postAppointment(
                 data,
-                BaseModel.getInstance().getLogin().getToken(),
-                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {

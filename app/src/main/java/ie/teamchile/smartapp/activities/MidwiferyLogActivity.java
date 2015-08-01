@@ -25,10 +25,10 @@ import java.util.Comparator;
 import java.util.List;
 
 import ie.teamchile.smartapp.R;
+import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.model.PregnancyNote;
-import ie.teamchile.smartapp.util.NotKeys;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -65,10 +65,8 @@ public class MidwiferyLogActivity extends BaseActivity {
     }
 
     private void getMidwiferyNotes(){
-        api.getPregnancyNotes(
+        SmartApiClient.getAuthorizedApiClient().getPregnancyNotes(
                 BaseModel.getInstance().getServiceUsers().get(0).getPregnancyIds().get(p),
-                BaseModel.getInstance().getLogin().getToken(),
-                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
@@ -136,11 +134,9 @@ public class MidwiferyLogActivity extends BaseActivity {
 
         showProgressDialog(this, "Adding Note");
 
-        api.postPregnancyNote(
+        SmartApiClient.getAuthorizedApiClient().postPregnancyNote(
                 postNote,
                 pregnancyId,
-                BaseModel.getInstance().getLogin().getToken(),
-                NotKeys.API_KEY,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
