@@ -14,15 +14,13 @@ import android.widget.Toast;
 import java.util.Map;
 
 import ie.teamchile.smartapp.R;
+import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.util.NotKeys;
 import ie.teamchile.smartapp.util.SharedPrefs;
-import ie.teamchile.smartapp.util.SmartApi;
 import retrofit.Callback;
-import retrofit.RestAdapter;
 import retrofit.RetrofitError;
-import retrofit.client.OkClient;
 import retrofit.client.Response;
 
 public class LoginActivity extends AppCompatActivity {
@@ -33,7 +31,6 @@ public class LoginActivity extends AppCompatActivity {
     private TextView tvUsername, tvPassword, tvAbout;
     private Intent intent;
     private ProgressDialog pd;
-    private SmartApi api;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +46,6 @@ public class LoginActivity extends AppCompatActivity {
 
         tvUsername.setText(NotKeys.USERNAME);
         tvPassword.setText(NotKeys.PASSWORD);
-
-        initRetrofit();
     }
 
     @Override
@@ -67,16 +62,6 @@ public class LoginActivity extends AppCompatActivity {
         BaseModel.getInstance().setLoginStatus(false);
         System.gc();
         finish();
-    }
-
-    private void initRetrofit() {
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(NotKeys.BASE_URL)
-                .setLogLevel(RestAdapter.LogLevel.BASIC)
-                .setClient(new OkClient())
-                .build();
-
-        api = restAdapter.create(SmartApi.class);
     }
 
     private void getSharedPrefs() {
@@ -99,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
         PostingData login = new PostingData();
         login.postLogin(username, password);
 
-        api.postLogin(login, new Callback<BaseModel>() {
+        SmartApiClient.getUnAuthorizedApiClient().postLogin(login, new Callback<BaseModel>() {
             @Override
             public void success(BaseModel baseModel, Response response) {
                 prefsUtil.deletePrefs(LoginActivity.this, "appts_got");
