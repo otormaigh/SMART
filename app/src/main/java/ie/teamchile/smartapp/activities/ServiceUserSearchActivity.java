@@ -36,18 +36,14 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class ServiceUserSearchActivity extends BaseActivity {
-    private static BaseAdapter adapterListResults;
+    private BaseAdapter adapterListResults;
     private EditText searchName, searchHospitalNumber,
             searchDOBDay, searchDOBMonth, searchDOBYear;
     private Button search;
     private TextView tvSearchResults;
-    private ArrayList<String> searchResults = new ArrayList<>();
-    private ArrayList<String> listName = new ArrayList<>();
-    private ArrayList<String> listDob = new ArrayList<>();
-    private ArrayList<String> listHospitalNumber = new ArrayList<>();
+    private List<ServiceUser> serviceUserList = new ArrayList<>();
     private Intent intent;
     private ListView lvSearchResults;
-    private List<String> hospitalNumberList = new ArrayList<>();
     private LinearLayout llNoUserFound;
     private Boolean changeActivity;
 
@@ -73,14 +69,15 @@ public class ServiceUserSearchActivity extends BaseActivity {
         llNoUserFound.setVisibility(View.GONE);
         //tvNoUserFound.setVisibility(View.GONE);
         tvSearchResults.setVisibility(View.GONE);
+
+        createResultList();
     }
 
     private void createResultList() {
-        //adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, searchResults);
-        adapterListResults = new AdapterListResultsInner(this, listName, listDob, listHospitalNumber);
+        adapterListResults = new AdapterListResultsInner();
         adapterListResults.notifyDataSetChanged();
         lvSearchResults.setAdapter(adapterListResults);
-        //adapterListResults.notifyDataSetChanged();
+        //lvSearchResults.setEmptyView(llNoUserFound);
     }
 
     private void getHistories() {
@@ -206,9 +203,6 @@ public class ServiceUserSearchActivity extends BaseActivity {
             name = " ";
         else
             name = name.trim();
-        listName.clear();
-        listDob.clear();
-        listHospitalNumber.clear();
         Log.d("retro", "ServiceUserSearchActivity user search success");
         showProgressDialog(ServiceUserSearchActivity.this, "Fetching Information");
 
@@ -219,39 +213,22 @@ public class ServiceUserSearchActivity extends BaseActivity {
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
-                        if (baseModel.getServiceUsers().size() > 0) {
+                        if (baseModel.getServiceUsers().size() != 0) {
                             BaseModel.getInstance().setServiceUsers(baseModel.getServiceUsers());
                             BaseModel.getInstance().setPregnancies(baseModel.getPregnancies());
                             BaseModel.getInstance().setBabies(baseModel.getBabies());
                             BaseModel.getInstance().setAntiDHistories(baseModel.getAntiDHistories());
+
                             if (changeActivity) {
                                 startActivity(intent);
                                 getHistories();
                             } else {
-                                searchResults.clear();
-                                hospitalNumberList.clear();
-                                for (int i = 0; i < baseModel.getServiceUsers().size(); i++) {
-                                    ServiceUser serviceUser = BaseModel.getInstance().getServiceUsers().get(i);
-                                    String name = serviceUser.getPersonalFields().getName();
-                                    String dob = serviceUser.getPersonalFields().getDob();
-                                    String hospitalNumber = serviceUser.getHospitalNumber();
-
-                                    listName.add(name);
-                                    listDob.add(dob);
-                                    listHospitalNumber.add(hospitalNumber);
-
-                                    searchResults.add(name + " - " + hospitalNumber + " - " + dob);
-                                    hospitalNumberList.add(hospitalNumber);
-                                }
-                                createResultList();
+                                serviceUserList = baseModel.getServiceUsers();
                                 adapterListResults.notifyDataSetChanged();
                             }
                         } else {
                             llNoUserFound.setVisibility(View.VISIBLE);
-                            if (adapterListResults != null) {
-                                lvSearchResults.setAdapter(null);
-                                adapterListResults.notifyDataSetChanged();
-                            }
+                            adapterListResults.notifyDataSetChanged();
                         }
                         pd.dismiss();
                     }
@@ -259,6 +236,7 @@ public class ServiceUserSearchActivity extends BaseActivity {
                     @Override
                     public void failure(RetrofitError error) {
                         Log.d("retro", "ServiceUserSearchActivity user search failure = " + error);
+                        adapterListResults.notifyDataSetChanged();
                         llNoUserFound.setVisibility(View.VISIBLE);
                         pd.dismiss();
                     }
@@ -269,8 +247,10 @@ public class ServiceUserSearchActivity extends BaseActivity {
     private class onItemListener implements OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            String hospitalNumber = serviceUserList.get(position).getHospitalNumber();
+
             changeActivity = true;
-            searchForPatient("", hospitalNumberList.get(position), "");
+            searchForPatient("", hospitalNumber, "");
             intent = new Intent(ServiceUserSearchActivity.this, ServiceUserActivity.class);
         }
     }
@@ -278,8 +258,8 @@ public class ServiceUserSearchActivity extends BaseActivity {
     private class ButtonClick implements View.OnClickListener {
         public void onClick(View v) {
             switch (v.getId()) {
-
                 case R.id.btn_search:
+                    serviceUserList = new ArrayList<>();
                     changeActivity = false;
                     llNoUserFound.setVisibility(View.GONE);
                     tvSearchResults.setVisibility(View.GONE);
@@ -314,7 +294,8 @@ public class ServiceUserSearchActivity extends BaseActivity {
                     } else {
                         Toast.makeText(getApplicationContext(),
                                 "Please enter something in the search fields", Toast.LENGTH_LONG).show();
-                        lvSearchResults.setAdapter(null);
+                        serviceUserList.clear();
+                        adapterListResults.notifyDataSetChanged();
                     }
                     break;
             }
@@ -322,49 +303,41 @@ public class ServiceUserSearchActivity extends BaseActivity {
     }
 
     public class AdapterListResultsInner extends BaseAdapter {
-        private Context context;
-        private List<String> resultName;
-        private List<String> resultDob;
-        private List<String> resultHospitalNumber;
-        private LayoutInflater layoutInflater;
-
-        public AdapterListResultsInner(
-                Context context,
-                List<String> resultName,
-                List<String> resultDob,
-                List<String> resultHospitalNumber) {
-            this.context = context;
-            this.resultName = resultName;
-            this.resultDob = resultDob;
-            this.resultHospitalNumber = resultHospitalNumber;
-            layoutInflater = LayoutInflater.from(context);
-        }
 
         @Override
         public int getCount() {
-            return resultName.size();
+            return serviceUserList.size();
         }
 
         @Override
-        public Object getItem(int position) {
-            return null;
+        public ServiceUser getItem(int position) {
+            return serviceUserList.get(position);
         }
 
         @Override
         public long getItemId(int position) {
-            return 0;
+            return serviceUserList.get(position).hashCode();
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            convertView = layoutInflater.inflate(R.layout.list_layout_search_results, null);
-            TextView tvName = (TextView) convertView.findViewById(R.id.tv_results_name);
-            TextView tvDob = (TextView) convertView.findViewById(R.id.tv_results_dob);
-            TextView tvHospitalNumber = (TextView) convertView.findViewById(R.id.tv_results_hospital_number);
+            String name = getItem(position).getPersonalFields().getName();
+            String dob = getItem(position).getPersonalFields().getDob();
+            String hospitalNumber = getItem(position).getHospitalNumber();
 
-            tvName.setText(resultName.get(position));
-            tvDob.setText(resultDob.get(position));
-            tvHospitalNumber.setText(resultHospitalNumber.get(position));
+            Context context = ServiceUserSearchActivity.this;
+            ViewHolder viewHolder;
+            if (convertView == null) {
+                LayoutInflater inflater = LayoutInflater.from(context);
+                convertView = inflater.inflate(R.layout.list_layout_search_results, parent, false);
+                viewHolder = new ViewHolder(convertView);
+                convertView.setTag(viewHolder);
+            } else
+                viewHolder = (ViewHolder) convertView.getTag();
+
+            viewHolder.tvName.setText(name);
+            viewHolder.tvDob.setText(dob);
+            viewHolder.tvHospitalNumber.setText(hospitalNumber);
             return convertView;
         }
 
@@ -374,4 +347,15 @@ public class ServiceUserSearchActivity extends BaseActivity {
         }
     }
 
+    protected class ViewHolder {
+        TextView tvName;
+        TextView tvDob;
+        TextView tvHospitalNumber;
+
+        public ViewHolder(View view) {
+            tvName = (TextView) view.findViewById(R.id.tv_results_name);
+            tvDob = (TextView) view.findViewById(R.id.tv_results_dob);
+            tvHospitalNumber = (TextView) view.findViewById(R.id.tv_results_hospital_number);
+        }
+    }
 }
