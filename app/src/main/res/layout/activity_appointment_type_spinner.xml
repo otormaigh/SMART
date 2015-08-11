@@ -16,7 +16,7 @@
         android:textColor="@color/light_grey"/>
     <Spinner
         android:id="@+id/spnr_appointment_type"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:entries="@array/appointment_type_list" />
 
@@ -32,7 +32,7 @@
 
     <Spinner
         android:id="@+id/spnr_service_option"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <TextView
@@ -47,7 +47,7 @@
 
     <Spinner
         android:id="@+id/spnr_visit_option"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:entries="@array/visit_service_option" />
 
@@ -63,7 +63,7 @@
 
     <Spinner
         android:id="@+id/spnr_visit_day"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <TextView
@@ -78,7 +78,7 @@
 
     <Spinner
         android:id="@+id/spnr_clinic"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <TextView
@@ -93,7 +93,7 @@
 
     <Spinner
         android:id="@+id/spnr_day"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <TextView
@@ -108,6 +108,6 @@
 
     <Spinner
         android:id="@+id/spnr_week"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </LinearLayout>
