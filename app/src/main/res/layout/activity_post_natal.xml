@@ -1,20 +1,20 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingBottom="20dp">
 
             <TextView
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="start"
                 android:text="@string/mother_info"
@@ -22,14 +22,14 @@
                 android:theme="@style/SubSection"/>
 
             <TableRow
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-0.8dp"
                 android:background="@drawable/border"
                 android:weightSum="1.0">
 
                 <TextView
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.7"
                     android:text="@string/birth_mode"
@@ -39,7 +39,7 @@
 
                 <TextView
                     android:id="@+id/tv_post_mode"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.3"
                     android:gravity="end"
@@ -48,7 +48,7 @@
             </TableRow>
 
             <TableRow
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-0.8dp"
                 android:background="@drawable/border">
@@ -72,7 +72,7 @@
 
             <TableRow
                 android:id="@+id/tr_post_anti_d"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-0.8dp"
                 android:background="@drawable/border">
@@ -92,7 +92,7 @@
 
                     <TextView
                         android:id="@+id/tv_post_anti_d"
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_toLeftOf="@+id/iv_anti_d_history_icon"
                         android:gravity="end"
@@ -115,7 +115,7 @@
 
             <TableRow
                 android:id="@+id/tr_feeding"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-0.8dp"
                 android:background="@drawable/border">
@@ -158,7 +158,7 @@
 
             <TableRow
                 android:id="@+id/tr_midwife_notes"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-0.8dp"
                 android:background="@drawable/border">
@@ -200,12 +200,12 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="start"
                 android:text="@string/baby_info"
@@ -213,7 +213,7 @@
                 android:theme="@style/SubSection"/>
 
             <TableRow
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-0.8dp"
                 android:background="@drawable/border">
@@ -228,7 +228,7 @@
 
                 <TextView
                     android:id="@+id/tv_post_delivery_date"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="end"
                     android:textAppearance="?android:attr/textAppearanceLarge"
@@ -236,7 +236,7 @@
             </TableRow>
 
             <TableRow
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-0.8dp"
                 android:background="@drawable/border">
@@ -251,7 +251,7 @@
 
                 <TextView
                     android:id="@+id/tv_post_delivery_time"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="end"
                     android:textAppearance="?android:attr/textAppearanceLarge"
@@ -259,7 +259,7 @@
             </TableRow>
 
             <TableRow
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border"
                 android:padding="@dimen/padding_natal">
@@ -282,7 +282,7 @@
             </TableRow>
 
             <TableRow
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-0.8dp"
                 android:background="@drawable/border">
@@ -305,7 +305,7 @@
             </TableRow>
 
             <TableRow
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-0.8dp"
                 android:background="@drawable/border">
@@ -330,7 +330,7 @@
 
             <TableRow
                 android:id="@+id/tr_vit_k"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-0.8dp"
                 android:background="@drawable/border">
@@ -374,7 +374,7 @@
 
             <TableRow
                 android:id="@+id/tr_hearing"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-0.8dp"
                 android:background="@drawable/border">
@@ -418,7 +418,7 @@
 
             <TableRow
                 android:id="@+id/tr_nbst"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-0.8dp"
                 android:background="@drawable/border">

@@ -13,7 +13,7 @@
         android:paddingRight="@dimen/padding_Xsmall" >
 
         <TextView
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_Xsmall"
             android:text="@string/service_user"
@@ -46,7 +46,7 @@
         </LinearLayout>
 
         <TextView
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_small"
             android:text="@string/appointment_clinic"
@@ -55,14 +55,14 @@
 
         <TextView
             android:id="@+id/tv_visit_clinic"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_medium"
             android:textColor="@color/black"
             android:paddingLeft="@dimen/padding_Xsmall" />
 
         <TextView
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_small"
             android:text="@string/appointment_date"
@@ -71,7 +71,7 @@
 
         <TextView
             android:id="@+id/tv_visit_date"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_medium" 
             android:textColor="@color/black"
@@ -79,7 +79,7 @@
 
         <TextView
             android:id="@+id/tv_visit_time_title"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_small"
             android:text="@string/appointment_time"
@@ -88,7 +88,7 @@
 
         <TextView
             android:id="@+id/tv_visit_time"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_medium" 
             android:textColor="@color/black"
@@ -96,7 +96,7 @@
 
         <TextView
             android:id="@+id/tv_return_type_title"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_small"
             android:text="@string/appointment_type"
@@ -106,13 +106,13 @@
 
         <Spinner
             android:id="@+id/spnr_visit_return_type"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:entries="@array/visit_return_type"/>
 
         <TextView
             android:id="@+id/tv_prioirty_title"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Priority"
             android:textSize="@dimen/text_small"
@@ -121,13 +121,13 @@
 
         <Spinner
             android:id="@+id/spnr_visit_priority"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:entries="@array/visit_priority_list" />
 
         <Button
             android:id="@+id/btn_confirm_appointment"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_Xsmall"
             android:layout_marginBottom="@dimen/padding_Xsmall"
