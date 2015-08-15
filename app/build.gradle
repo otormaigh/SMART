@@ -4,22 +4,6 @@ android {
     compileSdkVersion 21
     buildToolsVersion "22.0.1"
 
-    /*signingConfigs {
-        release {
-            storeFile file("/home/user/.android/debug.keystore")
-            storePassword "android"
-            keyAlias "androidalias"
-            keyPassword "android"
-        }
-    }
-
-    buildTypes {
-
-        release {
-            signingConfig signingConfigs.release
-        }
-    }*/
-
     defaultConfig {
         applicationId "ie.teamchile.smartapp"
         minSdkVersion 16
