@@ -43,7 +43,7 @@
             android:paddingRight="@dimen/padding_Xsmall">
 
             <TextView
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/padding_Xsmall"
                 android:text="@string/appointment_for"
@@ -52,14 +52,14 @@
 
             <TextView
                 android:id="@+id/tv_confirm_name"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/padding_Xsmall"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_medium"/>
 
             <TextView
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/padding_Xsmall"
                 android:text="@string/to_attend"
@@ -68,14 +68,14 @@
 
             <TextView
                 android:id="@+id/tv_confirm_location"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/padding_Xsmall"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_medium"/>
 
             <TextView
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/padding_Xsmall"
                 android:text="@string/at"
@@ -84,14 +84,14 @@
 
             <TextView
                 android:id="@+id/tv_confirm_time"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/padding_Xsmall"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_medium"/>
 
             <TextView
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/padding_Xsmall"
                 android:text="@string/confirm_email"
@@ -100,14 +100,14 @@
 
             <TextView
                 android:id="@+id/tv_confirm_email"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/padding_Xsmall"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_medium"/>
 
             <TextView
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/padding_Xsmall"
                 android:text="@string/confirm_sms"
@@ -116,7 +116,7 @@
 
             <TextView
                 android:id="@+id/tv_confirm_sms"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/padding_Xsmall"
                 android:textColor="@color/black"
@@ -132,7 +132,7 @@
 
                 <Button
                     android:id="@+id/btn_confirm_yes"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
                     android:text="@string/book"
@@ -140,7 +140,7 @@
 
                 <Button
                     android:id="@+id/btn_confirm_no"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
                     android:text="@string/cancel"
