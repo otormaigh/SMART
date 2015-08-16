@@ -389,7 +389,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
                     if (getItem(position).equals(0)) {
                         intent = new Intent(AppointmentCalendarActivity.this, CreateAppointmentActivity.class);
                         intent.putExtra("from", "clinic-appointment");
-                        intent.putExtra("time", appointment.getTime());
+                        intent.putExtra("time", timeList.get(position));
                         intent.putExtra("clinicID", String.valueOf(clinicSelected));
                         intent.putExtra("serviceOptionId", String.valueOf(serviceOptionId));
                         startActivity(intent);
