@@ -1,6 +1,7 @@
 package ie.teamchile.smartapp.activities;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -71,6 +72,7 @@ public class CreateAppointmentActivity extends BaseActivity {
     private ArrayList<String> listDob = new ArrayList<>();
     private ArrayList<String> listHospitalNumber = new ArrayList<>();
     private SharedPrefs prefsUtil = new SharedPrefs();
+    private ProgressDialog pd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -244,7 +246,7 @@ public class CreateAppointmentActivity extends BaseActivity {
     }
 
     private void showEmptyFieldDialog() {
-        showProgressDialog(
+        pd = new CustomDialogs().showProgressDialog(
                 CreateAppointmentActivity.this,
                 "Cannot proceed, \nSome fields are empty!");
         new CountDownTimer(2000, 1000) {
@@ -401,7 +403,7 @@ public class CreateAppointmentActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Log.d("bugs", "yes 	 button clicked");
-                showProgressDialog(CreateAppointmentActivity.this, "Booking Appointment");
+                pd = new CustomDialogs().showProgressDialog(CreateAppointmentActivity.this, "Booking Appointment");
                 postAppointment();
             }
         });
@@ -599,7 +601,7 @@ public class CreateAppointmentActivity extends BaseActivity {
                         userID = 0;
                         userName = etUserName.getText().toString();
                         checkIfEditEmpty();
-                        showProgressDialog(CreateAppointmentActivity.this, "Fetching Information");
+                        pd = new CustomDialogs().showProgressDialog(CreateAppointmentActivity.this, "Fetching Information");
                         searchPatient(userName);
                     }
                     break;
