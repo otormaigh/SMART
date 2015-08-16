@@ -76,10 +76,6 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
         weekSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
         visitOptionSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
 
-        /*visitAdapter = new AdapterSpinner(this, R.array.visit_service_option, R.layout.spinner_layout, R.id.tv_spinner_item);
-        visitAdapter.setDropDownViewResource(R.layout.spinner_layout);
-        visitOptionSpinner.setAdapter(visitAdapter);*/
-
         tvAppointmentType.setVisibility(View.VISIBLE);
         tvServiceOption.setVisibility(View.GONE);
         tvVisit.setVisibility(View.GONE);
@@ -112,7 +108,6 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
 
 	private void setClinicSpinner(int z){
         idList = BaseModel.getInstance().getServiceOptionsClinicMap().get(z).getClinicIds();
-        Log.d("Retrofit", "clinic id list = " + idList);
 		List<String> clinicNames = new ArrayList<>();
 		clinicNames.add("Select Clinic");
 
@@ -495,7 +490,6 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
         passOptions.setDaySelected(daySelected);
         passOptions.setVisitOption(visitOptionSelected);
 
-        //Intent intent = new Intent(AppointmentTypeSpinnerActivity.this, AppointmentCalendarActivity.class);
         startActivity(intent);
     }
 
