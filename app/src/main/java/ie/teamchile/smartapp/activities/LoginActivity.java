@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -69,9 +70,9 @@ public class LoginActivity extends AppCompatActivity {
         Log.d("prefs", "getSharedPrefs called");
         prefs = this.getSharedPreferences("SMART", MODE_PRIVATE);
         Map<String, ?> prefsMap = prefs.getAll();
-        for(Map.Entry<String,?> entry : prefsMap.entrySet()){
+        for (Map.Entry<String, ?> entry : prefsMap.entrySet()) {
             Log.d("prefs", "key = " + entry.getKey());
-            if(entry.getKey().contains("appointment_post")){
+            if (entry.getKey().contains("appointment_post")) {
                 Log.d("prefs", "get key = " + prefs.getString(entry.getKey(), ""));
                 prefsUtil.postAppointment(
                         prefsUtil.getObjectFromString(
@@ -109,20 +110,28 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void getCredentials() {
+    private void validateInput() {
         username = tvUsername.getText().toString();
         password = tvPassword.getText().toString();
+
+        if(!TextUtils.isEmpty(username) &&
+                !TextUtils.isEmpty(password)){
+            doRetrofit();
+            pd = new CustomDialogs().showProgressDialog(
+                    LoginActivity.this,
+                    "Logging In");
+        } else {
+            new CustomDialogs().showErrorDialog(
+                    LoginActivity.this,
+                    "Error fields empty");
+        }
     }
 
     private class ButtonClick implements View.OnClickListener {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.btn_login:
-                    pd = new CustomDialogs().showProgressDialog(
-                            LoginActivity.this,
-                            "Logging In");
-                    getCredentials();
-                    doRetrofit();
+                    validateInput();
                     break;
                 case R.id.tv_about:
                     Intent intent = new Intent(LoginActivity.this, AboutActivity.class);
