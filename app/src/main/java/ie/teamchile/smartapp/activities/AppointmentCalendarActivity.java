@@ -1,6 +1,7 @@
 package ie.teamchile.smartapp.activities;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Build;
@@ -34,6 +35,7 @@ import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.Appointment;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.PostingData;
+import ie.teamchile.smartapp.util.CustomDialogs;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -56,6 +58,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
     private Button dateInList, btnPrevWeek, btnNextWeek;
     private BaseAdapter adapter;
     private ListView listView;
+    private ProgressDialog pd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,7 +162,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
                     newSetToList(myCalendar.getTime());
                 } else {
                     Log.d("bugs", "wrong date");
-                    showProgressDialog(AppointmentCalendarActivity.this,
+                    pd = new CustomDialogs().showProgressDialog(AppointmentCalendarActivity.this,
                             "Invalid day selected\nPlease choose another");
                     Handler mHandler = new Handler();
                     mHandler.postDelayed(new Runnable() {
@@ -226,7 +229,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
     }
 
     private void changeAttendStatus(Boolean status, int position) {
-        showProgressDialog(AppointmentCalendarActivity.this, "Changing Attended Status");
+        pd = new CustomDialogs().showProgressDialog(AppointmentCalendarActivity.this, "Changing Attended Status");
 
         PostingData attendedStatus = new PostingData();
         attendedStatus.putAppointmentStatus(
@@ -393,7 +396,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
                     } else {
                         int serviceUserId = appointment.getServiceUserId();
                         Log.d("bugs", "db string: " + "service_users" + "/" + serviceUserId);
-                        showProgressDialog(AppointmentCalendarActivity.this,
+                        pd = new CustomDialogs().showProgressDialog(AppointmentCalendarActivity.this,
                                 "Fetching Information");
                         intent = new Intent(AppointmentCalendarActivity.this, ServiceUserActivity.class);
                         searchServiceUser(serviceUserId, intent);

@@ -1,5 +1,6 @@
 package ie.teamchile.smartapp.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +20,7 @@ import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.Appointment;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.PostingData;
+import ie.teamchile.smartapp.util.CustomDialogs;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -33,6 +35,7 @@ public class ConfirmAppointmentActivity extends BaseActivity {
     private Calendar cal = Calendar.getInstance();
     private String returnType;
     private List<Integer> serviceOptionIdList = new ArrayList<>();
+    private ProgressDialog pd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -186,7 +189,7 @@ public class ConfirmAppointmentActivity extends BaseActivity {
             switch (v.getId()) {
                 case R.id.btn_confirm_yes:
                     Log.d("bugs", "yes 	 button clicked");
-                    showProgressDialog(ConfirmAppointmentActivity.this,
+                    pd = new CustomDialogs().showProgressDialog(ConfirmAppointmentActivity.this,
                             "Booking Appointment");
                     postAppointment();
                     //new CreateAppointmentLongOperation(ConfirmAppointmentActivity.this).execute("appointments");
