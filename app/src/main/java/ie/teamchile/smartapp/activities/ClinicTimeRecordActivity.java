@@ -1,5 +1,6 @@
 package ie.teamchile.smartapp.activities;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -27,6 +28,7 @@ import ie.teamchile.smartapp.model.Clinic;
 import ie.teamchile.smartapp.model.ClinicTimeRecord;
 import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.util.AppointmentHelper;
+import ie.teamchile.smartapp.util.CustomDialogs;
 import ie.teamchile.smartapp.util.SharedPrefs;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -66,6 +68,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
     private int recordGetDone;
     private SharedPrefs sharedPrefs = new SharedPrefs();
     private AppointmentHelper appointmentHelper = new AppointmentHelper();
+    private ProgressDialog pd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,7 +172,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
         idList = clinicDayMap.get(todayDay);
 
         if (clinicDayMap.containsKey(todayDay)) {
-            showProgressDialog(ClinicTimeRecordActivity.this, "Updating Time Records");
+            pd = new CustomDialogs().showProgressDialog(ClinicTimeRecordActivity.this, "Updating Time Records");
             for (int i = 0; i < idList.size(); i++) {
                 getTimeRecords(idList.get(i), todayDate);
             }
@@ -243,7 +246,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                 clinicId,
                 date);
 
-        showProgressDialog(ClinicTimeRecordActivity.this, "Updating Clinic Time Records");
+        pd = new CustomDialogs().showProgressDialog(ClinicTimeRecordActivity.this, "Updating Clinic Time Records");
 
         SmartApiClient.getAuthorizedApiClient().postTimeRecords(
                 timeRecord,
@@ -284,7 +287,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                 date,
                 clinicId);
 
-        showProgressDialog(ClinicTimeRecordActivity.this, "Updating Clinic Time Records");
+        pd = new CustomDialogs().showProgressDialog(ClinicTimeRecordActivity.this, "Updating Clinic Time Records");
 
         SmartApiClient.getAuthorizedApiClient().putTimeRecords(
                 timeRecord,
@@ -320,7 +323,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
     }
 
     private void deleteTimeRecord(final int clinicIdForDelete, final int recordIdForDelete) {
-        showProgressDialog(ClinicTimeRecordActivity.this, "Deleting Time Record");
+        pd = new CustomDialogs().showProgressDialog(ClinicTimeRecordActivity.this, "Deleting Time Record");
 
         SmartApiClient.getAuthorizedApiClient().deleteTimeRecordById(
                 clinicIdForDelete,
