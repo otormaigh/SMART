@@ -1,6 +1,7 @@
 package ie.teamchile.smartapp.activities;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -32,6 +33,7 @@ import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.Appointment;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.PostingData;
+import ie.teamchile.smartapp.util.CustomDialogs;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -47,6 +49,7 @@ public class HomeVisitAppointmentActivity extends BaseActivity {
     private Button dateInList, btnPrevWeek, btnNextWeek;
     private BaseAdapter adapter;
     private ListView listView;
+    private ProgressDialog pd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,7 +173,9 @@ public class HomeVisitAppointmentActivity extends BaseActivity {
     }
 
     private void changeAttendStatus(Boolean status, int position) {
-        showProgressDialog(HomeVisitAppointmentActivity.this, "Changing Attended Status");
+        pd = new CustomDialogs().showProgressDialog(
+                HomeVisitAppointmentActivity.this,
+                "Changing Attended Status");
 
         PostingData attendedStatus = new PostingData();
         attendedStatus.putAppointmentStatus(
@@ -320,7 +325,8 @@ public class HomeVisitAppointmentActivity extends BaseActivity {
                     } else {
                         int serviceUserId = appointment.getServiceUserId();
                         Log.d("bugs", "db string: " + "service_users" + "/" + serviceUserId);
-                        showProgressDialog(HomeVisitAppointmentActivity.this,
+                        pd = new CustomDialogs().showProgressDialog(
+                                HomeVisitAppointmentActivity.this,
                                 "Fetching Information");
                         intent = new Intent(HomeVisitAppointmentActivity.this, ServiceUserActivity.class);
                         searchServiceUser(serviceUserId, intent);

@@ -1,5 +1,6 @@
 package ie.teamchile.smartapp.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.util.AdapterSpinner;
 import ie.teamchile.smartapp.util.AppointmentHelper;
+import ie.teamchile.smartapp.util.CustomDialogs;
 import ie.teamchile.smartapp.util.SharedPrefs;
 
 public class AppointmentTypeSpinnerActivity extends BaseActivity {
@@ -40,6 +42,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
     private SharedPrefs sharedPrefs = new SharedPrefs();
     private AppointmentHelper apptHelp = new AppointmentHelper();
     private CountDownTimer timer;
+    private ProgressDialog pd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -464,7 +467,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
     }
 
     private void doneChecker(final Intent intent){
-        showProgressDialog(AppointmentTypeSpinnerActivity.this,
+        pd = new CustomDialogs().showProgressDialog(AppointmentTypeSpinnerActivity.this,
                 "Gettting Appointments");
         timer = new CountDownTimer(200, 100) {
             @Override

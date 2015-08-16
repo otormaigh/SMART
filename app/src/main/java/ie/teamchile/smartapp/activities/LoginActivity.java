@@ -17,6 +17,7 @@ import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.PostingData;
+import ie.teamchile.smartapp.util.CustomDialogs;
 import ie.teamchile.smartapp.util.NotKeys;
 import ie.teamchile.smartapp.util.SharedPrefs;
 import retrofit.Callback;
@@ -117,11 +118,9 @@ public class LoginActivity extends AppCompatActivity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.btn_login:
-                    pd = new ProgressDialog(LoginActivity.this);
-                    pd.setMessage("Logging In");
-                    pd.setCanceledOnTouchOutside(false);
-                    pd.setCancelable(false);
-                    pd.show();
+                    pd = new CustomDialogs().showProgressDialog(
+                            LoginActivity.this,
+                            "Logging In");
                     getCredentials();
                     doRetrofit();
                     break;
