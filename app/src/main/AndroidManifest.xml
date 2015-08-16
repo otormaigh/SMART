@@ -54,11 +54,6 @@
             android:name=".activities.ClinicTimeRecordActivity"
             android:screenOrientation="sensorPortrait"/>
         <activity
-            android:name=".activities.ConfirmAppointmentActivity"
-            android:launchMode="singleTask"
-            android:noHistory="true"
-            android:screenOrientation="sensorPortrait"/>
-        <activity
             android:name=".activities.CreateAppointmentActivity"
             android:launchMode="singleTask"
             android:noHistory="true"
