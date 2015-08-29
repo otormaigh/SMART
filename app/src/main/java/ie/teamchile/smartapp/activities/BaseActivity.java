@@ -30,6 +30,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import net.hockeyapp.android.Tracking;
+
 import java.net.ConnectException;
 import java.net.UnknownHostException;
 import java.text.DateFormat;
@@ -308,6 +310,7 @@ public class BaseActivity extends AppCompatActivity {
                                 doLogout(intent);
                                 break;
                             default:
+                                Tracking.stopUsage(BaseActivity.this);
                                 Log.d("Retro", "in logout success response = " + response.getStatus());
                         }
                     }
@@ -343,6 +346,7 @@ public class BaseActivity extends AppCompatActivity {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
                         Log.d("logout", "in logout success");
+                        Tracking.stopUsage(BaseActivity.this);
                         new ClearData(BaseActivity.this);
                         finish();
                         if (notificationManager != null) {
