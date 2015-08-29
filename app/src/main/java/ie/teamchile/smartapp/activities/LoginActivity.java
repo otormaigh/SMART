@@ -12,6 +12,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.UpdateManager;
+
 import java.util.Map;
 
 import ie.teamchile.smartapp.R;
@@ -39,6 +42,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        checkForUpdates();
+
         btnLogin = (Button) findViewById(R.id.btn_login);
         btnLogin.setOnClickListener(new ButtonClick());
         tvUsername = (TextView) findViewById(R.id.et_username);
@@ -51,8 +56,24 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        UpdateManager.unregister();
+    }
+
+    private void checkForCrashes() {
+        CrashManager.register(this, NotKeys.APP_ID);
+    }
+
+    private void checkForUpdates() {
+        // Remove this for store / production builds!
+        UpdateManager.register(this, NotKeys.APP_ID);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
+        checkForCrashes();
         BaseModel.getInstance().deleteInstance();
         System.gc();
     }
