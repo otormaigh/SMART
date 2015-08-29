@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.Tracking;
 import net.hockeyapp.android.UpdateManager;
 
 import java.util.Map;
@@ -117,6 +118,7 @@ public class LoginActivity extends AppCompatActivity {
                 getSharedPrefs();
                 intent = new Intent(LoginActivity.this, QuickMenuActivity.class);
                 startActivity(intent);
+                Tracking.startUsage(LoginActivity.this);
             }
 
             @Override
