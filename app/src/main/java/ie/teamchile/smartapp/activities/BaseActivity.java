@@ -51,6 +51,7 @@ import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.Pregnancy;
 import ie.teamchile.smartapp.util.AppointmentHelper;
 import ie.teamchile.smartapp.util.ClearData;
+import ie.teamchile.smartapp.util.CustomDialogs;
 import ie.teamchile.smartapp.util.ToastAlert;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -74,7 +75,6 @@ public class BaseActivity extends AppCompatActivity {
     protected DateFormat dfHumanReadableTimeDate = new SimpleDateFormat("HH:mm, dd/MM/yyyy", Locale.getDefault());
     protected DateFormat dfHumanReadableDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
     protected Calendar c = Calendar.getInstance();
-    protected ProgressDialog pd;
     protected DrawerLayout drawerLayout;
     protected ListView drawerList;
     protected ActionBarDrawerToggle drawerToggle;
@@ -88,6 +88,7 @@ public class BaseActivity extends AppCompatActivity {
     protected LogoutService logServ;
     protected NotificationManager notificationManager;
     protected static int apptDone;
+    private ProgressDialog pd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,8 +113,6 @@ public class BaseActivity extends AppCompatActivity {
 
         while (thingALing != 0) {
             thingALing--;
-            Log.d("logout", "thingALing resume = " + thingALing);
-            Log.d("bugs", "logServ not null");
             logServ.startTimer(false);
         }
         if (notificationManager != null)
@@ -123,14 +122,10 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        Log.d("logout", "base onStop called");
-        Log.d("logout", "isMyServiceRunning() = " + isMyServiceRunning());
 
         if (isMyServiceRunning()) {
             new ToastAlert(getBaseContext(), "View is now hidden", false);
             thingALing++;
-            Log.d("logout", "thingALing trim = " + thingALing);
-            Log.d("logout", "logout timer made");
             showNotification("SMART", "You will be logged out of SMART soon", QuickMenuActivity.class);
             logServ = new LogoutService();
             logServ.startTimer(true);
@@ -163,14 +158,6 @@ public class BaseActivity extends AppCompatActivity {
                 .setAutoCancel(true).build();
 
         notificationManager.notify(0, n);
-    }
-
-    protected void showProgressDialog(Context context, String message) {
-        pd = new ProgressDialog(context);
-        pd.setMessage(message);
-        pd.setCanceledOnTouchOutside(false);
-        pd.setCancelable(false);
-        pd.show();
     }
 
     protected void checkRetroError(RetrofitError error, Context context) {
@@ -251,7 +238,6 @@ public class BaseActivity extends AppCompatActivity {
 
     private void selectItem(int position) {
         Intent intent;
-        //drawerLayout.closeDrawer(drawerList);
         switch (position) {
             case 0:         //Home
                 intent = new Intent(getApplicationContext(), QuickMenuActivity.class);
@@ -275,7 +261,7 @@ public class BaseActivity extends AppCompatActivity {
                 break;
             case 5:         //Sync
                 getAllAppointments(this);
-                showProgressDialog(this, "Updating Appointments");
+                pd = new CustomDialogs().showProgressDialog(this, "Updating Appointments");
                 break;
             case 6:         //Logout
                 showLogoutDialog();
@@ -303,11 +289,7 @@ public class BaseActivity extends AppCompatActivity {
                             startActivity(intent);
                         } else {
                             doLogout(intent);
-                            pd = new ProgressDialog(BaseActivity.this);
-                            pd.setMessage("Logging Out");
-                            pd.setCanceledOnTouchOutside(false);
-                            pd.setCancelable(false);
-                            pd.show();
+                            pd = new CustomDialogs().showProgressDialog(BaseActivity.this, "Logging Out");
                         }
                     }
                 }).show();
@@ -456,61 +438,6 @@ public class BaseActivity extends AppCompatActivity {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
                         BaseModel.getInstance().setAppointments(baseModel.getAppointments());
-                        /*List<Integer> clinicApptIdList;
-                        Map<String, List<Integer>> clinicVisitdateApptIdMap;
-                        Map<Integer, Map<String, List<Integer>>> clinicVisitClinicDateApptIdMap = new HashMap<>();
-                        Map<Integer, Appointment> clinicVisitIdApptMap = new HashMap<>();
-
-                        List<Integer> homeApptIdList;
-                        Map<String, List<Integer>> homeVisitdateApptIdMap;
-                        Map<Integer, Map<String, List<Integer>>> homeVisitClinicDateApptIdMap = new HashMap<>();
-                        Map<Integer, Appointment> homeVisitIdApptMap = new HashMap<>();
-
-                        for (int i = 0; i < baseModel.getAppointments().size(); i++) {
-                            clinicApptIdList = new ArrayList<>();
-                            homeApptIdList = new ArrayList<>();
-                            clinicVisitdateApptIdMap = new HashMap<>();
-                            homeVisitdateApptIdMap = new HashMap<>();
-                            Appointment appt = baseModel.getAppointments().get(i);
-                            String apptDate = appt.getDate();
-                            int apptId = appt.getId();
-                            int clinicId = appt.getClinicId();
-                            int serviceOptionId = 0;
-                            if (appt.getServiceOptionIds().size() > 0) {
-                                serviceOptionId = appt.getServiceOptionIds().get(0);
-                            }
-
-                            if (appt.getPriority().equals("home-visit")) {
-                                if (homeVisitClinicDateApptIdMap.get(serviceOptionId) != null) {
-                                    homeVisitdateApptIdMap = homeVisitClinicDateApptIdMap.get(serviceOptionId);
-                                    if (homeVisitdateApptIdMap.get(apptDate) != null) {
-                                        homeApptIdList = homeVisitdateApptIdMap.get(apptDate);
-                                    }
-                                }
-                                homeApptIdList.add(apptId);
-                                homeVisitdateApptIdMap.put(apptDate, homeApptIdList);
-
-                                homeVisitClinicDateApptIdMap.put(serviceOptionId, homeVisitdateApptIdMap);
-                                homeVisitIdApptMap.put(apptId, appt);
-                            } else {
-                                if (clinicVisitClinicDateApptIdMap.get(clinicId) != null) {
-                                    clinicVisitdateApptIdMap = clinicVisitClinicDateApptIdMap.get(clinicId);
-                                    if (clinicVisitdateApptIdMap.get(apptDate) != null) {
-                                        clinicApptIdList = clinicVisitdateApptIdMap.get(apptDate);
-                                    }
-                                }
-                                clinicApptIdList.add(apptId);
-                                clinicVisitdateApptIdMap.put(apptDate, clinicApptIdList);
-
-                                clinicVisitClinicDateApptIdMap.put(clinicId, clinicVisitdateApptIdMap);
-                                clinicVisitIdApptMap.put(apptId, appt);
-                            }
-                        }
-                        BaseModel.getInstance().setClinicVisitClinicDateApptIdMap(clinicVisitClinicDateApptIdMap);
-                        BaseModel.getInstance().setClinicVisitIdApptMap(clinicVisitIdApptMap);
-
-                        BaseModel.getInstance().setHomeVisitOptionDateApptIdMap(homeVisitClinicDateApptIdMap);
-                        BaseModel.getInstance().setHomeVisitIdApptMap(homeVisitIdApptMap);*/
                         new AppointmentHelper().addApptsToMaps(baseModel.getAppointments());
                         Log.d("Retrofit", "appointments finished");
                         done++;
@@ -536,7 +463,6 @@ public class BaseActivity extends AppCompatActivity {
         public void onCreate() {
             super.onCreate();
             Log.d("logout", "LogoutService onCreate()");
-
         }
 
         public void startTimer(Boolean startTimer) {

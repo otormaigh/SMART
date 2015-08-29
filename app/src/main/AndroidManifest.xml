@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest package="ie.teamchile.smartapp"
           xmlns:android="http://schemas.android.com/apk/res/android"
-          android:versionCode="1"
+          android:versionCode="2"
           android:versionName="1.1">
 
     <uses-sdk
@@ -52,11 +52,6 @@
             android:screenOrientation="sensorPortrait"/>
         <activity
             android:name=".activities.ClinicTimeRecordActivity"
-            android:screenOrientation="sensorPortrait"/>
-        <activity
-            android:name=".activities.ConfirmAppointmentActivity"
-            android:launchMode="singleTask"
-            android:noHistory="true"
             android:screenOrientation="sensorPortrait"/>
         <activity
             android:name=".activities.CreateAppointmentActivity"
