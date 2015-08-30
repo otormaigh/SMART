@@ -304,13 +304,14 @@ public class BaseActivity extends AppCompatActivity {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
                         Log.d("Retro", "logout success");
+                        Tracking.stopUsage(BaseActivity.this);
+                        Log.d("HockeyApp", "timeUsage = " + Tracking.getUsageTime(BaseActivity.this));
                         switch (response.getStatus()) {
                             case 200:
                                 Log.d("Retro", "in logout success 200");
                                 doLogout(intent);
                                 break;
                             default:
-                                Tracking.stopUsage(BaseActivity.this);
                                 Log.d("Retro", "in logout success response = " + response.getStatus());
                         }
                     }
@@ -347,6 +348,7 @@ public class BaseActivity extends AppCompatActivity {
                     public void success(BaseModel baseModel, Response response) {
                         Log.d("logout", "in logout success");
                         Tracking.stopUsage(BaseActivity.this);
+                        Log.d("HockeyApp", "timeUsage QuickMenu = " + Tracking.getUsageTime(BaseActivity.this));
                         new ClearData(BaseActivity.this);
                         finish();
                         if (notificationManager != null) {
