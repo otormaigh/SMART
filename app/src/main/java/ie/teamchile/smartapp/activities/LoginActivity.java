@@ -104,13 +104,14 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void doRetrofit() {
+    private void postLogin() {
         PostingData login = new PostingData();
         login.postLogin(username, password);
 
         SmartApiClient.getUnAuthorizedApiClient().postLogin(login, new Callback<BaseModel>() {
             @Override
             public void success(BaseModel baseModel, Response response) {
+                Tracking.startUsage(LoginActivity.this);
                 prefsUtil.deletePrefs(LoginActivity.this, "appts_got");
                 BaseModel.getInstance().setLogin(baseModel.getLogin());
                 BaseModel.getInstance().setLoginStatus(true);
@@ -118,7 +119,6 @@ public class LoginActivity extends AppCompatActivity {
                 getSharedPrefs();
                 intent = new Intent(LoginActivity.this, QuickMenuActivity.class);
                 startActivity(intent);
-                Tracking.startUsage(LoginActivity.this);
             }
 
             @Override
@@ -139,7 +139,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if(!TextUtils.isEmpty(username) &&
                 !TextUtils.isEmpty(password)){
-            doRetrofit();
+            postLogin();
             pd = new CustomDialogs().showProgressDialog(
                     LoginActivity.this,
                     "Logging In");
@@ -154,9 +154,13 @@ public class LoginActivity extends AppCompatActivity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.btn_login:
+                    Tracking.startUsage(LoginActivity.this);
+                    Log.d("HockeyApp", "Login pressed");
+                    Log.d("HockeyApp", "timeUsage = " + Tracking.getUsageTime(LoginActivity.this));
                     validateInput();
                     break;
                 case R.id.tv_about:
+                    Tracking.stopUsage(LoginActivity.this);
                     Intent intent = new Intent(LoginActivity.this, AboutActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                     startActivity(intent);
