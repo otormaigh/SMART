@@ -3,19 +3,26 @@ package ie.teamchile.smartapp.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 
+import java.util.Calendar;
+
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.util.CheckForRoot;
+import ie.teamchile.smartapp.util.Constants;
+import ie.teamchile.smartapp.util.SharedPrefs;
 
 public class SplashScreenActivity extends Activity implements View.OnClickListener {
     private String rootMsg;
     private Button btnYes;
     private Button btnNo;
+    private SharedPrefs sharedPrefs = new SharedPrefs();
+    private Calendar c = Calendar.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +34,15 @@ public class SplashScreenActivity extends Activity implements View.OnClickListen
         btnYes.setOnClickListener(this);
         btnNo = (Button) findViewById(R.id.btn_no);
         btnNo.setOnClickListener(this);
+
+        long time = sharedPrefs.getLongPrefs(this, Constants.SHARED_PREFS_SPLASH_LOG);
+
+        if(time != 0) {
+            if (DateUtils.isToday(time))
+                checkIfLoggedIn();
+            else
+                sharedPrefs.setLongPrefs(this, c.getTimeInMillis(), Constants.SHARED_PREFS_SPLASH_LOG);
+        }
 
         Log.d("isDeviceRooted", "isDeviceRooted() = " + new CheckForRoot().isDeviceRooted());
     }
