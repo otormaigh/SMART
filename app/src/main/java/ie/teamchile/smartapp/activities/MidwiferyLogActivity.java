@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +33,7 @@ import ie.teamchile.smartapp.util.CustomDialogs;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import timber.log.Timber;
 
 public class MidwiferyLogActivity extends BaseActivity {
     private ListView lvNotes;
@@ -53,6 +53,7 @@ public class MidwiferyLogActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         setContentForNav(R.layout.activity_midwifery_log);
 
         setActionBarTitle(getResources().getString(R.string.midwifery_log));
@@ -69,13 +70,13 @@ public class MidwiferyLogActivity extends BaseActivity {
         getMidwiferyNotes();
     }
 
-    private void getMidwiferyNotes(){
+    private void getMidwiferyNotes() {
         SmartApiClient.getAuthorizedApiClient().getPregnancyNotes(
                 BaseModel.getInstance().getServiceUsers().get(0).getPregnancyIds().get(p),
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
-                        Log.d("retro", "put getMidwiferyNotes retro success");
+                        Timber.d("put getMidwiferyNotes retro success");
                         BaseModel.getInstance().setPregnancyNotes(baseModel.getPregnancyNotes());
                         pd.dismiss();
                         setData();
@@ -83,7 +84,7 @@ public class MidwiferyLogActivity extends BaseActivity {
 
                     @Override
                     public void failure(RetrofitError error) {
-                        Log.d("retro", "put getMidwiferyNotes retro failure = " + error);
+                        Timber.d("put getMidwiferyNotes retro failure = " + error);
                         pd.dismiss();
                     }
                 }
@@ -96,7 +97,6 @@ public class MidwiferyLogActivity extends BaseActivity {
         notesList = new ArrayList<>();
 
         size = BaseModel.getInstance().getPregnancyNotes().size();
-        Log.d("bugs", "size = " + size);
 
         Collections.sort(BaseModel.getInstance().getPregnancyNotes(), new Comparator<PregnancyNote>() {
 
@@ -123,7 +123,6 @@ public class MidwiferyLogActivity extends BaseActivity {
             notesList.add(theNote.getNote());
         }
 
-        Log.d("bugs", "notesList = " + notesList);
         adapter = new MyAdapter(
                 this,
                 dateList,
@@ -147,10 +146,8 @@ public class MidwiferyLogActivity extends BaseActivity {
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
-                        Log.d("retro", "retro success");
+                        Timber.d("postNote success");
                         BaseModel.getInstance().addPregnancyNote(baseModel.getPregnancyNote());
-
-                        Log.d("bugs", "note = " + baseModel.getPregnancyNote().getNote());
 
                         adapter.notifyDataSetChanged();
                         lvNotes.setAdapter(null);
@@ -160,7 +157,7 @@ public class MidwiferyLogActivity extends BaseActivity {
 
                     @Override
                     public void failure(RetrofitError error) {
-                        Log.d("retro", "retro failure = " + error);
+                        Timber.d("postNote failure = " + error);
                         pd.dismiss();
                     }
                 }
