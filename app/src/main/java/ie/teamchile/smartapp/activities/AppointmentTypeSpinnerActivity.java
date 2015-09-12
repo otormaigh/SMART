@@ -5,8 +5,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -47,12 +48,12 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         setContentForNav(R.layout.activity_appointment_type_spinner);
 
         c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        Log.d("MYLOG", "Date set to " + c.getTime());
 
-        spinnerWarning = getResources().getColor(R.color.spinner_warning);
+        spinnerWarning = ContextCompat.getColor(this, R.color.spinner_warning);
 
         tvAppointmentType = (TextView) findViewById(R.id.tv_appointment_type);
         tvServiceOption = (TextView) findViewById(R.id.tv_service_option);
@@ -129,7 +130,6 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
     private void setVisitSpinner(){
         int size = BaseModel.getInstance().getServiceOptionsHomeList().size();
 
-        Log.d("Retrofit", "clinic id list = " + idList);
         List<String> visitClinics = new ArrayList<>();
         visitClinics.add("Select Visit Option");
 
@@ -178,7 +178,6 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
 
 		for(int i = 1; i <= 10; i++){
             c = Calendar.getInstance();
-            Log.d("MYLOG", "Week " + i + " selected");
     		c.add(Calendar.DAY_OF_YEAR, 7 * i);
     		c.set(Calendar.DAY_OF_WEEK, dayOfWeek.getDay() + 1);
     		weeks.add("- Week " + i + " (" + dfDowMonthDay.format(c.getTime()) + ")");
@@ -417,7 +416,6 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
                         	weekSpinner.setBackgroundColor(Color.TRANSPARENT);
                             c = Calendar.getInstance();
                     		c.add(Calendar.DAY_OF_YEAR, 7 * position);
-                			Log.d("MYLOG", "Plus " + (7 * position) + " days is: " + c.getTime());
                 			daySelected = c.getTime();
                 			addDayToTime(dayOfWeek);
                             Intent intent = new Intent(AppointmentTypeSpinnerActivity.this, AppointmentCalendarActivity.class);
@@ -439,7 +437,6 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
         Date todayPlus10Day = c.getTime();
 
         while (todayDate.before(todayPlus10Day)) {
-            Log.d("MYLOG", "todayDate = " + c.getTime());
             c.setTime(todayDate);
             String date = dfDateOnly.format(c.getTime());
             c.add(Calendar.DAY_OF_YEAR, 1);
@@ -472,7 +469,6 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
         timer = new CountDownTimer(200, 100) {
             @Override
             public void onTick(long millisUntilFinished) {
-                Log.d("bugs", "getDoneCounter() = " + BaseActivity.apptDone);
             }
 
             @Override

@@ -6,10 +6,10 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -37,6 +37,7 @@ import ie.teamchile.smartapp.util.CustomDialogs;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import timber.log.Timber;
 
 public class HomeVisitAppointmentActivity extends BaseActivity {
     protected static Date daySelected;
@@ -54,6 +55,7 @@ public class HomeVisitAppointmentActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         setContentForNav(R.layout.activity_home_visit_appointment);
 
         dateInList = (Button) findViewById(R.id.btn_date);
@@ -190,6 +192,7 @@ public class HomeVisitAppointmentActivity extends BaseActivity {
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
+                        Timber.d("changeAttendStatus success");
                         Toast.makeText(HomeVisitAppointmentActivity.this,
                                 "status changed", Toast.LENGTH_LONG).show();
                         pd.dismiss();
@@ -197,7 +200,7 @@ public class HomeVisitAppointmentActivity extends BaseActivity {
 
                     @Override
                     public void failure(RetrofitError error) {
-                        Log.d("Attended", "retro error = " + error);
+                        Timber.d("changeAttendStatus error = " + error);
                         pd.dismiss();
                     }
                 }
@@ -324,7 +327,6 @@ public class HomeVisitAppointmentActivity extends BaseActivity {
                         startActivity(intent);
                     } else {
                         int serviceUserId = appointment.getServiceUserId();
-                        Log.d("bugs", "db string: " + "service_users" + "/" + serviceUserId);
                         pd = new CustomDialogs().showProgressDialog(
                                 HomeVisitAppointmentActivity.this,
                                 "Fetching Information");
@@ -338,7 +340,6 @@ public class HomeVisitAppointmentActivity extends BaseActivity {
             holder.btnChangeStatus.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d("Button", "position = " + position);
                     holder.swipeLayout.close();
                     if (!attended) {
                         changeAttendStatus(true, position);
