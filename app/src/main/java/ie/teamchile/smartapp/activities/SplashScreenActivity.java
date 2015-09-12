@@ -30,20 +30,28 @@ public class SplashScreenActivity extends Activity implements View.OnClickListen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         setContentView(R.layout.activity_splash_screen);
 
-        btnYes = (Button) findViewById(R.id.btn_yes);
-        btnYes.setOnClickListener(this);
-        btnNo = (Button) findViewById(R.id.btn_no);
-        btnNo.setOnClickListener(this);
+        checkRoot();
+    }
 
-        long time = sharedPrefs.getLongPrefs(this, Constants.SHARED_PREFS_SPLASH_LOG);
-        Timber.d("time = " + time);
-
-        if(time != 0) {
-            if (DateUtils.isToday(time))
-                checkIfLoggedIn();
-        }
-
+    private void checkRoot() {
         Timber.d("isDeviceRooted() = " + CheckForRoot.isDeviceRooted());
+
+        /*if(CheckForRoot.isDeviceRooted()) {
+            finish();
+        } else {*/
+            btnYes = (Button) findViewById(R.id.btn_yes);
+            btnYes.setOnClickListener(this);
+            btnNo = (Button) findViewById(R.id.btn_no);
+            btnNo.setOnClickListener(this);
+
+            long time = sharedPrefs.getLongPrefs(this, Constants.SHARED_PREFS_SPLASH_LOG);
+            Timber.d("time = " + time);
+
+            if(time != 0) {
+                if (DateUtils.isToday(time))
+                    checkIfLoggedIn();
+            }
+        //}
     }
 
     private void checkIfLoggedIn() {
