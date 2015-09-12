@@ -8,11 +8,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 
-import java.util.Calendar;
-
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.model.BaseModel;
-import ie.teamchile.smartapp.util.CheckForRoot;
 import ie.teamchile.smartapp.util.Constants;
 import ie.teamchile.smartapp.util.SharedPrefs;
 import timber.log.Timber;
@@ -22,7 +19,6 @@ public class SplashScreenActivity extends Activity implements View.OnClickListen
     private Button btnYes;
     private Button btnNo;
     private SharedPrefs sharedPrefs = new SharedPrefs();
-    private Calendar c = Calendar.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,13 +26,13 @@ public class SplashScreenActivity extends Activity implements View.OnClickListen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         setContentView(R.layout.activity_splash_screen);
 
-        checkRoot();
+        checkIfValidEnvironment();
     }
 
-    private void checkRoot() {
-        Timber.d("isDeviceRooted() = " + CheckForRoot.isDeviceRooted());
-
-        /*if(CheckForRoot.isDeviceRooted()) {
+    private void checkIfValidEnvironment() {
+        /*if (CheckForRoot.isDeviceRooted()) {
+            finish();
+        } else if(CheckCert.isCertInvalid(this)) {
             finish();
         } else {*/
             btnYes = (Button) findViewById(R.id.btn_yes);
@@ -45,9 +41,8 @@ public class SplashScreenActivity extends Activity implements View.OnClickListen
             btnNo.setOnClickListener(this);
 
             long time = sharedPrefs.getLongPrefs(this, Constants.SHARED_PREFS_SPLASH_LOG);
-            Timber.d("time = " + time);
 
-            if(time != 0) {
+            if (time != 0) {
                 if (DateUtils.isToday(time))
                     checkIfLoggedIn();
             }
