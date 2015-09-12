@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.os.Build;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -83,5 +84,32 @@ public class EnvironmentChecker {
 
     public static boolean isDebuggable(Context context){
         return (context.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
+    }
+
+    private static String getSystemProperty(String name) throws Exception {
+        Class systemPropertyClass = Class.forName("android.os.SystemProperties");
+
+        return (String) systemPropertyClass.getMethod("get", new Class[]{String.class})
+                .invoke(systemPropertyClass, new Object[]{name});
+    }
+
+    public static boolean isEmulator() {
+        boolean emulator = Build.FINGERPRINT.startsWith("generic")
+                        || Build.FINGERPRINT.startsWith("unknown")
+                        || Build.MODEL.contains("google_sdk")
+                        || Build.MODEL.contains("Emulator")
+                        || Build.MODEL.contains("Android SDK built for x86")
+                        || Build.MANUFACTURER.contains("Genymotion");
+
+        try {
+            boolean goldfish = getSystemProperty("ro.hardware").contains("goldfish");
+            boolean emu = getSystemProperty("ro.kernel.qemu").length() > 0;
+            boolean sdk = getSystemProperty("ro.product.model").equals("sdk");
+            if (emu || goldfish || sdk || emulator)
+                return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }
