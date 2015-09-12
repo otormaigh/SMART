@@ -30,9 +30,11 @@ public class SplashScreenActivity extends Activity implements View.OnClickListen
     }
 
     private void checkIfValidEnvironment() {
-        /*if (CheckForRoot.isDeviceRooted()) {
+        /*if (EnvironmentChecker.isDeviceRooted()) {
             finish();
-        } else if(CheckCert.isCertInvalid(this)) {
+        } else if(EnvironmentChecker.isCertInvalid(this)) {
+            finish();
+        } else if(EnvironmentChecker.isDebuggable(this)) {
             finish();
         } else {*/
             btnYes = (Button) findViewById(R.id.btn_yes);
