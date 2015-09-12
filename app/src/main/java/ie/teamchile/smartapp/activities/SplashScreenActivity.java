@@ -36,15 +36,14 @@ public class SplashScreenActivity extends Activity implements View.OnClickListen
         btnNo.setOnClickListener(this);
 
         long time = sharedPrefs.getLongPrefs(this, Constants.SHARED_PREFS_SPLASH_LOG);
+        Timber.d("time = " + time);
 
         if(time != 0) {
             if (DateUtils.isToday(time))
                 checkIfLoggedIn();
-            else
-                sharedPrefs.setLongPrefs(this, c.getTimeInMillis(), Constants.SHARED_PREFS_SPLASH_LOG);
         }
 
-        Timber.d("isDeviceRooted() = " + new CheckForRoot().isDeviceRooted());
+        Timber.d("isDeviceRooted() = " + CheckForRoot.isDeviceRooted());
     }
 
     private void checkIfLoggedIn() {
