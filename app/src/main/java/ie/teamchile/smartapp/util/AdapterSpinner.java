@@ -2,6 +2,7 @@ package ie.teamchile.smartapp.util;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -18,46 +19,38 @@ import ie.teamchile.smartapp.R;
 public class AdapterSpinner extends ArrayAdapter<String> {
     List<String> list;
     Context context;
-    int layoutresource;
+    int layoutResource;
     int tvResource;
 
-    public AdapterSpinner(Context context, int layoutresource, List<String> list, int tvResource) {
-        super(context, layoutresource, list);
+    public AdapterSpinner(Context context, int layoutResource, List<String> list, int tvResource) {
+        super(context, layoutResource, list);
         this.list = list;
         this.context = context;
-        this.layoutresource = layoutresource;
+        this.layoutResource = layoutResource;
         this.tvResource = tvResource;
     }
 
-    public AdapterSpinner(Context context, int arrayResource, int layoutresource, int tvResource) {
-        super(context, layoutresource, arrayResource);
-        String[] resArrayId = context.getResources().getStringArray(arrayResource);
-        List<String> list = Arrays.asList(resArrayId);
-        this.list = list;
+    public AdapterSpinner(Context context, int arrayResource, int layoutResource, int tvResource) {
+        super(context, arrayResource, layoutResource);
+        this.list = Arrays.asList(context.getResources().getStringArray(arrayResource));
         this.context = context;
-        this.layoutresource = layoutresource;
+        this.layoutResource = layoutResource;
         this.tvResource = tvResource;
     }
 
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
-        if (convertView == null) {
-            convertView = View.inflate(context, layoutresource, null);
-            holder = new ViewHolder(convertView);
-            convertView.setTag(holder);
-        } else
-            holder = (ViewHolder) convertView.getTag();
-
-        holder.tvSpinnerItem.setText(list.get(position));
+        convertView = View.inflate(context, layoutResource, null);
+        TextView tvSpinnerItem = (TextView) convertView.findViewById(tvResource);
+        tvSpinnerItem.setText(list.get(position));
         switch (position) {
             case 0:
-                holder.tvSpinnerItem.setTypeface(null, Typeface.ITALIC);
-                holder.tvSpinnerItem.setTextColor(context.getResources().getColor(R.color.light_grey));
+                tvSpinnerItem.setTypeface(null, Typeface.ITALIC);
+                tvSpinnerItem.setTextColor(ContextCompat.getColor(context, R.color.light_grey));
                 break;
             default:
-                holder.tvSpinnerItem.setTextColor(context.getResources().getColor(R.color.black));
-                holder.tvSpinnerItem.setTypeface(Typeface.DEFAULT);
+                tvSpinnerItem.setTextColor(ContextCompat.getColor(context, R.color.black));
+                tvSpinnerItem.setTypeface(Typeface.DEFAULT);
                 break;
         }
         return convertView;
@@ -72,7 +65,7 @@ public class AdapterSpinner extends ArrayAdapter<String> {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = View.inflate(context, layoutresource, null);
+            convertView = View.inflate(context, layoutResource, null);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         } else
@@ -82,10 +75,10 @@ public class AdapterSpinner extends ArrayAdapter<String> {
         switch (position) {
             case 0:
                 holder.tvSpinnerItem.setTypeface(null, Typeface.ITALIC);
-                holder.tvSpinnerItem.setTextColor(context.getResources().getColor(R.color.grey));
+                holder.tvSpinnerItem.setTextColor(ContextCompat.getColor(context, R.color.grey));
                 break;
             default:
-                holder.tvSpinnerItem.setTextColor(context.getResources().getColor(R.color.black));
+                holder.tvSpinnerItem.setTextColor(ContextCompat.getColor(context, R.color.black));
                 holder.tvSpinnerItem.setTypeface(Typeface.DEFAULT);
                 break;
         }
