@@ -47,8 +47,6 @@ public class LoginActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         setContentView(R.layout.activity_login);
 
-        checkForUpdates();
-
         btnLogin = (Button) findViewById(R.id.btn_login);
         btnLogin.setOnClickListener(new ButtonClick());
         tvUsername = (TextView) findViewById(R.id.et_username);
@@ -63,22 +61,14 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        //Unregister HockeyApp
         UpdateManager.unregister();
-    }
-
-    private void checkForCrashes() {
-        CrashManager.register(this, NotKeys.APP_ID);
-    }
-
-    private void checkForUpdates() {
-        // Remove this for store / production builds!
-        UpdateManager.register(this, NotKeys.APP_ID);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        checkForCrashes();
+        initHockeyApp();
         BaseModel.getInstance().deleteInstance();
         System.gc();
     }
@@ -90,6 +80,10 @@ public class LoginActivity extends AppCompatActivity {
         BaseModel.getInstance().setLoginStatus(false);
         System.gc();
         finish();
+    }
+
+    private void initHockeyApp() {
+        CrashManager.register(this, NotKeys.APP_ID);
     }
 
     private void getSharedPrefs() {
