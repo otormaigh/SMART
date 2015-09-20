@@ -4,6 +4,7 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import ie.teamchile.smartapp.BuildConfig;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.util.NotKeys;
 import retrofit.RequestInterceptor;
@@ -30,13 +31,22 @@ public class SmartApiClient {
 
     public static synchronized SmartApi getUnAuthorizedApiClient() {
         if (unAuthorizedSmartApi == null) {
-
-            RestAdapter restAdapter = new RestAdapter.Builder()
-                    .setEndpoint(NotKeys.BASE_URL)
-                    .setLogLevel(RestAdapter.LogLevel.FULL)
-                    .setClient(new OkClient())
-                    .setConverter(new GsonConverter(gson))
-                    .build();
+            RestAdapter restAdapter;
+            if(BuildConfig.DEBUG) {
+                restAdapter = new RestAdapter.Builder()
+                        .setEndpoint(NotKeys.BASE_URL)
+                        .setLogLevel(RestAdapter.LogLevel.FULL)
+                        .setClient(new OkClient())
+                        .setConverter(new GsonConverter(gson))
+                        .build();
+            } else {
+                restAdapter = new RestAdapter.Builder()
+                        .setEndpoint(NotKeys.BASE_URL)
+                        .setLogLevel(RestAdapter.LogLevel.NONE)
+                        .setClient(new OkClient())
+                        .setConverter(new GsonConverter(gson))
+                        .build();
+            }
 
             unAuthorizedSmartApi = restAdapter.create(SmartApi.class);
         }
