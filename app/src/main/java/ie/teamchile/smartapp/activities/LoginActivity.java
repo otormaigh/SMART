@@ -19,6 +19,7 @@ import net.hockeyapp.android.UpdateManager;
 import java.util.Calendar;
 import java.util.Map;
 
+import ie.teamchile.smartapp.BuildConfig;
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.BaseModel;
@@ -68,7 +69,9 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        initHockeyApp();
+        if(!BuildConfig.DEBUG)
+            initHockeyApp();
+
         BaseModel.getInstance().deleteInstance();
         System.gc();
     }
