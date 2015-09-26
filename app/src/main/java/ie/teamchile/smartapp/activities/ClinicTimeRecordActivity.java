@@ -166,10 +166,12 @@ public class ClinicTimeRecordActivity extends BaseActivity {
 
             @Override
             public void onFinish() {
-                if (recordGetDone >= 3)
-                    pd.dismiss();
-                else
-                    timer.start();
+                if(pd != null) {
+                    if (recordGetDone >= 3)
+                        pd.dismiss();
+                    else
+                        timer.start();
+                }
             }
         }.start();
     }
