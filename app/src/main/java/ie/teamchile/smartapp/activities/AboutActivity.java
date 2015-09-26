@@ -11,10 +11,8 @@ import android.webkit.WebView;
 import android.widget.ProgressBar;
 
 import ie.teamchile.smartapp.R;
-import timber.log.Timber;
 
 public class AboutActivity extends AppCompatActivity {
-    private WebView webView;
     private ProgressBar progressBar;
 
     @Override
@@ -27,7 +25,7 @@ public class AboutActivity extends AppCompatActivity {
         progressBar.setProgress(0);
         progressBar.setMax(100);
 
-        webView = (WebView) findViewById(R.id.wv_about);
+        WebView webView = (WebView) findViewById(R.id.wv_about);
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
@@ -37,7 +35,7 @@ public class AboutActivity extends AppCompatActivity {
             public void onProgressChanged(WebView view, int newProgress) {
                 super.onProgressChanged(view, newProgress);
                 progressBar.setProgress(newProgress);
-                if(newProgress == 100)
+                if (newProgress == 100)
                     progressBar.setVisibility(View.GONE);
             }
         });
