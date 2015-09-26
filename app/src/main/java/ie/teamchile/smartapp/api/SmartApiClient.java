@@ -31,24 +31,13 @@ public class SmartApiClient {
 
     public static synchronized SmartApi getUnAuthorizedApiClient() {
         if (unAuthorizedSmartApi == null) {
-            RestAdapter restAdapter;
-            if(BuildConfig.DEBUG) {
-                restAdapter = new RestAdapter.Builder()
-                        .setEndpoint(NotKeys.BASE_URL)
-                        .setLogLevel(RestAdapter.LogLevel.FULL)
-                        .setClient(new OkClient())
-                        .setConverter(new GsonConverter(gson))
-                        .build();
-            } else {
-                restAdapter = new RestAdapter.Builder()
-                        .setEndpoint(NotKeys.BASE_URL)
-                        .setLogLevel(RestAdapter.LogLevel.NONE)
-                        .setClient(new OkClient())
-                        .setConverter(new GsonConverter(gson))
-                        .build();
-            }
 
-            unAuthorizedSmartApi = restAdapter.create(SmartApi.class);
+            unAuthorizedSmartApi = new RestAdapter.Builder()
+                    .setEndpoint(NotKeys.BASE_URL)
+                    .setLogLevel(BuildConfig.RETROFIT_LOG_LEVEL)
+                    .setClient(new OkClient())
+                    .setConverter(new GsonConverter(gson))
+                    .build().create(SmartApi.class);
         }
         return unAuthorizedSmartApi;
     }
@@ -64,15 +53,13 @@ public class SmartApiClient {
                 }
             };
 
-            RestAdapter restAdapter = new RestAdapter.Builder()
+            authorizedSmartApi = new RestAdapter.Builder()
                     .setEndpoint(NotKeys.BASE_URL)
-                    .setLogLevel(RestAdapter.LogLevel.FULL)
+                    .setLogLevel(BuildConfig.RETROFIT_LOG_LEVEL)
                     .setClient(new OkClient())
                     .setRequestInterceptor(requestInterceptor)
                     .setConverter(new GsonConverter(gson))
-                    .build();
-
-            authorizedSmartApi = restAdapter.create(SmartApi.class);
+                    .build().create(SmartApi.class);
         }
         return authorizedSmartApi;
     }
