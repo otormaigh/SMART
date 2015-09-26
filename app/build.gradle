@@ -18,6 +18,12 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "retrofit.RestAdapter.LogLevel", "RETROFIT_LOG_LEVEL", "retrofit.RestAdapter.LogLevel.NONE"
+        }
+
+        debug {
+            zipAlignEnabled false
+            buildConfigField "retrofit.RestAdapter.LogLevel", "RETROFIT_LOG_LEVEL", "retrofit.RestAdapter.LogLevel.FULL"
         }
     }
 }
