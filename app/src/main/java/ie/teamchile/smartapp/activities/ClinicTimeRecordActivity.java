@@ -78,7 +78,6 @@ public class ClinicTimeRecordActivity extends BaseActivity {
         setContentForNav(R.layout.activity_clinic_time_record);
         c = Calendar.getInstance();
         todayDay = dfDayLong.format(c.getTime());
-        todayDay = "Tuesday";
         todayDate = dfDateOnly.format(c.getTime());
         lvNotStarted = (ListView) findViewById(R.id.lv_clinics_not_started);
         lvNotStarted.setOnItemClickListener(new ItemClicky());
@@ -97,8 +96,11 @@ public class ClinicTimeRecordActivity extends BaseActivity {
 
         setActionBarTitle("Start/Stop Clinics");
 
-        if (!todayDay.equals("Saturday") || !todayDay.equals("Sunday"))
+        if (!todayDay.equals("Saturday") && !todayDay.equals("Sunday")) {
             getDataFromDb();
+        } else {
+            new CustomDialogs().showWarningDialog(this, "There are no clinics open today.");
+        }
     }
 
     @Override
