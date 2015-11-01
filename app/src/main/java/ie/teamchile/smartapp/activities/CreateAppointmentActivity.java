@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,18 +29,20 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.api.SmartApiClient;
-import ie.teamchile.smartapp.model.Appointment;
 import ie.teamchile.smartapp.model.BaseModel;
+import ie.teamchile.smartapp.model.Clinic;
 import ie.teamchile.smartapp.model.PostingData;
+import ie.teamchile.smartapp.model.ServiceOption;
 import ie.teamchile.smartapp.model.ServiceUser;
 import ie.teamchile.smartapp.util.AdapterListResults;
 import ie.teamchile.smartapp.util.AdapterSpinner;
+import ie.teamchile.smartapp.util.Constants;
 import ie.teamchile.smartapp.util.CustomDialogs;
 import ie.teamchile.smartapp.util.SharedPrefs;
+import io.realm.Realm;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -71,12 +72,20 @@ public class CreateAppointmentActivity extends BaseActivity {
     private ArrayList<String> listDob = new ArrayList<>();
     private ArrayList<String> listHospitalNumber = new ArrayList<>();
     private ProgressDialog pd;
+    private Realm realm;
+    private Intent intentClinic;
+    private Intent intentHome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         setContentForNav(R.layout.activity_create_appointment);
+
+        realm = Realm.getInstance(this);
+
+        intentClinic = new Intent(CreateAppointmentActivity.this, AppointmentCalendarActivity.class);
+        intentHome = new Intent(CreateAppointmentActivity.this, HomeVisitAppointmentActivity.class);
 
         c = Calendar.getInstance();
         myCalendar = Calendar.getInstance();
@@ -110,10 +119,18 @@ public class CreateAppointmentActivity extends BaseActivity {
         checkDirectionOfIntent();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (realm != null)
+            realm.close();
+    }
+
     private void clinicAppt() {
         clinicID = Integer.parseInt(getIntent().getStringExtra("clinicID"));
         daySelected = AppointmentCalendarActivity.daySelected;
-        clinicName = BaseModel.getInstance().getClinicMap().get(clinicID).getName();
+        clinicName = realm.where(Clinic.class).equalTo(Constants.Key_ID, clinicID).findFirst().getName();
         time = getIntent().getStringExtra("time");
         tvTime.setText(time);
         visitPrioritySpinner.setSelection(1);
@@ -127,7 +144,7 @@ public class CreateAppointmentActivity extends BaseActivity {
     private void homeVisitAppt() {
         daySelected = HomeVisitAppointmentActivity.daySelected;
         serviceOptionId = Integer.parseInt(getIntent().getStringExtra("serviceOptionId"));
-        clinicName = BaseModel.getInstance().getServiceOptionsHomeMap().get(serviceOptionId).getName();
+        clinicName = realm.where(ServiceOption.class).equalTo(Constants.Key_ID, serviceOptionId).findFirst().getName();
         tvTime.setVisibility(View.GONE);
         tvTimeTitle.setVisibility(View.GONE);
         visitReturnTypeSpinner.setVisibility(View.GONE);
@@ -389,11 +406,26 @@ public class CreateAppointmentActivity extends BaseActivity {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
                         Timber.d("postAppointment success");
-                                BaseModel.getInstance().addAppointment(baseModel.getAppointment());
-                        if (returnType.equals("returning"))
-                            addNewApptToMaps();
-                        else if (returnType.equals("new"))
+
+                        realm.beginTransaction();
+                        realm.copyToRealmOrUpdate(baseModel.getAppointment());
+                        realm.commitTransaction();
+
+                        if (returnType.equals("new")) {
                             getAppointmentById(baseModel.getAppointment().getId());
+                        } else {
+                            if (ad.isShowing())
+                                ad.cancel();
+                            if (pd.isShowing())
+                                pd.dismiss();
+
+                            if (priority.equals("home-visit"))
+                                startActivity(intentHome);
+                            else if (priority.equals("scheduled"))
+                                startActivity(intentClinic);
+                            else if (priority.equals("drop-in"))
+                                startActivity(intentClinic);
+                        }
                     }
 
                     @Override
@@ -432,89 +464,35 @@ public class CreateAppointmentActivity extends BaseActivity {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
                         Timber.d("getAppointmentById success");
-                        BaseModel.getInstance().addAppointment(baseModel.getAppointment());
-                        addNewApptToMaps();
+                        realm.beginTransaction();
+                        realm.copyToRealmOrUpdate(baseModel.getAppointment());
+                        realm.commitTransaction();
+
+                        if (ad.isShowing())
+                            ad.cancel();
+                        if (pd.isShowing())
+                            pd.dismiss();
+
+                        if (priority.equals("home-visit"))
+                            startActivity(intentHome);
+                        else if (priority.equals("scheduled"))
+                            startActivity(intentClinic);
+                        else if (priority.equals("drop-in"))
+                            startActivity(intentClinic);
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
                         Timber.d("getAppointmentById failure = " + error);
                         pd.dismiss();
+
+                        if (ad.isShowing())
+                            ad.cancel();
+                        if (pd.isShowing())
+                            pd.dismiss();
                     }
                 }
         );
-    }
-
-    private void addNewApptToMaps() {
-        List<Integer> clinicApptIdList;
-        Map<String, List<Integer>> clinicVisitdateApptIdMap;
-        Map<Integer, Map<String, List<Integer>>> clinicVisitClinicDateApptIdMap = new ArrayMap<>();
-        Map<Integer, Appointment> clinicVisitIdApptMap = new ArrayMap<>();
-
-        List<Integer> homeApptIdList;
-        Map<String, List<Integer>> homeVisitdateApptIdMap;
-        Map<Integer, Map<String, List<Integer>>> homeVisitClinicDateApptIdMap = new ArrayMap<>();
-        Map<Integer, Appointment> homeVisitIdApptMap = new ArrayMap<>();
-        for (int i = 0; i < BaseModel.getInstance().getAppointments().size(); i++) {
-            clinicApptIdList = new ArrayList<>();
-            homeApptIdList = new ArrayList<>();
-            clinicVisitdateApptIdMap = new ArrayMap<>();
-            homeVisitdateApptIdMap = new ArrayMap<>();
-            Appointment appt = BaseModel.getInstance().getAppointments().get(i);
-            String apptDate = appt.getDate();
-            int apptId = appt.getId();
-            int clinicId = appt.getClinicId();
-            int serviceOptionId = 0;
-            if (appt.getServiceOptionIds().size() > 0) {
-                serviceOptionId = appt.getServiceOptionIds().get(0);
-            }
-
-            if (appt.getPriority().equals("home-visit")) {
-                if (homeVisitClinicDateApptIdMap.get(serviceOptionId) != null) {
-                    homeVisitdateApptIdMap = homeVisitClinicDateApptIdMap.get(serviceOptionId);
-                    if (homeVisitdateApptIdMap.get(apptDate) != null) {
-                        homeApptIdList = homeVisitdateApptIdMap.get(apptDate);
-                    }
-                }
-                homeApptIdList.add(apptId);
-                homeVisitdateApptIdMap.put(apptDate, homeApptIdList);
-
-                homeVisitClinicDateApptIdMap.put(serviceOptionId, homeVisitdateApptIdMap);
-                homeVisitIdApptMap.put(apptId, appt);
-            } else {
-                if (clinicVisitClinicDateApptIdMap.get(clinicId) != null) {
-                    clinicVisitdateApptIdMap = clinicVisitClinicDateApptIdMap.get(clinicId);
-                    if (clinicVisitdateApptIdMap.get(apptDate) != null) {
-                        clinicApptIdList = clinicVisitdateApptIdMap.get(apptDate);
-                    }
-                }
-                clinicApptIdList.add(apptId);
-                clinicVisitdateApptIdMap.put(apptDate, clinicApptIdList);
-
-                clinicVisitClinicDateApptIdMap.put(clinicId, clinicVisitdateApptIdMap);
-                clinicVisitIdApptMap.put(apptId, appt);
-            }
-        }
-        BaseModel.getInstance().setClinicVisitClinicDateApptIdMap(clinicVisitClinicDateApptIdMap);
-        BaseModel.getInstance().setClinicVisitIdApptMap(clinicVisitIdApptMap);
-
-        BaseModel.getInstance().setHomeVisitOptionDateApptIdMap(homeVisitClinicDateApptIdMap);
-        BaseModel.getInstance().setHomeVisitIdApptMap(homeVisitIdApptMap);
-
-        Intent intentClinic = new Intent(CreateAppointmentActivity.this, AppointmentCalendarActivity.class);
-        Intent intentHome = new Intent(CreateAppointmentActivity.this, HomeVisitAppointmentActivity.class);
-
-        if (priority.equals("home-visit"))
-            startActivity(intentHome);
-        else if (priority.equals("scheduled"))
-            startActivity(intentClinic);
-        else if (priority.equals("drop-in"))
-            startActivity(intentClinic);
-
-        if (ad.isShowing())
-            ad.cancel();
-        if (pd.isShowing())
-            pd.dismiss();
     }
 
     private void hideKeyboard() {
