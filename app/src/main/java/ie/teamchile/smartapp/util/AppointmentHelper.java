@@ -13,6 +13,7 @@ import ie.teamchile.smartapp.activities.BaseActivity;
 import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.Appointment;
 import ie.teamchile.smartapp.model.BaseModel;
+import io.realm.Realm;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -21,8 +22,10 @@ import retrofit.client.Response;
  * Created by user on 7/14/15.
  */
 public class AppointmentHelper extends BaseActivity {
+    private Realm realm;
 
-    public AppointmentHelper() {
+    public AppointmentHelper(Realm realm) {
+        this.realm = realm;
     }
 
     public void weekDateLooper(Date todayDate, int clinicId) {
@@ -54,6 +57,10 @@ public class AppointmentHelper extends BaseActivity {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
                         Log.d("retro", "getAppointmentsForClinic success");
+                        realm.beginTransaction();
+                        realm.copyToRealmOrUpdate(baseModel.getAppointments());
+                        realm.commitTransaction();
+
                         BaseActivity.apptDone++;
                         if (baseModel.getAppointments().size() > 0)
                             addApptsToMaps(baseModel.getAppointments());
@@ -77,6 +84,10 @@ public class AppointmentHelper extends BaseActivity {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
                         Log.d("retro", "getAppointmentsForClinic success");
+                        realm.beginTransaction();
+                        realm.copyToRealmOrUpdate(baseModel.getAppointments());
+                        realm.commitTransaction();
+
                         BaseActivity.apptDone++;
                         //if (baseModel.getAppointments().size() > 0)
                         addApptsToMaps(baseModel.getAppointments());
@@ -116,7 +127,7 @@ public class AppointmentHelper extends BaseActivity {
             int clinicId = appt.getClinicId();
             int serviceOptionId = 0;
             if (appt.getServiceOptionIds().size() > 0)
-                serviceOptionId = appt.getServiceOptionIds().get(0);
+                serviceOptionId = appt.getServiceOptionIds().get(0).getValue();
 
             if (appt.getPriority().equals("home-visit")) {
                 if (homeVisitClinicDateApptIdMap.get(serviceOptionId) != null) {

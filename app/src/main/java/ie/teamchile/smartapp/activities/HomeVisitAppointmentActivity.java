@@ -317,7 +317,7 @@ public class HomeVisitAppointmentActivity extends BaseActivity {
             } else {
                 holder.nameText.setText(appointment.getServiceUser().getName());
                 holder.gestText.setText(appointment.getServiceUser().getGestation());
-                attended = appointment.getAttended();
+                attended = appointment.isAttended();
                 holder.swipeLayout.setSwipeEnabled(true);
                 holder.nameText.setTextColor(holder.gestText.getTextColors().getDefaultColor());
                 holder.nameText.setTypeface(null, Typeface.NORMAL);

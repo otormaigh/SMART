@@ -46,7 +46,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
             visitOptionSpinner, visitDaySpinner, clinicSpinner, daySpinner, weekSpinner;
     private TextView tvAppointmentType, tvServiceOption, tvVisit, tvVisitDay, tvClinic, tvDay, tvWeek;
     private SharedPrefs sharedPrefs = new SharedPrefs();
-    private AppointmentHelper apptHelp = new AppointmentHelper();
+    private AppointmentHelper apptHelp;
     private CountDownTimer timer;
     private ProgressDialog pd;
     private Realm realm;
@@ -60,6 +60,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
         setContentForNav(R.layout.activity_appointment_type_spinner);
 
         realm = Realm.getInstance(this);
+        apptHelp = new AppointmentHelper(realm);
 
         c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
 

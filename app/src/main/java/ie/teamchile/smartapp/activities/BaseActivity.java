@@ -55,6 +55,7 @@ import ie.teamchile.smartapp.util.AppointmentHelper;
 import ie.teamchile.smartapp.util.ClearData;
 import ie.teamchile.smartapp.util.CustomDialogs;
 import ie.teamchile.smartapp.util.ToastAlert;
+import io.realm.Realm;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -92,12 +93,15 @@ public class BaseActivity extends AppCompatActivity {
     protected NotificationManager notificationManager;
     protected static int apptDone;
     private ProgressDialog pd;
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         setContentView(R.layout.navigation_drawer_layout);
+
+        realm = Realm.getInstance(this);
 
         spinnerWarning = getResources().getColor(R.color.teal);
 
@@ -134,6 +138,14 @@ public class BaseActivity extends AppCompatActivity {
             logServ = new LogoutService();
             logServ.startTimer(true);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (realm != null)
+            realm.close();
     }
 
     private boolean isMyServiceRunning() {
@@ -443,7 +455,7 @@ public class BaseActivity extends AppCompatActivity {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
                         BaseModel.getInstance().setAppointments(baseModel.getAppointments());
-                        new AppointmentHelper().addApptsToMaps(baseModel.getAppointments());
+                        new AppointmentHelper(realm).addApptsToMaps(baseModel.getAppointments());
                         Timber.d("appointments finished");
                         done++;
                         Timber.d("done = " + done);

@@ -43,6 +43,7 @@ import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.PostingData;
+import ie.teamchile.smartapp.model.RealmInteger;
 import ie.teamchile.smartapp.model.ServiceProvider;
 import ie.teamchile.smartapp.model.ServiceUserAction;
 import ie.teamchile.smartapp.util.CustomDialogs;
@@ -73,7 +74,7 @@ public class ServiceUserActivity extends BaseActivity {
             userCall, userSMS, userEmail, lastPeriodDate;
     private Boolean rhesus;
     private int babyWeightGrams = 0;
-    private List<Integer> babyID;
+    private List<RealmInteger> babyID;
     private double grams = 0.0;
     private String sex_male = "ale";
     private String sex_female = "emale";
@@ -240,7 +241,7 @@ public class ServiceUserActivity extends BaseActivity {
             hearing = BaseModel.getInstance().getBabies().get(b).getHearing();
             antiD = BaseModel.getInstance().getPregnancies().get(p).getAntiD();
             feeding = BaseModel.getInstance().getPregnancies().get(p).getFeeding();
-            rhesus = BaseModel.getInstance().getServiceUsers().get(0).getClinicalFields().getRhesus();
+            rhesus = BaseModel.getInstance().getServiceUsers().get(0).getClinicalFields().isRhesus();
             if (rhesus)
                 tvAnteRhesus.setText("Yes");
             else if (!rhesus)
@@ -946,7 +947,7 @@ public class ServiceUserActivity extends BaseActivity {
 
     private void getMidwiferyNotes(){
         SmartApiClient.getAuthorizedApiClient().getPregnancyNotes(
-                BaseModel.getInstance().getServiceUsers().get(0).getPregnancyIds().get(p),
+                BaseModel.getInstance().getServiceUsers().get(0).getPregnancyIds().get(p).getValue(),
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
@@ -970,7 +971,7 @@ public class ServiceUserActivity extends BaseActivity {
 
         SmartApiClient.getAuthorizedApiClient().postPregnancyAction(
                 postAction,
-                BaseModel.getInstance().getServiceUsers().get(0).getPregnancyIds().get(p),
+                BaseModel.getInstance().getServiceUsers().get(0).getPregnancyIds().get(p).getValue(),
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {

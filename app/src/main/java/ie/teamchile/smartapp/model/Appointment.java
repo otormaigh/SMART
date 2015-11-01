@@ -1,28 +1,30 @@
 package ie.teamchile.smartapp.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
-public class Appointment {
-    private Integer clinicId;
+public class Appointment extends RealmObject {
+    private int clinicId;
     private String date;
-    private Integer id;
+    @PrimaryKey
+    private int id;
     private Links links;
     private String priority;
-    private List<Integer> serviceOptionIds = new ArrayList<>();
-    private Integer serviceProviderId;
+    private RealmList<RealmInteger> serviceOptionIds;
+    private int serviceProviderId;
     private ServiceUser serviceUser;
-    private Integer serviceUserId;
+    private int serviceUserId;
     private String time;
-    private List<Object> visitLogs = new ArrayList<>();
+    //private RealmList<Object> visitLogs;
     private String visitType;
-    private Boolean attended;
+    private boolean attended;
 
-    public Integer getClinicId() {
+    public int getClinicId() {
         return clinicId;
     }
 
-    public void setClinicId(Integer clinicId) {
+    public void setClinicId(int clinicId) {
         this.clinicId = clinicId;
     }
 
@@ -34,11 +36,11 @@ public class Appointment {
         this.date = date;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -58,19 +60,19 @@ public class Appointment {
         this.priority = priority;
     }
 
-    public List<Integer> getServiceOptionIds() {
+    public RealmList<RealmInteger> getServiceOptionIds() {
         return serviceOptionIds;
     }
 
-    public void setServiceOptionIds(List<Integer> serviceOptionIds) {
+    public void setServiceOptionIds(RealmList<RealmInteger> serviceOptionIds) {
         this.serviceOptionIds = serviceOptionIds;
     }
 
-    public Integer getServiceProviderId() {
+    public int getServiceProviderId() {
         return serviceProviderId;
     }
 
-    public void setServiceProviderId(Integer serviceProviderId) {
+    public void setServiceProviderId(int serviceProviderId) {
         this.serviceProviderId = serviceProviderId;
     }
 
@@ -82,11 +84,11 @@ public class Appointment {
         this.serviceUser = serviceUser;
     }
 
-    public Integer getServiceUserId() {
+    public int getServiceUserId() {
         return serviceUserId;
     }
 
-    public void setServiceUserId(Integer serviceUserId) {
+    public void setServiceUserId(int serviceUserId) {
         this.serviceUserId = serviceUserId;
     }
 
@@ -98,14 +100,6 @@ public class Appointment {
         this.time = time;
     }
 
-    public List<Object> getVisitLogs() {
-        return visitLogs;
-    }
-
-    public void setVisitLogs(List<Object> visitLogs) {
-        this.visitLogs = visitLogs;
-    }
-
     public String getVisitType() {
         return visitType;
     }
@@ -114,11 +108,11 @@ public class Appointment {
         this.visitType = visitType;
     }
 
-    public Boolean getAttended() {
+    public boolean isAttended() {
         return attended;
     }
 
-    public void setAttended(Boolean attended) {
+    public void setAttended(boolean attended) {
         this.attended = attended;
     }
 }

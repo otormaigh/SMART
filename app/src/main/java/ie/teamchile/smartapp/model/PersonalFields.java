@@ -1,9 +1,11 @@
 package ie.teamchile.smartapp.model;
 
+import io.realm.RealmObject;
+
 /**
  * Created by user on 5/27/15.
  */
-public class PersonalFields {
+public class PersonalFields extends RealmObject {
     private String directions;
     private String dob;
     private String email;
