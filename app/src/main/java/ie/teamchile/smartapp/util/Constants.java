@@ -11,4 +11,11 @@ public interface Constants {
 
     //Realm Clinic.class;
     String Key_ID = "id";
+
+    //Realm ServiceOption.class
+    String KEY_HOME_VISIT = "homeVisit";
+
+    //Realm Appointment.class
+    String KEY_CLINIC_ID = "clinicId";
+    String KEY_DATE = "date";
 }
