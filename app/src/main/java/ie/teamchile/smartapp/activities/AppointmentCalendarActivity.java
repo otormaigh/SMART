@@ -216,12 +216,12 @@ public class AppointmentCalendarActivity extends BaseActivity {
             apptTime = c.getTime();
         }
 
-        if (realm.where(Appointment.class).equalTo(Constants.KEY_CLINIC_ID, clinicSelected).findAll() != null) {
-            List<Appointment> appointmentList = realm.where(Appointment.class)
-                    .equalTo(Constants.KEY_CLINIC_ID, clinicSelected)
-                    .equalTo(Constants.KEY_DATE, dateSelectedStr)
-                    .findAll();
+        List<Appointment> appointmentList = realm.where(Appointment.class)
+                .equalTo(Constants.KEY_CLINIC_ID, clinicSelected)
+                .equalTo(Constants.KEY_DATE, dateSelectedStr)
+                .findAll();
 
+        if (!appointmentList.isEmpty()) {
             for (Appointment appointment : appointmentList) {
                 String timeOfAppt = "";
                 try {
@@ -255,7 +255,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
                         Toast.makeText(AppointmentCalendarActivity.this,
-                                "status changed", Toast.LENGTH_LONG).show();
+                                "Status changed", Toast.LENGTH_LONG).show();
 
                         realm.beginTransaction();
                         realm.copyToRealmOrUpdate(baseModel.getAppointment());
