@@ -17,5 +17,6 @@ public interface Constants {
 
     //Realm Appointment.class
     String KEY_CLINIC_ID = "clinicId";
+    String KEY_SERVICE_OPTION_IDS = "serviceOptionIds";
     String KEY_DATE = "date";
 }
