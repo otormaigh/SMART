@@ -43,8 +43,10 @@ import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.PostingData;
+import ie.teamchile.smartapp.model.ServiceProvider;
 import ie.teamchile.smartapp.model.ServiceUserAction;
 import ie.teamchile.smartapp.util.CustomDialogs;
+import io.realm.Realm;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -92,12 +94,18 @@ public class ServiceUserActivity extends BaseActivity {
     private int pregnancyId;
     private List<String> historyOptions;
     private ProgressDialog pd;
+    private Realm realm;
+    private ServiceProvider serviceProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         setContentForNav(R.layout.activity_service_user_tabhost);
+
+        realm = Realm.getInstance(this);
+        serviceProvider = realm.where(ServiceProvider.class).findFirst();
+
         TabHost tabHost = (TabHost) findViewById(android.R.id.tabhost);
         tabHost.setup();
 
@@ -297,6 +305,14 @@ public class ServiceUserActivity extends BaseActivity {
 
         BaseModel.getInstance().setPregnancyNotes(
                 BaseModel.getInstance().getPregnancies().get(p).getPregnancyNotes());
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (realm != null)
+            realm.close();
     }
 
     private void setAntiD() {
@@ -761,7 +777,7 @@ public class ServiceUserActivity extends BaseActivity {
                         tvPostAntiD.setText(antiD);
                         historyList.add(0, antiD);
                         dateTimeList.add(0, dfHumanReadableTimeDate.format(c.getTime()));
-                        providerNameList.add(0, BaseModel.getInstance().getServiceProvider().getName());
+                        providerNameList.add(0, serviceProvider.getName());
                         BaseModel.getInstance().updatePregnancies(p, baseModel.getPregnancy());
                         Timber.d("put anti-d retro success");
                         pd.dismiss();
@@ -798,7 +814,7 @@ public class ServiceUserActivity extends BaseActivity {
                         tvPostFeeding.setText(feeding);
                         historyList.add(0, feeding);
                         dateTimeList.add(0, dfHumanReadableTimeDate.format(c.getTime()));
-                        providerNameList.add(0, BaseModel.getInstance().getServiceProvider().getName());
+                        providerNameList.add(0, serviceProvider.getName());
                         BaseModel.getInstance().updatePregnancies(p, baseModel.getPregnancy());
                         Timber.d("put feeding retro success");
                         pd.dismiss();
@@ -837,7 +853,7 @@ public class ServiceUserActivity extends BaseActivity {
                         tvPostVitK.setText(vitK);
                         historyList.add(0, vitK);
                         dateTimeList.add(0, dfHumanReadableTimeDate.format(c.getTime()));
-                        providerNameList.add(0, BaseModel.getInstance().getServiceProvider().getName());
+                        providerNameList.add(0, serviceProvider.getName());
                         //BaseModel.getInstance().updatePregnancies(p, baseModel.getPregnancy());
                         Timber.d("put vit k retro success");
                         pd.dismiss();
@@ -875,7 +891,7 @@ public class ServiceUserActivity extends BaseActivity {
                         tvPostHearing.setText(hearing);
                         historyList.add(0, hearing);
                         dateTimeList.add(0, dfHumanReadableTimeDate.format(c.getTime()));
-                        providerNameList.add(0, BaseModel.getInstance().getServiceProvider().getName());
+                        providerNameList.add(0, serviceProvider.getName());
                         //BaseModel.getInstance().updatePregnancies(p, baseModel.getPregnancy());
                         Timber.d("put hearing retro success");
                         pd.dismiss();
@@ -913,7 +929,7 @@ public class ServiceUserActivity extends BaseActivity {
                         tvPostNBST.setText(nbst);
                         historyList.add(0, nbst);
                         dateTimeList.add(0, dfHumanReadableTimeDate.format(c.getTime()));
-                        providerNameList.add(0, BaseModel.getInstance().getServiceProvider().getName());
+                        providerNameList.add(0, serviceProvider.getName());
                         Timber.d("put nbst retro success");
                         pd.dismiss();
                         ad.dismiss();
