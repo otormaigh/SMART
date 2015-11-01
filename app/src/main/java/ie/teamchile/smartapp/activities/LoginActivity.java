@@ -55,8 +55,10 @@ public class LoginActivity extends AppCompatActivity {
         tvAbout = (TextView) findViewById(R.id.tv_about);
         tvAbout.setOnClickListener(new ButtonClick());
 
-        tvUsername.setText(NotKeys.USERNAME);
-        tvPassword.setText(NotKeys.PASSWORD);
+        if(BuildConfig.DEBUG) {
+            tvUsername.setText(NotKeys.USERNAME);
+            tvPassword.setText(NotKeys.PASSWORD);
+        }
     }
 
     @Override
