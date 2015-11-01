@@ -12,6 +12,9 @@ import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.util.Constants;
 import ie.teamchile.smartapp.util.SharedPrefs;
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+import io.realm.exceptions.RealmMigrationNeededException;
 import timber.log.Timber;
 
 public class SplashScreenActivity extends Activity implements View.OnClickListener {
@@ -19,6 +22,7 @@ public class SplashScreenActivity extends Activity implements View.OnClickListen
     private Button btnYes;
     private Button btnNo;
     private SharedPrefs sharedPrefs = new SharedPrefs();
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +31,31 @@ public class SplashScreenActivity extends Activity implements View.OnClickListen
         setContentView(R.layout.activity_splash_screen);
 
         checkIfValidEnvironment();
+
+        realm = getRealm();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if(realm != null) {
+            realm.close();
+            realm = null;
+        }
+    }
+
+    protected Realm getRealm() {
+        if (realm == null) {
+            try {
+                realm = Realm.getInstance(this);
+            } catch (RealmMigrationNeededException e) {
+                e.printStackTrace();
+                Realm.deleteRealm(new RealmConfiguration.Builder(this).build());
+                realm = Realm.getInstance(this);
+            }
+        }
+        return realm;
     }
 
     private void checkIfValidEnvironment() {
