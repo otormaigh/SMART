@@ -33,6 +33,7 @@ import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.Appointment;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.PostingData;
+import ie.teamchile.smartapp.model.RealmInteger;
 import ie.teamchile.smartapp.model.ServiceOption;
 import ie.teamchile.smartapp.util.Constants;
 import ie.teamchile.smartapp.util.CustomDialogs;
@@ -161,12 +162,22 @@ public class HomeVisitAppointmentActivity extends BaseActivity {
         nameOfClinic = realm.where(ServiceOption.class).equalTo(Constants.Key_ID, visitOptionSelected).findFirst().getName();
         setActionBarTitle(nameOfClinic);
 
-        if (BaseModel.getInstance().getHomeVisitOptionDateApptIdMap().containsKey(visitOptionSelected)) {
-            if (BaseModel.getInstance().getHomeVisitOptionDateApptIdMap().get(visitOptionSelected).containsKey(dateSelectedStr)) {
-                idList = BaseModel.getInstance().getHomeVisitOptionDateApptIdMap().get(visitOptionSelected).get(dateSelectedStr);
-                removeZeros(idList);
-                Collections.sort(idList, new Comparator<Integer>() {
+        List<Appointment> appointmentList = realm.where(Appointment.class)
+                .equalTo(Constants.KEY_DATE, dateSelectedStr)
+                .findAll();
 
+        if (!appointmentList.isEmpty()) {
+            for (Appointment appointment : appointmentList) {
+                for (RealmInteger id : appointment.getServiceOptionIds()) {
+                    if (id.getValue() == visitOptionSelected)
+                        idList.add(appointment.getId());
+                }
+            }
+
+            if (idList.size() == 0) {
+                idList.add(0);
+            } else {
+                Collections.sort(idList, new Comparator<Integer>() {
                     @Override
                     public int compare(Integer a, Integer b) {
                         int valA;
@@ -179,12 +190,9 @@ public class HomeVisitAppointmentActivity extends BaseActivity {
                     }
                 });
             }
-            idList.add(0, 0);
-        } else {
-            idList = new ArrayList<>();
-            idList.add(0);
         }
 
+        idList.add(0);
         adapter.notifyDataSetChanged();
     }
 
@@ -198,7 +206,7 @@ public class HomeVisitAppointmentActivity extends BaseActivity {
                 status,
                 0,
                 BaseModel.getInstance().getLogin().getId(),
-                BaseModel.getInstance().getHomeVisitIdApptMap().get(idList.get(position)).getServiceUserId());
+                realm.where(Appointment.class).equalTo(Constants.Key_ID, idList.get(position)).findFirst().getServiceUserId());
 
         SmartApiClient.getAuthorizedApiClient().putAppointmentStatus(
                 attendedStatus,
@@ -207,8 +215,13 @@ public class HomeVisitAppointmentActivity extends BaseActivity {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
                         Timber.d("changeAttendStatus success");
+
+                        realm.beginTransaction();
+                        realm.copyToRealmOrUpdate(baseModel.getAppointment());
+                        realm.commitTransaction();
+
                         Toast.makeText(HomeVisitAppointmentActivity.this,
-                                "status changed", Toast.LENGTH_LONG).show();
+                                "Status changed", Toast.LENGTH_LONG).show();
                         pd.dismiss();
                     }
 
@@ -284,7 +297,7 @@ public class HomeVisitAppointmentActivity extends BaseActivity {
         }
 
         @Override
-        public Object getItem(int position) {
+        public Integer getItem(int position) {
             return idList.get(position);
         }
 
@@ -295,7 +308,7 @@ public class HomeVisitAppointmentActivity extends BaseActivity {
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-            final Appointment appointment = BaseModel.getInstance().getHomeVisitIdApptMap().get(getItem(position));
+            final Appointment appointment = realm.where(Appointment.class).equalTo(Constants.Key_ID, getItem(position)).findFirst();
             final ViewHolder holder;
             final Boolean attended;
 
@@ -355,15 +368,12 @@ public class HomeVisitAppointmentActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     holder.swipeLayout.close();
-                    if (!attended) {
-                        changeAttendStatus(true, position);
-                        appointment.setAttended(true);
-                        notifyDataSetChanged();
-                    } else if (attended) {
-                        changeAttendStatus(false, position);
-                        appointment.setAttended(false);
-                        notifyDataSetChanged();
-                    }
+
+                    changeAttendStatus(!attended, position);
+                    realm.beginTransaction();
+                    appointment.setAttended(!attended);
+                    realm.commitTransaction();
+                    notifyDataSetChanged();
                 }
             });
 
