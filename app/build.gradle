@@ -8,6 +8,8 @@ android {
         applicationId "ie.teamchile.smartapp"
         minSdkVersion 16
         targetSdkVersion 23
+        versionCode 7
+        versionName "1.1.5"
         compileOptions {
             sourceCompatibility JavaVersion.VERSION_1_7
             targetCompatibility JavaVersion.VERSION_1_7
