@@ -1,13 +1,17 @@
 package ie.teamchile.smartapp.model;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
 /**
  * Created by user on 5/26/15.
  */
-public class ServiceProvider {
-    private Boolean active;
-    private Boolean admin;
+public class ServiceProvider extends RealmObject {
+    private boolean active;
+    private boolean admin;
     private String email;
-    private Integer id;
+    @PrimaryKey
+    private int id;
     private String jobLevel;
     private String jobOccupation;
     private String name;
@@ -16,19 +20,19 @@ public class ServiceProvider {
     private String secondaryPhone;
     private String username;
 
-    public Boolean getActive() {
+    public boolean isActive() {
         return active;
     }
 
-    public void setActive(Boolean active) {
+    public void setActive(boolean active) {
         this.active = active;
     }
 
-    public Boolean getAdmin() {
+    public boolean isAdmin() {
         return admin;
     }
 
-    public void setAdmin(Boolean admin) {
+    public void setAdmin(boolean admin) {
         this.admin = admin;
     }
 
@@ -40,11 +44,11 @@ public class ServiceProvider {
         this.email = email;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
