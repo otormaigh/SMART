@@ -1,24 +1,46 @@
 package ie.teamchile.smartapp.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by user on 5/26/15.
  */
-public class Clinic {
+public class Clinic extends RealmObject {
     private String address;
-    private List<Integer> announcementIds = new ArrayList<Integer>();
+    private RealmList<RealmInteger> announcementIds;
     private Integer appointmentInterval;
     private String closingTime;
     private Days days;
-    private Integer id;
+    @PrimaryKey
+    private int id;
     private Links links;
     private String name;
     private String openingTime;
     private String recurrence;
-    private List<Integer> serviceOptionIds = new ArrayList<Integer>();
+    private RealmList<RealmInteger> serviceOptionIds;
     private String type;
+
+    /*public List<String> getTrueDays() {
+        List<String> trueDays = new ArrayList<>();
+        if (days.getMonday())
+            trueDays.add("Monday");
+        if (days.getTuesday())
+            trueDays.add("Tuesday");
+        if (days.getWednesday())
+            trueDays.add("Wednesday");
+        if (days.getThursday())
+            trueDays.add("Thursday");
+        if (days.getFriday())
+            trueDays.add("Friday");
+        if (days.getSaturday())
+            trueDays.add("Saturday");
+        if (days.getSunday())
+            trueDays.add("Sunday");
+
+        return trueDays;
+    }*/
 
     public String getAddress() {
         return address;
@@ -28,11 +50,11 @@ public class Clinic {
         this.address = address;
     }
 
-    public List<Integer> getAnnouncementIds() {
+    public RealmList<RealmInteger> getAnnouncementIds() {
         return announcementIds;
     }
 
-    public void setAnnouncementIds(List<Integer> announcementIds) {
+    public void setAnnouncementIds(RealmList<RealmInteger> announcementIds) {
         this.announcementIds = announcementIds;
     }
 
@@ -60,31 +82,11 @@ public class Clinic {
         this.days = days;
     }
 
-    public List<String> getTrueDays() {
-        List<String> trueDays = new ArrayList<>();
-        if (days.getMonday())
-            trueDays.add("Monday");
-        if (days.getTuesday())
-            trueDays.add("Tuesday");
-        if (days.getWednesday())
-            trueDays.add("Wednesday");
-        if (days.getThursday())
-            trueDays.add("Thursday");
-        if (days.getFriday())
-            trueDays.add("Friday");
-        if (days.getSaturday())
-            trueDays.add("Saturday");
-        if (days.getSunday())
-            trueDays.add("Sunday");
-
-        return trueDays;
-    }
-
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -120,11 +122,11 @@ public class Clinic {
         this.recurrence = recurrence;
     }
 
-    public List<Integer> getServiceOptionIds() {
+    public RealmList<RealmInteger> getServiceOptionIds() {
         return serviceOptionIds;
     }
 
-    public void setServiceOptionIds(List<Integer> serviceOptionIds) {
+    public void setServiceOptionIds(RealmList<RealmInteger> serviceOptionIds) {
         this.serviceOptionIds = serviceOptionIds;
     }
 

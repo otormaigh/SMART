@@ -26,7 +26,6 @@ public class BaseModel {
     private List<ServiceUser> serviceUsers = new ArrayList<>();
     private ServiceUser serviceUser;
     private List<ServiceProvider> serviceProviders = new ArrayList<>();
-    private ServiceProvider serviceProvider = new ServiceProvider();
     private List<Pregnancy> pregnancies = new ArrayList<>();
     private Pregnancy pregnancy = new Pregnancy();
     private List<Baby> babies = new ArrayList<>();
@@ -194,14 +193,6 @@ public class BaseModel {
 
     public void setServiceProviders(List<ServiceProvider> serviceProviders) {
         this.serviceProviders = serviceProviders;
-    }
-
-    public ServiceProvider getServiceProvider() {
-        return serviceProvider;
-    }
-
-    public void setServiceProvider(ServiceProvider serviceProvider) {
-        this.serviceProvider = serviceProvider;
     }
 
     public List<Pregnancy> getPregnancies() {

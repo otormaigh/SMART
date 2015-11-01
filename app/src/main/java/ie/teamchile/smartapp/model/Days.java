@@ -1,71 +1,72 @@
 package ie.teamchile.smartapp.model;
 
+import io.realm.RealmObject;
+
 /**
  * Created by user on 5/26/15.
  */
-public class Days {
-    private Boolean friday;
-    private Boolean monday;
-    private Boolean saturday;
-    private Boolean sunday;
-    private Boolean thursday;
-    private Boolean tuesday;
-    private Boolean wednesday;
+public class Days extends RealmObject {
+    private boolean friday;
+    private boolean monday;
+    private boolean saturday;
+    private boolean sunday;
+    private boolean thursday;
+    private boolean tuesday;
+    private boolean wednesday;
 
-    public Boolean getFriday() {
+    public boolean isFriday() {
         return friday;
     }
 
-    public void setFriday(Boolean friday) {
+    public void setFriday(boolean friday) {
         this.friday = friday;
     }
 
-    public Boolean getMonday() {
+    public boolean isMonday() {
         return monday;
     }
 
-    public void setMonday(Boolean monday) {
+    public void setMonday(boolean monday) {
         this.monday = monday;
     }
 
-    public Boolean getSaturday() {
+    public boolean isSaturday() {
         return saturday;
     }
 
-    public void setSaturday(Boolean saturday) {
+    public void setSaturday(boolean saturday) {
         this.saturday = saturday;
     }
 
-    public Boolean getSunday() {
+    public boolean isSunday() {
         return sunday;
     }
 
-    public void setSunday(Boolean sunday) {
+    public void setSunday(boolean sunday) {
         this.sunday = sunday;
     }
 
-    public Boolean getThursday() {
+    public boolean isThursday() {
         return thursday;
     }
 
-    public void setThursday(Boolean thursday) {
+    public void setThursday(boolean thursday) {
         this.thursday = thursday;
     }
 
-    public Boolean getTuesday() {
+    public boolean isTuesday() {
         return tuesday;
     }
 
-    public void setTuesday(Boolean tuesday) {
+    public void setTuesday(boolean tuesday) {
         this.tuesday = tuesday;
     }
 
-    public Boolean getWednesday() {
+    public boolean isWednesday() {
         return wednesday;
     }
 
-    public void setWednesday(Boolean wednesday) {
+    public void setWednesday(boolean wednesday) {
         this.wednesday = wednesday;
     }
-
 }
