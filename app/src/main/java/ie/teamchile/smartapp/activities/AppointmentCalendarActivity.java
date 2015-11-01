@@ -34,8 +34,11 @@ import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.Appointment;
 import ie.teamchile.smartapp.model.BaseModel;
+import ie.teamchile.smartapp.model.Clinic;
 import ie.teamchile.smartapp.model.PostingData;
+import ie.teamchile.smartapp.util.Constants;
 import ie.teamchile.smartapp.util.CustomDialogs;
+import io.realm.Realm;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -50,7 +53,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
             dateSelectedStr, timeBefore, timeAfter, nameOfClinic;
     private int appointmentInterval, dayOfWeek;
     private List<String> timeSingle;
-    private List<Integer> listOfApptId = new ArrayList<>();
+    //private List<Integer> listOfApptId = new ArrayList<>();
     private Calendar c = Calendar.getInstance(), myCalendar = Calendar.getInstance();
     private Intent intent;
     private List<String> timeList = new ArrayList<>();
@@ -60,12 +63,15 @@ public class AppointmentCalendarActivity extends BaseActivity {
     private BaseAdapter adapter;
     private ListView listView;
     private ProgressDialog pd;
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         setContentForNav(R.layout.activity_appointment_calendar);
+
+        realm = Realm.getInstance(this);
 
         Timber.d("clinicSelected = " + clinicSelected);
 
@@ -76,10 +82,10 @@ public class AppointmentCalendarActivity extends BaseActivity {
         btnNextWeek = (Button) findViewById(R.id.btn_next);
         btnNextWeek.setOnClickListener(new ButtonClick());
 
-        serviceOptionId = BaseModel.getInstance().getClinicMap().get(clinicSelected).getServiceOptionIds().get(0);
-        clinicOpening = BaseModel.getInstance().getClinicMap().get(clinicSelected).getOpeningTime();
-        clinicClosing = BaseModel.getInstance().getClinicMap().get(clinicSelected).getClosingTime();
-        appointmentInterval = BaseModel.getInstance().getClinicMap().get(clinicSelected).getAppointmentInterval();
+        serviceOptionId = realm.where(Clinic.class).equalTo(Constants.Key_ID, clinicSelected).findFirst().getServiceOptionIds().get(0).getValue();
+        clinicOpening = realm.where(Clinic.class).equalTo(Constants.Key_ID, clinicSelected).findFirst().getOpeningTime();
+        clinicClosing = realm.where(Clinic.class).equalTo(Constants.Key_ID, clinicSelected).findFirst().getClosingTime();
+        appointmentInterval = realm.where(Clinic.class).equalTo(Constants.Key_ID, clinicSelected).findFirst().getAppointmentInterval();
         try {
             openingAsDate = dfTimeOnly.parse(String.valueOf(clinicOpening));
             closingAsDate = dfTimeOnly.parse(String.valueOf(clinicClosing));
@@ -101,6 +107,14 @@ public class AppointmentCalendarActivity extends BaseActivity {
 
         newSetToList(daySelected);
         createDatePicker();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (realm != null)
+            realm.close();
     }
 
     @Override
@@ -182,7 +196,6 @@ public class AppointmentCalendarActivity extends BaseActivity {
 
     private void newSetToList(Date dateSelected) {
         timeSingle = new ArrayList<>();
-        listOfApptId = new ArrayList<>();
 
         timeList = new ArrayList<>();
         idList = new ArrayList<>();
@@ -192,7 +205,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
 
         dateSelectedStr = dfDateOnly.format(dateSelected);
         dateInList.setText(dfDateWMonthName.format(dateSelected));
-        nameOfClinic = BaseModel.getInstance().getClinicMap().get(clinicSelected).getName();
+        nameOfClinic = realm.where(Clinic.class).equalTo(Constants.Key_ID, clinicSelected).findFirst().getName();
         setActionBarTitle(nameOfClinic);
 
         while (!closingAsDate.before(apptTime)) {
@@ -203,21 +216,21 @@ public class AppointmentCalendarActivity extends BaseActivity {
             apptTime = c.getTime();
         }
 
-        if (BaseModel.getInstance().getClinicVisitClinicDateApptIdMap().containsKey(clinicSelected)) {
-            listOfApptId = BaseModel.getInstance().getClinicVisitClinicDateApptIdMap().get(clinicSelected).get(dateSelectedStr);
+        if (realm.where(Appointment.class).equalTo(Constants.KEY_CLINIC_ID, clinicSelected).findAll() != null) {
+            List<Appointment> appointmentList = realm.where(Appointment.class)
+                    .equalTo(Constants.KEY_CLINIC_ID, clinicSelected)
+                    .equalTo(Constants.KEY_DATE, dateSelectedStr)
+                    .findAll();
 
-            if (listOfApptId != null) {
-                for (int i = 0; i < listOfApptId.size(); i++) {
-                    Appointment appointment = BaseModel.getInstance().getClinicVisitIdApptMap().get(listOfApptId.get(i));
-                    String timeOfAppt = "";
-                    try {
-                        timeOfAppt = dfTimeOnly.format(dfTimeWSec.parse(appointment.getTime()));
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    if(timeList.contains(timeOfAppt)){
-                        idList.set(timeList.indexOf(timeOfAppt), appointment.getId());
-                    }
+            for (Appointment appointment : appointmentList) {
+                String timeOfAppt = "";
+                try {
+                    timeOfAppt = dfTimeOnly.format(dfTimeWSec.parse(appointment.getTime()));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                if(timeList.contains(timeOfAppt)){
+                    idList.set(timeList.indexOf(timeOfAppt), appointment.getId());
                 }
             }
         }
@@ -233,7 +246,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
                 status,
                 clinicSelected,
                 BaseModel.getInstance().getLogin().getId(),
-                BaseModel.getInstance().getClinicVisitIdApptMap().get(idList.get(position)).getServiceUserId());
+                realm.where(Appointment.class).equalTo(Constants.Key_ID, idList.get(position)).findFirst().getServiceUserId());
 
         SmartApiClient.getAuthorizedApiClient().putAppointmentStatus(
                 attendedStatus,
@@ -243,6 +256,11 @@ public class AppointmentCalendarActivity extends BaseActivity {
                     public void success(BaseModel baseModel, Response response) {
                         Toast.makeText(AppointmentCalendarActivity.this,
                                 "status changed", Toast.LENGTH_LONG).show();
+
+                        realm.beginTransaction();
+                        realm.copyToRealmOrUpdate(baseModel.getAppointment());
+                        realm.commitTransaction();
+
                         pd.dismiss();
                     }
 
@@ -331,7 +349,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
         }
 
         @Override
-        public Object getItem(int position) {
+        public Integer getItem(int position) {
             return idList.get(position);
         }
 
@@ -343,7 +361,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
             final ViewHolder holder;
-            final Appointment appointment = BaseModel.getInstance().getClinicVisitIdApptMap().get(getItem(position));
+            final Appointment appointment = realm.where(Appointment.class).equalTo(Constants.Key_ID, getItem(position)).findFirst();
             final Boolean attended;
 
             if (convertView == null) {
@@ -366,7 +384,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
             } else {
                 holder.nameText.setText(appointment.getServiceUser().getName());
                 holder.gestText.setText(appointment.getServiceUser().getGestation());
-                attended = appointment.getAttended();
+                attended = appointment.isAttended();
                 holder.swipeLayout.setSwipeEnabled(true);
                 holder.nameText.setTextColor(holder.gestText.getTextColors().getDefaultColor());
                 holder.nameText.setTypeface(null, Typeface.NORMAL);
@@ -406,16 +424,12 @@ public class AppointmentCalendarActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     holder.swipeLayout.close();
-                    if (!attended) {
-                        appointment.setAttended(true);
-                        changeAttendStatus(true, position);
-                        appointment.setAttended(true);
-                        adapter.notifyDataSetChanged();
-                    } else if (attended) {
-                        changeAttendStatus(false, position);
-                        appointment.setAttended(false);
-                        adapter.notifyDataSetChanged();
-                    }
+
+                    realm.beginTransaction();
+                    appointment.setAttended(!attended);
+                    realm.commitTransaction();
+                    changeAttendStatus(!attended, position);
+                    adapter.notifyDataSetChanged();
                 }
             });
             return convertView;
