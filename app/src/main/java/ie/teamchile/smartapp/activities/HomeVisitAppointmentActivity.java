@@ -33,7 +33,10 @@ import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.Appointment;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.PostingData;
+import ie.teamchile.smartapp.model.ServiceOption;
+import ie.teamchile.smartapp.util.Constants;
 import ie.teamchile.smartapp.util.CustomDialogs;
+import io.realm.Realm;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -51,12 +54,15 @@ public class HomeVisitAppointmentActivity extends BaseActivity {
     private BaseAdapter adapter;
     private ListView listView;
     private ProgressDialog pd;
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         setContentForNav(R.layout.activity_home_visit_appointment);
+
+        realm = Realm.getInstance(this);
 
         dateInList = (Button) findViewById(R.id.btn_date);
         listView = (ListView) findViewById(R.id.lv_home_visit);
@@ -74,6 +80,14 @@ public class HomeVisitAppointmentActivity extends BaseActivity {
 
         newSetToList(daySelected);
         createDatePicker();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (realm != null)
+            realm.close();
     }
 
     @Override
@@ -144,7 +158,7 @@ public class HomeVisitAppointmentActivity extends BaseActivity {
 
         dateSelectedStr = dfDateOnly.format(dateSelected);
         dateInList.setText(dfDateWMonthName.format(dateSelected));
-        nameOfClinic = BaseModel.getInstance().getServiceOptionsHomeMap().get(visitOptionSelected).getName();
+        nameOfClinic = realm.where(ServiceOption.class).equalTo(Constants.Key_ID, visitOptionSelected).findFirst().getName();
         setActionBarTitle(nameOfClinic);
 
         if (BaseModel.getInstance().getHomeVisitOptionDateApptIdMap().containsKey(visitOptionSelected)) {

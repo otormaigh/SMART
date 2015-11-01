@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Locale;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.Clinic;
 import ie.teamchile.smartapp.model.RealmInteger;
 import ie.teamchile.smartapp.model.ServiceOption;
@@ -362,8 +361,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
                             visitDaySpinner.setVisibility(View.VISIBLE);
                             tvVisitDay.setVisibility(View.VISIBLE);
                             visitDaySpinner.setSelection(0);
-                            visitOptionSelected = BaseModel.getInstance().
-                                    getServiceOptionsHomeList().get(position - 1).getId();
+                            visitOptionSelected = serviceOptionVisitList.get(position - 1).getId();
                             loopForServiceOptionDay(visitOptionSelected);
 
                             HomeVisitAppointmentActivity.visitOptionSelected = visitOptionSelected;

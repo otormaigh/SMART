@@ -9,18 +9,15 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.Clinic;
-import ie.teamchile.smartapp.model.ServiceOption;
 import ie.teamchile.smartapp.model.ServiceUserAction;
 import ie.teamchile.smartapp.util.CustomDialogs;
 import io.realm.Realm;
@@ -145,22 +142,7 @@ public class QuickMenuActivity extends BaseActivity {
                         realm.copyToRealmOrUpdate(baseModel.getServiceOptions());
                         realm.commitTransaction();
 
-                        Map<Integer, ServiceOption> serviceOptionHomeMap = new HashMap<>();
-                        List<ServiceOption> serviceOptionHomeList = new ArrayList<>();
-                        Map<Integer, ServiceOption> serviceOptionClinicMap = new HashMap<>();
                         BaseModel.getInstance().setServiceOptions(baseModel.getServiceOptions());
-                        for (int i = 0; i < baseModel.getServiceOptions().size(); i++) {
-                            ServiceOption option = baseModel.getServiceOptions().get(i);
-                            if (option.isHomeVisit()) {
-                                serviceOptionHomeMap.put(option.getId(), option);
-                                serviceOptionHomeList.add(option);
-                            } else {
-                                serviceOptionClinicMap.put(option.getId(), option);
-                            }
-                        }
-                        BaseModel.getInstance().setServiceOptionsHomeList(serviceOptionHomeList);
-                        BaseModel.getInstance().setServiceOptionsHomeMap(serviceOptionHomeMap);
-                        BaseModel.getInstance().setServiceOptionsClinicMap(serviceOptionClinicMap);
                         Timber.d("service options finished");
                         done++;
                         Timber.d("done = " + done);
