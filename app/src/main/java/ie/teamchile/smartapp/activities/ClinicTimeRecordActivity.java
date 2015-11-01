@@ -29,7 +29,9 @@ import ie.teamchile.smartapp.model.ClinicTimeRecord;
 import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.util.AppointmentHelper;
 import ie.teamchile.smartapp.util.CustomDialogs;
+import ie.teamchile.smartapp.util.GeneralUtils;
 import ie.teamchile.smartapp.util.SharedPrefs;
+import io.realm.Realm;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -68,14 +70,20 @@ public class ClinicTimeRecordActivity extends BaseActivity {
     private int clinicIdForDelete;
     private int recordGetDone;
     private SharedPrefs sharedPrefs = new SharedPrefs();
-    private AppointmentHelper appointmentHelper = new AppointmentHelper();
+    private AppointmentHelper appointmentHelper;
     private ProgressDialog pd;
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         setContentForNav(R.layout.activity_clinic_time_record);
+
+        realm = Realm.getInstance(this);
+
+        appointmentHelper = new AppointmentHelper(realm);
+
         c = Calendar.getInstance();
         todayDay = dfDayLong.format(c.getTime());
         todayDate = dfDateOnly.format(c.getTime());
@@ -115,6 +123,14 @@ public class ClinicTimeRecordActivity extends BaseActivity {
         BaseModel.getInstance().setClinicDayMap(clinicDayMap);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (realm != null)
+            realm.close();
+    }
+
     private void disableButtons() {
         btnStartClinic.setEnabled(false);
         btnStopClinic.setEnabled(false);
@@ -124,10 +140,11 @@ public class ClinicTimeRecordActivity extends BaseActivity {
     private void getDataFromDb() {
         recordGetDone = 0;
 
-        List<Clinic> clinics = BaseModel.getInstance().getClinics();
+        List<Clinic> clinics = realm.where(Clinic.class).findAll();
 
         for (int i = 0; i < clinics.size(); i++) {
-            List<String> trueDays = clinics.get(i).getTrueDays();
+            List<String> trueDays = new GeneralUtils().getTrueDays(
+                    clinics.get(i).getDays());
             for (int j = 0; j < trueDays.size(); j++) {
                 Clinic clinic = clinics.get(i);
                 int clinicId = clinics.get(i).getId();
