@@ -23,6 +23,7 @@ import ie.teamchile.smartapp.model.Clinic;
 import ie.teamchile.smartapp.model.ServiceOption;
 import ie.teamchile.smartapp.model.ServiceUserAction;
 import ie.teamchile.smartapp.util.CustomDialogs;
+import io.realm.Realm;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -33,12 +34,15 @@ public class QuickMenuActivity extends BaseActivity {
     private Button btnPatientSearch, btnBookAppointment, btnClinicRecord, btnTodaysAppointments;
     private CountDownTimer timer;
     private ProgressDialog pd;
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         setContentForNav(R.layout.activity_quick_menu);
+
+        realm = Realm.getInstance(this);
 
         btnPatientSearch = (Button) findViewById(R.id.btn_patient_search);
         btnPatientSearch.setOnClickListener(new ButtonClick());
@@ -50,6 +54,14 @@ public class QuickMenuActivity extends BaseActivity {
         btnTodaysAppointments.setOnClickListener(new ButtonClick());
         btnTodaysAppointments.setEnabled(false);
         isViewVisible = true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (realm != null)
+            realm.close();
     }
 
     @Override
@@ -108,8 +120,11 @@ public class QuickMenuActivity extends BaseActivity {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
                         Timber.d("serviceProvider success");
-                                BaseModel.getInstance().setServiceProvider(baseModel.getServiceProviders().get(0));
-                        Timber.d("serviceProvider finished");
+
+                        realm.beginTransaction();
+                        realm.copyToRealmOrUpdate(baseModel.getServiceProviders().get(0));
+                        realm.commitTransaction();
+
                         done++;
                         Timber.d("done = " + done);
                     }
@@ -126,13 +141,17 @@ public class QuickMenuActivity extends BaseActivity {
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
+                        realm.beginTransaction();
+                        realm.copyToRealmOrUpdate(baseModel.getServiceOptions());
+                        realm.commitTransaction();
+
                         Map<Integer, ServiceOption> serviceOptionHomeMap = new HashMap<>();
                         List<ServiceOption> serviceOptionHomeList = new ArrayList<>();
                         Map<Integer, ServiceOption> serviceOptionClinicMap = new HashMap<>();
                         BaseModel.getInstance().setServiceOptions(baseModel.getServiceOptions());
                         for (int i = 0; i < baseModel.getServiceOptions().size(); i++) {
                             ServiceOption option = baseModel.getServiceOptions().get(i);
-                            if (option.getHomeVisit()) {
+                            if (option.isHomeVisit()) {
                                 serviceOptionHomeMap.put(option.getId(), option);
                                 serviceOptionHomeList.add(option);
                             } else {
@@ -158,6 +177,10 @@ public class QuickMenuActivity extends BaseActivity {
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel things, Response response) {
+                        realm.beginTransaction();
+                        realm.copyToRealmOrUpdate(things.getClinics());
+                        realm.commitTransaction();
+
                         Map<Integer, Clinic> clinicMap = new HashMap<>();
                         BaseModel.getInstance().setClinics(things.getClinics());
                         for (int i = 0; i < things.getClinics().size(); i++) {
@@ -183,6 +206,10 @@ public class QuickMenuActivity extends BaseActivity {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
                         Timber.d("actions retro success");
+                        realm.beginTransaction();
+                        realm.copyToRealmOrUpdate(baseModel.getServiceUserActions());
+                        realm.commitTransaction();
+
                         done++;
                         Collections.sort(baseModel.getServiceUserActions(), new Comparator<ServiceUserAction>() {
                             @Override
