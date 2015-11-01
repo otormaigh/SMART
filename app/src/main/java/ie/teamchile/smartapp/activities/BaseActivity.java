@@ -51,7 +51,6 @@ import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.Baby;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.Pregnancy;
-import ie.teamchile.smartapp.util.AppointmentHelper;
 import ie.teamchile.smartapp.util.ClearData;
 import ie.teamchile.smartapp.util.CustomDialogs;
 import ie.teamchile.smartapp.util.ToastAlert;
@@ -454,8 +453,10 @@ public class BaseActivity extends AppCompatActivity {
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
-                        BaseModel.getInstance().setAppointments(baseModel.getAppointments());
-                        new AppointmentHelper(realm).addApptsToMaps(baseModel.getAppointments());
+                        realm.beginTransaction();
+                        realm.copyToRealmOrUpdate(baseModel.getAppointment());
+                        realm.commitTransaction();
+
                         Timber.d("appointments finished");
                         done++;
                         Timber.d("done = " + done);
