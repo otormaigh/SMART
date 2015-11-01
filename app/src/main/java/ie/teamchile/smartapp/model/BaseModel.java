@@ -15,10 +15,6 @@ public class BaseModel {
     private Login login;
     private Appointment appointment;
     private List<Appointment> appointments = new ArrayList<>();
-    private Map<Integer, Appointment> clinicVisitIdApptMap = new HashMap<>();
-    private Map<Integer, Map<String, List<Integer>>> clinicVisitClinicDateApptIdMap = new HashMap<>();
-    private Map<Integer, Appointment> homeVisitIdApptMap = new HashMap<>();
-    private Map<Integer, Map<String, List<Integer>>> homeVisitOptionDateApptIdMap = new HashMap<>();
     private List<ServiceOption> serviceOptions = new ArrayList<>();
     private List<ServiceUser> serviceUsers = new ArrayList<>();
     private ServiceUser serviceUser;
@@ -92,48 +88,12 @@ public class BaseModel {
         return appointment;
     }
 
+    public void setAppointment(Appointment appointment) {
+        this.appointment = appointment;
+    }
+
     public List<Appointment> getAppointments() {
         return appointments;
-    }
-
-    public void setAppointments(List<Appointment> appointments) {
-        this.appointments = appointments;
-    }
-
-    public void addAppointment(Appointment appointment) {
-        this.appointments.add(appointment);
-    }
-
-    public Map<Integer, Map<String, List<Integer>>> getClinicVisitClinicDateApptIdMap() {
-        return clinicVisitClinicDateApptIdMap;
-    }
-
-    public void setClinicVisitClinicDateApptIdMap(Map<Integer, Map<String, List<Integer>>> clinicVisitClinicDateApptIdMap) {
-        this.clinicVisitClinicDateApptIdMap = clinicVisitClinicDateApptIdMap;
-    }
-
-    public Map<Integer, Appointment> getClinicVisitIdApptMap() {
-        return clinicVisitIdApptMap;
-    }
-
-    public void setClinicVisitIdApptMap(Map<Integer, Appointment> clinicVisitIdApptMap) {
-        this.clinicVisitIdApptMap = clinicVisitIdApptMap;
-    }
-
-    public Map<Integer, Appointment> getHomeVisitIdApptMap() {
-        return homeVisitIdApptMap;
-    }
-
-    public void setHomeVisitIdApptMap(Map<Integer, Appointment> homeVisitIdApptMap) {
-        this.homeVisitIdApptMap = homeVisitIdApptMap;
-    }
-
-    public Map<Integer, Map<String, List<Integer>>> getHomeVisitOptionDateApptIdMap() {
-        return homeVisitOptionDateApptIdMap;
-    }
-
-    public void setHomeVisitOptionDateApptIdMap(Map<Integer, Map<String, List<Integer>>> homeVisitOptionDateApptIdMap) {
-        this.homeVisitOptionDateApptIdMap = homeVisitOptionDateApptIdMap;
     }
 
     public List<ServiceOption> getServiceOptions() {
