@@ -1,27 +1,29 @@
 package ie.teamchile.smartapp.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by user on 5/26/15.
  */
-public class Baby {
+public class Baby extends RealmObject {
     private String birthOutcome;
     private String deliveryDateTime;
     private String gender;
     private String hearing;
-    private List<Object> hearingHistoryIds = new ArrayList<Object>();
+    private RealmList<RealmInteger> hearingHistoryIds;
     private String hospitalNumber;
-    private Integer id;
+    @PrimaryKey
+    private int id;
     private Links links;
     private String name;
     private String nbst;
-    private List<Object> nbstHistoryIds = new ArrayList<Object>();
-    private Integer pregnancyId;
+    private RealmList<RealmInteger> nbstHistoryIds;
+    private int pregnancyId;
     private String vitK;
-    private List<Object> vitKHistoryIds = new ArrayList<Object>();
-    private Integer weight;
+    private RealmList<RealmInteger> vitKHistoryIds;
+    private int weight;
 
     public String getBirthOutcome() {
         return birthOutcome;
@@ -55,11 +57,11 @@ public class Baby {
         this.hearing = hearing;
     }
 
-    public List<Object> getHearingHistoryIds() {
+    public RealmList<RealmInteger> getHearingHistoryIds() {
         return hearingHistoryIds;
     }
 
-    public void setHearingHistoryIds(List<Object> hearingHistoryIds) {
+    public void setHearingHistoryIds(RealmList<RealmInteger> hearingHistoryIds) {
         this.hearingHistoryIds = hearingHistoryIds;
     }
 
@@ -71,11 +73,11 @@ public class Baby {
         this.hospitalNumber = hospitalNumber;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -103,19 +105,19 @@ public class Baby {
         this.nbst = nbst;
     }
 
-    public List<Object> getNbstHistoryIds() {
+    public RealmList<RealmInteger> getNbstHistoryIds() {
         return nbstHistoryIds;
     }
 
-    public void setNbstHistoryIds(List<Object> nbstHistoryIds) {
+    public void setNbstHistoryIds(RealmList<RealmInteger> nbstHistoryIds) {
         this.nbstHistoryIds = nbstHistoryIds;
     }
 
-    public Integer getPregnancyId() {
+    public int getPregnancyId() {
         return pregnancyId;
     }
 
-    public void setPregnancyId(Integer pregnancyId) {
+    public void setPregnancyId(int pregnancyId) {
         this.pregnancyId = pregnancyId;
     }
 
@@ -127,19 +129,19 @@ public class Baby {
         this.vitK = vitK;
     }
 
-    public List<Object> getVitKHistoryIds() {
+    public RealmList<RealmInteger> getVitKHistoryIds() {
         return vitKHistoryIds;
     }
 
-    public void setVitKHistoryIds(List<Object> vitKHistoryIds) {
+    public void setVitKHistoryIds(RealmList<RealmInteger> vitKHistoryIds) {
         this.vitKHistoryIds = vitKHistoryIds;
     }
 
-    public Integer getWeight() {
+    public int getWeight() {
         return weight;
     }
 
-    public void setWeight(Integer weight) {
+    public void setWeight(int weight) {
         this.weight = weight;
     }
 }

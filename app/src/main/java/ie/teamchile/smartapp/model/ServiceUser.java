@@ -6,9 +6,11 @@ package ie.teamchile.smartapp.model;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 public class ServiceUser extends RealmObject {
     private String gestation;
+    @PrimaryKey
     private int id;
     private String name;
     private RealmList<RealmInteger> babyIds;

@@ -1,26 +1,28 @@
 package ie.teamchile.smartapp.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by user on 5/26/15.
  */
-public class Pregnancy {
+public class Pregnancy extends RealmObject {
     private String additionalInfo;
     private String antiD;
-    private List<Integer> babyIds = new ArrayList<Integer>();
-    private List<String> birthMode = new ArrayList<String>();
+    private RealmList<RealmInteger> babyIds;
+    private RealmList<RealmString> birthMode;
     private String createdAt;
     private String estimatedDeliveryDate;
     private String feeding;
     private String gestation;
     private String babyAge;
-    private Integer id;
+    @PrimaryKey
+    private int id;
     private String lastMenstrualPeriod;
     private String perineum;
-    private Integer serviceUserId;
-    private List<PregnancyNote> pregnancyNotes = new ArrayList<>();
+    private int serviceUserId;
+    private RealmList<PregnancyNote> pregnancyNotes;
 
     public String getAdditionalInfo() {
         return additionalInfo;
@@ -38,19 +40,19 @@ public class Pregnancy {
         this.antiD = antiD;
     }
 
-    public List<Integer> getBabyIds() {
+    public RealmList<RealmInteger> getBabyIds() {
         return babyIds;
     }
 
-    public void setBabyIds(List<Integer> babyIds) {
+    public void setBabyIds(RealmList<RealmInteger> babyIds) {
         this.babyIds = babyIds;
     }
 
-    public List<String> getBirthMode() {
+    public RealmList<RealmString> getBirthMode() {
         return birthMode;
     }
 
-    public void setBirthMode(List<String> birthMode) {
+    public void setBirthMode(RealmList<RealmString> birthMode) {
         this.birthMode = birthMode;
     }
 
@@ -94,11 +96,11 @@ public class Pregnancy {
         this.babyAge = babyAge;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -118,23 +120,19 @@ public class Pregnancy {
         this.perineum = perineum;
     }
 
-    public Integer getServiceUserId() {
+    public int getServiceUserId() {
         return serviceUserId;
     }
 
-    public void setServiceUserId(Integer serviceUserId) {
+    public void setServiceUserId(int serviceUserId) {
         this.serviceUserId = serviceUserId;
     }
 
-    public List<PregnancyNote> getPregnancyNotes() {
+    public RealmList<PregnancyNote> getPregnancyNotes() {
         return pregnancyNotes;
     }
 
-    public void setPregnancyNotes(List<PregnancyNote> pregnancyNotes) {
+    public void setPregnancyNotes(RealmList<PregnancyNote> pregnancyNotes) {
         this.pregnancyNotes = pregnancyNotes;
-    }
-
-    public void addPregnancyNote(PregnancyNote pregnancyNote) {
-        this.pregnancyNotes.add(pregnancyNote);
     }
 }

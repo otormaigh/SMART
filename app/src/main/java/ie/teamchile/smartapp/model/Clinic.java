@@ -10,7 +10,7 @@ import io.realm.annotations.PrimaryKey;
 public class Clinic extends RealmObject {
     private String address;
     private RealmList<RealmInteger> announcementIds;
-    private Integer appointmentInterval;
+    private int appointmentInterval;
     private String closingTime;
     private Days days;
     @PrimaryKey
@@ -58,11 +58,11 @@ public class Clinic extends RealmObject {
         this.announcementIds = announcementIds;
     }
 
-    public Integer getAppointmentInterval() {
+    public int getAppointmentInterval() {
         return appointmentInterval;
     }
 
-    public void setAppointmentInterval(Integer appointmentInterval) {
+    public void setAppointmentInterval(int appointmentInterval) {
         this.appointmentInterval = appointmentInterval;
     }
 

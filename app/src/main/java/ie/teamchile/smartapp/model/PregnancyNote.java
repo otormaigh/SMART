@@ -1,14 +1,18 @@
 package ie.teamchile.smartapp.model;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
 /**
  * Created by user on 6/16/15.
  */
-public class PregnancyNote {
+public class PregnancyNote extends RealmObject {
     private String createdAt;
-    private Integer id;
+    @PrimaryKey
+    private int id;
     private String note;
-    private Integer pregnancyId;
-    private Integer serviceProviderId;
+    private int pregnancyId;
+    private int serviceProviderId;
     private String serviceProviderName;
 
     public String getCreatedAt() {
@@ -19,11 +23,11 @@ public class PregnancyNote {
         this.createdAt = createdAt;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -35,19 +39,19 @@ public class PregnancyNote {
         this.note = note;
     }
 
-    public Integer getPregnancyId() {
+    public int getPregnancyId() {
         return pregnancyId;
     }
 
-    public void setPregnancyId(Integer pregnancyId) {
+    public void setPregnancyId(int pregnancyId) {
         this.pregnancyId = pregnancyId;
     }
 
-    public Integer getServiceProviderId() {
+    public int getServiceProviderId() {
         return serviceProviderId;
     }
 
-    public void setServiceProviderId(Integer serviceProviderId) {
+    public void setServiceProviderId(int serviceProviderId) {
         this.serviceProviderId = serviceProviderId;
     }
 

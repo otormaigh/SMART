@@ -1,20 +1,24 @@
 package ie.teamchile.smartapp.model;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
 /**
  * Created by user on 6/16/15.
  */
-public class AntiDHistory {
-    private Integer id;
+public class AntiDHistory extends RealmObject {
+    @PrimaryKey
+    private int id;
     private String antiD;
     private String createdAt;
-    private Integer pregnancyId;
+    private int pregnancyId;
     private String serviceProviderName;
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -34,11 +38,11 @@ public class AntiDHistory {
         this.createdAt = createdAt;
     }
 
-    public Integer getPregnancyId() {
+    public int getPregnancyId() {
         return pregnancyId;
     }
 
-    public void setPregnancyId(Integer pregnancyId) {
+    public void setPregnancyId(int pregnancyId) {
         this.pregnancyId = pregnancyId;
     }
 
