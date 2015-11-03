@@ -11,10 +11,12 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
+import java.util.Date;
 
 import ie.teamchile.smartapp.BuildConfig;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.RealmInteger;
+import ie.teamchile.smartapp.model.RealmString;
 import ie.teamchile.smartapp.util.NotKeys;
 import io.realm.RealmList;
 import io.realm.RealmObject;
@@ -35,6 +37,7 @@ public class SmartApiClient {
 
     static {
         gson = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateTypeAdapter())
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                 .setPrettyPrinting()
                 .setExclusionStrategies(new ExclusionStrategy() {
@@ -62,6 +65,25 @@ public class SmartApiClient {
                         in.beginArray();
                         while (in.hasNext()) {
                             list.add(new RealmInteger(in.nextInt()));
+                        }
+                        in.endArray();
+                        return list;
+                    }
+                })
+                .registerTypeAdapter(new TypeToken<RealmList<RealmString>>() {
+                }.getType(), new TypeAdapter<RealmList<RealmString>>() {
+
+                    @Override
+                    public void write(JsonWriter out, RealmList<RealmString> value) throws IOException {
+                        // Ignore
+                    }
+
+                    @Override
+                    public RealmList<RealmString> read(JsonReader in) throws IOException {
+                        RealmList<RealmString> list = new RealmList<>();
+                        in.beginArray();
+                        while (in.hasNext()) {
+                            list.add(new RealmString(in.nextString()));
                         }
                         in.endArray();
                         return list;
