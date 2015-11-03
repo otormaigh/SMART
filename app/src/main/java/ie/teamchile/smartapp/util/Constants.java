@@ -19,4 +19,10 @@ public interface Constants {
     String KEY_CLINIC_ID = "clinicId";
     String KEY_SERVICE_OPTION_IDS = "serviceOptionIds";
     String KEY_DATE = "date";
+
+    //Realm Pregnancy.class
+    String KEY_SERVICE_USER_ID = "serviceUserId";
+
+    String SERVER_DATE_FORMAT = "yyyy-MM-ddTHH:mm:ss";
+    String SERVER_SMALL_DATE = "yyyy-MM-dd";
 }
