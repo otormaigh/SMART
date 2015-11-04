@@ -23,6 +23,6 @@ public interface Constants {
     //Realm Pregnancy.class
     String KEY_SERVICE_USER_ID = "serviceUserId";
 
-    String SERVER_DATE_FORMAT = "yyyy-MM-ddTHH:mm:ss";
+    String SERVER_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
     String SERVER_SMALL_DATE = "yyyy-MM-dd";
 }
