@@ -1,5 +1,7 @@
 package ie.teamchile.smartapp.model;
 
+import java.util.Date;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -11,9 +13,9 @@ public class Pregnancy extends RealmObject {
     private String additionalInfo;
     private String antiD;
     private RealmList<RealmInteger> babyIds;
-    private RealmList<RealmString> birthMode;
+    //private RealmList<RealmString> birthMode;
     private String createdAt;
-    private String estimatedDeliveryDate;
+    private Date estimatedDeliveryDate;
     private String feeding;
     private String gestation;
     private String babyAge;
@@ -48,13 +50,13 @@ public class Pregnancy extends RealmObject {
         this.babyIds = babyIds;
     }
 
-    public RealmList<RealmString> getBirthMode() {
+    /*public RealmList<RealmString> getBirthMode() {
         return birthMode;
     }
 
     public void setBirthMode(RealmList<RealmString> birthMode) {
         this.birthMode = birthMode;
-    }
+    }*/
 
     public String getCreatedAt() {
         return createdAt;
@@ -64,11 +66,11 @@ public class Pregnancy extends RealmObject {
         this.createdAt = createdAt;
     }
 
-    public String getEstimatedDeliveryDate() {
+    public Date getEstimatedDeliveryDate() {
         return estimatedDeliveryDate;
     }
 
-    public void setEstimatedDeliveryDate(String estimatedDeliveryDate) {
+    public void setEstimatedDeliveryDate(Date estimatedDeliveryDate) {
         this.estimatedDeliveryDate = estimatedDeliveryDate;
     }
 

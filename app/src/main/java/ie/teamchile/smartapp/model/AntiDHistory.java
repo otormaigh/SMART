@@ -1,5 +1,7 @@
 package ie.teamchile.smartapp.model;
 
+import java.util.Date;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -10,7 +12,7 @@ public class AntiDHistory extends RealmObject {
     @PrimaryKey
     private int id;
     private String antiD;
-    private String createdAt;
+    private Date createdAt;
     private int pregnancyId;
     private String serviceProviderName;
 
@@ -30,11 +32,11 @@ public class AntiDHistory extends RealmObject {
         this.antiD = antiD;
     }
 
-    public String getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(String createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 

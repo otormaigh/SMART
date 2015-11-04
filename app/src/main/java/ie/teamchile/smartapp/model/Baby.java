@@ -1,5 +1,7 @@
 package ie.teamchile.smartapp.model;
 
+import java.util.Date;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -9,7 +11,7 @@ import io.realm.annotations.PrimaryKey;
  */
 public class Baby extends RealmObject {
     private String birthOutcome;
-    private String deliveryDateTime;
+    private Date deliveryDateTime;
     private String gender;
     private String hearing;
     private RealmList<RealmInteger> hearingHistoryIds;
@@ -33,11 +35,11 @@ public class Baby extends RealmObject {
         this.birthOutcome = birthOutcome;
     }
 
-    public String getDeliveryDateTime() {
+    public Date getDeliveryDateTime() {
         return deliveryDateTime;
     }
 
-    public void setDeliveryDateTime(String deliveryDateTime) {
+    public void setDeliveryDateTime(Date deliveryDateTime) {
         this.deliveryDateTime = deliveryDateTime;
     }
 

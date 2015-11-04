@@ -1,5 +1,7 @@
 package ie.teamchile.smartapp.model;
 
+import java.util.Date;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -8,7 +10,7 @@ import io.realm.annotations.PrimaryKey;
  */
 public class VitKHistory extends RealmObject {
     private int babyId;
-    private String createdAt;
+    private Date createdAt;
     @PrimaryKey
     private int id;
     private int serviceProviderId;
@@ -23,11 +25,11 @@ public class VitKHistory extends RealmObject {
         this.babyId = babyId;
     }
 
-    public String getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(String createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
