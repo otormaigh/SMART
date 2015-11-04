@@ -20,19 +20,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
+import ie.teamchile.smartapp.BuildConfig;
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.api.SmartApiClient;
+import ie.teamchile.smartapp.model.Baby;
 import ie.teamchile.smartapp.model.BaseModel;
-import ie.teamchile.smartapp.model.FeedingHistory;
-import ie.teamchile.smartapp.model.HearingHistory;
-import ie.teamchile.smartapp.model.NbstHistory;
+import ie.teamchile.smartapp.model.Pregnancy;
 import ie.teamchile.smartapp.model.ServiceUser;
-import ie.teamchile.smartapp.model.VitKHistory;
 import ie.teamchile.smartapp.util.CustomDialogs;
+import io.realm.Realm;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -45,17 +43,19 @@ public class ServiceUserSearchActivity extends BaseActivity {
     private Button search;
     private TextView tvSearchResults;
     private List<ServiceUser> serviceUserList = new ArrayList<>();
-    private Intent intent;
     private ListView lvSearchResults;
     private LinearLayout llNoUserFound;
     private Boolean changeActivity;
     private ProgressDialog pd;
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         setContentForNav(R.layout.activity_service_user_search);
+
+        realm = Realm.getInstance(this);
 
         searchName = (EditText) findViewById(R.id.et_search_name);
         searchHospitalNumber = (EditText) findViewById(R.id.et_search_hospital_number);
@@ -78,6 +78,31 @@ public class ServiceUserSearchActivity extends BaseActivity {
         createResultList();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (realm != null) {
+            realm.beginTransaction();
+            realm.allObjects(ServiceUser.class).clear();
+            realm.allObjects(Baby.class).clear();
+            realm.allObjects(Pregnancy.class).clear();
+            realm.commitTransaction();
+            realm.close();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        realm.beginTransaction();
+        realm.allObjects(ServiceUser.class).clear();
+        realm.allObjects(Baby.class).clear();
+        realm.allObjects(Pregnancy.class).clear();
+        realm.commitTransaction();
+    }
+
     private void createResultList() {
         adapterListResults = new AdapterListResultsInner();
         adapterListResults.notifyDataSetChanged();
@@ -85,30 +110,16 @@ public class ServiceUserSearchActivity extends BaseActivity {
         //lvSearchResults.setEmptyView(llNoUserFound);
     }
 
-    private void getHistories() {
-        getRecentBabyPosition();
-        getRecentBabyId();
-        getRecentPregnancy();
+    private void getHistories(int pregnancyId, int babyId) {
         SmartApiClient.getAuthorizedApiClient().getVitKHistories(
-                bId,
+                babyId,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
-                        Collections.sort(baseModel.getVitKHistories(), new Comparator<VitKHistory>() {
-
-                            @Override
-                            public int compare(VitKHistory a, VitKHistory b) {
-                                int valA;
-                                int valB;
-
-                                valA = a.getId();
-                                valB = b.getId();
-
-                                return -((Integer) valA).compareTo(valB);
-                            }
-                        });
-                        BaseModel.getInstance().setVitKHistories(baseModel.getVitKHistories());
                         Timber.d("vit k history done");
+                        realm.beginTransaction();
+                        realm.copyToRealmOrUpdate(baseModel.getVitKHistories());
+                        realm.commitTransaction();
                     }
 
                     @Override
@@ -118,25 +129,14 @@ public class ServiceUserSearchActivity extends BaseActivity {
                 }
         );
         SmartApiClient.getAuthorizedApiClient().getHearingHistories(
-                bId,
+                babyId,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
-                        Collections.sort(baseModel.getHearingHistories(), new Comparator<HearingHistory>() {
-
-                            @Override
-                            public int compare(HearingHistory a, HearingHistory b) {
-                                int valA;
-                                int valB;
-
-                                valA = a.getId();
-                                valB = b.getId();
-
-                                return -((Integer) valA).compareTo(valB);
-                            }
-                        });
-                        BaseModel.getInstance().setHearingHistories(baseModel.getHearingHistories());
                         Timber.d("hearing history done");
+                        realm.beginTransaction();
+                        realm.copyToRealmOrUpdate(baseModel.getHearingHistories());
+                        realm.commitTransaction();
                     }
 
                     @Override
@@ -146,25 +146,13 @@ public class ServiceUserSearchActivity extends BaseActivity {
                 }
         );
         SmartApiClient.getAuthorizedApiClient().getNbstHistories(
-                bId,
+                babyId,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
-                        Collections.sort(baseModel.getNbstHistories(), new Comparator<NbstHistory>() {
-
-                            @Override
-                            public int compare(NbstHistory a, NbstHistory b) {
-                                int valA;
-                                int valB;
-
-                                valA = a.getId();
-                                valB = b.getId();
-
-                                return -((Integer) valA).compareTo(valB);
-                            }
-                        });
-                        BaseModel.getInstance().setNbstHistories(baseModel.getNbstHistories());
-                        Timber.d("nbst history done");
+                        realm.beginTransaction();
+                        realm.copyToRealmOrUpdate(baseModel.getNbstHistories());
+                        realm.commitTransaction();
                     }
 
                     @Override
@@ -174,25 +162,14 @@ public class ServiceUserSearchActivity extends BaseActivity {
                 }
         );
         SmartApiClient.getAuthorizedApiClient().getFeedingHistoriesByPregId(
-                BaseModel.getInstance().getPregnancies().get(p).getId(),
+                pregnancyId,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
-                        Collections.sort(baseModel.getFeedingHistories(), new Comparator<FeedingHistory>() {
-
-                            @Override
-                            public int compare(FeedingHistory a, FeedingHistory b) {
-                                int valA;
-                                int valB;
-
-                                valA = a.getId();
-                                valB = b.getId();
-
-                                return -((Integer) valA).compareTo(valB);
-                            }
-                        });
-                        BaseModel.getInstance().setFeedingHistories(baseModel.getFeedingHistories());
                         Timber.d("feeding history done");
+                        realm.beginTransaction();
+                        realm.copyToRealmOrUpdate(baseModel.getFeedingHistories());
+                        realm.commitTransaction();
                     }
 
                     @Override
@@ -204,7 +181,7 @@ public class ServiceUserSearchActivity extends BaseActivity {
     }
 
     private void searchForPatient(String name, String hospitalNumber, String dob) {
-        if (name.equals("."))
+        if (name.equals(".") && BuildConfig.DEBUG)
             name = " ";
         else
             name = name.trim();
@@ -219,15 +196,23 @@ public class ServiceUserSearchActivity extends BaseActivity {
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
-                        if (baseModel.getServiceUsers().size() != 0) {
-                            BaseModel.getInstance().setServiceUsers(baseModel.getServiceUsers());
-                            BaseModel.getInstance().setPregnancies(baseModel.getPregnancies());
-                            BaseModel.getInstance().setBabies(baseModel.getBabies());
-                            BaseModel.getInstance().setAntiDHistories(baseModel.getAntiDHistories());
 
+                        Timber.wtf("size = " + baseModel.getServiceUsers().size());
+
+                        if (baseModel.getServiceUsers().size() != 0) {
                             if (changeActivity) {
-                                startActivity(intent);
-                                getHistories();
+                                realm.beginTransaction();
+                                realm.copyToRealmOrUpdate(baseModel.getServiceUsers());
+                                realm.copyToRealmOrUpdate(baseModel.getPregnancies());
+                                realm.copyToRealmOrUpdate(baseModel.getBabies());
+                                realm.copyToRealmOrUpdate(baseModel.getAntiDHistories());
+                                realm.commitTransaction();
+                                startActivity(
+                                        new Intent(ServiceUserSearchActivity.this,
+                                                ServiceUserActivity.class));
+                                getHistories(
+                                        getRecentPregnancy(realm.where(Pregnancy.class).findAll()),
+                                        getRecentBaby(realm.where(Baby.class).findAll()));
                             } else {
                                 serviceUserList = baseModel.getServiceUsers();
                                 adapterListResults.notifyDataSetChanged();
@@ -257,7 +242,6 @@ public class ServiceUserSearchActivity extends BaseActivity {
 
             changeActivity = true;
             searchForPatient("", hospitalNumber, "");
-            intent = new Intent(ServiceUserSearchActivity.this, ServiceUserActivity.class);
         }
     }
 
