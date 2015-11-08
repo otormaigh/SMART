@@ -32,7 +32,7 @@ public class ParityDetailsActivity extends BaseActivity {
 	private String sex_male = "ale", sex_female = "emale";
 	private List<String> nameBaby = new ArrayList<>();
 	private List<String> hospitalNumber = new ArrayList<>();
-	private List<String> dobBaby = new ArrayList<>();
+	private List<Date> dobBaby = new ArrayList<>();
 	private List<String> genderBaby = new ArrayList<>();
 	private List<String> gestationBaby = new ArrayList<>();
 	private List<Integer> weightBaby = new ArrayList<>();
@@ -68,7 +68,7 @@ public class ParityDetailsActivity extends BaseActivity {
 			genderBaby.add(babyList.get(i).getGender());
 			gestationBaby.add(BaseModel.getInstance().getPregnancies().get(i).getGestation());
 			weightBaby.add(babyList.get(i).getWeight());
-			birthMode.add(putArrayToString(BaseModel.getInstance().getPregnancies().get(i).getBirthMode()));
+			//birthMode.add(putArrayToString(BaseModel.getInstance().getPregnancies().get(i).getBirthMode()));
 			birthOutcome.add(babyList.get(i).getBirthOutcome());
 			hearing.add(babyList.get(i).getHearing());
 			nbstList.add(babyList.get(i).getNbst());
@@ -147,7 +147,7 @@ public class ParityDetailsActivity extends BaseActivity {
 		int position, orientation;
 		LayoutInflater layoutInflater;
 		List<String> babyDob, hospitalNumber, babyGender, gestation,
-				 	 weight, name, birthMode, birthOutcome; 	
+				 	 weight, name, birthMode, birthOutcome;
 
 		@Override
 		public void notifyDataSetChanged() {
@@ -155,7 +155,7 @@ public class ParityDetailsActivity extends BaseActivity {
 		}
 
         public ListAdapter(Context context, int orientation, List<String> name,
-				List<String>hospitalNumber, List<String>babyDob, List<String>babyGender, 
+				List<String>hospitalNumber, List<String>babyDob, List<String>babyGender,
 				List<String>gestation, List<String>weight, List<String>birthMode, List<String>birthOutcome) {
 			super();
 			
@@ -227,13 +227,14 @@ public class ParityDetailsActivity extends BaseActivity {
 	}
 
 	private class MyRecycleAdapter extends RecyclerView.Adapter<MyRecycleAdapter.ViewHolder>{
-		private List<String> nameBaby, hospitalNumber, dobBaby, genderBaby, gestationBaby,
+		private List<String> nameBaby, hospitalNumber, genderBaby, gestationBaby,
 				birthMode, birthOutcome, hearing, nbst, vitK;
+        private List<Date> dobBaby;
 		private List<Integer> weightBaby;
 
 		public MyRecycleAdapter(List<String> nameBaby,
 								List<String> hospitalNumber,
-								List<String> dobBaby,
+								List<Date> dobBaby,
 								List<String> genderBaby,
 								List<String> gestationBaby,
 								List<Integer> weightBaby,
@@ -299,7 +300,7 @@ public class ParityDetailsActivity extends BaseActivity {
 			TextView tvNbst = holder.tvNbst;
 			TextView tvVitK = holder.tvVitK;
 
-			tvDob.setText(getDeliveryDate(dobBaby.get(position), 0));
+			//tvDob.setText(getDeliveryDate(dobBaby.get(position), 0));
 			tvGest.setText(gestationBaby.get(position));
 			tvGender.setText(genderBaby.get(position));
 			tvWeight.setText(String.valueOf(weightBaby.get(position)));
@@ -423,7 +424,7 @@ public class ParityDetailsActivity extends BaseActivity {
         dobStr = new ArrayList<>();
 
         for (int i = 0; i < dobBaby.size(); i ++) {
-            dobStr.add(getDeliveryDate(dobBaby.get(i), 2));
+            //dobStr.add(getDeliveryDate(dobBaby.get(i), 2));
         }
 
         for (int i = 0; i < nameBaby.size(); i ++) {

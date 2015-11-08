@@ -35,12 +35,10 @@ import net.hockeyapp.android.Tracking;
 import java.net.ConnectException;
 import java.net.UnknownHostException;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -394,58 +392,55 @@ public class BaseActivity extends AppCompatActivity {
         return listAsString;
     }
 
-    protected void getRecentPregnancy() {
-        List<Pregnancy> pregnancyList = BaseModel.getInstance().getPregnancies();
-        List<Date> asDate = new ArrayList<>();
+    protected int getRecentPregnancy(List<Pregnancy> pregnancyList) {
+        List<Long> asDate = new ArrayList<>();
         String edd;
-        if (pregnancyList.size() > 0) {
+        if (pregnancyList.size() > 1) {
             try {
                 for (int i = 0; i < pregnancyList.size(); i++) {
-                    edd = pregnancyList.get(i).getEstimatedDeliveryDate();
-                    asDate.add(dfDateOnly.parse(edd));
+                    if (pregnancyList.get(i).getEstimatedDeliveryDate() != null) {
+                        asDate.add(pregnancyList.get(i).getEstimatedDeliveryDate().getTime());
+                    } else {
+                        asDate.add(0l);
+                    }
                 }
-                p = asDate.indexOf(Collections.max(asDate));
-            } catch (ParseException | NullPointerException e) {
+                return pregnancyList
+                        .get(asDate.indexOf(Collections.max(asDate)))
+                        .getId();
+            } catch (NullPointerException e) {
                 e.printStackTrace();
+                return 0;
             }
-        } else
-            p = 0;
+        } else if (pregnancyList.isEmpty()) {
+            return 0;
+        } else {
+            return pregnancyList.get(0).getId();
+        }
     }
 
-    protected void getRecentBabyPosition() {
-        List<Baby> babyList = BaseModel.getInstance().getBabies();
-        List<Date> asDate = new ArrayList<>();
-        if (babyList.size() != 1) {
+    protected int getRecentBaby(List<Baby> babyList) {
+        List<Long> asDate = new ArrayList<>();
+        if (babyList.size() > 1) {
             try {
                 for (int i = 0; i < babyList.size(); i++) {
-                    String deliveryDateTime = babyList.get(i).getDeliveryDateTime();
-                    asDate.add(dfDateTimeWZone.parse(deliveryDateTime));
+                    if (babyList.get(i).getDeliveryDateTime() != null) {
+                        asDate.add(babyList.get(i).getDeliveryDateTime().getTime());
+                    } else {
+                        asDate.add(0l);
+                    }
                 }
-                b = asDate.indexOf(Collections.max(asDate));
-            } catch (ParseException | NullPointerException e) {
+                return babyList
+                        .get(asDate.indexOf(Collections.max(asDate)))
+                        .getId();
+            } catch (NullPointerException e) {
                 e.printStackTrace();
+                return 0;
             }
-        } else
-            b = 0;
-    }
-
-    protected void getRecentBabyId() {
-        List<Baby> babyList = BaseModel.getInstance().getBabies();
-        List<Integer> idList = new ArrayList<>();
-        List<Date> asDate = new ArrayList<>();
-        if (babyList.size() != 1) {
-            try {
-                for (int i = 0; i < babyList.size(); i++) {
-                    String deliveryDateTime = babyList.get(i).getDeliveryDateTime();
-                    idList.add(babyList.get(i).getId());
-                    asDate.add(dfDateTimeWZone.parse(deliveryDateTime));
-                }
-                bId = idList.get(asDate.indexOf(Collections.max(asDate)));
-            } catch (ParseException | NullPointerException e) {
-                e.printStackTrace();
-            }
-        } else
-            bId = babyList.get(0).getId();
+        } else if (babyList.isEmpty()) {
+            return 0;
+        } else {
+            return babyList.get(0).getId();
+        }
     }
 
     protected void getAllAppointments(final Context context) {
