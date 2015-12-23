@@ -96,7 +96,7 @@ public class SmartApiClient {
         if (unAuthorizedSmartApi == null) {
 
             unAuthorizedSmartApi = new RestAdapter.Builder()
-                    .setEndpoint(NotKeys.BASE_URL)
+                    .setEndpoint(NotKeys.BASE_URL + NotKeys.PORT)
                     .setLogLevel(BuildConfig.RETROFIT_LOG_LEVEL)
                     .setClient(new OkClient())
                     .setConverter(new GsonConverter(gson))
@@ -117,7 +117,7 @@ public class SmartApiClient {
             };
 
             authorizedSmartApi = new RestAdapter.Builder()
-                    .setEndpoint(NotKeys.BASE_URL)
+                    .setEndpoint(NotKeys.BASE_URL + NotKeys.PORT)
                     .setLogLevel(BuildConfig.RETROFIT_LOG_LEVEL)
                     .setClient(new OkClient())
                     .setRequestInterceptor(requestInterceptor)

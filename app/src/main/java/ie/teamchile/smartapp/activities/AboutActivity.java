@@ -11,6 +11,7 @@ import android.webkit.WebView;
 import android.widget.ProgressBar;
 
 import ie.teamchile.smartapp.R;
+import ie.teamchile.smartapp.util.NotKeys;
 
 public class AboutActivity extends AppCompatActivity {
     private ProgressBar progressBar;
@@ -39,13 +40,12 @@ public class AboutActivity extends AppCompatActivity {
                     progressBar.setVisibility(View.GONE);
             }
         });
-        webView.loadUrl("http://54.72.7.91/#/about");
+        webView.loadUrl(NotKeys.BASE_URL + "/#/about");
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
+        startActivity(new Intent(this, LoginActivity.class));
     }
 }
