@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
@@ -33,7 +34,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import timber.log.Timber;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements OnClickListener{
     private SharedPreferences prefs;
     private SharedPrefs prefsUtil = new SharedPrefs();
     private String username, password;
@@ -49,11 +50,11 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         btnLogin = (Button) findViewById(R.id.btn_login);
-        btnLogin.setOnClickListener(new ButtonClick());
+        btnLogin.setOnClickListener(this);
         tvUsername = (TextView) findViewById(R.id.et_username);
         tvPassword = (TextView) findViewById(R.id.et_password);
         tvAbout = (TextView) findViewById(R.id.tv_about);
-        tvAbout.setOnClickListener(new ButtonClick());
+        tvAbout.setOnClickListener(this);
 
         if(BuildConfig.DEBUG) {
             tvUsername.setText(NotKeys.USERNAME);
@@ -157,22 +158,21 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private class ButtonClick implements View.OnClickListener {
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.btn_login:
-                    Tracking.startUsage(LoginActivity.this);
-                    Timber.d("hockeyApp Login pressed");
-                    Timber.d("hockeyApp timeUsage = " + Tracking.getUsageTime(LoginActivity.this));
-                    validateInput();
-                    break;
-                case R.id.tv_about:
-                    Tracking.stopUsage(LoginActivity.this);
-                    Intent intent = new Intent(LoginActivity.this, AboutActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                    startActivity(intent);
-                    break;
-            }
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_login:
+                Tracking.startUsage(LoginActivity.this);
+                Timber.d("hockeyApp Login pressed");
+                Timber.d("hockeyApp timeUsage = " + Tracking.getUsageTime(LoginActivity.this));
+                validateInput();
+                break;
+            case R.id.tv_about:
+                Tracking.stopUsage(LoginActivity.this);
+                Intent intent = new Intent(LoginActivity.this, AboutActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                startActivity(intent);
+                break;
         }
     }
 }

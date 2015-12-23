@@ -102,8 +102,10 @@ public class BaseActivity extends AppCompatActivity {
 
         spinnerWarning = getResources().getColor(R.color.teal);
 
-        getSupportActionBar().setDisplayOptions(android.support.v7.app.ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.action_bar_custom);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayOptions(android.support.v7.app.ActionBar.DISPLAY_SHOW_CUSTOM);
+            getSupportActionBar().setCustomView(R.layout.action_bar_custom);
+        }
 
         createNavDrawer();
     }
@@ -220,9 +222,11 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected void setActionBarTitle(String title) {
-        View v = getSupportActionBar().getCustomView();
-        TextView titleTxtView = (TextView) v.findViewById(R.id.tv_action_bar);
-        titleTxtView.setText(title);
+        if (getSupportActionBar() != null) {
+            View v = getSupportActionBar().getCustomView();
+            TextView titleTxtView = (TextView) v.findViewById(R.id.tv_action_bar);
+            titleTxtView.setText(title);
+        }
     }
 
     protected void createNavDrawer() {
@@ -236,17 +240,16 @@ public class BaseActivity extends AppCompatActivity {
                 R.string.drawer_open, R.string.drawer_close);
         drawerLayout.setDrawerListener(drawerToggle);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
+        }
         drawerToggle.syncState();
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (drawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        return drawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 
     private void selectItem(int position) {

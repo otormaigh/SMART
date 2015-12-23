@@ -1,8 +1,8 @@
 package ie.teamchile.smartapp.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateUtils;
 import android.view.View;
 import android.view.WindowManager;
@@ -17,7 +17,7 @@ import io.realm.RealmConfiguration;
 import io.realm.exceptions.RealmMigrationNeededException;
 import timber.log.Timber;
 
-public class SplashScreenActivity extends Activity implements View.OnClickListener {
+public class SplashScreenActivity extends AppCompatActivity implements View.OnClickListener {
     private String rootMsg;
     private Button btnYes;
     private Button btnNo;

@@ -50,7 +50,6 @@ public class ParityDetailsActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
 		setContentForNav(R.layout.activity_parity_details);
 		/*lvParity = (ListView)findViewById(R.id.lv_parity);*/
 		rvParity = (RecyclerView) findViewById(R.id.rv_parity);
