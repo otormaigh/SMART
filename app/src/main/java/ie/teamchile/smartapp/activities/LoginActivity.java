@@ -9,7 +9,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,12 +34,10 @@ import retrofit.client.Response;
 import timber.log.Timber;
 
 public class LoginActivity extends AppCompatActivity implements OnClickListener{
-    private SharedPreferences prefs;
     private SharedPrefs prefsUtil = new SharedPrefs();
     private String username, password;
-    private Button btnLogin;
-    private TextView tvUsername, tvPassword, tvAbout;
-    private Intent intent;
+    private TextView tvUsername;
+    private TextView tvPassword;
     private ProgressDialog pd;
 
     @Override
@@ -49,12 +46,10 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         setContentView(R.layout.activity_login);
 
-        btnLogin = (Button) findViewById(R.id.btn_login);
-        btnLogin.setOnClickListener(this);
+        findViewById(R.id.btn_login).setOnClickListener(this);
+        findViewById(R.id.tv_about).setOnClickListener(this);
         tvUsername = (TextView) findViewById(R.id.et_username);
         tvPassword = (TextView) findViewById(R.id.et_password);
-        tvAbout = (TextView) findViewById(R.id.tv_about);
-        tvAbout.setOnClickListener(this);
 
         if(BuildConfig.DEBUG) {
             tvUsername.setText(NotKeys.USERNAME);
@@ -76,7 +71,6 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
             initHockeyApp();
 
         BaseModel.getInstance().deleteInstance();
-        System.gc();
     }
 
     @Override
@@ -84,7 +78,6 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
         super.onBackPressed();
         BaseModel.getInstance().deleteInstance();
         BaseModel.getInstance().setLoginStatus(false);
-        System.gc();
         finish();
     }
 
@@ -94,7 +87,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
 
     private void getSharedPrefs() {
         Timber.d("getSharedPrefs called");
-        prefs = this.getSharedPreferences("SMART", MODE_PRIVATE);
+        SharedPreferences prefs = this.getSharedPreferences("SMART", MODE_PRIVATE);
         Map<String, ?> prefsMap = prefs.getAll();
         for (Map.Entry<String, ?> entry : prefsMap.entrySet()) {
             Timber.d("key = " + entry.getKey());
@@ -125,8 +118,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
                 BaseModel.getInstance().setLoginStatus(true);
                 pd.dismiss();
                 getSharedPrefs();
-                intent = new Intent(LoginActivity.this, QuickMenuActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(LoginActivity.this, QuickMenuActivity.class));
             }
 
             @Override
