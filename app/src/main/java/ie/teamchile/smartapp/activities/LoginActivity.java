@@ -23,11 +23,13 @@ import ie.teamchile.smartapp.BuildConfig;
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.BaseModel;
+import ie.teamchile.smartapp.model.Login;
 import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.util.Constants;
 import ie.teamchile.smartapp.util.CustomDialogs;
 import ie.teamchile.smartapp.util.NotKeys;
 import ie.teamchile.smartapp.util.SharedPrefs;
+import io.realm.Realm;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -39,12 +41,15 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
     private TextView tvUsername;
     private TextView tvPassword;
     private ProgressDialog pd;
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         setContentView(R.layout.activity_login);
+
+        realm = Realm.getInstance(this);
 
         findViewById(R.id.btn_login).setOnClickListener(this);
         findViewById(R.id.tv_about).setOnClickListener(this);
@@ -55,6 +60,14 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
             tvUsername.setText(NotKeys.USERNAME);
             tvPassword.setText(NotKeys.PASSWORD);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (realm != null)
+            realm.close();
     }
 
     @Override
@@ -77,7 +90,11 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
     public void onBackPressed() {
         super.onBackPressed();
         BaseModel.getInstance().deleteInstance();
-        BaseModel.getInstance().setLoginStatus(false);
+
+        realm.beginTransaction();
+        realm.where(Login.class).findFirst().setLoggedIn(false);
+        realm.commitTransaction();
+
         finish();
     }
 
@@ -102,7 +119,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
     }
 
     private void postLogin() {
-        PostingData login = new PostingData();
+        final PostingData login = new PostingData();
         login.postLogin(username, password);
 
         SmartApiClient.getUnAuthorizedApiClient().postLogin(login, new Callback<BaseModel>() {
@@ -114,8 +131,12 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
                         Calendar.getInstance().getTimeInMillis(),
                         Constants.SHARED_PREFS_SPLASH_LOG);
                 prefsUtil.deletePrefs(LoginActivity.this, "appts_got");
-                BaseModel.getInstance().setLogin(baseModel.getLogin());
-                BaseModel.getInstance().setLoginStatus(true);
+
+                realm.beginTransaction();
+                baseModel.getLogin().setLoggedIn(true);
+                realm.copyToRealmOrUpdate(baseModel.getLogin());
+                realm.commitTransaction();
+
                 pd.dismiss();
                 getSharedPrefs();
                 startActivity(new Intent(LoginActivity.this, QuickMenuActivity.class));

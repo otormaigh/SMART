@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
@@ -747,7 +746,7 @@ public class ServiceUserActivity extends BaseActivity {
                 this,
                 "Updating Anti-D");
 
-        SmartApiClient.getAuthorizedApiClient().putAnitD(
+        SmartApiClient.getAuthorizedApiClient(this).putAnitD(
                 puttingAntiD,
                 pregnancy.getId(),
                 new Callback<BaseModel>() {
@@ -793,7 +792,7 @@ public class ServiceUserActivity extends BaseActivity {
                 this,
                 "Updating Feeding");
 
-        SmartApiClient.getAuthorizedApiClient().putAnitD(
+        SmartApiClient.getAuthorizedApiClient(this).putAnitD(
                 puttingFeeding,
                 pregnancy.getId(),
                 new Callback<BaseModel>() {
@@ -841,7 +840,7 @@ public class ServiceUserActivity extends BaseActivity {
                 this,
                 "Updating Vit-K");
 
-        SmartApiClient.getAuthorizedApiClient().putVitK(
+        SmartApiClient.getAuthorizedApiClient(this).putVitK(
                 puttingVitK,
                 baby.getId(),
                 new Callback<BaseModel>() {
@@ -888,7 +887,7 @@ public class ServiceUserActivity extends BaseActivity {
                 this,
                 "Updating Hearing");
 
-        SmartApiClient.getAuthorizedApiClient().putHearing(
+        SmartApiClient.getAuthorizedApiClient(this).putHearing(
                 puttingHearing,
                 baby.getId(),
                 new Callback<BaseModel>() {
@@ -935,7 +934,7 @@ public class ServiceUserActivity extends BaseActivity {
                 this,
                 "Updating NBST");
 
-        SmartApiClient.getAuthorizedApiClient().putNBST(
+        SmartApiClient.getAuthorizedApiClient(this).putNBST(
                 puttingNbst,
                 baby.getId(),
                 new Callback<BaseModel>() {
@@ -970,7 +969,7 @@ public class ServiceUserActivity extends BaseActivity {
     }
 
     private void getMidwiferyNotes() {
-        SmartApiClient.getAuthorizedApiClient().getPregnancyNotes(
+        SmartApiClient.getAuthorizedApiClient(this).getPregnancyNotes(
                 pregnancy.getId(),
                 new Callback<BaseModel>() {
                     @Override
@@ -996,7 +995,7 @@ public class ServiceUserActivity extends BaseActivity {
         PostingData postAction = new PostingData();
         postAction.postPregnancyAction(action);
 
-        SmartApiClient.getAuthorizedApiClient().postPregnancyAction(
+        SmartApiClient.getAuthorizedApiClient(this).postPregnancyAction(
                 postAction,
                 pregnancy.getId(),
                 new Callback<BaseModel>() {

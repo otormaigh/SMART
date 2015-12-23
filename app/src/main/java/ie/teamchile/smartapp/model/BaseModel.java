@@ -60,14 +60,6 @@ public class BaseModel {
             instance = null;
     }
 
-    public Boolean getLoginStatus() {
-        return isLoggedIn;
-    }
-
-    public void setLoginStatus(Boolean isLoggedIn) {
-        this.isLoggedIn = isLoggedIn;
-    }
-
     public Error getError() {
         return errors;
     }

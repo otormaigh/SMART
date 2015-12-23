@@ -45,7 +45,7 @@ public class AppointmentHelper extends BaseActivity {
     }
 
     public void getAppointmentsForClinic(String date, int clinicId) {
-        SmartApiClient.getAuthorizedApiClient().getAppointmentsForDayClinic(
+        SmartApiClient.getAuthorizedApiClient(this).getAppointmentsForDayClinic(
                 date,
                 clinicId,
                 new Callback<BaseModel>() {
@@ -69,7 +69,7 @@ public class AppointmentHelper extends BaseActivity {
     }
 
     public void getAppointmentsHomeVisit(String date, int serviceOptionId) {
-        SmartApiClient.getAuthorizedApiClient().getHomeVisitApptByDateId(
+        SmartApiClient.getAuthorizedApiClient(this).getHomeVisitApptByDateId(
                 "home-visit",
                 date,
                 serviceOptionId,

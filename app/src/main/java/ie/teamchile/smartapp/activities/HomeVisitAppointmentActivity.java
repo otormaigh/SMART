@@ -9,7 +9,6 @@ import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -207,7 +206,7 @@ public class HomeVisitAppointmentActivity extends BaseActivity {
                 BaseModel.getInstance().getLogin().getId(),
                 realm.where(Appointment.class).equalTo(Constants.Key_ID, idList.get(position)).findFirst().getServiceUserId());
 
-        SmartApiClient.getAuthorizedApiClient().putAppointmentStatus(
+        SmartApiClient.getAuthorizedApiClient(this).putAppointmentStatus(
                 attendedStatus,
                 idList.get(position),
                 new Callback<BaseModel>() {
@@ -234,7 +233,7 @@ public class HomeVisitAppointmentActivity extends BaseActivity {
     }
 
     private void searchServiceUser(int serviceUserId, final Intent intent) {
-        SmartApiClient.getAuthorizedApiClient().getServiceUserById(serviceUserId,
+        SmartApiClient.getAuthorizedApiClient(this).getServiceUserById(serviceUserId,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {

@@ -70,7 +70,7 @@ public class MidwiferyLogActivity extends BaseActivity {
     }
 
     private void getMidwiferyNotes() {
-        SmartApiClient.getAuthorizedApiClient().getPregnancyNotes(
+        SmartApiClient.getAuthorizedApiClient(this).getPregnancyNotes(
                 BaseModel.getInstance().getServiceUsers().get(0).getPregnancyIds().get(p).getValue(),
                 new Callback<BaseModel>() {
                     @Override
@@ -139,7 +139,7 @@ public class MidwiferyLogActivity extends BaseActivity {
                 this,
                 "Adding Note");
 
-        SmartApiClient.getAuthorizedApiClient().postPregnancyNote(
+        SmartApiClient.getAuthorizedApiClient(this).postPregnancyNote(
                 postNote,
                 pregnancyId,
                 new Callback<BaseModel>() {

@@ -10,6 +10,7 @@ public class Login extends RealmObject {
     @PrimaryKey
     private int id;
     private String token;
+    private boolean loggedIn = false;
 
     public int getId() {
         return id;
@@ -25,5 +26,13 @@ public class Login extends RealmObject {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public boolean isLoggedIn() {
+        return loggedIn;
+    }
+
+    public void setLoggedIn(boolean loggedIn) {
+        this.loggedIn = loggedIn;
     }
 }

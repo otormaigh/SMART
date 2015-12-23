@@ -48,6 +48,7 @@ import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.Baby;
 import ie.teamchile.smartapp.model.BaseModel;
+import ie.teamchile.smartapp.model.Login;
 import ie.teamchile.smartapp.model.Pregnancy;
 import ie.teamchile.smartapp.util.ClearData;
 import ie.teamchile.smartapp.util.CustomDialogs;
@@ -300,7 +301,7 @@ public class BaseActivity extends AppCompatActivity {
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
                                 Intent.FLAG_ACTIVITY_CLEAR_TASK |
                                 Intent.FLAG_ACTIVITY_NEW_TASK);
-                        if (BaseModel.getInstance().getLoginStatus() == false) {
+                        if (!realm.where(Login.class).findFirst().isLoggedIn()) {
                             startActivity(intent);
                         } else {
                             doLogout(intent);
@@ -311,7 +312,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     private void doLogout(final Intent intent) {
-        SmartApiClient.getAuthorizedApiClient().postLogout(
+        SmartApiClient.getAuthorizedApiClient(this).postLogout(
                 "",
                 new Callback<BaseModel>() {
                     @Override
@@ -333,7 +334,9 @@ public class BaseActivity extends AppCompatActivity {
                     public void failure(RetrofitError error) {
                         Timber.d("in logout failure error = " + error);
                         if (error.getResponse().getStatus() == 401) {
-                            BaseModel.getInstance().setLoginStatus(false);
+                            realm.beginTransaction();
+                            realm.where(Login.class).findFirst().setLoggedIn(false);
+                            realm.commitTransaction();
                             Toast.makeText(getApplicationContext(),
                                     "You are now logged out",
                                     Toast.LENGTH_SHORT).show();
@@ -353,7 +356,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     private void doLogoutWithoutIntent() {
-        SmartApiClient.getAuthorizedApiClient().postLogout(
+        SmartApiClient.getAuthorizedApiClient(this).postLogout(
                 "",
                 new Callback<BaseModel>() {
                     @Override
@@ -447,7 +450,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected void getAllAppointments(final Context context) {
-        SmartApiClient.getAuthorizedApiClient().getAllAppointments(
+        SmartApiClient.getAuthorizedApiClient(this).getAllAppointments(
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {

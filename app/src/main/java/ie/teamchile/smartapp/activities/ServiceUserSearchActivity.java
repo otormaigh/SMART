@@ -109,7 +109,7 @@ public class ServiceUserSearchActivity extends BaseActivity {
     }
 
     private void getHistories(int pregnancyId, int babyId) {
-        SmartApiClient.getAuthorizedApiClient().getVitKHistories(
+        SmartApiClient.getAuthorizedApiClient(this).getVitKHistories(
                 babyId,
                 new Callback<BaseModel>() {
                     @Override
@@ -126,7 +126,7 @@ public class ServiceUserSearchActivity extends BaseActivity {
                     }
                 }
         );
-        SmartApiClient.getAuthorizedApiClient().getHearingHistories(
+        SmartApiClient.getAuthorizedApiClient(this).getHearingHistories(
                 babyId,
                 new Callback<BaseModel>() {
                     @Override
@@ -143,7 +143,7 @@ public class ServiceUserSearchActivity extends BaseActivity {
                     }
                 }
         );
-        SmartApiClient.getAuthorizedApiClient().getNbstHistories(
+        SmartApiClient.getAuthorizedApiClient(this).getNbstHistories(
                 babyId,
                 new Callback<BaseModel>() {
                     @Override
@@ -159,7 +159,7 @@ public class ServiceUserSearchActivity extends BaseActivity {
                     }
                 }
         );
-        SmartApiClient.getAuthorizedApiClient().getFeedingHistoriesByPregId(
+        SmartApiClient.getAuthorizedApiClient(this).getFeedingHistoriesByPregId(
                 pregnancyId,
                 new Callback<BaseModel>() {
                     @Override
@@ -187,7 +187,7 @@ public class ServiceUserSearchActivity extends BaseActivity {
                 ServiceUserSearchActivity.this,
                 "Fetching Information");
 
-        SmartApiClient.getAuthorizedApiClient().getServiceUserByNameDobHospitalNum(
+        SmartApiClient.getAuthorizedApiClient(this).getServiceUserByNameDobHospitalNum(
                 name,
                 hospitalNumber.trim(),
                 dob.trim(),

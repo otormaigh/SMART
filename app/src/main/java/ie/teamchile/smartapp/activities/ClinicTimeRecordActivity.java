@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -193,7 +192,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
     }
 
     private void getTimeRecords(final int clinicId, String date) {
-        SmartApiClient.getAuthorizedApiClient().getTimeRecords(
+        SmartApiClient.getAuthorizedApiClient(this).getTimeRecords(
                 clinicId,
                 date,
                 new Callback<BaseModel>() {
@@ -241,7 +240,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                 ClinicTimeRecordActivity.this,
                 "Updating Clinic Time Records");
 
-        SmartApiClient.getAuthorizedApiClient().postTimeRecords(
+        SmartApiClient.getAuthorizedApiClient(this).postTimeRecords(
                 timeRecord,
                 clinicId,
                 new Callback<BaseModel>() {
@@ -283,7 +282,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                 ClinicTimeRecordActivity.this,
                 "Updating Clinic Time Records");
 
-        SmartApiClient.getAuthorizedApiClient().putTimeRecords(
+        SmartApiClient.getAuthorizedApiClient(this).putTimeRecords(
                 timeRecord,
                 clinicId,
                 recordId,
@@ -320,7 +319,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                 ClinicTimeRecordActivity.this,
                 "Deleting Time Record");
 
-        SmartApiClient.getAuthorizedApiClient().deleteTimeRecordById(
+        SmartApiClient.getAuthorizedApiClient(this).deleteTimeRecordById(
                 clinicIdForDelete,
                 recordIdForDelete,
                 new Callback<BaseModel>() {

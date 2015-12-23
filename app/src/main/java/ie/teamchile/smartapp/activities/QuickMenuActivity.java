@@ -17,6 +17,7 @@ import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.Clinic;
+import ie.teamchile.smartapp.model.Login;
 import ie.teamchile.smartapp.model.ServiceUserAction;
 import ie.teamchile.smartapp.util.CustomDialogs;
 import io.realm.Realm;
@@ -82,9 +83,8 @@ public class QuickMenuActivity extends BaseActivity {
         prefs.putBoolean("reuse", false);
         prefs.commit();
 
-        if (BaseModel.getInstance().getLogin() == null) {
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-            startActivity(intent);
+        if (realm.where(Login.class).findFirst() == null) {
+            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
         }
 
         if(logServ != null){
@@ -109,8 +109,8 @@ public class QuickMenuActivity extends BaseActivity {
 
         showDialog = false;
 
-        SmartApiClient.getAuthorizedApiClient().getServiceProviderById(
-                BaseModel.getInstance().getLogin().getId(),
+        SmartApiClient.getAuthorizedApiClient(this).getServiceProviderById(
+                realm.where(Login.class).findFirst().getId(),
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
@@ -132,7 +132,7 @@ public class QuickMenuActivity extends BaseActivity {
                 }
         );
 
-        SmartApiClient.getAuthorizedApiClient().getAllServiceOptions(
+        SmartApiClient.getAuthorizedApiClient(this).getAllServiceOptions(
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
@@ -153,7 +153,7 @@ public class QuickMenuActivity extends BaseActivity {
                     }
                 }
         );
-        SmartApiClient.getAuthorizedApiClient().getAllClinics(
+        SmartApiClient.getAuthorizedApiClient(this).getAllClinics(
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel things, Response response) {
@@ -181,7 +181,7 @@ public class QuickMenuActivity extends BaseActivity {
                 }
         );
 
-        SmartApiClient.getAuthorizedApiClient().getServiceUserActions(
+        SmartApiClient.getAuthorizedApiClient(this).getServiceUserActions(
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {

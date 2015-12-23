@@ -7,6 +7,7 @@ import java.io.File;
 
 import ie.teamchile.smartapp.activities.BaseActivity;
 import ie.teamchile.smartapp.model.BaseModel;
+import timber.log.Timber;
 
 /**
  * Created by user on 7/4/15.
@@ -23,8 +24,6 @@ public class ClearData extends BaseActivity{
     public void startPurge(Context context) {
         Log.d("purge", "startPurge called");
         BaseModel.getInstance().deleteInstance();
-        BaseModel.getInstance().setLoginStatus(false);
-        System.gc();
         trimCache(context);
     }
 
@@ -36,6 +35,7 @@ public class ClearData extends BaseActivity{
                 deleteDir(dir);
             }
         } catch (Exception e) {
+            Timber.e(Log.getStackTraceString(e));
         }
     }
 
@@ -43,8 +43,10 @@ public class ClearData extends BaseActivity{
         Log.d("purge", "deleteDir called");
         if (dir != null && dir.isDirectory()) {
             String[] children = dir.list();
-            for (int i = 0; i < children.length; i++) {
-                boolean success = deleteDir(new File(dir, children[i]));
+            boolean success;
+            int length = children.length;
+            for (int i = 0; i < length; i++) {
+                success = deleteDir(new File(dir, children[i]));
                 if (!success) {
                     return false;
                 }

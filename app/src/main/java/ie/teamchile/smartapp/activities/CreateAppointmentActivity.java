@@ -247,7 +247,7 @@ public class CreateAppointmentActivity extends BaseActivity {
         listDob.clear();
         listHospitalNumber.clear();
 
-        SmartApiClient.getAuthorizedApiClient().getServiceUserByName(
+        SmartApiClient.getAuthorizedApiClient(this).getServiceUserByName(
                 serviceUserName,
                 new Callback<BaseModel>() {
                     @Override
@@ -398,7 +398,7 @@ public class CreateAppointmentActivity extends BaseActivity {
             appointment.postAppointment(apptDate, time, userID, clinicID, priority, visitType, returnType);
         }
 
-        SmartApiClient.getAuthorizedApiClient().postAppointment(
+        SmartApiClient.getAuthorizedApiClient(this).postAppointment(
                 appointment,
                 new Callback<BaseModel>() {
                     @Override
@@ -456,7 +456,7 @@ public class CreateAppointmentActivity extends BaseActivity {
     }
 
     private void getAppointmentById(int apptId) {
-        SmartApiClient.getAuthorizedApiClient().getAppointmentById(
+        SmartApiClient.getAuthorizedApiClient(this).getAppointmentById(
                 apptId + 1,
                 new Callback<BaseModel>() {
                     @Override

@@ -9,13 +9,12 @@ import android.view.WindowManager;
 import android.widget.Button;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.model.BaseModel;
+import ie.teamchile.smartapp.model.Login;
 import ie.teamchile.smartapp.util.Constants;
 import ie.teamchile.smartapp.util.SharedPrefs;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.exceptions.RealmMigrationNeededException;
-import timber.log.Timber;
 
 public class SplashScreenActivity extends AppCompatActivity implements View.OnClickListener {
     private String rootMsg;
@@ -30,9 +29,9 @@ public class SplashScreenActivity extends AppCompatActivity implements View.OnCl
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         setContentView(R.layout.activity_splash_screen);
 
-        checkIfValidEnvironment();
-
         realm = getRealm();
+
+        checkIfValidEnvironment();
     }
 
     @Override
@@ -80,14 +79,10 @@ public class SplashScreenActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void checkIfLoggedIn() {
-        if (BaseModel.getInstance().getLoginStatus()) {
-            Timber.d("logged in = " + BaseModel.getInstance().getLoginStatus());
-            Intent intent = new Intent(SplashScreenActivity.this, QuickMenuActivity.class);
-            startActivity(intent);
-        } else {
-            Timber.d("logged in = " + BaseModel.getInstance().getLoginStatus());
-            Intent intent = new Intent(SplashScreenActivity.this, LoginActivity.class);
-            startActivity(intent);
+        if (realm.where(Login.class).findFirst() == null) {
+            startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
+        } else if (realm.where(Login.class).findFirst().isLoggedIn()) {
+            startActivity(new Intent(SplashScreenActivity.this, QuickMenuActivity.class));
         }
     }
 

@@ -132,7 +132,7 @@ public class SharedPrefs extends BaseActivity {
     }
 
     public void postAppointment(PostingData data, final Context context, final String tag) {
-        SmartApiClient.getAuthorizedApiClient().postAppointment(
+        SmartApiClient.getAuthorizedApiClient(this).postAppointment(
                 data,
                 new Callback<BaseModel>() {
                     @Override
