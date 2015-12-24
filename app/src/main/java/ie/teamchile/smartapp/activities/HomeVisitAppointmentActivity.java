@@ -31,6 +31,7 @@ import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.Appointment;
 import ie.teamchile.smartapp.model.BaseModel;
+import ie.teamchile.smartapp.model.Login;
 import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.model.RealmInteger;
 import ie.teamchile.smartapp.model.ServiceOption;
@@ -203,7 +204,7 @@ public class HomeVisitAppointmentActivity extends BaseActivity {
         attendedStatus.putAppointmentStatus(
                 status,
                 0,
-                BaseModel.getInstance().getLogin().getId(),
+                realm.where(Login.class).findFirst().getId(),
                 realm.where(Appointment.class).equalTo(Constants.Key_ID, idList.get(position)).findFirst().getServiceUserId());
 
         SmartApiClient.getAuthorizedApiClient(this).putAppointmentStatus(

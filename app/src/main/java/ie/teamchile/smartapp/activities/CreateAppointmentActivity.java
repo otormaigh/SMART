@@ -33,6 +33,7 @@ import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.Clinic;
+import ie.teamchile.smartapp.model.Login;
 import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.model.ServiceOption;
 import ie.teamchile.smartapp.model.ServiceUser;
@@ -392,10 +393,10 @@ public class CreateAppointmentActivity extends BaseActivity {
     private void postAppointment() {
         final PostingData appointment = new PostingData();
         if (priority.equals("home-visit")) {
-            appointment.postAppointment(apptDate, userID, priority, visitType, returnType, serviceOptionId);
+            appointment.postAppointment(realm.where(Login.class).findFirst().getId(), apptDate, userID, priority, visitType, returnType, serviceOptionId);
         } else if (priority.equals("scheduled")) {
             int clinicID = Integer.parseInt(getIntent().getStringExtra("clinicID"));
-            appointment.postAppointment(apptDate, time, userID, clinicID, priority, visitType, returnType);
+            appointment.postAppointment(realm.where(Login.class).findFirst().getId(), apptDate, time, userID, clinicID, priority, visitType, returnType);
         }
 
         SmartApiClient.getAuthorizedApiClient(this).postAppointment(

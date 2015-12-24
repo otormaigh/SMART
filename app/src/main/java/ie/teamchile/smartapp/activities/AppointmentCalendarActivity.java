@@ -34,6 +34,7 @@ import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.Appointment;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.Clinic;
+import ie.teamchile.smartapp.model.Login;
 import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.util.Constants;
 import ie.teamchile.smartapp.util.CustomDialogs;
@@ -243,7 +244,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
         attendedStatus.putAppointmentStatus(
                 status,
                 clinicSelected,
-                BaseModel.getInstance().getLogin().getId(),
+                realm.where(Login.class).findFirst().getId(),
                 realm.where(Appointment.class).equalTo(Constants.Key_ID, idList.get(position)).findFirst().getServiceUserId());
 
         SmartApiClient.getAuthorizedApiClient(this).putAppointmentStatus(
