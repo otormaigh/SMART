@@ -1,10 +1,12 @@
 package ie.teamchile.smartapp.model;
 
+import io.realm.RealmObject;
+
 /**
  * Created by user on 5/26/15.
  */
 
-public class Links {
+public class Links extends RealmObject {
     private String serviceOptions;
     private String serviceProvider;
     private String serviceUser;
@@ -37,22 +39,12 @@ public class Links {
         this.serviceProvider = serviceProvider;
     }
 
-    public Links withServiceProvider(String serviceProvider) {
-        this.serviceProvider = serviceProvider;
-        return this;
-    }
-
     public String getServiceUser() {
         return serviceUser;
     }
 
     public void setServiceUser(String serviceUser) {
         this.serviceUser = serviceUser;
-    }
-
-    public Links withServiceUser(String serviceUser) {
-        this.serviceUser = serviceUser;
-        return this;
     }
 
     public String getHearingHistories() {

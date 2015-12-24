@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -29,7 +28,9 @@ import ie.teamchile.smartapp.model.ClinicTimeRecord;
 import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.util.AppointmentHelper;
 import ie.teamchile.smartapp.util.CustomDialogs;
+import ie.teamchile.smartapp.util.GeneralUtils;
 import ie.teamchile.smartapp.util.SharedPrefs;
+import io.realm.Realm;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -68,14 +69,19 @@ public class ClinicTimeRecordActivity extends BaseActivity {
     private int clinicIdForDelete;
     private int recordGetDone;
     private SharedPrefs sharedPrefs = new SharedPrefs();
-    private AppointmentHelper appointmentHelper = new AppointmentHelper();
+    private AppointmentHelper appointmentHelper;
     private ProgressDialog pd;
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         setContentForNav(R.layout.activity_clinic_time_record);
+
+        realm = Realm.getInstance(this);
+
+        appointmentHelper = new AppointmentHelper(realm);
+
         c = Calendar.getInstance();
         todayDay = dfDayLong.format(c.getTime());
         todayDate = dfDateOnly.format(c.getTime());
@@ -107,12 +113,24 @@ public class ClinicTimeRecordActivity extends BaseActivity {
     protected void onPause() {
         super.onPause();
 
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(clinicTimeRecords);
+        realm.commitTransaction();
+
         BaseModel.getInstance().setClinicTimeRecords(clinicTimeRecords);
         BaseModel.getInstance().setClinicStopped(clinicStopped);
         BaseModel.getInstance().setClinicStarted(clinicStarted);
         BaseModel.getInstance().setClinicNotStarted(clinicNotStarted);
         BaseModel.getInstance().setClinicMap(clinicIdMap);
         BaseModel.getInstance().setClinicDayMap(clinicDayMap);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (realm != null)
+            realm.close();
     }
 
     private void disableButtons() {
@@ -124,13 +142,20 @@ public class ClinicTimeRecordActivity extends BaseActivity {
     private void getDataFromDb() {
         recordGetDone = 0;
 
-        List<Clinic> clinics = BaseModel.getInstance().getClinics();
+        List<Clinic> clinics = realm.where(Clinic.class).findAll();
+        List<String> trueDays;
+        Clinic clinic;
+        int clinicId;
 
-        for (int i = 0; i < clinics.size(); i++) {
-            List<String> trueDays = clinics.get(i).getTrueDays();
-            for (int j = 0; j < trueDays.size(); j++) {
-                Clinic clinic = clinics.get(i);
-                int clinicId = clinics.get(i).getId();
+        int clinicSize = clinics.size();
+        int trueDaySize;
+        for (int i = 0; i < clinicSize; i++) {
+            trueDays = new GeneralUtils().getTrueDays(
+                    clinics.get(i).getDays());
+            trueDaySize = trueDays.size();
+            for (int j = 0; j < trueDaySize; j++) {
+                clinic = clinics.get(i);
+                clinicId = clinics.get(i).getId();
                 clinicIdMap.put(clinicId, clinic);
 
                 if (clinicDayMap.get(trueDays.get(j)) != null) {
@@ -151,7 +176,8 @@ public class ClinicTimeRecordActivity extends BaseActivity {
             pd = new CustomDialogs().showProgressDialog(
                     ClinicTimeRecordActivity.this,
                     "Updating Time Records");
-            for (int i = 0; i < idList.size(); i++) {
+            int size = idList.size();
+            for (int i = 0; i < size; i++) {
                 getTimeRecords(idList.get(i), todayDate);
             }
         } else {
@@ -177,7 +203,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
     }
 
     private void getTimeRecords(final int clinicId, String date) {
-        SmartApiClient.getAuthorizedApiClient().getTimeRecords(
+        SmartApiClient.getAuthorizedApiClient(this).getTimeRecords(
                 clinicId,
                 date,
                 new Callback<BaseModel>() {
@@ -225,7 +251,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                 ClinicTimeRecordActivity.this,
                 "Updating Clinic Time Records");
 
-        SmartApiClient.getAuthorizedApiClient().postTimeRecords(
+        SmartApiClient.getAuthorizedApiClient(this).postTimeRecords(
                 timeRecord,
                 clinicId,
                 new Callback<BaseModel>() {
@@ -267,7 +293,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                 ClinicTimeRecordActivity.this,
                 "Updating Clinic Time Records");
 
-        SmartApiClient.getAuthorizedApiClient().putTimeRecords(
+        SmartApiClient.getAuthorizedApiClient(this).putTimeRecords(
                 timeRecord,
                 clinicId,
                 recordId,
@@ -277,7 +303,8 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                         Timber.d("retro success");
                         disableButtons();
 
-                        for (int i = 0; i < clinicTimeRecords.size(); i++) {
+                        int size = clinicTimeRecords.size();
+                        for (int i = 0; i < size; i++) {
                             if (clinicTimeRecords.get(i).getId() == recordId) {
                                 clinicTimeRecords.remove(i);
                                 clinicStarted.remove(clinicStarted.indexOf(clinicId));
@@ -304,7 +331,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                 ClinicTimeRecordActivity.this,
                 "Deleting Time Record");
 
-        SmartApiClient.getAuthorizedApiClient().deleteTimeRecordById(
+        SmartApiClient.getAuthorizedApiClient(this).deleteTimeRecordById(
                 clinicIdForDelete,
                 recordIdForDelete,
                 new Callback<BaseModel>() {
@@ -313,7 +340,8 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                         Timber.d("deleteTimeRecord success");
                         disableButtons();
 
-                        for (int i = 0; i < clinicTimeRecords.size(); i++) {
+                        int size = clinicTimeRecords.size();
+                        for (int i = 0; i < size; i++) {
                             if (clinicTimeRecords.get(i).getId() == recordIdForDelete) {
                                 clinicTimeRecords.remove(i);
                                 clinicStopped.remove(clinicStopped.indexOf(clinicIdForDelete));
@@ -346,7 +374,8 @@ public class ClinicTimeRecordActivity extends BaseActivity {
             lvNotStarted.setEnabled(false);
         } else {
             lvNotStarted.setEnabled(true);
-            for (int i = 0; i < clinicNotStarted.size(); i++) {
+            int size = clinicNotStarted.size();
+            for (int i = 0; i < size; i++) {
                 clinicName = clinicIdMap.get(clinicNotStarted.get(i)).getName();
                 int clinicId = clinicNotStarted.get(i);
                 switch (clinicId) {
@@ -378,9 +407,12 @@ public class ClinicTimeRecordActivity extends BaseActivity {
             lvStarted.setEnabled(false);
         } else {
             lvStarted.setEnabled(true);
-            for (int i = 0; i < clinicStarted.size(); i++) {
-                String clinicName = clinicIdMap.get(clinicStarted.get(i)).getName();
-                int clinicId = clinicStarted.get(i);
+            String clinicName;
+            int clinicId;
+            int size = clinicStarted.size();
+            for (int i = 0; i < size; i++) {
+                clinicName = clinicIdMap.get(clinicStarted.get(i)).getName();
+                clinicId = clinicStarted.get(i);
                 switch (clinicId) {
                     case 6:
                         clinicName += " (Domino)";
@@ -411,9 +443,12 @@ public class ClinicTimeRecordActivity extends BaseActivity {
             lvStopped.setEnabled(false);
         } else {
             lvStopped.setEnabled(true);
-            for (int i = 0; i < clinicStopped.size(); i++) {
-                String clinicName = clinicIdMap.get(clinicStopped.get(i)).getName();
-                int clinicId = clinicStopped.get(i);
+            String clinicName;
+            int clinicId;
+            int size = clinicStopped.size();
+            for (int i = 0; i < size; i++) {
+                clinicName = clinicIdMap.get(clinicStopped.get(i)).getName();
+                clinicId = clinicStopped.get(i);
                 switch (clinicId) {
                     case 6:
                         clinicName += " (Domino)";
@@ -473,7 +508,8 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                     btnResetRecord.setEnabled(true);
                     vibe.vibrate(50);
                     clinicIdForDelete = clinicStopped.get(position);
-                    for (int i = 0; i < clinicTimeRecords.size(); i++) {
+                    int size = clinicTimeRecords.size();
+                    for (int i = 0; i < size; i++) {
                         if (clinicTimeRecords.get(i).getClinicId() == clinicIdForDelete) {
                             recordIdForDelete = clinicTimeRecords.get(i).getId();
                         }

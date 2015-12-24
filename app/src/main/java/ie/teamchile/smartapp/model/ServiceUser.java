@@ -4,18 +4,20 @@ package ie.teamchile.smartapp.model;
  * Created by user on 5/26/15.
  */
 
-import java.util.ArrayList;
-import java.util.List;
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
-public class ServiceUser {
+public class ServiceUser extends RealmObject {
     private String gestation;
-    private Integer id;
+    @PrimaryKey
+    private int id;
     private String name;
-    private List<Integer> babyIds = new ArrayList<Integer>();
+    private RealmList<RealmInteger> babyIds;
     private ClinicalFields clinicalFields;
     private String hospitalNumber;
     private PersonalFields personalFields;
-    private List<Integer> pregnancyIds = new ArrayList<Integer>();
+    private RealmList<RealmInteger> pregnancyIds;
 
     public String getGestation() {
         return gestation;
@@ -25,17 +27,12 @@ public class ServiceUser {
         this.gestation = gestation;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
-    }
-
-    public ServiceUser withId(Integer id) {
-        this.id = id;
-        return this;
     }
 
     public String getName() {
@@ -46,16 +43,11 @@ public class ServiceUser {
         this.name = name;
     }
 
-    public ServiceUser withName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public List<Integer> getBabyIds() {
+    public RealmList<RealmInteger> getBabyIds() {
         return babyIds;
     }
 
-    public void setBabyIds(List<Integer> babyIds) {
+    public void setBabyIds(RealmList<RealmInteger> babyIds) {
         this.babyIds = babyIds;
     }
 
@@ -83,12 +75,11 @@ public class ServiceUser {
         this.personalFields = personalFields;
     }
 
-    public List<Integer> getPregnancyIds() {
+    public RealmList<RealmInteger> getPregnancyIds() {
         return pregnancyIds;
     }
 
-    public void setPregnancyIds(List<Integer> pregnancyIds) {
+    public void setPregnancyIds(RealmList<RealmInteger> pregnancyIds) {
         this.pregnancyIds = pregnancyIds;
     }
-
 }

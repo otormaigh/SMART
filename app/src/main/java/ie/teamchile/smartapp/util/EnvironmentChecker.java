@@ -5,12 +5,15 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.os.Build;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
+import timber.log.Timber;
 
 /**
  * Created by user on 9/12/15.
@@ -42,9 +45,9 @@ public class EnvironmentChecker {
             }
 
         } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
+            Timber.e(Log.getStackTraceString(e));
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            Timber.e(Log.getStackTraceString(e));
         }
         return !fingerprintMD5.equals(cert);
     }
@@ -108,7 +111,7 @@ public class EnvironmentChecker {
             if (emu || goldfish || sdk || emulator)
                 return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            Timber.e(Log.getStackTraceString(e));
         }
         return false;
     }

@@ -3,7 +3,6 @@ package ie.teamchile.smartapp.activities;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,10 +10,10 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
@@ -41,10 +40,22 @@ import java.util.List;
 
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.api.SmartApiClient;
+import ie.teamchile.smartapp.model.AntiDHistory;
+import ie.teamchile.smartapp.model.Baby;
 import ie.teamchile.smartapp.model.BaseModel;
+import ie.teamchile.smartapp.model.FeedingHistory;
+import ie.teamchile.smartapp.model.HearingHistory;
+import ie.teamchile.smartapp.model.NbstHistory;
 import ie.teamchile.smartapp.model.PostingData;
+import ie.teamchile.smartapp.model.Pregnancy;
+import ie.teamchile.smartapp.model.RealmInteger;
+import ie.teamchile.smartapp.model.ServiceProvider;
+import ie.teamchile.smartapp.model.ServiceUser;
 import ie.teamchile.smartapp.model.ServiceUserAction;
+import ie.teamchile.smartapp.model.VitKHistory;
+import ie.teamchile.smartapp.util.Constants;
 import ie.teamchile.smartapp.util.CustomDialogs;
+import io.realm.Realm;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -65,13 +76,15 @@ public class ServiceUserActivity extends BaseActivity {
             tvPostFeeding, tvPostNBST;
     private LinearLayout llUserContact, llUserAddress, llUserKinContact;
     private String dob = "", age = "", hospitalNumber, email, mobile, userName, kinName,
-            kinMobile, road, county, postCode, gestation, parity, estimtedDelivery,
+            kinMobile, road, county, postCode, gestation, parity,
             perineum, birthMode, babyGender, babyWeightKg = "",
-            vitK, hearing, antiD, feeding, nbst, deliveryDateTime, daysSinceBirth,
+            vitK, hearing, antiD, feeding, nbst, daysSinceBirth,
             userCall, userSMS, userEmail, lastPeriodDate;
+    private Date estimtedDelivery;
+    private Date deliveryDateTime;
     private Boolean rhesus;
     private int babyWeightGrams = 0;
-    private List<Integer> babyID;
+    private List<RealmInteger> babyID;
     private double grams = 0.0;
     private String sex_male = "ale";
     private String sex_female = "emale";
@@ -87,17 +100,55 @@ public class ServiceUserActivity extends BaseActivity {
     private List<String> historyList = new ArrayList<>();
     private List<String> dateTimeList = new ArrayList<>();
     private List<String> providerNameList = new ArrayList<>();
-    private BaseAdapter adapter;
+    private HistoriesAdapter historiesAdapter;
     private int optionPosition;
     private int pregnancyId;
     private List<String> historyOptions;
     private ProgressDialog pd;
+    private Realm realm;
+    private ServiceProvider serviceProvider;
+    private Pregnancy pregnancy;
+    private Baby baby;
+    private ServiceUser serviceUser;
+    private List<AntiDHistory> antiDHistoryList = new ArrayList<>();
+    private List<FeedingHistory> feedingHistoryList = new ArrayList<>();
+    private List<NbstHistory> nbstHistoryList = new ArrayList<>();
+    private List<HearingHistory> hearingHistoryList = new ArrayList<>();
+    private List<VitKHistory> vitKHistoryList = new ArrayList<>();
+    private List<ServiceUserAction> serviceUserActionList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         setContentForNav(R.layout.activity_service_user_tabhost);
+
+        realm = Realm.getInstance(this);
+
+        serviceProvider = realm.where(ServiceProvider.class).findFirst();
+        serviceUser = realm.where(ServiceUser.class).findFirst();
+
+        pregnancy = realm.where(Pregnancy.class)
+                .equalTo(Constants.Key_ID,
+                        getRecentPregnancy(realm.where(Pregnancy.class).findAll()))
+                .findFirst();
+
+        baby = realm.where(Baby.class)
+                .equalTo(Constants.Key_ID, getRecentBaby(
+                        realm.where(Baby.class).findAll()))
+                .findFirst();
+
+        antiDHistoryList.addAll(realm.where(AntiDHistory.class).findAll());
+
+        feedingHistoryList.addAll(realm.where(FeedingHistory.class).findAll());
+
+        nbstHistoryList.addAll(realm.where(NbstHistory.class).findAll());
+
+        hearingHistoryList.addAll(realm.where(HearingHistory.class).findAll());
+
+        vitKHistoryList.addAll(realm.where(VitKHistory.class).findAll());
+
+        serviceUserActionList.addAll(realm.where(ServiceUserAction.class).findAll());
+
         TabHost tabHost = (TabHost) findViewById(android.R.id.tabhost);
         tabHost.setup();
 
@@ -194,53 +245,53 @@ public class ServiceUserActivity extends BaseActivity {
         trFeeding = (TableRow) findViewById(R.id.tr_feeding);
         trFeeding.setOnClickListener(new ButtonClick());
 
+        historiesAdapter = new HistoriesAdapter();
+
         try {
-            dob = BaseModel.getInstance().getServiceUsers().get(0).getPersonalFields().getDob();
+            dob = serviceUser.getPersonalFields().getDob();
             if (dob != null)
                 age = getAge(dob);
-            getRecentPregnancy();
-            getRecentBabyPosition();
 
-            pregnancyId = BaseModel.getInstance().getPregnancies().get(p).getId();
-            userId = BaseModel.getInstance().getServiceUsers().get(0).getId();
-            hospitalNumber = BaseModel.getInstance().getServiceUsers().get(0).getHospitalNumber();
-            email = BaseModel.getInstance().getServiceUsers().get(0).getPersonalFields().getEmail();
-            mobile = BaseModel.getInstance().getServiceUsers().get(0).getPersonalFields().getMobilePhone();
-            userName = BaseModel.getInstance().getServiceUsers().get(0).getPersonalFields().getName();
-            kinName = BaseModel.getInstance().getServiceUsers().get(0).getPersonalFields().getNextOfKinName();
-            kinMobile = BaseModel.getInstance().getServiceUsers().get(0).getPersonalFields().getNextOfKinPhone();
-            road = BaseModel.getInstance().getServiceUsers().get(0).getPersonalFields().getHomeAddress();
-            county = BaseModel.getInstance().getServiceUsers().get(0).getPersonalFields().getHomeCounty();
-            postCode = BaseModel.getInstance().getServiceUsers().get(0).getPersonalFields().getHomePostCode();
-            perineum = BaseModel.getInstance().getPregnancies().get(p).getPerineum();
-            List<String> birthModeList = BaseModel.getInstance().getPregnancies().get(p).getBirthMode();
-            if (birthModeList != null)
-                birthMode = putArrayToString(BaseModel.getInstance().getPregnancies().get(p).getBirthMode());
+            pregnancyId = pregnancy.getId();
+            userId = serviceUser.getId();
+            hospitalNumber = serviceUser.getHospitalNumber();
+            email = serviceUser.getPersonalFields().getEmail();
+            mobile = serviceUser.getPersonalFields().getMobilePhone();
+            userName = serviceUser.getPersonalFields().getName();
+            kinName = serviceUser.getPersonalFields().getNextOfKinName();
+            kinMobile = serviceUser.getPersonalFields().getNextOfKinPhone();
+            road = serviceUser.getPersonalFields().getHomeAddress();
+            county = serviceUser.getPersonalFields().getHomeCounty();
+            postCode = serviceUser.getPersonalFields().getHomePostCode();
+            perineum = pregnancy.getPerineum();
+            /*List<RealmString> birthModeList = pregnancy.getBirthMode();
+            if (!birthModeList.isEmpty())
+                birthMode = putArrayToString(pregnancy.getBirthMode());
             else
-                birthMode = "";
-            babyGender = BaseModel.getInstance().getBabies().get(b).getGender();
-            if (BaseModel.getInstance().getBabies().get(b).getWeight() != null)
-                babyWeightKg = getGramsToKg(BaseModel.getInstance().getBabies().get(b).getWeight());
+                birthMode = "";*/
+            babyGender = baby.getGender();
+            if (baby.getWeight() != 0)
+                babyWeightKg = getGramsToKg(baby.getWeight());
             else
                 babyWeightKg = "";
-            babyID = BaseModel.getInstance().getServiceUsers().get(0).getBabyIds();
-            gestation = BaseModel.getInstance().getPregnancies().get(p).getGestation();
-            parity = BaseModel.getInstance().getServiceUsers().get(0).getClinicalFields().getParity();
-            estimtedDelivery = BaseModel.getInstance().getPregnancies().get(p).getEstimatedDeliveryDate();
-            lastPeriodDate = BaseModel.getInstance().getPregnancies().get(p).getLastMenstrualPeriod();
-            vitK = BaseModel.getInstance().getBabies().get(b).getVitK();
-            hearing = BaseModel.getInstance().getBabies().get(b).getHearing();
-            antiD = BaseModel.getInstance().getPregnancies().get(p).getAntiD();
-            feeding = BaseModel.getInstance().getPregnancies().get(p).getFeeding();
-            rhesus = BaseModel.getInstance().getServiceUsers().get(0).getClinicalFields().getRhesus();
+            babyID = serviceUser.getBabyIds();
+            gestation = pregnancy.getGestation();
+            parity = serviceUser.getClinicalFields().getParity();
+            estimtedDelivery = pregnancy.getEstimatedDeliveryDate();
+            lastPeriodDate = pregnancy.getLastMenstrualPeriod();
+            vitK = baby.getVitK();
+            hearing = baby.getHearing();
+            antiD = pregnancy.getAntiD();
+            feeding = pregnancy.getFeeding();
+            rhesus = serviceUser.getClinicalFields().isRhesus();
             if (rhesus)
                 tvAnteRhesus.setText("Yes");
-            else if (!rhesus)
+            else
                 tvAnteRhesus.setText("No");
             if (feeding == null)
                 feeding = "";
-            nbst = BaseModel.getInstance().getBabies().get(b).getNbst();
-            deliveryDateTime = BaseModel.getInstance().getBabies().get(b).getDeliveryDateTime();
+            nbst = baby.getNbst();
+            deliveryDateTime = baby.getDeliveryDateTime();
             if (deliveryDateTime != null)
                 daysSinceBirth = getNoOfDays(deliveryDateTime);
             setActionBarTitle(userName);
@@ -249,7 +300,7 @@ public class ServiceUserActivity extends BaseActivity {
                 trParity.setEnabled(false);
             tvAnteParity.setText(parity);
             tvAnteGestation.setText(gestation);
-            tvAnteBloodGroup.setText(BaseModel.getInstance().getServiceUsers().get(0).getClinicalFields().getBloodGroup());
+            tvAnteBloodGroup.setText(serviceUser.getClinicalFields().getBloodGroup());
             if (estimtedDelivery != null)
                 tvAnteDeliveryTime.setText(getEstimateDeliveryDate(estimtedDelivery));
             else
@@ -288,15 +339,42 @@ public class ServiceUserActivity extends BaseActivity {
                 tvPostBabyGender.setText(babyGender + sex_female);
             tvPostDaysSinceBirth.setText(daysSinceBirth);
         } catch (NullPointerException e) {
-            e.printStackTrace();
+            Timber.e(Log.getStackTraceString(e));
         }
+    }
 
-        getRecentBabyId();
-        getRecentBabyPosition();
-        pregnancyId = BaseModel.getInstance().getBabies().get(b).getPregnancyId();
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        realm.beginTransaction();
+        realm.allObjects(ServiceUser.class).clear();
+        realm.allObjects(Pregnancy.class).clear();
+        realm.allObjects(Baby.class).clear();
+        realm.allObjects(AntiDHistory.class).clear();
+        realm.allObjects(FeedingHistory.class).clear();
+        realm.allObjects(NbstHistory.class).clear();
+        realm.allObjects(HearingHistory.class).clear();
+        realm.allObjects(VitKHistory.class).clear();
+        realm.commitTransaction();
+    }
 
-        BaseModel.getInstance().setPregnancyNotes(
-                BaseModel.getInstance().getPregnancies().get(p).getPregnancyNotes());
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (realm != null) {
+            realm.beginTransaction();
+            realm.allObjects(ServiceUser.class).clear();
+            realm.allObjects(Pregnancy.class).clear();
+            realm.allObjects(Baby.class).clear();
+            realm.allObjects(AntiDHistory.class).clear();
+            realm.allObjects(FeedingHistory.class).clear();
+            realm.allObjects(NbstHistory.class).clear();
+            realm.allObjects(HearingHistory.class).clear();
+            realm.allObjects(VitKHistory.class).clear();
+            realm.commitTransaction();
+            realm.close();
+        }
     }
 
     private void setAntiD() {
@@ -307,19 +385,10 @@ public class ServiceUserActivity extends BaseActivity {
         String[] arrayFromXml = getResources().getStringArray(R.array.anti_d_list);
         historyOptions = Arrays.asList(arrayFromXml);
 
-        for (int i = 0; i < BaseModel.getInstance().getAntiDHistories().size(); i++) {
-            Date parsed;
-            String formatted = "";
-            try {
-                parsed = dfDateTimeWMillisZone.parse(BaseModel.getInstance().getAntiDHistories().get(i).getCreatedAt());
-                formatted = dfHumanReadableTimeDate.format(parsed);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-            historyList.add(BaseModel.getInstance().getAntiDHistories().get(i).getAntiD());
-            dateTimeList.add(formatted);
-            providerNameList.add(BaseModel.getInstance().getAntiDHistories().get(i).getServiceProviderName());
+        for (int i = 0; i < antiDHistoryList.size(); i++) {
+            historyList.add(antiDHistoryList.get(i).getAntiD());
+            dateTimeList.add(dfHumanReadableTimeDate.format(antiDHistoryList.get(i).getCreatedAt()));
+            providerNameList.add(antiDHistoryList.get(i).getServiceProviderName());
         }
     }
 
@@ -331,19 +400,10 @@ public class ServiceUserActivity extends BaseActivity {
         String[] arrayFromXml = getResources().getStringArray(R.array.feeding_list);
         historyOptions = Arrays.asList(arrayFromXml);
 
-        for (int i = 0; i < BaseModel.getInstance().getFeedingHistories().size(); i++) {
-            Date parsed;
-            String formatted = "";
-            try {
-                parsed = dfDateTimeWMillisZone.parse(BaseModel.getInstance().getFeedingHistories().get(i).getCreatedAt());
-                formatted = dfHumanReadableTimeDate.format(parsed);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-            historyList.add(BaseModel.getInstance().getFeedingHistories().get(i).getFeeding());
-            dateTimeList.add(formatted);
-            providerNameList.add(BaseModel.getInstance().getFeedingHistories().get(i).getServiceProviderName());
+        for (int i = 0; i < feedingHistoryList.size(); i++) {
+            historyList.add(feedingHistoryList.get(i).getFeeding());
+            dateTimeList.add(dfHumanReadableTimeDate.format(feedingHistoryList.get(i).getCreatedAt()));
+            providerNameList.add(feedingHistoryList.get(i).getServiceProviderName());
         }
     }
 
@@ -355,19 +415,10 @@ public class ServiceUserActivity extends BaseActivity {
         String[] arrayFromXml = getResources().getStringArray(R.array.vit_k_list);
         historyOptions = Arrays.asList(arrayFromXml);
 
-        for (int i = 0; i < BaseModel.getInstance().getVitKHistories().size(); i++) {
-            Date parsed;
-            String formatted = "";
-            try {
-                parsed = dfDateTimeWMillisZone.parse(BaseModel.getInstance().getVitKHistories().get(i).getCreatedAt());
-                formatted = dfHumanReadableTimeDate.format(parsed);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-            historyList.add(BaseModel.getInstance().getVitKHistories().get(i).getVitK());
-            dateTimeList.add(formatted);
-            providerNameList.add(BaseModel.getInstance().getVitKHistories().get(i).getServiceProviderName());
+        for (int i = 0; i < vitKHistoryList.size(); i++) {
+            historyList.add(vitKHistoryList.get(i).getVitK());
+            dateTimeList.add(dfHumanReadableTimeDate.format(vitKHistoryList.get(i).getCreatedAt()));
+            providerNameList.add(vitKHistoryList.get(i).getServiceProviderName());
         }
     }
 
@@ -379,19 +430,10 @@ public class ServiceUserActivity extends BaseActivity {
         String[] arrayFromXml = getResources().getStringArray(R.array.hearing_list);
         historyOptions = Arrays.asList(arrayFromXml);
 
-        for (int i = 0; i < BaseModel.getInstance().getHearingHistories().size(); i++) {
-            Date parsed;
-            String formatted = "";
-            try {
-                parsed = dfDateTimeWMillisZone.parse(BaseModel.getInstance().getHearingHistories().get(i).getCreatedAt());
-                formatted = dfHumanReadableTimeDate.format(parsed);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-            historyList.add(BaseModel.getInstance().getHearingHistories().get(i).getHearing());
-            dateTimeList.add(formatted);
-            providerNameList.add(BaseModel.getInstance().getHearingHistories().get(i).getServiceProviderName());
+        for (int i = 0; i < hearingHistoryList.size(); i++) {
+            historyList.add(hearingHistoryList.get(i).getHearing());
+            dateTimeList.add(dfHumanReadableTimeDate.format(hearingHistoryList.get(i).getCreatedAt()));
+            providerNameList.add(hearingHistoryList.get(i).getServiceProviderName());
         }
     }
 
@@ -403,19 +445,10 @@ public class ServiceUserActivity extends BaseActivity {
         String[] arrayFromXml = getResources().getStringArray(R.array.nbst_list);
         historyOptions = Arrays.asList(arrayFromXml);
 
-        for (int i = 0; i < BaseModel.getInstance().getNbstHistories().size(); i++) {
-            Date parsed;
-            String formatted = "";
-            try {
-                parsed = dfDateTimeWMillisZone.parse(BaseModel.getInstance().getNbstHistories().get(i).getCreatedAt());
-                formatted = dfHumanReadableTimeDate.format(parsed);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-            historyList.add(BaseModel.getInstance().getNbstHistories().get(i).getNbst());
-            dateTimeList.add(formatted);
-            providerNameList.add(BaseModel.getInstance().getNbstHistories().get(i).getServiceProviderName());
+        for (int i = 0; i < nbstHistoryList.size(); i++) {
+            historyList.add(nbstHistoryList.get(i).getNbst());
+            dateTimeList.add(dfHumanReadableTimeDate.format(nbstHistoryList.get(i).getCreatedAt()));
+            providerNameList.add(nbstHistoryList.get(i).getServiceProviderName());
         }
     }
 
@@ -509,7 +542,7 @@ public class ServiceUserActivity extends BaseActivity {
             dobAsDate = dfDateOnly.parse(dob);
             cal.setTime(dobAsDate);
         } catch (ParseException | NullPointerException e) {
-            e.printStackTrace();
+            Timber.e(Log.getStackTraceString(e));
         }
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);
@@ -532,16 +565,8 @@ public class ServiceUserActivity extends BaseActivity {
         return String.valueOf(result);
     }
 
-    private String getEstimateDeliveryDate(String edd) {
-        Date date;
-        String ed = null;
-        try {
-            date = dfDateOnly.parse(edd);
-            ed = dfMonthFullName.format(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return ed;
+    private String getEstimateDeliveryDate(Date date) {
+        return dfMonthFullName.format(date);
     }
 
     public String getLastPeriodDate(String edd) {
@@ -551,48 +576,24 @@ public class ServiceUserActivity extends BaseActivity {
             date = dfDateOnly.parse(edd);
             ed = dfMonthFullName.format(date);
         } catch (ParseException e) {
-            e.printStackTrace();
+            Timber.e(Log.getStackTraceString(e));
         }
         return ed;
     }
 
-    protected String getDeliveryDate(String edd) {
-        Date date;
-        String dateOfDelivery = null;
-        try {
-            date = dfDateOnly.parse(edd);
-            dateOfDelivery = dfMonthFullName.format(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return dateOfDelivery;
+    protected String getDeliveryDate(Date date) {
+        return dfMonthFullName.format(date);
     }
 
-    private String getDeliveryTime(String edd) {
-        String deliveryTime = null;
-        Date date;
-        try {
-            date = dfDateOnly.parse(edd);
-
-            deliveryTime = dfAMPM.format(date);
-            date = dfDateTimeWZone.parse(edd);
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return deliveryTime;
+    private String getDeliveryTime(Date date) {
+        return dfAMPM.format(date);
     }
 
-    private String getNoOfDays(String dateOfDelivery) {
+    private String getNoOfDays(Date dateOfDelivery) {
         int numOfDays = 0;
-        try {
-            Date dodAsDate = dfDateTimeWZone.parse(deliveryDateTime);
-            cal = Calendar.getInstance();
-            Date now = cal.getTime();
-            numOfDays = (int) ((now.getTime() - dodAsDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        cal = Calendar.getInstance();
+        Date now = cal.getTime();
+        numOfDays = (int) ((now.getTime() - dateOfDelivery.getTime()) / (1000 * 60 * 60 * 24)) + 1;
 
         return String.valueOf(numOfDays);
     }
@@ -638,8 +639,8 @@ public class ServiceUserActivity extends BaseActivity {
         try {
             if (!address.isEmpty() && address != null)
                 addresses = geocoder.getFromLocationName(address, 1);
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
+        } catch (IOException e) {
+            Timber.e(Log.getStackTraceString(e));
         }
 
         if (addresses != null && addresses.size() > 0) {
@@ -655,9 +656,9 @@ public class ServiceUserActivity extends BaseActivity {
     private void historyAlertDialog(final String title) {
         LayoutInflater inflater = getLayoutInflater();
         alertDialog = new AlertDialog.Builder(ServiceUserActivity.this);
-        View convertView = (View) inflater.inflate(R.layout.dialog_history, null);
+        View convertView = inflater.inflate(R.layout.dialog_history, null);
         ListView list = (ListView) convertView.findViewById(R.id.lv_history);
-        Button btnAntiD = (Button) convertView.findViewById(R.id.btn_add_history);
+        Button btnHistories = (Button) convertView.findViewById(R.id.btn_add_history);
         TextView tvDialogTitle = (TextView) convertView.findViewById(R.id.tv_history_dialog_title);
         ImageView ivExit = (ImageView) convertView.findViewById(R.id.iv_exit_dialog);
         ivExit.setOnClickListener(new View.OnClickListener() {
@@ -667,29 +668,25 @@ public class ServiceUserActivity extends BaseActivity {
             }
         });
 
-        btnAntiD.setOnClickListener(
+        btnHistories.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         ad.dismiss();
-                        updateAntiDAlertDialog(title);
+                        updateHistoriesAlertDialog(title);
                     }
                 });
 
         alertDialog.setView(convertView);
         tvDialogTitle.setText(title + " History");
-        adapter = new MyListAdapter(
-                ServiceUserActivity.this,
-                historyList,
-                dateTimeList,
-                providerNameList);
-        list.setAdapter(adapter);
+        list.setAdapter(historiesAdapter);
+        historiesAdapter.notifyDataSetChanged();
         ad = alertDialog.show();
     }
 
-    private void updateAntiDAlertDialog(final String title) {
+    private void updateHistoriesAlertDialog(final String title) {
         LayoutInflater inflater = getLayoutInflater();
-        View convertView = (View) inflater.inflate(R.layout.dialog_update_history, null);
+        View convertView = inflater.inflate(R.layout.dialog_update_history, null);
         final ListView list = (ListView) convertView.findViewById(R.id.lv_history_options);
         Button btnAntiD = (Button) convertView.findViewById(R.id.btn_add_history);
         TextView tvDialogTitle = (TextView) convertView.findViewById(R.id.tv_history_dialog_title);
@@ -750,20 +747,27 @@ public class ServiceUserActivity extends BaseActivity {
                 this,
                 "Updating Anti-D");
 
-        SmartApiClient.getAuthorizedApiClient().putAnitD(
+        SmartApiClient.getAuthorizedApiClient(this).putAnitD(
                 puttingAntiD,
-                BaseModel.getInstance().getPregnancies().get(p).getId(),
+                pregnancy.getId(),
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
-                        String antiD = baseModel.getPregnancy().getAntiD();
-                        ad.dismiss();
-                        tvPostAntiD.setText(antiD);
-                        historyList.add(0, antiD);
-                        dateTimeList.add(0, dfHumanReadableTimeDate.format(c.getTime()));
-                        providerNameList.add(0, BaseModel.getInstance().getServiceProvider().getName());
-                        BaseModel.getInstance().updatePregnancies(p, baseModel.getPregnancy());
                         Timber.d("put anti-d retro success");
+
+                        AntiDHistory antiDHistory = new AntiDHistory();
+                        antiDHistory.setAntiD(baseModel.getPregnancy().getAntiD());
+                        antiDHistory.setCreatedAt(c.getTime());
+                        antiDHistory.setServiceProviderName(serviceProvider.getName());
+
+                        realm.beginTransaction();
+                        realm.copyToRealmOrUpdate(baseModel.getPregnancy());
+                        antiDHistoryList.add(antiDHistory);
+                        pregnancy = baseModel.getPregnancy();
+                        realm.commitTransaction();
+
+                        tvPostAntiD.setText(antiD);
+
                         pd.dismiss();
                         ad.dismiss();
                     }
@@ -781,26 +785,35 @@ public class ServiceUserActivity extends BaseActivity {
         c = Calendar.getInstance();
         PostingData puttingFeeding = new PostingData();
 
-        puttingFeeding.putFeeding(putFeeding, userId);
+        puttingFeeding.putFeeding(
+                putFeeding,
+                userId);
 
         pd = new CustomDialogs().showProgressDialog(
                 this,
                 "Updating Feeding");
 
-        SmartApiClient.getAuthorizedApiClient().putAnitD(
+        SmartApiClient.getAuthorizedApiClient(this).putAnitD(
                 puttingFeeding,
-                BaseModel.getInstance().getPregnancies().get(p).getId(),
+                pregnancy.getId(),
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
-                        String feeding = baseModel.getPregnancy().getFeeding();
-                        ad.dismiss();
-                        tvPostFeeding.setText(feeding);
-                        historyList.add(0, feeding);
-                        dateTimeList.add(0, dfHumanReadableTimeDate.format(c.getTime()));
-                        providerNameList.add(0, BaseModel.getInstance().getServiceProvider().getName());
-                        BaseModel.getInstance().updatePregnancies(p, baseModel.getPregnancy());
                         Timber.d("put feeding retro success");
+
+                        FeedingHistory feedingHistory = new FeedingHistory();
+                        feedingHistory.setFeeding(baseModel.getPregnancy().getFeeding());
+                        feedingHistory.setCreatedAt(c.getTime());
+                        feedingHistory.setServiceProviderName(serviceProvider.getName());
+
+                        realm.beginTransaction();
+                        realm.copyToRealmOrUpdate(baseModel.getPregnancy());
+                        feedingHistoryList.add(feedingHistory);
+                        pregnancy = baseModel.getPregnancy();
+                        realm.commitTransaction();
+
+                        tvPostFeeding.setText(feeding);
+
                         pd.dismiss();
                         ad.dismiss();
                     }
@@ -816,30 +829,39 @@ public class ServiceUserActivity extends BaseActivity {
 
     private void putVitK(String putVitK) {
         c = Calendar.getInstance();
-        getRecentBabyId();
-        Timber.d("preg id = " + BaseModel.getInstance().getPregnancies().get(0).getId());
+        Timber.d("preg id = " + pregnancy.getId());
         PostingData puttingVitK = new PostingData();
 
-        puttingVitK.putVitK(putVitK, userId, BaseModel.getInstance().getPregnancies().get(0).getId());
+        puttingVitK.putVitK(
+                putVitK,
+                userId,
+                pregnancy.getId());
 
         pd = new CustomDialogs().showProgressDialog(
                 this,
                 "Updating Vit-K");
 
-        SmartApiClient.getAuthorizedApiClient().putVitK(
+        SmartApiClient.getAuthorizedApiClient(this).putVitK(
                 puttingVitK,
-                bId,
+                baby.getId(),
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
-                        String vitK = baseModel.getBaby().getVitK();
-                        ad.dismiss();
-                        tvPostVitK.setText(vitK);
-                        historyList.add(0, vitK);
-                        dateTimeList.add(0, dfHumanReadableTimeDate.format(c.getTime()));
-                        providerNameList.add(0, BaseModel.getInstance().getServiceProvider().getName());
-                        //BaseModel.getInstance().updatePregnancies(p, baseModel.getPregnancy());
                         Timber.d("put vit k retro success");
+
+                        VitKHistory vitKHistory = new VitKHistory();
+                        vitKHistory.setVitK(baseModel.getBaby().getVitK());
+                        vitKHistory.setCreatedAt(c.getTime());
+                        vitKHistory.setServiceProviderName(serviceProvider.getName());
+
+                        realm.beginTransaction();
+                        realm.copyToRealmOrUpdate(baseModel.getBaby());
+                        vitKHistoryList.add(vitKHistory);
+                        baby = baseModel.getBaby();
+                        realm.commitTransaction();
+
+                        tvPostVitK.setText(vitK);
+
                         pd.dismiss();
                         ad.dismiss();
                     }
@@ -855,29 +877,38 @@ public class ServiceUserActivity extends BaseActivity {
 
     private void putHearing(String putHearing) {
         c = Calendar.getInstance();
-        getRecentBabyId();
         PostingData puttingHearing = new PostingData();
 
-        puttingHearing.putHearing(putHearing, userId, BaseModel.getInstance().getPregnancies().get(0).getId());
+        puttingHearing.putHearing(
+                putHearing,
+                userId,
+                pregnancy.getId());
 
         pd = new CustomDialogs().showProgressDialog(
                 this,
                 "Updating Hearing");
 
-        SmartApiClient.getAuthorizedApiClient().putHearing(
+        SmartApiClient.getAuthorizedApiClient(this).putHearing(
                 puttingHearing,
-                bId,
+                baby.getId(),
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
-                        String hearing = baseModel.getBaby().getHearing();
-                        ad.dismiss();
-                        tvPostHearing.setText(hearing);
-                        historyList.add(0, hearing);
-                        dateTimeList.add(0, dfHumanReadableTimeDate.format(c.getTime()));
-                        providerNameList.add(0, BaseModel.getInstance().getServiceProvider().getName());
-                        //BaseModel.getInstance().updatePregnancies(p, baseModel.getPregnancy());
                         Timber.d("put hearing retro success");
+
+                        HearingHistory hearingHistory = new HearingHistory();
+                        hearingHistory.setHearing(baseModel.getBaby().getHearing());
+                        hearingHistory.setCreatedAt(c.getTime());
+                        hearingHistory.setServiceProviderName(serviceProvider.getName());
+
+                        realm.beginTransaction();
+                        realm.copyToRealmOrUpdate(baseModel.getBaby());
+                        hearingHistoryList.add(hearingHistory);
+                        baby = baseModel.getBaby();
+                        realm.commitTransaction();
+
+                        tvPostHearing.setText(hearing);
+
                         pd.dismiss();
                         ad.dismiss();
                     }
@@ -893,28 +924,38 @@ public class ServiceUserActivity extends BaseActivity {
 
     private void putNBST(String putNbst) {
         c = Calendar.getInstance();
-        getRecentBabyId();
         PostingData puttingNbst = new PostingData();
 
-        puttingNbst.putNBST(nbst, userId, BaseModel.getInstance().getPregnancies().get(0).getId());
+        puttingNbst.putNBST(
+                putNbst,
+                userId,
+                pregnancy.getId());
 
         pd = new CustomDialogs().showProgressDialog(
                 this,
                 "Updating NBST");
 
-        SmartApiClient.getAuthorizedApiClient().putNBST(
+        SmartApiClient.getAuthorizedApiClient(this).putNBST(
                 puttingNbst,
-                bId,
+                baby.getId(),
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
-                        String nbst = baseModel.getBaby().getNbst();
-                        ad.dismiss();
-                        tvPostNBST.setText(nbst);
-                        historyList.add(0, nbst);
-                        dateTimeList.add(0, dfHumanReadableTimeDate.format(c.getTime()));
-                        providerNameList.add(0, BaseModel.getInstance().getServiceProvider().getName());
                         Timber.d("put nbst retro success");
+
+                        NbstHistory nbstHistory = new NbstHistory();
+                        nbstHistory.setNbst(baseModel.getBaby().getNbst());
+                        nbstHistory.setCreatedAt(c.getTime());
+                        nbstHistory.setServiceProviderName(serviceProvider.getName());
+
+                        realm.beginTransaction();
+                        realm.copyToRealmOrUpdate(baseModel.getBaby());
+                        nbstHistoryList.add(nbstHistory);
+                        baby = baseModel.getBaby();
+                        realm.commitTransaction();
+
+                        tvPostNBST.setText(baby.getNbst());
+
                         pd.dismiss();
                         ad.dismiss();
                     }
@@ -928,14 +969,17 @@ public class ServiceUserActivity extends BaseActivity {
         );
     }
 
-    private void getMidwiferyNotes(){
-        SmartApiClient.getAuthorizedApiClient().getPregnancyNotes(
-                BaseModel.getInstance().getServiceUsers().get(0).getPregnancyIds().get(p),
+    private void getMidwiferyNotes() {
+        SmartApiClient.getAuthorizedApiClient(this).getPregnancyNotes(
+                pregnancy.getId(),
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
                         Timber.d("put getMidwiferyNotes retro success");
-                        BaseModel.getInstance().setPregnancyNotes(baseModel.getPregnancyNotes());
+                        realm.beginTransaction();
+                        realm.copyToRealmOrUpdate(baseModel.getPregnancyNotes());
+                        realm.commitTransaction();
+
                         pd.dismiss();
                     }
 
@@ -948,13 +992,13 @@ public class ServiceUserActivity extends BaseActivity {
         );
     }
 
-    private void postPregnancyActions(String action){
+    private void postPregnancyActions(String action) {
         PostingData postAction = new PostingData();
         postAction.postPregnancyAction(action);
 
-        SmartApiClient.getAuthorizedApiClient().postPregnancyAction(
+        SmartApiClient.getAuthorizedApiClient(this).postPregnancyAction(
                 postAction,
-                BaseModel.getInstance().getServiceUsers().get(0).getPregnancyIds().get(p),
+                pregnancy.getId(),
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
@@ -971,14 +1015,14 @@ public class ServiceUserActivity extends BaseActivity {
 
     private void showActionsDialog() {
         List<String> listServiceActions = new ArrayList<>();
-        for(int i = 0; i < BaseModel.getInstance().getServiceUserActions().size(); i++){
-            String shortCode = BaseModel.getInstance().getServiceUserActions().get(i).getShortCode();
+        for (int i = 0; i < serviceUserActionList.size(); i++) {
+            String shortCode = serviceUserActionList.get(i).getShortCode();
             listServiceActions.add(shortCode);
         }
 
         LayoutInflater inflater = getLayoutInflater();
         alertDialog = new AlertDialog.Builder(ServiceUserActivity.this);
-        View convertView = (View) inflater.inflate(R.layout.dialog_list_button, null);
+        View convertView = inflater.inflate(R.layout.dialog_list_button, null);
         ListView list = (ListView) convertView.findViewById(R.id.lv_dialog);
         TextView tvDialogTitle = (TextView) convertView.findViewById(R.id.tv_dialog_title);
         ImageView ivDialogExit = (ImageView) convertView.findViewById(R.id.iv_dialog_exit);
@@ -1003,22 +1047,15 @@ public class ServiceUserActivity extends BaseActivity {
 
         alertDialog.setView(convertView);
         //tvDialogTitle.setText(title + " History");
-        ActionsBaseAdapter adapter = new ActionsBaseAdapter(
-                ServiceUserActivity.this,
-                listServiceActions);
+        ActionsBaseAdapter adapter = new ActionsBaseAdapter(listServiceActions);
         list.setAdapter(adapter);
         ad = alertDialog.show();
     }
 
     private class ActionsBaseAdapter extends BaseAdapter {
-        Context context;
         List<String> listServiceActions = new ArrayList<>();
-        List<ServiceUserAction> serviceUserActionList =
-                BaseModel.getInstance().getServiceUserActions();
-        List<Integer> actionIdList = new ArrayList<>();
 
-        public ActionsBaseAdapter(Context context, List<String> listServiceActions) {
-            this.context = context;
+        public ActionsBaseAdapter(List<String> listServiceActions) {
             this.listServiceActions = listServiceActions;
         }
 
@@ -1033,8 +1070,8 @@ public class ServiceUserActivity extends BaseActivity {
         }
 
         @Override
-        public Object getItem(int position) {
-            return null;
+        public String getItem(int position) {
+            return listServiceActions.get(position);
         }
 
         @Override
@@ -1058,18 +1095,18 @@ public class ServiceUserActivity extends BaseActivity {
                     ivStatus.setBackgroundResource(R.color.attended);
                     swipeLayout.close();
                     //actionIdList.add(serviceUserActionList.get(position).getId());
-                    postPregnancyActions(listServiceActions.get(position));
+                    postPregnancyActions(getItem(position));
                 }
             });
 
-            tvAction.setText(listServiceActions.get(position));
+            tvAction.setText(getItem(position));
 
             return convertView;
         }
     }
 
     private class ButtonClick implements View.OnClickListener, DialogInterface {
-        Intent intent;
+        Intent intent = null;
 
         public void onClick(View v) {
             switch (v.getId()) {
@@ -1093,7 +1130,6 @@ public class ServiceUserActivity extends BaseActivity {
                     break;
                 case R.id.tr_ante_parity:
                     intent = new Intent(ServiceUserActivity.this, ParityDetailsActivity.class);
-                    startActivity(intent);
                     break;
                 case R.id.tr_post_anti_d:
                 case R.id.iv_anti_d_history_icon:
@@ -1104,7 +1140,6 @@ public class ServiceUserActivity extends BaseActivity {
                 case R.id.iv_post_midwives_notes:
                     intent = new Intent(ServiceUserActivity.this, MidwiferyLogActivity.class);
                     intent.putExtra("pregnancyId", String.valueOf(pregnancyId));
-                    startActivity(intent);
                     break;
                 case R.id.tr_vit_k:
                 case R.id.iv_vit_k_history_icon:
@@ -1127,6 +1162,8 @@ public class ServiceUserActivity extends BaseActivity {
                     historyAlertDialog("Feeding");
                     break;
             }
+            if (intent != null)
+                startActivity(intent);
         }
 
         @Override
@@ -1138,22 +1175,7 @@ public class ServiceUserActivity extends BaseActivity {
         }
     }
 
-    private class MyListAdapter extends BaseAdapter {
-        Context context;
-        List<String> historyList = new ArrayList<>();
-        List<String> dateTimeList = new ArrayList<>();
-        List<String> providerNameList = new ArrayList<>();
-
-        public MyListAdapter(Context context,
-                             List<String> historyList,
-                             List<String> dateTimeList,
-                             List<String> providerNameList) {
-            this.context = context;
-            this.historyList = historyList;
-            this.dateTimeList = dateTimeList;
-            this.providerNameList = providerNameList;
-        }
-
+    private class HistoriesAdapter extends BaseAdapter {
         @Override
         public int getCount() {
             return dateTimeList.size();
@@ -1172,7 +1194,7 @@ public class ServiceUserActivity extends BaseActivity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             LayoutInflater inflater = getLayoutInflater();
-            convertView = (View) inflater.inflate(R.layout.list_layout_history, null);
+            convertView = inflater.inflate(R.layout.list_layout_history, null);
             TextView tvHistory = (TextView) convertView.findViewById(R.id.tv_anti_d_option);
             TextView tvDateTime = (TextView) convertView.findViewById(R.id.tv_anti_d_date_time);
             TextView tvName = (TextView) convertView.findViewById(R.id.tv_anti_d_provider_name);

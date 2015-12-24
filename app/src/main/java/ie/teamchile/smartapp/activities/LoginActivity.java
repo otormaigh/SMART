@@ -7,8 +7,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,24 +23,25 @@ import ie.teamchile.smartapp.BuildConfig;
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.BaseModel;
+import ie.teamchile.smartapp.model.Login;
 import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.util.Constants;
 import ie.teamchile.smartapp.util.CustomDialogs;
 import ie.teamchile.smartapp.util.NotKeys;
 import ie.teamchile.smartapp.util.SharedPrefs;
+import io.realm.Realm;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import timber.log.Timber;
 
-public class LoginActivity extends AppCompatActivity {
-    private SharedPreferences prefs;
+public class LoginActivity extends AppCompatActivity implements OnClickListener {
     private SharedPrefs prefsUtil = new SharedPrefs();
     private String username, password;
-    private Button btnLogin;
-    private TextView tvUsername, tvPassword, tvAbout;
-    private Intent intent;
+    private TextView tvUsername;
+    private TextView tvPassword;
     private ProgressDialog pd;
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,15 +49,25 @@ public class LoginActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         setContentView(R.layout.activity_login);
 
-        btnLogin = (Button) findViewById(R.id.btn_login);
-        btnLogin.setOnClickListener(new ButtonClick());
+        realm = Realm.getInstance(getApplicationContext());
+
+        findViewById(R.id.btn_login).setOnClickListener(this);
+        findViewById(R.id.tv_about).setOnClickListener(this);
         tvUsername = (TextView) findViewById(R.id.et_username);
         tvPassword = (TextView) findViewById(R.id.et_password);
-        tvAbout = (TextView) findViewById(R.id.tv_about);
-        tvAbout.setOnClickListener(new ButtonClick());
 
-        tvUsername.setText(NotKeys.USERNAME);
-        tvPassword.setText(NotKeys.PASSWORD);
+        if(BuildConfig.DEBUG) {
+            tvUsername.setText(NotKeys.USERNAME);
+            tvPassword.setText(NotKeys.PASSWORD);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (realm != null)
+            realm.close();
     }
 
     @Override
@@ -73,25 +84,27 @@ public class LoginActivity extends AppCompatActivity {
             initHockeyApp();
 
         BaseModel.getInstance().deleteInstance();
-        System.gc();
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         BaseModel.getInstance().deleteInstance();
-        BaseModel.getInstance().setLoginStatus(false);
-        System.gc();
+
+        realm.beginTransaction();
+        realm.where(Login.class).findFirst().setLoggedIn(false);
+        realm.commitTransaction();
+
         finish();
     }
 
     private void initHockeyApp() {
-        CrashManager.register(this, NotKeys.APP_ID);
+        CrashManager.register(getApplicationContext(), NotKeys.APP_ID);
     }
 
     private void getSharedPrefs() {
         Timber.d("getSharedPrefs called");
-        prefs = this.getSharedPreferences("SMART", MODE_PRIVATE);
+        SharedPreferences prefs = getApplicationContext().getSharedPreferences("SMART", MODE_PRIVATE);
         Map<String, ?> prefsMap = prefs.getAll();
         for (Map.Entry<String, ?> entry : prefsMap.entrySet()) {
             Timber.d("key = " + entry.getKey());
@@ -100,13 +113,13 @@ public class LoginActivity extends AppCompatActivity {
                 prefsUtil.postAppointment(
                         prefsUtil.getObjectFromString(
                                 prefs.getString(entry.getKey(), "")),
-                        this, entry.getKey());
+                        getApplicationContext(), entry.getKey());
             }
         }
     }
 
     private void postLogin() {
-        PostingData login = new PostingData();
+        final PostingData login = new PostingData();
         login.postLogin(username, password);
 
         SmartApiClient.getUnAuthorizedApiClient().postLogin(login, new Callback<BaseModel>() {
@@ -114,16 +127,19 @@ public class LoginActivity extends AppCompatActivity {
             public void success(BaseModel baseModel, Response response) {
                 Timber.d("postLogin success");
                 Tracking.startUsage(LoginActivity.this);
-                prefsUtil.setLongPrefs(LoginActivity.this,
+                prefsUtil.setLongPrefs(getApplicationContext(),
                         Calendar.getInstance().getTimeInMillis(),
                         Constants.SHARED_PREFS_SPLASH_LOG);
-                prefsUtil.deletePrefs(LoginActivity.this, "appts_got");
-                BaseModel.getInstance().setLogin(baseModel.getLogin());
-                BaseModel.getInstance().setLoginStatus(true);
+                prefsUtil.deletePrefs(getApplicationContext(), "appts_got");
+
+                realm.beginTransaction();
+                baseModel.getLogin().setLoggedIn(true);
+                realm.copyToRealmOrUpdate(baseModel.getLogin());
+                realm.commitTransaction();
+
                 pd.dismiss();
                 getSharedPrefs();
-                intent = new Intent(LoginActivity.this, QuickMenuActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(getApplicationContext(), QuickMenuActivity.class));
             }
 
             @Override
@@ -131,7 +147,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (error.getResponse() != null) {
                     BaseModel body = (BaseModel) error.getBodyAs(BaseModel.class);
                     Timber.d("retro error = " + body.getError().getError());
-                    Toast.makeText(LoginActivity.this, body.getError().getError(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), body.getError().getError(), Toast.LENGTH_LONG).show();
                 }
                 pd.dismiss();
             }
@@ -155,22 +171,22 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private class ButtonClick implements View.OnClickListener {
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.btn_login:
-                    Tracking.startUsage(LoginActivity.this);
-                    Timber.d("hockeyApp Login pressed");
-                    Timber.d("hockeyApp timeUsage = " + Tracking.getUsageTime(LoginActivity.this));
-                    validateInput();
-                    break;
-                case R.id.tv_about:
-                    Tracking.stopUsage(LoginActivity.this);
-                    Intent intent = new Intent(LoginActivity.this, AboutActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                    startActivity(intent);
-                    break;
-            }
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_login:
+                Tracking.startUsage(LoginActivity.this);
+                Timber.d("hockeyApp Login pressed");
+                Timber.d("hockeyApp timeUsage = " + Tracking.getUsageTime(LoginActivity.this));
+                validateInput();
+                //startActivity(new Intent(this, QuickMenuActivity.class));
+                break;
+            case R.id.tv_about:
+                Tracking.stopUsage(LoginActivity.this);
+                Intent intent = new Intent(getApplicationContext(), AboutActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                startActivity(intent);
+                break;
         }
     }
 }

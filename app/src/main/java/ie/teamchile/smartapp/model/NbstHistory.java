@@ -1,37 +1,43 @@
 package ie.teamchile.smartapp.model;
 
+import java.util.Date;
+
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
 /**
  * Created by user on 6/23/15.
  */
-public class NbstHistory {
-    private Integer babyId;
-    private String createdAt;
-    private Integer id;
+public class NbstHistory extends RealmObject {
+    private int babyId;
+    private Date createdAt;
+    @PrimaryKey
+    private int id;
     private String nbst;
-    private Integer serviceProviderId;
+    private int serviceProviderId;
     private String serviceProviderName;
 
-    public Integer getBabyId() {
+    public int getBabyId() {
         return babyId;
     }
 
-    public void setBabyId(Integer babyId) {
+    public void setBabyId(int babyId) {
         this.babyId = babyId;
     }
 
-    public String getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(String createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -43,11 +49,11 @@ public class NbstHistory {
         this.nbst = nbst;
     }
 
-    public Integer getServiceProviderId() {
+    public int getServiceProviderId() {
         return serviceProviderId;
     }
 
-    public void setServiceProviderId(Integer serviceProviderId) {
+    public void setServiceProviderId(int serviceProviderId) {
         this.serviceProviderId = serviceProviderId;
     }
 

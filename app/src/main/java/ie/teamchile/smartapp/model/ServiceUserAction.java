@@ -1,11 +1,15 @@
 package ie.teamchile.smartapp.model;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
 /**
  * Created by user on 7/1/15.
  */
-public class ServiceUserAction {
+public class ServiceUserAction extends RealmObject {
     private String description;
-    private Integer id;
+    @PrimaryKey
+    private int id;
     private String shortCode;
 
     public String getDescription() {
@@ -16,11 +20,11 @@ public class ServiceUserAction {
         this.description = description;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 

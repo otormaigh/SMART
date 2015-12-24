@@ -1,19 +1,23 @@
 package ie.teamchile.smartapp.model;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
 /**
  * Created by user on 5/26/15.
  */
-public class Announcement {
-    private Boolean blocking;
+public class Announcement extends RealmObject {
+    private boolean blocking;
     private String date;
-    private Integer id;
+    @PrimaryKey
+    private int id;
     private String note;
 
-    public Boolean getBlocking() {
+    public boolean isBlocking() {
         return blocking;
     }
 
-    public void setBlocking(Boolean blocking) {
+    public void setBlocking(boolean blocking) {
         this.blocking = blocking;
     }
 
@@ -25,11 +29,11 @@ public class Announcement {
         this.date = date;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 

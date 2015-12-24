@@ -2,7 +2,11 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion "23.0.2"
+
+    lintOptions {
+        abortOnError false
+    }
 
     defaultConfig {
         applicationId "ie.teamchile.smartapp"
@@ -10,10 +14,6 @@ android {
         targetSdkVersion 23
         versionCode 7
         versionName "1.1.5"
-        compileOptions {
-            sourceCompatibility JavaVersion.VERSION_1_7
-            targetCompatibility JavaVersion.VERSION_1_7
-        }
     }
 
     buildTypes {
@@ -28,14 +28,27 @@ android {
             buildConfigField "retrofit.RestAdapter.LogLevel", "RETROFIT_LOG_LEVEL", "retrofit.RestAdapter.LogLevel.FULL"
         }
     }
+
+    productFlavors {
+        v21 {
+            minSdkVersion 22
+        }
+
+        production {
+            minSdkVersion 16
+        }
+    }
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:23.0.1'
-    compile 'com.android.support:recyclerview-v7:23.0.1'
+    def supportVersion = "23.1.1"
+
+    compile "com.android.support:appcompat-v7:$supportVersion"
+    compile "com.android.support:recyclerview-v7:$supportVersion"
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'com.squareup.okhttp:okhttp:2.4.0'
     compile 'com.jakewharton.timber:timber:3.1.0'
     compile 'com.daimajia.swipelayout:library:1.2.0@aar'
     compile 'net.hockeyapp.android:HockeySDK:3.5.0'
+    compile 'io.realm:realm-android:0.87.1'
 }

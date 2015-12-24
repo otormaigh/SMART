@@ -17,9 +17,11 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.IBinder;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,12 +37,10 @@ import net.hockeyapp.android.Tracking;
 import java.net.ConnectException;
 import java.net.UnknownHostException;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -50,11 +50,12 @@ import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.Baby;
 import ie.teamchile.smartapp.model.BaseModel;
+import ie.teamchile.smartapp.model.Login;
 import ie.teamchile.smartapp.model.Pregnancy;
-import ie.teamchile.smartapp.util.AppointmentHelper;
 import ie.teamchile.smartapp.util.ClearData;
 import ie.teamchile.smartapp.util.CustomDialogs;
 import ie.teamchile.smartapp.util.ToastAlert;
+import io.realm.Realm;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -92,6 +93,7 @@ public class BaseActivity extends AppCompatActivity {
     protected NotificationManager notificationManager;
     protected static int apptDone;
     private ProgressDialog pd;
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,10 +101,14 @@ public class BaseActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         setContentView(R.layout.navigation_drawer_layout);
 
-        spinnerWarning = getResources().getColor(R.color.teal);
+        realm = Realm.getInstance(this);
 
-        getSupportActionBar().setDisplayOptions(android.support.v7.app.ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.action_bar_custom);
+        spinnerWarning = ContextCompat.getColor(getApplicationContext(), R.color.teal);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayOptions(android.support.v7.app.ActionBar.DISPLAY_SHOW_CUSTOM);
+            getSupportActionBar().setCustomView(R.layout.action_bar_custom);
+        }
 
         createNavDrawer();
     }
@@ -110,9 +116,8 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (BaseModel.getInstance().getLogin() == null) {
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-            startActivity(intent);
+        if (realm.where(Login.class).findFirst() == null) {
+            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
         }
 
         while (thingALing != 0) {
@@ -134,6 +139,14 @@ public class BaseActivity extends AppCompatActivity {
             logServ = new LogoutService();
             logServ.startTimer(true);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (realm != null)
+            realm.close();
     }
 
     private boolean isMyServiceRunning() {
@@ -170,17 +183,20 @@ public class BaseActivity extends AppCompatActivity {
         try {
             throw (error.getCause());
         } catch (UnknownHostException e) {
+            Timber.e(Log.getStackTraceString(e));
             Timber.e("UnknownHostException");
             // unknown host
         } catch (SSLHandshakeException e) {
+            Timber.e(Log.getStackTraceString(e));
             Timber.e("SSLHandshakeException");
         } catch (ConnectException e) {
+            Timber.e(Log.getStackTraceString(e));
             Timber.e("ConnectException");
             /*if(!checkIfConnected(context)){
                 new SharedPrefs().setJsonPrefs(data, time);
             }*/
         } catch (Throwable throwable) {
-            throwable.printStackTrace();
+            Timber.e(Log.getStackTraceString(throwable));
             Timber.e("Throwable");
         }
         Timber.d(error.toString());
@@ -211,9 +227,11 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected void setActionBarTitle(String title) {
-        View v = getSupportActionBar().getCustomView();
-        TextView titleTxtView = (TextView) v.findViewById(R.id.tv_action_bar);
-        titleTxtView.setText(title);
+        if (getSupportActionBar() != null) {
+            View v = getSupportActionBar().getCustomView();
+            TextView titleTxtView = (TextView) v.findViewById(R.id.tv_action_bar);
+            titleTxtView.setText(title);
+        }
     }
 
     protected void createNavDrawer() {
@@ -227,17 +245,16 @@ public class BaseActivity extends AppCompatActivity {
                 R.string.drawer_open, R.string.drawer_close);
         drawerLayout.setDrawerListener(drawerToggle);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
+        }
         drawerToggle.syncState();
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (drawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        return drawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 
     private void selectItem(int position) {
@@ -288,7 +305,7 @@ public class BaseActivity extends AppCompatActivity {
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
                                 Intent.FLAG_ACTIVITY_CLEAR_TASK |
                                 Intent.FLAG_ACTIVITY_NEW_TASK);
-                        if (BaseModel.getInstance().getLoginStatus() == false) {
+                        if (!realm.where(Login.class).findFirst().isLoggedIn()) {
                             startActivity(intent);
                         } else {
                             doLogout(intent);
@@ -299,7 +316,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     private void doLogout(final Intent intent) {
-        SmartApiClient.getAuthorizedApiClient().postLogout(
+        SmartApiClient.getAuthorizedApiClient(this).postLogout(
                 "",
                 new Callback<BaseModel>() {
                     @Override
@@ -321,7 +338,9 @@ public class BaseActivity extends AppCompatActivity {
                     public void failure(RetrofitError error) {
                         Timber.d("in logout failure error = " + error);
                         if (error.getResponse().getStatus() == 401) {
-                            BaseModel.getInstance().setLoginStatus(false);
+                            realm.beginTransaction();
+                            realm.where(Login.class).findFirst().setLoggedIn(false);
+                            realm.commitTransaction();
                             Toast.makeText(getApplicationContext(),
                                     "You are now logged out",
                                     Toast.LENGTH_SHORT).show();
@@ -341,7 +360,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     private void doLogoutWithoutIntent() {
-        SmartApiClient.getAuthorizedApiClient().postLogout(
+        SmartApiClient.getAuthorizedApiClient(this).postLogout(
                 "",
                 new Callback<BaseModel>() {
                     @Override
@@ -383,67 +402,65 @@ public class BaseActivity extends AppCompatActivity {
         return listAsString;
     }
 
-    protected void getRecentPregnancy() {
-        List<Pregnancy> pregnancyList = BaseModel.getInstance().getPregnancies();
-        List<Date> asDate = new ArrayList<>();
-        String edd;
-        if (pregnancyList.size() > 0) {
+    protected int getRecentPregnancy(List<Pregnancy> pregnancyList) {
+        List<Long> asDate = new ArrayList<>();
+        if (pregnancyList.size() > 1) {
             try {
                 for (int i = 0; i < pregnancyList.size(); i++) {
-                    edd = pregnancyList.get(i).getEstimatedDeliveryDate();
-                    asDate.add(dfDateOnly.parse(edd));
+                    if (pregnancyList.get(i).getEstimatedDeliveryDate() != null) {
+                        asDate.add(pregnancyList.get(i).getEstimatedDeliveryDate().getTime());
+                    } else {
+                        asDate.add(0l);
+                    }
                 }
-                p = asDate.indexOf(Collections.max(asDate));
-            } catch (ParseException | NullPointerException e) {
-                e.printStackTrace();
+                return pregnancyList
+                        .get(asDate.indexOf(Collections.max(asDate)))
+                        .getId();
+            } catch (NullPointerException e) {
+                Timber.e(Log.getStackTraceString(e));
+                return 0;
             }
-        } else
-            p = 0;
+        } else if (pregnancyList.isEmpty()) {
+            return 0;
+        } else {
+            return pregnancyList.get(0).getId();
+        }
     }
 
-    protected void getRecentBabyPosition() {
-        List<Baby> babyList = BaseModel.getInstance().getBabies();
-        List<Date> asDate = new ArrayList<>();
-        if (babyList.size() != 1) {
+    protected int getRecentBaby(List<Baby> babyList) {
+        List<Long> asDate = new ArrayList<>();
+        if (babyList.size() > 1) {
             try {
                 for (int i = 0; i < babyList.size(); i++) {
-                    String deliveryDateTime = babyList.get(i).getDeliveryDateTime();
-                    asDate.add(dfDateTimeWZone.parse(deliveryDateTime));
+                    if (babyList.get(i).getDeliveryDateTime() != null) {
+                        asDate.add(babyList.get(i).getDeliveryDateTime().getTime());
+                    } else {
+                        asDate.add(0l);
+                    }
                 }
-                b = asDate.indexOf(Collections.max(asDate));
-            } catch (ParseException | NullPointerException e) {
-                e.printStackTrace();
+                return babyList
+                        .get(asDate.indexOf(Collections.max(asDate)))
+                        .getId();
+            } catch (NullPointerException e) {
+                Timber.e(Log.getStackTraceString(e));
+                return 0;
             }
-        } else
-            b = 0;
-    }
-
-    protected void getRecentBabyId() {
-        List<Baby> babyList = BaseModel.getInstance().getBabies();
-        List<Integer> idList = new ArrayList<>();
-        List<Date> asDate = new ArrayList<>();
-        if (babyList.size() != 1) {
-            try {
-                for (int i = 0; i < babyList.size(); i++) {
-                    String deliveryDateTime = babyList.get(i).getDeliveryDateTime();
-                    idList.add(babyList.get(i).getId());
-                    asDate.add(dfDateTimeWZone.parse(deliveryDateTime));
-                }
-                bId = idList.get(asDate.indexOf(Collections.max(asDate)));
-            } catch (ParseException | NullPointerException e) {
-                e.printStackTrace();
-            }
-        } else
-            bId = babyList.get(0).getId();
+        } else if (babyList.isEmpty()) {
+            return 0;
+        } else {
+            return babyList.get(0).getId();
+        }
     }
 
     protected void getAllAppointments(final Context context) {
-        SmartApiClient.getAuthorizedApiClient().getAllAppointments(
+        SmartApiClient.getAuthorizedApiClient(this).getAllAppointments(
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
-                        BaseModel.getInstance().setAppointments(baseModel.getAppointments());
-                        new AppointmentHelper().addApptsToMaps(baseModel.getAppointments());
+                        realm.beginTransaction();
+                        realm.copyToRealmOrUpdate(baseModel.getAppointment());
+                        realm.commitTransaction();
+
                         Timber.d("appointments finished");
                         done++;
                         Timber.d("done = " + done);

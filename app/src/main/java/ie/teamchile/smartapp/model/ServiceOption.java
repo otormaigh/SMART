@@ -1,38 +1,40 @@
 package ie.teamchile.smartapp.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by user on 5/26/15.
  */
-public class ServiceOption {
-    private List<Integer> clinicIds = new ArrayList<>();
-    private Boolean homeVisit;
-    private Integer id;
+public class ServiceOption extends RealmObject {
+    private RealmList<RealmInteger> clinicIds;
+    private boolean homeVisit;
+    @PrimaryKey
+    private int id;
     private String name;
 
-    public List<Integer> getClinicIds() {
+    public RealmList<RealmInteger> getClinicIds() {
         return clinicIds;
     }
 
-    public void setClinicIds(List<Integer> clinicIds) {
+    public void setClinicIds(RealmList<RealmInteger> clinicIds) {
         this.clinicIds = clinicIds;
     }
 
-    public Boolean getHomeVisit() {
+    public boolean isHomeVisit() {
         return homeVisit;
     }
 
-    public void setHomeVisit(Boolean homeVisit) {
+    public void setHomeVisit(boolean homeVisit) {
         this.homeVisit = homeVisit;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 

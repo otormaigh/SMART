@@ -1,14 +1,16 @@
 package ie.teamchile.smartapp.model;
 
+import io.realm.RealmObject;
+
 /**
  * Created by user on 5/27/15.
  */
-public class ClinicalFields {
+public class ClinicalFields extends RealmObject {
     private String bloodGroup;
     private String bmi;
     private String parity;
     private String previousObstetricHistory;
-    private Boolean rhesus;
+    private boolean rhesus;
 
     public String getBloodGroup() {
         return bloodGroup;
@@ -42,11 +44,11 @@ public class ClinicalFields {
         this.previousObstetricHistory = previousObstetricHistory;
     }
 
-    public Boolean getRhesus() {
+    public boolean isRhesus() {
         return rhesus;
     }
 
-    public void setRhesus(Boolean rhesus) {
+    public void setRhesus(boolean rhesus) {
         this.rhesus = rhesus;
     }
 }
