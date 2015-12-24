@@ -35,7 +35,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import timber.log.Timber;
 
-public class LoginActivity extends AppCompatActivity implements OnClickListener{
+public class LoginActivity extends AppCompatActivity implements OnClickListener {
     private SharedPrefs prefsUtil = new SharedPrefs();
     private String username, password;
     private TextView tvUsername;
@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         setContentView(R.layout.activity_login);
 
-        realm = Realm.getInstance(this);
+        realm = Realm.getInstance(getApplicationContext());
 
         findViewById(R.id.btn_login).setOnClickListener(this);
         findViewById(R.id.tv_about).setOnClickListener(this);
@@ -99,12 +99,12 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
     }
 
     private void initHockeyApp() {
-        CrashManager.register(this, NotKeys.APP_ID);
+        CrashManager.register(getApplicationContext(), NotKeys.APP_ID);
     }
 
     private void getSharedPrefs() {
         Timber.d("getSharedPrefs called");
-        SharedPreferences prefs = this.getSharedPreferences("SMART", MODE_PRIVATE);
+        SharedPreferences prefs = getApplicationContext().getSharedPreferences("SMART", MODE_PRIVATE);
         Map<String, ?> prefsMap = prefs.getAll();
         for (Map.Entry<String, ?> entry : prefsMap.entrySet()) {
             Timber.d("key = " + entry.getKey());
@@ -113,7 +113,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
                 prefsUtil.postAppointment(
                         prefsUtil.getObjectFromString(
                                 prefs.getString(entry.getKey(), "")),
-                        this, entry.getKey());
+                        getApplicationContext(), entry.getKey());
             }
         }
     }
@@ -127,10 +127,10 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
             public void success(BaseModel baseModel, Response response) {
                 Timber.d("postLogin success");
                 Tracking.startUsage(LoginActivity.this);
-                prefsUtil.setLongPrefs(LoginActivity.this,
+                prefsUtil.setLongPrefs(getApplicationContext(),
                         Calendar.getInstance().getTimeInMillis(),
                         Constants.SHARED_PREFS_SPLASH_LOG);
-                prefsUtil.deletePrefs(LoginActivity.this, "appts_got");
+                prefsUtil.deletePrefs(getApplicationContext(), "appts_got");
 
                 realm.beginTransaction();
                 baseModel.getLogin().setLoggedIn(true);
@@ -139,7 +139,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
 
                 pd.dismiss();
                 getSharedPrefs();
-                startActivity(new Intent(LoginActivity.this, QuickMenuActivity.class));
+                startActivity(new Intent(getApplicationContext(), QuickMenuActivity.class));
             }
 
             @Override
@@ -147,7 +147,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
                 if (error.getResponse() != null) {
                     BaseModel body = (BaseModel) error.getBodyAs(BaseModel.class);
                     Timber.d("retro error = " + body.getError().getError());
-                    Toast.makeText(LoginActivity.this, body.getError().getError(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), body.getError().getError(), Toast.LENGTH_LONG).show();
                 }
                 pd.dismiss();
             }
@@ -179,10 +179,11 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
                 Timber.d("hockeyApp Login pressed");
                 Timber.d("hockeyApp timeUsage = " + Tracking.getUsageTime(LoginActivity.this));
                 validateInput();
+                //startActivity(new Intent(this, QuickMenuActivity.class));
                 break;
             case R.id.tv_about:
                 Tracking.stopUsage(LoginActivity.this);
-                Intent intent = new Intent(LoginActivity.this, AboutActivity.class);
+                Intent intent = new Intent(getApplicationContext(), AboutActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 startActivity(intent);
                 break;
