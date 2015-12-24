@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.IBinder;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -101,7 +102,7 @@ public class BaseActivity extends AppCompatActivity {
 
         realm = Realm.getInstance(this);
 
-        spinnerWarning = getResources().getColor(R.color.teal);
+        spinnerWarning = ContextCompat.getColor(getApplicationContext(), R.color.teal);
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayOptions(android.support.v7.app.ActionBar.DISPLAY_SHOW_CUSTOM);
@@ -114,9 +115,8 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (BaseModel.getInstance().getLogin() == null) {
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-            startActivity(intent);
+        if (realm.where(Login.class).findFirst() == null) {
+            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
         }
 
         while (thingALing != 0) {
