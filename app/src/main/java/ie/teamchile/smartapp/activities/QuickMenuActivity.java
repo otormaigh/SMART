@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
-import android.widget.Button;
+import android.view.View.OnClickListener;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -26,9 +26,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import timber.log.Timber;
 
-public class QuickMenuActivity extends BaseActivity {
-    private boolean isViewVisible;
-    private Button btnPatientSearch, btnBookAppointment, btnClinicRecord, btnTodaysAppointments;
+public class QuickMenuActivity extends BaseActivity implements OnClickListener {
     private CountDownTimer timer;
     private ProgressDialog pd;
     private Realm realm;
@@ -38,18 +36,13 @@ public class QuickMenuActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentForNav(R.layout.activity_quick_menu);
 
-        realm = Realm.getInstance(this);
+        realm = Realm.getInstance(getApplicationContext());
 
-        btnPatientSearch = (Button) findViewById(R.id.btn_patient_search);
-        btnPatientSearch.setOnClickListener(new ButtonClick());
-        btnBookAppointment = (Button) findViewById(R.id.btn_book_appointment);
-        btnBookAppointment.setOnClickListener(new ButtonClick());
-        btnClinicRecord = (Button) findViewById(R.id.btn_clinic_record);
-        btnClinicRecord.setOnClickListener(new ButtonClick());
-        btnTodaysAppointments = (Button) findViewById(R.id.btn_todays_appointments);
-        btnTodaysAppointments.setOnClickListener(new ButtonClick());
-        btnTodaysAppointments.setEnabled(false);
-        isViewVisible = true;
+        findViewById(R.id.btn_patient_search).setOnClickListener(this);
+        findViewById(R.id.btn_book_appointment).setOnClickListener(this);
+        findViewById(R.id.btn_clinic_record).setOnClickListener(this);
+        findViewById(R.id.btn_todays_appointments).setOnClickListener(this);
+        findViewById(R.id.btn_todays_appointments).setEnabled(false);
     }
 
     @Override
@@ -68,9 +61,9 @@ public class QuickMenuActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        /*if (BaseModel.getInstance().getLoginStatus()) {
+        if (realm.where(Login.class).findFirst().isLoggedIn())
             showLogoutDialog();
-        }*/
+
         moveTaskToBack(true);
     }
 
@@ -78,7 +71,6 @@ public class QuickMenuActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         checkIfLoggedIn();
-        isViewVisible = true;
         SharedPreferences.Editor prefs = getSharedPreferences("SMART", MODE_PRIVATE).edit();
         prefs.putBoolean("reuse", false);
         prefs.commit();
@@ -87,18 +79,15 @@ public class QuickMenuActivity extends BaseActivity {
             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
         }
 
-        if(logServ != null){
+        if(logServ != null)
             logServ.startTimer(false);
-        }
 
-        if (notificationManager != null) {
+        if (notificationManager != null)
             notificationManager.cancelAll();
-        }
     }
 
     private void checkIfLoggedIn() {
-        if (BaseModel.getInstance().getClinics().size() == 0 ||
-                BaseModel.getInstance().getServiceOptions().size() == 0) {
+        if (realm.where(Login.class).findFirst().isLoggedIn()) {
             updateData();
         }
     }
@@ -109,7 +98,7 @@ public class QuickMenuActivity extends BaseActivity {
 
         showDialog = false;
 
-        SmartApiClient.getAuthorizedApiClient(this).getServiceProviderById(
+        SmartApiClient.getAuthorizedApiClient(getApplicationContext()).getServiceProviderById(
                 realm.where(Login.class).findFirst().getId(),
                 new Callback<BaseModel>() {
                     @Override
@@ -132,7 +121,7 @@ public class QuickMenuActivity extends BaseActivity {
                 }
         );
 
-        SmartApiClient.getAuthorizedApiClient(this).getAllServiceOptions(
+        SmartApiClient.getAuthorizedApiClient(getApplicationContext()).getAllServiceOptions(
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
@@ -153,7 +142,7 @@ public class QuickMenuActivity extends BaseActivity {
                     }
                 }
         );
-        SmartApiClient.getAuthorizedApiClient(this).getAllClinics(
+        SmartApiClient.getAuthorizedApiClient(getApplicationContext()).getAllClinics(
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel things, Response response) {
@@ -181,7 +170,7 @@ public class QuickMenuActivity extends BaseActivity {
                 }
         );
 
-        SmartApiClient.getAuthorizedApiClient(this).getServiceUserActions(
+        SmartApiClient.getAuthorizedApiClient(getApplicationContext()).getServiceUserActions(
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
@@ -223,25 +212,21 @@ public class QuickMenuActivity extends BaseActivity {
         }.start();
     }
 
-    private class ButtonClick implements View.OnClickListener {
-        Intent intent;
-
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.btn_patient_search:
-                    intent = new Intent(QuickMenuActivity.this, ServiceUserSearchActivity.class);
-                    break;
-                case R.id.btn_book_appointment:
-                    intent = new Intent(QuickMenuActivity.this, AppointmentTypeSpinnerActivity.class);
-                    break;
-                case R.id.btn_clinic_record:
-                    intent = new Intent(QuickMenuActivity.this, ClinicTimeRecordActivity.class);
-                    break;
-                case R.id.btn_todays_appointments:
-                    intent = new Intent(QuickMenuActivity.this, TodayAppointmentActivity.class);
-                    break;
-            }
-            startActivity(intent);
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_patient_search:
+                startActivity(new Intent(getApplicationContext(), ServiceUserSearchActivity.class));
+                break;
+            case R.id.btn_book_appointment:
+                startActivity(new Intent(getApplicationContext(), AppointmentTypeSpinnerActivity.class));
+                break;
+            case R.id.btn_clinic_record:
+                startActivity(new Intent(getApplicationContext(), ClinicTimeRecordActivity.class));
+                break;
+            case R.id.btn_todays_appointments:
+                startActivity(new Intent(getApplicationContext(), TodayAppointmentActivity.class));
+                break;
         }
     }
 }
