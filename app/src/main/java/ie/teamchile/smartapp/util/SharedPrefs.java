@@ -2,7 +2,6 @@ package ie.teamchile.smartapp.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -16,6 +15,7 @@ import ie.teamchile.smartapp.model.PostingData;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import timber.log.Timber;
 
 /**
  * Created by user on 7/8/15.
@@ -122,7 +122,7 @@ public class SharedPrefs extends BaseActivity {
     }
 
     public void deletePrefs(Context context, String tag) {
-        Log.d("prefs", "deletePrefs called");
+        Timber.d("deletePrefs called");
         prefs = context.getSharedPreferences("SMART", MODE_PRIVATE);
         editor = context.getSharedPreferences("SMART", MODE_PRIVATE).edit();
         if(prefs.contains(tag)) {
@@ -137,13 +137,13 @@ public class SharedPrefs extends BaseActivity {
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
-                        Log.d("retro", "post appointment success");
+                        Timber.d("post appointment success");
                         deletePrefs(context, tag);
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
-                        Log.d("retro", "post appointment failure = " + error);
+                        Timber.d("post appointment failure = " + error);
                     }
                 }
         );
