@@ -18,6 +18,7 @@ import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.Clinic;
 import ie.teamchile.smartapp.model.Login;
+import ie.teamchile.smartapp.model.ServiceOption;
 import ie.teamchile.smartapp.model.ServiceUserAction;
 import ie.teamchile.smartapp.util.CustomDialogs;
 import io.realm.Realm;
@@ -79,7 +80,7 @@ public class QuickMenuActivity extends BaseActivity implements OnClickListener {
             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
         }
 
-        if(logServ != null)
+        if (logServ != null)
             logServ.startTimer(false);
 
         if (notificationManager != null)
@@ -87,7 +88,10 @@ public class QuickMenuActivity extends BaseActivity implements OnClickListener {
     }
 
     private void checkIfLoggedIn() {
-        if (realm.where(Login.class).findFirst().isLoggedIn()) {
+        if (realm.where(Login.class).findFirst() == null
+                && realm.where(Login.class).findFirst().isLoggedIn()
+                || realm.where(Clinic.class).findAll().size() == 0
+                || realm.where(ServiceOption.class).findAll().size() == 0) {
             updateData();
         }
     }
