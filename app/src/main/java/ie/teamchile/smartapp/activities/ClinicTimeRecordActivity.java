@@ -143,13 +143,19 @@ public class ClinicTimeRecordActivity extends BaseActivity {
         recordGetDone = 0;
 
         List<Clinic> clinics = realm.where(Clinic.class).findAll();
+        List<String> trueDays;
+        Clinic clinic;
+        int clinicId;
 
-        for (int i = 0; i < clinics.size(); i++) {
-            List<String> trueDays = new GeneralUtils().getTrueDays(
+        int clinicSize = clinics.size();
+        int trueDaySize;
+        for (int i = 0; i < clinicSize; i++) {
+            trueDays = new GeneralUtils().getTrueDays(
                     clinics.get(i).getDays());
-            for (int j = 0; j < trueDays.size(); j++) {
-                Clinic clinic = clinics.get(i);
-                int clinicId = clinics.get(i).getId();
+            trueDaySize = trueDays.size();
+            for (int j = 0; j < trueDaySize; j++) {
+                clinic = clinics.get(i);
+                clinicId = clinics.get(i).getId();
                 clinicIdMap.put(clinicId, clinic);
 
                 if (clinicDayMap.get(trueDays.get(j)) != null) {
@@ -170,7 +176,8 @@ public class ClinicTimeRecordActivity extends BaseActivity {
             pd = new CustomDialogs().showProgressDialog(
                     ClinicTimeRecordActivity.this,
                     "Updating Time Records");
-            for (int i = 0; i < idList.size(); i++) {
+            int size = idList.size();
+            for (int i = 0; i < size; i++) {
                 getTimeRecords(idList.get(i), todayDate);
             }
         } else {
@@ -296,7 +303,8 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                         Timber.d("retro success");
                         disableButtons();
 
-                        for (int i = 0; i < clinicTimeRecords.size(); i++) {
+                        int size = clinicTimeRecords.size();
+                        for (int i = 0; i < size; i++) {
                             if (clinicTimeRecords.get(i).getId() == recordId) {
                                 clinicTimeRecords.remove(i);
                                 clinicStarted.remove(clinicStarted.indexOf(clinicId));
@@ -332,7 +340,8 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                         Timber.d("deleteTimeRecord success");
                         disableButtons();
 
-                        for (int i = 0; i < clinicTimeRecords.size(); i++) {
+                        int size = clinicTimeRecords.size();
+                        for (int i = 0; i < size; i++) {
                             if (clinicTimeRecords.get(i).getId() == recordIdForDelete) {
                                 clinicTimeRecords.remove(i);
                                 clinicStopped.remove(clinicStopped.indexOf(clinicIdForDelete));
@@ -365,7 +374,8 @@ public class ClinicTimeRecordActivity extends BaseActivity {
             lvNotStarted.setEnabled(false);
         } else {
             lvNotStarted.setEnabled(true);
-            for (int i = 0; i < clinicNotStarted.size(); i++) {
+            int size = clinicNotStarted.size();
+            for (int i = 0; i < size; i++) {
                 clinicName = clinicIdMap.get(clinicNotStarted.get(i)).getName();
                 int clinicId = clinicNotStarted.get(i);
                 switch (clinicId) {
@@ -397,9 +407,12 @@ public class ClinicTimeRecordActivity extends BaseActivity {
             lvStarted.setEnabled(false);
         } else {
             lvStarted.setEnabled(true);
-            for (int i = 0; i < clinicStarted.size(); i++) {
-                String clinicName = clinicIdMap.get(clinicStarted.get(i)).getName();
-                int clinicId = clinicStarted.get(i);
+            String clinicName;
+            int clinicId;
+            int size = clinicStarted.size();
+            for (int i = 0; i < size; i++) {
+                clinicName = clinicIdMap.get(clinicStarted.get(i)).getName();
+                clinicId = clinicStarted.get(i);
                 switch (clinicId) {
                     case 6:
                         clinicName += " (Domino)";
@@ -430,9 +443,12 @@ public class ClinicTimeRecordActivity extends BaseActivity {
             lvStopped.setEnabled(false);
         } else {
             lvStopped.setEnabled(true);
-            for (int i = 0; i < clinicStopped.size(); i++) {
-                String clinicName = clinicIdMap.get(clinicStopped.get(i)).getName();
-                int clinicId = clinicStopped.get(i);
+            String clinicName;
+            int clinicId;
+            int size = clinicStopped.size();
+            for (int i = 0; i < size; i++) {
+                clinicName = clinicIdMap.get(clinicStopped.get(i)).getName();
+                clinicId = clinicStopped.get(i);
                 switch (clinicId) {
                     case 6:
                         clinicName += " (Domino)";
@@ -492,7 +508,8 @@ public class ClinicTimeRecordActivity extends BaseActivity {
                     btnResetRecord.setEnabled(true);
                     vibe.vibrate(50);
                     clinicIdForDelete = clinicStopped.get(position);
-                    for (int i = 0; i < clinicTimeRecords.size(); i++) {
+                    int size = clinicTimeRecords.size();
+                    for (int i = 0; i < size; i++) {
                         if (clinicTimeRecords.get(i).getClinicId() == clinicIdForDelete) {
                             recordIdForDelete = clinicTimeRecords.get(i).getId();
                         }
