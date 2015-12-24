@@ -10,6 +10,7 @@ import android.widget.Button;
 
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.model.Login;
+import ie.teamchile.smartapp.util.ClearData;
 import ie.teamchile.smartapp.util.Constants;
 import ie.teamchile.smartapp.util.SharedPrefs;
 import io.realm.Realm;
@@ -79,10 +80,11 @@ public class SplashScreenActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void checkIfLoggedIn() {
-        if (realm.where(Login.class).findFirst() == null) {
-            startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
-        } else if (realm.where(Login.class).findFirst().isLoggedIn()) {
+        if (realm.where(Login.class).findFirst() != null && realm.where(Login.class).findFirst().isLoggedIn()) {
             startActivity(new Intent(SplashScreenActivity.this, QuickMenuActivity.class));
+        } else {
+            new ClearData(getApplicationContext());
+            startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
         }
     }
 
