@@ -29,7 +29,9 @@ import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.model.PregnancyNote;
+import ie.teamchile.smartapp.model.ServiceUser;
 import ie.teamchile.smartapp.util.CustomDialogs;
+import io.realm.Realm;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -49,11 +51,14 @@ public class MidwiferyLogActivity extends BaseActivity {
     private AlertDialog ad;
     private int size;
     private ProgressDialog pd;
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentForNav(R.layout.activity_midwifery_log);
+
+        realm = Realm.getInstance(getApplicationContext());
 
         setActionBarTitle(getResources().getString(R.string.midwifery_log));
 
@@ -69,14 +74,24 @@ public class MidwiferyLogActivity extends BaseActivity {
         getMidwiferyNotes();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (realm != null)
+            realm.close();
+    }
+
     private void getMidwiferyNotes() {
         SmartApiClient.getAuthorizedApiClient(this).getPregnancyNotes(
-                BaseModel.getInstance().getServiceUsers().get(0).getPregnancyIds().get(p).getValue(),
+                realm.where(ServiceUser.class).findFirst().getPregnancyIds().get(p).getValue(),
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
                         Timber.d("put getMidwiferyNotes retro success");
-                        BaseModel.getInstance().setPregnancyNotes(baseModel.getPregnancyNotes());
+                        realm.commitTransaction();
+                        realm.copyToRealmOrUpdate(baseModel.getPregnancyNotes());
+                        realm.commitTransaction();
                         pd.dismiss();
                         setData();
                     }
@@ -95,9 +110,10 @@ public class MidwiferyLogActivity extends BaseActivity {
         authorList = new ArrayList<>();
         notesList = new ArrayList<>();
 
-        size = BaseModel.getInstance().getPregnancyNotes().size();
+        size = realm.where(PregnancyNote.class).findAll().size();
 
-        Collections.sort(BaseModel.getInstance().getPregnancyNotes(), new Comparator<PregnancyNote>() {
+        realm.beginTransaction();
+        Collections.sort(realm.where(PregnancyNote.class).findAll(), new Comparator<PregnancyNote>() {
 
             @Override
             public int compare(PregnancyNote a, PregnancyNote b) {
@@ -110,9 +126,10 @@ public class MidwiferyLogActivity extends BaseActivity {
                 return ((Integer) valA).compareTo(valB);
             }
         });
+        realm.commitTransaction();
 
         for (int i = size - 1; i >= 0; i--) {
-            PregnancyNote theNote = BaseModel.getInstance().getPregnancyNotes().get(i);
+            PregnancyNote theNote = realm.where(PregnancyNote.class).findAll().get(i);
             try {
                 dateList.add(dfHumanReadableDate.format(dfDateOnly.parse(theNote.getCreatedAt())));
             } catch (ParseException e) {
@@ -146,7 +163,9 @@ public class MidwiferyLogActivity extends BaseActivity {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
                         Timber.d("postNote success");
-                        BaseModel.getInstance().addPregnancyNote(baseModel.getPregnancyNote());
+                        realm.beginTransaction();
+                        realm.copyToRealmOrUpdate(baseModel.getPregnancyNote());
+                        realm.commitTransaction();
 
                         adapter.notifyDataSetChanged();
                         lvNotes.setAdapter(null);

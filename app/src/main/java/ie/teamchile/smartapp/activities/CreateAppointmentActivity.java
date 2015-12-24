@@ -258,9 +258,11 @@ public class CreateAppointmentActivity extends BaseActivity {
                         List<String> searchResults = new ArrayList<>();
                         int id;
                         if (baseModel.getServiceUsers().size() != 0) {
-                            BaseModel.getInstance().setServiceUsers(baseModel.getServiceUsers());
-                            BaseModel.getInstance().setPregnancies(baseModel.getPregnancies());
-                            BaseModel.getInstance().setBabies(baseModel.getBabies());
+                            realm.beginTransaction();
+                            realm.copyToRealmOrUpdate(baseModel.getServiceUsers());
+                            realm.copyToRealmOrUpdate(baseModel.getBabies());
+                            realm.copyToRealmOrUpdate(baseModel.getPregnancies());
+                            realm.commitTransaction();
                             for (int i = 0; i < baseModel.getServiceUsers().size(); i++) {
                                 ServiceUser serviceUserItem = baseModel.getServiceUsers().get(i);
                                 serviceUserList.add(serviceUserItem);
@@ -582,7 +584,9 @@ public class CreateAppointmentActivity extends BaseActivity {
                 case R.id.lv_dialog:
                     hideKeyboard();
                     ServiceUser serviceUser = serviceUserList.get(position);
-                    BaseModel.getInstance().setServiceUser(serviceUser);
+                    realm.beginTransaction();
+                    realm.copyToRealmOrUpdate(serviceUser);
+                    realm.commitTransaction();
                     userName = serviceUser.getPersonalFields().getName();
                     hospitalNumber = serviceUser.getHospitalNumber();
                     email = serviceUser.getPersonalFields().getEmail();

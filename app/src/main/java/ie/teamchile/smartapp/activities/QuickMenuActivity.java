@@ -133,7 +133,6 @@ public class QuickMenuActivity extends BaseActivity implements OnClickListener {
                         realm.copyToRealmOrUpdate(baseModel.getServiceOptions());
                         realm.commitTransaction();
 
-                        BaseModel.getInstance().setServiceOptions(baseModel.getServiceOptions());
                         Timber.d("service options finished");
                         done++;
                         Timber.d("done = " + done);
@@ -155,7 +154,6 @@ public class QuickMenuActivity extends BaseActivity implements OnClickListener {
                         realm.commitTransaction();
 
                         Map<Integer, Clinic> clinicMap = new HashMap<>();
-                        BaseModel.getInstance().setClinics(things.getClinics());
                         for (int i = 0; i < things.getClinics().size(); i++) {
                             clinicMap.put(things.getClinics().get(i).getId(),
                                     things.getClinics().get(i));
@@ -179,18 +177,16 @@ public class QuickMenuActivity extends BaseActivity implements OnClickListener {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
                         Timber.d("actions retro success");
-                        realm.beginTransaction();
-                        realm.copyToRealmOrUpdate(baseModel.getServiceUserActions());
-                        realm.commitTransaction();
-
-                        done++;
                         Collections.sort(baseModel.getServiceUserActions(), new Comparator<ServiceUserAction>() {
                             @Override
                             public int compare(ServiceUserAction lhs, ServiceUserAction rhs) {
                                 return (lhs.getShortCode()).compareTo(rhs.getShortCode());
                             }
                         });
-                        BaseModel.getInstance().setServiceUserActions(baseModel.getServiceUserActions());
+                        realm.beginTransaction();
+                        realm.copyToRealmOrUpdate(baseModel.getServiceUserActions());
+                        realm.commitTransaction();
+                        done++;
                     }
 
                     @Override

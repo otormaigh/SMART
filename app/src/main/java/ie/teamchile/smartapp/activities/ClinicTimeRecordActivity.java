@@ -113,6 +113,10 @@ public class ClinicTimeRecordActivity extends BaseActivity {
     protected void onPause() {
         super.onPause();
 
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(clinicTimeRecords);
+        realm.commitTransaction();
+
         BaseModel.getInstance().setClinicTimeRecords(clinicTimeRecords);
         BaseModel.getInstance().setClinicStopped(clinicStopped);
         BaseModel.getInstance().setClinicStarted(clinicStarted);

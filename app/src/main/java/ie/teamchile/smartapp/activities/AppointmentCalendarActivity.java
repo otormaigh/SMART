@@ -277,9 +277,11 @@ public class AppointmentCalendarActivity extends BaseActivity {
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
-                        BaseModel.getInstance().setServiceUsers(baseModel.getServiceUsers());
-                        BaseModel.getInstance().setBabies(baseModel.getBabies());
-                        BaseModel.getInstance().setPregnancies(baseModel.getPregnancies());
+                        realm.beginTransaction();
+                        realm.copyToRealmOrUpdate(baseModel.getServiceUsers());
+                        realm.copyToRealmOrUpdate(baseModel.getBabies());
+                        realm.copyToRealmOrUpdate(baseModel.getPregnancies());
+                        realm.commitTransaction();
                         startActivity(intent);
                         pd.dismiss();
                     }

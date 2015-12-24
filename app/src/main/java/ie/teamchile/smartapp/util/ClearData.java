@@ -113,5 +113,6 @@ public class ClearData extends BaseActivity{
         realm.clear(ServiceUserAction.class);
         realm.clear(VitKHistory.class);
         realm.commitTransaction();
+        realm.close();
     }
 }
