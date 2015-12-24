@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -89,7 +90,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
             openingAsDate = dfTimeOnly.parse(String.valueOf(clinicOpening));
             closingAsDate = dfTimeOnly.parse(String.valueOf(clinicClosing));
         } catch (ParseException e) {
-            e.printStackTrace();
+            Timber.e(Log.getStackTraceString(e));
         }
 
         myCalendar.setTime(closingAsDate);
@@ -226,7 +227,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
                 try {
                     timeOfAppt = dfTimeOnly.format(dfTimeWSec.parse(appointment.getTime()));
                 } catch (ParseException e) {
-                    e.printStackTrace();
+                    Timber.e(Log.getStackTraceString(e));
                 }
                 if(timeList.contains(timeOfAppt)){
                     idList.set(timeList.indexOf(timeOfAppt), appointment.getId());

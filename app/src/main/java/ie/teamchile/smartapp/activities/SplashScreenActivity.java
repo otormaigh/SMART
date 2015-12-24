@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -16,6 +17,7 @@ import ie.teamchile.smartapp.util.SharedPrefs;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.exceptions.RealmMigrationNeededException;
+import timber.log.Timber;
 
 public class SplashScreenActivity extends AppCompatActivity implements View.OnClickListener {
     private String rootMsg;
@@ -50,7 +52,7 @@ public class SplashScreenActivity extends AppCompatActivity implements View.OnCl
             try {
                 realm = Realm.getInstance(this);
             } catch (RealmMigrationNeededException e) {
-                e.printStackTrace();
+                Timber.e(Log.getStackTraceString(e));
                 Realm.deleteRealm(new RealmConfiguration.Builder(this).build());
                 realm = Realm.getInstance(this);
             }

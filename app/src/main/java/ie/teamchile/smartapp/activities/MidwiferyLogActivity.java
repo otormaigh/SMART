@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -133,7 +134,7 @@ public class MidwiferyLogActivity extends BaseActivity {
             try {
                 dateList.add(dfHumanReadableDate.format(dfDateOnly.parse(theNote.getCreatedAt())));
             } catch (ParseException e) {
-                e.printStackTrace();
+                Timber.e(Log.getStackTraceString(e));
             }
             authorList.add(theNote.getServiceProviderName());
             notesList.add(theNote.getNote());

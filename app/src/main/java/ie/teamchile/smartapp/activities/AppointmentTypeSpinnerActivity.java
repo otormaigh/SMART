@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -30,6 +31,7 @@ import ie.teamchile.smartapp.util.CustomDialogs;
 import ie.teamchile.smartapp.util.GeneralUtils;
 import ie.teamchile.smartapp.util.SharedPrefs;
 import io.realm.Realm;
+import timber.log.Timber;
 
 public class AppointmentTypeSpinnerActivity extends BaseActivity {
     private ArrayAdapter<String> appointmentAdapter, visitAdapter, visitDayAdapter,
@@ -469,7 +471,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
                                     getAppointment(clinicSelected, dayOfWeek);
                                     setWeekSpinner(dayOfWeek);
                                 } catch (ParseException e) {
-                                    e.printStackTrace();
+                                    Timber.e(Log.getStackTraceString(e));
                                 }
                             }
                             break;
@@ -492,7 +494,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
                                 getAppointment(clinicSelected, dayOfWeek);
                                 setWeekSpinner(dayOfWeek);
                             } catch (ParseException e) {
-                                e.printStackTrace();
+                                Timber.e(Log.getStackTraceString(e));
                             }
                             break;
                     }

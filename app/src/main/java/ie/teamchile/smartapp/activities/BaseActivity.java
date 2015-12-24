@@ -21,6 +21,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -182,17 +183,20 @@ public class BaseActivity extends AppCompatActivity {
         try {
             throw (error.getCause());
         } catch (UnknownHostException e) {
+            Timber.e(Log.getStackTraceString(e));
             Timber.e("UnknownHostException");
             // unknown host
         } catch (SSLHandshakeException e) {
+            Timber.e(Log.getStackTraceString(e));
             Timber.e("SSLHandshakeException");
         } catch (ConnectException e) {
+            Timber.e(Log.getStackTraceString(e));
             Timber.e("ConnectException");
             /*if(!checkIfConnected(context)){
                 new SharedPrefs().setJsonPrefs(data, time);
             }*/
         } catch (Throwable throwable) {
-            throwable.printStackTrace();
+            Timber.e(Log.getStackTraceString(throwable));
             Timber.e("Throwable");
         }
         Timber.d(error.toString());
@@ -400,7 +404,6 @@ public class BaseActivity extends AppCompatActivity {
 
     protected int getRecentPregnancy(List<Pregnancy> pregnancyList) {
         List<Long> asDate = new ArrayList<>();
-        String edd;
         if (pregnancyList.size() > 1) {
             try {
                 for (int i = 0; i < pregnancyList.size(); i++) {
@@ -414,7 +417,7 @@ public class BaseActivity extends AppCompatActivity {
                         .get(asDate.indexOf(Collections.max(asDate)))
                         .getId();
             } catch (NullPointerException e) {
-                e.printStackTrace();
+                Timber.e(Log.getStackTraceString(e));
                 return 0;
             }
         } else if (pregnancyList.isEmpty()) {
@@ -439,7 +442,7 @@ public class BaseActivity extends AppCompatActivity {
                         .get(asDate.indexOf(Collections.max(asDate)))
                         .getId();
             } catch (NullPointerException e) {
-                e.printStackTrace();
+                Timber.e(Log.getStackTraceString(e));
                 return 0;
             }
         } else if (babyList.isEmpty()) {

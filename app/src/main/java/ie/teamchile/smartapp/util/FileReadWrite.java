@@ -1,5 +1,8 @@
 package ie.teamchile.smartapp.util;
 
+import android.content.Context;
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -7,7 +10,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import android.content.Context;
+import timber.log.Timber;
 
 public class FileReadWrite {
 	private Context context;
@@ -30,8 +33,8 @@ public class FileReadWrite {
 			outputStream.write(note.getBytes());
 			outputStream.close();
 			return true;
-		}catch(IOException ioe) {
-			ioe.printStackTrace();			
+		}catch(IOException e) {
+			Timber.e(Log.getStackTraceString(e));
 		}	
 		return false;
 	}
@@ -49,7 +52,7 @@ public class FileReadWrite {
 			}
 			return sb.toString();
 		} catch (IOException e) {
-			e.printStackTrace();
+			Timber.e(Log.getStackTraceString(e));
 		}
 		return "Error reading the file";
 	}

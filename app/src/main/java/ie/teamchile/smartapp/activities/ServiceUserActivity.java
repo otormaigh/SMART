@@ -10,6 +10,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -338,7 +339,7 @@ public class ServiceUserActivity extends BaseActivity {
                 tvPostBabyGender.setText(babyGender + sex_female);
             tvPostDaysSinceBirth.setText(daysSinceBirth);
         } catch (NullPointerException e) {
-            e.printStackTrace();
+            Timber.e(Log.getStackTraceString(e));
         }
     }
 
@@ -541,7 +542,7 @@ public class ServiceUserActivity extends BaseActivity {
             dobAsDate = dfDateOnly.parse(dob);
             cal.setTime(dobAsDate);
         } catch (ParseException | NullPointerException e) {
-            e.printStackTrace();
+            Timber.e(Log.getStackTraceString(e));
         }
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);
@@ -575,7 +576,7 @@ public class ServiceUserActivity extends BaseActivity {
             date = dfDateOnly.parse(edd);
             ed = dfMonthFullName.format(date);
         } catch (ParseException e) {
-            e.printStackTrace();
+            Timber.e(Log.getStackTraceString(e));
         }
         return ed;
     }
@@ -638,8 +639,8 @@ public class ServiceUserActivity extends BaseActivity {
         try {
             if (!address.isEmpty() && address != null)
                 addresses = geocoder.getFromLocationName(address, 1);
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
+        } catch (IOException e) {
+            Timber.e(Log.getStackTraceString(e));
         }
 
         if (addresses != null && addresses.size() > 0) {

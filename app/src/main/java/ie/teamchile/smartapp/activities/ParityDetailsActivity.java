@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +27,7 @@ import ie.teamchile.smartapp.model.Pregnancy;
 import ie.teamchile.smartapp.model.ServiceUser;
 import ie.teamchile.smartapp.util.DividerItemDecoration;
 import io.realm.Realm;
+import timber.log.Timber;
 
 public class ParityDetailsActivity extends BaseActivity {
     private BaseAdapter adapter;
@@ -160,7 +162,7 @@ public class ParityDetailsActivity extends BaseActivity {
         try {
             date = dfDateTimeWZone.parse(edd);
         } catch (ParseException e) {
-            e.printStackTrace();
+            Timber.e(Log.getStackTraceString(e));
         }
         switch (option) {
             case 0:
