@@ -5,4 +5,6 @@ package ie.teamchile.smartapp.activities.Base;
  */
 public interface BaseView {
     void disableScreenshot();
+
+    void initViews();
 }

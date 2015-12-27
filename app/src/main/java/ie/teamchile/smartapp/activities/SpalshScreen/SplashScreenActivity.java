@@ -3,50 +3,62 @@ package ie.teamchile.smartapp.activities.SpalshScreen;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 
+import ie.teamchile.smartapp.BuildConfig;
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.activities.Login.LoginActivity;
 import ie.teamchile.smartapp.activities.QuickMenuActivity;
 import ie.teamchile.smartapp.model.Login;
 import ie.teamchile.smartapp.util.ClearData;
-import ie.teamchile.smartapp.util.Constants;
-import ie.teamchile.smartapp.util.SharedPrefs;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.exceptions.RealmMigrationNeededException;
 import timber.log.Timber;
 
-public class SplashScreenActivity extends AppCompatActivity implements View.OnClickListener {
-    private String rootMsg;
-    private Button btnYes;
-    private Button btnNo;
-    private SharedPrefs sharedPrefs = new SharedPrefs();
+import static android.view.View.OnClickListener;
+
+public class SplashScreenActivity extends AppCompatActivity implements SplashScreenView, OnClickListener {
     private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+        disableScreenshot();
         setContentView(R.layout.activity_splash_screen);
+
+        SplashScreenPresenter splashScreenPresenter = new SplashScreenPresenterImp(this, SplashScreenActivity.this);
+
+        initViews();
 
         realm = getRealm();
 
-        checkIfValidEnvironment();
+        if (BuildConfig.DEBUG) {
+            splashScreenPresenter.checkIfValidEnvironment();
+        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
-        if(realm != null) {
+        if (realm != null) {
             realm.close();
             realm = null;
         }
+    }
+
+    @Override
+    public void disableScreenshot() {
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+    }
+
+    @Override
+    public void initViews() {
+        findViewById(R.id.btn_yes).setOnClickListener(this);
+        findViewById(R.id.btn_no).setOnClickListener(this);
     }
 
     protected Realm getRealm() {
@@ -62,28 +74,8 @@ public class SplashScreenActivity extends AppCompatActivity implements View.OnCl
         return realm;
     }
 
-    private void checkIfValidEnvironment() {
-       /* if (EnvironmentChecker.isDeviceRooted()
-                || EnvironmentChecker.isCertInvalid(this)
-                || EnvironmentChecker.isDebuggable(this)
-                || EnvironmentChecker.isEmulator()) {
-            finish();
-        } else {*/
-            btnYes = (Button) findViewById(R.id.btn_yes);
-            btnYes.setOnClickListener(this);
-            btnNo = (Button) findViewById(R.id.btn_no);
-            btnNo.setOnClickListener(this);
-
-            long time = sharedPrefs.getLongPrefs(this, Constants.SHARED_PREFS_SPLASH_LOG);
-
-            if (time != 0) {
-                if (DateUtils.isToday(time))
-                    checkIfLoggedIn();
-            }
-        //}
-    }
-
-    private void checkIfLoggedIn() {
+    @Override
+    public void checkIfLoggedIn() {
         if (realm.where(Login.class).findFirst() != null && realm.where(Login.class).findFirst().isLoggedIn()) {
             startActivity(new Intent(SplashScreenActivity.this, QuickMenuActivity.class));
         } else {
