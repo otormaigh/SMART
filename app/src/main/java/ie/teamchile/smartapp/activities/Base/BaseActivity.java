@@ -38,9 +38,7 @@ import java.net.ConnectException;
 import java.net.UnknownHostException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -51,7 +49,7 @@ import ie.teamchile.smartapp.activities.AppointmentTypeSpinnerActivity;
 import ie.teamchile.smartapp.activities.ClinicTimeRecordActivity;
 import ie.teamchile.smartapp.activities.Login.LoginActivity;
 import ie.teamchile.smartapp.activities.QuickMenuActivity;
-import ie.teamchile.smartapp.activities.ServiceUserSearchActivity;
+import ie.teamchile.smartapp.activities.ServiceUserSearch.ServiceUserSearchActivity;
 import ie.teamchile.smartapp.activities.SpalshScreen.SplashScreenActivity;
 import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.Baby;
@@ -100,6 +98,7 @@ public class BaseActivity extends AppCompatActivity implements BaseView {
     protected static int apptDone;
     private ProgressDialog pd;
     private Realm realm;
+    private BasePresenter basePresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +107,8 @@ public class BaseActivity extends AppCompatActivity implements BaseView {
         setContentView(R.layout.navigation_drawer_layout);
 
         realm = Realm.getInstance(this);
+
+        basePresenter = new BasePresenterImp();
 
         spinnerWarning = ContextCompat.getColor(getApplicationContext(), R.color.teal);
 
@@ -159,6 +160,11 @@ public class BaseActivity extends AppCompatActivity implements BaseView {
     @Override
     public void disableScreenshot() {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+    }
+
+    @Override
+    public void initViews() {
+
     }
 
     private boolean isMyServiceRunning() {
@@ -412,54 +418,12 @@ public class BaseActivity extends AppCompatActivity implements BaseView {
         return listAsString;
     }
 
-    protected int getRecentPregnancy(List<Pregnancy> pregnancyList) {
-        List<Long> asDate = new ArrayList<>();
-        if (pregnancyList.size() > 1) {
-            try {
-                for (int i = 0; i < pregnancyList.size(); i++) {
-                    if (pregnancyList.get(i).getEstimatedDeliveryDate() != null) {
-                        asDate.add(pregnancyList.get(i).getEstimatedDeliveryDate().getTime());
-                    } else {
-                        asDate.add(0l);
-                    }
-                }
-                return pregnancyList
-                        .get(asDate.indexOf(Collections.max(asDate)))
-                        .getId();
-            } catch (NullPointerException e) {
-                Timber.e(Log.getStackTraceString(e));
-                return 0;
-            }
-        } else if (pregnancyList.isEmpty()) {
-            return 0;
-        } else {
-            return pregnancyList.get(0).getId();
-        }
+    protected int getRecentPregnancy(List<Pregnancy> pregnancyList) {   //TODO: Remove
+        return basePresenter.getRecentPregnancy(pregnancyList);
     }
 
-    protected int getRecentBaby(List<Baby> babyList) {
-        List<Long> asDate = new ArrayList<>();
-        if (babyList.size() > 1) {
-            try {
-                for (int i = 0; i < babyList.size(); i++) {
-                    if (babyList.get(i).getDeliveryDateTime() != null) {
-                        asDate.add(babyList.get(i).getDeliveryDateTime().getTime());
-                    } else {
-                        asDate.add(0l);
-                    }
-                }
-                return babyList
-                        .get(asDate.indexOf(Collections.max(asDate)))
-                        .getId();
-            } catch (NullPointerException e) {
-                Timber.e(Log.getStackTraceString(e));
-                return 0;
-            }
-        } else if (babyList.isEmpty()) {
-            return 0;
-        } else {
-            return babyList.get(0).getId();
-        }
+    protected int getRecentBaby(List<Baby> babyList) {                  //TODO: Remove
+        return basePresenter.getRecentBaby(babyList);
     }
 
     protected void getAllAppointments(final Context context) {

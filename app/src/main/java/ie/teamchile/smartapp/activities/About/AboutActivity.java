@@ -1,4 +1,4 @@
-package ie.teamchile.smartapp.activities;
+package ie.teamchile.smartapp.activities.About;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,20 +15,21 @@ import ie.teamchile.smartapp.activities.Login.LoginActivity;
 import ie.teamchile.smartapp.util.Constants;
 import ie.teamchile.smartapp.util.NotKeys;
 
-public class AboutActivity extends AppCompatActivity {
+public class AboutActivity extends AppCompatActivity implements AboutView {
     private ProgressBar progressBar;
+    private WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+        disableScreenshot();
         setContentView(R.layout.activity_about);
 
-        progressBar = (ProgressBar) findViewById(R.id.pb_webview);
+        initViews();
+
         progressBar.setProgress(0);
         progressBar.setMax(100);
 
-        WebView webView = (WebView) findViewById(R.id.wv_about);
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
@@ -49,5 +50,16 @@ public class AboutActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         startActivity(new Intent(this, LoginActivity.class));
+    }
+
+    @Override
+    public void disableScreenshot() {
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+    }
+
+    @Override
+    public void initViews() {
+        progressBar = (ProgressBar) findViewById(R.id.pb_webview);
+        webView = (WebView) findViewById(R.id.wv_about);
     }
 }

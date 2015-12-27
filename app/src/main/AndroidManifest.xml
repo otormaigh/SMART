@@ -68,7 +68,7 @@
             android:name=".activities.ServiceUserActivity"
             android:screenOrientation="sensorPortrait"/>
         <activity
-            android:name=".activities.ServiceUserSearchActivity"
+            android:name=".activities.ServiceUserSearch.ServiceUserSearchActivity"
             android:screenOrientation="sensorPortrait"/>
         <activity
             android:name=".activities.TodayAppointmentActivity"
@@ -80,7 +80,7 @@
             android:name=".activities.HomeVisitAppointmentActivity"
             android:screenOrientation="sensorPortrait"/>
         <activity
-            android:name=".activities.AboutActivity"
+            android:name=".activities.About.AboutActivity"
             android:noHistory="true"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/Theme.AppCompat.NoActionBar"/>

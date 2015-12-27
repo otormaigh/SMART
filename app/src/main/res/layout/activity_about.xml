@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ie.teamchile.smartapp.activities.AboutActivity">
+    tools:context=".activities.About.AboutActivity">
 
     <ProgressBar
         android:id="@+id/pb_webview"
