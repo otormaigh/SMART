@@ -1,7 +1,7 @@
 package ie.teamchile.smartapp.activities.ServiceUserSearch;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -26,20 +26,20 @@ import timber.log.Timber;
  */
 public class ServiceUserSearchPresenterImp extends BasePresenterImp implements ServiceUserSearchPresenter {
     private ServiceUserSearchView serviceUserSearchView;
-    private WeakReference<Context> weakContext;
+    private WeakReference<Activity> weakActivity;
     private Realm realm;
     private ServiceUserSearchModel serviceUserSearchModel;
 
-    public ServiceUserSearchPresenterImp(ServiceUserSearchView serviceUserSearchView, Context context, Realm realm) {
+    public ServiceUserSearchPresenterImp(ServiceUserSearchView serviceUserSearchView, Activity activity, Realm realm) {
         this.serviceUserSearchView = serviceUserSearchView;
-        weakContext = new WeakReference<>(context);
+        weakActivity = new WeakReference<>(activity);
         this.realm = realm;
         serviceUserSearchModel = new ServiceUserSearchModelImp(realm);
     }
 
     @Override
     public void getHistories(int pregnancyId, int babyId) {
-        SmartApiClient.getAuthorizedApiClient(weakContext.get()).getVitKHistories(
+        SmartApiClient.getAuthorizedApiClient(weakActivity.get()).getVitKHistories(
                 babyId,
                 new Callback<BaseModel>() {
                     @Override
@@ -54,7 +54,7 @@ public class ServiceUserSearchPresenterImp extends BasePresenterImp implements S
                     }
                 }
         );
-        SmartApiClient.getAuthorizedApiClient(weakContext.get()).getHearingHistories(
+        SmartApiClient.getAuthorizedApiClient(weakActivity.get()).getHearingHistories(
                 babyId,
                 new Callback<BaseModel>() {
                     @Override
@@ -69,7 +69,7 @@ public class ServiceUserSearchPresenterImp extends BasePresenterImp implements S
                     }
                 }
         );
-        SmartApiClient.getAuthorizedApiClient(weakContext.get()).getNbstHistories(
+        SmartApiClient.getAuthorizedApiClient(weakActivity.get()).getNbstHistories(
                 babyId,
                 new Callback<BaseModel>() {
                     @Override
@@ -83,7 +83,7 @@ public class ServiceUserSearchPresenterImp extends BasePresenterImp implements S
                     }
                 }
         );
-        SmartApiClient.getAuthorizedApiClient(weakContext.get()).getFeedingHistoriesByPregId(
+        SmartApiClient.getAuthorizedApiClient(weakActivity.get()).getFeedingHistoriesByPregId(
                 pregnancyId,
                 new Callback<BaseModel>() {
                     @Override
@@ -108,10 +108,10 @@ public class ServiceUserSearchPresenterImp extends BasePresenterImp implements S
             name = name.trim();
 
         final ProgressDialog pd = new CustomDialogs().showProgressDialog(
-                weakContext.get(),
-                weakContext.get().getString(R.string.fetching_information));
+                weakActivity.get(),
+                weakActivity.get().getString(R.string.fetching_information));
 
-        SmartApiClient.getAuthorizedApiClient(weakContext.get()).getServiceUserByNameDobHospitalNum(
+        SmartApiClient.getAuthorizedApiClient(weakActivity.get()).getServiceUserByNameDobHospitalNum(
                 name,
                 hospitalNumber.trim(),
                 dob.trim(),

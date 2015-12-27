@@ -33,7 +33,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView, OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+        disableScreenshot();
         setContentView(R.layout.activity_login);
 
         realm = Realm.getInstance(getApplicationContext());
@@ -102,6 +102,11 @@ public class LoginActivity extends AppCompatActivity implements LoginView, OnCli
     @Override
     public void showErrorToast(String error) {
         Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void disableScreenshot() {
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
     }
 
     @Override

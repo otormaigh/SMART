@@ -47,7 +47,7 @@ public class ServiceUserSearchActivity extends BaseActivity implements ServiceUs
 
         realm = Realm.getInstance(getApplicationContext());
 
-        serviceUserSearchPresenter = new ServiceUserSearchPresenterImp(this, getApplicationContext(), realm);
+        serviceUserSearchPresenter = new ServiceUserSearchPresenterImp(this, ServiceUserSearchActivity.this, realm);
 
         initViews();
 

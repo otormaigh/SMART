@@ -35,7 +35,7 @@ public class SplashScreenActivity extends AppCompatActivity implements SplashScr
 
         realm = getRealm();
 
-        if (BuildConfig.DEBUG) {
+        if (!BuildConfig.DEBUG) {
             splashScreenPresenter.checkIfValidEnvironment();
         }
     }

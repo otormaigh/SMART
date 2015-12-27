@@ -8,6 +8,7 @@ import net.hockeyapp.android.Tracking;
 import java.lang.ref.WeakReference;
 import java.util.Calendar;
 
+import ie.teamchile.smartapp.activities.Base.BasePresenterImp;
 import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.PostingData;
@@ -22,7 +23,7 @@ import timber.log.Timber;
 /**
  * Created by elliot on 27/12/2015.
  */
-public class LoginPresenterImp implements LoginPresenter {
+public class LoginPresenterImp extends BasePresenterImp implements LoginPresenter {
     private LoginView loginView;
     private LoginModel loginModel;
     private WeakReference<Activity> weakActivity;
