@@ -11,6 +11,7 @@ import android.webkit.WebView;
 import android.widget.ProgressBar;
 
 import ie.teamchile.smartapp.R;
+import ie.teamchile.smartapp.activities.Login.LoginActivity;
 import ie.teamchile.smartapp.util.Constants;
 import ie.teamchile.smartapp.util.NotKeys;
 

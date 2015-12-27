@@ -10,6 +10,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 
 import ie.teamchile.smartapp.R;
+import ie.teamchile.smartapp.activities.Login.LoginActivity;
 import ie.teamchile.smartapp.model.Login;
 import ie.teamchile.smartapp.util.ClearData;
 import ie.teamchile.smartapp.util.Constants;
