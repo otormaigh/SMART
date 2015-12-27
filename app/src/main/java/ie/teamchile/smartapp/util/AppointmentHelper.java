@@ -5,7 +5,7 @@ import android.util.Log;
 import java.util.Calendar;
 import java.util.Date;
 
-import ie.teamchile.smartapp.activities.BaseActivity;
+import ie.teamchile.smartapp.activities.Base.BaseActivity;
 import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.BaseModel;
 import io.realm.Realm;

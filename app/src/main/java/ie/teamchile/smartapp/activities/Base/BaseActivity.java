@@ -1,4 +1,4 @@
-package ie.teamchile.smartapp.activities;
+package ie.teamchile.smartapp.activities.Base;
 
 import android.app.ActivityManager;
 import android.app.AlertDialog;
@@ -47,7 +47,12 @@ import java.util.Locale;
 import javax.net.ssl.SSLHandshakeException;
 
 import ie.teamchile.smartapp.R;
+import ie.teamchile.smartapp.activities.AppointmentTypeSpinnerActivity;
+import ie.teamchile.smartapp.activities.ClinicTimeRecordActivity;
 import ie.teamchile.smartapp.activities.Login.LoginActivity;
+import ie.teamchile.smartapp.activities.QuickMenuActivity;
+import ie.teamchile.smartapp.activities.ServiceUserSearchActivity;
+import ie.teamchile.smartapp.activities.SpalshScreen.SplashScreenActivity;
 import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.Baby;
 import ie.teamchile.smartapp.model.BaseModel;

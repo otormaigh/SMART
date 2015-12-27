@@ -2,7 +2,9 @@ package ie.teamchile.smartapp.activities;
 
 import android.os.Bundle;
 
-public class TodayAppointmentActivity extends BaseActivity   {
+import ie.teamchile.smartapp.activities.Base.BaseActivity;
+
+public class TodayAppointmentActivity extends BaseActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

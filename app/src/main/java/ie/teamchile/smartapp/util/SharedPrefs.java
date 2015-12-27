@@ -8,7 +8,7 @@ import com.google.gson.Gson;
 import java.util.HashSet;
 import java.util.Set;
 
-import ie.teamchile.smartapp.activities.BaseActivity;
+import ie.teamchile.smartapp.activities.Base.BaseActivity;
 import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.PostingData;

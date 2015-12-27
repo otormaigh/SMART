@@ -1,4 +1,4 @@
-package ie.teamchile.smartapp.activities;
+package ie.teamchile.smartapp.activities.SpalshScreen;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import android.widget.Button;
 
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.activities.Login.LoginActivity;
+import ie.teamchile.smartapp.activities.QuickMenuActivity;
 import ie.teamchile.smartapp.model.Login;
 import ie.teamchile.smartapp.util.ClearData;
 import ie.teamchile.smartapp.util.Constants;

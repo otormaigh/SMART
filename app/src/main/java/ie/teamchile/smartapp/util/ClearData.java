@@ -5,7 +5,7 @@ import android.util.Log;
 
 import java.io.File;
 
-import ie.teamchile.smartapp.activities.BaseActivity;
+import ie.teamchile.smartapp.activities.Base.BaseActivity;
 import ie.teamchile.smartapp.model.Announcement;
 import ie.teamchile.smartapp.model.Appointment;
 import ie.teamchile.smartapp.model.Baby;

@@ -26,7 +26,7 @@
         <activity android:name="net.hockeyapp.android.UpdateActivity" />
 
         <activity
-            android:name=".activities.SplashScreenActivity"
+            android:name=".activities.SpalshScreen.SplashScreenActivity"
             android:noHistory="true"
             android:screenOrientation="sensorPortrait">
             <intent-filter>

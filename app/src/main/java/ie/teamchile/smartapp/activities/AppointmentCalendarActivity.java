@@ -31,6 +31,7 @@ import java.util.Date;
 import java.util.List;
 
 import ie.teamchile.smartapp.R;
+import ie.teamchile.smartapp.activities.Base.BaseActivity;
 import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.Appointment;
 import ie.teamchile.smartapp.model.BaseModel;
