@@ -6,12 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -28,6 +28,7 @@ import ie.teamchile.smartapp.model.Baby;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.Pregnancy;
 import ie.teamchile.smartapp.model.ServiceUser;
+import ie.teamchile.smartapp.util.Constants;
 import ie.teamchile.smartapp.util.CustomDialogs;
 import io.realm.Realm;
 import retrofit.Callback;
@@ -35,16 +36,15 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import timber.log.Timber;
 
-public class ServiceUserSearchActivity extends BaseActivity {
+public class ServiceUserSearchActivity extends BaseActivity implements OnClickListener, OnItemClickListener {
     private BaseAdapter adapterListResults;
     private EditText searchName, searchHospitalNumber,
             searchDOBDay, searchDOBMonth, searchDOBYear;
-    private Button search;
     private TextView tvSearchResults;
     private List<ServiceUser> serviceUserList = new ArrayList<>();
     private ListView lvSearchResults;
     private LinearLayout llNoUserFound;
-    private Boolean changeActivity;
+    private boolean changeActivity;
     private ProgressDialog pd;
     private Realm realm;
 
@@ -53,7 +53,7 @@ public class ServiceUserSearchActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentForNav(R.layout.activity_service_user_search);
 
-        realm = Realm.getInstance(this);
+        realm = Realm.getInstance(getApplicationContext());
 
         searchName = (EditText) findViewById(R.id.et_search_name);
         searchHospitalNumber = (EditText) findViewById(R.id.et_search_hospital_number);
@@ -63,14 +63,12 @@ public class ServiceUserSearchActivity extends BaseActivity {
         tvSearchResults = (TextView) findViewById(R.id.tv_search_results);
         llNoUserFound = (LinearLayout) findViewById(R.id.ll_no_user_found);
 
-        search = (Button) findViewById(R.id.btn_search);
-        search.setOnClickListener(new ButtonClick());
+        findViewById(R.id.btn_search).setOnClickListener(this);
 
         lvSearchResults = (ListView) findViewById(R.id.lv_search_results);
-        lvSearchResults.setOnItemClickListener(new onItemListener());
+        lvSearchResults.setOnItemClickListener(this);
 
         llNoUserFound.setVisibility(View.GONE);
-        //tvNoUserFound.setVisibility(View.GONE);
         tvSearchResults.setVisibility(View.GONE);
 
         createResultList();
@@ -105,11 +103,10 @@ public class ServiceUserSearchActivity extends BaseActivity {
         adapterListResults = new AdapterListResultsInner();
         adapterListResults.notifyDataSetChanged();
         lvSearchResults.setAdapter(adapterListResults);
-        //lvSearchResults.setEmptyView(llNoUserFound);
     }
 
     private void getHistories(int pregnancyId, int babyId) {
-        SmartApiClient.getAuthorizedApiClient(this).getVitKHistories(
+        SmartApiClient.getAuthorizedApiClient(getApplicationContext()).getVitKHistories(
                 babyId,
                 new Callback<BaseModel>() {
                     @Override
@@ -126,7 +123,7 @@ public class ServiceUserSearchActivity extends BaseActivity {
                     }
                 }
         );
-        SmartApiClient.getAuthorizedApiClient(this).getHearingHistories(
+        SmartApiClient.getAuthorizedApiClient(getApplicationContext()).getHearingHistories(
                 babyId,
                 new Callback<BaseModel>() {
                     @Override
@@ -143,7 +140,7 @@ public class ServiceUserSearchActivity extends BaseActivity {
                     }
                 }
         );
-        SmartApiClient.getAuthorizedApiClient(this).getNbstHistories(
+        SmartApiClient.getAuthorizedApiClient(getApplicationContext()).getNbstHistories(
                 babyId,
                 new Callback<BaseModel>() {
                     @Override
@@ -159,7 +156,7 @@ public class ServiceUserSearchActivity extends BaseActivity {
                     }
                 }
         );
-        SmartApiClient.getAuthorizedApiClient(this).getFeedingHistoriesByPregId(
+        SmartApiClient.getAuthorizedApiClient(getApplicationContext()).getFeedingHistoriesByPregId(
                 pregnancyId,
                 new Callback<BaseModel>() {
                     @Override
@@ -184,10 +181,10 @@ public class ServiceUserSearchActivity extends BaseActivity {
         else
             name = name.trim();
         pd = new CustomDialogs().showProgressDialog(
-                ServiceUserSearchActivity.this,
-                "Fetching Information");
+                getApplicationContext(),
+                getString(R.string.fetching_information));
 
-        SmartApiClient.getAuthorizedApiClient(this).getServiceUserByNameDobHospitalNum(
+        SmartApiClient.getAuthorizedApiClient(getApplicationContext()).getServiceUserByNameDobHospitalNum(
                 name,
                 hospitalNumber.trim(),
                 dob.trim(),
@@ -205,9 +202,7 @@ public class ServiceUserSearchActivity extends BaseActivity {
                                 realm.copyToRealmOrUpdate(baseModel.getBabies());
                                 realm.copyToRealmOrUpdate(baseModel.getAntiDHistories());
                                 realm.commitTransaction();
-                                startActivity(
-                                        new Intent(ServiceUserSearchActivity.this,
-                                                ServiceUserActivity.class));
+                                startActivity(new Intent(getApplicationContext(), ServiceUserActivity.class));
                                 getHistories(
                                         getRecentPregnancy(realm.where(Pregnancy.class).findAll()),
                                         getRecentBaby(realm.where(Baby.class).findAll()));
@@ -233,60 +228,57 @@ public class ServiceUserSearchActivity extends BaseActivity {
         );
     }
 
-    private class onItemListener implements OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            String hospitalNumber = serviceUserList.get(position).getHospitalNumber();
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        String hospitalNumber = serviceUserList.get(position).getHospitalNumber();
 
-            changeActivity = true;
-            searchForPatient("", hospitalNumber, "");
-        }
+        changeActivity = true;
+        searchForPatient("", hospitalNumber, "");
     }
 
-    private class ButtonClick implements View.OnClickListener {
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.btn_search:
-                    serviceUserList = new ArrayList<>();
-                    changeActivity = false;
-                    llNoUserFound.setVisibility(View.GONE);
-                    tvSearchResults.setVisibility(View.GONE);
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_search:
+                serviceUserList = new ArrayList<>();
+                changeActivity = false;
+                llNoUserFound.setVisibility(View.GONE);
+                tvSearchResults.setVisibility(View.GONE);
 
-                    InputMethodManager inputManager = (InputMethodManager)
-                            getSystemService(Context.INPUT_METHOD_SERVICE);
-                    inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
-                            InputMethodManager.HIDE_NOT_ALWAYS);
+                InputMethodManager inputManager = (InputMethodManager)
+                        getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
 
-                    String dob = "";
+                String dob = "";
 
-                    if (searchName.getText().toString().length() > 0 ||
-                            searchHospitalNumber.getText().toString().length() > 0 ||
-                            searchDOBDay.getText().toString().length() > 0 &&
-                                    searchDOBMonth.getText().toString().length() > 0 &&
-                                    searchDOBYear.getText().toString().length() > 0) {
-                        tvSearchResults.setVisibility(View.VISIBLE);
-
-                        if (searchDOBDay.getText().toString().length() > 0 &&
+                if (searchName.getText().toString().length() > 0 ||
+                        searchHospitalNumber.getText().toString().length() > 0 ||
+                        searchDOBDay.getText().toString().length() > 0 &&
                                 searchDOBMonth.getText().toString().length() > 0 &&
                                 searchDOBYear.getText().toString().length() > 0) {
+                    tvSearchResults.setVisibility(View.VISIBLE);
 
-                            dob = searchDOBYear.getText() + "-" +
-                                    searchDOBMonth.getText() + "-" +
-                                    searchDOBDay.getText();
-                        }
+                    if (searchDOBDay.getText().toString().length() > 0 &&
+                            searchDOBMonth.getText().toString().length() > 0 &&
+                            searchDOBYear.getText().toString().length() > 0) {
 
-                        searchForPatient(
-                                searchName.getText().toString(),
-                                searchHospitalNumber.getText().toString(),
-                                dob);
-                    } else {
-                        Toast.makeText(getApplicationContext(),
-                                "Please enter something in the search fields", Toast.LENGTH_LONG).show();
-                        serviceUserList.clear();
-                        adapterListResults.notifyDataSetChanged();
+                        dob = String.format(Constants.FORMAT_DOB,
+                                searchDOBYear.getText(),
+                                searchDOBMonth.getText(),
+                                searchDOBDay.getText());
                     }
-                    break;
-            }
+
+                    searchForPatient(
+                            searchName.getText().toString(),
+                            searchHospitalNumber.getText().toString(),
+                            dob);
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            getString(R.string.enter_something_into_fields), Toast.LENGTH_LONG).show();
+                    serviceUserList.clear();
+                    adapterListResults.notifyDataSetChanged();
+                }
+                break;
         }
     }
 

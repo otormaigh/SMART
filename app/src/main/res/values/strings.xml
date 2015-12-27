@@ -3,6 +3,22 @@
 
     <string name="app_name">SMART</string>
 
+    <!-- BASE ACTIVITY -->
+    <string name="error.please_login">Error, please re-Login</string>
+    <string name="view_is_hidden">View is now hidden</string>
+    <string name="warning.logged_out_soon">You will be logged out of SMART soon</string>
+    <string name="no_internet">No Internet connection!</string>
+    <string name="updating_appointments">Updating Appointments</string>
+    <string name="logging_out">Logging Out</string>
+    <string name="you_are_now_logged_out">You are now logged out</string>
+    <string name="error.logout">There was a problem with the logout, \nPlease try again.</string>
+    <string name="success.logout">You have been logged out of SMART</string>
+    <string name="error.downloading_appointments">Error downloading appointments \nplease try again</string>
+
+    <!-- LOGIN ACTIVITY -->
+    <string name="logging_in">Logging In</string>
+    <string name="error.fields_empty">Error fields empty</string>
+
     <!-- MAIN SCREEN -->
     <string name="main_logo"> main_logo</string>
     <string name="login">Login</string>
@@ -19,6 +35,7 @@
     <string name="book_appointment">Book Appointment</string>
     <string name="start_stop_clinic">Start/Stop Clinic</string>
     <string name="todays_appointments">Today\'s Appointments</string>
+    <string name="updating_info">Updating Information</string>
 
     <!-- SPINNER TITLES -->
     <string name="patient_search_options"> Select search option</string>
@@ -77,6 +94,8 @@
 	<string name="day"><i>Day</i></string>
 	<string name="month"><i>Month</i></string>
 	<string name="year"><i>Year</i></string>
+    <string name="fetching_information">Fetching Information</string>
+    <string name="enter_something_into_fields">Please enter something in the search fields</string>
 	
     <!-- SERVICE USER -->
     <string name="ante_natal">Ante-Natal</string>
@@ -187,6 +206,12 @@
     <string name="appointment_date">Appointment Date</string>
     <string name="appointment_time">Appointment Time</string>
     <string name="cancel">Cancel</string>
+    <string name="error.field_empty">Field Empty</string>
+    <string name="error.cannot_proceed_fields_empty">Cannot proceed, \nSome fields are empty!</string>
+    <string name="search_results">Search Results</string>
+    <string name="no_search_results_found">No search results found</string>
+    <string name="booking_appointment">Booking Appointment</string>
+    <string name="error.no_internet_booking_appointment">No internet, appointment will be booked when available</string>
  	
 	<!-- CONFIRM APPOINTMENT -->
     <string name="appointment_for">Appointment for:</string>
@@ -251,15 +276,32 @@
     <string name="clinics_stopped">Already Finished Today</string>
     <string name="clinics_not_started">Waiting to be Started Today</string>
     <string name="reset_record">Reset Clinic Times</string>
+    <string name="saturday">Saturday</string>
+    <string name="sunday">Sunday</string>
+    <string name="no_clinics_opened">There are no clinics open today</string>
+    <string name="updating_time_records">Updating Clinic Time Records</string>
+    <string name="deleting_time_record">Deleting Time Record</string>
+    <string name="no_clinics_to_be_started">No clinics to be started</string>
+    <string name="no_clinics_currently_started">No clinics currently started</string>
+    <string name="no_clinics_currently_stopped">No clinics currently stopped</string>
 
     <!-- MIDWIFERY LOG -->
     <string name="enter_note_hint"><i>Enter Note Here . . .</i></string>
     <string name="midwifery_log">Midwifery Log</string>
     <string name="save_note">Save Note</string>
-    <string name="add_note">Add Pregnancy Note</string>
+    <string name="add_pregnancy_note">Add Pregnancy Note</string>
+    <string name="updating_notes">Updating Notes</string>
+    <string name="adding_note">Adding Note</string>
+
+    <string name="error.char_limit_exceeded">Error character limit exceeded</string>
+    <string name="error.cannot_be_empty">This Cannot Be Empty</string>
+    <string name="add_note_below">Add Note Below</string>
     
     <!-- ANTI-D DIALOG -->
     <string name="add_to_history">Add To History</string>
     <string name="save_option">Save Option</string>
+
+    <!-- ACTIVITY TITLES -->
+    <string name="title.clinic_time_records">Start/Stop Clinics</string>
 
 </resources>

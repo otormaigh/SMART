@@ -6,7 +6,10 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -27,6 +30,7 @@ import ie.teamchile.smartapp.model.Clinic;
 import ie.teamchile.smartapp.model.ClinicTimeRecord;
 import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.util.AppointmentHelper;
+import ie.teamchile.smartapp.util.Constants;
 import ie.teamchile.smartapp.util.CustomDialogs;
 import ie.teamchile.smartapp.util.GeneralUtils;
 import ie.teamchile.smartapp.util.SharedPrefs;
@@ -36,7 +40,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import timber.log.Timber;
 
-public class ClinicTimeRecordActivity extends BaseActivity {
+public class ClinicTimeRecordActivity extends BaseActivity implements OnClickListener, OnItemClickListener, OnItemLongClickListener {
     private List<Integer> clinicStopped = new ArrayList<>();
     private List<Integer> clinicStarted = new ArrayList<>();
     private List<Integer> clinicNotStarted = new ArrayList<>();
@@ -86,26 +90,26 @@ public class ClinicTimeRecordActivity extends BaseActivity {
         todayDay = dfDayLong.format(c.getTime());
         todayDate = dfDateOnly.format(c.getTime());
         lvNotStarted = (ListView) findViewById(R.id.lv_clinics_not_started);
-        lvNotStarted.setOnItemClickListener(new ItemClicky());
+        lvNotStarted.setOnItemClickListener(this);
         lvStarted = (ListView) findViewById(R.id.lv_clinics_started);
-        lvStarted.setOnItemClickListener(new ItemClicky());
+        lvStarted.setOnItemClickListener(this);
         lvStopped = (ListView) findViewById(R.id.lv_clinics_stopped);
-        lvStopped.setOnItemLongClickListener(new ItemClicky());
+        lvStopped.setOnItemLongClickListener(this);
         btnStartClinic = (Button) findViewById(R.id.btn_start_clinic);
-        btnStartClinic.setOnClickListener(new ButtonClicky());
+        btnStartClinic.setOnClickListener(this);
         btnStopClinic = (Button) findViewById(R.id.btn_stop_clinic);
-        btnStopClinic.setOnClickListener(new ButtonClicky());
+        btnStopClinic.setOnClickListener(this);
         btnResetRecord = (Button) findViewById(R.id.btn_reset_clinic_record);
-        btnResetRecord.setOnClickListener(new ButtonClicky());
+        btnResetRecord.setOnClickListener(this);
 
         disableButtons();
 
-        setActionBarTitle("Start/Stop Clinics");
+        setActionBarTitle(getString(R.string.title_clinic_time_records));
 
-        if (!todayDay.equals("Saturday") && !todayDay.equals("Sunday")) {
+        if (!todayDay.equals(getString(R.string.saturday)) && !todayDay.equals(getString(R.string.sunday))) {
             getDataFromDb();
         } else {
-            new CustomDialogs().showWarningDialog(this, "There are no clinics open today.");
+            new CustomDialogs().showWarningDialog(this, getString(R.string.no_clinics_opened));
         }
     }
 
@@ -175,7 +179,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
         if (clinicDayMap.containsKey(todayDay)) {
             pd = new CustomDialogs().showProgressDialog(
                     ClinicTimeRecordActivity.this,
-                    "Updating Time Records");
+                    getString(R.string.updating_time_records));
             int size = idList.size();
             for (int i = 0; i < size; i++) {
                 getTimeRecords(idList.get(i), todayDate);
@@ -192,7 +196,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
 
             @Override
             public void onFinish() {
-                if(pd != null) {
+                if (pd != null) {
                     if (recordGetDone >= 3)
                         pd.dismiss();
                     else
@@ -249,7 +253,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
 
         pd = new CustomDialogs().showProgressDialog(
                 ClinicTimeRecordActivity.this,
-                "Updating Clinic Time Records");
+                getString(R.string.updating_time_records));
 
         SmartApiClient.getAuthorizedApiClient(this).postTimeRecords(
                 timeRecord,
@@ -291,7 +295,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
 
         pd = new CustomDialogs().showProgressDialog(
                 ClinicTimeRecordActivity.this,
-                "Updating Clinic Time Records");
+                getString(R.string.updating_time_records));
 
         SmartApiClient.getAuthorizedApiClient(this).putTimeRecords(
                 timeRecord,
@@ -329,7 +333,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
     private void deleteTimeRecord(final int clinicIdForDelete, final int recordIdForDelete) {
         pd = new CustomDialogs().showProgressDialog(
                 ClinicTimeRecordActivity.this,
-                "Deleting Time Record");
+                getString(R.string.deleting_time_record));
 
         SmartApiClient.getAuthorizedApiClient(this).deleteTimeRecordById(
                 clinicIdForDelete,
@@ -370,7 +374,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
         String clinicName;
         clinicNotStartedName = new ArrayList<>();
         if (clinicNotStarted.size() == 0) {
-            clinicNotStartedName.add("No clinics to be started");
+            clinicNotStartedName.add(getString(R.string.no_clinics_to_be_started));
             lvNotStarted.setEnabled(false);
         } else {
             lvNotStarted.setEnabled(true);
@@ -378,20 +382,12 @@ public class ClinicTimeRecordActivity extends BaseActivity {
             for (int i = 0; i < size; i++) {
                 clinicName = clinicIdMap.get(clinicNotStarted.get(i)).getName();
                 int clinicId = clinicNotStarted.get(i);
-                switch (clinicId) {
-                    case 6:
-                        clinicName += " (Domino)";
-                        break;
-                    case 10:
-                        clinicName += " (Satellite)";
-                        break;
-                }
-                clinicNotStartedName.add(clinicName);
+                clinicNotStartedName.add(formatClinicName(clinicId, clinicName));
             }
         }
 
         adapterNotStart = new ArrayAdapter(
-                ClinicTimeRecordActivity.this,
+                getApplicationContext(),
                 android.R.layout.simple_list_item_1,
                 clinicNotStartedName);
 
@@ -399,11 +395,22 @@ public class ClinicTimeRecordActivity extends BaseActivity {
         adapterNotStart.notifyDataSetChanged();
     }
 
+    private String formatClinicName(int clinicId, String clinicName) {
+        switch (clinicId) {
+            case 6:
+                return String.format(Constants.FORMAT_DOMINO, clinicName);
+            case 10:
+                return String.format(Constants.FORMAT_SATELLITE, clinicName);
+            default:
+                return clinicName;
+        }
+    }
+
     private void setStartedList() {
         recordGetDone++;
         clinicStartedName = new ArrayList<>();
         if (clinicStarted.size() == 0) {
-            clinicStartedName.add("No clinics currently started");
+            clinicStartedName.add(getString(R.string.no_clinics_currently_started));
             lvStarted.setEnabled(false);
         } else {
             lvStarted.setEnabled(true);
@@ -413,20 +420,12 @@ public class ClinicTimeRecordActivity extends BaseActivity {
             for (int i = 0; i < size; i++) {
                 clinicName = clinicIdMap.get(clinicStarted.get(i)).getName();
                 clinicId = clinicStarted.get(i);
-                switch (clinicId) {
-                    case 6:
-                        clinicName += " (Domino)";
-                        break;
-                    case 10:
-                        clinicName += " (Satellite)";
-                        break;
-                }
-                clinicStartedName.add(clinicName);
+                clinicStartedName.add(formatClinicName(clinicId, clinicName));
             }
         }
 
         adapterStart = new ArrayAdapter(
-                ClinicTimeRecordActivity.this,
+                getApplicationContext(),
                 android.R.layout.simple_list_item_1,
                 clinicStartedName);
 
@@ -439,7 +438,7 @@ public class ClinicTimeRecordActivity extends BaseActivity {
         clinicStoppedName = new ArrayList<>();
 
         if (clinicStopped.size() == 0) {
-            clinicStoppedName.add("No clinics currently stopped");
+            clinicStoppedName.add(getString(R.string.no_clinics_currently_stopped));
             lvStopped.setEnabled(false);
         } else {
             lvStopped.setEnabled(true);
@@ -449,20 +448,12 @@ public class ClinicTimeRecordActivity extends BaseActivity {
             for (int i = 0; i < size; i++) {
                 clinicName = clinicIdMap.get(clinicStopped.get(i)).getName();
                 clinicId = clinicStopped.get(i);
-                switch (clinicId) {
-                    case 6:
-                        clinicName += " (Domino)";
-                        break;
-                    case 10:
-                        clinicName += " (Satellite)";
-                        break;
-                }
-                clinicStoppedName.add(clinicName);
+                clinicStoppedName.add(formatClinicName(clinicId, clinicName));
             }
         }
 
         adapterStop = new ArrayAdapter(
-                ClinicTimeRecordActivity.this,
+                getApplicationContext(),
                 android.R.layout.simple_list_item_1,
                 clinicStoppedName);
 
@@ -479,79 +470,75 @@ public class ClinicTimeRecordActivity extends BaseActivity {
         });
     }
 
-    private class ItemClicky implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            switch (parent.getId()) {
-                case R.id.lv_clinics_not_started:
-                    btnStartClinic.setEnabled(true);
-                    clinicStartedId = 0;
-                    adapterStart.notifyDataSetChanged();
-                    lvStarted.setAdapter(adapterStart);
-                    clinicNotStartedId = clinicNotStarted.get(position);
-                    break;
-                case R.id.lv_clinics_started:
-                    btnStopClinic.setEnabled(true);
-                    clinicNotStartedId = 0;
-                    adapterNotStart.notifyDataSetChanged();
-                    lvNotStarted.setAdapter(adapterNotStart);
-                    clinicStartedId = clinicStarted.get(position);
-                    break;
-            }
-        }
-
-        @Override
-        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-            Vibrator vibe = (Vibrator) ClinicTimeRecordActivity.this.getSystemService(Context.VIBRATOR_SERVICE);
-            switch (parent.getId()) {
-                case R.id.lv_clinics_stopped:
-                    btnResetRecord.setEnabled(true);
-                    vibe.vibrate(50);
-                    clinicIdForDelete = clinicStopped.get(position);
-                    int size = clinicTimeRecords.size();
-                    for (int i = 0; i < size; i++) {
-                        if (clinicTimeRecords.get(i).getClinicId() == clinicIdForDelete) {
-                            recordIdForDelete = clinicTimeRecords.get(i).getId();
-                        }
-                    }
-                    break;
-            }
-            return false;
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        switch (parent.getId()) {
+            case R.id.lv_clinics_not_started:
+                btnStartClinic.setEnabled(true);
+                clinicStartedId = 0;
+                adapterStart.notifyDataSetChanged();
+                lvStarted.setAdapter(adapterStart);
+                clinicNotStartedId = clinicNotStarted.get(position);
+                break;
+            case R.id.lv_clinics_started:
+                btnStopClinic.setEnabled(true);
+                clinicNotStartedId = 0;
+                adapterNotStart.notifyDataSetChanged();
+                lvNotStarted.setAdapter(adapterNotStart);
+                clinicStartedId = clinicStarted.get(position);
+                break;
         }
     }
 
-    private class ButtonClicky implements View.OnClickListener {
-        @Override
-        public void onClick(View v) {
-            c = Calendar.getInstance();
-            now = dfDateTime.format(c.getTime());
-            c.add(Calendar.HOUR, 1);
-            then = dfDateTime.format(c.getTime());
-            date = dfDateOnly.format(c.getTime());
-            switch (v.getId()) {
-                case R.id.btn_start_clinic:
-                    if (clinicNotStartedId != 0) {
-                        sharedPrefs.overWriteStringPrefs(ClinicTimeRecordActivity.this,
-                                "clinic_started", String.valueOf(clinicNotStartedId));
-                        sharedPrefs.addToStringSetPrefs(ClinicTimeRecordActivity.this,
-                                "appts_got", String.valueOf(clinicNotStartedId));
-                        putStartTime(now, clinicNotStartedId);
-                        c = Calendar.getInstance();
-                        Date todayDate = c.getTime();
-                        appointmentHelper.weekDateLooper(todayDate, clinicNotStartedId);
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        Vibrator vibe = (Vibrator) ClinicTimeRecordActivity.this.getSystemService(Context.VIBRATOR_SERVICE);
+        switch (parent.getId()) {
+            case R.id.lv_clinics_stopped:
+                btnResetRecord.setEnabled(true);
+                vibe.vibrate(50);
+                clinicIdForDelete = clinicStopped.get(position);
+                int size = clinicTimeRecords.size();
+                for (int i = 0; i < size; i++) {
+                    if (clinicTimeRecords.get(i).getClinicId() == clinicIdForDelete) {
+                        recordIdForDelete = clinicTimeRecords.get(i).getId();
                     }
-                    break;
-                case R.id.btn_stop_clinic:
-                    if (clinicStartedId != 0)
-                        putEndTime(then, date, clinicStartedId);
-                    break;
-                case R.id.btn_reset_clinic_record:
-                    if (clinicIdForDelete != 0)
-                        deleteTimeRecord(clinicIdForDelete, recordIdForDelete);
-                    break;
-            }
-            clinicNotStartedId = 0;
-            clinicStartedId = 0;
+                }
+                break;
         }
+        return false;
+    }
+
+    @Override
+    public void onClick(View v) {
+        c = Calendar.getInstance();
+        now = dfDateTime.format(c.getTime());
+        c.add(Calendar.HOUR, 1);
+        then = dfDateTime.format(c.getTime());
+        date = dfDateOnly.format(c.getTime());
+        switch (v.getId()) {
+            case R.id.btn_start_clinic:
+                if (clinicNotStartedId != 0) {
+                    sharedPrefs.overWriteStringPrefs(getApplicationContext(),
+                            Constants.CLINIC_STARTED, String.valueOf(clinicNotStartedId));
+                    sharedPrefs.addToStringSetPrefs(ClinicTimeRecordActivity.this,
+                            Constants.APPTS_GOT, String.valueOf(clinicNotStartedId));
+                    putStartTime(now, clinicNotStartedId);
+                    c = Calendar.getInstance();
+                    Date todayDate = c.getTime();
+                    appointmentHelper.weekDateLooper(todayDate, clinicNotStartedId);
+                }
+                break;
+            case R.id.btn_stop_clinic:
+                if (clinicStartedId != 0)
+                    putEndTime(then, date, clinicStartedId);
+                break;
+            case R.id.btn_reset_clinic_record:
+                if (clinicIdForDelete != 0)
+                    deleteTimeRecord(clinicIdForDelete, recordIdForDelete);
+                break;
+        }
+        clinicNotStartedId = 0;
+        clinicStartedId = 0;
     }
 }

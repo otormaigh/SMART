@@ -158,11 +158,11 @@ public class HomeVisitAppointmentActivity extends BaseActivity {
 
         dateSelectedStr = dfDateOnly.format(dateSelected);
         dateInList.setText(dfDateWMonthName.format(dateSelected));
-        nameOfClinic = realm.where(ServiceOption.class).equalTo(Constants.Key_ID, visitOptionSelected).findFirst().getName();
+        nameOfClinic = realm.where(ServiceOption.class).equalTo(Constants.REALM_ID, visitOptionSelected).findFirst().getName();
         setActionBarTitle(nameOfClinic);
 
         List<Appointment> appointmentList = realm.where(Appointment.class)
-                .equalTo(Constants.KEY_DATE, dateSelectedStr)
+                .equalTo(Constants.REALM_DATE, dateSelectedStr)
                 .findAll();
 
         if (!appointmentList.isEmpty()) {
@@ -205,7 +205,7 @@ public class HomeVisitAppointmentActivity extends BaseActivity {
                 status,
                 0,
                 realm.where(Login.class).findFirst().getId(),
-                realm.where(Appointment.class).equalTo(Constants.Key_ID, idList.get(position)).findFirst().getServiceUserId());
+                realm.where(Appointment.class).equalTo(Constants.REALM_ID, idList.get(position)).findFirst().getServiceUserId());
 
         SmartApiClient.getAuthorizedApiClient(this).putAppointmentStatus(
                 attendedStatus,
@@ -309,7 +309,7 @@ public class HomeVisitAppointmentActivity extends BaseActivity {
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-            final Appointment appointment = realm.where(Appointment.class).equalTo(Constants.Key_ID, getItem(position)).findFirst();
+            final Appointment appointment = realm.where(Appointment.class).equalTo(Constants.REALM_ID, getItem(position)).findFirst();
             final ViewHolder holder;
             final Boolean attended;
 

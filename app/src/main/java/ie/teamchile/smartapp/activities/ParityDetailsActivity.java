@@ -6,7 +6,6 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +15,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.text.DecimalFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,9 +23,9 @@ import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.model.Baby;
 import ie.teamchile.smartapp.model.Pregnancy;
 import ie.teamchile.smartapp.model.ServiceUser;
+import ie.teamchile.smartapp.util.Constants;
 import ie.teamchile.smartapp.util.DividerItemDecoration;
 import io.realm.Realm;
-import timber.log.Timber;
 
 public class ParityDetailsActivity extends BaseActivity {
     private BaseAdapter adapter;
@@ -46,7 +44,6 @@ public class ParityDetailsActivity extends BaseActivity {
     private List<String> hearing = new ArrayList<>();
     private List<String> nbstList = new ArrayList<>();
     private List<String> vitKList = new ArrayList<>();
-    private ListView lvParity;
     private int orientation;
     private RecyclerView rvParity;
     private Realm realm;
@@ -58,12 +55,11 @@ public class ParityDetailsActivity extends BaseActivity {
 
         realm = Realm.getInstance(getApplicationContext());
 
-		/*lvParity = (ListView)findViewById(R.id.lv_parity);*/
         rvParity = (RecyclerView) findViewById(R.id.rv_parity);
 
         patientName = realm.where(ServiceUser.class).findFirst().getPersonalFields().getName();
         patientParity = realm.where(ServiceUser.class).findFirst().getClinicalFields().getParity();
-        setActionBarTitle(patientName + " (" + patientParity + ")");
+        setActionBarTitle(String.format(Constants.FORMAT_PARITY_DETAILS_TITLE, patientName, patientParity));
 
         List<Baby> babyList = realm.where(Baby.class).findAll();
 
@@ -133,14 +129,6 @@ public class ParityDetailsActivity extends BaseActivity {
         return orientation;
     }
 
-    private void portraitCode() {
-        adapter = new ListAdapter(ParityDetailsActivity.this,
-                orientation, nameBaby, hospitalNumber, dobStr,
-                genderBaby, gestationBaby, weightBabyInKg,
-                birthMode, birthOutcome);
-        lvParity.setAdapter(adapter);
-    }
-
     private void landscapeCode() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rvParity.setLayoutManager(layoutManager);
@@ -154,28 +142,6 @@ public class ParityDetailsActivity extends BaseActivity {
         double kg;
         kg = grams / 1000.0;
         return String.valueOf(kg);
-    }
-
-    private String getDeliveryDate(String edd, int option) {
-        Date date = null;
-        String dateOfDevelivery = null;
-        try {
-            date = dfDateTimeWZone.parse(edd);
-        } catch (ParseException e) {
-            Timber.e(Log.getStackTraceString(e));
-        }
-        switch (option) {
-            case 0:
-                dateOfDevelivery = dfMonthFullName.format(date);
-                break;
-            case 1:
-                dateOfDevelivery = dfDateOnly.format(date);
-                break;
-            case 2:
-                dateOfDevelivery = dfDateMonthNameYear.format(date);
-                break;
-        }
-        return dateOfDevelivery;
     }
 
     private String formatArrayString(String toBeFormatted) {
@@ -227,92 +193,6 @@ public class ParityDetailsActivity extends BaseActivity {
         lvNew4.setAdapter(newAdapter);
     }
 
-    private class ListAdapter extends BaseAdapter {
-        Context context;
-        int position, orientation;
-        LayoutInflater layoutInflater;
-        List<String> babyDob, hospitalNumber, babyGender, gestation,
-                weight, name, birthMode, birthOutcome;
-
-        public ListAdapter(Context context, int orientation, List<String> name,
-                           List<String> hospitalNumber, List<String> babyDob, List<String> babyGender,
-                           List<String> gestation, List<String> weight, List<String> birthMode, List<String> birthOutcome) {
-            super();
-
-            this.context = context;
-            this.orientation = orientation;
-            this.babyDob = babyDob;
-            this.hospitalNumber = hospitalNumber;
-            this.name = name;
-            this.babyGender = babyGender;
-            this.gestation = gestation;
-            this.weight = weight;
-            this.birthMode = birthMode;
-            this.birthOutcome = birthOutcome;
-            layoutInflater = LayoutInflater.from(context);
-        }
-
-        @Override
-        public void notifyDataSetChanged() {
-            super.notifyDataSetChanged();
-        }
-
-        @Override
-        public int getCount() {
-            return gestation.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            //ButterKnife.inject(this, convertView);
-            this.position = position;
-
-            convertView = layoutInflater.inflate(R.layout.list_layout_parity, parent, false);
-            TextView dobText = (TextView) convertView.findViewById(R.id.tv_parity_dob);
-            TextView genderText = (TextView) convertView.findViewById(R.id.tv_parity_gender);
-            TextView gestationText = (TextView) convertView.findViewById(R.id.tv_parity_gestation);
-            TextView weightText = (TextView) convertView.findViewById(R.id.tv_parity_weight);
-            TextView modeText = (TextView) convertView.findViewById(R.id.tv_parity_birth_mode);
-            TextView birthOutcomeParity = (TextView) convertView.findViewById(R.id.tv_parity_outcome);
-
-            if (babyGender.get(position).equalsIgnoreCase("M")) {
-                genderText.setText(babyGender.get(position) + sex_male);
-            } else if (babyGender.get(position).equalsIgnoreCase("F")) {
-                genderText.setText(babyGender.get(position) + sex_female);
-            }
-            gestationText.setText(gestation.get(position));
-            weightText.setText(formatWeight(weight.get(position)));
-            modeText.setText(formatArrayString(birthMode.get(position)));
-            birthOutcomeParity.setText(birthOutcome.get(position));
-
-            switch (orientation) {
-                case 1:                //ORIENTATION_PORTRAIT
-                    TextView nameOfBaby = (TextView) convertView.findViewById(R.id.tv_parity_name);
-                    TextView hospitalNo = (TextView) convertView.findViewById(R.id.tv_parity_hospital_number);
-
-                    nameOfBaby.setText(name.get(position));
-                    hospitalNo.setText(hospitalNumber.get(position));
-                    dobText.setText(getDeliveryDate(babyDob.get(position), 0));
-                    break;
-                case 2:                //ORIENTATION_LANDSCAPE
-                    dobText.setText(getDeliveryDate(babyDob.get(position), 1));
-                    break;
-            }
-
-            return convertView;
-        }
-    }
-
     private class MyRecycleAdapter extends RecyclerView.Adapter<MyRecycleAdapter.ViewHolder> {
         private List<String> nameBaby, hospitalNumber, genderBaby, gestationBaby,
                 birthMode, birthOutcome, hearing, nbst, vitK;
@@ -346,38 +226,23 @@ public class ParityDetailsActivity extends BaseActivity {
         @Override
         public MyRecycleAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_layout_parity, parent, false);
-            ViewHolder myViewHolder = new ViewHolder(view);
 
-            //RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.rv_parity);
-
-            return myViewHolder;
+            return new ViewHolder(view);
         }
 
         @Override
         public void onBindViewHolder(MyRecycleAdapter.ViewHolder holder, int position) {
-            TextView tvDob = holder.tvDob;
-            TextView tvGest = holder.tvGest;
-            TextView tvGender = holder.tvGender;
-            TextView tvWeight = holder.tvWeight;
-            TextView tvMode = holder.tvMode;
-            TextView tvOutcome = holder.tvOutcome;
-            TextView tvName = holder.tvName;
-            TextView tvHospitalNum = holder.tvHospitalNum;
-            TextView tvHearing = holder.tvHearing;
-            TextView tvNbst = holder.tvNbst;
-            TextView tvVitK = holder.tvVitK;
-
-            //tvDob.setText(getDeliveryDate(dobBaby.get(position), 0));
-            tvGest.setText(gestationBaby.get(position));
-            tvGender.setText(genderBaby.get(position));
-            tvWeight.setText(String.valueOf(weightBaby.get(position)));
-            tvMode.setText(birthMode.get(position));
-            tvOutcome.setText(birthOutcome.get(position));
-            tvName.setText(nameBaby.get(position));
-            tvHospitalNum.setText(hospitalNumber.get(position));
-            tvHearing.setText(hearing.get(position));
-            tvNbst.setText(nbst.get(position));
-            tvVitK.setText(vitK.get(position));
+            //holder.tvDob.setText(getDeliveryDate(dobBaby.get(position), 0));
+            holder.tvGest.setText(gestationBaby.get(position));
+            holder.tvGender.setText(genderBaby.get(position));
+            holder.tvWeight.setText(String.valueOf(weightBaby.get(position)));
+            holder.tvMode.setText(birthMode.get(position));
+            holder.tvOutcome.setText(birthOutcome.get(position));
+            holder.tvName.setText(nameBaby.get(position));
+            holder.tvHospitalNum.setText(hospitalNumber.get(position));
+            holder.tvHearing.setText(hearing.get(position));
+            holder.tvNbst.setText(nbst.get(position));
+            holder.tvVitK.setText(vitK.get(position));
         }
 
         @Override

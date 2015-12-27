@@ -82,10 +82,10 @@ public class AppointmentCalendarActivity extends BaseActivity {
         btnNextWeek = (Button) findViewById(R.id.btn_next);
         btnNextWeek.setOnClickListener(new ButtonClick());
 
-        serviceOptionId = realm.where(Clinic.class).equalTo(Constants.Key_ID, clinicSelected).findFirst().getServiceOptionIds().get(0).getValue();
-        clinicOpening = realm.where(Clinic.class).equalTo(Constants.Key_ID, clinicSelected).findFirst().getOpeningTime();
-        clinicClosing = realm.where(Clinic.class).equalTo(Constants.Key_ID, clinicSelected).findFirst().getClosingTime();
-        appointmentInterval = realm.where(Clinic.class).equalTo(Constants.Key_ID, clinicSelected).findFirst().getAppointmentInterval();
+        serviceOptionId = realm.where(Clinic.class).equalTo(Constants.REALM_ID, clinicSelected).findFirst().getServiceOptionIds().get(0).getValue();
+        clinicOpening = realm.where(Clinic.class).equalTo(Constants.REALM_ID, clinicSelected).findFirst().getOpeningTime();
+        clinicClosing = realm.where(Clinic.class).equalTo(Constants.REALM_ID, clinicSelected).findFirst().getClosingTime();
+        appointmentInterval = realm.where(Clinic.class).equalTo(Constants.REALM_ID, clinicSelected).findFirst().getAppointmentInterval();
         try {
             openingAsDate = dfTimeOnly.parse(String.valueOf(clinicOpening));
             closingAsDate = dfTimeOnly.parse(String.valueOf(clinicClosing));
@@ -205,7 +205,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
 
         dateSelectedStr = dfDateOnly.format(dateSelected);
         dateInList.setText(dfDateWMonthName.format(dateSelected));
-        nameOfClinic = realm.where(Clinic.class).equalTo(Constants.Key_ID, clinicSelected).findFirst().getName();
+        nameOfClinic = realm.where(Clinic.class).equalTo(Constants.REALM_ID, clinicSelected).findFirst().getName();
         setActionBarTitle(nameOfClinic);
 
         while (!closingAsDate.before(apptTime)) {
@@ -217,8 +217,8 @@ public class AppointmentCalendarActivity extends BaseActivity {
         }
 
         List<Appointment> appointmentList = realm.where(Appointment.class)
-                .equalTo(Constants.KEY_CLINIC_ID, clinicSelected)
-                .equalTo(Constants.KEY_DATE, dateSelectedStr)
+                .equalTo(Constants.REALM_CLINIC_ID, clinicSelected)
+                .equalTo(Constants.REALM_DATE, dateSelectedStr)
                 .findAll();
 
         if (!appointmentList.isEmpty()) {
@@ -246,7 +246,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
                 status,
                 clinicSelected,
                 realm.where(Login.class).findFirst().getId(),
-                realm.where(Appointment.class).equalTo(Constants.Key_ID, idList.get(position)).findFirst().getServiceUserId());
+                realm.where(Appointment.class).equalTo(Constants.REALM_ID, idList.get(position)).findFirst().getServiceUserId());
 
         SmartApiClient.getAuthorizedApiClient(this).putAppointmentStatus(
                 attendedStatus,
@@ -363,7 +363,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
             final ViewHolder holder;
-            final Appointment appointment = realm.where(Appointment.class).equalTo(Constants.Key_ID, getItem(position)).findFirst();
+            final Appointment appointment = realm.where(Appointment.class).equalTo(Constants.REALM_ID, getItem(position)).findFirst();
             final Boolean attended;
 
             if (convertView == null) {

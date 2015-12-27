@@ -118,6 +118,7 @@ public class BaseActivity extends AppCompatActivity {
         super.onResume();
         if (realm.where(Login.class).findFirst() == null) {
             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+            new CustomDialogs().showWarningDialog(BaseActivity.this, getString(R.string.error_please_login));
         }
 
         while (thingALing != 0) {
@@ -133,9 +134,9 @@ public class BaseActivity extends AppCompatActivity {
         super.onStop();
 
         if (isMyServiceRunning()) {
-            new ToastAlert(getBaseContext(), "View is now hidden", false);
+            new ToastAlert(getBaseContext(), getString(R.string.view_is_hidden), false);
             thingALing++;
-            showNotification("SMART", "You will be logged out of SMART soon", QuickMenuActivity.class);
+            showNotification(getString(R.string.app_name), getString(R.string.warning_logged_out_soon), QuickMenuActivity.class);
             logServ = new LogoutService();
             logServ.startTimer(true);
         }
@@ -208,11 +209,11 @@ public class BaseActivity extends AppCompatActivity {
         NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
 
         if (netInfo == null) {
-            Toast.makeText(getApplicationContext(), "No Internet connection!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), getString(R.string.no_internet), Toast.LENGTH_LONG).show();
             Timber.d("no internet");
             return false;
         } else if (!netInfo.isConnected() || !netInfo.isAvailable()) {
-            Toast.makeText(getApplicationContext(), "No Internet connection!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), getString(R.string.no_internet), Toast.LENGTH_LONG).show();
             Timber.d("no internet");
             return false;
         }
@@ -282,7 +283,7 @@ public class BaseActivity extends AppCompatActivity {
                 break;
             case 5:         //Sync
                 getAllAppointments(this);
-                pd = new CustomDialogs().showProgressDialog(this, "Updating Appointments");
+                pd = new CustomDialogs().showProgressDialog(BaseActivity.this, getString(R.string.updating_appointments));
                 break;
             case 6:         //Logout
                 showLogoutDialog();
@@ -309,7 +310,7 @@ public class BaseActivity extends AppCompatActivity {
                             startActivity(intent);
                         } else {
                             doLogout(intent);
-                            pd = new CustomDialogs().showProgressDialog(BaseActivity.this, "Logging Out");
+                            pd = new CustomDialogs().showProgressDialog(BaseActivity.this, getString(R.string.logging_out));
                         }
                     }
                 }).show();
@@ -342,14 +343,12 @@ public class BaseActivity extends AppCompatActivity {
                             realm.where(Login.class).findFirst().setLoggedIn(false);
                             realm.commitTransaction();
                             Toast.makeText(getApplicationContext(),
-                                    "You are now logged out",
+                                    getString(R.string.you_are_now_logged_out),
                                     Toast.LENGTH_SHORT).show();
                             pd.dismiss();
                             startActivity(intent);
                         } else {
-                            Toast.makeText(getApplicationContext(),
-                                    "There was a problem with the logout, " +
-                                            "\nPlease try again.",
+                            Toast.makeText(getApplicationContext(), getString(R.string.error_logout),
                                     Toast.LENGTH_SHORT).show();
                             pd.dismiss();
                         }
@@ -372,10 +371,10 @@ public class BaseActivity extends AppCompatActivity {
                         finish();
                         if (notificationManager != null) {
                             notificationManager.cancelAll();
-                            showNotification("SMART", "You have been logged out of SMART",
+                            showNotification(getString(R.string.app_name), getString(R.string.success_logout),
                                     SplashScreenActivity.class);
                         } else
-                            showNotification("SMART", "You have been logged out of SMART",
+                            showNotification(getString(R.string.app_name), getString(R.string.success_logout),
                                     SplashScreenActivity.class);
                         new ClearData(BaseActivity.this);
                     }
@@ -470,9 +469,7 @@ public class BaseActivity extends AppCompatActivity {
                     @Override
                     public void failure(RetrofitError error) {
                         Timber.d("appointments retro failure " + error);
-                        Toast.makeText(context,
-                                "Error downloading appointments\n" +
-                                        "please try again",
+                        Toast.makeText(context, getString(R.string.error_downloading_appointments),
                                 Toast.LENGTH_LONG).show();
                         pd.dismiss();
                     }

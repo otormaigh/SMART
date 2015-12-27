@@ -16,7 +16,7 @@
         android:id="@+id/btn_add_midwifery_note"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/add_note"
+        android:text="@string/add_pregnancy_note"
         android:theme="@style/SecondaryButton"/>
 
 </LinearLayout>

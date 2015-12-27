@@ -91,9 +91,11 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         super.onBackPressed();
         BaseModel.getInstance().deleteInstance();
 
-        realm.beginTransaction();
-        realm.where(Login.class).findFirst().setLoggedIn(false);
-        realm.commitTransaction();
+        if (realm.where(Login.class).findFirst() != null) {
+            realm.beginTransaction();
+            realm.where(Login.class).findFirst().setLoggedIn(false);
+            realm.commitTransaction();
+        }
 
         finish();
     }
@@ -104,11 +106,11 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
 
     private void getSharedPrefs() {
         Timber.d("getSharedPrefs called");
-        SharedPreferences prefs = getApplicationContext().getSharedPreferences("SMART", MODE_PRIVATE);
+        SharedPreferences prefs = getApplicationContext().getSharedPreferences(getString(R.string.app_name), MODE_PRIVATE);
         Map<String, ?> prefsMap = prefs.getAll();
         for (Map.Entry<String, ?> entry : prefsMap.entrySet()) {
             Timber.d("key = " + entry.getKey());
-            if (entry.getKey().contains("appointment_post")) {
+            if (entry.getKey().contains(Constants.APPOINTMENT_POST)) {
                 Timber.d("get key = " + prefs.getString(entry.getKey(), ""));
                 prefsUtil.postAppointment(
                         prefsUtil.getObjectFromString(
@@ -130,7 +132,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
                 prefsUtil.setLongPrefs(getApplicationContext(),
                         Calendar.getInstance().getTimeInMillis(),
                         Constants.SHARED_PREFS_SPLASH_LOG);
-                prefsUtil.deletePrefs(getApplicationContext(), "appts_got");
+                prefsUtil.deletePrefs(getApplicationContext(), Constants.APPTS_GOT);
 
                 realm.beginTransaction();
                 baseModel.getLogin().setLoggedIn(true);
@@ -158,16 +160,15 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         username = tvUsername.getText().toString();
         password = tvPassword.getText().toString();
 
-        if (!TextUtils.isEmpty(username) &&
-                !TextUtils.isEmpty(password)) {
+        if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password)) {
             postLogin();
             pd = new CustomDialogs().showProgressDialog(
                     LoginActivity.this,
-                    "Logging In");
+                    getString(R.string.logging_in));
         } else {
             new CustomDialogs().showErrorDialog(
                     LoginActivity.this,
-                    "Error fields empty");
+                    getString(R.string.error_fields_empty));
         }
     }
 
@@ -179,7 +180,6 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
                 Timber.d("hockeyApp Login pressed");
                 Timber.d("hockeyApp timeUsage = " + Tracking.getUsageTime(LoginActivity.this));
                 validateInput();
-                //startActivity(new Intent(this, QuickMenuActivity.class));
                 break;
             case R.id.tv_about:
                 Tracking.stopUsage(LoginActivity.this);

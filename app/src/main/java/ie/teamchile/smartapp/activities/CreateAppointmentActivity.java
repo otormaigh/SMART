@@ -10,14 +10,14 @@ import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -48,29 +48,26 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import timber.log.Timber;
 
-public class CreateAppointmentActivity extends BaseActivity {
+public class CreateAppointmentActivity extends BaseActivity implements OnClickListener, OnItemSelectedListener, OnItemClickListener {
     private ArrayAdapter<String> visitPriorityAdapter, returnTypeAdapter;
     private String userName, apptDate, time, priority, visitType, clinicName,
             hospitalNumber, email, sms, address;
     private int userID;
     private Calendar c, myCalendar;
     private Date daySelected;
-    private List<Integer> idList = new ArrayList<>();
     private AppointmentCalendarActivity passOptions = new AppointmentCalendarActivity();
     private SharedPreferences prefs;
     private AlertDialog.Builder alertDialog;
     private AlertDialog ad;
     private int clinicID, serviceOptionId;
     private EditText etUserName;
-    private Button btnConfirmAppointment;
-    private ImageButton btnUserSearch;
     private TextView tvTime, tvTimeTitle, tvDate, tvClinic, tvReturnTitle, tvPriorityTitle;
     private Spinner visitReturnTypeSpinner, visitPrioritySpinner;
     private List<ServiceUser> serviceUserList = new ArrayList<>();
     private String returnType;
-    private ArrayList<String> listName = new ArrayList<>();
-    private ArrayList<String> listDob = new ArrayList<>();
-    private ArrayList<String> listHospitalNumber = new ArrayList<>();
+    private List<String> listName = new ArrayList<>();
+    private List<String> listDob = new ArrayList<>();
+    private List<String> listHospitalNumber = new ArrayList<>();
     private ProgressDialog pd;
     private Realm realm;
     private Intent intentClinic;
@@ -81,17 +78,15 @@ public class CreateAppointmentActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentForNav(R.layout.activity_create_appointment);
 
-        realm = Realm.getInstance(this);
+        realm = Realm.getInstance(getApplicationContext());
 
-        intentClinic = new Intent(CreateAppointmentActivity.this, AppointmentCalendarActivity.class);
-        intentHome = new Intent(CreateAppointmentActivity.this, HomeVisitAppointmentActivity.class);
+        intentClinic = new Intent(getApplicationContext(), AppointmentCalendarActivity.class);
+        intentHome = new Intent(getApplicationContext(), HomeVisitAppointmentActivity.class);
 
         c = Calendar.getInstance();
         myCalendar = Calendar.getInstance();
 
         etUserName = (EditText) findViewById(R.id.et_service_user);
-        btnConfirmAppointment = (Button) findViewById(R.id.btn_confirm_appointment);
-        btnUserSearch = (ImageButton) findViewById(R.id.btn_user_search);
         tvTime = (TextView) findViewById(R.id.tv_visit_time);
         tvTimeTitle = (TextView) findViewById(R.id.tv_visit_time_title);
         tvDate = (TextView) findViewById(R.id.tv_visit_date);
@@ -101,14 +96,14 @@ public class CreateAppointmentActivity extends BaseActivity {
 
         etUserName.setText(null);
 
-        btnConfirmAppointment.setOnClickListener(new ButtonClick());
-        btnUserSearch.setOnClickListener(new ButtonClick());
+        findViewById(R.id.btn_confirm_appointment).setOnClickListener(this);
+        findViewById(R.id.btn_user_search).setOnClickListener(this);
 
         visitReturnTypeSpinner = (Spinner) findViewById(R.id.spnr_visit_return_type);
-        visitReturnTypeSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
+        visitReturnTypeSpinner.setOnItemSelectedListener(this);
 
         visitPrioritySpinner = (Spinner) findViewById(R.id.spnr_visit_priority);
-        visitPrioritySpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
+        visitPrioritySpinner.setOnItemSelectedListener(this);
 
         getSharedPrefs();
 
@@ -127,10 +122,10 @@ public class CreateAppointmentActivity extends BaseActivity {
     }
 
     private void clinicAppt() {
-        clinicID = Integer.parseInt(getIntent().getStringExtra("clinicID"));
+        clinicID = Integer.parseInt(getIntent().getStringExtra(Constants.ARGS_CLINIC_ID));
         daySelected = AppointmentCalendarActivity.daySelected;
-        clinicName = realm.where(Clinic.class).equalTo(Constants.Key_ID, clinicID).findFirst().getName();
-        time = getIntent().getStringExtra("time");
+        clinicName = realm.where(Clinic.class).equalTo(Constants.REALM_ID, clinicID).findFirst().getName();
+        time = getIntent().getStringExtra(Constants.ARGS_TIME);
         tvTime.setText(time);
         visitPrioritySpinner.setSelection(1);
 
@@ -142,8 +137,8 @@ public class CreateAppointmentActivity extends BaseActivity {
 
     private void homeVisitAppt() {
         daySelected = HomeVisitAppointmentActivity.daySelected;
-        serviceOptionId = Integer.parseInt(getIntent().getStringExtra("serviceOptionId"));
-        clinicName = realm.where(ServiceOption.class).equalTo(Constants.Key_ID, serviceOptionId).findFirst().getName();
+        serviceOptionId = Integer.parseInt(getIntent().getStringExtra(Constants.ARGS_SERVICE_OPTION_ID));
+        clinicName = realm.where(ServiceOption.class).equalTo(Constants.REALM_ID, serviceOptionId).findFirst().getName();
         tvTime.setVisibility(View.GONE);
         tvTimeTitle.setVisibility(View.GONE);
         visitReturnTypeSpinner.setVisibility(View.GONE);
@@ -151,8 +146,8 @@ public class CreateAppointmentActivity extends BaseActivity {
         tvPriorityTitle.setVisibility(View.GONE);
         tvReturnTitle.setVisibility(View.GONE);
 
-        priority = "home-visit";
-        returnType = "returning";
+        priority = Constants.ARGS_HOME_VISIT;
+        returnType = Constants.ARGS_RETURNING;
 
         myCalendar.setTime(daySelected);
         tvDate.setText(dfDateMonthNameYear.format(daySelected));
@@ -168,49 +163,46 @@ public class CreateAppointmentActivity extends BaseActivity {
     }
 
     private void checkDirectionOfIntent() {
-        String intentOrigin = getIntent().getStringExtra("from");
-        if (intentOrigin.equals("clinic-appointment")) {
+        String intentOrigin = getIntent().getStringExtra(Constants.ARGS_FROM);
+        if (intentOrigin.equals(Constants.ARGS_CLINIC_APPOINTMENT)) {
             clinicAppt();
-        } else if (intentOrigin.equals("home-visit")) {
+        } else if (intentOrigin.equals(Constants.ARGS_HOME_VISIT)) {
             homeVisitAppt();
         }
     }
 
-    private Boolean checkIfEditEmpty() {
+    private boolean checkIfEditEmpty() {
         if (TextUtils.isEmpty(String.valueOf(userID)) ||
                 TextUtils.isEmpty(etUserName.getText())) {
-            etUserName.setError("Field Empty");
+            etUserName.setError(getString(R.string.error_field_empty));
             return true;
         } else
             return false;
     }
 
-    private Boolean checkIfOkToGo() {
-        if (userID != 0 &&
+    private boolean checkIfOkToGo() {
+        return userID != 0 &&
                 visitPrioritySpinner.getSelectedItemPosition() != 0 &&
-                visitReturnTypeSpinner.getSelectedItemPosition() != 0) {
-            return true;
-        } else
-            return false;
+                visitReturnTypeSpinner.getSelectedItemPosition() != 0;
     }
 
     private void getSharedPrefs() {
-        prefs = getSharedPreferences("SMART", MODE_PRIVATE);
+        prefs = getSharedPreferences(getString(R.string.app_name), MODE_PRIVATE);
 
-        if (prefs != null && prefs.getBoolean("reuse", false)) {
-            userName = prefs.getString("name", null);
-            userID = Integer.parseInt(prefs.getString("id", ""));
-            visitType = prefs.getString("visit_type", null);
-            hospitalNumber = prefs.getString("hospitalNumber", "");
-            email = prefs.getString("email", "");
-            sms = prefs.getString("mobile", "");
+        if (prefs != null && prefs.getBoolean(Constants.REUSE, false)) {
+            userName = prefs.getString(Constants.NAME, null);
+            userID = Integer.parseInt(prefs.getString(Constants.ID, ""));
+            visitType = prefs.getString(Constants.VISIT_TYPE, null);
+            hospitalNumber = prefs.getString(Constants.HOSPITAL_NUMBER, "");
+            email = prefs.getString(Constants.EMAIL, "");
+            sms = prefs.getString(Constants.MOBILE, "");
 
             etUserName.setText(userName);
         }
     }
 
     private void setPrioritySpinner() {
-        visitPriorityAdapter = new AdapterSpinner(this,
+        visitPriorityAdapter = new AdapterSpinner(getApplicationContext(),
                 R.array.visit_priority_list,
                 R.layout.spinner_layout,
                 R.id.tv_spinner_item);
@@ -219,7 +211,7 @@ public class CreateAppointmentActivity extends BaseActivity {
     }
 
     private void setReturnTypeSpinner() {
-        returnTypeAdapter = new AdapterSpinner(this,
+        returnTypeAdapter = new AdapterSpinner(getApplicationContext(),
                 R.array.return_type_list,
                 R.layout.spinner_layout,
                 R.id.tv_spinner_item);
@@ -229,8 +221,8 @@ public class CreateAppointmentActivity extends BaseActivity {
 
     private void showEmptyFieldDialog() {
         pd = new CustomDialogs().showProgressDialog(
-                CreateAppointmentActivity.this,
-                "Cannot proceed, \nSome fields are empty!");
+                getApplicationContext(),
+                getString(R.string.error_cannot_proceed_fields_empty));
         new CountDownTimer(2000, 1000) {
             @Override
             public void onFinish() {
@@ -248,43 +240,39 @@ public class CreateAppointmentActivity extends BaseActivity {
         listDob.clear();
         listHospitalNumber.clear();
 
-        SmartApiClient.getAuthorizedApiClient(this).getServiceUserByName(
+        SmartApiClient.getAuthorizedApiClient(getApplicationContext()).getServiceUserByName(
                 serviceUserName,
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {
                         Timber.d("searchPatient success");
                         String name, hospitalNumber, dob;
-                        List<String> searchResults = new ArrayList<>();
-                        int id;
                         if (baseModel.getServiceUsers().size() != 0) {
                             realm.beginTransaction();
                             realm.copyToRealmOrUpdate(baseModel.getServiceUsers());
                             realm.copyToRealmOrUpdate(baseModel.getBabies());
                             realm.copyToRealmOrUpdate(baseModel.getPregnancies());
                             realm.commitTransaction();
-                            for (int i = 0; i < baseModel.getServiceUsers().size(); i++) {
+
+                            int size = baseModel.getServiceUsers().size();
+                            for (int i = 0; i < size; i++) {
                                 ServiceUser serviceUserItem = baseModel.getServiceUsers().get(i);
                                 serviceUserList.add(serviceUserItem);
                                 name = serviceUserItem.getPersonalFields().getName();
                                 dob = serviceUserItem.getPersonalFields().getDob();
                                 hospitalNumber = serviceUserItem.getHospitalNumber();
-                                id = serviceUserItem.getId();
 
                                 listName.add(name);
                                 listDob.add(dob);
                                 listHospitalNumber.add(hospitalNumber);
-
-                                idList.add(id);
-                                searchResults.add(name + "\n" + hospitalNumber + "\n" + dob);
                             }
                             pd.dismiss();
-                            userSearchDialog("Search Results");
+                            userSearchDialog(getString(R.string.search_results));
                         } else {
                             pd.dismiss();
                             new CustomDialogs().showWarningDialog(
-                                    CreateAppointmentActivity.this,
-                                    "No search results found");
+                                    getApplicationContext(),
+                                    getString(R.string.no_search_results_found));
                         }
                     }
 
@@ -295,8 +283,8 @@ public class CreateAppointmentActivity extends BaseActivity {
                             switch (error.getResponse().getStatus()) {
                                 case 500:
                                     new CustomDialogs().showWarningDialog(
-                                            CreateAppointmentActivity.this,
-                                            "No search results found");
+                                            getApplicationContext(),
+                                            getString(R.string.no_search_results_found));
                                     break;
                             }
                         }
@@ -306,17 +294,17 @@ public class CreateAppointmentActivity extends BaseActivity {
         );
     }
 
-    private void userSearchDialog(final String title) {
+    private void userSearchDialog(String title) {
         LayoutInflater inflater = getLayoutInflater();
-        alertDialog = new AlertDialog.Builder(CreateAppointmentActivity.this);
+        alertDialog = new AlertDialog.Builder(getApplicationContext());
         View convertView = inflater.inflate(R.layout.dialog_list_only, null);
         ListView list = (ListView) convertView.findViewById(R.id.lv_dialog);
 
-        list.setOnItemClickListener(new onItemListener());
+        list.setOnItemClickListener(this);
 
         TextView tvDialogTitle = (TextView) convertView.findViewById(R.id.tv_dialog_title);
         ImageView ivExit = (ImageView) convertView.findViewById(R.id.iv_exit_dialog);
-        ivExit.setOnClickListener(new View.OnClickListener() {
+        ivExit.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 ad.dismiss();
@@ -326,7 +314,7 @@ public class CreateAppointmentActivity extends BaseActivity {
         alertDialog.setView(convertView);
         tvDialogTitle.setText(title);
         BaseAdapter baseAdapter = new AdapterListResults(
-                CreateAppointmentActivity.this,
+                getApplicationContext(),
                 listName,
                 listDob,
                 listHospitalNumber);
@@ -335,7 +323,7 @@ public class CreateAppointmentActivity extends BaseActivity {
     }
 
     private void postOrAnte() {
-        visitType = "post-natal";        //TODO: this need to be changed
+        visitType = Constants.ARGS_POST_NATAL;        //TODO: this need to be changed
     }
 
     private void makeAlertDialog() {
@@ -351,42 +339,46 @@ public class CreateAppointmentActivity extends BaseActivity {
         TextView tvConfirmEmailTo = (TextView) convertView.findViewById(R.id.tv_confirm_email);
         TextView tvConfirmSmsTo = (TextView) convertView.findViewById(R.id.tv_confirm_sms);
 
-        tvConfirmUserName.setText(userName + " (" + hospitalNumber + ")");
-        if (priority.equals("home-visit")) {
-            tvConfirmLocation.setText(address);
-            tvConfirmDateTime.setText(dateDay + ", " + dateWords);
-        } else if (priority.equals("scheduled")) {
-            tvConfirmLocation.setText(clinicName);
-            tvConfirmDateTime.setText(time + " on " + dateWords);
+        tvConfirmUserName.setText(String.format(Constants.FORMAT_TV_CONFIRM_USERNAME, userName, hospitalNumber));
+
+        switch (priority) {
+            case Constants.ARGS_HOME_VISIT:
+                tvConfirmLocation.setText(address);
+                tvConfirmDateTime.setText(String.format(Constants.FORMAT_TV_CONFIRM_DATE_TIME_1, dateDay, dateWords));
+                break;
+            case Constants.ARGS_SCHEDULED:
+                tvConfirmLocation.setText(clinicName);
+                tvConfirmDateTime.setText(String.format(Constants.FORMAT_TV_CONFIRM_DATE_TIME_2, time, dateWords));
+                break;
         }
 
         tvConfirmEmailTo.setText(email);
         tvConfirmSmsTo.setText(sms);
 
-        Button btnYes = (Button) convertView.findViewById(R.id.btn_confirm_yes);
-        btnYes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pd = new CustomDialogs().showProgressDialog(
-                        CreateAppointmentActivity.this,
-                        "Booking Appointment");
-                postAppointment();
-            }
-        });
-        Button btnNo = (Button) convertView.findViewById(R.id.btn_confirm_no);
-        btnNo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ad.cancel();
-            }
-        });
-        ImageView ivExit = (ImageView) convertView.findViewById(R.id.iv_exit_dialog);
-        ivExit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ad.cancel();
-            }
-        });
+        convertView.findViewById(R.id.btn_confirm_yes)
+                .setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        pd = new CustomDialogs().showProgressDialog(
+                                getApplicationContext(),
+                                getString(R.string.booking_appointment));
+                        postAppointment();
+                    }
+                });
+        convertView.findViewById(R.id.btn_confirm_no)
+                .setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ad.cancel();
+                    }
+                });
+        convertView.findViewById(R.id.iv_exit_dialog)
+                .setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ad.cancel();
+                    }
+                });
 
         alertDialog.setView(convertView);
         ad = alertDialog.show();
@@ -394,14 +386,17 @@ public class CreateAppointmentActivity extends BaseActivity {
 
     private void postAppointment() {
         final PostingData appointment = new PostingData();
-        if (priority.equals("home-visit")) {
-            appointment.postAppointment(realm.where(Login.class).findFirst().getId(), apptDate, userID, priority, visitType, returnType, serviceOptionId);
-        } else if (priority.equals("scheduled")) {
-            int clinicID = Integer.parseInt(getIntent().getStringExtra("clinicID"));
-            appointment.postAppointment(realm.where(Login.class).findFirst().getId(), apptDate, time, userID, clinicID, priority, visitType, returnType);
+        switch (priority) {
+            case Constants.ARGS_HOME_VISIT:
+                appointment.postAppointment(realm.where(Login.class).findFirst().getId(), apptDate, userID, priority, visitType, returnType, serviceOptionId);
+                break;
+            case Constants.ARGS_SCHEDULED:
+                int clinicID = Integer.parseInt(getIntent().getStringExtra(Constants.ARGS_CLINIC_ID));
+                appointment.postAppointment(realm.where(Login.class).findFirst().getId(), apptDate, time, userID, clinicID, priority, visitType, returnType);
+                break;
         }
 
-        SmartApiClient.getAuthorizedApiClient(this).postAppointment(
+        SmartApiClient.getAuthorizedApiClient(getApplicationContext()).postAppointment(
                 appointment,
                 new Callback<BaseModel>() {
                     @Override
@@ -412,41 +407,47 @@ public class CreateAppointmentActivity extends BaseActivity {
                         realm.copyToRealmOrUpdate(baseModel.getAppointment());
                         realm.commitTransaction();
 
-                        if (returnType.equals("new")) {
+                        if (returnType.equals(Constants.ARGS_NEW)) {
                             getAppointmentById(baseModel.getAppointment().getId());
                         } else {
                             if (ad.isShowing())
                                 ad.cancel();
+
                             if (pd.isShowing())
                                 pd.dismiss();
 
-                            if (priority.equals("home-visit"))
-                                startActivity(intentHome);
-                            else if (priority.equals("scheduled"))
-                                startActivity(intentClinic);
-                            else if (priority.equals("drop-in"))
-                                startActivity(intentClinic);
+                            switch (priority) {
+                                case Constants.ARGS_HOME_VISIT:
+                                    startActivity(intentHome);
+                                    break;
+                                case Constants.ARGS_SCHEDULED:
+                                    startActivity(intentClinic);
+                                    break;
+                                case Constants.ARGS_DROP_IN:
+                                    startActivity(intentClinic);
+                                    break;
+                            }
                         }
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
                         Timber.d("retro failure error = " + error);
-                        checkRetroError(error, CreateAppointmentActivity.this);
+                        checkRetroError(error, getApplicationContext());
                         if (error.getKind() != RetrofitError.Kind.NETWORK) {
                             if (error.getResponse().getStatus() == 422) {
                                 BaseModel body = (BaseModel) error.getBodyAs(BaseModel.class);
-                                Toast.makeText(CreateAppointmentActivity.this,
+                                Toast.makeText(getApplicationContext(),
                                         body.getError().getAppointmentTaken(), Toast.LENGTH_LONG).show();
                             }
                         } else {
                             c = Calendar.getInstance();
                             String time = dfTimeWSec.format(c.getTime());
-                            String prefsTag = "appointment_post_" + time;
+                            String prefsTag = String.format(Constants.FORMAT_PREFS_APPT_POST, time);
                             SharedPrefs prefsUstil = new SharedPrefs();
-                            prefsUstil.setJsonPrefs(CreateAppointmentActivity.this, appointment, prefsTag);
-                            Toast.makeText(CreateAppointmentActivity.this,
-                                    "No internet, appointment will be booked when available",
+                            prefsUstil.setJsonPrefs(getApplicationContext(), appointment, prefsTag);
+                            Toast.makeText(getApplicationContext(),
+                                    getString(R.string.error_no_internet_booking_appointment),
                                     Toast.LENGTH_LONG).show();
                         }
                         if (ad.isShowing())
@@ -459,7 +460,7 @@ public class CreateAppointmentActivity extends BaseActivity {
     }
 
     private void getAppointmentById(int apptId) {
-        SmartApiClient.getAuthorizedApiClient(this).getAppointmentById(
+        SmartApiClient.getAuthorizedApiClient(getApplicationContext()).getAppointmentById(
                 apptId + 1,
                 new Callback<BaseModel>() {
                     @Override
@@ -471,15 +472,21 @@ public class CreateAppointmentActivity extends BaseActivity {
 
                         if (ad.isShowing())
                             ad.cancel();
+
                         if (pd.isShowing())
                             pd.dismiss();
 
-                        if (priority.equals("home-visit"))
-                            startActivity(intentHome);
-                        else if (priority.equals("scheduled"))
-                            startActivity(intentClinic);
-                        else if (priority.equals("drop-in"))
-                            startActivity(intentClinic);
+                        switch (priority) {
+                            case Constants.ARGS_HOME_VISIT:
+                                startActivity(intentHome);
+                                break;
+                            case Constants.ARGS_SCHEDULED:
+                                startActivity(intentClinic);
+                                break;
+                            case Constants.ARGS_DROP_IN:
+                                startActivity(intentClinic);
+                                break;
+                        }
                     }
 
                     @Override
@@ -489,6 +496,7 @@ public class CreateAppointmentActivity extends BaseActivity {
 
                         if (ad.isShowing())
                             ad.cancel();
+
                         if (pd.isShowing())
                             pd.dismiss();
                     }
@@ -501,104 +509,101 @@ public class CreateAppointmentActivity extends BaseActivity {
         inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
-    private class ButtonClick implements View.OnClickListener {
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.btn_confirm_appointment:
-                    apptDate = dfDateOnly.format(myCalendar.getTime());
-                    passOptions.setDaySelected(myCalendar.getTime());
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_confirm_appointment:
+                apptDate = dfDateOnly.format(myCalendar.getTime());
+                passOptions.setDaySelected(myCalendar.getTime());
 
-                    if (priority.equals("home-visit")) {
+                switch (priority) {
+                    case Constants.ARGS_HOME_VISIT:
                         if (!checkIfEditEmpty())
                             makeAlertDialog();
                         else
                             showEmptyFieldDialog();
-                    } else if (priority.equals("scheduled")) {
+                        break;
+                    case Constants.ARGS_SCHEDULED:
                         if (checkIfOkToGo())
                             makeAlertDialog();
                         else
                             showEmptyFieldDialog();
-                    }
-                    break;
-                case R.id.btn_user_search:
-                    if (!checkIfEditEmpty()) {
-                        hideKeyboard();
-                        userID = 0;
-                        userName = etUserName.getText().toString();
-                        checkIfEditEmpty();
-                        pd = new CustomDialogs().showProgressDialog(
-                                CreateAppointmentActivity.this,
-                                "Fetching Information");
-                        searchPatient(userName);
-                    }
-                    break;
-            }
-        }
-    }
-
-    private class MySpinnerOnItemSelectedListener implements AdapterView.OnItemSelectedListener {
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            switch (parent.getId()) {
-                case R.id.spnr_visit_return_type:
-                    switch (position) {
-                        case 0:
-                            break;
-                        case 1:
-                            returnType = "returning";
-                            break;
-                        case 2:
-                            returnType = "new";
-                            break;
-                    }
-                    break;
-                case R.id.spnr_visit_priority:
-                    switch (position) {
-                        case 0:
-                            //Select Visit Priority
-                            break;
-                        case 1:
-                            priority = "scheduled";
-                            //Scheduled
-                            break;
-                        case 2:
-                            priority = "drop-in";
-                            //Drop-In
-                            break;
-                    }
-                    break;
-                case R.id.list_dialog:
-                    break;
-            }
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> arg0) {
-        }
-    }
-
-    private class onItemListener implements OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            switch (parent.getId()) {
-                case R.id.lv_dialog:
+                        break;
+                }
+                break;
+            case R.id.btn_user_search:
+                if (!checkIfEditEmpty()) {
                     hideKeyboard();
-                    ServiceUser serviceUser = serviceUserList.get(position);
-                    realm.beginTransaction();
-                    realm.copyToRealmOrUpdate(serviceUser);
-                    realm.commitTransaction();
-                    userName = serviceUser.getPersonalFields().getName();
-                    hospitalNumber = serviceUser.getHospitalNumber();
-                    email = serviceUser.getPersonalFields().getEmail();
-                    sms = serviceUser.getPersonalFields().getMobilePhone();
-                    address = serviceUser.getPersonalFields().getHomeAddress();
+                    userID = 0;
+                    userName = etUserName.getText().toString();
+                    checkIfEditEmpty();
+                    pd = new CustomDialogs().showProgressDialog(
+                            getApplicationContext(),
+                            getString(R.string.fetching_information));
+                    searchPatient(userName);
+                }
+                break;
+        }
+    }
 
-                    etUserName.setText(userName);
-                    userID = serviceUser.getId();
-                    postOrAnte();
-                    ad.cancel();
-                    break;
-            }
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        switch (parent.getId()) {
+            case R.id.spnr_visit_return_type:
+                switch (position) {
+                    case 0:
+                        break;
+                    case 1:
+                        returnType = Constants.ARGS_RETURNING;
+                        break;
+                    case 2:
+                        returnType = Constants.ARGS_NEW;
+                        break;
+                }
+                break;
+            case R.id.spnr_visit_priority:
+                switch (position) {
+                    case 0:
+                        //Select Visit Priority
+                        break;
+                    case 1:
+                        priority = Constants.ARGS_SCHEDULED;
+                        //Scheduled
+                        break;
+                    case 2:
+                        priority = Constants.ARGS_DROP_IN;
+                        //Drop-In
+                        break;
+                }
+                break;
+            case R.id.list_dialog:
+                break;
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> arg0) {
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        switch (parent.getId()) {
+            case R.id.lv_dialog:
+                hideKeyboard();
+                ServiceUser serviceUser = serviceUserList.get(position);
+                realm.beginTransaction();
+                realm.copyToRealmOrUpdate(serviceUser);
+                realm.commitTransaction();
+                userName = serviceUser.getPersonalFields().getName();
+                hospitalNumber = serviceUser.getHospitalNumber();
+                email = serviceUser.getPersonalFields().getEmail();
+                sms = serviceUser.getPersonalFields().getMobilePhone();
+                address = serviceUser.getPersonalFields().getHomeAddress();
+
+                etUserName.setText(userName);
+                userID = serviceUser.getId();
+                postOrAnte();
+                ad.cancel();
+                break;
         }
     }
 }

@@ -20,6 +20,7 @@ import ie.teamchile.smartapp.model.Clinic;
 import ie.teamchile.smartapp.model.Login;
 import ie.teamchile.smartapp.model.ServiceOption;
 import ie.teamchile.smartapp.model.ServiceUserAction;
+import ie.teamchile.smartapp.util.Constants;
 import ie.teamchile.smartapp.util.CustomDialogs;
 import io.realm.Realm;
 import retrofit.Callback;
@@ -72,8 +73,8 @@ public class QuickMenuActivity extends BaseActivity implements OnClickListener {
     protected void onResume() {
         super.onResume();
         checkIfLoggedIn();
-        SharedPreferences.Editor prefs = getSharedPreferences("SMART", MODE_PRIVATE).edit();
-        prefs.putBoolean("reuse", false);
+        SharedPreferences.Editor prefs = getSharedPreferences(getString(R.string.app_name), MODE_PRIVATE).edit();
+        prefs.putBoolean(Constants.REUSE, false);
         prefs.commit();
 
         if (realm.where(Login.class).findFirst() == null) {
@@ -98,7 +99,7 @@ public class QuickMenuActivity extends BaseActivity implements OnClickListener {
 
     private void updateData() {
         done = 0;
-        pd = new CustomDialogs().showProgressDialog(QuickMenuActivity.this, "Updating Information");
+        pd = new CustomDialogs().showProgressDialog(QuickMenuActivity.this, getString(R.string.updating_info));
 
         showDialog = false;
 

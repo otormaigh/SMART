@@ -2,7 +2,6 @@ package ie.teamchile.smartapp.activities;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Editable;
@@ -10,6 +9,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
@@ -31,6 +31,7 @@ import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.model.PregnancyNote;
 import ie.teamchile.smartapp.model.ServiceUser;
+import ie.teamchile.smartapp.util.Constants;
 import ie.teamchile.smartapp.util.CustomDialogs;
 import io.realm.Realm;
 import retrofit.Callback;
@@ -38,7 +39,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import timber.log.Timber;
 
-public class MidwiferyLogActivity extends BaseActivity {
+public class MidwiferyLogActivity extends BaseActivity implements OnClickListener {
     private ListView lvNotes;
     private Button btnAddNote;
     private EditText etNote;
@@ -63,15 +64,15 @@ public class MidwiferyLogActivity extends BaseActivity {
 
         setActionBarTitle(getResources().getString(R.string.midwifery_log));
 
-        pregnancyId = Integer.parseInt(getIntent().getStringExtra("pregnancyId"));
+        pregnancyId = Integer.parseInt(getIntent().getStringExtra(Constants.ARGS_PREGNANCY_ID));
         lvNotes = (ListView) findViewById(R.id.lv_midwifery_log);
         btnAddNote = (Button) findViewById(R.id.btn_add_midwifery_note);
-        btnAddNote.setOnClickListener(new Clicky());
+        btnAddNote.setOnClickListener(this);
         etNote = (EditText) findViewById(R.id.et_midwifery_notes);
 
         pd = new CustomDialogs().showProgressDialog(
                 MidwiferyLogActivity.this,
-                "Updating Notes");
+                getString(R.string.updating_notes));
         getMidwiferyNotes();
     }
 
@@ -141,7 +142,6 @@ public class MidwiferyLogActivity extends BaseActivity {
         }
 
         adapter = new MyAdapter(
-                this,
                 dateList,
                 authorList,
                 notesList);
@@ -155,7 +155,7 @@ public class MidwiferyLogActivity extends BaseActivity {
 
         pd = new CustomDialogs().showProgressDialog(
                 this,
-                "Adding Note");
+                getString(R.string.adding_note));
 
         SmartApiClient.getAuthorizedApiClient(this).postPregnancyNote(
                 postNote,
@@ -185,12 +185,12 @@ public class MidwiferyLogActivity extends BaseActivity {
 
     private void addNoteDialog() {
         LayoutInflater inflater = getLayoutInflater();
-        View convertView = (View) inflater.inflate(R.layout.dialog_add_note, null);
+        View convertView = inflater.inflate(R.layout.dialog_add_note, null);
         final TextView tvCharCount = (TextView) convertView.findViewById(R.id.tv_note_char_count);
         TextView tvDialogTitle = (TextView) convertView.findViewById(R.id.tv_dialog_title);
         final EditText etEnterNote = (EditText) convertView.findViewById(R.id.et_midwifery_notes);
         final int max = 140;
-        tvCharCount.setText(String.valueOf(etEnterNote.getText().length()) + "/" + max);
+        tvCharCount.setText(String.format(Constants.FORMAT_TV_CHAR_COUNT, etEnterNote.getText().length(), max));
         etEnterNote.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -198,32 +198,32 @@ public class MidwiferyLogActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                tvCharCount.setText(String.valueOf(s.length()) + "/" + max);
+                tvCharCount.setText(String.format(Constants.FORMAT_TV_CHAR_COUNT, s.length(), max));
             }
 
             @Override
             public void afterTextChanged(Editable s) {
                 if (s.length() > max)
-                    etEnterNote.setError("Error character limit exceeded");
+                    etEnterNote.setError(getString(R.string.error_char_limit_exceeded));
             }
         });
         ImageView ivExit = (ImageView) convertView.findViewById(R.id.iv_exit_dialog);
-        ivExit.setOnClickListener(new View.OnClickListener() {
+        ivExit.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 ad.dismiss();
             }
         });
         Button btnSaveNote = (Button) convertView.findViewById(R.id.btn_save_note);
-        btnSaveNote.setOnClickListener(new View.OnClickListener() {
+        btnSaveNote.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (etEnterNote.getText().toString().equals("")) {
-                    etEnterNote.setError("This Cannot Be Empty");
+                    etEnterNote.setError(getString(R.string.error_cannot_be_empty));
                 } else if (etEnterNote.getText().length() > max) {
                     pd = new CustomDialogs().showProgressDialog(
                             MidwiferyLogActivity.this,
-                            "Error character limit exceeded");
+                            getString(R.string.error_char_limit_exceeded));
                     new CountDownTimer(2000, 1000) {
 
                         @Override
@@ -246,35 +246,29 @@ public class MidwiferyLogActivity extends BaseActivity {
 
         alertDialog = new AlertDialog.Builder(MidwiferyLogActivity.this);
         alertDialog.setView(convertView);
-        tvDialogTitle.setText("Add Note Below");
+        tvDialogTitle.setText(getString(R.string.add_note_below));
         ad = alertDialog.create();
         ad.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         ad.show();
     }
 
-    private class Clicky implements View.OnClickListener {
-
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.btn_add_midwifery_note:
-                    addNoteDialog();
-                    break;
-            }
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_add_midwifery_note:
+                addNoteDialog();
+                break;
         }
     }
 
     private class MyAdapter extends BaseAdapter {
-        private Context context;
         private List<String> dateList;
         private List<String> authorList;
         private List<String> notesList;
 
-        public MyAdapter(Context context,
-                         List<String> dateList,
+        public MyAdapter(List<String> dateList,
                          List<String> authorList,
                          List<String> notesList) {
-            this.context = context;
             this.dateList = dateList;
             this.authorList = authorList;
             this.notesList = notesList;

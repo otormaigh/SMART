@@ -128,12 +128,12 @@ public class ServiceUserActivity extends BaseActivity {
         serviceUser = realm.where(ServiceUser.class).findFirst();
 
         pregnancy = realm.where(Pregnancy.class)
-                .equalTo(Constants.Key_ID,
+                .equalTo(Constants.REALM_ID,
                         getRecentPregnancy(realm.where(Pregnancy.class).findAll()))
                 .findFirst();
 
         baby = realm.where(Baby.class)
-                .equalTo(Constants.Key_ID, getRecentBaby(
+                .equalTo(Constants.REALM_ID, getRecentBaby(
                         realm.where(Baby.class).findAll()))
                 .findFirst();
 

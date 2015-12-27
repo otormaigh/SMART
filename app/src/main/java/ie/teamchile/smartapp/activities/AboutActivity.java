@@ -11,6 +11,7 @@ import android.webkit.WebView;
 import android.widget.ProgressBar;
 
 import ie.teamchile.smartapp.R;
+import ie.teamchile.smartapp.util.Constants;
 import ie.teamchile.smartapp.util.NotKeys;
 
 public class AboutActivity extends AppCompatActivity {
@@ -40,7 +41,7 @@ public class AboutActivity extends AppCompatActivity {
                     progressBar.setVisibility(View.GONE);
             }
         });
-        webView.loadUrl(NotKeys.BASE_URL + "/#/about");
+        webView.loadUrl(NotKeys.BASE_URL + Constants.TPW_ABOUT_URL);
     }
 
     @Override

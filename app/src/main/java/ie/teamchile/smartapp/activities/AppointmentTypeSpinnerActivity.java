@@ -117,7 +117,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
     }
 
     private void setServiceOptionSpinner() {
-        serviceOptionClinicList = realm.where(ServiceOption.class).equalTo(Constants.KEY_HOME_VISIT, false).findAll();
+        serviceOptionClinicList = realm.where(ServiceOption.class).equalTo(Constants.REALM_HOME_VISIT, false).findAll();
         int mapSize = serviceOptionClinicList.size();
         serviceOptionNameList = new ArrayList<>();
         serviceOptionNameList.add("Select Service Option");
@@ -138,7 +138,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
 
         if (idList != null) {
             for (int i = 0; i < idList.size(); i++) {
-                clinicNames.add("- " + realm.where(Clinic.class).equalTo(Constants.Key_ID, idList.get(i).getValue()).findFirst().getName());
+                clinicNames.add("- " + realm.where(Clinic.class).equalTo(Constants.REALM_ID, idList.get(i).getValue()).findFirst().getName());
             }
         }
 
@@ -149,7 +149,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
     }
 
     private void setVisitSpinner() {
-        serviceOptionVisitList = realm.where(ServiceOption.class).equalTo(Constants.KEY_HOME_VISIT, true).findAll();
+        serviceOptionVisitList = realm.where(ServiceOption.class).equalTo(Constants.REALM_HOME_VISIT, true).findAll();
         int size = serviceOptionVisitList.size();
 
         List<String> visitClinics = new ArrayList<>();
@@ -454,7 +454,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
                             clinicSelected = idList.get(position - 1).getValue();
                             List<String> trueDays = new GeneralUtils().getTrueDays(
                                     realm.where(Clinic.class)
-                                            .equalTo(Constants.Key_ID, clinicSelected)
+                                            .equalTo(Constants.REALM_ID, clinicSelected)
                                             .findFirst().getDays());
 
                             if (trueDays.size() > 1) {
