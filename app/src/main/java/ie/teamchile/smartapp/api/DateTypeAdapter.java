@@ -10,12 +10,8 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
 import java.lang.reflect.Type;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 import ie.teamchile.smartapp.util.Constants;
 
@@ -23,14 +19,11 @@ public class DateTypeAdapter implements JsonSerializer<Date>, JsonDeserializer<D
     @Override
     public Date deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
         try {
-            DateFormat df = new SimpleDateFormat(Constants.SERVER_DATE_FORMAT, Locale.getDefault());
             Date date;
-
             try {
-                date = df.parse(jsonElement.getAsString());
+                date = Constants.DF_SERVER_DATE_FULL.parse(jsonElement.getAsString());
             } catch (Exception ignored) {
-                df = new SimpleDateFormat(Constants.SERVER_SMALL_DATE, Locale.getDefault());
-                date = df.parse(jsonElement.getAsString());
+                date = Constants.DF_SERVER_DATE_SMALL.parse(jsonElement.getAsString());
             }
             return date;
         } catch (ParseException e) {
@@ -40,9 +33,6 @@ public class DateTypeAdapter implements JsonSerializer<Date>, JsonDeserializer<D
 
     @Override
     public JsonElement serialize(Date src, Type typeOfSrc, JsonSerializationContext context) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.SERVER_DATE_FORMAT, Locale.getDefault());
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(src);
-        return new JsonPrimitive(simpleDateFormat.format(cal.getTime()));
+        return new JsonPrimitive(Constants.DF_SERVER_DATE_FULL.format(src));
     }
 }

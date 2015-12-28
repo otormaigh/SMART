@@ -25,18 +25,18 @@ public class AppointmentHelper extends BaseActivity {
 
     public void weekDateLooper(Date todayDate, int clinicId) {
         Log.d("MYLOG", "getAppointmentsForClinic called");
-        Log.d("MYLOG", "todayDate = " + dfDateOnly.format(todayDate) + ", clinicId = " + clinicId);
+        Log.d("MYLOG", "todayDate = " + Constants.DF_DATE_ONLY.format(todayDate) + ", clinicId = " + clinicId);
         Calendar c = Calendar.getInstance();
         //Date todayDate = c.getTime();
         c.setTime(todayDate);
-        String today = dfDateOnly.format(c.getTime());
+        String today = Constants.DF_DATE_ONLY.format(c.getTime());
         c.add(Calendar.WEEK_OF_YEAR, 10);
         Date todayPlus10Weeks = c.getTime();
 
         while (todayDate.before(todayPlus10Weeks)) {
             Log.d("MYLOG", "todayDate = " + c.getTime());
             c.setTime(todayDate);
-            String date = dfDateOnly.format(c.getTime());
+            String date = Constants.DF_DATE_ONLY.format(c.getTime());
             c.add(Calendar.WEEK_OF_YEAR, 1);
             todayDate = c.getTime();
 

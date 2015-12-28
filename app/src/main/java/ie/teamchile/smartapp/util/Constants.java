@@ -1,5 +1,9 @@
 package ie.teamchile.smartapp.util;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 /**
  * Created by user on 9/4/15.
  */
@@ -23,8 +27,23 @@ public interface Constants {
     //Realm Pregnancy.class
     String REALM_SERVICE_USER_ID = "serviceUserId";
 
-    String SERVER_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
-    String SERVER_SMALL_DATE = "yyyy-MM-dd";
+    //Date Formats
+    DateFormat DF_AM_PM = new SimpleDateFormat("HH:mm a", Locale.getDefault());
+    DateFormat DF_DAY_LONG = new SimpleDateFormat("EEEE", Locale.getDefault());
+    DateFormat DF_DATE_TIME = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+    DateFormat DF_DATE_ONLY = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+    DateFormat DF_TIME_ONLY = new SimpleDateFormat("HH:mm", Locale.getDefault());
+    DateFormat DF_DAY_SHORT = new SimpleDateFormat("E", Locale.getDefault());
+    DateFormat DF_TIME_W_SEC = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+    DateFormat DF_DOW_MONTH_DAY = new SimpleDateFormat("EEE, d MMM", Locale.getDefault());
+    DateFormat DF_MONTH_FULL_NAME = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
+    DateFormat DF_DATE_TIME_W_ZONE = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault());
+    DateFormat DF_SERVER_DATE_FULL = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
+    DateFormat DF_SERVER_DATE_SMALL = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+    DateFormat DF_DATE_W_MONTH_NAME = new SimpleDateFormat("dd MMM", Locale.getDefault());
+    DateFormat DF_HUMAN_READABLE_DATE = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+    DateFormat DF_DATE_MONTH_NAME_YEAR = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
+    DateFormat DF_HUMAN_READABLE_TIME_DATE = new SimpleDateFormat("HH:mm, dd/MM/yyyy", Locale.getDefault());
 
     //Shared Prefs
     String APPTS_GOT = "appts_got";

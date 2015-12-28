@@ -203,7 +203,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
             c = Calendar.getInstance();
             c.add(Calendar.DAY_OF_YEAR, 7 * i);
             c.set(Calendar.DAY_OF_WEEK, dayOfWeek.getDay() + 1);
-            weeks.add("- Week " + i + " (" + dfDowMonthDay.format(c.getTime()) + ")");
+            weeks.add("- Week " + i + " (" + Constants.DF_DOW_MONTH_DAY.format(c.getTime()) + ")");
         }
 
         weekAdapter = new AdapterSpinner(this, R.layout.spinner_layout, weeks, R.id.tv_spinner_item);

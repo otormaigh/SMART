@@ -131,7 +131,7 @@ public class CreateAppointmentActivity extends BaseActivity implements OnClickLi
         visitPrioritySpinner.setSelection(1);
 
         myCalendar.setTime(daySelected);
-        tvDate.setText(dfDateMonthNameYear.format(daySelected));
+        tvDate.setText(Constants.DF_DATE_MONTH_NAME_YEAR.format(daySelected));
 
         tvClinic.setText(clinicName);
     }
@@ -151,7 +151,7 @@ public class CreateAppointmentActivity extends BaseActivity implements OnClickLi
         returnType = Constants.ARGS_RETURNING;
 
         myCalendar.setTime(daySelected);
-        tvDate.setText(dfDateMonthNameYear.format(daySelected));
+        tvDate.setText(Constants.DF_DATE_MONTH_NAME_YEAR.format(daySelected));
 
         tvClinic.setText(clinicName);
     }
@@ -328,7 +328,7 @@ public class CreateAppointmentActivity extends BaseActivity implements OnClickLi
     }
 
     private void makeAlertDialog() {
-        String dateWords = dfDateMonthNameYear.format(daySelected);
+        String dateWords = Constants.DF_DATE_MONTH_NAME_YEAR.format(daySelected);
         String dateDay = dfDayShort.format(daySelected);
 
         LayoutInflater inflater = getLayoutInflater();

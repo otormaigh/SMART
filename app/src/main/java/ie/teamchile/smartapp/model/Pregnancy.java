@@ -21,7 +21,7 @@ public class Pregnancy extends RealmObject {
     private String babyAge;
     @PrimaryKey
     private int id;
-    private String lastMenstrualPeriod;
+    private Date lastMenstrualPeriod;
     private String perineum;
     private int serviceUserId;
     private RealmList<PregnancyNote> pregnancyNotes;
@@ -106,11 +106,11 @@ public class Pregnancy extends RealmObject {
         this.id = id;
     }
 
-    public String getLastMenstrualPeriod() {
+    public Date getLastMenstrualPeriod() {
         return lastMenstrualPeriod;
     }
 
-    public void setLastMenstrualPeriod(String lastMenstrualPeriod) {
+    public void setLastMenstrualPeriod(Date lastMenstrualPeriod) {
         this.lastMenstrualPeriod = lastMenstrualPeriod;
     }
 

@@ -65,7 +65,7 @@
             android:screenOrientation="sensorPortrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
-            android:name=".activities.ServiceUserActivity"
+            android:name=".activities.ServiceUser.ServiceUserActivity"
             android:screenOrientation="sensorPortrait"/>
         <activity
             android:name=".activities.ServiceUserSearch.ServiceUserSearchActivity"

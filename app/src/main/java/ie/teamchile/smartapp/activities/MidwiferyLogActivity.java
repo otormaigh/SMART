@@ -92,7 +92,7 @@ public class MidwiferyLogActivity extends BaseActivity implements OnClickListene
                     @Override
                     public void success(BaseModel baseModel, Response response) {
                         Timber.d("put getMidwiferyNotes retro success");
-                        realm.commitTransaction();
+                        realm.beginTransaction();
                         realm.copyToRealmOrUpdate(baseModel.getPregnancyNotes());
                         realm.commitTransaction();
                         pd.dismiss();
@@ -134,7 +134,7 @@ public class MidwiferyLogActivity extends BaseActivity implements OnClickListene
         for (int i = size - 1; i >= 0; i--) {
             PregnancyNote theNote = realm.where(PregnancyNote.class).findAll().get(i);
             try {
-                dateList.add(dfHumanReadableDate.format(dfDateOnly.parse(theNote.getCreatedAt())));
+                dateList.add(Constants.DF_HUMAN_READABLE_DATE.format(dfDateOnly.parse(theNote.getCreatedAt())));
             } catch (ParseException e) {
                 Timber.e(Log.getStackTraceString(e));
             }

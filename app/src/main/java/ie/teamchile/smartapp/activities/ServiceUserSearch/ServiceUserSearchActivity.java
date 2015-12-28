@@ -23,7 +23,7 @@ import java.util.List;
 
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.activities.Base.BaseActivity;
-import ie.teamchile.smartapp.activities.ServiceUserActivity;
+import ie.teamchile.smartapp.activities.ServiceUser.ServiceUserActivity;
 import ie.teamchile.smartapp.model.ServiceUser;
 import ie.teamchile.smartapp.util.Constants;
 import io.realm.Realm;

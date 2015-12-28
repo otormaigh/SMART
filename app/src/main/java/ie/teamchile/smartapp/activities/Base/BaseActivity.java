@@ -67,22 +67,12 @@ import timber.log.Timber;
 
 public class BaseActivity extends AppCompatActivity implements BaseView {
     protected static CountDownTimer timer;
-    protected DateFormat dfDateTimeWZone = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault());
-    protected DateFormat dfDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
     protected DateFormat dfDateOnly = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     protected DateFormat dfTimeOnly = new SimpleDateFormat("HH:mm", Locale.getDefault());
     protected DateFormat dfTimeWSec = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
     protected DateFormat dfDateWMonthName = new SimpleDateFormat("dd MMM", Locale.getDefault());
     protected DateFormat dfDayShort = new SimpleDateFormat("E", Locale.getDefault());
-    protected DateFormat dfDayLong = new SimpleDateFormat("EEEE", Locale.getDefault());
-    protected DateFormat dfDowMonthDay = new SimpleDateFormat("EEE, d MMM", Locale.getDefault());
-    protected DateFormat dfDateMonthNameYear = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
-    protected DateFormat dfMonthFullName = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
-    protected DateFormat dfAMPM = new SimpleDateFormat("HH:mm a", Locale.getDefault());
-    protected DateFormat dfDateTimeWMillisZone = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ", Locale.getDefault());
     protected DateFormat dfHumanReadableTimeDate = new SimpleDateFormat("HH:mm, dd/MM/yyyy", Locale.getDefault());
-    protected DateFormat dfHumanReadableDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-    protected Calendar c = Calendar.getInstance();
     protected DrawerLayout drawerLayout;
     protected ListView drawerList;
     protected ActionBarDrawerToggle drawerToggle;
@@ -195,8 +185,7 @@ public class BaseActivity extends AppCompatActivity implements BaseView {
     }
 
     protected void checkRetroError(RetrofitError error, Context context) {
-        c = Calendar.getInstance();
-        String time = dfTimeWSec.format(c.getTime());
+        String time = dfTimeWSec.format(Calendar.getInstance().getTime());
         try {
             throw (error.getCause());
         } catch (UnknownHostException e) {

@@ -77,6 +77,7 @@ public class ClinicTimeRecordActivity extends BaseActivity implements OnClickLis
     private AppointmentHelper appointmentHelper;
     private ProgressDialog pd;
     private Realm realm;
+    private Calendar c;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,8 +89,8 @@ public class ClinicTimeRecordActivity extends BaseActivity implements OnClickLis
         appointmentHelper = new AppointmentHelper(realm);
 
         c = Calendar.getInstance();
-        todayDay = dfDayLong.format(c.getTime());
-        todayDate = dfDateOnly.format(c.getTime());
+        todayDay = Constants.DF_DAY_LONG.format(c.getTime());
+        todayDate = Constants.DF_DATE_ONLY.format(c.getTime());
         lvNotStarted = (ListView) findViewById(R.id.lv_clinics_not_started);
         lvNotStarted.setOnItemClickListener(this);
         lvStarted = (ListView) findViewById(R.id.lv_clinics_started);
@@ -513,10 +514,10 @@ public class ClinicTimeRecordActivity extends BaseActivity implements OnClickLis
     @Override
     public void onClick(View v) {
         c = Calendar.getInstance();
-        now = dfDateTime.format(c.getTime());
+        now = Constants.DF_DATE_TIME.format(c.getTime());
         c.add(Calendar.HOUR, 1);
-        then = dfDateTime.format(c.getTime());
-        date = dfDateOnly.format(c.getTime());
+        then = Constants.DF_DATE_TIME.format(c.getTime());
+        date = Constants.DF_DATE_ONLY.format(c.getTime());
         switch (v.getId()) {
             case R.id.btn_start_clinic:
                 if (clinicNotStartedId != 0) {
