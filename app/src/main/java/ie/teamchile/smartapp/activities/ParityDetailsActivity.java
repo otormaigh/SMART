@@ -71,7 +71,7 @@ public class ParityDetailsActivity extends BaseActivity {
             genderBaby.add(babyList.get(i).getGender());
             gestationBaby.add(realm.where(Pregnancy.class).findAll().get(i).getGestation());
             weightBaby.add(babyList.get(i).getWeight());
-            //birthMode.add(putArrayToString(BaseModel.getInstance().getPregnancies().get(i).getBirthMode()));
+            //birthMode.add(putArrayToString(BaseResponseModel.getInstance().getPregnancies().get(i).getBirthMode()));
             birthOutcome.add(babyList.get(i).getBirthOutcome());
             hearing.add(babyList.get(i).getHearing());
             nbstList.add(babyList.get(i).getNbst());

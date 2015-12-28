@@ -9,7 +9,7 @@ import ie.teamchile.smartapp.activities.Base.BaseActivity;
 import ie.teamchile.smartapp.model.Announcement;
 import ie.teamchile.smartapp.model.Appointment;
 import ie.teamchile.smartapp.model.Baby;
-import ie.teamchile.smartapp.model.BaseModel;
+import ie.teamchile.smartapp.model.BaseResponseModel;
 import ie.teamchile.smartapp.model.Clinic;
 import ie.teamchile.smartapp.model.ClinicTimeRecord;
 import ie.teamchile.smartapp.model.ClinicalFields;
@@ -49,7 +49,7 @@ public class ClearData extends BaseActivity{
     }
 
     public void startPurge() {
-        BaseModel.getInstance().deleteInstance();
+        BaseResponseModel.getInstance().deleteInstance();
         trimCache(context);
     }
 

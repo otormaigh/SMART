@@ -2,7 +2,7 @@ package ie.teamchile.smartapp.activities.ServiceUserSearch;
 
 import java.util.List;
 
-import ie.teamchile.smartapp.model.BaseModel;
+import ie.teamchile.smartapp.model.BaseResponseModel;
 import ie.teamchile.smartapp.model.FeedingHistory;
 import ie.teamchile.smartapp.model.HearingHistory;
 import ie.teamchile.smartapp.model.NbstHistory;
@@ -16,6 +16,6 @@ public interface ServiceUserSearchModel {
     void saveHearingToRealm(List<HearingHistory> hearingHistories);
     void saveNbstToRealm(List<NbstHistory> nbstHistories);
     void saveFeedingHistoriesToRealm(List<FeedingHistory> feedingHistories);
-    void saveServiceUserToRealm(BaseModel baseModel);
+    void saveServiceUserToRealm(BaseResponseModel baseResponseModel);
     void deleteDataFromRealm();
 }

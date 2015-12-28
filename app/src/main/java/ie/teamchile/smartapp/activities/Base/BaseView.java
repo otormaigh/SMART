@@ -7,4 +7,10 @@ public interface BaseView {
     void disableScreenshot();
 
     void initViews();
+
+    void setContentForNav(int layout);
+
+    void setActionBarTitle(String title);
+
+    void createNavDrawer();
 }

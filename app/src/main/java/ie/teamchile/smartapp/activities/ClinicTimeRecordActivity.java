@@ -26,7 +26,7 @@ import java.util.Map;
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.activities.Base.BaseActivity;
 import ie.teamchile.smartapp.api.SmartApiClient;
-import ie.teamchile.smartapp.model.BaseModel;
+import ie.teamchile.smartapp.model.BaseResponseModel;
 import ie.teamchile.smartapp.model.Clinic;
 import ie.teamchile.smartapp.model.ClinicTimeRecord;
 import ie.teamchile.smartapp.model.PostingData;
@@ -123,12 +123,12 @@ public class ClinicTimeRecordActivity extends BaseActivity implements OnClickLis
         realm.copyToRealmOrUpdate(clinicTimeRecords);
         realm.commitTransaction();
 
-        BaseModel.getInstance().setClinicTimeRecords(clinicTimeRecords);
-        BaseModel.getInstance().setClinicStopped(clinicStopped);
-        BaseModel.getInstance().setClinicStarted(clinicStarted);
-        BaseModel.getInstance().setClinicNotStarted(clinicNotStarted);
-        BaseModel.getInstance().setClinicMap(clinicIdMap);
-        BaseModel.getInstance().setClinicDayMap(clinicDayMap);
+        BaseResponseModel.getInstance().setClinicTimeRecords(clinicTimeRecords);
+        BaseResponseModel.getInstance().setClinicStopped(clinicStopped);
+        BaseResponseModel.getInstance().setClinicStarted(clinicStarted);
+        BaseResponseModel.getInstance().setClinicNotStarted(clinicNotStarted);
+        BaseResponseModel.getInstance().setClinicMap(clinicIdMap);
+        BaseResponseModel.getInstance().setClinicDayMap(clinicDayMap);
     }
 
     @Override
@@ -212,17 +212,17 @@ public class ClinicTimeRecordActivity extends BaseActivity implements OnClickLis
         SmartApiClient.getAuthorizedApiClient(this).getTimeRecords(
                 clinicId,
                 date,
-                new Callback<BaseModel>() {
+                new Callback<BaseResponseModel>() {
                     @Override
-                    public void success(BaseModel baseModel, Response response) {
+                    public void success(BaseResponseModel baseResponseModel, Response response) {
                         Timber.d("get time record success");
-                        if (baseModel.getClinicTimeRecords().size() > 0) {
-                            clinicTimeRecords.add(baseModel.getClinicTimeRecords().get(0));
-                            if (baseModel.getClinicTimeRecords().get(0).getEndTime() == null) {
+                        if (baseResponseModel.getClinicTimeRecords().size() > 0) {
+                            clinicTimeRecords.add(baseResponseModel.getClinicTimeRecords().get(0));
+                            if (baseResponseModel.getClinicTimeRecords().get(0).getEndTime() == null) {
                                 if (!clinicStarted.contains(clinicId))
                                     clinicStarted.add(clinicId);
-                            } else if (baseModel.getClinicTimeRecords().get(0).getEndTime() == null &&
-                                    baseModel.getClinicTimeRecords().get(0).getStartTime() == null) {
+                            } else if (baseResponseModel.getClinicTimeRecords().get(0).getEndTime() == null &&
+                                    baseResponseModel.getClinicTimeRecords().get(0).getStartTime() == null) {
                                 clinicNotStarted.add(clinicId);
                             } else {
                                 if (!clinicStopped.contains(clinicId))
@@ -260,13 +260,13 @@ public class ClinicTimeRecordActivity extends BaseActivity implements OnClickLis
         SmartApiClient.getAuthorizedApiClient(this).postTimeRecords(
                 timeRecord,
                 clinicId,
-                new Callback<BaseModel>() {
+                new Callback<BaseResponseModel>() {
                     @Override
-                    public void success(BaseModel baseModel, Response response) {
+                    public void success(BaseResponseModel baseResponseModel, Response response) {
                         Timber.d("retro success");
                         disableButtons();
 
-                        clinicTimeRecords.add(baseModel.getClinicTimeRecord());
+                        clinicTimeRecords.add(baseResponseModel.getClinicTimeRecord());
                         clinicNotStarted.remove(clinicNotStarted.indexOf(clinicId));
                         clinicStarted.add(clinicId);
                         setNotStartedList();
@@ -303,9 +303,9 @@ public class ClinicTimeRecordActivity extends BaseActivity implements OnClickLis
                 timeRecord,
                 clinicId,
                 recordId,
-                new Callback<BaseModel>() {
+                new Callback<BaseResponseModel>() {
                     @Override
-                    public void success(BaseModel baseModel, Response response) {
+                    public void success(BaseResponseModel baseResponseModel, Response response) {
                         Timber.d("retro success");
                         disableButtons();
 
@@ -319,7 +319,7 @@ public class ClinicTimeRecordActivity extends BaseActivity implements OnClickLis
                                 setStoppedList();
                             }
                         }
-                        clinicTimeRecords.add(baseModel.getClinicTimeRecord());
+                        clinicTimeRecords.add(baseResponseModel.getClinicTimeRecord());
                         pd.dismiss();
                     }
 
@@ -340,9 +340,9 @@ public class ClinicTimeRecordActivity extends BaseActivity implements OnClickLis
         SmartApiClient.getAuthorizedApiClient(this).deleteTimeRecordById(
                 clinicIdForDelete,
                 recordIdForDelete,
-                new Callback<BaseModel>() {
+                new Callback<BaseResponseModel>() {
                     @Override
-                    public void success(BaseModel baseModel, Response response) {
+                    public void success(BaseResponseModel baseResponseModel, Response response) {
                         Timber.d("deleteTimeRecord success");
                         disableButtons();
 

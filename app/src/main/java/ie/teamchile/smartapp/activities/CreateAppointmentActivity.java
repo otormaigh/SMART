@@ -32,7 +32,7 @@ import java.util.List;
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.activities.Base.BaseActivity;
 import ie.teamchile.smartapp.api.SmartApiClient;
-import ie.teamchile.smartapp.model.BaseModel;
+import ie.teamchile.smartapp.model.BaseResponseModel;
 import ie.teamchile.smartapp.model.Clinic;
 import ie.teamchile.smartapp.model.Login;
 import ie.teamchile.smartapp.model.PostingData;
@@ -243,21 +243,21 @@ public class CreateAppointmentActivity extends BaseActivity implements OnClickLi
 
         SmartApiClient.getAuthorizedApiClient(getApplicationContext()).getServiceUserByName(
                 serviceUserName,
-                new Callback<BaseModel>() {
+                new Callback<BaseResponseModel>() {
                     @Override
-                    public void success(BaseModel baseModel, Response response) {
+                    public void success(BaseResponseModel baseResponseModel, Response response) {
                         Timber.d("searchPatient success");
                         String name, hospitalNumber, dob;
-                        if (baseModel.getServiceUsers().size() != 0) {
+                        if (baseResponseModel.getServiceUsers().size() != 0) {
                             realm.beginTransaction();
-                            realm.copyToRealmOrUpdate(baseModel.getServiceUsers());
-                            realm.copyToRealmOrUpdate(baseModel.getBabies());
-                            realm.copyToRealmOrUpdate(baseModel.getPregnancies());
+                            realm.copyToRealmOrUpdate(baseResponseModel.getServiceUsers());
+                            realm.copyToRealmOrUpdate(baseResponseModel.getBabies());
+                            realm.copyToRealmOrUpdate(baseResponseModel.getPregnancies());
                             realm.commitTransaction();
 
-                            int size = baseModel.getServiceUsers().size();
+                            int size = baseResponseModel.getServiceUsers().size();
                             for (int i = 0; i < size; i++) {
-                                ServiceUser serviceUserItem = baseModel.getServiceUsers().get(i);
+                                ServiceUser serviceUserItem = baseResponseModel.getServiceUsers().get(i);
                                 serviceUserList.add(serviceUserItem);
                                 name = serviceUserItem.getPersonalFields().getName();
                                 dob = serviceUserItem.getPersonalFields().getDob();
@@ -399,17 +399,17 @@ public class CreateAppointmentActivity extends BaseActivity implements OnClickLi
 
         SmartApiClient.getAuthorizedApiClient(getApplicationContext()).postAppointment(
                 appointment,
-                new Callback<BaseModel>() {
+                new Callback<BaseResponseModel>() {
                     @Override
-                    public void success(BaseModel baseModel, Response response) {
+                    public void success(BaseResponseModel baseResponseModel, Response response) {
                         Timber.d("postAppointment success");
 
                         realm.beginTransaction();
-                        realm.copyToRealmOrUpdate(baseModel.getAppointment());
+                        realm.copyToRealmOrUpdate(baseResponseModel.getAppointment());
                         realm.commitTransaction();
 
                         if (returnType.equals(Constants.ARGS_NEW)) {
-                            getAppointmentById(baseModel.getAppointment().getId());
+                            getAppointmentById(baseResponseModel.getAppointment().getId());
                         } else {
                             if (ad.isShowing())
                                 ad.cancel();
@@ -437,7 +437,7 @@ public class CreateAppointmentActivity extends BaseActivity implements OnClickLi
                         checkRetroError(error, getApplicationContext());
                         if (error.getKind() != RetrofitError.Kind.NETWORK) {
                             if (error.getResponse().getStatus() == 422) {
-                                BaseModel body = (BaseModel) error.getBodyAs(BaseModel.class);
+                                BaseResponseModel body = (BaseResponseModel) error.getBodyAs(BaseResponseModel.class);
                                 Toast.makeText(getApplicationContext(),
                                         body.getError().getAppointmentTaken(), Toast.LENGTH_LONG).show();
                             }
@@ -463,12 +463,12 @@ public class CreateAppointmentActivity extends BaseActivity implements OnClickLi
     private void getAppointmentById(int apptId) {
         SmartApiClient.getAuthorizedApiClient(getApplicationContext()).getAppointmentById(
                 apptId + 1,
-                new Callback<BaseModel>() {
+                new Callback<BaseResponseModel>() {
                     @Override
-                    public void success(BaseModel baseModel, Response response) {
+                    public void success(BaseResponseModel baseResponseModel, Response response) {
                         Timber.d("getAppointmentById success");
                         realm.beginTransaction();
-                        realm.copyToRealmOrUpdate(baseModel.getAppointment());
+                        realm.copyToRealmOrUpdate(baseResponseModel.getAppointment());
                         realm.commitTransaction();
 
                         if (ad.isShowing())

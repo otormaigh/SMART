@@ -8,8 +8,8 @@ import java.util.Map;
 /**
  * Created by user on 5/26/15.
  */
-public class BaseModel {
-    private static BaseModel instance;
+public class BaseResponseModel {
+    private static BaseResponseModel instance;
     private Error errors;
     private Login login;
     private Appointment appointment;
@@ -42,12 +42,12 @@ public class BaseModel {
     private List<PregnancyAction> pregnancyActions = new ArrayList<>();
     private Map<Integer, ServiceUserAction> serviceUserActionMap = new HashMap<>();
 
-    private BaseModel() {
+    private BaseResponseModel() {
     }
 
-    public static synchronized BaseModel getInstance() {
+    public static synchronized BaseResponseModel getInstance() {
         if (instance == null) {
-            instance = new BaseModel();
+            instance = new BaseResponseModel();
         }
         return instance;
     }

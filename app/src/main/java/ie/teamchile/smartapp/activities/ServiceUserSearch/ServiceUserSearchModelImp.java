@@ -4,7 +4,7 @@ import java.util.List;
 
 import ie.teamchile.smartapp.model.AntiDHistory;
 import ie.teamchile.smartapp.model.Baby;
-import ie.teamchile.smartapp.model.BaseModel;
+import ie.teamchile.smartapp.model.BaseResponseModel;
 import ie.teamchile.smartapp.model.FeedingHistory;
 import ie.teamchile.smartapp.model.HearingHistory;
 import ie.teamchile.smartapp.model.NbstHistory;
@@ -52,12 +52,12 @@ public class ServiceUserSearchModelImp implements ServiceUserSearchModel {
     }
 
     @Override
-    public void saveServiceUserToRealm(BaseModel baseModel) {
+    public void saveServiceUserToRealm(BaseResponseModel baseResponseModel) {
         realm.beginTransaction();
-        realm.copyToRealmOrUpdate(baseModel.getServiceUsers());
-        realm.copyToRealmOrUpdate(baseModel.getPregnancies());
-        realm.copyToRealmOrUpdate(baseModel.getBabies());
-        realm.copyToRealmOrUpdate(baseModel.getAntiDHistories());
+        realm.copyToRealmOrUpdate(baseResponseModel.getServiceUsers());
+        realm.copyToRealmOrUpdate(baseResponseModel.getPregnancies());
+        realm.copyToRealmOrUpdate(baseResponseModel.getBabies());
+        realm.copyToRealmOrUpdate(baseResponseModel.getAntiDHistories());
         realm.commitTransaction();
     }
 

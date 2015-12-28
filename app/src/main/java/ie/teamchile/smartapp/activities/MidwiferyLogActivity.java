@@ -28,7 +28,7 @@ import java.util.List;
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.activities.Base.BaseActivity;
 import ie.teamchile.smartapp.api.SmartApiClient;
-import ie.teamchile.smartapp.model.BaseModel;
+import ie.teamchile.smartapp.model.BaseResponseModel;
 import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.model.Pregnancy;
 import ie.teamchile.smartapp.model.PregnancyNote;
@@ -90,12 +90,12 @@ public class MidwiferyLogActivity extends BaseActivity implements OnClickListene
         SmartApiClient.getAuthorizedApiClient(this).getPregnancyNotes(
                 realm.where(ServiceUser.class).findFirst().getPregnancyIds().get(
                         getRecentPregnancy(realm.where(Pregnancy.class).findAll())).getValue(),
-                new Callback<BaseModel>() {
+                new Callback<BaseResponseModel>() {
                     @Override
-                    public void success(BaseModel baseModel, Response response) {
+                    public void success(BaseResponseModel baseResponseModel, Response response) {
                         Timber.d("put getMidwiferyNotes retro success");
                         realm.beginTransaction();
-                        realm.copyToRealmOrUpdate(baseModel.getPregnancyNotes());
+                        realm.copyToRealmOrUpdate(baseResponseModel.getPregnancyNotes());
                         realm.commitTransaction();
                         pd.dismiss();
                         setData();
@@ -163,12 +163,12 @@ public class MidwiferyLogActivity extends BaseActivity implements OnClickListene
         SmartApiClient.getAuthorizedApiClient(this).postPregnancyNote(
                 postNote,
                 pregnancyId,
-                new Callback<BaseModel>() {
+                new Callback<BaseResponseModel>() {
                     @Override
-                    public void success(BaseModel baseModel, Response response) {
+                    public void success(BaseResponseModel baseResponseModel, Response response) {
                         Timber.d("postNote success");
                         realm.beginTransaction();
-                        realm.copyToRealmOrUpdate(baseModel.getPregnancyNote());
+                        realm.copyToRealmOrUpdate(baseResponseModel.getPregnancyNote());
                         realm.commitTransaction();
 
                         adapter.notifyDataSetChanged();

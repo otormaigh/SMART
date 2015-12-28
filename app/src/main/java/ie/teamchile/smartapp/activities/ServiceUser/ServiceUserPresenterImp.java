@@ -12,7 +12,7 @@ import java.util.Date;
 import ie.teamchile.smartapp.activities.Base.BasePresenterImp;
 import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.AntiDHistory;
-import ie.teamchile.smartapp.model.BaseModel;
+import ie.teamchile.smartapp.model.BaseResponseModel;
 import ie.teamchile.smartapp.model.FeedingHistory;
 import ie.teamchile.smartapp.model.HearingHistory;
 import ie.teamchile.smartapp.model.NbstHistory;
@@ -65,20 +65,20 @@ public class ServiceUserPresenterImp extends BasePresenterImp implements Service
         SmartApiClient.getAuthorizedApiClient(weakActivity.get()).putAnitD(
                 puttingAntiD,
                 serviceUserModel.getPregnancy().getId(),
-                new Callback<BaseModel>() {
+                new Callback<BaseResponseModel>() {
                     @Override
-                    public void success(BaseModel baseModel, Response response) {
+                    public void success(BaseResponseModel baseResponseModel, Response response) {
                         Timber.d("put anti-d retro success");
 
                         AntiDHistory antiDHistory = new AntiDHistory();
-                        antiDHistory.setAntiD(baseModel.getPregnancy().getAntiD());
+                        antiDHistory.setAntiD(baseResponseModel.getPregnancy().getAntiD());
                         antiDHistory.setCreatedAt(Calendar.getInstance().getTime());
                         antiDHistory.setServiceProviderName(serviceUserModel.getServiceProvider().getName());
 
                         realm.beginTransaction();
-                        realm.copyToRealmOrUpdate(baseModel.getPregnancy());
+                        realm.copyToRealmOrUpdate(baseResponseModel.getPregnancy());
                         //antiDHistoryList.add(antiDHistory);
-                        serviceUserModel.updatePregnancy(baseModel.getPregnancy());
+                        serviceUserModel.updatePregnancy(baseResponseModel.getPregnancy());
                         realm.commitTransaction();
 
                         updateViews();
@@ -111,20 +111,20 @@ public class ServiceUserPresenterImp extends BasePresenterImp implements Service
         SmartApiClient.getAuthorizedApiClient(weakActivity.get()).putAnitD(
                 puttingFeeding,
                 serviceUserModel.getPregnancy().getId(),
-                new Callback<BaseModel>() {
+                new Callback<BaseResponseModel>() {
                     @Override
-                    public void success(BaseModel baseModel, Response response) {
+                    public void success(BaseResponseModel baseResponseModel, Response response) {
                         Timber.d("put feeding retro success");
 
                         FeedingHistory feedingHistory = new FeedingHistory();
-                        feedingHistory.setFeeding(baseModel.getPregnancy().getFeeding());
+                        feedingHistory.setFeeding(baseResponseModel.getPregnancy().getFeeding());
                         feedingHistory.setCreatedAt(Calendar.getInstance().getTime());
                         feedingHistory.setServiceProviderName(serviceUserModel.getServiceProvider().getName());
 
                         realm.beginTransaction();
-                        realm.copyToRealmOrUpdate(baseModel.getPregnancy());
+                        realm.copyToRealmOrUpdate(baseResponseModel.getPregnancy());
                         //feedingHistoryList.add(feedingHistory);
-                        serviceUserModel.updatePregnancy(baseModel.getPregnancy());
+                        serviceUserModel.updatePregnancy(baseResponseModel.getPregnancy());
                         realm.commitTransaction();
 
                         updateViews();
@@ -159,20 +159,20 @@ public class ServiceUserPresenterImp extends BasePresenterImp implements Service
         SmartApiClient.getAuthorizedApiClient(weakActivity.get()).putVitK(
                 puttingVitK,
                 serviceUserModel.getBaby().getId(),
-                new Callback<BaseModel>() {
+                new Callback<BaseResponseModel>() {
                     @Override
-                    public void success(BaseModel baseModel, Response response) {
+                    public void success(BaseResponseModel baseResponseModel, Response response) {
                         Timber.d("put vit k retro success");
 
                         VitKHistory vitKHistory = new VitKHistory();
-                        vitKHistory.setVitK(baseModel.getBaby().getVitK());
+                        vitKHistory.setVitK(baseResponseModel.getBaby().getVitK());
                         vitKHistory.setCreatedAt(Calendar.getInstance().getTime());
                         vitKHistory.setServiceProviderName(serviceUserModel.getServiceProvider().getName());
 
                         realm.beginTransaction();
-                        realm.copyToRealmOrUpdate(baseModel.getBaby());
+                        realm.copyToRealmOrUpdate(baseResponseModel.getBaby());
                         //vitKHistoryList.add(vitKHistory);
-                        serviceUserModel.updateBaby(baseModel.getBaby());
+                        serviceUserModel.updateBaby(baseResponseModel.getBaby());
                         realm.commitTransaction();
 
                         updateViews();
@@ -206,20 +206,20 @@ public class ServiceUserPresenterImp extends BasePresenterImp implements Service
         SmartApiClient.getAuthorizedApiClient(weakActivity.get()).putHearing(
                 puttingHearing,
                 serviceUserModel.getBaby().getId(),
-                new Callback<BaseModel>() {
+                new Callback<BaseResponseModel>() {
                     @Override
-                    public void success(BaseModel baseModel, Response response) {
+                    public void success(BaseResponseModel baseResponseModel, Response response) {
                         Timber.d("put hearing retro success");
 
                         HearingHistory hearingHistory = new HearingHistory();
-                        hearingHistory.setHearing(baseModel.getBaby().getHearing());
+                        hearingHistory.setHearing(baseResponseModel.getBaby().getHearing());
                         hearingHistory.setCreatedAt(Calendar.getInstance().getTime());
                         hearingHistory.setServiceProviderName(serviceUserModel.getServiceProvider().getName());
 
                         realm.beginTransaction();
-                        realm.copyToRealmOrUpdate(baseModel.getBaby());
+                        realm.copyToRealmOrUpdate(baseResponseModel.getBaby());
                         //hearingHistoryList.add(hearingHistory);
-                        serviceUserModel.updateBaby(baseModel.getBaby());
+                        serviceUserModel.updateBaby(baseResponseModel.getBaby());
                         realm.commitTransaction();
 
                         updateViews();
@@ -253,20 +253,20 @@ public class ServiceUserPresenterImp extends BasePresenterImp implements Service
         SmartApiClient.getAuthorizedApiClient(weakActivity.get()).putNBST(
                 puttingNbst,
                 serviceUserModel.getBaby().getId(),
-                new Callback<BaseModel>() {
+                new Callback<BaseResponseModel>() {
                     @Override
-                    public void success(BaseModel baseModel, Response response) {
+                    public void success(BaseResponseModel baseResponseModel, Response response) {
                         Timber.d("put nbst retro success");
 
                         NbstHistory nbstHistory = new NbstHistory();
-                        nbstHistory.setNbst(baseModel.getBaby().getNbst());
+                        nbstHistory.setNbst(baseResponseModel.getBaby().getNbst());
                         nbstHistory.setCreatedAt(Calendar.getInstance().getTime());
                         nbstHistory.setServiceProviderName(serviceUserModel.getServiceProvider().getName());
 
                         realm.beginTransaction();
-                        realm.copyToRealmOrUpdate(baseModel.getBaby());
+                        realm.copyToRealmOrUpdate(baseResponseModel.getBaby());
                         //nbstHistoryList.add(nbstHistory);
-                        serviceUserModel.updateBaby(baseModel.getBaby());
+                        serviceUserModel.updateBaby(baseResponseModel.getBaby());
                         realm.commitTransaction();
 
                         updateViews();
@@ -292,12 +292,12 @@ public class ServiceUserPresenterImp extends BasePresenterImp implements Service
 
         SmartApiClient.getAuthorizedApiClient(weakActivity.get()).getPregnancyNotes(
                 serviceUserModel.getPregnancy().getId(),
-                new Callback<BaseModel>() {
+                new Callback<BaseResponseModel>() {
                     @Override
-                    public void success(BaseModel baseModel, Response response) {
+                    public void success(BaseResponseModel baseResponseModel, Response response) {
                         Timber.d("put getMidwiferyNotes retro success");
                         realm.beginTransaction();
-                        realm.copyToRealmOrUpdate(baseModel.getPregnancyNotes());
+                        realm.copyToRealmOrUpdate(baseResponseModel.getPregnancyNotes());
                         realm.commitTransaction();
 
                         pd.dismiss();
@@ -320,9 +320,9 @@ public class ServiceUserPresenterImp extends BasePresenterImp implements Service
         SmartApiClient.getAuthorizedApiClient(weakActivity.get()).postPregnancyAction(
                 postAction,
                 serviceUserModel.getPregnancy().getId(),
-                new Callback<BaseModel>() {
+                new Callback<BaseResponseModel>() {
                     @Override
-                    public void success(BaseModel baseModel, Response response) {
+                    public void success(BaseResponseModel baseResponseModel, Response response) {
                         Timber.d("post pregnancy action retro success");
                     }
 

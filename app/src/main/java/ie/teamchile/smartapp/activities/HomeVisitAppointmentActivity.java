@@ -32,7 +32,7 @@ import ie.teamchile.smartapp.activities.Base.BaseActivity;
 import ie.teamchile.smartapp.activities.ServiceUser.ServiceUserActivity;
 import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.Appointment;
-import ie.teamchile.smartapp.model.BaseModel;
+import ie.teamchile.smartapp.model.BaseResponseModel;
 import ie.teamchile.smartapp.model.Login;
 import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.model.RealmInteger;
@@ -212,13 +212,13 @@ public class HomeVisitAppointmentActivity extends BaseActivity {
         SmartApiClient.getAuthorizedApiClient(this).putAppointmentStatus(
                 attendedStatus,
                 idList.get(position),
-                new Callback<BaseModel>() {
+                new Callback<BaseResponseModel>() {
                     @Override
-                    public void success(BaseModel baseModel, Response response) {
+                    public void success(BaseResponseModel baseResponseModel, Response response) {
                         Timber.d("changeAttendStatus success");
 
                         realm.beginTransaction();
-                        realm.copyToRealmOrUpdate(baseModel.getAppointment());
+                        realm.copyToRealmOrUpdate(baseResponseModel.getAppointment());
                         realm.commitTransaction();
 
                         Toast.makeText(HomeVisitAppointmentActivity.this,
@@ -237,13 +237,13 @@ public class HomeVisitAppointmentActivity extends BaseActivity {
 
     private void searchServiceUser(int serviceUserId, final Intent intent) {
         SmartApiClient.getAuthorizedApiClient(this).getServiceUserById(serviceUserId,
-                new Callback<BaseModel>() {
+                new Callback<BaseResponseModel>() {
                     @Override
-                    public void success(BaseModel baseModel, Response response) {
+                    public void success(BaseResponseModel baseResponseModel, Response response) {
                         realm.beginTransaction();
-                        realm.copyToRealmOrUpdate(baseModel.getServiceUsers());
-                        realm.copyToRealmOrUpdate(baseModel.getBabies());
-                        realm.copyToRealmOrUpdate(baseModel.getPregnancies());
+                        realm.copyToRealmOrUpdate(baseResponseModel.getServiceUsers());
+                        realm.copyToRealmOrUpdate(baseResponseModel.getBabies());
+                        realm.copyToRealmOrUpdate(baseResponseModel.getPregnancies());
                         realm.commitTransaction();
                         startActivity(intent);
                         pd.dismiss();

@@ -8,7 +8,7 @@ import java.lang.ref.WeakReference;
 import java.util.Map;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.model.BaseModel;
+import ie.teamchile.smartapp.model.BaseResponseModel;
 import ie.teamchile.smartapp.model.Login;
 import ie.teamchile.smartapp.util.Constants;
 import ie.teamchile.smartapp.util.SharedPrefs;
@@ -50,7 +50,7 @@ public class LoginModelImp implements LoginModel {
 
     @Override
     public void deleteSingletonInstance() {
-        BaseModel.getInstance().deleteInstance();
+        BaseResponseModel.getInstance().deleteInstance();
     }
 
     @Override

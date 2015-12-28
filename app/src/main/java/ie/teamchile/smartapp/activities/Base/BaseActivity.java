@@ -2,10 +2,7 @@ package ie.teamchile.smartapp.activities.Base;
 
 import android.app.ActivityManager;
 import android.app.AlertDialog;
-import android.app.Notification;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.app.ProgressDialog;
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
@@ -32,8 +29,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import net.hockeyapp.android.Tracking;
-
 import java.net.ConnectException;
 import java.net.UnknownHostException;
 import java.text.DateFormat;
@@ -50,19 +45,13 @@ import ie.teamchile.smartapp.activities.ClinicTimeRecordActivity;
 import ie.teamchile.smartapp.activities.Login.LoginActivity;
 import ie.teamchile.smartapp.activities.QuickMenu.QuickMenuActivity;
 import ie.teamchile.smartapp.activities.ServiceUserSearch.ServiceUserSearchActivity;
-import ie.teamchile.smartapp.activities.SpalshScreen.SplashScreenActivity;
-import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.Baby;
-import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.Login;
 import ie.teamchile.smartapp.model.Pregnancy;
-import ie.teamchile.smartapp.util.ClearData;
 import ie.teamchile.smartapp.util.CustomDialogs;
 import ie.teamchile.smartapp.util.ToastAlert;
 import io.realm.Realm;
-import retrofit.Callback;
 import retrofit.RetrofitError;
-import retrofit.client.Response;
 import timber.log.Timber;
 
 public class BaseActivity extends AppCompatActivity implements BaseView {
@@ -77,12 +66,10 @@ public class BaseActivity extends AppCompatActivity implements BaseView {
     protected ListView drawerList;
     protected ActionBarDrawerToggle drawerToggle;
     protected int spinnerWarning;
-    protected int done = 0;
     protected int thingALing = 0;
     protected LogoutService logServ;
     protected NotificationManager notificationManager;
     protected static int apptDone;
-    private ProgressDialog pd;
     private Realm realm;
     private BasePresenter basePresenter;
 
@@ -94,7 +81,7 @@ public class BaseActivity extends AppCompatActivity implements BaseView {
 
         realm = Realm.getInstance(this);
 
-        basePresenter = new BasePresenterImp();
+        basePresenter = new BasePresenterImp(BaseActivity.this, realm);
 
         spinnerWarning = ContextCompat.getColor(getApplicationContext(), R.color.teal);
 
@@ -129,7 +116,7 @@ public class BaseActivity extends AppCompatActivity implements BaseView {
         if (isMyServiceRunning()) {
             new ToastAlert(getBaseContext(), getString(R.string.view_is_hidden), false);
             thingALing++;
-            showNotification(getString(R.string.app_name), getString(R.string.warning_logged_out_soon), QuickMenuActivity.class);
+            basePresenter.showNotification(getString(R.string.app_name), getString(R.string.warning_logged_out_soon), QuickMenuActivity.class);
             logServ = new LogoutService();
             logServ.startTimer(true);
         }
@@ -163,22 +150,6 @@ public class BaseActivity extends AppCompatActivity implements BaseView {
             }
         }
         return false;
-    }
-
-    protected void showNotification(String title, String message, Class activity) {
-        notificationManager = (NotificationManager)
-                getSystemService(NOTIFICATION_SERVICE);
-        Intent intent = new Intent(BaseActivity.this, activity);
-        PendingIntent pIntent = PendingIntent.getActivity(BaseActivity.this, 0, intent, 0);
-
-        Notification n = new Notification.Builder(this)
-                .setContentTitle(title)
-                .setContentText(message)
-                .setSmallIcon(R.drawable.ic_launcher)
-                .setContentIntent(pIntent)
-                .setAutoCancel(true).build();
-
-        notificationManager.notify(0, n);
     }
 
     protected void checkRetroError(RetrofitError error, Context context) {
@@ -222,14 +193,16 @@ public class BaseActivity extends AppCompatActivity implements BaseView {
         return true;
     }
 
-    protected void setContentForNav(int layout) {
+    @Override
+    public void setContentForNav(int layout) {
         LayoutInflater inflater = (LayoutInflater) this
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View contentView = inflater.inflate(layout, null, false);
         drawerLayout.addView(contentView, 0);
     }
 
-    protected void setActionBarTitle(String title) {
+    @Override
+    public void setActionBarTitle(String title) {
         if (getSupportActionBar() != null) {
             View v = getSupportActionBar().getCustomView();
             TextView titleTxtView = (TextView) v.findViewById(R.id.tv_action_bar);
@@ -237,7 +210,8 @@ public class BaseActivity extends AppCompatActivity implements BaseView {
         }
     }
 
-    protected void createNavDrawer() {
+    @Override
+    public void createNavDrawer() {
         String[] drawerItems = getResources().getStringArray(R.array.nav_drawer_items);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerList = (ListView) findViewById(R.id.lv_nav_drawer);
@@ -284,8 +258,7 @@ public class BaseActivity extends AppCompatActivity implements BaseView {
                 //startActivity(intent);
                 break;
             case 5:         //Sync
-                getAllAppointments(this);
-                pd = new CustomDialogs().showProgressDialog(BaseActivity.this, getString(R.string.updating_appointments));
+                basePresenter.getAllAppointments();
                 break;
             case 6:         //Logout
                 showLogoutDialog();
@@ -311,84 +284,10 @@ public class BaseActivity extends AppCompatActivity implements BaseView {
                         if (!realm.where(Login.class).findFirst().isLoggedIn()) {
                             startActivity(intent);
                         } else {
-                            doLogout(intent);
-                            pd = new CustomDialogs().showProgressDialog(BaseActivity.this, getString(R.string.logging_out));
+                            basePresenter.doLogout(intent);
                         }
                     }
                 }).show();
-    }
-
-    private void doLogout(final Intent intent) {
-        SmartApiClient.getAuthorizedApiClient(this).postLogout(
-                "",
-                new Callback<BaseModel>() {
-                    @Override
-                    public void success(BaseModel baseModel, Response response) {
-                        Timber.d("logout success");
-                        Tracking.stopUsage(BaseActivity.this);
-                        Timber.d("timeUsage = " + Tracking.getUsageTime(BaseActivity.this));
-                        switch (response.getStatus()) {
-                            case 200:
-                                Timber.d("in logout success 200");
-                                doLogout(intent);
-                                break;
-                            default:
-                                Timber.d("in logout success response = " + response.getStatus());
-                        }
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Timber.d("in logout failure error = " + error);
-                        if (error.getResponse().getStatus() == 401) {
-                            realm.beginTransaction();
-                            realm.where(Login.class).findFirst().setLoggedIn(false);
-                            realm.commitTransaction();
-                            Toast.makeText(getApplicationContext(),
-                                    getString(R.string.you_are_now_logged_out),
-                                    Toast.LENGTH_SHORT).show();
-                            pd.dismiss();
-                            startActivity(intent);
-                        } else {
-                            Toast.makeText(getApplicationContext(), getString(R.string.error_logout),
-                                    Toast.LENGTH_SHORT).show();
-                            pd.dismiss();
-                        }
-                        new ClearData(BaseActivity.this);
-                    }
-                }
-        );
-    }
-
-    private void doLogoutWithoutIntent() {
-        SmartApiClient.getAuthorizedApiClient(this).postLogout(
-                "",
-                new Callback<BaseModel>() {
-                    @Override
-                    public void success(BaseModel baseModel, Response response) {
-                        Timber.d("in logout success");
-                        Tracking.stopUsage(BaseActivity.this);
-                        Timber.d("timeUsage QuickMenu = " + Tracking.getUsageTime(BaseActivity.this));
-                        new ClearData(BaseActivity.this);
-                        finish();
-                        if (notificationManager != null) {
-                            notificationManager.cancelAll();
-                            showNotification(getString(R.string.app_name), getString(R.string.success_logout),
-                                    SplashScreenActivity.class);
-                        } else
-                            showNotification(getString(R.string.app_name), getString(R.string.success_logout),
-                                    SplashScreenActivity.class);
-                        new ClearData(BaseActivity.this);
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Timber.d("in logout failure error = " + error);
-                        finish();
-                        new ClearData(BaseActivity.this);
-                    }
-                }
-        );
     }
 
     protected String putArrayToString(List<String> badList) {
@@ -409,32 +308,6 @@ public class BaseActivity extends AppCompatActivity implements BaseView {
 
     protected int getRecentBaby(List<Baby> babyList) {                  //TODO: Remove
         return basePresenter.getRecentBaby(babyList);
-    }
-
-    protected void getAllAppointments(final Context context) {
-        SmartApiClient.getAuthorizedApiClient(this).getAllAppointments(
-                new Callback<BaseModel>() {
-                    @Override
-                    public void success(BaseModel baseModel, Response response) {
-                        realm.beginTransaction();
-                        realm.copyToRealmOrUpdate(baseModel.getAppointment());
-                        realm.commitTransaction();
-
-                        Timber.d("appointments finished");
-                        done++;
-                        Timber.d("done = " + done);
-                        pd.dismiss();
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Timber.d("appointments retro failure " + error);
-                        Toast.makeText(context, getString(R.string.error_downloading_appointments),
-                                Toast.LENGTH_LONG).show();
-                        pd.dismiss();
-                    }
-                }
-        );
     }
 
     public class LogoutService extends Service {
@@ -465,7 +338,7 @@ public class BaseActivity extends AppCompatActivity implements BaseView {
                 public void onFinish() {
                     Timber.d("Call Logout by Service");
                     stopSelf();
-                    doLogoutWithoutIntent();
+                    basePresenter.doLogoutWithoutIntent();
                 }
             };
         }

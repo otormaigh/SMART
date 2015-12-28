@@ -10,7 +10,7 @@ import java.util.Calendar;
 
 import ie.teamchile.smartapp.activities.Base.BasePresenterImp;
 import ie.teamchile.smartapp.api.SmartApiClient;
-import ie.teamchile.smartapp.model.BaseModel;
+import ie.teamchile.smartapp.model.BaseResponseModel;
 import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.util.Constants;
 import ie.teamchile.smartapp.util.SharedPrefs;
@@ -41,9 +41,9 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
         final PostingData login = new PostingData();
         login.postLogin(loginView.getUsername(), loginView.getPassword());
 
-        SmartApiClient.getUnAuthorizedApiClient().postLogin(login, new Callback<BaseModel>() {
+        SmartApiClient.getUnAuthorizedApiClient().postLogin(login, new Callback<BaseResponseModel>() {
             @Override
-            public void success(BaseModel baseModel, Response response) {
+            public void success(BaseResponseModel baseResponseModel, Response response) {
                 Timber.d("postLogin success");
                 Tracking.startUsage(weakActivity.get());
                 prefsUtil.setLongPrefs(weakActivity.get(),
@@ -51,7 +51,7 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
                         Constants.SHARED_PREFS_SPLASH_LOG);
                 prefsUtil.deletePrefs(weakActivity.get(), Constants.APPTS_GOT);
 
-                loginModel.saveLoginToRealm(baseModel.getLogin());
+                loginModel.saveLoginToRealm(baseResponseModel.getLogin());
 
                 pd.dismiss();
                 loginModel.getSharedPrefs();
@@ -62,7 +62,7 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
             @Override
             public void failure(RetrofitError error) {
                 if (error.getResponse() != null) {
-                    BaseModel body = (BaseModel) error.getBodyAs(BaseModel.class);
+                    BaseResponseModel body = (BaseResponseModel) error.getBodyAs(BaseResponseModel.class);
                     Timber.d("retro error = " + body.getError().getError());
                     loginView.showErrorToast(body.getError().getError());
                 }

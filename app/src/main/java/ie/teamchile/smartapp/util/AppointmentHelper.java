@@ -7,7 +7,7 @@ import java.util.Date;
 
 import ie.teamchile.smartapp.activities.Base.BaseActivity;
 import ie.teamchile.smartapp.api.SmartApiClient;
-import ie.teamchile.smartapp.model.BaseModel;
+import ie.teamchile.smartapp.model.BaseResponseModel;
 import io.realm.Realm;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -48,12 +48,12 @@ public class AppointmentHelper extends BaseActivity {
         SmartApiClient.getAuthorizedApiClient(this).getAppointmentsForDayClinic(
                 date,
                 clinicId,
-                new Callback<BaseModel>() {
+                new Callback<BaseResponseModel>() {
                     @Override
-                    public void success(BaseModel baseModel, Response response) {
+                    public void success(BaseResponseModel baseResponseModel, Response response) {
                         Log.d("retro", "getAppointmentsForClinic success");
                         realm.beginTransaction();
-                        realm.copyToRealmOrUpdate(baseModel.getAppointments());
+                        realm.copyToRealmOrUpdate(baseResponseModel.getAppointments());
                         realm.commitTransaction();
 
                         BaseActivity.apptDone++;
@@ -73,12 +73,12 @@ public class AppointmentHelper extends BaseActivity {
                 "home-visit",
                 date,
                 serviceOptionId,
-                new Callback<BaseModel>() {
+                new Callback<BaseResponseModel>() {
                     @Override
-                    public void success(BaseModel baseModel, Response response) {
+                    public void success(BaseResponseModel baseResponseModel, Response response) {
                         Log.d("retro", "getAppointmentsForClinic success");
                         realm.beginTransaction();
-                        realm.copyToRealmOrUpdate(baseModel.getAppointments());
+                        realm.copyToRealmOrUpdate(baseResponseModel.getAppointments());
                         realm.commitTransaction();
 
                         BaseActivity.apptDone++;
