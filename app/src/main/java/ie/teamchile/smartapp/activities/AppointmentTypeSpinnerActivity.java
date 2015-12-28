@@ -174,8 +174,8 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
         visitDayList.add("Select Day");
 
         for (int i = 0; i < 10; i++) {
-            String day = dfDayShort.format(cal.getTime());
-            String date = dfDateWMonthName.format(cal.getTime());
+            String day = Constants.DF_DAY_SHORT.format(cal.getTime());
+            String date = Constants.DF_DATE_W_MONTH_NAME.format(cal.getTime());
 
             visitDayList.add("- " + day + ", " + date);
 
@@ -235,7 +235,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
 
         while (todayDate.before(todayPlus10Day)) {
             c.setTime(todayDate);
-            String date = dfDateOnly.format(c.getTime());
+            String date = Constants.DF_DATE_ONLY.format(c.getTime());
             c.add(Calendar.DAY_OF_YEAR, 1);
             todayDate = c.getTime();
 
@@ -468,7 +468,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
                                     tvWeek.setVisibility(View.VISIBLE);
                                     weekSpinner.setVisibility(View.VISIBLE);
                                     weekSpinner.setSelection(0);
-                                    dayOfWeek = dfDayShort.parse(trueDays.get(0));
+                                    dayOfWeek = Constants.DF_DAY_SHORT.parse(trueDays.get(0));
                                     getAppointment(clinicSelected, dayOfWeek);
                                     setWeekSpinner(dayOfWeek);
                                 } catch (ParseException e) {
@@ -491,7 +491,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
                             weekSpinner.setVisibility(View.VISIBLE);
                             weekSpinner.setSelection(0);
                             try {
-                                dayOfWeek = dfDayShort.parse(daySpinner.getSelectedItem().toString());
+                                dayOfWeek = Constants.DF_DAY_SHORT.parse(daySpinner.getSelectedItem().toString());
                                 getAppointment(clinicSelected, dayOfWeek);
                                 setWeekSpinner(dayOfWeek);
                             } catch (ParseException e) {

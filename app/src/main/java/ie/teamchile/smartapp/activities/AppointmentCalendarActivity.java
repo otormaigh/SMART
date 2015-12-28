@@ -89,15 +89,15 @@ public class AppointmentCalendarActivity extends BaseActivity {
         clinicClosing = realm.where(Clinic.class).equalTo(Constants.REALM_ID, clinicSelected).findFirst().getClosingTime();
         appointmentInterval = realm.where(Clinic.class).equalTo(Constants.REALM_ID, clinicSelected).findFirst().getAppointmentInterval();
         try {
-            openingAsDate = dfTimeOnly.parse(String.valueOf(clinicOpening));
-            closingAsDate = dfTimeOnly.parse(String.valueOf(clinicClosing));
+            openingAsDate = Constants.DF_TIME_ONLY.parse(String.valueOf(clinicOpening));
+            closingAsDate = Constants.DF_TIME_ONLY.parse(String.valueOf(clinicClosing));
         } catch (ParseException e) {
             Timber.e(Log.getStackTraceString(e));
         }
 
         myCalendar.setTime(closingAsDate);
         myCalendar.add(Calendar.MINUTE, (-appointmentInterval));
-        closingMinusInterval = dfTimeOnly.format(myCalendar.getTime());
+        closingMinusInterval = Constants.DF_TIME_ONLY.format(myCalendar.getTime());
 
         c.setTime(daySelected);
         dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
@@ -170,9 +170,9 @@ public class AppointmentCalendarActivity extends BaseActivity {
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                        dfDateOnly.format(myCalendar.getTime());
+                Constants.DF_DATE_ONLY.format(myCalendar.getTime());
                 if (myCalendar.get(Calendar.DAY_OF_WEEK) == dayOfWeek) {
-                    dateInList.setText(dfDateWMonthName.format(myCalendar.getTime()));
+                    dateInList.setText(Constants.DF_DATE_W_MONTH_NAME.format(myCalendar.getTime()));
                     newSetToList(myCalendar.getTime());
                 } else {
                     pd = new CustomDialogs().showProgressDialog(AppointmentCalendarActivity.this,
@@ -205,13 +205,13 @@ public class AppointmentCalendarActivity extends BaseActivity {
         Date apptTime = openingAsDate;
         daySelected = dateSelected;
 
-        dateSelectedStr = dfDateOnly.format(dateSelected);
-        dateInList.setText(dfDateWMonthName.format(dateSelected));
+        dateSelectedStr = Constants.DF_DATE_ONLY.format(dateSelected);
+        dateInList.setText(Constants.DF_DATE_W_MONTH_NAME.format(dateSelected));
         nameOfClinic = realm.where(Clinic.class).equalTo(Constants.REALM_ID, clinicSelected).findFirst().getName();
         setActionBarTitle(nameOfClinic);
 
         while (!closingAsDate.before(apptTime)) {
-            timeList.add(dfTimeOnly.format(apptTime));
+            timeList.add(Constants.DF_DATE_ONLY.format(apptTime));
             idList.add(0);
             c.setTime(apptTime);
             c.add(Calendar.MINUTE, appointmentInterval);
@@ -227,7 +227,7 @@ public class AppointmentCalendarActivity extends BaseActivity {
             for (Appointment appointment : appointmentList) {
                 String timeOfAppt = "";
                 try {
-                    timeOfAppt = dfTimeOnly.format(dfTimeWSec.parse(appointment.getTime()));
+                    timeOfAppt = Constants.DF_DATE_ONLY.format(Constants.DF_TIME_W_SEC.parse(appointment.getTime()));
                 } catch (ParseException e) {
                     Timber.e(Log.getStackTraceString(e));
                 }

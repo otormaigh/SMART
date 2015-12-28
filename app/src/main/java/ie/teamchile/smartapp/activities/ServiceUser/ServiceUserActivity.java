@@ -164,7 +164,7 @@ public class ServiceUserActivity extends BaseActivity implements ServiceUserView
 
         for (int i = 0; i < antiDHistoryList.size(); i++) {
             historyList.add(antiDHistoryList.get(i).getAntiD());
-            dateTimeList.add(dfHumanReadableTimeDate.format(antiDHistoryList.get(i).getCreatedAt()));
+            dateTimeList.add(Constants.DF_HUMAN_READABLE_TIME_DATE.format(antiDHistoryList.get(i).getCreatedAt()));
             providerNameList.add(antiDHistoryList.get(i).getServiceProviderName());
         }
     }
@@ -179,7 +179,7 @@ public class ServiceUserActivity extends BaseActivity implements ServiceUserView
 
         for (int i = 0; i < feedingHistoryList.size(); i++) {
             historyList.add(feedingHistoryList.get(i).getFeeding());
-            dateTimeList.add(dfHumanReadableTimeDate.format(feedingHistoryList.get(i).getCreatedAt()));
+            dateTimeList.add(Constants.DF_HUMAN_READABLE_TIME_DATE.format(feedingHistoryList.get(i).getCreatedAt()));
             providerNameList.add(feedingHistoryList.get(i).getServiceProviderName());
         }
     }
@@ -194,7 +194,7 @@ public class ServiceUserActivity extends BaseActivity implements ServiceUserView
 
         for (int i = 0; i < vitKHistoryList.size(); i++) {
             historyList.add(vitKHistoryList.get(i).getVitK());
-            dateTimeList.add(dfHumanReadableTimeDate.format(vitKHistoryList.get(i).getCreatedAt()));
+            dateTimeList.add(Constants.DF_HUMAN_READABLE_TIME_DATE.format(vitKHistoryList.get(i).getCreatedAt()));
             providerNameList.add(vitKHistoryList.get(i).getServiceProviderName());
         }
     }
@@ -209,7 +209,7 @@ public class ServiceUserActivity extends BaseActivity implements ServiceUserView
 
         for (int i = 0; i < hearingHistoryList.size(); i++) {
             historyList.add(hearingHistoryList.get(i).getHearing());
-            dateTimeList.add(dfHumanReadableTimeDate.format(hearingHistoryList.get(i).getCreatedAt()));
+            dateTimeList.add(Constants.DF_HUMAN_READABLE_TIME_DATE.format(hearingHistoryList.get(i).getCreatedAt()));
             providerNameList.add(hearingHistoryList.get(i).getServiceProviderName());
         }
     }
@@ -224,7 +224,7 @@ public class ServiceUserActivity extends BaseActivity implements ServiceUserView
 
         for (int i = 0; i < nbstHistoryList.size(); i++) {
             historyList.add(nbstHistoryList.get(i).getNbst());
-            dateTimeList.add(dfHumanReadableTimeDate.format(nbstHistoryList.get(i).getCreatedAt()));
+            dateTimeList.add(Constants.DF_HUMAN_READABLE_TIME_DATE.format(nbstHistoryList.get(i).getCreatedAt()));
             providerNameList.add(nbstHistoryList.get(i).getServiceProviderName());
         }
     }
@@ -316,7 +316,7 @@ public class ServiceUserActivity extends BaseActivity implements ServiceUserView
 
     private String getAge(String dob) {
         try {
-            Date dobAsDate = dfDateOnly.parse(dob);
+            Date dobAsDate = Constants.DF_DATE_ONLY.parse(dob);
             cal.setTime(dobAsDate);
         } catch (ParseException | NullPointerException e) {
             Timber.e(Log.getStackTraceString(e));

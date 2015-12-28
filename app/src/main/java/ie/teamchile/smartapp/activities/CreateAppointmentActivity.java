@@ -49,7 +49,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import timber.log.Timber;
 
-public class CreateAppointmentActivity extends BaseActivity implements OnClickListener, OnItemSelectedListener, OnItemClickListener {
+public class CreateAppointmentActivity extends BaseActivity implements OnClickListener, OnItemSelectedListener {
     private ArrayAdapter<String> visitPriorityAdapter, returnTypeAdapter;
     private String userName, apptDate, time, priority, visitType, clinicName,
             hospitalNumber, email, sms, address;
@@ -301,7 +301,7 @@ public class CreateAppointmentActivity extends BaseActivity implements OnClickLi
         View convertView = inflater.inflate(R.layout.dialog_list_only, null);
         ListView list = (ListView) convertView.findViewById(R.id.lv_dialog);
 
-        list.setOnItemClickListener(this);
+        list.setOnItemClickListener(new OnItemClick());
 
         TextView tvDialogTitle = (TextView) convertView.findViewById(R.id.tv_dialog_title);
         ImageView ivExit = (ImageView) convertView.findViewById(R.id.iv_exit_dialog);
@@ -329,7 +329,7 @@ public class CreateAppointmentActivity extends BaseActivity implements OnClickLi
 
     private void makeAlertDialog() {
         String dateWords = Constants.DF_DATE_MONTH_NAME_YEAR.format(daySelected);
-        String dateDay = dfDayShort.format(daySelected);
+        String dateDay = Constants.DF_DAY_SHORT.format(daySelected);
 
         LayoutInflater inflater = getLayoutInflater();
         alertDialog = new AlertDialog.Builder(CreateAppointmentActivity.this);
@@ -443,7 +443,7 @@ public class CreateAppointmentActivity extends BaseActivity implements OnClickLi
                             }
                         } else {
                             c = Calendar.getInstance();
-                            String time = dfTimeWSec.format(c.getTime());
+                            String time = Constants.DF_TIME_W_SEC.format(c.getTime());
                             String prefsTag = String.format(Constants.FORMAT_PREFS_APPT_POST, time);
                             SharedPrefs prefsUstil = new SharedPrefs();
                             prefsUstil.setJsonPrefs(getApplicationContext(), appointment, prefsTag);
@@ -513,7 +513,7 @@ public class CreateAppointmentActivity extends BaseActivity implements OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_confirm_appointment:
-                apptDate = dfDateOnly.format(myCalendar.getTime());
+                apptDate = Constants.DF_DATE_ONLY.format(myCalendar.getTime());
                 passOptions.setDaySelected(myCalendar.getTime());
 
                 switch (priority) {
@@ -585,26 +585,28 @@ public class CreateAppointmentActivity extends BaseActivity implements OnClickLi
     public void onNothingSelected(AdapterView<?> arg0) {
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        switch (parent.getId()) {
-            case R.id.lv_dialog:
-                hideKeyboard();
-                ServiceUser serviceUser = serviceUserList.get(position);
-                realm.beginTransaction();
-                realm.copyToRealmOrUpdate(serviceUser);
-                realm.commitTransaction();
-                userName = serviceUser.getPersonalFields().getName();
-                hospitalNumber = serviceUser.getHospitalNumber();
-                email = serviceUser.getPersonalFields().getEmail();
-                sms = serviceUser.getPersonalFields().getMobilePhone();
-                address = serviceUser.getPersonalFields().getHomeAddress();
+    private class OnItemClick implements OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            switch (parent.getId()) {
+                case R.id.lv_dialog:
+                    hideKeyboard();
+                    ServiceUser serviceUser = serviceUserList.get(position);
+                    realm.beginTransaction();
+                    realm.copyToRealmOrUpdate(serviceUser);
+                    realm.commitTransaction();
+                    userName = serviceUser.getPersonalFields().getName();
+                    hospitalNumber = serviceUser.getHospitalNumber();
+                    email = serviceUser.getPersonalFields().getEmail();
+                    sms = serviceUser.getPersonalFields().getMobilePhone();
+                    address = serviceUser.getPersonalFields().getHomeAddress();
 
-                etUserName.setText(userName);
-                userID = serviceUser.getId();
-                postOrAnte();
-                ad.cancel();
-                break;
+                    etUserName.setText(userName);
+                    userID = serviceUser.getId();
+                    postOrAnte();
+                    ad.cancel();
+                    break;
+            }
         }
     }
 }

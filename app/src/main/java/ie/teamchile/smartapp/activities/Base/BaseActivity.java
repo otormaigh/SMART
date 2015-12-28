@@ -34,11 +34,8 @@ import android.widget.Toast;
 import java.lang.ref.WeakReference;
 import java.net.ConnectException;
 import java.net.UnknownHostException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 import javax.net.ssl.SSLHandshakeException;
 
@@ -51,6 +48,7 @@ import ie.teamchile.smartapp.activities.ServiceUserSearch.ServiceUserSearchActiv
 import ie.teamchile.smartapp.model.Baby;
 import ie.teamchile.smartapp.model.Login;
 import ie.teamchile.smartapp.model.Pregnancy;
+import ie.teamchile.smartapp.util.Constants;
 import ie.teamchile.smartapp.util.CustomDialogs;
 import ie.teamchile.smartapp.util.ToastAlert;
 import io.realm.Realm;
@@ -59,12 +57,6 @@ import timber.log.Timber;
 
 public class BaseActivity extends AppCompatActivity implements BaseView, OnItemClickListener {
     protected static CountDownTimer timer;
-    protected DateFormat dfDateOnly = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-    protected DateFormat dfTimeOnly = new SimpleDateFormat("HH:mm", Locale.getDefault());
-    protected DateFormat dfTimeWSec = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
-    protected DateFormat dfDateWMonthName = new SimpleDateFormat("dd MMM", Locale.getDefault());
-    protected DateFormat dfDayShort = new SimpleDateFormat("E", Locale.getDefault());
-    protected DateFormat dfHumanReadableTimeDate = new SimpleDateFormat("HH:mm, dd/MM/yyyy", Locale.getDefault());
     protected DrawerLayout drawerLayout;
     protected ListView drawerList;
     protected ActionBarDrawerToggle drawerToggle;
@@ -156,7 +148,7 @@ public class BaseActivity extends AppCompatActivity implements BaseView, OnItemC
     }
 
     protected void checkRetroError(RetrofitError error, Context context) {
-        String time = dfTimeWSec.format(Calendar.getInstance().getTime());
+        String time = Constants.DF_TIME_W_SEC.format(Calendar.getInstance().getTime());
         try {
             throw (error.getCause());
         } catch (UnknownHostException e) {

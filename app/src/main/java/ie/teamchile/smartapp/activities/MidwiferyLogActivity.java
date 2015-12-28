@@ -136,7 +136,7 @@ public class MidwiferyLogActivity extends BaseActivity implements OnClickListene
         for (int i = size - 1; i >= 0; i--) {
             PregnancyNote theNote = realm.where(PregnancyNote.class).findAll().get(i);
             try {
-                dateList.add(Constants.DF_HUMAN_READABLE_DATE.format(dfDateOnly.parse(theNote.getCreatedAt())));
+                dateList.add(Constants.DF_HUMAN_READABLE_DATE.format(Constants.DF_DATE_ONLY.parse(theNote.getCreatedAt())));
             } catch (ParseException e) {
                 Timber.e(Log.getStackTraceString(e));
             }

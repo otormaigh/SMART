@@ -139,7 +139,7 @@ public class HomeVisitAppointmentActivity extends BaseActivity {
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                dateInList.setText(dfDateWMonthName.format(myCalendar.getTime()));
+                dateInList.setText(Constants.DF_DATE_W_MONTH_NAME.format(myCalendar.getTime()));
                 newSetToList(myCalendar.getTime());
             }
         };
@@ -158,8 +158,8 @@ public class HomeVisitAppointmentActivity extends BaseActivity {
 
         daySelected = dateSelected;
 
-        dateSelectedStr = dfDateOnly.format(dateSelected);
-        dateInList.setText(dfDateWMonthName.format(dateSelected));
+        dateSelectedStr = Constants.DF_DATE_ONLY.format(dateSelected);
+        dateInList.setText(Constants.DF_DATE_W_MONTH_NAME.format(dateSelected));
         nameOfClinic = realm.where(ServiceOption.class).equalTo(Constants.REALM_ID, visitOptionSelected).findFirst().getName();
         setActionBarTitle(nameOfClinic);
 
