@@ -304,4 +304,6 @@
     <!-- ACTIVITY TITLES -->
     <string name="title.clinic_time_records">Start/Stop Clinics</string>
 
+    <string name="mvp_unsupported_operation_exception">This method is not supported in this class</string>
+
 </resources>

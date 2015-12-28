@@ -65,13 +65,16 @@ public class AboutActivity extends AppCompatActivity implements AboutView {
 
     @Override
     public void setContentForNav(int layout) {
+        throw new UnsupportedOperationException(getString(R.string.mvp_unsupported_operation_exception));
     }
 
     @Override
     public void setActionBarTitle(String title) {
+        throw new UnsupportedOperationException(getString(R.string.mvp_unsupported_operation_exception));
     }
 
     @Override
     public void createNavDrawer() {
+        throw new UnsupportedOperationException(getString(R.string.mvp_unsupported_operation_exception));
     }
 }
