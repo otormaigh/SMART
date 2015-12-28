@@ -363,7 +363,7 @@ public class ServiceUserActivity extends BaseActivity implements ServiceUserView
 
     private void setSharedPrefs() {
         SharedPreferences.Editor prefs = getSharedPreferences(getString(R.string.app_name), MODE_PRIVATE).edit();
-        if (babyID.get(p).equals("[]")) {
+        if (babyID.get(getRecentPregnancy(realm.where(Pregnancy.class).findAll())).equals("[]")) {
             prefs.putString("visit_type_str", "Antenatal");
             prefs.putString("visit_type", "ante-natal");
         } else {

@@ -30,6 +30,7 @@ import ie.teamchile.smartapp.activities.Base.BaseActivity;
 import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.BaseModel;
 import ie.teamchile.smartapp.model.PostingData;
+import ie.teamchile.smartapp.model.Pregnancy;
 import ie.teamchile.smartapp.model.PregnancyNote;
 import ie.teamchile.smartapp.model.ServiceUser;
 import ie.teamchile.smartapp.util.Constants;
@@ -87,7 +88,8 @@ public class MidwiferyLogActivity extends BaseActivity implements OnClickListene
 
     private void getMidwiferyNotes() {
         SmartApiClient.getAuthorizedApiClient(this).getPregnancyNotes(
-                realm.where(ServiceUser.class).findFirst().getPregnancyIds().get(p).getValue(),
+                realm.where(ServiceUser.class).findFirst().getPregnancyIds().get(
+                        getRecentPregnancy(realm.where(Pregnancy.class).findAll())).getValue(),
                 new Callback<BaseModel>() {
                     @Override
                     public void success(BaseModel baseModel, Response response) {

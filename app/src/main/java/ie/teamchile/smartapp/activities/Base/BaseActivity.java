@@ -76,9 +76,6 @@ public class BaseActivity extends AppCompatActivity implements BaseView {
     protected DrawerLayout drawerLayout;
     protected ListView drawerList;
     protected ActionBarDrawerToggle drawerToggle;
-    protected int p = 0;
-    protected int b = 0;
-    protected int bId = 0;
     protected int spinnerWarning;
     protected int done = 0;
     protected int thingALing = 0;
