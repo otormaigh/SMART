@@ -55,7 +55,7 @@ import io.realm.Realm;
 import retrofit.RetrofitError;
 import timber.log.Timber;
 
-public class BaseActivity extends AppCompatActivity implements BaseView, OnItemClickListener {
+public class BaseActivity extends AppCompatActivity implements BaseView {
     protected static CountDownTimer timer;
     protected DrawerLayout drawerLayout;
     protected ListView drawerList;
@@ -212,7 +212,7 @@ public class BaseActivity extends AppCompatActivity implements BaseView, OnItemC
         drawerList = (ListView) findViewById(R.id.lv_nav_drawer);
         drawerList.setAdapter(new ArrayAdapter<>(this,
                 R.layout.drawer_item_layout, drawerItems));
-        drawerList.setOnItemClickListener(this);
+        drawerList.setOnItemClickListener(new OnItemClick());
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
                 R.string.drawer_open, R.string.drawer_close);
         drawerLayout.setDrawerListener(drawerToggle);
@@ -345,6 +345,7 @@ public class BaseActivity extends AppCompatActivity implements BaseView, OnItemC
         }
     }
 
+    private class OnItemClick implements OnItemClickListener {
         @Override
         public void onItemClick(AdapterView parent, View view, final int position, long id) {
             drawerLayout.closeDrawers();
@@ -355,4 +356,5 @@ public class BaseActivity extends AppCompatActivity implements BaseView, OnItemC
                 }
             }, 210);
         }
+    }
 }

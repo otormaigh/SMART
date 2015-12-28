@@ -28,16 +28,6 @@ android {
             buildConfigField "retrofit.RestAdapter.LogLevel", "RETROFIT_LOG_LEVEL", "retrofit.RestAdapter.LogLevel.FULL"
         }
     }
-
-    productFlavors {
-        v21 {
-            minSdkVersion 22
-        }
-
-        production {
-            minSdkVersion 16
-        }
-    }
 }
 
 dependencies {
