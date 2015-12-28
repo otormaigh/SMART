@@ -39,8 +39,10 @@ public class BasePresenterImp implements  BasePresenter {
     private BaseModel baseModel;
     private NotificationManager notificationManager;
 
-    public BasePresenterImp(Activity activity, Realm realm) {
-        weakActivity = new WeakReference<>(activity);
+    public BasePresenterImp(){}
+
+    public BasePresenterImp(WeakReference<Activity> weakActivity, Realm realm) {
+        this.weakActivity = weakActivity;
         baseModel = new BaseModelImp(realm);
     }
 

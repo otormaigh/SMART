@@ -1,5 +1,6 @@
 package ie.teamchile.smartapp.activities.Login;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +15,8 @@ import android.widget.Toast;
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.Tracking;
 import net.hockeyapp.android.UpdateManager;
+
+import java.lang.ref.WeakReference;
 
 import ie.teamchile.smartapp.BuildConfig;
 import ie.teamchile.smartapp.R;
@@ -38,7 +41,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView, OnCli
 
         realm = Realm.getInstance(getApplicationContext());
 
-        loginPresenter = new LoginPresenterImp(this, realm, LoginActivity.this);
+        loginPresenter = new LoginPresenterImp(this, realm, new WeakReference<Activity>(LoginActivity.this));
 
         initViews();
 
@@ -115,6 +118,18 @@ public class LoginActivity extends AppCompatActivity implements LoginView, OnCli
         findViewById(R.id.tv_about).setOnClickListener(this);
         tvUsername = (TextView) findViewById(R.id.et_username);
         tvPassword = (TextView) findViewById(R.id.et_password);
+    }
+
+    @Override
+    public void setContentForNav(int layout) {
+    }
+
+    @Override
+    public void setActionBarTitle(String title) {
+    }
+
+    @Override
+    public void createNavDrawer() {
     }
 
     @Override

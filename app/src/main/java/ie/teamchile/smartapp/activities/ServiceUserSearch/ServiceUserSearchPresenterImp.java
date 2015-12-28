@@ -30,9 +30,9 @@ public class ServiceUserSearchPresenterImp extends BasePresenterImp implements S
     private Realm realm;
     private ServiceUserSearchModel serviceUserSearchModel;
 
-    public ServiceUserSearchPresenterImp(ServiceUserSearchView serviceUserSearchView, Activity activity, Realm realm) {
+    public ServiceUserSearchPresenterImp(ServiceUserSearchView serviceUserSearchView, WeakReference<Activity> weakActivity, Realm realm) {
         this.serviceUserSearchView = serviceUserSearchView;
-        weakActivity = new WeakReference<>(activity);
+        this.weakActivity = weakActivity;
         this.realm = realm;
         serviceUserSearchModel = new ServiceUserSearchModelImp(realm);
     }

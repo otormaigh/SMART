@@ -15,9 +15,9 @@ public class SplashScreenPresenterImp implements SplashScreenPresenter {
     private SplashScreenModel splashScreenModel;
     private WeakReference<Activity> weakActivity;
 
-    public SplashScreenPresenterImp(SplashScreenView splashScreenView, Activity activity) {
+    public SplashScreenPresenterImp(SplashScreenView splashScreenView, WeakReference<Activity> weakActivity) {
         this.splashScreenView = splashScreenView;
-        weakActivity = new WeakReference<>(activity);
+        this.weakActivity = weakActivity;
         splashScreenModel = new SplashScreenModelImp(weakActivity);
     }
 

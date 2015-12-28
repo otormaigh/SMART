@@ -1,5 +1,6 @@
 package ie.teamchile.smartapp.activities.ServiceUser;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -27,6 +28,7 @@ import android.widget.Toast;
 import com.daimajia.swipe.SwipeLayout;
 
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -121,7 +123,7 @@ public class ServiceUserActivity extends BaseActivity implements ServiceUserView
 
         initViews();
 
-        serviceUserPresenter = new ServiceUserPresenterImp(this, ServiceUserActivity.this, realm);
+        serviceUserPresenter = new ServiceUserPresenterImp(this, new WeakReference<Activity>(ServiceUserActivity.this), realm);
 
         antiDHistoryList.addAll(realm.where(AntiDHistory.class).findAll());
 

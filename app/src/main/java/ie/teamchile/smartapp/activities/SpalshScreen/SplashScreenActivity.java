@@ -1,11 +1,14 @@
 package ie.teamchile.smartapp.activities.SpalshScreen;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+
+import java.lang.ref.WeakReference;
 
 import ie.teamchile.smartapp.BuildConfig;
 import ie.teamchile.smartapp.R;
@@ -29,7 +32,7 @@ public class SplashScreenActivity extends AppCompatActivity implements SplashScr
         disableScreenshot();
         setContentView(R.layout.activity_splash_screen);
 
-        SplashScreenPresenter splashScreenPresenter = new SplashScreenPresenterImp(this, SplashScreenActivity.this);
+        SplashScreenPresenter splashScreenPresenter = new SplashScreenPresenterImp(this, new WeakReference<Activity>(SplashScreenActivity.this));
 
         initViews();
 
@@ -59,6 +62,18 @@ public class SplashScreenActivity extends AppCompatActivity implements SplashScr
     public void initViews() {
         findViewById(R.id.btn_yes).setOnClickListener(this);
         findViewById(R.id.btn_no).setOnClickListener(this);
+    }
+
+    @Override
+    public void setContentForNav(int layout) {
+    }
+
+    @Override
+    public void setActionBarTitle(String title) {
+    }
+
+    @Override
+    public void createNavDrawer() {
     }
 
     protected Realm getRealm() {

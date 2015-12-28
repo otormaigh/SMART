@@ -35,9 +35,9 @@ public class QuickMenuPresenterImp extends BasePresenterImp implements QuickMenu
     private CountDownTimer timer;
     private int done;
 
-    public QuickMenuPresenterImp(QuickMenuView quickMenuView, Activity activity, Realm realm) {
+    public QuickMenuPresenterImp(QuickMenuView quickMenuView, WeakReference<Activity> weakActivity, Realm realm) {
         this.quickMenuView = quickMenuView;
-        weakActivity = new WeakReference<>(activity);
+        this.weakActivity = weakActivity;
         this.realm = realm;
         quickMenuModel = new QuickMenuModelImp(realm);
     }

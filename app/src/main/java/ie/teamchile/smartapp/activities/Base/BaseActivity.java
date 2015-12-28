@@ -1,5 +1,6 @@
 package ie.teamchile.smartapp.activities.Base;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
@@ -29,6 +30,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.ref.WeakReference;
 import java.net.ConnectException;
 import java.net.UnknownHostException;
 import java.text.DateFormat;
@@ -81,7 +83,7 @@ public class BaseActivity extends AppCompatActivity implements BaseView {
 
         realm = Realm.getInstance(this);
 
-        basePresenter = new BasePresenterImp(BaseActivity.this, realm);
+        basePresenter = new BasePresenterImp(new WeakReference<Activity>(BaseActivity.this), realm);
 
         spinnerWarning = ContextCompat.getColor(getApplicationContext(), R.color.teal);
 

@@ -1,5 +1,6 @@
 package ie.teamchile.smartapp.activities.ServiceUserSearch;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,7 +49,7 @@ public class ServiceUserSearchActivity extends BaseActivity implements ServiceUs
 
         realm = Realm.getInstance(getApplicationContext());
 
-        serviceUserSearchPresenter = new ServiceUserSearchPresenterImp(this, ServiceUserSearchActivity.this, realm);
+        serviceUserSearchPresenter = new ServiceUserSearchPresenterImp(this, new WeakReference<Activity>(ServiceUserSearchActivity.this), realm);
 
         initViews();
 

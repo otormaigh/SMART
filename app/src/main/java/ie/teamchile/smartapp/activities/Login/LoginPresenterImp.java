@@ -29,9 +29,9 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
     private WeakReference<Activity> weakActivity;
     private SharedPrefs prefsUtil;
 
-    public LoginPresenterImp(LoginView loginView, Realm realm, Activity activity) {
+    public LoginPresenterImp(LoginView loginView, Realm realm, WeakReference<Activity> weakActivity) {
         this.loginView = loginView;
-        weakActivity = new WeakReference<>(activity);
+        this.weakActivity = weakActivity;
         loginModel = new LoginModelImp(this, realm, weakActivity);
         prefsUtil = new SharedPrefs();
     }

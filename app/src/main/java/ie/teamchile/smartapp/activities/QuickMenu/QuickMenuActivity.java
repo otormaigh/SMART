@@ -1,10 +1,13 @@
 package ie.teamchile.smartapp.activities.QuickMenu;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+
+import java.lang.ref.WeakReference;
 
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.activities.AppointmentTypeSpinnerActivity;
@@ -30,7 +33,7 @@ public class QuickMenuActivity extends BaseActivity implements QuickMenuView, On
 
         realm = Realm.getInstance(getApplicationContext());
 
-        quickMenuPresenter = new QuickMenuPresenterImp(this, QuickMenuActivity.this, realm);
+        quickMenuPresenter = new QuickMenuPresenterImp(this, new WeakReference<Activity>(QuickMenuActivity.this), realm);
 
         initViews();
     }
