@@ -10,7 +10,7 @@ import android.view.WindowManager;
 import ie.teamchile.smartapp.BuildConfig;
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.activities.Login.LoginActivity;
-import ie.teamchile.smartapp.activities.QuickMenuActivity;
+import ie.teamchile.smartapp.activities.QuickMenu.QuickMenuActivity;
 import ie.teamchile.smartapp.model.Login;
 import ie.teamchile.smartapp.util.ClearData;
 import io.realm.Realm;

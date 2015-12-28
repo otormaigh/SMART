@@ -36,7 +36,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.QuickMenuActivity"
+            android:name=".activities.QuickMenu.QuickMenuActivity"
             android:launchMode="singleTask"
             android:screenOrientation="sensorPortrait"/>
         <activity

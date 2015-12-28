@@ -48,7 +48,7 @@ import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.activities.AppointmentTypeSpinnerActivity;
 import ie.teamchile.smartapp.activities.ClinicTimeRecordActivity;
 import ie.teamchile.smartapp.activities.Login.LoginActivity;
-import ie.teamchile.smartapp.activities.QuickMenuActivity;
+import ie.teamchile.smartapp.activities.QuickMenu.QuickMenuActivity;
 import ie.teamchile.smartapp.activities.ServiceUserSearch.ServiceUserSearchActivity;
 import ie.teamchile.smartapp.activities.SpalshScreen.SplashScreenActivity;
 import ie.teamchile.smartapp.api.SmartApiClient;
@@ -91,7 +91,6 @@ public class BaseActivity extends AppCompatActivity implements BaseView {
     protected int bId = 0;
     protected int spinnerWarning;
     protected int done = 0;
-    protected boolean showDialog;
     protected int thingALing = 0;
     protected LogoutService logServ;
     protected NotificationManager notificationManager;

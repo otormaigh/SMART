@@ -18,7 +18,7 @@ import net.hockeyapp.android.UpdateManager;
 import ie.teamchile.smartapp.BuildConfig;
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.activities.About.AboutActivity;
-import ie.teamchile.smartapp.activities.QuickMenuActivity;
+import ie.teamchile.smartapp.activities.QuickMenu.QuickMenuActivity;
 import ie.teamchile.smartapp.util.CustomDialogs;
 import ie.teamchile.smartapp.util.NotKeys;
 import io.realm.Realm;
