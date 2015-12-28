@@ -25,6 +25,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -56,7 +57,7 @@ import io.realm.Realm;
 import retrofit.RetrofitError;
 import timber.log.Timber;
 
-public class BaseActivity extends AppCompatActivity implements BaseView {
+public class BaseActivity extends AppCompatActivity implements BaseView, OnItemClickListener {
     protected static CountDownTimer timer;
     protected DateFormat dfDateOnly = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     protected DateFormat dfTimeOnly = new SimpleDateFormat("HH:mm", Locale.getDefault());
@@ -219,7 +220,7 @@ public class BaseActivity extends AppCompatActivity implements BaseView {
         drawerList = (ListView) findViewById(R.id.lv_nav_drawer);
         drawerList.setAdapter(new ArrayAdapter<>(this,
                 R.layout.drawer_item_layout, drawerItems));
-        drawerList.setOnItemClickListener(new DrawerItemClickListener());
+        drawerList.setOnItemClickListener(this);
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
                 R.string.drawer_open, R.string.drawer_close);
         drawerLayout.setDrawerListener(drawerToggle);
@@ -352,7 +353,6 @@ public class BaseActivity extends AppCompatActivity implements BaseView {
         }
     }
 
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView parent, View view, final int position, long id) {
             drawerLayout.closeDrawers();
@@ -363,5 +363,4 @@ public class BaseActivity extends AppCompatActivity implements BaseView {
                 }
             }, 210);
         }
-    }
 }
