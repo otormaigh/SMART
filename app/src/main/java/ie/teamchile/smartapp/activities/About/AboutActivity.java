@@ -62,4 +62,16 @@ public class AboutActivity extends AppCompatActivity implements AboutView {
         progressBar = (ProgressBar) findViewById(R.id.pb_webview);
         webView = (WebView) findViewById(R.id.wv_about);
     }
+
+    @Override
+    public void setContentForNav(int layout) {
+    }
+
+    @Override
+    public void setActionBarTitle(String title) {
+    }
+
+    @Override
+    public void createNavDrawer() {
+    }
 }
