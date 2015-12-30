@@ -2,6 +2,7 @@ package ie.teamchile.smartapp.activities.ServiceUser;
 
 import java.util.List;
 
+import ie.teamchile.smartapp.activities.Base.BaseModel;
 import ie.teamchile.smartapp.model.Baby;
 import ie.teamchile.smartapp.model.Pregnancy;
 import ie.teamchile.smartapp.model.PregnancyNote;
@@ -11,7 +12,7 @@ import ie.teamchile.smartapp.model.ServiceUser;
 /**
  * Created by elliot on 28/12/2015.
  */
-public interface ServiceUserModel {
+public interface ServiceUserModel extends BaseModel {
     ServiceProvider getServiceProvider();
 
     ServiceUser getServiceUser();

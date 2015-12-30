@@ -1,5 +1,6 @@
 package ie.teamchile.smartapp.activities.AppointmentCalendar;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -20,10 +21,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.daimajia.swipe.SwipeLayout;
 
+import java.lang.ref.WeakReference;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -34,18 +35,11 @@ import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.activities.Base.BaseActivity;
 import ie.teamchile.smartapp.activities.CreateAppointmentActivity;
 import ie.teamchile.smartapp.activities.ServiceUser.ServiceUserActivity;
-import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.Appointment;
-import ie.teamchile.smartapp.model.BaseResponseModel;
 import ie.teamchile.smartapp.model.Clinic;
-import ie.teamchile.smartapp.model.Login;
-import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.util.Constants;
 import ie.teamchile.smartapp.util.CustomDialogs;
 import io.realm.Realm;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 import timber.log.Timber;
 
 public class AppointmentCalendarActivity extends BaseActivity implements AppointmentCalendarView {
@@ -68,27 +62,26 @@ public class AppointmentCalendarActivity extends BaseActivity implements Appoint
     private ListView listView;
     private ProgressDialog pd;
     private Realm realm;
+    private AppointmentCalendarPresenter appointmentCalendarPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentForNav(R.layout.activity_appointment_calendar);
 
-        realm = Realm.getInstance(this);
+        initViews();
+
+        appointmentCalendarPresenter = new AppointmentCalendarPresenterImp(this, new WeakReference<Activity>(AppointmentCalendarActivity.this));
+
+        realm = appointmentCalendarPresenter.getEncryptedRealm();
 
         Timber.d("clinicSelected = " + clinicSelected);
-
-        dateInList = (Button) findViewById(R.id.btn_date);
-        listView = (ListView) findViewById(R.id.lv_appointment_list);
-        btnPrevWeek = (Button) findViewById(R.id.btn_prev);
-        btnPrevWeek.setOnClickListener(new ButtonClick());
-        btnNextWeek = (Button) findViewById(R.id.btn_next);
-        btnNextWeek.setOnClickListener(new ButtonClick());
 
         serviceOptionId = realm.where(Clinic.class).equalTo(Constants.REALM_ID, clinicSelected).findFirst().getServiceOptionIds().get(0).getValue();
         clinicOpening = realm.where(Clinic.class).equalTo(Constants.REALM_ID, clinicSelected).findFirst().getOpeningTime();
         clinicClosing = realm.where(Clinic.class).equalTo(Constants.REALM_ID, clinicSelected).findFirst().getClosingTime();
         appointmentInterval = realm.where(Clinic.class).equalTo(Constants.REALM_ID, clinicSelected).findFirst().getAppointmentInterval();
+
         try {
             openingAsDate = Constants.DF_TIME_ONLY.parse(String.valueOf(clinicOpening));
             closingAsDate = Constants.DF_TIME_ONLY.parse(String.valueOf(clinicClosing));
@@ -115,9 +108,6 @@ public class AppointmentCalendarActivity extends BaseActivity implements Appoint
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-        if (realm != null)
-            realm.close();
     }
 
     @Override
@@ -133,6 +123,17 @@ public class AppointmentCalendarActivity extends BaseActivity implements Appoint
         idList = new ArrayList<>();
         adapter.notifyDataSetChanged();
         newSetToList(daySelected);
+    }
+
+
+    @Override
+    public void initViews() {
+        dateInList = (Button) findViewById(R.id.btn_date);
+        listView = (ListView) findViewById(R.id.lv_appointment_list);
+        btnPrevWeek = (Button) findViewById(R.id.btn_prev);
+        btnPrevWeek.setOnClickListener(new ButtonClick());
+        btnNextWeek = (Button) findViewById(R.id.btn_next);
+        btnNextWeek.setOnClickListener(new ButtonClick());
     }
 
     public void pauseButton() {
@@ -232,73 +233,13 @@ public class AppointmentCalendarActivity extends BaseActivity implements Appoint
                 } catch (ParseException e) {
                     Timber.e(Log.getStackTraceString(e));
                 }
-                if(timeList.contains(timeOfAppt)){
+                if (timeList.contains(timeOfAppt)) {
                     idList.set(timeList.indexOf(timeOfAppt), appointment.getId());
                 }
             }
         }
 
         adapter.notifyDataSetChanged();
-    }
-
-    private void changeAttendStatus(Boolean status, int position) {
-        pd = new CustomDialogs().showProgressDialog(AppointmentCalendarActivity.this, "Changing Attended Status");
-
-        PostingData attendedStatus = new PostingData();
-        attendedStatus.putAppointmentStatus(
-                status,
-                clinicSelected,
-                realm.where(Login.class).findFirst().getId(),
-                realm.where(Appointment.class).equalTo(Constants.REALM_ID, idList.get(position)).findFirst().getServiceUserId());
-
-        SmartApiClient.getAuthorizedApiClient(this).putAppointmentStatus(
-                attendedStatus,
-                idList.get(position),
-                new Callback<BaseResponseModel>() {
-                    @Override
-                    public void success(BaseResponseModel baseResponseModel, Response response) {
-                        Toast.makeText(AppointmentCalendarActivity.this,
-                                "Status changed", Toast.LENGTH_LONG).show();
-
-                        realm.beginTransaction();
-                        realm.copyToRealmOrUpdate(baseResponseModel.getAppointment());
-                        realm.commitTransaction();
-
-                        pd.dismiss();
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Timber.d("retro error = " + error);
-                        pd.dismiss();
-                    }
-                }
-        );
-    }
-
-    private void searchServiceUser(int serviceUserId, final Intent intent) {
-        SmartApiClient.getAuthorizedApiClient(this).getServiceUserById(serviceUserId,
-                new Callback<BaseResponseModel>() {
-                    @Override
-                    public void success(BaseResponseModel baseResponseModel, Response response) {
-                        realm.beginTransaction();
-                        realm.copyToRealmOrUpdate(baseResponseModel.getServiceUsers());
-                        realm.copyToRealmOrUpdate(baseResponseModel.getBabies());
-                        realm.copyToRealmOrUpdate(baseResponseModel.getPregnancies());
-                        realm.commitTransaction();
-                        startActivity(intent);
-                        pd.dismiss();
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        pd.dismiss();
-                        Toast.makeText(
-                                AppointmentCalendarActivity.this,
-                                "Error Search Patient: " + error,
-                                Toast.LENGTH_LONG).show();
-                    }
-                });
     }
 
     public void setServiceOptionSelected(int serviceOptionSelected) {
@@ -319,6 +260,11 @@ public class AppointmentCalendarActivity extends BaseActivity implements Appoint
 
     public void setVisitOption(int visitOptionSelected) {
         AppointmentCalendarActivity.visitOptionSelected = visitOptionSelected;
+    }
+
+    @Override
+    public void gotoServiceUserActivity() {
+        startActivity(new Intent(AppointmentCalendarActivity.this, ServiceUserActivity.class));
     }
 
     private class ButtonClick implements View.OnClickListener {
@@ -416,10 +362,8 @@ public class AppointmentCalendarActivity extends BaseActivity implements Appoint
                     } else {
                         int serviceUserId = appointment.getServiceUserId();
                         Timber.d("db string: " + "service_users" + "/" + serviceUserId);
-                        pd = new CustomDialogs().showProgressDialog(AppointmentCalendarActivity.this,
-                                "Fetching Information");
-                        intent = new Intent(AppointmentCalendarActivity.this, ServiceUserActivity.class);
-                        searchServiceUser(serviceUserId, intent);
+
+                        appointmentCalendarPresenter.searchServiceUser(serviceUserId);
                     }
                     return true;
                 }
@@ -433,7 +377,9 @@ public class AppointmentCalendarActivity extends BaseActivity implements Appoint
                     realm.beginTransaction();
                     appointment.setAttended(!attended);
                     realm.commitTransaction();
-                    changeAttendStatus(!attended, position);
+                    appointmentCalendarPresenter.changeAttendStatus(!attended, position, clinicSelected,
+                            realm.where(Appointment.class).equalTo(Constants.REALM_ID, idList.get(position)).findFirst().getServiceUserId(),
+                            idList.get(position));
                     adapter.notifyDataSetChanged();
                 }
             });

@@ -13,9 +13,14 @@ import ie.teamchile.smartapp.model.VitKHistory;
  */
 public interface ServiceUserSearchModel {
     void saveVitKToRealm(List<VitKHistory> vitKHistories);
+
     void saveHearingToRealm(List<HearingHistory> hearingHistories);
+
     void saveNbstToRealm(List<NbstHistory> nbstHistories);
+
     void saveFeedingHistoriesToRealm(List<FeedingHistory> feedingHistories);
+
     void saveServiceUserToRealm(BaseResponseModel baseResponseModel);
+
     void deleteDataFromRealm();
 }

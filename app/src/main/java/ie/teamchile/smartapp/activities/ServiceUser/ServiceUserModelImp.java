@@ -3,6 +3,7 @@ package ie.teamchile.smartapp.activities.ServiceUser;
 import java.util.Calendar;
 import java.util.List;
 
+import ie.teamchile.smartapp.activities.Base.BaseModelImp;
 import ie.teamchile.smartapp.model.AntiDHistory;
 import ie.teamchile.smartapp.model.Baby;
 import ie.teamchile.smartapp.model.FeedingHistory;
@@ -19,7 +20,7 @@ import io.realm.Realm;
 /**
  * Created by elliot on 28/12/2015.
  */
-public class ServiceUserModelImp implements ServiceUserModel {
+public class ServiceUserModelImp extends BaseModelImp implements ServiceUserModel {
     private ServiceUserPresenter serviceUserPresenter;
     private Realm realm;
     private ServiceProvider serviceProvider;
@@ -28,6 +29,7 @@ public class ServiceUserModelImp implements ServiceUserModel {
     private Pregnancy pregnancy;
 
     public ServiceUserModelImp(ServiceUserPresenter serviceUserPresenter) {
+        super(serviceUserPresenter);
         this.serviceUserPresenter = serviceUserPresenter;
         realm = serviceUserPresenter.getEncryptedRealm();
     }
