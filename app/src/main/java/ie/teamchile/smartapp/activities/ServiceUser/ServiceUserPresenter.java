@@ -31,4 +31,6 @@ public interface ServiceUserPresenter extends BasePresenter {
     String getDeliveryDate(Date date);
 
     String getDeliveryTime(Date date);
+
+    String getNoOfDays(Date dateOfDelivery);
 }

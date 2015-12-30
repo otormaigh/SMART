@@ -9,5 +9,5 @@ import ie.teamchile.smartapp.model.ServiceUser;
  * Created by elliot on 28/12/2015.
  */
 public interface ServiceUserView extends BaseView {
-    void updateTextViews(ServiceUser serviceUser, Baby baby, Pregnancy pregnancy);
+    void updateTextViews(ServiceUserPresenter serviceUserPresenter, ServiceUser serviceUser, Baby baby, Pregnancy pregnancy);
 }

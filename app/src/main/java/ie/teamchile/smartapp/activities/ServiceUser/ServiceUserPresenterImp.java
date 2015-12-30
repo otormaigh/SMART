@@ -36,6 +36,7 @@ public class ServiceUserPresenterImp extends BasePresenterImp implements Service
     private ServiceUserModel serviceUserModel;
 
     public ServiceUserPresenterImp(ServiceUserView serviceUserView, WeakReference<Activity> weakActivity) {
+        super(weakActivity);
         this.serviceUserView = serviceUserView;
         this.weakActivity = weakActivity;
         realm = getEncryptedRealm();
@@ -46,6 +47,7 @@ public class ServiceUserPresenterImp extends BasePresenterImp implements Service
 
     private void updateViews() {
         serviceUserView.updateTextViews(
+                this,
                 serviceUserModel.getServiceUser(),
                 serviceUserModel.getBaby(),
                 serviceUserModel.getPregnancy()
@@ -345,7 +347,7 @@ public class ServiceUserPresenterImp extends BasePresenterImp implements Service
             return Constants.DF_MONTH_FULL_NAME.format(date);
         } catch (NullPointerException e) {
             Timber.e(Log.getStackTraceString(e));
-            return null;
+            return "";
         }
     }
 
@@ -355,7 +357,7 @@ public class ServiceUserPresenterImp extends BasePresenterImp implements Service
             return Constants.DF_MONTH_FULL_NAME.format(date);
         } catch (NullPointerException e) {
             Timber.e(Log.getStackTraceString(e));
-            return null;
+            return "";
         }
     }
 
@@ -363,6 +365,19 @@ public class ServiceUserPresenterImp extends BasePresenterImp implements Service
     public String getDeliveryTime(Date date) {
         try {
             return Constants.DF_AM_PM.format(date);
+        } catch (NullPointerException e) {
+            Timber.e(Log.getStackTraceString(e));
+            return "";
+        }
+    }
+
+    @Override
+    public String getNoOfDays(Date dateOfDelivery) {
+        try {
+            Date now = Calendar.getInstance().getTime();
+            int numOfDays = (int) ((now.getTime() - dateOfDelivery.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+
+            return String.valueOf(numOfDays);
         } catch (NullPointerException e) {
             Timber.e(Log.getStackTraceString(e));
             return null;

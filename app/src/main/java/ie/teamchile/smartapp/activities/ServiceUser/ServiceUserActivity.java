@@ -339,13 +339,6 @@ public class ServiceUserActivity extends BaseActivity implements ServiceUserView
         return String.valueOf(result);
     }
 
-    private String getNoOfDays(Date dateOfDelivery) {
-        Date now = Calendar.getInstance().getTime();
-        int numOfDays = (int) ((now.getTime() - dateOfDelivery.getTime()) / (1000 * 60 * 60 * 24)) + 1;
-
-        return String.valueOf(numOfDays);
-    }
-
     private String getGramsToKg(int grams) {
         return String.valueOf(grams / 1000.0);
     }
@@ -603,7 +596,7 @@ public class ServiceUserActivity extends BaseActivity implements ServiceUserView
     }
 
     @Override
-    public void updateTextViews(ServiceUser serviceUser, Baby baby, Pregnancy pregnancy) {
+    public void updateTextViews(ServiceUserPresenter serviceUserPresenter, ServiceUser serviceUser, Baby baby, Pregnancy pregnancy) {
         String bloodGroup = "";
         String birthMode = "";
 
@@ -759,7 +752,7 @@ public class ServiceUserActivity extends BaseActivity implements ServiceUserView
         tvPostBirthWeight.setText(babyWeightKg);
         tvAnteLastPeriod.setText(lastPeriodDate);
         tvPostBabyGender.setText(babyGender);
-        tvPostDaysSinceBirth.setText(getNoOfDays(baby.getDeliveryDateTime()));
+        tvPostDaysSinceBirth.setText(serviceUserPresenter.getNoOfDays(deliveryDateTime));
     }
 
     private class ActionsBaseAdapter extends BaseAdapter {
