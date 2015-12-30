@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Locale;
 
 import ie.teamchile.smartapp.R;
+import ie.teamchile.smartapp.activities.AppointmentCalendar.AppointmentCalendarActivity;
 import ie.teamchile.smartapp.activities.Base.BaseActivity;
 import ie.teamchile.smartapp.model.Clinic;
 import ie.teamchile.smartapp.model.RealmInteger;

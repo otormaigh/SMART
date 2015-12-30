@@ -40,7 +40,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="sensorPortrait"/>
         <activity
-            android:name=".activities.AppointmentCalendarActivity"
+            android:name=".activities.AppointmentCalendar.AppointmentCalendarActivity"
             android:launchMode="singleTask"
             android:screenOrientation="sensorPortrait"/>
         <activity

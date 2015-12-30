@@ -1,4 +1,4 @@
-package ie.teamchile.smartapp.activities;
+package ie.teamchile.smartapp.activities.AppointmentCalendar;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
@@ -32,6 +32,7 @@ import java.util.List;
 
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.activities.Base.BaseActivity;
+import ie.teamchile.smartapp.activities.CreateAppointmentActivity;
 import ie.teamchile.smartapp.activities.ServiceUser.ServiceUserActivity;
 import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.Appointment;
@@ -47,7 +48,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import timber.log.Timber;
 
-public class AppointmentCalendarActivity extends BaseActivity {
+public class AppointmentCalendarActivity extends BaseActivity implements AppointmentCalendarView {
     protected static Date daySelected;
     private static int serviceOptionSelected, weekSelected, clinicSelected, visitOptionSelected;
     private final int sdkVersion = Build.VERSION.SDK_INT;
