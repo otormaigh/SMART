@@ -40,7 +40,7 @@ import java.util.List;
 import javax.net.ssl.SSLHandshakeException;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.activities.AppointmentTypeSpinnerActivity;
+import ie.teamchile.smartapp.activities.AppointmentTypeSpinner.AppointmentTypeSpinnerActivity;
 import ie.teamchile.smartapp.activities.ClinicTimeRecordActivity;
 import ie.teamchile.smartapp.activities.Login.LoginActivity;
 import ie.teamchile.smartapp.activities.QuickMenu.QuickMenuActivity;

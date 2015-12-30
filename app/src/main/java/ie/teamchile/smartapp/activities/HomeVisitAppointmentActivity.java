@@ -46,8 +46,8 @@ import retrofit.client.Response;
 import timber.log.Timber;
 
 public class HomeVisitAppointmentActivity extends BaseActivity {
-    protected static Date daySelected;
-    protected static int visitOptionSelected;
+    public static Date daySelected;
+    public static int visitOptionSelected;
     private String dateSelectedStr, nameOfClinic;
     private int dayOfWeek;
     private Calendar c = Calendar.getInstance(), myCalendar = Calendar.getInstance();

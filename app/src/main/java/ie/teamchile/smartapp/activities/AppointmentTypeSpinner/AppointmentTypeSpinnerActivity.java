@@ -1,5 +1,6 @@
-package ie.teamchile.smartapp.activities;
+package ie.teamchile.smartapp.activities.AppointmentTypeSpinner;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -13,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.lang.ref.WeakReference;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -23,6 +25,7 @@ import java.util.Locale;
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.activities.AppointmentCalendar.AppointmentCalendarActivity;
 import ie.teamchile.smartapp.activities.Base.BaseActivity;
+import ie.teamchile.smartapp.activities.HomeVisitAppointmentActivity;
 import ie.teamchile.smartapp.model.Clinic;
 import ie.teamchile.smartapp.model.RealmInteger;
 import ie.teamchile.smartapp.model.ServiceOption;
@@ -35,7 +38,7 @@ import ie.teamchile.smartapp.util.SharedPrefs;
 import io.realm.Realm;
 import timber.log.Timber;
 
-public class AppointmentTypeSpinnerActivity extends BaseActivity {
+public class AppointmentTypeSpinnerActivity extends BaseActivity implements AppointmentTypeSpinnerView {
     private ArrayAdapter<String> appointmentAdapter, visitAdapter, visitDayAdapter,
             serviceOptionAdapter, clinicAdapter, dayAdapter, weekAdapter;
     private List<String> serviceOptionNameList;
@@ -55,11 +58,15 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity {
     private Realm realm;
     private List<ServiceOption> serviceOptionClinicList;
     private List<ServiceOption> serviceOptionVisitList;
+    private AppointmentTypeSpinnerPresenter appointmentTypeSpinnerPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentForNav(R.layout.activity_appointment_type_spinner);
+
+        appointmentTypeSpinnerPresenter = new AppointmentTypeSpinnerPresenterImp(
+                this, new WeakReference<Activity>(AppointmentTypeSpinnerActivity.this));
 
         realm = Realm.getInstance(this);
         apptHelp = new AppointmentHelper(realm);

@@ -37,7 +37,7 @@ import java.util.Date;
 import java.util.List;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.activities.AppointmentTypeSpinnerActivity;
+import ie.teamchile.smartapp.activities.AppointmentTypeSpinner.AppointmentTypeSpinnerActivity;
 import ie.teamchile.smartapp.activities.Base.BaseActivity;
 import ie.teamchile.smartapp.activities.MidwiferyLogActivity;
 import ie.teamchile.smartapp.activities.ParityDetailsActivity;

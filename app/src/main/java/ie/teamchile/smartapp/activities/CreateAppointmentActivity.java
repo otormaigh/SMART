@@ -125,7 +125,7 @@ public class CreateAppointmentActivity extends BaseActivity implements OnClickLi
 
     private void clinicAppt() {
         clinicID = Integer.parseInt(getIntent().getStringExtra(Constants.ARGS_CLINIC_ID));
-        //daySelected = AppointmentCalendarActivity.daySelected;
+        daySelected = AppointmentCalendarActivity.daySelected;
         clinicName = realm.where(Clinic.class).equalTo(Constants.REALM_ID, clinicID).findFirst().getName();
         time = getIntent().getStringExtra(Constants.ARGS_TIME);
         tvTime.setText(time);

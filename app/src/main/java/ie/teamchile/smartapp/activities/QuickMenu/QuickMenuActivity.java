@@ -10,7 +10,7 @@ import android.view.View.OnClickListener;
 import java.lang.ref.WeakReference;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.activities.AppointmentTypeSpinnerActivity;
+import ie.teamchile.smartapp.activities.AppointmentTypeSpinner.AppointmentTypeSpinnerActivity;
 import ie.teamchile.smartapp.activities.Base.BaseActivity;
 import ie.teamchile.smartapp.activities.ClinicTimeRecordActivity;
 import ie.teamchile.smartapp.activities.Login.LoginActivity;

@@ -43,7 +43,7 @@ import io.realm.Realm;
 import timber.log.Timber;
 
 public class AppointmentCalendarActivity extends BaseActivity implements AppointmentCalendarView {
-    protected static Date daySelected;
+    public static Date daySelected;
     private static int serviceOptionSelected, weekSelected, clinicSelected, visitOptionSelected;
     private final int sdkVersion = Build.VERSION.SDK_INT;
     private Date openingAsDate, closingAsDate;
