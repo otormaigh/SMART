@@ -11,16 +11,10 @@ import java.util.Date;
 
 import ie.teamchile.smartapp.activities.Base.BasePresenterImp;
 import ie.teamchile.smartapp.api.SmartApiClient;
-import ie.teamchile.smartapp.model.AntiDHistory;
 import ie.teamchile.smartapp.model.BaseResponseModel;
-import ie.teamchile.smartapp.model.FeedingHistory;
-import ie.teamchile.smartapp.model.HearingHistory;
-import ie.teamchile.smartapp.model.NbstHistory;
 import ie.teamchile.smartapp.model.PostingData;
-import ie.teamchile.smartapp.model.VitKHistory;
 import ie.teamchile.smartapp.util.Constants;
 import ie.teamchile.smartapp.util.CustomDialogs;
-import io.realm.Realm;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -32,14 +26,12 @@ import timber.log.Timber;
 public class ServiceUserPresenterImp extends BasePresenterImp implements ServiceUserPresenter {
     private ServiceUserView serviceUserView;
     private WeakReference<Activity> weakActivity;
-    private Realm realm;
     private ServiceUserModel serviceUserModel;
 
     public ServiceUserPresenterImp(ServiceUserView serviceUserView, WeakReference<Activity> weakActivity) {
         super(weakActivity);
         this.serviceUserView = serviceUserView;
         this.weakActivity = weakActivity;
-        realm = getEncryptedRealm();
         serviceUserModel = new ServiceUserModelImp(this);
 
         updateViews();
@@ -72,16 +64,8 @@ public class ServiceUserPresenterImp extends BasePresenterImp implements Service
                     public void success(BaseResponseModel baseResponseModel, Response response) {
                         Timber.d("put anti-d retro success");
 
-                        AntiDHistory antiDHistory = new AntiDHistory();
-                        antiDHistory.setAntiD(baseResponseModel.getPregnancy().getAntiD());
-                        antiDHistory.setCreatedAt(Calendar.getInstance().getTime());
-                        antiDHistory.setServiceProviderName(serviceUserModel.getServiceProvider().getName());
-
-                        realm.beginTransaction();
-                        realm.copyToRealmOrUpdate(baseResponseModel.getPregnancy());
-                        //antiDHistoryList.add(antiDHistory);
                         serviceUserModel.updatePregnancy(baseResponseModel.getPregnancy());
-                        realm.commitTransaction();
+                        serviceUserModel.updateAntiD();
 
                         updateViews();
 
@@ -118,16 +102,8 @@ public class ServiceUserPresenterImp extends BasePresenterImp implements Service
                     public void success(BaseResponseModel baseResponseModel, Response response) {
                         Timber.d("put feeding retro success");
 
-                        FeedingHistory feedingHistory = new FeedingHistory();
-                        feedingHistory.setFeeding(baseResponseModel.getPregnancy().getFeeding());
-                        feedingHistory.setCreatedAt(Calendar.getInstance().getTime());
-                        feedingHistory.setServiceProviderName(serviceUserModel.getServiceProvider().getName());
-
-                        realm.beginTransaction();
-                        realm.copyToRealmOrUpdate(baseResponseModel.getPregnancy());
-                        //feedingHistoryList.add(feedingHistory);
                         serviceUserModel.updatePregnancy(baseResponseModel.getPregnancy());
-                        realm.commitTransaction();
+                        serviceUserModel.updateFeeding();
 
                         updateViews();
 
@@ -166,16 +142,8 @@ public class ServiceUserPresenterImp extends BasePresenterImp implements Service
                     public void success(BaseResponseModel baseResponseModel, Response response) {
                         Timber.d("put vit k retro success");
 
-                        VitKHistory vitKHistory = new VitKHistory();
-                        vitKHistory.setVitK(baseResponseModel.getBaby().getVitK());
-                        vitKHistory.setCreatedAt(Calendar.getInstance().getTime());
-                        vitKHistory.setServiceProviderName(serviceUserModel.getServiceProvider().getName());
-
-                        realm.beginTransaction();
-                        realm.copyToRealmOrUpdate(baseResponseModel.getBaby());
-                        //vitKHistoryList.add(vitKHistory);
                         serviceUserModel.updateBaby(baseResponseModel.getBaby());
-                        realm.commitTransaction();
+                        serviceUserModel.updateVitK();
 
                         updateViews();
 
@@ -213,16 +181,8 @@ public class ServiceUserPresenterImp extends BasePresenterImp implements Service
                     public void success(BaseResponseModel baseResponseModel, Response response) {
                         Timber.d("put hearing retro success");
 
-                        HearingHistory hearingHistory = new HearingHistory();
-                        hearingHistory.setHearing(baseResponseModel.getBaby().getHearing());
-                        hearingHistory.setCreatedAt(Calendar.getInstance().getTime());
-                        hearingHistory.setServiceProviderName(serviceUserModel.getServiceProvider().getName());
-
-                        realm.beginTransaction();
-                        realm.copyToRealmOrUpdate(baseResponseModel.getBaby());
-                        //hearingHistoryList.add(hearingHistory);
                         serviceUserModel.updateBaby(baseResponseModel.getBaby());
-                        realm.commitTransaction();
+                        serviceUserModel.updateHearing();
 
                         updateViews();
 
@@ -260,16 +220,8 @@ public class ServiceUserPresenterImp extends BasePresenterImp implements Service
                     public void success(BaseResponseModel baseResponseModel, Response response) {
                         Timber.d("put nbst retro success");
 
-                        NbstHistory nbstHistory = new NbstHistory();
-                        nbstHistory.setNbst(baseResponseModel.getBaby().getNbst());
-                        nbstHistory.setCreatedAt(Calendar.getInstance().getTime());
-                        nbstHistory.setServiceProviderName(serviceUserModel.getServiceProvider().getName());
-
-                        realm.beginTransaction();
-                        realm.copyToRealmOrUpdate(baseResponseModel.getBaby());
-                        //nbstHistoryList.add(nbstHistory);
                         serviceUserModel.updateBaby(baseResponseModel.getBaby());
-                        realm.commitTransaction();
+                        serviceUserModel.updateNbst();
 
                         updateViews();
 
@@ -298,9 +250,8 @@ public class ServiceUserPresenterImp extends BasePresenterImp implements Service
                     @Override
                     public void success(BaseResponseModel baseResponseModel, Response response) {
                         Timber.d("put getMidwiferyNotes retro success");
-                        realm.beginTransaction();
-                        realm.copyToRealmOrUpdate(baseResponseModel.getPregnancyNotes());
-                        realm.commitTransaction();
+
+                        serviceUserModel.updatePregnancyNotes(baseResponseModel.getPregnancyNotes());
 
                         pd.dismiss();
                     }

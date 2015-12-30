@@ -1,11 +1,15 @@
 package ie.teamchile.smartapp.activities.ServiceUser;
 
+import java.util.Calendar;
+import java.util.List;
+
 import ie.teamchile.smartapp.model.AntiDHistory;
 import ie.teamchile.smartapp.model.Baby;
 import ie.teamchile.smartapp.model.FeedingHistory;
 import ie.teamchile.smartapp.model.HearingHistory;
 import ie.teamchile.smartapp.model.NbstHistory;
 import ie.teamchile.smartapp.model.Pregnancy;
+import ie.teamchile.smartapp.model.PregnancyNote;
 import ie.teamchile.smartapp.model.ServiceProvider;
 import ie.teamchile.smartapp.model.ServiceUser;
 import ie.teamchile.smartapp.model.VitKHistory;
@@ -58,6 +62,10 @@ public class ServiceUserModelImp implements ServiceUserModel {
 
     @Override
     public void updateBaby(Baby baby) {
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(baby);
+        realm.commitTransaction();
+
         this.baby = baby;
     }
 
@@ -75,7 +83,78 @@ public class ServiceUserModelImp implements ServiceUserModel {
 
     @Override
     public void updatePregnancy(Pregnancy pregnancy) {
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(pregnancy);
+        realm.commitTransaction();
+
         this.pregnancy = pregnancy;
+    }
+
+    @Override
+    public void updateAntiD() {
+        AntiDHistory antiDHistory = new AntiDHistory();
+        antiDHistory.setAntiD(getPregnancy().getAntiD());
+        antiDHistory.setCreatedAt(Calendar.getInstance().getTime());
+        antiDHistory.setServiceProviderName(getServiceProvider().getName());
+
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(antiDHistory);
+        realm.commitTransaction();
+    }
+
+    @Override
+    public void updateFeeding() {
+        FeedingHistory feedingHistory = new FeedingHistory();
+        feedingHistory.setFeeding(getPregnancy().getFeeding());
+        feedingHistory.setCreatedAt(Calendar.getInstance().getTime());
+        feedingHistory.setServiceProviderName(getServiceProvider().getName());
+
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(feedingHistory);
+        realm.commitTransaction();
+    }
+
+    @Override
+    public void updateVitK() {
+        VitKHistory vitKHistory = new VitKHistory();
+        vitKHistory.setVitK(getBaby().getVitK());
+        vitKHistory.setCreatedAt(Calendar.getInstance().getTime());
+        vitKHistory.setServiceProviderName(getServiceProvider().getName());
+
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(vitKHistory);
+        realm.commitTransaction();
+    }
+
+    @Override
+    public void updateHearing() {
+        HearingHistory hearingHistory = new HearingHistory();
+        hearingHistory.setHearing(getBaby().getHearing());
+        hearingHistory.setCreatedAt(Calendar.getInstance().getTime());
+        hearingHistory.setServiceProviderName(getServiceProvider().getName());
+
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(hearingHistory);
+        realm.commitTransaction();
+    }
+
+    @Override
+    public void updateNbst() {
+        NbstHistory nbstHistory = new NbstHistory();
+        nbstHistory.setNbst(getBaby().getNbst());
+        nbstHistory.setCreatedAt(Calendar.getInstance().getTime());
+        nbstHistory.setServiceProviderName(getServiceProvider().getName());
+
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(nbstHistory);
+        realm.commitTransaction();
+    }
+
+    @Override
+    public void updatePregnancyNotes(List<PregnancyNote> pregnancyNotes) {
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(pregnancyNotes);
+        realm.commitTransaction();
     }
 
     @Override
