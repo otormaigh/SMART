@@ -119,11 +119,11 @@ public class ServiceUserActivity extends BaseActivity implements ServiceUserView
         super.onCreate(savedInstanceState);
         setContentForNav(R.layout.activity_service_user_tabhost);
 
-        realm = Realm.getInstance(this);
-
         initViews();
 
-        serviceUserPresenter = new ServiceUserPresenterImp(this, new WeakReference<Activity>(ServiceUserActivity.this), realm);
+        serviceUserPresenter = new ServiceUserPresenterImp(this, new WeakReference<Activity>(ServiceUserActivity.this));
+
+        realm = serviceUserPresenter.getEncryptedRealm();
 
         antiDHistoryList.addAll(realm.where(AntiDHistory.class).findAll());
 
@@ -148,10 +148,7 @@ public class ServiceUserActivity extends BaseActivity implements ServiceUserView
     protected void onDestroy() {
         super.onDestroy();
 
-        if (realm != null) {
-            serviceUserPresenter.onLeaveView();
-            realm.close();
-        }
+        serviceUserPresenter.onLeaveView();
     }
 
     private void setAntiD() {

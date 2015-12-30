@@ -47,9 +47,9 @@ public class ServiceUserSearchActivity extends BaseActivity implements ServiceUs
         super.onCreate(savedInstanceState);
         setContentForNav(R.layout.activity_service_user_search);
 
-        realm = Realm.getInstance(getApplicationContext());
+        serviceUserSearchPresenter = new ServiceUserSearchPresenterImp(this, new WeakReference<Activity>(ServiceUserSearchActivity.this));
 
-        serviceUserSearchPresenter = new ServiceUserSearchPresenterImp(this, new WeakReference<Activity>(ServiceUserSearchActivity.this), realm);
+        realm = serviceUserSearchPresenter.getEncryptedRealm();
 
         initViews();
 
@@ -59,17 +59,12 @@ public class ServiceUserSearchActivity extends BaseActivity implements ServiceUs
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-        if (realm != null) {
-            serviceUserSearchPresenter.onLeaveView();
-            realm.close();
-        }
+        serviceUserSearchPresenter.onLeaveView();
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
         serviceUserSearchPresenter.onLeaveView();
     }
 

@@ -36,7 +36,7 @@ import timber.log.Timber;
 /**
  * Created by user on 7/4/15.
  */
-public class ClearData extends BaseActivity{
+public class ClearData extends BaseActivity {
     private SharedPrefs sharedPrefs = new SharedPrefs();
     private Context context;
 
@@ -45,7 +45,7 @@ public class ClearData extends BaseActivity{
         this.context = context;
         startPurge();
         deleteSharedPref();
-        clearRealm();
+        //clearRealm();
     }
 
     public void startPurge() {

@@ -23,9 +23,9 @@ public class ServiceUserModelImp implements ServiceUserModel {
     private Baby baby;
     private Pregnancy pregnancy;
 
-    public ServiceUserModelImp(ServiceUserPresenter serviceUserPresenter, Realm realm) {
+    public ServiceUserModelImp(ServiceUserPresenter serviceUserPresenter) {
         this.serviceUserPresenter = serviceUserPresenter;
-        this.realm = realm;
+        realm = serviceUserPresenter.getEncryptedRealm();
     }
     @Override
     public ServiceProvider getServiceProvider() {

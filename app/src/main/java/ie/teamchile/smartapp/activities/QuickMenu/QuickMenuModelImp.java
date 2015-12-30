@@ -14,8 +14,8 @@ import io.realm.Realm;
 public class QuickMenuModelImp implements QuickMenuModel {
     private Realm realm;
 
-    public QuickMenuModelImp(Realm realm) {
-        this.realm = realm;
+    public QuickMenuModelImp(QuickMenuPresenter quickMenuPresenter) {
+        realm = quickMenuPresenter.getEncryptedRealm();
     }
 
     @Override

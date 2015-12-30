@@ -74,9 +74,9 @@ public class BaseActivity extends AppCompatActivity implements BaseView {
         disableScreenshot();
         setContentView(R.layout.navigation_drawer_layout);
 
-        realm = Realm.getInstance(this);
+        basePresenter = new BasePresenterImp(new WeakReference<Activity>(BaseActivity.this));
 
-        basePresenter = new BasePresenterImp(new WeakReference<Activity>(BaseActivity.this), realm);
+        realm = basePresenter.getEncryptedRealm();
 
         spinnerWarning = ContextCompat.getColor(getApplicationContext(), R.color.teal);
 
@@ -121,8 +121,7 @@ public class BaseActivity extends AppCompatActivity implements BaseView {
     protected void onDestroy() {
         super.onDestroy();
 
-        if (realm != null)
-            realm.close();
+        Timber.wtf("Base onDestroy()");
     }
 
     @Override
@@ -132,7 +131,6 @@ public class BaseActivity extends AppCompatActivity implements BaseView {
 
     @Override
     public void initViews() {
-
     }
 
     private boolean isMyServiceRunning() {

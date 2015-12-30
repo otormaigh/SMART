@@ -3,22 +3,21 @@ package ie.teamchile.smartapp.activities.Base;
 import java.util.List;
 
 import ie.teamchile.smartapp.model.Appointment;
-import io.realm.Realm;
 
 /**
  * Created by elliot on 28/12/2015.
  */
 public class BaseModelImp implements BaseModel {
-    private Realm realm;
+    private BasePresenter basePresenter;
 
-    public BaseModelImp(Realm realm) {
-        this.realm = realm;
+    public BaseModelImp(BasePresenter basePresenter) {
+        this.basePresenter = basePresenter;
     }
 
     @Override
     public void saveAppointmentsToRealm(List<Appointment> appointments) {
-        realm.beginTransaction();
-        realm.copyToRealmOrUpdate(appointments);
-        realm.commitTransaction();
+        basePresenter.getEncryptedRealm().beginTransaction();
+        basePresenter.getEncryptedRealm().copyToRealmOrUpdate(appointments);
+        basePresenter.getEncryptedRealm().commitTransaction();
     }
 }

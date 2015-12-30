@@ -13,6 +13,7 @@ import android.widget.Toast;
 import net.hockeyapp.android.Tracking;
 
 import java.lang.ref.WeakReference;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -26,6 +27,8 @@ import ie.teamchile.smartapp.model.Pregnancy;
 import ie.teamchile.smartapp.util.ClearData;
 import ie.teamchile.smartapp.util.CustomDialogs;
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
+import io.realm.exceptions.RealmMigrationNeededException;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -34,16 +37,52 @@ import timber.log.Timber;
 /**
  * Created by elliot on 27/12/2015.
  */
-public class BasePresenterImp implements  BasePresenter {
+public class BasePresenterImp implements BasePresenter {
     private WeakReference<Activity> weakActivity;
     private BaseModel baseModel;
     private NotificationManager notificationManager;
+    private static Realm realm;
 
-    public BasePresenterImp(){}
+    public BasePresenterImp() {
+    }
 
-    public BasePresenterImp(WeakReference<Activity> weakActivity, Realm realm) {
+    public BasePresenterImp(WeakReference<Activity> weakActivity) {
         this.weakActivity = weakActivity;
-        baseModel = new BaseModelImp(realm);
+        baseModel = new BaseModelImp(this);
+    }
+
+    @Override
+    public Realm getEncryptedRealm() {
+        if (realm == null) {
+            RealmConfiguration realmConfiguration = getRealmConfiguration();
+            try {
+                realm = Realm.getInstance(realmConfiguration);
+            } catch (RealmMigrationNeededException e) {
+                Timber.e(Log.getStackTraceString(e));
+                Realm.deleteRealm(realmConfiguration);
+                realm = Realm.getInstance(realmConfiguration);
+            }
+        }
+        return realm;
+    }
+
+    @Override
+    public void closeRealm() {
+        if (realm != null)
+            realm.close();
+    }
+
+    private RealmConfiguration getRealmConfiguration() {
+        byte[] key = new byte[64];
+        new SecureRandom().nextBytes(key);
+
+        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(weakActivity.get())
+                .encryptionKey(key)
+                .build();
+
+        Realm.deleteRealm(realmConfiguration);
+
+        return realmConfiguration;
     }
 
     @Override

@@ -24,13 +24,11 @@ import ie.teamchile.smartapp.activities.About.AboutActivity;
 import ie.teamchile.smartapp.activities.QuickMenu.QuickMenuActivity;
 import ie.teamchile.smartapp.util.CustomDialogs;
 import ie.teamchile.smartapp.util.NotKeys;
-import io.realm.Realm;
 import timber.log.Timber;
 
 public class LoginActivity extends AppCompatActivity implements LoginView, OnClickListener {
     private TextView tvUsername;
     private TextView tvPassword;
-    private Realm realm;
     private LoginPresenter loginPresenter;
 
     @Override
@@ -39,9 +37,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView, OnCli
         disableScreenshot();
         setContentView(R.layout.activity_login);
 
-        realm = Realm.getInstance(getApplicationContext());
-
-        loginPresenter = new LoginPresenterImp(this, realm, new WeakReference<Activity>(LoginActivity.this));
+        loginPresenter = new LoginPresenterImp(this, new WeakReference<Activity>(LoginActivity.this));
 
         initViews();
 
@@ -54,9 +50,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView, OnCli
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-        if (realm != null)
-            realm.close();
     }
 
     @Override
@@ -100,6 +93,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView, OnCli
     @Override
     public void gotoQuickMenu() {
         startActivity(new Intent(getApplicationContext(), QuickMenuActivity.class));
+        finish();
     }
 
     @Override

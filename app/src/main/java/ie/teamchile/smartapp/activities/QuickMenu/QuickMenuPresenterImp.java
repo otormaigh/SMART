@@ -18,7 +18,6 @@ import ie.teamchile.smartapp.model.Clinic;
 import ie.teamchile.smartapp.model.Login;
 import ie.teamchile.smartapp.model.ServiceUserAction;
 import ie.teamchile.smartapp.util.CustomDialogs;
-import io.realm.Realm;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -30,16 +29,15 @@ import timber.log.Timber;
 public class QuickMenuPresenterImp extends BasePresenterImp implements QuickMenuPresenter {
     private QuickMenuView quickMenuView;
     private WeakReference<Activity> weakActivity;
-    private Realm realm;
     private QuickMenuModel quickMenuModel;
     private CountDownTimer timer;
     private int done;
 
-    public QuickMenuPresenterImp(QuickMenuView quickMenuView, WeakReference<Activity> weakActivity, Realm realm) {
+    public QuickMenuPresenterImp(QuickMenuView quickMenuView, WeakReference<Activity> weakActivity) {
+        super(weakActivity);
         this.quickMenuView = quickMenuView;
         this.weakActivity = weakActivity;
-        this.realm = realm;
-        quickMenuModel = new QuickMenuModelImp(realm);
+        quickMenuModel = new QuickMenuModelImp(this);
     }
 
     @Override
@@ -47,8 +45,8 @@ public class QuickMenuPresenterImp extends BasePresenterImp implements QuickMenu
         done = 0;
         final ProgressDialog pd = new CustomDialogs().showProgressDialog(weakActivity.get(), weakActivity.get().getString(R.string.updating_info));
 
-        SmartApiClient.getAuthorizedApiClient(weakActivity.get()).getServiceProviderById(
-                realm.where(Login.class).findFirst().getId(),
+        SmartApiClient.getAuthorizedApiClient(getEncryptedRealm()).getServiceProviderById(
+                getEncryptedRealm().where(Login.class).findFirst().getId(),
                 new Callback<BaseResponseModel>() {
                     @Override
                     public void success(BaseResponseModel baseResponseModel, Response response) {
@@ -68,7 +66,7 @@ public class QuickMenuPresenterImp extends BasePresenterImp implements QuickMenu
                 }
         );
 
-        SmartApiClient.getAuthorizedApiClient(weakActivity.get()).getAllServiceOptions(
+        SmartApiClient.getAuthorizedApiClient(getEncryptedRealm()).getAllServiceOptions(
                 new Callback<BaseResponseModel>() {
                     @Override
                     public void success(BaseResponseModel baseResponseModel, Response response) {
@@ -86,7 +84,7 @@ public class QuickMenuPresenterImp extends BasePresenterImp implements QuickMenu
                     }
                 }
         );
-        SmartApiClient.getAuthorizedApiClient(weakActivity.get()).getAllClinics(
+        SmartApiClient.getAuthorizedApiClient(getEncryptedRealm()).getAllClinics(
                 new Callback<BaseResponseModel>() {
                     @Override
                     public void success(BaseResponseModel baseResponseModel, Response response) {
@@ -111,7 +109,7 @@ public class QuickMenuPresenterImp extends BasePresenterImp implements QuickMenu
                 }
         );
 
-        SmartApiClient.getAuthorizedApiClient(weakActivity.get()).getServiceUserActions(
+        SmartApiClient.getAuthorizedApiClient(getEncryptedRealm()).getServiceUserActions(
                 new Callback<BaseResponseModel>() {
                     @Override
                     public void success(BaseResponseModel baseResponseModel, Response response) {

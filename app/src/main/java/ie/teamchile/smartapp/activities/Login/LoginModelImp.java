@@ -24,9 +24,9 @@ public class LoginModelImp implements LoginModel {
     private SharedPrefs prefsUtil;
     private WeakReference<Activity> weakActivity;
 
-    public LoginModelImp(LoginPresenter loginPresenter, Realm realm, WeakReference<Activity> weakActivity) {
+    public LoginModelImp(LoginPresenter loginPresenter, WeakReference<Activity> weakActivity) {
         this.loginPresenter = loginPresenter;
-        this.realm = realm;
+        realm = loginPresenter.getEncryptedRealm();
         prefsUtil = new SharedPrefs();
         this.weakActivity = weakActivity;
     }

@@ -31,9 +31,9 @@ public class QuickMenuActivity extends BaseActivity implements QuickMenuView, On
         super.onCreate(savedInstanceState);
         setContentForNav(R.layout.activity_quick_menu);
 
-        realm = Realm.getInstance(getApplicationContext());
+        quickMenuPresenter = new QuickMenuPresenterImp(this, new WeakReference<Activity>(QuickMenuActivity.this));
 
-        quickMenuPresenter = new QuickMenuPresenterImp(this, new WeakReference<Activity>(QuickMenuActivity.this), realm);
+        realm = quickMenuPresenter.getEncryptedRealm();
 
         initViews();
     }
@@ -41,9 +41,6 @@ public class QuickMenuActivity extends BaseActivity implements QuickMenuView, On
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-        if (realm != null)
-            realm.close();
     }
 
     @Override

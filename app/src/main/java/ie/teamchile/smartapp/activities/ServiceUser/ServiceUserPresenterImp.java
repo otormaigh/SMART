@@ -35,11 +35,11 @@ public class ServiceUserPresenterImp extends BasePresenterImp implements Service
     private Realm realm;
     private ServiceUserModel serviceUserModel;
 
-    public ServiceUserPresenterImp(ServiceUserView serviceUserView, WeakReference<Activity> weakActivity, Realm realm) {
+    public ServiceUserPresenterImp(ServiceUserView serviceUserView, WeakReference<Activity> weakActivity) {
         this.serviceUserView = serviceUserView;
         this.weakActivity = weakActivity;
-        this.realm = realm;
-        serviceUserModel = new ServiceUserModelImp(this, realm);
+        realm = getEncryptedRealm();
+        serviceUserModel = new ServiceUserModelImp(this);
 
         updateViews();
     }

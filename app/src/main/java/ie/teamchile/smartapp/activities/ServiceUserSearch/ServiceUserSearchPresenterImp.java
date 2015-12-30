@@ -27,19 +27,19 @@ import timber.log.Timber;
 public class ServiceUserSearchPresenterImp extends BasePresenterImp implements ServiceUserSearchPresenter {
     private ServiceUserSearchView serviceUserSearchView;
     private WeakReference<Activity> weakActivity;
-    private Realm realm;
     private ServiceUserSearchModel serviceUserSearchModel;
+    private Realm realm;
 
-    public ServiceUserSearchPresenterImp(ServiceUserSearchView serviceUserSearchView, WeakReference<Activity> weakActivity, Realm realm) {
+    public ServiceUserSearchPresenterImp(ServiceUserSearchView serviceUserSearchView, WeakReference<Activity> weakActivity) {
         this.serviceUserSearchView = serviceUserSearchView;
         this.weakActivity = weakActivity;
-        this.realm = realm;
-        serviceUserSearchModel = new ServiceUserSearchModelImp(realm);
+        serviceUserSearchModel = new ServiceUserSearchModelImp(this);
+        realm = getEncryptedRealm();
     }
 
     @Override
     public void getHistories(int pregnancyId, int babyId) {
-        SmartApiClient.getAuthorizedApiClient(weakActivity.get()).getVitKHistories(
+        SmartApiClient.getAuthorizedApiClient(realm).getVitKHistories(
                 babyId,
                 new Callback<BaseResponseModel>() {
                     @Override
@@ -54,7 +54,7 @@ public class ServiceUserSearchPresenterImp extends BasePresenterImp implements S
                     }
                 }
         );
-        SmartApiClient.getAuthorizedApiClient(weakActivity.get()).getHearingHistories(
+        SmartApiClient.getAuthorizedApiClient(realm).getHearingHistories(
                 babyId,
                 new Callback<BaseResponseModel>() {
                     @Override
@@ -69,7 +69,7 @@ public class ServiceUserSearchPresenterImp extends BasePresenterImp implements S
                     }
                 }
         );
-        SmartApiClient.getAuthorizedApiClient(weakActivity.get()).getNbstHistories(
+        SmartApiClient.getAuthorizedApiClient(realm).getNbstHistories(
                 babyId,
                 new Callback<BaseResponseModel>() {
                     @Override
@@ -83,7 +83,7 @@ public class ServiceUserSearchPresenterImp extends BasePresenterImp implements S
                     }
                 }
         );
-        SmartApiClient.getAuthorizedApiClient(weakActivity.get()).getFeedingHistoriesByPregId(
+        SmartApiClient.getAuthorizedApiClient(realm).getFeedingHistoriesByPregId(
                 pregnancyId,
                 new Callback<BaseResponseModel>() {
                     @Override
@@ -111,7 +111,7 @@ public class ServiceUserSearchPresenterImp extends BasePresenterImp implements S
                 weakActivity.get(),
                 weakActivity.get().getString(R.string.fetching_information));
 
-        SmartApiClient.getAuthorizedApiClient(weakActivity.get()).getServiceUserByNameDobHospitalNum(
+        SmartApiClient.getAuthorizedApiClient(realm).getServiceUserByNameDobHospitalNum(
                 name,
                 hospitalNumber.trim(),
                 dob.trim(),

@@ -129,4 +129,26 @@ public class SmartApiClient {
         }
         return authorizedSmartApi;
     }
+
+    public static synchronized SmartApi getAuthorizedApiClient(final Realm realm) {
+        if (authorizedSmartApi == null) {
+            RequestInterceptor requestInterceptor = new RequestInterceptor() {
+                @Override
+                public void intercept(RequestFacade request) {
+                    String authToken = realm.where(Login.class).findFirst().getToken();
+                    request.addHeader(AUTH_TOKEN, authToken);
+                    request.addHeader(API_KEY, NotKeys.API_KEY);
+                }
+            };
+
+            authorizedSmartApi = new RestAdapter.Builder()
+                    .setEndpoint(NotKeys.BASE_URL + NotKeys.PORT)
+                    .setLogLevel(BuildConfig.RETROFIT_LOG_LEVEL)
+                    .setClient(new OkClient())
+                    .setRequestInterceptor(requestInterceptor)
+                    .setConverter(new GsonConverter(gson))
+                    .build().create(SmartApi.class);
+        }
+        return authorizedSmartApi;
+    }
 }

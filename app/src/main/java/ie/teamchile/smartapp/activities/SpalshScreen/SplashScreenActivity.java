@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -17,14 +16,12 @@ import ie.teamchile.smartapp.activities.QuickMenu.QuickMenuActivity;
 import ie.teamchile.smartapp.model.Login;
 import ie.teamchile.smartapp.util.ClearData;
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
-import io.realm.exceptions.RealmMigrationNeededException;
-import timber.log.Timber;
 
 import static android.view.View.OnClickListener;
 
 public class SplashScreenActivity extends AppCompatActivity implements SplashScreenView, OnClickListener {
     private Realm realm;
+    private SplashScreenPresenter splashScreenPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +29,11 @@ public class SplashScreenActivity extends AppCompatActivity implements SplashScr
         disableScreenshot();
         setContentView(R.layout.activity_splash_screen);
 
-        SplashScreenPresenter splashScreenPresenter = new SplashScreenPresenterImp(this, new WeakReference<Activity>(SplashScreenActivity.this));
+        splashScreenPresenter = new SplashScreenPresenterImp(this, new WeakReference<Activity>(SplashScreenActivity.this));
 
         initViews();
 
-        realm = getRealm();
+        realm = splashScreenPresenter.getEncryptedRealm();
 
         if (!BuildConfig.DEBUG) {
             splashScreenPresenter.checkIfValidEnvironment();
@@ -46,11 +43,6 @@ public class SplashScreenActivity extends AppCompatActivity implements SplashScr
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-        if (realm != null) {
-            realm.close();
-            realm = null;
-        }
     }
 
     @Override
@@ -79,19 +71,6 @@ public class SplashScreenActivity extends AppCompatActivity implements SplashScr
         throw new UnsupportedOperationException(getString(R.string.mvp_unsupported_operation_exception));
     }
 
-    protected Realm getRealm() {
-        if (realm == null) {
-            try {
-                realm = Realm.getInstance(this);
-            } catch (RealmMigrationNeededException e) {
-                Timber.e(Log.getStackTraceString(e));
-                Realm.deleteRealm(new RealmConfiguration.Builder(this).build());
-                realm = Realm.getInstance(this);
-            }
-        }
-        return realm;
-    }
-
     @Override
     public void checkIfLoggedIn() {
         if (realm.where(Login.class).findFirst() != null && realm.where(Login.class).findFirst().isLoggedIn()) {
@@ -100,6 +79,7 @@ public class SplashScreenActivity extends AppCompatActivity implements SplashScr
             new ClearData(getApplicationContext());
             startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
         }
+        finish();
     }
 
     @Override

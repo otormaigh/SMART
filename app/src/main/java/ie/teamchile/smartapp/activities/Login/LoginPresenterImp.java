@@ -14,7 +14,6 @@ import ie.teamchile.smartapp.model.BaseResponseModel;
 import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.util.Constants;
 import ie.teamchile.smartapp.util.SharedPrefs;
-import io.realm.Realm;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -29,10 +28,11 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
     private WeakReference<Activity> weakActivity;
     private SharedPrefs prefsUtil;
 
-    public LoginPresenterImp(LoginView loginView, Realm realm, WeakReference<Activity> weakActivity) {
+    public LoginPresenterImp(LoginView loginView, WeakReference<Activity> weakActivity) {
+        super(weakActivity);
         this.loginView = loginView;
         this.weakActivity = weakActivity;
-        loginModel = new LoginModelImp(this, realm, weakActivity);
+        loginModel = new LoginModelImp(this, weakActivity);
         prefsUtil = new SharedPrefs();
     }
 

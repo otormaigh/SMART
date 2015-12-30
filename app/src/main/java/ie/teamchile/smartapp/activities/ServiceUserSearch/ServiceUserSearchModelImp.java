@@ -19,8 +19,8 @@ import io.realm.Realm;
 public class ServiceUserSearchModelImp implements ServiceUserSearchModel {
     private Realm realm;
 
-    public ServiceUserSearchModelImp(Realm realm) {
-        this.realm = realm;
+    public ServiceUserSearchModelImp(ServiceUserSearchPresenter serviceUserSearchPresenter) {
+        realm = serviceUserSearchPresenter.getEncryptedRealm();
     }
 
     @Override
