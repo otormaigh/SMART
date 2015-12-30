@@ -64,7 +64,7 @@ public class BaseActivity extends AppCompatActivity implements BaseView {
     protected int thingALing = 0;
     protected LogoutService logServ;
     protected NotificationManager notificationManager;
-    protected static int apptDone;
+    public static int apptDone;
     private Realm realm;
     private BasePresenter basePresenter;
 

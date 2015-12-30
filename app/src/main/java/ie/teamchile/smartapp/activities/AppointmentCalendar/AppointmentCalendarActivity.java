@@ -75,8 +75,6 @@ public class AppointmentCalendarActivity extends BaseActivity implements Appoint
 
         realm = appointmentCalendarPresenter.getEncryptedRealm();
 
-        Timber.d("clinicSelected = " + clinicSelected);
-
         serviceOptionId = realm.where(Clinic.class).equalTo(Constants.REALM_ID, clinicSelected).findFirst().getServiceOptionIds().get(0).getValue();
         clinicOpening = realm.where(Clinic.class).equalTo(Constants.REALM_ID, clinicSelected).findFirst().getOpeningTime();
         clinicClosing = realm.where(Clinic.class).equalTo(Constants.REALM_ID, clinicSelected).findFirst().getClosingTime();
@@ -213,7 +211,7 @@ public class AppointmentCalendarActivity extends BaseActivity implements Appoint
         setActionBarTitle(nameOfClinic);
 
         while (!closingAsDate.before(apptTime)) {
-            timeList.add(Constants.DF_DATE_ONLY.format(apptTime));
+            timeList.add(Constants.DF_TIME_ONLY.format(apptTime));
             idList.add(0);
             c.setTime(apptTime);
             c.add(Calendar.MINUTE, appointmentInterval);
