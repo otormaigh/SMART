@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ie.teamchile.smartapp.R;
+import ie.teamchile.smartapp.activities.Base.BaseModel;
+import ie.teamchile.smartapp.activities.Base.BaseModelImp;
 import ie.teamchile.smartapp.activities.Base.BasePresenterImp;
 import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.BaseResponseModel;
@@ -29,7 +31,7 @@ import timber.log.Timber;
 public class QuickMenuPresenterImp extends BasePresenterImp implements QuickMenuPresenter {
     private QuickMenuView quickMenuView;
     private WeakReference<Activity> weakActivity;
-    private QuickMenuModel quickMenuModel;
+    private BaseModel baseModel;
     private CountDownTimer timer;
     private int done;
 
@@ -37,7 +39,7 @@ public class QuickMenuPresenterImp extends BasePresenterImp implements QuickMenu
         super(weakActivity);
         this.quickMenuView = quickMenuView;
         this.weakActivity = weakActivity;
-        quickMenuModel = new QuickMenuModelImp(this);
+        baseModel = new BaseModelImp(this);
     }
 
     @Override
@@ -52,7 +54,7 @@ public class QuickMenuPresenterImp extends BasePresenterImp implements QuickMenu
                     public void success(BaseResponseModel baseResponseModel, Response response) {
                         Timber.d("serviceProvider success");
 
-                        quickMenuModel.saveServiceProviderToRealm(baseResponseModel.getServiceProviders().get(0));
+                        baseModel.saveServiceProviderToRealm(baseResponseModel.getServiceProviders().get(0));
 
                         done++;
                         Timber.d("done = " + done);
@@ -70,7 +72,7 @@ public class QuickMenuPresenterImp extends BasePresenterImp implements QuickMenu
                 new Callback<BaseResponseModel>() {
                     @Override
                     public void success(BaseResponseModel baseResponseModel, Response response) {
-                        quickMenuModel.saveServiceOptionsToRealm(baseResponseModel.getServiceOptions());
+                        baseModel.saveServiceOptionsToRealm(baseResponseModel.getServiceOptions());
 
                         Timber.d("service options finished");
                         done++;
@@ -88,7 +90,7 @@ public class QuickMenuPresenterImp extends BasePresenterImp implements QuickMenu
                 new Callback<BaseResponseModel>() {
                     @Override
                     public void success(BaseResponseModel baseResponseModel, Response response) {
-                        quickMenuModel.saveClinicsToRealm(baseResponseModel.getClinics());
+                        baseModel.saveClinicsToRealm(baseResponseModel.getClinics());
 
                         Map<Integer, Clinic> clinicMap = new HashMap<>();
                         for (int i = 0; i < baseResponseModel.getClinics().size(); i++) {
@@ -120,7 +122,7 @@ public class QuickMenuPresenterImp extends BasePresenterImp implements QuickMenu
                                 return (lhs.getShortCode()).compareTo(rhs.getShortCode());
                             }
                         });
-                        quickMenuModel.saveServiceUserActionsToRealm(baseResponseModel.getServiceUserActions());
+                        baseModel.saveServiceUserActionsToRealm(baseResponseModel.getServiceUserActions());
                         done++;
                     }
 

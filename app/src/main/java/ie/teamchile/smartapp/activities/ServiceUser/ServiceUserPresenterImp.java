@@ -9,6 +9,8 @@ import java.lang.ref.WeakReference;
 import java.util.Calendar;
 import java.util.Date;
 
+import ie.teamchile.smartapp.activities.Base.BaseModel;
+import ie.teamchile.smartapp.activities.Base.BaseModelImp;
 import ie.teamchile.smartapp.activities.Base.BasePresenterImp;
 import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.BaseResponseModel;
@@ -26,13 +28,13 @@ import timber.log.Timber;
 public class ServiceUserPresenterImp extends BasePresenterImp implements ServiceUserPresenter {
     private ServiceUserView serviceUserView;
     private WeakReference<Activity> weakActivity;
-    private ServiceUserModel serviceUserModel;
+    private BaseModel baseModel;
 
     public ServiceUserPresenterImp(ServiceUserView serviceUserView, WeakReference<Activity> weakActivity) {
         super(weakActivity);
         this.serviceUserView = serviceUserView;
         this.weakActivity = weakActivity;
-        serviceUserModel = new ServiceUserModelImp(this);
+        baseModel = new BaseModelImp(this);
 
         updateViews();
     }
@@ -40,9 +42,9 @@ public class ServiceUserPresenterImp extends BasePresenterImp implements Service
     private void updateViews() {
         serviceUserView.updateTextViews(
                 this,
-                serviceUserModel.getServiceUser(),
-                serviceUserModel.getBaby(),
-                serviceUserModel.getPregnancy()
+                baseModel.getServiceUser(),
+                baseModel.getBaby(),
+                baseModel.getPregnancy()
         );
     }
 
@@ -50,7 +52,7 @@ public class ServiceUserPresenterImp extends BasePresenterImp implements Service
     public void putAntiD(String putAntiD, final AlertDialog ad) {
         PostingData puttingAntiD = new PostingData();
 
-        puttingAntiD.putAntiD(putAntiD, serviceUserModel.getServiceUser().getId());
+        puttingAntiD.putAntiD(putAntiD, baseModel.getServiceUser().getId());
 
         final ProgressDialog pd = new CustomDialogs().showProgressDialog(
                 weakActivity.get(),
@@ -58,14 +60,14 @@ public class ServiceUserPresenterImp extends BasePresenterImp implements Service
 
         SmartApiClient.getAuthorizedApiClient(weakActivity.get()).putAnitD(
                 puttingAntiD,
-                serviceUserModel.getPregnancy().getId(),
+                baseModel.getPregnancy().getId(),
                 new Callback<BaseResponseModel>() {
                     @Override
                     public void success(BaseResponseModel baseResponseModel, Response response) {
                         Timber.d("put anti-d retro success");
 
-                        serviceUserModel.updatePregnancy(baseResponseModel.getPregnancy());
-                        serviceUserModel.updateAntiD();
+                        baseModel.updatePregnancy(baseResponseModel.getPregnancy());
+                        baseModel.updateAntiD();
 
                         updateViews();
 
@@ -88,7 +90,7 @@ public class ServiceUserPresenterImp extends BasePresenterImp implements Service
 
         puttingFeeding.putFeeding(
                 putFeeding,
-                serviceUserModel.getServiceUser().getId());
+                baseModel.getServiceUser().getId());
 
         final ProgressDialog pd = new CustomDialogs().showProgressDialog(
                 weakActivity.get(),
@@ -96,14 +98,14 @@ public class ServiceUserPresenterImp extends BasePresenterImp implements Service
 
         SmartApiClient.getAuthorizedApiClient(weakActivity.get()).putAnitD(
                 puttingFeeding,
-                serviceUserModel.getPregnancy().getId(),
+                baseModel.getPregnancy().getId(),
                 new Callback<BaseResponseModel>() {
                     @Override
                     public void success(BaseResponseModel baseResponseModel, Response response) {
                         Timber.d("put feeding retro success");
 
-                        serviceUserModel.updatePregnancy(baseResponseModel.getPregnancy());
-                        serviceUserModel.updateFeeding();
+                        baseModel.updatePregnancy(baseResponseModel.getPregnancy());
+                        baseModel.updateFeeding();
 
                         updateViews();
 
@@ -122,13 +124,13 @@ public class ServiceUserPresenterImp extends BasePresenterImp implements Service
 
     @Override
     public void putVitK(String putVitK, final AlertDialog ad) {
-        Timber.d("preg id = " + serviceUserModel.getPregnancy().getId());
+        Timber.d("preg id = " + baseModel.getPregnancy().getId());
 
         PostingData puttingVitK = new PostingData();
         puttingVitK.putVitK(
                 putVitK,
-                serviceUserModel.getServiceUser().getId(),
-                serviceUserModel.getPregnancy().getId());
+                baseModel.getServiceUser().getId(),
+                baseModel.getPregnancy().getId());
 
         final ProgressDialog pd = new CustomDialogs().showProgressDialog(
                 weakActivity.get(),
@@ -136,14 +138,14 @@ public class ServiceUserPresenterImp extends BasePresenterImp implements Service
 
         SmartApiClient.getAuthorizedApiClient(weakActivity.get()).putVitK(
                 puttingVitK,
-                serviceUserModel.getBaby().getId(),
+                baseModel.getBaby().getId(),
                 new Callback<BaseResponseModel>() {
                     @Override
                     public void success(BaseResponseModel baseResponseModel, Response response) {
                         Timber.d("put vit k retro success");
 
-                        serviceUserModel.updateBaby(baseResponseModel.getBaby());
-                        serviceUserModel.updateVitK();
+                        baseModel.updateBaby(baseResponseModel.getBaby());
+                        baseModel.updateVitK();
 
                         updateViews();
 
@@ -166,8 +168,8 @@ public class ServiceUserPresenterImp extends BasePresenterImp implements Service
 
         puttingHearing.putHearing(
                 putHearing,
-                serviceUserModel.getServiceUser().getId(),
-                serviceUserModel.getPregnancy().getId());
+                baseModel.getServiceUser().getId(),
+                baseModel.getPregnancy().getId());
 
         final ProgressDialog pd = new CustomDialogs().showProgressDialog(
                 weakActivity.get(),
@@ -175,14 +177,14 @@ public class ServiceUserPresenterImp extends BasePresenterImp implements Service
 
         SmartApiClient.getAuthorizedApiClient(weakActivity.get()).putHearing(
                 puttingHearing,
-                serviceUserModel.getBaby().getId(),
+                baseModel.getBaby().getId(),
                 new Callback<BaseResponseModel>() {
                     @Override
                     public void success(BaseResponseModel baseResponseModel, Response response) {
                         Timber.d("put hearing retro success");
 
-                        serviceUserModel.updateBaby(baseResponseModel.getBaby());
-                        serviceUserModel.updateHearing();
+                        baseModel.updateBaby(baseResponseModel.getBaby());
+                        baseModel.updateHearing();
 
                         updateViews();
 
@@ -205,8 +207,8 @@ public class ServiceUserPresenterImp extends BasePresenterImp implements Service
 
         puttingNbst.putNBST(
                 putNbst,
-                serviceUserModel.getServiceUser().getId(),
-                serviceUserModel.getPregnancy().getId());
+                baseModel.getServiceUser().getId(),
+                baseModel.getPregnancy().getId());
 
         final ProgressDialog pd = new CustomDialogs().showProgressDialog(
                 weakActivity.get(),
@@ -214,14 +216,14 @@ public class ServiceUserPresenterImp extends BasePresenterImp implements Service
 
         SmartApiClient.getAuthorizedApiClient(weakActivity.get()).putNBST(
                 puttingNbst,
-                serviceUserModel.getBaby().getId(),
+                baseModel.getBaby().getId(),
                 new Callback<BaseResponseModel>() {
                     @Override
                     public void success(BaseResponseModel baseResponseModel, Response response) {
                         Timber.d("put nbst retro success");
 
-                        serviceUserModel.updateBaby(baseResponseModel.getBaby());
-                        serviceUserModel.updateNbst();
+                        baseModel.updateBaby(baseResponseModel.getBaby());
+                        baseModel.updateNbst();
 
                         updateViews();
 
@@ -245,13 +247,13 @@ public class ServiceUserPresenterImp extends BasePresenterImp implements Service
                 "Adding Actions");
 
         SmartApiClient.getAuthorizedApiClient(weakActivity.get()).getPregnancyNotes(
-                serviceUserModel.getPregnancy().getId(),
+                baseModel.getPregnancy().getId(),
                 new Callback<BaseResponseModel>() {
                     @Override
                     public void success(BaseResponseModel baseResponseModel, Response response) {
                         Timber.d("put getMidwiferyNotes retro success");
 
-                        serviceUserModel.updatePregnancyNotes(baseResponseModel.getPregnancyNotes());
+                        baseModel.updatePregnancyNotes(baseResponseModel.getPregnancyNotes());
 
                         pd.dismiss();
                     }
@@ -272,7 +274,7 @@ public class ServiceUserPresenterImp extends BasePresenterImp implements Service
 
         SmartApiClient.getAuthorizedApiClient(weakActivity.get()).postPregnancyAction(
                 postAction,
-                serviceUserModel.getPregnancy().getId(),
+                baseModel.getPregnancy().getId(),
                 new Callback<BaseResponseModel>() {
                     @Override
                     public void success(BaseResponseModel baseResponseModel, Response response) {
@@ -289,7 +291,7 @@ public class ServiceUserPresenterImp extends BasePresenterImp implements Service
 
     @Override
     public void onLeaveView() {
-        serviceUserModel.deleteServiceUserFromRealm();
+        baseModel.deleteServiceUserFromRealm();
     }
 
     @Override

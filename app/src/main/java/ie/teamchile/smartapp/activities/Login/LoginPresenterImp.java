@@ -8,6 +8,8 @@ import net.hockeyapp.android.Tracking;
 import java.lang.ref.WeakReference;
 import java.util.Calendar;
 
+import ie.teamchile.smartapp.activities.Base.BaseModel;
+import ie.teamchile.smartapp.activities.Base.BaseModelImp;
 import ie.teamchile.smartapp.activities.Base.BasePresenterImp;
 import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.BaseResponseModel;
@@ -24,7 +26,7 @@ import timber.log.Timber;
  */
 public class LoginPresenterImp extends BasePresenterImp implements LoginPresenter {
     private LoginView loginView;
-    private LoginModel loginModel;
+    private BaseModel baseModel;
     private WeakReference<Activity> weakActivity;
     private SharedPrefs prefsUtil;
 
@@ -32,7 +34,7 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
         super(weakActivity);
         this.loginView = loginView;
         this.weakActivity = weakActivity;
-        loginModel = new LoginModelImp(this, weakActivity);
+        baseModel = new BaseModelImp(this, weakActivity);
         prefsUtil = new SharedPrefs();
     }
 
@@ -51,10 +53,10 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
                         Constants.SHARED_PREFS_SPLASH_LOG);
                 prefsUtil.deletePrefs(weakActivity.get(), Constants.APPTS_GOT);
 
-                loginModel.saveLoginToRealm(baseResponseModel.getLogin());
+                baseModel.saveLoginToRealm(baseResponseModel.getLogin());
 
                 pd.dismiss();
-                loginModel.getSharedPrefs();
+                baseModel.getLoginSharedPrefs();
 
                 loginView.gotoQuickMenu();
             }
@@ -73,7 +75,7 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
 
     @Override
     public void onBackPressed() {
-        loginModel.deleteRealmLogin();
-        loginModel.deleteSingletonInstance();
+        baseModel.deleteRealmLogin();
+        baseModel.deleteSingletonInstance();
     }
 }

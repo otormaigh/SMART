@@ -6,6 +6,8 @@ import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 
+import ie.teamchile.smartapp.activities.Base.BaseModel;
+import ie.teamchile.smartapp.activities.Base.BaseModelImp;
 import ie.teamchile.smartapp.activities.Base.BasePresenterImp;
 import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.BaseResponseModel;
@@ -23,14 +25,14 @@ import timber.log.Timber;
  */
 public class AppointmentCalendarPresenterImp extends BasePresenterImp implements AppointmentCalendarPresenter {
     private AppointmentCalendarView appointmentCalendarView;
-    private AppointmentCalendarModel appointmentCalendarModel;
+    private BaseModel baseModel;
     private WeakReference<Activity> weakActivity;
     private Realm realm;
 
     public AppointmentCalendarPresenterImp(AppointmentCalendarView appointmentCalendarView, WeakReference<Activity> weakActivity) {
         this.appointmentCalendarView = appointmentCalendarView;
         this.weakActivity = weakActivity;
-        appointmentCalendarModel = new AppointmentCalendarModelImp(this);
+        baseModel = new BaseModelImp(this);
         realm = getEncryptedRealm();
     }
 
@@ -57,7 +59,7 @@ public class AppointmentCalendarPresenterImp extends BasePresenterImp implements
                         Toast.makeText(weakActivity.get(),
                                 "Status changed", Toast.LENGTH_LONG).show();
 
-                        appointmentCalendarModel.saveAppointmentToRealm(baseResponseModel.getAppointment());
+                        baseModel.saveAppointmentToRealm(baseResponseModel.getAppointment());
 
                         pd.dismiss();
                     }
@@ -82,7 +84,7 @@ public class AppointmentCalendarPresenterImp extends BasePresenterImp implements
                 new Callback<BaseResponseModel>() {
                     @Override
                     public void success(BaseResponseModel baseResponseModel, Response response) {
-                        appointmentCalendarModel.saveServiceUserToRealm(baseResponseModel);
+                        baseModel.saveServiceUserToRealm(baseResponseModel);
                         appointmentCalendarView.gotoServiceUserActivity();
 
                         pd.dismiss();
