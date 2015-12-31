@@ -23,7 +23,11 @@ public class DateTypeAdapter implements JsonSerializer<Date>, JsonDeserializer<D
             try {
                 date = Constants.DF_SERVER_DATE_FULL.parse(jsonElement.getAsString());
             } catch (Exception ignored) {
-                date = Constants.DF_SERVER_DATE_SMALL.parse(jsonElement.getAsString());
+                try {
+                    date = Constants.DF_SERVER_DATE_SMALL.parse(jsonElement.getAsString());
+                } catch (Exception alsoIgnored) {
+                    date = Constants.DF_TIME_W_SEC.parse(jsonElement.getAsString());
+                }
             }
             return date;
         } catch (ParseException e) {
