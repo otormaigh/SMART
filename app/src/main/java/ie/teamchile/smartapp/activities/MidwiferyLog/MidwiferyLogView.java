@@ -10,4 +10,6 @@ import ie.teamchile.smartapp.model.PregnancyNote;
  */
 public interface MidwiferyLogView extends BaseView {
     void updatePregnancyList(List<PregnancyNote> pregnancyNotes);
+
+    void showAddNoteDialog();
 }

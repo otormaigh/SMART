@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,13 +60,7 @@ public class MidwiferyLogActivity extends BaseActivity implements MidwiferyLogVi
 
             @Override
             public int compare(PregnancyNote a, PregnancyNote b) {
-                int valA;
-                int valB;
-
-                valA = a.getId();
-                valB = b.getId();
-
-                return ((Integer) valA).compareTo(valB);
+                return ((Integer) a.getId()).compareTo(b.getId());
             }
         });
 
@@ -77,16 +72,19 @@ public class MidwiferyLogActivity extends BaseActivity implements MidwiferyLogVi
     @Override
     public void initViews() {
         findViewById(R.id.btn_add_midwifery_note).setOnClickListener(this);
-        adapter = new MyAdapter();
+        adapter = new MidwiferyNoteAdapter();
         ((ListView) findViewById(R.id.lv_midwifery_log)).setAdapter(adapter);
     }
 
-    private void addNoteDialog() {
+    @Override
+    public void showAddNoteDialog() {
         LayoutInflater inflater = getLayoutInflater();
         View convertView = inflater.inflate(R.layout.dialog_add_note, null);
+
         final TextView tvCharCount = (TextView) convertView.findViewById(R.id.tv_note_char_count);
         TextView tvDialogTitle = (TextView) convertView.findViewById(R.id.tv_dialog_title);
         final EditText etEnterNote = (EditText) convertView.findViewById(R.id.et_midwifery_notes);
+
         final int max = 140;
         tvCharCount.setText(String.format(Constants.FORMAT_TV_CHAR_COUNT, etEnterNote.getText().length(), max));
 
@@ -117,7 +115,7 @@ public class MidwiferyLogActivity extends BaseActivity implements MidwiferyLogVi
         convertView.findViewById(R.id.btn_save_note).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (etEnterNote.getText().toString().equals("")) {
+                if (TextUtils.isEmpty(etEnterNote.getText())) {
                     etEnterNote.setError(getString(R.string.error_cannot_be_empty));
                 } else if (etEnterNote.getText().length() > max) {
                     pd = new CustomDialogs().showProgressDialog(
@@ -146,6 +144,7 @@ public class MidwiferyLogActivity extends BaseActivity implements MidwiferyLogVi
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(MidwiferyLogActivity.this);
         alertDialog.setView(convertView);
         tvDialogTitle.setText(getString(R.string.add_note_below));
+
         ad = alertDialog.create();
         ad.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         ad.show();
@@ -155,12 +154,15 @@ public class MidwiferyLogActivity extends BaseActivity implements MidwiferyLogVi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_add_midwifery_note:
-                addNoteDialog();
+                showAddNoteDialog();
                 break;
         }
     }
 
-    private class MyAdapter extends BaseAdapter {
+    private class MidwiferyNoteAdapter extends BaseAdapter {
+        private LayoutInflater inflater;
+        private ViewHolder holder;
+
         @Override
         public int getCount() {
             return pregnancyNotes.size();
@@ -178,18 +180,19 @@ public class MidwiferyLogActivity extends BaseActivity implements MidwiferyLogVi
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            LayoutInflater inflater = getLayoutInflater();
-            ViewHolder holder;
+            inflater = getLayoutInflater();
             if (convertView == null) {
                 convertView = inflater.inflate(R.layout.list_layout_midwife_note, null);
                 holder = new ViewHolder(convertView);
                 convertView.setTag(holder);
-            } else
+            } else {
                 holder = (ViewHolder) convertView.getTag();
+            }
 
             holder.tvDate.setText(Constants.DF_HUMAN_READABLE_DATE.format(getItem(position).getCreatedAt()));
             holder.tvName.setText(getItem(position).getServiceProviderName());
             holder.tvNote.setText(getItem(position).getNote());
+
             return convertView;
         }
 
