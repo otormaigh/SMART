@@ -1,5 +1,7 @@
 package ie.teamchile.smartapp.model;
 
+import java.util.Date;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -15,7 +17,7 @@ public class Appointment extends RealmObject {
     private int serviceProviderId;
     private ServiceUser serviceUser;
     private int serviceUserId;
-    private String time;
+    private Date time;
     //private RealmList<Object> visitLogs;
     private String visitType;
     private boolean attended;
@@ -92,11 +94,11 @@ public class Appointment extends RealmObject {
         this.serviceUserId = serviceUserId;
     }
 
-    public String getTime() {
+    public Date getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(Date time) {
         this.time = time;
     }
 

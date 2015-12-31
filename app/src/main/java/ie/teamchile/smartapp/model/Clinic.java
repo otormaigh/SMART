@@ -1,5 +1,7 @@
 package ie.teamchile.smartapp.model;
 
+import java.util.Date;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -11,13 +13,13 @@ public class Clinic extends RealmObject {
     private String address;
     private RealmList<RealmInteger> announcementIds;
     private int appointmentInterval;
-    private String closingTime;
+    private Date closingTime;
     private Days days;
     @PrimaryKey
     private int id;
     private Links links;
     private String name;
-    private String openingTime;
+    private Date openingTime;
     private String recurrence;
     private RealmList<RealmInteger> serviceOptionIds;
     private String type;
@@ -66,11 +68,11 @@ public class Clinic extends RealmObject {
         this.appointmentInterval = appointmentInterval;
     }
 
-    public String getClosingTime() {
+    public Date getClosingTime() {
         return closingTime;
     }
 
-    public void setClosingTime(String closingTime) {
+    public void setClosingTime(Date closingTime) {
         this.closingTime = closingTime;
     }
 
@@ -106,11 +108,11 @@ public class Clinic extends RealmObject {
         this.name = name;
     }
 
-    public String getOpeningTime() {
+    public Date getOpeningTime() {
         return openingTime;
     }
 
-    public void setOpeningTime(String openingTime) {
+    public void setOpeningTime(Date openingTime) {
         this.openingTime = openingTime;
     }
 
