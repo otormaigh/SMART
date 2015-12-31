@@ -33,23 +33,23 @@ import timber.log.Timber;
  * Created by elliot on 27/12/2015.
  */
 public class BasePresenterImp implements BasePresenter {
+    private static Realm realm;
     private BaseView baseView;
     private WeakReference<Activity> weakActivity;
     private BaseModel baseModel;
-    private static Realm realm;
 
     public BasePresenterImp() {
     }
 
     public BasePresenterImp(WeakReference<Activity> weakActivity) {
         this.weakActivity = weakActivity;
-        baseModel = new BaseModelImp(this);
+        baseModel = new BaseModelImp(this, weakActivity);
     }
 
     public BasePresenterImp(BaseView baseView, WeakReference<Activity> weakActivity) {
         this.baseView = baseView;
         this.weakActivity = weakActivity;
-        baseModel = new BaseModelImp(this);
+        baseModel = new BaseModelImp(this, weakActivity);
     }
 
     @Override
@@ -84,6 +84,8 @@ public class BasePresenterImp implements BasePresenter {
     public void closeRealm() {
         if (realm != null)
             realm.close();
+
+        realm = null;
     }
 
     @Override
@@ -153,31 +155,23 @@ public class BasePresenterImp implements BasePresenter {
                         Timber.d("logout success");
                         Tracking.stopUsage(weakActivity.get());
                         Timber.d("timeUsage = " + Tracking.getUsageTime(weakActivity.get()));
-                        switch (response.getStatus()) {
-                            case 200:
-                                Timber.d("in logout success 200");
-                                doLogout(intent);
-                                break;
-                            default:
-                                Timber.d("in logout success response = " + response.getStatus());
-                        }
+
+                        Toast.makeText(weakActivity.get(),
+                                weakActivity.get().getString(R.string.you_are_now_logged_out),
+                                Toast.LENGTH_SHORT).show();
+                        pd.dismiss();
+                        weakActivity.get().startActivity(intent);
+                        baseModel.clearData();
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
                         Timber.d("in logout failure error = " + error);
-                        if (error.getResponse().getStatus() == 401) {
-                            Toast.makeText(weakActivity.get(),
-                                    weakActivity.get().getString(R.string.you_are_now_logged_out),
-                                    Toast.LENGTH_SHORT).show();
-                            pd.dismiss();
-                            weakActivity.get().startActivity(intent);
-                        } else {
-                            Toast.makeText(weakActivity.get(),
-                                    weakActivity.get().getString(R.string.error_logout),
-                                    Toast.LENGTH_SHORT).show();
-                            pd.dismiss();
-                        }
+                        Toast.makeText(weakActivity.get(),
+                                weakActivity.get().getString(R.string.error_logout),
+                                Toast.LENGTH_SHORT).show();
+                        pd.dismiss();
+                        weakActivity.get().startActivity(intent);
                         baseModel.clearData();
                     }
                 }

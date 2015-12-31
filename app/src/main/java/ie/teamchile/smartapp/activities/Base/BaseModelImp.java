@@ -56,10 +56,6 @@ public class BaseModelImp implements BaseModel {
         realm = basePresenter.getEncryptedRealm();
     }
 
-    public BaseModelImp(WeakReference<Activity> weakActivity) {
-        this.weakActivity = weakActivity;
-    }
-
     public BaseModelImp(BasePresenter basePresenter, WeakReference<Activity> weakActivity) {
         this.basePresenter = basePresenter;
         this.weakActivity = weakActivity;
@@ -206,11 +202,9 @@ public class BaseModelImp implements BaseModel {
 
     @Override
     public void deleteRealmLogin() {
-        if (realm.where(Login.class).findFirst() != null) {
-            realm.beginTransaction();
-            realm.where(Login.class).findFirst().setLoggedIn(false);
-            realm.commitTransaction();
-        }
+        realm.beginTransaction();
+        realm.clear(Login.class);
+        realm.commitTransaction();
     }
 
     @Override
@@ -349,7 +343,7 @@ public class BaseModelImp implements BaseModel {
         return dir.delete();
     }
 
-    private void deleteSharedPref(){
+    private void deleteSharedPref() {
         sharedPrefs.deletePrefs(weakActivity.get(), "appts_got");
         sharedPrefs.deletePrefs(weakActivity.get(), "clinic_started");
         sharedPrefs.deletePrefs(weakActivity.get(), "reuse");
@@ -382,6 +376,7 @@ public class BaseModelImp implements BaseModel {
         realm.clear(ServiceUserAction.class);
         realm.clear(VitKHistory.class);
         realm.commitTransaction();
-        realm.close();
+
+        basePresenter.closeRealm();
     }
 }

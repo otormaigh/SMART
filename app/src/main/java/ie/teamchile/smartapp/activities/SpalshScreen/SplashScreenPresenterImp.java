@@ -25,7 +25,7 @@ public class SplashScreenPresenterImp extends BasePresenterImp implements Splash
         super(weakActivity);
         this.splashScreenView = splashScreenView;
         this.weakActivity = weakActivity;
-        baseModel = new BaseModelImp(weakActivity);
+        baseModel = new BaseModelImp(this, weakActivity);
         realm = getEncryptedRealm();
     }
 
@@ -34,7 +34,6 @@ public class SplashScreenPresenterImp extends BasePresenterImp implements Splash
         if (realm.where(Login.class).findFirst() != null && realm.where(Login.class).findFirst().isLoggedIn()) {
             splashScreenView.gotoQuickMenu();
         } else {
-            baseModel.clearData();
             splashScreenView.gotoLogin();
         }
     }
