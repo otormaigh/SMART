@@ -39,7 +39,7 @@ import java.util.List;
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.activities.AppointmentTypeSpinner.AppointmentTypeSpinnerActivity;
 import ie.teamchile.smartapp.activities.Base.BaseActivity;
-import ie.teamchile.smartapp.activities.MidwiferyLogActivity;
+import ie.teamchile.smartapp.activities.MidwiferyLog.MidwiferyLogActivity;
 import ie.teamchile.smartapp.activities.ParityDetailsActivity;
 import ie.teamchile.smartapp.model.AntiDHistory;
 import ie.teamchile.smartapp.model.Baby;
@@ -501,7 +501,6 @@ public class ServiceUserActivity extends BaseActivity implements ServiceUserView
         btnDialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                serviceUserPresenter.getMidwiferyNotes();
                 ad.dismiss();
             }
         });

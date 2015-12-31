@@ -20,8 +20,6 @@ public interface ServiceUserPresenter extends BasePresenter {
 
     void putNBST(String putNbst, AlertDialog ad);
 
-    void getMidwiferyNotes();
-
     void postPregnancyActions(String action);
 
     void onLeaveView();

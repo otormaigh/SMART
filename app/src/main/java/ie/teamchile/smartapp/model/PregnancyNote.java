@@ -1,5 +1,7 @@
 package ie.teamchile.smartapp.model;
 
+import java.util.Date;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -7,7 +9,7 @@ import io.realm.annotations.PrimaryKey;
  * Created by user on 6/16/15.
  */
 public class PregnancyNote extends RealmObject {
-    private String createdAt;
+    private Date createdAt;
     @PrimaryKey
     private int id;
     private String note;
@@ -15,11 +17,11 @@ public class PregnancyNote extends RealmObject {
     private int serviceProviderId;
     private String serviceProviderName;
 
-    public String getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(String createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 

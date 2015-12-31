@@ -137,6 +137,18 @@ public class BaseModelImp implements BaseModel {
     }
 
     @Override
+    public List<PregnancyNote> getPregnancyNotes() {
+        return realm.where(PregnancyNote.class).findAll();
+    }
+
+    @Override
+    public void updatePregnancyNote(PregnancyNote pregnancyNote) {
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(pregnancyNote);
+        realm.commitTransaction();
+    }
+
+    @Override
     public void updatePregnancyNotes(List<PregnancyNote> pregnancyNotes) {
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(pregnancyNotes);

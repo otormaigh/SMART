@@ -12,9 +12,7 @@ import ie.teamchile.smartapp.activities.Base.BaseModel;
 import ie.teamchile.smartapp.activities.Base.BaseModelImp;
 import ie.teamchile.smartapp.activities.Base.BasePresenterImp;
 import ie.teamchile.smartapp.api.SmartApiClient;
-import ie.teamchile.smartapp.model.Baby;
 import ie.teamchile.smartapp.model.BaseResponseModel;
-import ie.teamchile.smartapp.model.Pregnancy;
 import ie.teamchile.smartapp.model.ServiceUser;
 import ie.teamchile.smartapp.util.CustomDialogs;
 import io.realm.Realm;
@@ -40,7 +38,10 @@ public class ServiceUserSearchPresenterImp extends BasePresenterImp implements S
     }
 
     @Override
-    public void getHistories(int pregnancyId, int babyId) {
+    public void getHistories() {
+        int babyId = baseModel.getBaby().getId();
+        int pregnancyId = baseModel.getPregnancy().getId();
+
         SmartApiClient.getAuthorizedApiClient(realm).getVitKHistories(
                 babyId,
                 new Callback<BaseResponseModel>() {
@@ -122,13 +123,15 @@ public class ServiceUserSearchPresenterImp extends BasePresenterImp implements S
                     public void success(BaseResponseModel baseResponseModel, Response response) {
                         Timber.wtf("size = " + baseResponseModel.getServiceUsers().size());
 
-                        if (baseResponseModel.getServiceUsers().size() != 0) {
+                        if (!baseResponseModel.getServiceUsers().isEmpty()) {
                             if (serviceUserSearchView.shouldChangeActivity()) {
-                                serviceUserSearchView.gotoServiceUserActivity();
+
                                 baseModel.saveServiceUserToRealm(baseResponseModel);
-                                getHistories(
-                                        getRecentPregnancy(realm.where(Pregnancy.class).findAll()),
-                                        getRecentBaby(realm.where(Baby.class).findAll()));
+
+                                getPregnancyNotes();
+                                getHistories();
+
+                                serviceUserSearchView.gotoServiceUserActivity();
                             } else {
                                 serviceUserSearchView.updateServiceUserList(baseResponseModel.getServiceUsers());
                             }
@@ -143,6 +146,27 @@ public class ServiceUserSearchPresenterImp extends BasePresenterImp implements S
                         Timber.d("ServiceUserSearchActivity user search failure = " + error);
                         serviceUserSearchView.updateServiceUserList(new ArrayList<ServiceUser>());
                         pd.dismiss();
+                    }
+                }
+        );
+    }
+
+
+    @Override
+    public void getPregnancyNotes() {
+        SmartApiClient.getAuthorizedApiClient(weakActivity.get()).getPregnancyNotes(
+                baseModel.getPregnancy().getId(),
+                new Callback<BaseResponseModel>() {
+                    @Override
+                    public void success(BaseResponseModel baseResponseModel, Response response) {
+                        Timber.d("put getMidwiferyNotes retro success");
+
+                        baseModel.updatePregnancyNotes(baseResponseModel.getPregnancyNotes());
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Timber.d("put getMidwiferyNotes retro failure = " + error);
                     }
                 }
         );

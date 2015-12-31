@@ -40,6 +40,10 @@ public interface BaseModel {
 
     void saveServiceUserActionsToRealm(List<ServiceUserAction> serviceUserActions);
 
+    List<PregnancyNote> getPregnancyNotes();
+
+    void updatePregnancyNote(PregnancyNote pregnancyNote);
+
     void updatePregnancyNotes(List<PregnancyNote> pregnancyNotes);
 
     void deleteServiceUserFromRealm();

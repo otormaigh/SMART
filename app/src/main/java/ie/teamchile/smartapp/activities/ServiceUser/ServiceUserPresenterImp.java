@@ -241,33 +241,6 @@ public class ServiceUserPresenterImp extends BasePresenterImp implements Service
     }
 
     @Override
-    public void getMidwiferyNotes() {
-        final ProgressDialog pd = new CustomDialogs().showProgressDialog(
-                weakActivity.get(),
-                "Adding Actions");
-
-        SmartApiClient.getAuthorizedApiClient(weakActivity.get()).getPregnancyNotes(
-                baseModel.getPregnancy().getId(),
-                new Callback<BaseResponseModel>() {
-                    @Override
-                    public void success(BaseResponseModel baseResponseModel, Response response) {
-                        Timber.d("put getMidwiferyNotes retro success");
-
-                        baseModel.updatePregnancyNotes(baseResponseModel.getPregnancyNotes());
-
-                        pd.dismiss();
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Timber.d("put getMidwiferyNotes retro failure = " + error);
-                        pd.dismiss();
-                    }
-                }
-        );
-    }
-
-    @Override
     public void postPregnancyActions(String action) {
         PostingData postAction = new PostingData();
         postAction.postPregnancyAction(action);
