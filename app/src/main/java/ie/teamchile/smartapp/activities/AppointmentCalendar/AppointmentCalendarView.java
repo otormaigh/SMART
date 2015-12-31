@@ -1,5 +1,7 @@
 package ie.teamchile.smartapp.activities.AppointmentCalendar;
 
+import java.util.Date;
+
 import ie.teamchile.smartapp.activities.Base.BaseView;
 
 /**
@@ -7,4 +9,6 @@ import ie.teamchile.smartapp.activities.Base.BaseView;
  */
 public interface AppointmentCalendarView extends BaseView {
     void gotoServiceUserActivity();
+
+    void getAppointmentListForDay(Date dateSelected);
 }

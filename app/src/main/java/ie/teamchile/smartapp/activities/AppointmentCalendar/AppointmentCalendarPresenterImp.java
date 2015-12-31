@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 
+import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.activities.Base.BaseModel;
 import ie.teamchile.smartapp.activities.Base.BaseModelImp;
 import ie.teamchile.smartapp.activities.Base.BasePresenterImp;
@@ -41,7 +42,7 @@ public class AppointmentCalendarPresenterImp extends BasePresenterImp implements
         final ProgressDialog pd = new CustomDialogs()
                 .showProgressDialog(
                         weakActivity.get(),
-                        "Changing Attended Status");
+                        weakActivity.get().getString(R.string.changing_attended_status));
 
         PostingData attendedStatus = new PostingData();
         attendedStatus.putAppointmentStatus(
@@ -57,7 +58,8 @@ public class AppointmentCalendarPresenterImp extends BasePresenterImp implements
                     @Override
                     public void success(BaseResponseModel baseResponseModel, Response response) {
                         Toast.makeText(weakActivity.get(),
-                                "Status changed", Toast.LENGTH_LONG).show();
+                                weakActivity.get().getString(R.string.status_changed),
+                                Toast.LENGTH_LONG).show();
 
                         baseModel.saveAppointmentToRealm(baseResponseModel.getAppointment());
 
@@ -78,7 +80,7 @@ public class AppointmentCalendarPresenterImp extends BasePresenterImp implements
         final ProgressDialog pd = new CustomDialogs()
                 .showProgressDialog(
                         weakActivity.get(),
-                        "Fetching Information");
+                        weakActivity.get().getString(R.string.fetching_information));
 
         SmartApiClient.getAuthorizedApiClient(realm).getServiceUserById(serviceUserId,
                 new Callback<BaseResponseModel>() {
@@ -95,7 +97,7 @@ public class AppointmentCalendarPresenterImp extends BasePresenterImp implements
                         pd.dismiss();
                         Toast.makeText(
                                 weakActivity.get(),
-                                "Error Search Patient: " + error,
+                                String.format(weakActivity.get().getString(R.string.error_search_patient), error),
                                 Toast.LENGTH_LONG).show();
                     }
                 });

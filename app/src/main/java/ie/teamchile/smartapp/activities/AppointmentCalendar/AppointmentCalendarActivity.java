@@ -9,7 +9,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,7 +24,6 @@ import android.widget.TextView;
 import com.daimajia.swipe.SwipeLayout;
 
 import java.lang.ref.WeakReference;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -47,8 +45,10 @@ public class AppointmentCalendarActivity extends BaseActivity implements Appoint
     private static int serviceOptionSelected, weekSelected, clinicSelected, visitOptionSelected;
     private final int sdkVersion = Build.VERSION.SDK_INT;
     private Date openingAsDate, closingAsDate;
-    private String clinicOpening, clinicClosing, closingMinusInterval,
+    private String closingMinusInterval,
             dateSelectedStr, timeBefore, timeAfter, nameOfClinic;
+    private Date clinicOpening;
+    private Date clinicClosing;
     private int appointmentInterval, dayOfWeek;
     private List<String> timeSingle;
     //private List<Integer> listOfApptId = new ArrayList<>();
@@ -76,16 +76,12 @@ public class AppointmentCalendarActivity extends BaseActivity implements Appoint
         realm = appointmentCalendarPresenter.getEncryptedRealm();
 
         serviceOptionId = realm.where(Clinic.class).equalTo(Constants.REALM_ID, clinicSelected).findFirst().getServiceOptionIds().get(0).getValue();
-        clinicOpening = realm.where(Clinic.class).equalTo(Constants.REALM_ID, clinicSelected).findFirst().getOpeningTime();
-        clinicClosing = realm.where(Clinic.class).equalTo(Constants.REALM_ID, clinicSelected).findFirst().getClosingTime();
-        appointmentInterval = realm.where(Clinic.class).equalTo(Constants.REALM_ID, clinicSelected).findFirst().getAppointmentInterval();
 
-        try {
-            openingAsDate = Constants.DF_TIME_ONLY.parse(String.valueOf(clinicOpening));
-            closingAsDate = Constants.DF_TIME_ONLY.parse(String.valueOf(clinicClosing));
-        } catch (ParseException e) {
-            Timber.e(Log.getStackTraceString(e));
-        }
+        clinicOpening = realm.where(Clinic.class).equalTo(Constants.REALM_ID, clinicSelected).findFirst().getOpeningTime();
+
+        clinicClosing = realm.where(Clinic.class).equalTo(Constants.REALM_ID, clinicSelected).findFirst().getClosingTime();
+
+        appointmentInterval = realm.where(Clinic.class).equalTo(Constants.REALM_ID, clinicSelected).findFirst().getAppointmentInterval();
 
         myCalendar.setTime(closingAsDate);
         myCalendar.add(Calendar.MINUTE, (-appointmentInterval));
@@ -96,10 +92,10 @@ public class AppointmentCalendarActivity extends BaseActivity implements Appoint
         c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
 
         idList = new ArrayList<>();
-        adapter = new ListElementAdapter();
+        adapter = new AppointmentListAdapter();
         listView.setAdapter(adapter);
 
-        newSetToList(daySelected);
+        getAppointmentListForDay(daySelected);
         createDatePicker();
     }
 
@@ -120,7 +116,7 @@ public class AppointmentCalendarActivity extends BaseActivity implements Appoint
         Timber.d("daySelected: " + daySelected);
         idList = new ArrayList<>();
         adapter.notifyDataSetChanged();
-        newSetToList(daySelected);
+        getAppointmentListForDay(daySelected);
     }
 
 
@@ -171,9 +167,10 @@ public class AppointmentCalendarActivity extends BaseActivity implements Appoint
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 Constants.DF_DATE_ONLY.format(myCalendar.getTime());
+
                 if (myCalendar.get(Calendar.DAY_OF_WEEK) == dayOfWeek) {
                     dateInList.setText(Constants.DF_DATE_W_MONTH_NAME.format(myCalendar.getTime()));
-                    newSetToList(myCalendar.getTime());
+                    getAppointmentListForDay(myCalendar.getTime());
                 } else {
                     pd = new CustomDialogs().showProgressDialog(AppointmentCalendarActivity.this,
                             "Invalid day selected\nPlease choose another");
@@ -196,9 +193,9 @@ public class AppointmentCalendarActivity extends BaseActivity implements Appoint
         });
     }
 
-    private void newSetToList(Date dateSelected) {
+    @Override
+    public void getAppointmentListForDay(Date dateSelected) {
         timeSingle = new ArrayList<>();
-
         timeList = new ArrayList<>();
         idList = new ArrayList<>();
 
@@ -224,13 +221,12 @@ public class AppointmentCalendarActivity extends BaseActivity implements Appoint
                 .findAll();
 
         if (!appointmentList.isEmpty()) {
-            for (Appointment appointment : appointmentList) {
-                String timeOfAppt = "";
-                try {
-                    timeOfAppt = Constants.DF_DATE_ONLY.format(Constants.DF_TIME_W_SEC.parse(appointment.getTime()));
-                } catch (ParseException e) {
-                    Timber.e(Log.getStackTraceString(e));
-                }
+            int size = appointmentList.size();
+            Appointment appointment;
+            String timeOfAppt;
+            for (int i = 0; i < size; i++) {
+                appointment = appointmentList.get(i);
+                timeOfAppt = Constants.DF_DATE_ONLY.format(appointment.getTime());
                 if (timeList.contains(timeOfAppt)) {
                     idList.set(timeList.indexOf(timeOfAppt), appointment.getId());
                 }
@@ -274,7 +270,7 @@ public class AppointmentCalendarActivity extends BaseActivity implements Appoint
                     daySelected = c.getTime();
                     myCalendar.setTime(daySelected);
                     createDatePicker();
-                    newSetToList(c.getTime());
+                    getAppointmentListForDay(c.getTime());
                     pauseButton();
                     break;
                 case R.id.btn_next:
@@ -283,14 +279,16 @@ public class AppointmentCalendarActivity extends BaseActivity implements Appoint
                     daySelected = c.getTime();
                     myCalendar.setTime(daySelected);
                     createDatePicker();
-                    newSetToList(c.getTime());
+                    getAppointmentListForDay(c.getTime());
                     pauseButton();
                     break;
             }
         }
     }
 
-    private class ListElementAdapter extends BaseAdapter {
+    private class AppointmentListAdapter extends BaseAdapter {
+        private boolean attended;
+        private ViewHolder holder;
 
         @Override
         public int getCount() {
@@ -302,6 +300,10 @@ public class AppointmentCalendarActivity extends BaseActivity implements Appoint
             return idList.get(position);
         }
 
+        public Appointment getAppointment(int position) {
+            return realm.where(Appointment.class).equalTo(Constants.REALM_ID, getItem(position)).findFirst();
+        }
+
         @Override
         public long getItemId(int position) {
             return idList.get(position).hashCode();
@@ -309,10 +311,6 @@ public class AppointmentCalendarActivity extends BaseActivity implements Appoint
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-            final ViewHolder holder;
-            final Appointment appointment = realm.where(Appointment.class).equalTo(Constants.REALM_ID, getItem(position)).findFirst();
-            final Boolean attended;
-
             if (convertView == null) {
                 LayoutInflater layoutInflater = LayoutInflater.from(AppointmentCalendarActivity.this);
                 convertView = layoutInflater.inflate(R.layout.list_layout_appointment, null);
@@ -323,17 +321,17 @@ public class AppointmentCalendarActivity extends BaseActivity implements Appoint
 
             holder.timeText.setText(timeList.get(position));
 
-            if(getItem(position) == 0){
-                holder.nameText.setText("Free Slot");
-                holder.gestText.setText("");
+            if (getItem(position) == 0) {
+                holder.nameText.setText(getString(R.string.free_slot));
+                holder.gestText.setText(null);
                 attended = false;
                 holder.swipeLayout.setSwipeEnabled(false);
                 holder.nameText.setTextColor(getResources().getColor(R.color.free_slot));
                 holder.nameText.setTypeface(null, Typeface.ITALIC);
             } else {
-                holder.nameText.setText(appointment.getServiceUser().getName());
-                holder.gestText.setText(appointment.getServiceUser().getGestation());
-                attended = appointment.isAttended();
+                holder.nameText.setText(getAppointment(position).getServiceUser().getName());
+                holder.gestText.setText(getAppointment(position).getServiceUser().getGestation());
+                attended = getAppointment(position).isAttended();
                 holder.swipeLayout.setSwipeEnabled(true);
                 holder.nameText.setTextColor(holder.gestText.getTextColors().getDefaultColor());
                 holder.nameText.setTypeface(null, Typeface.NORMAL);
@@ -341,27 +339,24 @@ public class AppointmentCalendarActivity extends BaseActivity implements Appoint
 
             if (attended) {
                 holder.ivAttend.setBackgroundResource(R.color.attended);
-                holder.btnChangeStatus.setText("No");
+                holder.btnChangeStatus.setText(getString(R.string.no));
             } else {
                 holder.ivAttend.setBackgroundResource(R.color.unattended);
-                holder.btnChangeStatus.setText("Yes");
+                holder.btnChangeStatus.setText(getString(R.string.yes));
             }
 
             holder.llApptListItem.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
                     if (getItem(position).equals(0)) {
-                        intent = new Intent(AppointmentCalendarActivity.this, CreateAppointmentActivity.class);
-                        intent.putExtra("from", "clinic-appointment");
-                        intent.putExtra("time", timeList.get(position));
-                        intent.putExtra("clinicID", String.valueOf(clinicSelected));
-                        intent.putExtra("serviceOptionId", String.valueOf(serviceOptionId));
+                        intent = new Intent(getApplicationContext(), CreateAppointmentActivity.class);
+                        intent.putExtra(Constants.ARGS_FROM, Constants.ARGS_CLINIC_APPOINTMENT);
+                        intent.putExtra(Constants.ARGS_TIME, timeList.get(position));
+                        intent.putExtra(Constants.ARGS_CLINIC_ID, String.valueOf(clinicSelected));
+                        intent.putExtra(Constants.ARGS_SERVICE_OPTION_ID, String.valueOf(serviceOptionId));
                         startActivity(intent);
                     } else {
-                        int serviceUserId = appointment.getServiceUserId();
-                        Timber.d("db string: " + "service_users" + "/" + serviceUserId);
-
-                        appointmentCalendarPresenter.searchServiceUser(serviceUserId);
+                        appointmentCalendarPresenter.searchServiceUser(getAppointment(position).getServiceUserId());
                     }
                     return true;
                 }
@@ -373,10 +368,16 @@ public class AppointmentCalendarActivity extends BaseActivity implements Appoint
                     holder.swipeLayout.close();
 
                     realm.beginTransaction();
-                    appointment.setAttended(!attended);
+                    getAppointment(position).setAttended(!attended);
                     realm.commitTransaction();
-                    appointmentCalendarPresenter.changeAttendStatus(!attended, position, clinicSelected,
-                            realm.where(Appointment.class).equalTo(Constants.REALM_ID, idList.get(position)).findFirst().getServiceUserId(),
+                    appointmentCalendarPresenter.changeAttendStatus(
+                            !attended,
+                            position,
+                            clinicSelected,
+                            realm.where(Appointment.class)
+                                    .equalTo(Constants.REALM_ID,
+                                            idList.get(position)).findFirst()
+                                    .getServiceUserId(),
                             idList.get(position));
                     adapter.notifyDataSetChanged();
                 }
@@ -393,15 +394,15 @@ public class AppointmentCalendarActivity extends BaseActivity implements Appoint
             private SwipeLayout swipeLayout;
             private LinearLayout llApptListItem;
 
-             public ViewHolder(View view) {
-                 timeText = (TextView) view.findViewById(R.id.tv_time);
-                 nameText = (TextView) view.findViewById(R.id.tv_name);
-                 gestText = (TextView) view.findViewById(R.id.tv_gestation);
-                 btnChangeStatus = (Button) view.findViewById(R.id.btn_change_status);
-                 ivAttend = (ImageView) view.findViewById(R.id.img_attended);
-                 swipeLayout = (SwipeLayout) view.findViewById(R.id.swipe_appt_list);
-                 llApptListItem = (LinearLayout) view.findViewById(R.id.ll_appt_list_item);
-             }
+            public ViewHolder(View view) {
+                timeText = (TextView) view.findViewById(R.id.tv_time);
+                nameText = (TextView) view.findViewById(R.id.tv_name);
+                gestText = (TextView) view.findViewById(R.id.tv_gestation);
+                btnChangeStatus = (Button) view.findViewById(R.id.btn_change_status);
+                ivAttend = (ImageView) view.findViewById(R.id.img_attended);
+                swipeLayout = (SwipeLayout) view.findViewById(R.id.swipe_appt_list);
+                llApptListItem = (LinearLayout) view.findViewById(R.id.ll_appt_list_item);
+            }
         }
     }
 }

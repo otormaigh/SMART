@@ -304,6 +304,13 @@
     <!-- ACTIVITY TITLES -->
     <string name="title.clinic_time_records">Start/Stop Clinics</string>
 
+    <!-- MISC -->
     <string name="mvp_unsupported_operation_exception">This method is not supported in this class</string>
+
+    <!-- APPOINTMENT CALENDAR-->
+    <string name="free_slot">Free Slot</string>
+    <string name="changing_attended_status">Changing Attended Status</string>
+    <string name="status_changed">Status changed</string>
+    <string name="error.search_patient">Error Search Patient: %s</string>
 
 </resources>
