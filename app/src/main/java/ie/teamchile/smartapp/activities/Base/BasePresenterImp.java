@@ -1,11 +1,7 @@
 package ie.teamchile.smartapp.activities.Base;
 
 import android.app.Activity;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
@@ -24,7 +20,6 @@ import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.Baby;
 import ie.teamchile.smartapp.model.BaseResponseModel;
 import ie.teamchile.smartapp.model.Pregnancy;
-import ie.teamchile.smartapp.util.ClearData;
 import ie.teamchile.smartapp.util.CustomDialogs;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -38,15 +33,21 @@ import timber.log.Timber;
  * Created by elliot on 27/12/2015.
  */
 public class BasePresenterImp implements BasePresenter {
+    private BaseView baseView;
     private WeakReference<Activity> weakActivity;
     private BaseModel baseModel;
-    private NotificationManager notificationManager;
     private static Realm realm;
 
     public BasePresenterImp() {
     }
 
     public BasePresenterImp(WeakReference<Activity> weakActivity) {
+        this.weakActivity = weakActivity;
+        baseModel = new BaseModelImp(this);
+    }
+
+    public BasePresenterImp(BaseView baseView, WeakReference<Activity> weakActivity) {
+        this.baseView = baseView;
         this.weakActivity = weakActivity;
         baseModel = new BaseModelImp(this);
     }
@@ -66,12 +67,6 @@ public class BasePresenterImp implements BasePresenter {
         return realm;
     }
 
-    @Override
-    public void closeRealm() {
-        if (realm != null)
-            realm.close();
-    }
-
     private RealmConfiguration getRealmConfiguration() {
         byte[] key = new byte[64];
         new SecureRandom().nextBytes(key);
@@ -83,6 +78,12 @@ public class BasePresenterImp implements BasePresenter {
         Realm.deleteRealm(realmConfiguration);
 
         return realmConfiguration;
+    }
+
+    @Override
+    public void closeRealm() {
+        if (realm != null)
+            realm.close();
     }
 
     @Override
@@ -177,7 +178,7 @@ public class BasePresenterImp implements BasePresenter {
                                     Toast.LENGTH_SHORT).show();
                             pd.dismiss();
                         }
-                        new ClearData(weakActivity.get());
+                        baseModel.clearData();
                     }
                 }
         );
@@ -193,45 +194,28 @@ public class BasePresenterImp implements BasePresenter {
                         Timber.d("in logout success");
                         Tracking.stopUsage(weakActivity.get());
                         Timber.d("timeUsage QuickMenu = " + Tracking.getUsageTime(weakActivity.get()));
-                        new ClearData(weakActivity.get());
+                        baseModel.clearData();
                         weakActivity.get().finish();
-                        if (notificationManager != null) {
-                            notificationManager.cancelAll();
-                            showNotification(weakActivity.get().getString(R.string.app_name),
+                        if (baseView.getNotificationManager() != null) {
+                            baseView.getNotificationManager().cancelAll();
+                            baseView.showNotification(weakActivity.get().getString(R.string.app_name),
                                     weakActivity.get().getString(R.string.success_logout),
                                     SplashScreenActivity.class);
                         } else
-                            showNotification(weakActivity.get().getString(R.string.app_name),
+                            baseView.showNotification(weakActivity.get().getString(R.string.app_name),
                                     weakActivity.get().getString(R.string.success_logout),
                                     SplashScreenActivity.class);
-                        new ClearData(weakActivity.get());
+                        baseModel.clearData();
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
                         Timber.d("in logout failure error = " + error);
+                        baseModel.clearData();
                         weakActivity.get().finish();
-                        new ClearData(weakActivity.get());
                     }
                 }
         );
-    }
-
-    @Override
-    public void showNotification(String title, String message, Class activityClass) {
-        notificationManager = (NotificationManager)
-                weakActivity.get().getSystemService(Context.NOTIFICATION_SERVICE);
-        Intent intent = new Intent(weakActivity.get(), activityClass);
-        PendingIntent pIntent = PendingIntent.getActivity(weakActivity.get(), 0, intent, 0);
-
-        Notification n = new Notification.Builder(weakActivity.get())
-                .setContentTitle(title)
-                .setContentText(message)
-                .setSmallIcon(R.drawable.ic_launcher)
-                .setContentIntent(pIntent)
-                .setAutoCancel(true).build();
-
-        notificationManager.notify(0, n);
     }
 
     @Override

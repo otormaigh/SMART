@@ -3,7 +3,9 @@ package ie.teamchile.smartapp.activities.Base;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
+import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
@@ -63,7 +65,7 @@ public class BaseActivity extends AppCompatActivity implements BaseView {
     protected int spinnerWarning;
     protected int thingALing = 0;
     protected LogoutService logServ;
-    protected NotificationManager notificationManager;
+    private NotificationManager notificationManager;
     public static int apptDone;
     private Realm realm;
     private BasePresenter basePresenter;
@@ -74,7 +76,7 @@ public class BaseActivity extends AppCompatActivity implements BaseView {
         disableScreenshot();
         setContentView(R.layout.navigation_drawer_layout);
 
-        basePresenter = new BasePresenterImp(new WeakReference<Activity>(BaseActivity.this));
+        basePresenter = new BasePresenterImp(this, new WeakReference<Activity>(BaseActivity.this));
 
         realm = basePresenter.getEncryptedRealm();
 
@@ -100,8 +102,8 @@ public class BaseActivity extends AppCompatActivity implements BaseView {
             thingALing--;
             logServ.startTimer(false);
         }
-        if (notificationManager != null)
-            notificationManager.cancelAll();
+        if (getNotificationManager() != null)
+            getNotificationManager().cancelAll();
     }
 
     @Override
@@ -111,7 +113,7 @@ public class BaseActivity extends AppCompatActivity implements BaseView {
         if (isMyServiceRunning()) {
             new ToastAlert(getBaseContext(), getString(R.string.view_is_hidden), false);
             thingALing++;
-            basePresenter.showNotification(getString(R.string.app_name), getString(R.string.warning_logged_out_soon), QuickMenuActivity.class);
+            showNotification(getString(R.string.app_name), getString(R.string.warning_logged_out_soon), QuickMenuActivity.class);
             logServ = new LogoutService();
             logServ.startTimer(true);
         }
@@ -301,6 +303,30 @@ public class BaseActivity extends AppCompatActivity implements BaseView {
 
     protected int getRecentBaby(List<Baby> babyList) {                  //TODO: Remove
         return basePresenter.getRecentBaby(babyList);
+    }
+
+    @Override
+    public void showNotification(String title, String message, Class activityClass) {
+        notificationManager = (NotificationManager)
+                getSystemService(Context.NOTIFICATION_SERVICE);
+
+        Intent intent = new Intent(this, activityClass);
+        PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+        Notification n = new Notification.Builder(this)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setSmallIcon(R.drawable.ic_launcher)
+                .setContentIntent(pIntent)
+                .setAutoCancel(true)
+                .build();
+
+        notificationManager.notify(0, n);
+    }
+
+    @Override
+    public NotificationManager getNotificationManager() {
+        return notificationManager;
     }
 
     public class LogoutService extends Service {

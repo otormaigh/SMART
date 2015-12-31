@@ -24,7 +24,5 @@ public interface BasePresenter {
 
     void doLogoutWithoutIntent();
 
-    void showNotification(String title, String message, Class activity);
-
     void getAllAppointments();
 }

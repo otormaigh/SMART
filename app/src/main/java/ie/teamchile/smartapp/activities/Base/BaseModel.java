@@ -79,4 +79,6 @@ public interface BaseModel {
     void updateHearing();
 
     void updateNbst();
+
+    void clearData();
 }

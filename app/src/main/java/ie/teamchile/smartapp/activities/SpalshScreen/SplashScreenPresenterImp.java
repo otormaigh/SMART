@@ -8,7 +8,9 @@ import java.lang.ref.WeakReference;
 import ie.teamchile.smartapp.activities.Base.BaseModel;
 import ie.teamchile.smartapp.activities.Base.BaseModelImp;
 import ie.teamchile.smartapp.activities.Base.BasePresenterImp;
+import ie.teamchile.smartapp.model.Login;
 import ie.teamchile.smartapp.util.EnvironmentChecker;
+import io.realm.Realm;
 
 /**
  * Created by elliot on 27/12/2015.
@@ -17,12 +19,24 @@ public class SplashScreenPresenterImp extends BasePresenterImp implements Splash
     private SplashScreenView splashScreenView;
     private BaseModel baseModel;
     private WeakReference<Activity> weakActivity;
+    private Realm realm;
 
     public SplashScreenPresenterImp(SplashScreenView splashScreenView, WeakReference<Activity> weakActivity) {
         super(weakActivity);
         this.splashScreenView = splashScreenView;
         this.weakActivity = weakActivity;
         baseModel = new BaseModelImp(weakActivity);
+        realm = getEncryptedRealm();
+    }
+
+    @Override
+    public void checkIfLoggedIn() {
+        if (realm.where(Login.class).findFirst() != null && realm.where(Login.class).findFirst().isLoggedIn()) {
+            splashScreenView.gotoQuickMenu();
+        } else {
+            baseModel.clearData();
+            splashScreenView.gotoLogin();
+        }
     }
 
     @Override
@@ -37,7 +51,7 @@ public class SplashScreenPresenterImp extends BasePresenterImp implements Splash
 
             if (time != 0) {
                 if (DateUtils.isToday(time))
-                    splashScreenView.checkIfLoggedIn();
+                    checkIfLoggedIn();
             }
         }
     }

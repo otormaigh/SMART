@@ -72,8 +72,8 @@ public class QuickMenuActivity extends BaseActivity implements QuickMenuView, On
         if (logServ != null)
             logServ.startTimer(false);
 
-        if (notificationManager != null)
-            notificationManager.cancelAll();
+        if (getNotificationManager() != null)
+            getNotificationManager().cancelAll();
     }
 
     private void checkIfLoggedIn() {

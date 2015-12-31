@@ -13,8 +13,6 @@ import ie.teamchile.smartapp.BuildConfig;
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.activities.Login.LoginActivity;
 import ie.teamchile.smartapp.activities.QuickMenu.QuickMenuActivity;
-import ie.teamchile.smartapp.model.Login;
-import ie.teamchile.smartapp.util.ClearData;
 import io.realm.Realm;
 
 import static android.view.View.OnClickListener;
@@ -72,25 +70,29 @@ public class SplashScreenActivity extends AppCompatActivity implements SplashScr
     }
 
     @Override
-    public void checkIfLoggedIn() {
-        if (realm.where(Login.class).findFirst() != null && realm.where(Login.class).findFirst().isLoggedIn()) {
-            startActivity(new Intent(SplashScreenActivity.this, QuickMenuActivity.class));
-        } else {
-            new ClearData(getApplicationContext());
-            startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
-        }
-        finish();
+    public void showNotification(String title, String message, Class activity) {
+        throw new UnsupportedOperationException(getString(R.string.mvp_unsupported_operation_exception));
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_yes:
-                checkIfLoggedIn();
+                splashScreenPresenter.checkIfLoggedIn();
                 break;
             case R.id.btn_no:
                 finish();
                 break;
         }
+    }
+
+    @Override
+    public void gotoQuickMenu() {
+        startActivity(new Intent(SplashScreenActivity.this, QuickMenuActivity.class));
+    }
+
+    @Override
+    public void gotoLogin() {
+        startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
     }
 }
