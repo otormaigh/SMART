@@ -47,7 +47,7 @@
             android:name=".activities.AppointmentTypeSpinner.AppointmentTypeSpinnerActivity"
             android:screenOrientation="sensorPortrait"/>
         <activity
-            android:name=".activities.ClinicTimeRecordActivity"
+            android:name=".activities.ClinicTimeRecord.ClinicTimeRecordActivity"
             android:screenOrientation="sensorPortrait"/>
         <activity
             android:name=".activities.CreateAppointmentActivity"

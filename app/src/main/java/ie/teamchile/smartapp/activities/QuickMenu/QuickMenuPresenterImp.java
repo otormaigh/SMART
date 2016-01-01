@@ -90,7 +90,7 @@ public class QuickMenuPresenterImp extends BasePresenterImp implements QuickMenu
                 new Callback<BaseResponseModel>() {
                     @Override
                     public void success(BaseResponseModel baseResponseModel, Response response) {
-                        baseModel.saveClinicsToRealm(baseResponseModel.getClinics());
+                        baseModel.updateClinics(baseResponseModel.getClinics());
 
                         Map<Integer, Clinic> clinicMap = new HashMap<>();
                         for (int i = 0; i < baseResponseModel.getClinics().size(); i++) {

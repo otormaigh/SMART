@@ -37,12 +37,17 @@
     <string name="todays_appointments">Today\'s Appointments</string>
     <string name="updating_info">Updating Information</string>
 
-    <!-- SPINNER TITLES -->
+    <!-- APPOINTMENT TYPE SPINNER -->
     <string name="patient_search_options"> Select search option</string>
     <string name="appointment_type">Appointment Type</string>
     <string name="clinic_option">Clinic Option</string>
     <string name="visit_option">Visit Option</string>
     <string name="show_appointment">Show Appointment</string>
+    <string name="select_service_option">Select Service Option</string>
+    <string name="select_clinic">Select Clinic</string>
+    <string name="select_visit_option">Select Visit Option</string>
+    <string name="select_day">Select Day</string>
+    <string name="select_week">Select Week</string>
 
     <!-- APPOINTMENT SPINNER -->
     <string-array name="appointment_type_list">
@@ -271,7 +276,7 @@
     <!-- START/STOP CLINIC -->
     <string name="start_clinic">Start Clinic</string>
     <string name="stop_clinic">End Clinic</string>
-    <string name="select_clinic">Select a Clinic from Below</string>
+    <string name="select_clinic_from_below">Select a Clinic from Below</string>
     <string name="clinics_started">Already In-progress</string>
     <string name="clinics_stopped">Already Finished Today</string>
     <string name="clinics_not_started">Waiting to be Started Today</string>

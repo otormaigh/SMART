@@ -5,7 +5,6 @@ import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -42,16 +41,9 @@ import timber.log.Timber;
 
 public class AppointmentCalendarActivity extends BaseActivity implements AppointmentCalendarView {
     public static Date daySelected;
-    private static int serviceOptionSelected, weekSelected, clinicSelected, visitOptionSelected;
-    private final int sdkVersion = Build.VERSION.SDK_INT;
-    private Date openingAsDate, closingAsDate;
-    private String closingMinusInterval,
-            dateSelectedStr, timeBefore, timeAfter, nameOfClinic;
-    private Date clinicOpening;
-    private Date clinicClosing;
+    public static int clinicSelected;
+    private Date clinicOpening, clinicClosing;
     private int appointmentInterval, dayOfWeek;
-    private List<String> timeSingle;
-    //private List<Integer> listOfApptId = new ArrayList<>();
     private Calendar c = Calendar.getInstance(), myCalendar = Calendar.getInstance();
     private Intent intent;
     private List<String> timeList = new ArrayList<>();
@@ -83,9 +75,8 @@ public class AppointmentCalendarActivity extends BaseActivity implements Appoint
 
         appointmentInterval = realm.where(Clinic.class).equalTo(Constants.REALM_ID, clinicSelected).findFirst().getAppointmentInterval();
 
-        myCalendar.setTime(closingAsDate);
+        myCalendar.setTime(clinicClosing);
         myCalendar.add(Calendar.MINUTE, (-appointmentInterval));
-        closingMinusInterval = Constants.DF_TIME_ONLY.format(myCalendar.getTime());
 
         c.setTime(daySelected);
         dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
@@ -195,19 +186,18 @@ public class AppointmentCalendarActivity extends BaseActivity implements Appoint
 
     @Override
     public void getAppointmentListForDay(Date dateSelected) {
-        timeSingle = new ArrayList<>();
         timeList = new ArrayList<>();
         idList = new ArrayList<>();
 
-        Date apptTime = openingAsDate;
+        Date apptTime = clinicOpening;
         daySelected = dateSelected;
 
-        dateSelectedStr = Constants.DF_DATE_ONLY.format(dateSelected);
+        String dateSelectedStr = Constants.DF_DATE_ONLY.format(dateSelected);
         dateInList.setText(Constants.DF_DATE_W_MONTH_NAME.format(dateSelected));
-        nameOfClinic = realm.where(Clinic.class).equalTo(Constants.REALM_ID, clinicSelected).findFirst().getName();
+        String nameOfClinic = realm.where(Clinic.class).equalTo(Constants.REALM_ID, clinicSelected).findFirst().getName();
         setActionBarTitle(nameOfClinic);
 
-        while (!closingAsDate.before(apptTime)) {
+        while (!clinicClosing.before(apptTime)) {
             timeList.add(Constants.DF_TIME_ONLY.format(apptTime));
             idList.add(0);
             c.setTime(apptTime);
@@ -236,24 +226,12 @@ public class AppointmentCalendarActivity extends BaseActivity implements Appoint
         adapter.notifyDataSetChanged();
     }
 
-    public void setServiceOptionSelected(int serviceOptionSelected) {
-        AppointmentCalendarActivity.serviceOptionSelected = serviceOptionSelected;
-    }
-
     public void setClinicSelected(int clinicSelected) {
         AppointmentCalendarActivity.clinicSelected = clinicSelected;
     }
 
-    public void setWeekSelected(int weekSelected) {
-        AppointmentCalendarActivity.weekSelected = weekSelected;
-    }
-
     public void setDaySelected(Date daySelected) {
         AppointmentCalendarActivity.daySelected = daySelected;
-    }
-
-    public void setVisitOption(int visitOptionSelected) {
-        AppointmentCalendarActivity.visitOptionSelected = visitOptionSelected;
     }
 
     @Override

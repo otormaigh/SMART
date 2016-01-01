@@ -39,7 +39,7 @@ public interface BaseModel {
 
     List<Clinic> getClinics();
 
-    void saveClinicsToRealm(List<Clinic> clinics);
+    void updateClinics(List<Clinic> clinics);
 
     List<ClinicTimeRecord> getClinicTimeRecords();
 

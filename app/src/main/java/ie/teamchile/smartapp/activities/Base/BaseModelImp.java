@@ -128,7 +128,7 @@ public class BaseModelImp implements BaseModel {
     }
 
     @Override
-    public void saveClinicsToRealm(List<Clinic> clinics) {
+    public void updateClinics(List<Clinic> clinics) {
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(clinics);
         realm.commitTransaction();

@@ -34,16 +34,12 @@ import ie.teamchile.smartapp.util.AppointmentHelper;
 import ie.teamchile.smartapp.util.Constants;
 import ie.teamchile.smartapp.util.CustomDialogs;
 import ie.teamchile.smartapp.util.GeneralUtils;
-import ie.teamchile.smartapp.util.SharedPrefs;
 import io.realm.Realm;
 import timber.log.Timber;
 
 public class AppointmentTypeSpinnerActivity extends BaseActivity implements AppointmentTypeSpinnerView {
-    private ArrayAdapter<String> appointmentAdapter, visitAdapter, visitDayAdapter,
-            serviceOptionAdapter, clinicAdapter, dayAdapter, weekAdapter;
-    private List<String> serviceOptionNameList;
     private List<RealmInteger> idList;
-    private int serviceOptionSelected, clinicSelected, weekSelected, visitOptionSelected;
+    private int clinicSelected;
     private Date daySelected, dayOfWeek;
     private Calendar c = Calendar.getInstance();
     private AppointmentCalendarActivity passOptions = new AppointmentCalendarActivity();
@@ -51,7 +47,6 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity implements Appo
     private Spinner appointmentTypeSpinner, serviceOptionSpinner,
             visitOptionSpinner, visitDaySpinner, clinicSpinner, daySpinner, weekSpinner;
     private TextView tvAppointmentType, tvServiceOption, tvVisit, tvVisitDay, tvClinic, tvDay, tvWeek;
-    private SharedPrefs sharedPrefs = new SharedPrefs();
     private AppointmentHelper apptHelp;
     private CountDownTimer timer;
     private ProgressDialog pd;
@@ -130,8 +125,8 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity implements Appo
 
     private void setServiceOptionSpinner() {
         serviceOptionClinicList = realm.where(ServiceOption.class).equalTo(Constants.REALM_HOME_VISIT, false).findAll();
-        serviceOptionNameList = new ArrayList<>();
-        serviceOptionNameList.add("Select Service Option");
+        List<String> serviceOptionNameList = new ArrayList<>();
+        serviceOptionNameList.add(getString(R.string.select_service_option));
 
         if (!serviceOptionClinicList.isEmpty()) {
             int mapSize = serviceOptionClinicList.size();
@@ -140,7 +135,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity implements Appo
             }
         }
 
-        serviceOptionAdapter = new AdapterSpinner(this, R.layout.spinner_layout, serviceOptionNameList, R.id.tv_spinner_item);
+        ArrayAdapter<String> serviceOptionAdapter = new AdapterSpinner(this, R.layout.spinner_layout, serviceOptionNameList, R.id.tv_spinner_item);
         serviceOptionAdapter.setDropDownViewResource(R.layout.spinner_layout);
         serviceOptionSpinner.setAdapter(serviceOptionAdapter);
     }
@@ -149,7 +144,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity implements Appo
         idList = serviceOptionClinicList.get(z - 1).getClinicIds();
 
         List<String> clinicNames = new ArrayList<>();
-        clinicNames.add("Select Clinic");
+        clinicNames.add(getString(R.string.select_clinic));
 
         if (!idList.isEmpty()) {
             int size = idList.size();
@@ -159,7 +154,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity implements Appo
         }
 
         clinicSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
-        clinicAdapter = new AdapterSpinner(this, R.layout.spinner_layout, clinicNames, R.id.tv_spinner_item);
+        ArrayAdapter<String> clinicAdapter = new AdapterSpinner(this, R.layout.spinner_layout, clinicNames, R.id.tv_spinner_item);
         clinicAdapter.setDropDownViewResource(R.layout.spinner_layout);
         clinicSpinner.setAdapter(clinicAdapter);
     }
@@ -168,7 +163,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity implements Appo
         serviceOptionVisitList = realm.where(ServiceOption.class).equalTo(Constants.REALM_HOME_VISIT, true).findAll();
 
         List<String> visitClinics = new ArrayList<>();
-        visitClinics.add("Select Visit Option");
+        visitClinics.add(getString(R.string.select_visit_option));
 
         if (!serviceOptionVisitList.isEmpty()) {
             int size = serviceOptionVisitList.size();
@@ -178,7 +173,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity implements Appo
         }
 
         visitOptionSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
-        visitAdapter = new AdapterSpinner(this, R.layout.spinner_layout, visitClinics, R.id.tv_spinner_item);
+        ArrayAdapter<String> visitAdapter = new AdapterSpinner(this, R.layout.spinner_layout, visitClinics, R.id.tv_spinner_item);
         visitAdapter.setDropDownViewResource(R.layout.spinner_layout);
         visitOptionSpinner.setAdapter(visitAdapter);
     }
@@ -186,7 +181,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity implements Appo
     private void setVisitDaySpinner() {
         Calendar cal = Calendar.getInstance();
         List<String> visitDayList = new ArrayList<>();
-        visitDayList.add("Select Day");
+        visitDayList.add(getString(R.string.select_day));
 
         for (int i = 0; i < 10; i++) {
             String day = Constants.DF_DAY_SHORT.format(cal.getTime());
@@ -198,21 +193,21 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity implements Appo
         }
 
         visitDaySpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
-        visitDayAdapter = new AdapterSpinner(this, R.layout.spinner_layout, visitDayList, R.id.tv_spinner_item);
+        ArrayAdapter<String> visitDayAdapter = new AdapterSpinner(this, R.layout.spinner_layout, visitDayList, R.id.tv_spinner_item);
         visitDayAdapter.setDropDownViewResource(R.layout.spinner_layout);
         visitDaySpinner.setAdapter(visitDayAdapter);
     }
 
     private void setAppointmentTypeSpinner() {
         appointmentTypeSpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
-        appointmentAdapter = new AdapterSpinner(this, R.array.appointment_type_list, R.layout.spinner_layout, R.id.tv_spinner_item);
+        ArrayAdapter<String> appointmentAdapter = new AdapterSpinner(this, R.array.appointment_type_list, R.layout.spinner_layout, R.id.tv_spinner_item);
         appointmentAdapter.setDropDownViewResource(R.layout.spinner_layout);
         appointmentTypeSpinner.setAdapter(appointmentAdapter);
     }
 
     private void setWeekSpinner(Date dayOfWeek) {
         List<String> weeks = new ArrayList<>();
-        weeks.add("Select Week");
+        weeks.add(getString(R.string.select_week));
 
         for (int i = 1; i <= 10; i++) {
             c = Calendar.getInstance();
@@ -221,7 +216,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity implements Appo
             weeks.add("- Week " + i + " (" + Constants.DF_DOW_MONTH_DAY.format(c.getTime()) + ")");
         }
 
-        weekAdapter = new AdapterSpinner(this, R.layout.spinner_layout, weeks, R.id.tv_spinner_item);
+        ArrayAdapter<String> weekAdapter = new AdapterSpinner(this, R.layout.spinner_layout, weeks, R.id.tv_spinner_item);
         weekAdapter.setDropDownViewResource(R.layout.spinner_layout);
         weekSpinner.setAdapter(weekAdapter);
     }
@@ -236,10 +231,10 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity implements Appo
                 days.set(i, dayFirstLetterUpperCase);
             }
         }
-        days.add(0, "Select Day");
+        days.add(0, getString(R.string.select_day));
 
         daySpinner.setOnItemSelectedListener(new MySpinnerOnItemSelectedListener());
-        dayAdapter = new AdapterSpinner(this, R.layout.spinner_layout, days, R.id.tv_spinner_item);
+        ArrayAdapter<String> dayAdapter = new AdapterSpinner(this, R.layout.spinner_layout, days, R.id.tv_spinner_item);
         dayAdapter.setDropDownViewResource(R.layout.spinner_layout);
         daySpinner.setAdapter(dayAdapter);
     }
@@ -263,7 +258,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity implements Appo
 
     private void doneChecker(final Intent intent) {
         pd = new CustomDialogs().showProgressDialog(AppointmentTypeSpinnerActivity.this,
-                "Gettting Appointments");
+                getString(R.string.fetching_information));
         timer = new CountDownTimer(200, 100) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -281,11 +276,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity implements Appo
     }
 
     public void changeActivity(Intent intent) {
-        passOptions.setServiceOptionSelected(serviceOptionSelected);
         passOptions.setClinicSelected(clinicSelected);
-        passOptions.setWeekSelected(weekSelected);
-        passOptions.setDaySelected(daySelected);
-        passOptions.setVisitOption(visitOptionSelected);
 
         startActivity(intent);
     }
@@ -364,7 +355,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity implements Appo
                             visitDaySpinner.setVisibility(View.VISIBLE);
                             tvVisitDay.setVisibility(View.VISIBLE);
                             visitDaySpinner.setSelection(0);
-                            visitOptionSelected = serviceOptionVisitList.get(position - 1).getId();
+                            int visitOptionSelected = serviceOptionVisitList.get(position - 1).getId();
                             loopForServiceOptionDay(visitOptionSelected);
 
                             HomeVisitAppointmentActivity.visitOptionSelected = visitOptionSelected;
@@ -391,8 +382,6 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity implements Appo
                 case R.id.spnr_service_option:
                     switch (position) {
                         case 0:
-                            serviceOptionSelected = 0;
-
                             tvAppointmentType.setVisibility(View.VISIBLE);
                             tvServiceOption.setVisibility(View.VISIBLE);
                             tvVisit.setVisibility(View.GONE);
@@ -415,7 +404,6 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity implements Appo
 
                             serviceOptionSpinner.setBackgroundColor(Color.TRANSPARENT);
                             clinicSpinner.setVisibility(View.VISIBLE);
-                            serviceOptionSelected = position;
                             setClinicSpinner(position);
                             clinicSpinner.setSelection(0);
                             break;
@@ -504,12 +492,10 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity implements Appo
                 case R.id.spnr_week:
                     switch (position) {
                         case 0:
-                            weekSelected = 0;
                             weekSpinner.setBackgroundColor(spinnerWarning);
                             c = Calendar.getInstance();
                             break;
                         default:
-                            weekSelected = position;
                             weekSpinner.setBackgroundColor(Color.TRANSPARENT);
                             c = Calendar.getInstance();
                             c.add(Calendar.DAY_OF_YEAR, 7 * position);
