@@ -40,7 +40,7 @@ import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.activities.AppointmentTypeSpinner.AppointmentTypeSpinnerActivity;
 import ie.teamchile.smartapp.activities.Base.BaseActivity;
 import ie.teamchile.smartapp.activities.MidwiferyLog.MidwiferyLogActivity;
-import ie.teamchile.smartapp.activities.ParityDetailsActivity;
+import ie.teamchile.smartapp.activities.ParityDetails.ParityDetailsActivity;
 import ie.teamchile.smartapp.model.AntiDHistory;
 import ie.teamchile.smartapp.model.Baby;
 import ie.teamchile.smartapp.model.ClinicalFields;

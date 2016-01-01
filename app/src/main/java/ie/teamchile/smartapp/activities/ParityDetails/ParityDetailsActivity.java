@@ -1,5 +1,6 @@
-package ie.teamchile.smartapp.activities;
+package ie.teamchile.smartapp.activities.ParityDetails;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -14,6 +15,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.lang.ref.WeakReference;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,7 +30,7 @@ import ie.teamchile.smartapp.util.Constants;
 import ie.teamchile.smartapp.util.DividerItemDecoration;
 import io.realm.Realm;
 
-public class ParityDetailsActivity extends BaseActivity {
+public class ParityDetailsActivity extends BaseActivity implements ParityDetailsView {
     private BaseAdapter adapter;
     private String patientName, patientParity;
     private String sex_male = "ale", sex_female = "emale";
@@ -48,15 +50,18 @@ public class ParityDetailsActivity extends BaseActivity {
     private int orientation;
     private RecyclerView rvParity;
     private Realm realm;
+    private ParityDetailsPresenter parityDetailsPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentForNav(R.layout.activity_parity_details);
 
-        realm = Realm.getInstance(getApplicationContext());
+        initViews();
 
-        rvParity = (RecyclerView) findViewById(R.id.rv_parity);
+        parityDetailsPresenter = new ParityDetailsPresenterImp(this, new WeakReference<Activity>(ParityDetailsActivity.this));
+
+        realm = parityDetailsPresenter.getEncryptedRealm();
 
         patientName = realm.where(ServiceUser.class).findFirst().getPersonalFields().getName();
         patientParity = realm.where(ServiceUser.class).findFirst().getClinicalFields().getParity();
@@ -103,15 +108,17 @@ public class ParityDetailsActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-        if (realm != null)
-            realm.close();
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent);
+    }
+
+    @Override
+    public void initViews() {
+        rvParity = (RecyclerView) findViewById(R.id.rv_parity);
     }
 
     private int getScreenOrientation() {

@@ -55,7 +55,7 @@
             android:noHistory="true"
             android:screenOrientation="sensorPortrait"/>
         <activity
-            android:name=".activities.ParityDetailsActivity"
+            android:name=".activities.ParityDetails.ParityDetailsActivity"
             android:launchMode="singleTask"
             android:screenOrientation="sensorLandscape"/>
         <activity

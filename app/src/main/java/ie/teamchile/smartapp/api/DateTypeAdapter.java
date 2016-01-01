@@ -31,7 +31,6 @@ public class DateTypeAdapter implements JsonSerializer<Date>, JsonDeserializer<D
             }
             return date;
         } catch (ParseException e) {
-            //throw new JsonParseException(e);
             return null;
         }
     }
