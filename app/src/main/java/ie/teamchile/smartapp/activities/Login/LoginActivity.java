@@ -1,7 +1,6 @@
 package ie.teamchile.smartapp.activities.Login;
 
 import android.app.Activity;
-import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -38,9 +37,9 @@ public class LoginActivity extends AppCompatActivity implements LoginView, OnCli
         disableScreenshot();
         setContentView(R.layout.activity_login);
 
-        loginPresenter = new LoginPresenterImp(this, new WeakReference<Activity>(LoginActivity.this));
-
         initViews();
+
+        loginPresenter = new LoginPresenterImp(this, new WeakReference<Activity>(LoginActivity.this));
 
         if (BuildConfig.DEBUG) {
             tvUsername.setText(NotKeys.USERNAME);
@@ -113,31 +112,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView, OnCli
         findViewById(R.id.tv_about).setOnClickListener(this);
         tvUsername = (TextView) findViewById(R.id.et_username);
         tvPassword = (TextView) findViewById(R.id.et_password);
-    }
-
-    @Override
-    public void setContentForNav(int layout) {
-        throw new UnsupportedOperationException(getString(R.string.mvp_unsupported_operation_exception));
-    }
-
-    @Override
-    public void setActionBarTitle(String title) {
-        throw new UnsupportedOperationException(getString(R.string.mvp_unsupported_operation_exception));
-    }
-
-    @Override
-    public void createNavDrawer() {
-        throw new UnsupportedOperationException(getString(R.string.mvp_unsupported_operation_exception));
-    }
-
-    @Override
-    public void showNotification(String title, String message, Class activity) {
-        throw new UnsupportedOperationException(getString(R.string.mvp_unsupported_operation_exception));
-    }
-
-    @Override
-    public NotificationManager getNotificationManager() {
-        throw new UnsupportedOperationException(getString(R.string.mvp_unsupported_operation_exception));
     }
 
     @Override

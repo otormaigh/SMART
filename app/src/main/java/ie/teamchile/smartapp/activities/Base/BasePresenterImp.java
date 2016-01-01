@@ -41,7 +41,7 @@ import timber.log.Timber;
  */
 public class BasePresenterImp implements BasePresenter {
     private static Realm realm;
-    private BaseView baseView;
+    private BaseViewSec baseViewSec;
     private WeakReference<Activity> weakActivity;
     private BaseModel baseModel;
 
@@ -53,8 +53,8 @@ public class BasePresenterImp implements BasePresenter {
         baseModel = new BaseModelImp(this, weakActivity);
     }
 
-    public BasePresenterImp(BaseView baseView, WeakReference<Activity> weakActivity) {
-        this.baseView = baseView;
+    public BasePresenterImp(BaseViewSec baseViewSec, WeakReference<Activity> weakActivity) {
+        this.baseViewSec = baseViewSec;
         this.weakActivity = weakActivity;
         baseModel = new BaseModelImp(this, weakActivity);
     }
@@ -197,13 +197,13 @@ public class BasePresenterImp implements BasePresenter {
                         Timber.d("timeUsage QuickMenu = " + Tracking.getUsageTime(weakActivity.get()));
                         baseModel.clearData();
                         weakActivity.get().finish();
-                        if (baseView.getNotificationManager() != null) {
-                            baseView.getNotificationManager().cancelAll();
-                            baseView.showNotification(weakActivity.get().getString(R.string.app_name),
+                        if (baseViewSec.getNotificationManager() != null) {
+                            baseViewSec.getNotificationManager().cancelAll();
+                            baseViewSec.showNotification(weakActivity.get().getString(R.string.app_name),
                                     weakActivity.get().getString(R.string.success_logout),
                                     SplashScreenActivity.class);
                         } else
-                            baseView.showNotification(weakActivity.get().getString(R.string.app_name),
+                            baseViewSec.showNotification(weakActivity.get().getString(R.string.app_name),
                                     weakActivity.get().getString(R.string.success_logout),
                                     SplashScreenActivity.class);
                         baseModel.clearData();

@@ -5,11 +5,7 @@ import android.app.NotificationManager;
 /**
  * Created by elliot on 27/12/2015.
  */
-public interface BaseView {
-    void disableScreenshot();
-
-    void initViews();
-
+public interface BaseViewSec extends BaseViewPri{
     void setContentForNav(int layout);
 
     void setActionBarTitle(String title);

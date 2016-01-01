@@ -49,7 +49,7 @@ import ie.teamchile.smartapp.util.ToastAlert;
 import io.realm.Realm;
 import timber.log.Timber;
 
-public class BaseActivity extends AppCompatActivity implements BaseView {
+public class BaseActivity extends AppCompatActivity implements BaseViewSec {
     protected static CountDownTimer timer;
     protected DrawerLayout drawerLayout;
     protected ListView drawerList;

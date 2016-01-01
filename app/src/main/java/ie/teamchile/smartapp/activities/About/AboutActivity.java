@@ -1,6 +1,5 @@
 package ie.teamchile.smartapp.activities.About;
 
-import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -61,30 +60,5 @@ public class AboutActivity extends AppCompatActivity implements AboutView {
             }
         });
         webView.loadUrl(NotKeys.BASE_URL + Constants.TPW_ABOUT_URL);
-    }
-
-    @Override
-    public void setContentForNav(int layout) {
-        throw new UnsupportedOperationException(getString(R.string.mvp_unsupported_operation_exception));
-    }
-
-    @Override
-    public void setActionBarTitle(String title) {
-        throw new UnsupportedOperationException(getString(R.string.mvp_unsupported_operation_exception));
-    }
-
-    @Override
-    public void createNavDrawer() {
-        throw new UnsupportedOperationException(getString(R.string.mvp_unsupported_operation_exception));
-    }
-
-    @Override
-    public void showNotification(String title, String message, Class activity) {
-        throw new UnsupportedOperationException(getString(R.string.mvp_unsupported_operation_exception));
-    }
-
-    @Override
-    public NotificationManager getNotificationManager() {
-        throw new UnsupportedOperationException(getString(R.string.mvp_unsupported_operation_exception));
     }
 }
