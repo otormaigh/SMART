@@ -123,9 +123,33 @@ public class BaseModelImp implements BaseModel {
     }
 
     @Override
+    public List<Clinic> getClinics() {
+        return realm.where(Clinic.class).findAll();
+    }
+
+    @Override
     public void saveClinicsToRealm(List<Clinic> clinics) {
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(clinics);
+        realm.commitTransaction();
+    }
+
+    @Override
+    public List<ClinicTimeRecord> getClinicTimeRecords() {
+        return realm.where(ClinicTimeRecord.class).findAll();
+    }
+
+    @Override
+    public void updateClinicTimeRecords(List<ClinicTimeRecord> clinicTimeRecords) {
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(clinicTimeRecords);
+        realm.commitTransaction();
+    }
+
+    @Override
+    public void updateClinicTimeRecord(ClinicTimeRecord clinicTimeRecord) {
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(clinicTimeRecord);
         realm.commitTransaction();
     }
 

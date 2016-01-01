@@ -6,6 +6,7 @@ import ie.teamchile.smartapp.model.Appointment;
 import ie.teamchile.smartapp.model.Baby;
 import ie.teamchile.smartapp.model.BaseResponseModel;
 import ie.teamchile.smartapp.model.Clinic;
+import ie.teamchile.smartapp.model.ClinicTimeRecord;
 import ie.teamchile.smartapp.model.FeedingHistory;
 import ie.teamchile.smartapp.model.HearingHistory;
 import ie.teamchile.smartapp.model.Login;
@@ -36,7 +37,15 @@ public interface BaseModel {
 
     void saveServiceOptionsToRealm(List<ServiceOption> serviceOptions);
 
+    List<Clinic> getClinics();
+
     void saveClinicsToRealm(List<Clinic> clinics);
+
+    List<ClinicTimeRecord> getClinicTimeRecords();
+
+    void updateClinicTimeRecords(List<ClinicTimeRecord> clinicTimeRecords);
+
+    void updateClinicTimeRecord(ClinicTimeRecord clinicTimeRecord);
 
     void saveServiceUserActionsToRealm(List<ServiceUserAction> serviceUserActions);
 
