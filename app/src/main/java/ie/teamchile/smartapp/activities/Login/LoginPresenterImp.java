@@ -75,7 +75,6 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
 
     @Override
     public void onBackPressed() {
-        baseModel.deleteRealmLogin();
-        baseModel.deleteSingletonInstance();
+        baseModel.clearData();
     }
 }
