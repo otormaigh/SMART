@@ -29,4 +29,6 @@ public interface BasePresenter {
     void getAllAppointments();
 
     void checkRetroError(RetrofitError error, Context context);
+
+    boolean isLoggedIn();
 }

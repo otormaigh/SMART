@@ -42,11 +42,9 @@ import ie.teamchile.smartapp.activities.Login.LoginActivity;
 import ie.teamchile.smartapp.activities.QuickMenu.QuickMenuActivity;
 import ie.teamchile.smartapp.activities.ServiceUserSearch.ServiceUserSearchActivity;
 import ie.teamchile.smartapp.model.Baby;
-import ie.teamchile.smartapp.model.Login;
 import ie.teamchile.smartapp.model.Pregnancy;
 import ie.teamchile.smartapp.util.CustomDialogs;
 import ie.teamchile.smartapp.util.ToastAlert;
-import io.realm.Realm;
 import timber.log.Timber;
 
 public class BaseActivity extends AppCompatActivity implements BaseViewSec {
@@ -59,8 +57,7 @@ public class BaseActivity extends AppCompatActivity implements BaseViewSec {
     protected LogoutService logServ;
     private NotificationManager notificationManager;
     public static int apptDone;
-    private Realm realm;
-    private BasePresenter basePresenter;
+    private BasePresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,9 +65,7 @@ public class BaseActivity extends AppCompatActivity implements BaseViewSec {
         disableScreenshot();
         setContentView(R.layout.navigation_drawer_layout);
 
-        basePresenter = new BasePresenterImp(this, new WeakReference<Activity>(BaseActivity.this));
-
-        realm = basePresenter.getEncryptedRealm();
+        presenter = new BasePresenterImp(this, new WeakReference<Activity>(BaseActivity.this));
 
         spinnerWarning = ContextCompat.getColor(getApplicationContext(), R.color.teal);
 
@@ -85,7 +80,7 @@ public class BaseActivity extends AppCompatActivity implements BaseViewSec {
     @Override
     protected void onResume() {
         super.onResume();
-        if (realm.where(Login.class).findFirst() == null) {
+        if (presenter.isLoggedIn()) {
             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
             new CustomDialogs().showWarningDialog(BaseActivity.this, getString(R.string.error_please_login));
         }
@@ -221,7 +216,7 @@ public class BaseActivity extends AppCompatActivity implements BaseViewSec {
                 //startActivity(intent);
                 break;
             case 5:         //Sync
-                basePresenter.getAllAppointments();
+                presenter.getAllAppointments();
                 break;
             case 6:         //Logout
                 showLogoutDialog();
@@ -244,10 +239,10 @@ public class BaseActivity extends AppCompatActivity implements BaseViewSec {
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
                                 Intent.FLAG_ACTIVITY_CLEAR_TASK |
                                 Intent.FLAG_ACTIVITY_NEW_TASK);
-                        if (!realm.where(Login.class).findFirst().isLoggedIn()) {
+                        if (presenter.isLoggedIn()) {
                             startActivity(intent);
                         } else {
-                            basePresenter.doLogout(intent);
+                            presenter.doLogout(intent);
                         }
                     }
                 }).show();
@@ -266,11 +261,11 @@ public class BaseActivity extends AppCompatActivity implements BaseViewSec {
     }
 
     protected int getRecentPregnancy(List<Pregnancy> pregnancyList) {   //TODO: Remove
-        return basePresenter.getRecentPregnancy(pregnancyList);
+        return presenter.getRecentPregnancy(pregnancyList);
     }
 
     protected int getRecentBaby(List<Baby> babyList) {                  //TODO: Remove
-        return basePresenter.getRecentBaby(babyList);
+        return presenter.getRecentBaby(babyList);
     }
 
     @Override
@@ -325,7 +320,7 @@ public class BaseActivity extends AppCompatActivity implements BaseViewSec {
                 public void onFinish() {
                     Timber.d("Call Logout by Service");
                     stopSelf();
-                    basePresenter.doLogoutWithoutIntent();
+                    presenter.doLogoutWithoutIntent();
                 }
             };
         }

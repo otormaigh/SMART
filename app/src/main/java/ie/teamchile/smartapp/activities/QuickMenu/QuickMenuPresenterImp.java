@@ -148,11 +148,6 @@ public class QuickMenuPresenterImp extends BasePresenterImp implements QuickMenu
     }
 
     @Override
-    public boolean isLoggedIn() {
-        return model.getLogin() == null && model.getLogin().isLoggedIn();
-    }
-
-    @Override
     public boolean isDataEmpty() {
         return model.getClinics().isEmpty() || model.getServiceOptions().isEmpty();
     }

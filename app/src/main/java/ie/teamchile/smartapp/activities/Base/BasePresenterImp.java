@@ -43,20 +43,20 @@ public class BasePresenterImp implements BasePresenter {
     private static Realm realm;
     private BaseViewSec baseViewSec;
     private WeakReference<Activity> weakActivity;
-    private BaseModel baseModel;
+    private BaseModel model;
 
     public BasePresenterImp() {
     }
 
     public BasePresenterImp(WeakReference<Activity> weakActivity) {
         this.weakActivity = weakActivity;
-        baseModel = new BaseModelImp(this, weakActivity);
+        model = new BaseModelImp(this, weakActivity);
     }
 
     public BasePresenterImp(BaseViewSec baseViewSec, WeakReference<Activity> weakActivity) {
         this.baseViewSec = baseViewSec;
         this.weakActivity = weakActivity;
-        baseModel = new BaseModelImp(this, weakActivity);
+        model = new BaseModelImp(this, weakActivity);
     }
 
     @Override
@@ -168,7 +168,7 @@ public class BasePresenterImp implements BasePresenter {
                                 Toast.LENGTH_SHORT).show();
                         pd.dismiss();
                         weakActivity.get().startActivity(intent);
-                        baseModel.clearData();
+                        model.clearData();
                     }
 
                     @Override
@@ -179,7 +179,7 @@ public class BasePresenterImp implements BasePresenter {
                                 Toast.LENGTH_SHORT).show();
                         pd.dismiss();
                         weakActivity.get().startActivity(intent);
-                        baseModel.clearData();
+                        model.clearData();
                     }
                 }
         );
@@ -195,7 +195,7 @@ public class BasePresenterImp implements BasePresenter {
                         Timber.d("in logout success");
                         Tracking.stopUsage(weakActivity.get());
                         Timber.d("timeUsage QuickMenu = " + Tracking.getUsageTime(weakActivity.get()));
-                        baseModel.clearData();
+                        model.clearData();
                         weakActivity.get().finish();
                         if (baseViewSec.getNotificationManager() != null) {
                             baseViewSec.getNotificationManager().cancelAll();
@@ -206,13 +206,13 @@ public class BasePresenterImp implements BasePresenter {
                             baseViewSec.showNotification(weakActivity.get().getString(R.string.app_name),
                                     weakActivity.get().getString(R.string.success_logout),
                                     SplashScreenActivity.class);
-                        baseModel.clearData();
+                        model.clearData();
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
                         Timber.d("in logout failure error = " + error);
-                        baseModel.clearData();
+                        model.clearData();
                         weakActivity.get().finish();
                     }
                 }
@@ -230,7 +230,7 @@ public class BasePresenterImp implements BasePresenter {
                 new Callback<BaseResponseModel>() {
                     @Override
                     public void success(BaseResponseModel baseResponseModel, Response response) {
-                        baseModel.saveAppointmentsToRealm(baseResponseModel.getAppointments());
+                        model.saveAppointmentsToRealm(baseResponseModel.getAppointments());
                         pd.dismiss();
                     }
 
@@ -268,5 +268,10 @@ public class BasePresenterImp implements BasePresenter {
             Timber.e("Throwable");
         }
         Timber.d(error.toString());
+    }
+
+    @Override
+    public boolean isLoggedIn() {
+        return model.getLogin() == null && model.getLogin().isLoggedIn();
     }
 }
