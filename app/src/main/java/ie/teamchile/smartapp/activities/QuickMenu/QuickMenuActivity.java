@@ -15,7 +15,7 @@ import ie.teamchile.smartapp.activities.Base.BaseActivity;
 import ie.teamchile.smartapp.activities.ClinicTimeRecord.ClinicTimeRecordActivity;
 import ie.teamchile.smartapp.activities.Login.LoginActivity;
 import ie.teamchile.smartapp.activities.ServiceUserSearch.ServiceUserSearchActivity;
-import ie.teamchile.smartapp.activities.TodayAppointmentActivity;
+import ie.teamchile.smartapp.activities.TodayAppointment.TodayAppointmentActivity;
 import ie.teamchile.smartapp.model.Clinic;
 import ie.teamchile.smartapp.model.Login;
 import ie.teamchile.smartapp.model.ServiceOption;

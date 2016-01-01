@@ -1,4 +1,4 @@
-package ie.teamchile.smartapp.activities;
+package ie.teamchile.smartapp.activities.TodayAppointment;
 
 import android.os.Bundle;
 

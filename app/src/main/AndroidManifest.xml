@@ -71,7 +71,7 @@
             android:name=".activities.ServiceUserSearch.ServiceUserSearchActivity"
             android:screenOrientation="sensorPortrait"/>
         <activity
-            android:name=".activities.TodayAppointmentActivity"
+            android:name=".activities.TodayAppointment.TodayAppointmentActivity"
             android:screenOrientation="sensorPortrait"/>
         <activity
             android:name=".activities.MidwiferyLog.MidwiferyLogActivity"
