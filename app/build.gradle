@@ -30,6 +30,15 @@ android {
             buildConfigField "retrofit.RestAdapter.LogLevel", "RETROFIT_LOG_LEVEL", "retrofit.RestAdapter.LogLevel.FULL"
         }
     }
+
+    splits {
+        abi {
+            enable true
+            reset()
+            include 'x86', 'armeabi', 'armeabi-v7a', 'mips'
+            universalApk false
+        }
+    }
 }
 
 dependencies {
