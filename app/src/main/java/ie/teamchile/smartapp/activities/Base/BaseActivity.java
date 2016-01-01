@@ -21,7 +21,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,12 +33,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
-import java.net.ConnectException;
-import java.net.UnknownHostException;
-import java.util.Calendar;
 import java.util.List;
-
-import javax.net.ssl.SSLHandshakeException;
 
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.activities.AppointmentTypeSpinner.AppointmentTypeSpinnerActivity;
@@ -50,11 +44,9 @@ import ie.teamchile.smartapp.activities.ServiceUserSearch.ServiceUserSearchActiv
 import ie.teamchile.smartapp.model.Baby;
 import ie.teamchile.smartapp.model.Login;
 import ie.teamchile.smartapp.model.Pregnancy;
-import ie.teamchile.smartapp.util.Constants;
 import ie.teamchile.smartapp.util.CustomDialogs;
 import ie.teamchile.smartapp.util.ToastAlert;
 import io.realm.Realm;
-import retrofit.RetrofitError;
 import timber.log.Timber;
 
 public class BaseActivity extends AppCompatActivity implements BaseView {
@@ -145,30 +137,6 @@ public class BaseActivity extends AppCompatActivity implements BaseView {
             }
         }
         return false;
-    }
-
-    protected void checkRetroError(RetrofitError error, Context context) {
-        String time = Constants.DF_TIME_W_SEC.format(Calendar.getInstance().getTime());
-        try {
-            throw (error.getCause());
-        } catch (UnknownHostException e) {
-            Timber.e(Log.getStackTraceString(e));
-            Timber.e("UnknownHostException");
-            // unknown host
-        } catch (SSLHandshakeException e) {
-            Timber.e(Log.getStackTraceString(e));
-            Timber.e("SSLHandshakeException");
-        } catch (ConnectException e) {
-            Timber.e(Log.getStackTraceString(e));
-            Timber.e("ConnectException");
-            /*if(!checkIfConnected(context)){
-                new SharedPrefs().setJsonPrefs(data, time);
-            }*/
-        } catch (Throwable throwable) {
-            Timber.e(Log.getStackTraceString(throwable));
-            Timber.e("Throwable");
-        }
-        Timber.d(error.toString());
     }
 
     protected boolean checkIfConnected(Context context) {

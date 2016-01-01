@@ -50,7 +50,7 @@
             android:name=".activities.ClinicTimeRecord.ClinicTimeRecordActivity"
             android:screenOrientation="sensorPortrait"/>
         <activity
-            android:name=".activities.CreateAppointmentActivity"
+            android:name=".activities.CreateAppointment.CreateAppointmentActivity"
             android:launchMode="singleTask"
             android:noHistory="true"
             android:screenOrientation="sensorPortrait"/>

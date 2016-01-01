@@ -2,6 +2,7 @@ package ie.teamchile.smartapp.activities.Base;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
@@ -9,10 +10,15 @@ import android.widget.Toast;
 import net.hockeyapp.android.Tracking;
 
 import java.lang.ref.WeakReference;
+import java.net.ConnectException;
+import java.net.UnknownHostException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
+
+import javax.net.ssl.SSLHandshakeException;
 
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.activities.SpalshScreen.SplashScreenActivity;
@@ -20,6 +26,7 @@ import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.Baby;
 import ie.teamchile.smartapp.model.BaseResponseModel;
 import ie.teamchile.smartapp.model.Pregnancy;
+import ie.teamchile.smartapp.util.Constants;
 import ie.teamchile.smartapp.util.CustomDialogs;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -236,5 +243,30 @@ public class BasePresenterImp implements BasePresenter {
                     }
                 }
         );
+    }
+
+    @Override
+    public void checkRetroError(RetrofitError error, Context context) {
+        String time = Constants.DF_TIME_W_SEC.format(Calendar.getInstance().getTime());
+        try {
+            throw (error.getCause());
+        } catch (UnknownHostException e) {
+            Timber.e(Log.getStackTraceString(e));
+            Timber.e("UnknownHostException");
+            // unknown host
+        } catch (SSLHandshakeException e) {
+            Timber.e(Log.getStackTraceString(e));
+            Timber.e("SSLHandshakeException");
+        } catch (ConnectException e) {
+            Timber.e(Log.getStackTraceString(e));
+            Timber.e("ConnectException");
+            /*if(!checkIfConnected(context)){
+                new SharedPrefs().setJsonPrefs(data, time);
+            }*/
+        } catch (Throwable throwable) {
+            Timber.e(Log.getStackTraceString(throwable));
+            Timber.e("Throwable");
+        }
+        Timber.d(error.toString());
     }
 }

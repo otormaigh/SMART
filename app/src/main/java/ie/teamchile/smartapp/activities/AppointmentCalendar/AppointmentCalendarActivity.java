@@ -30,7 +30,7 @@ import java.util.List;
 
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.activities.Base.BaseActivity;
-import ie.teamchile.smartapp.activities.CreateAppointmentActivity;
+import ie.teamchile.smartapp.activities.CreateAppointment.CreateAppointmentActivity;
 import ie.teamchile.smartapp.activities.ServiceUser.ServiceUserActivity;
 import ie.teamchile.smartapp.model.Appointment;
 import ie.teamchile.smartapp.model.Clinic;

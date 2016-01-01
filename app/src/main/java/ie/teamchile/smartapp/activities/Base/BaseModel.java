@@ -25,6 +25,8 @@ import ie.teamchile.smartapp.model.VitKHistory;
 public interface BaseModel {
     void deleteSingletonInstance();
 
+    Login getLogin();
+
     void getLoginSharedPrefs();
 
     long getTimeFromPrefs();
@@ -75,6 +77,8 @@ public interface BaseModel {
 
     ServiceUser getServiceUser();
 
+    List<ServiceUser> getServiceUsers();
+
     Baby getBaby();
 
     void updateBaby(Baby baby);
@@ -92,6 +96,10 @@ public interface BaseModel {
     void updateHearing();
 
     void updateNbst();
+
+    void updateAppointment(Appointment appointment);
+
+    void updateAppointments(List<Appointment> appointments);
 
     void clearData();
 }

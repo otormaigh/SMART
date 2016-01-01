@@ -1,6 +1,7 @@
 package ie.teamchile.smartapp.util;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,47 +11,42 @@ import android.widget.TextView;
 import java.util.List;
 
 import ie.teamchile.smartapp.R;
+import ie.teamchile.smartapp.model.ServiceUser;
+import timber.log.Timber;
 
 /**
  * Created by user on 7/3/15.
  */
 public class AdapterListResults extends BaseAdapter {
-    private List<String> resultName;
-    private List<String> resultDob;
-    private List<String> resultHospitalNumber;
+    private ViewHolder holder;
+    private List<ServiceUser> serviceUsers;
     private LayoutInflater layoutInflater;
-
 
     public AdapterListResults(
             Context context,
-            List<String> resultName,
-            List<String> resultDob,
-            List<String> resultHospitalNumber){
-        this.resultName = resultName;
-        this.resultDob = resultDob;
-        this.resultHospitalNumber = resultHospitalNumber;
+            List<ServiceUser> serviceUsers){
+        this.serviceUsers = serviceUsers;
 
        layoutInflater = LayoutInflater.from(context);
 
     }
     @Override
     public int getCount() {
-        return resultName.size();
+        return serviceUsers.size();
     }
 
     @Override
-    public Object getItem(int position) {
-        return null;
+    public ServiceUser getItem(int position) {
+        return serviceUsers.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return serviceUsers.get(position).getId();
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
         if (convertView == null) {
             convertView = layoutInflater.inflate(R.layout.list_layout_search_results, null);
             holder = new ViewHolder(convertView);
@@ -58,9 +54,16 @@ public class AdapterListResults extends BaseAdapter {
         } else
             holder = (ViewHolder) convertView.getTag();
 
-        holder.tvName.setText(resultName.get(position));
-        holder.tvDob.setText(resultDob.get(position));
-        holder.tvHospitalNumber.setText(resultHospitalNumber.get(position));
+        try {
+            holder.tvName.setText(getItem(position).getPersonalFields().getName());
+        } catch (NullPointerException e) {
+            Timber.e(Log.getStackTraceString(e));
+            holder.tvName.setText(null);
+        }
+
+        holder.tvDob.setText(getItem(position).getPersonalFields().getDob());
+        holder.tvHospitalNumber.setText(getItem(position).getHospitalNumber());
+
         return convertView;
     }
 
@@ -74,10 +77,5 @@ public class AdapterListResults extends BaseAdapter {
             tvDob = (TextView) view.findViewById(R.id.tv_results_dob);
             tvHospitalNumber = (TextView) view.findViewById(R.id.tv_results_hospital_number);
         }
-    }
-
-    @Override
-    public void notifyDataSetChanged() {
-        super.notifyDataSetChanged();
     }
 }

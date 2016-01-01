@@ -277,6 +277,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity implements Appo
 
     public void changeActivity(Intent intent) {
         passOptions.setClinicSelected(clinicSelected);
+        passOptions.setDaySelected(daySelected);
 
         startActivity(intent);
     }

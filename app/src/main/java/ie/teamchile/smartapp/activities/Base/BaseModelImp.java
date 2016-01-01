@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import ie.teamchile.smartapp.R;
+import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.Announcement;
 import ie.teamchile.smartapp.model.AntiDHistory;
 import ie.teamchile.smartapp.model.Appointment;
@@ -66,6 +67,11 @@ public class BaseModelImp implements BaseModel {
     @Override
     public void deleteSingletonInstance() {
         BaseResponseModel.getInstance().deleteInstance();
+    }
+
+    @Override
+    public Login getLogin() {
+        return realm.where(Login.class).findFirst();
     }
 
     @Override
@@ -254,6 +260,11 @@ public class BaseModelImp implements BaseModel {
     }
 
     @Override
+    public List<ServiceUser> getServiceUsers() {
+        return realm.where(ServiceUser.class).findAll();
+    }
+
+    @Override
     public Baby getBaby() {
         return realm.where(Baby.class)
                 .equalTo(Constants.REALM_ID,
@@ -346,10 +357,25 @@ public class BaseModelImp implements BaseModel {
     }
 
     @Override
+    public void updateAppointment(Appointment appointment) {
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(appointment);
+        realm.commitTransaction();
+    }
+
+    @Override
+    public void updateAppointments(List<Appointment> appointments) {
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(appointments);
+        realm.commitTransaction();
+    }
+
+    @Override
     public void clearData() {
         startPurge();
         deleteSharedPref();
         deleteRealm();
+        SmartApiClient.clearApiClient();
     }
 
     private void startPurge() {
