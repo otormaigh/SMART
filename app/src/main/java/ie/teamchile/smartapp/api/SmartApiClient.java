@@ -95,6 +95,11 @@ public class SmartApiClient {
                 .create();
     }
 
+    public static synchronized void clearApiClient() {
+        unAuthorizedSmartApi = null;
+        authorizedSmartApi = null;
+    }
+
     public static synchronized SmartApi getUnAuthorizedApiClient() {
         if (unAuthorizedSmartApi == null) {
 
