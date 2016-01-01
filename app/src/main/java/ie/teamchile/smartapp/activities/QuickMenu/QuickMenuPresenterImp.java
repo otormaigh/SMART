@@ -29,17 +29,15 @@ import timber.log.Timber;
  * Created by elliot on 27/12/2015.
  */
 public class QuickMenuPresenterImp extends BasePresenterImp implements QuickMenuPresenter {
-    private QuickMenuView quickMenuView;
     private WeakReference<Activity> weakActivity;
-    private BaseModel baseModel;
+    private BaseModel model;
     private CountDownTimer timer;
     private int done;
 
-    public QuickMenuPresenterImp(QuickMenuView quickMenuView, WeakReference<Activity> weakActivity) {
+    public QuickMenuPresenterImp(WeakReference<Activity> weakActivity) {
         super(weakActivity);
-        this.quickMenuView = quickMenuView;
         this.weakActivity = weakActivity;
-        baseModel = new BaseModelImp(this);
+        model = new BaseModelImp(this);
     }
 
     @Override
@@ -54,7 +52,7 @@ public class QuickMenuPresenterImp extends BasePresenterImp implements QuickMenu
                     public void success(BaseResponseModel baseResponseModel, Response response) {
                         Timber.d("serviceProvider success");
 
-                        baseModel.saveServiceProviderToRealm(baseResponseModel.getServiceProviders().get(0));
+                        model.saveServiceProviderToRealm(baseResponseModel.getServiceProviders().get(0));
 
                         done++;
                         Timber.d("done = " + done);
@@ -72,7 +70,7 @@ public class QuickMenuPresenterImp extends BasePresenterImp implements QuickMenu
                 new Callback<BaseResponseModel>() {
                     @Override
                     public void success(BaseResponseModel baseResponseModel, Response response) {
-                        baseModel.saveServiceOptionsToRealm(baseResponseModel.getServiceOptions());
+                        model.saveServiceOptionsToRealm(baseResponseModel.getServiceOptions());
 
                         Timber.d("service options finished");
                         done++;
@@ -90,7 +88,7 @@ public class QuickMenuPresenterImp extends BasePresenterImp implements QuickMenu
                 new Callback<BaseResponseModel>() {
                     @Override
                     public void success(BaseResponseModel baseResponseModel, Response response) {
-                        baseModel.updateClinics(baseResponseModel.getClinics());
+                        model.updateClinics(baseResponseModel.getClinics());
 
                         Map<Integer, Clinic> clinicMap = new HashMap<>();
                         for (int i = 0; i < baseResponseModel.getClinics().size(); i++) {
@@ -122,7 +120,7 @@ public class QuickMenuPresenterImp extends BasePresenterImp implements QuickMenu
                                 return (lhs.getShortCode()).compareTo(rhs.getShortCode());
                             }
                         });
-                        baseModel.saveServiceUserActionsToRealm(baseResponseModel.getServiceUserActions());
+                        model.saveServiceUserActionsToRealm(baseResponseModel.getServiceUserActions());
                         done++;
                     }
 
@@ -147,5 +145,15 @@ public class QuickMenuPresenterImp extends BasePresenterImp implements QuickMenu
                     timer.start();
             }
         }.start();
+    }
+
+    @Override
+    public boolean isLoggedIn() {
+        return model.getLogin() == null && model.getLogin().isLoggedIn();
+    }
+
+    @Override
+    public boolean isDataEmpty() {
+        return model.getClinics().isEmpty() || model.getServiceOptions().isEmpty();
     }
 }

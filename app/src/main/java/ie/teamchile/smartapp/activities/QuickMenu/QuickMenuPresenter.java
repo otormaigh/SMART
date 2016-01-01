@@ -7,4 +7,8 @@ import ie.teamchile.smartapp.activities.Base.BasePresenter;
  */
 public interface QuickMenuPresenter extends BasePresenter {
     void updateData();
+
+    boolean isLoggedIn();
+
+    boolean isDataEmpty();
 }

@@ -47,20 +47,20 @@ import timber.log.Timber;
  * Created by elliot on 28/12/2015.
  */
 public class BaseModelImp implements BaseModel {
-    private BasePresenter basePresenter;
+    private BasePresenter presenter;
     private WeakReference<Activity> weakActivity;
     private Realm realm;
     private SharedPrefs sharedPrefs;
 
-    public BaseModelImp(BasePresenter basePresenter) {
-        this.basePresenter = basePresenter;
-        realm = basePresenter.getEncryptedRealm();
+    public BaseModelImp(BasePresenter presenter) {
+        this.presenter = presenter;
+        realm = presenter.getEncryptedRealm();
     }
 
-    public BaseModelImp(BasePresenter basePresenter, WeakReference<Activity> weakActivity) {
-        this.basePresenter = basePresenter;
+    public BaseModelImp(BasePresenter presenter, WeakReference<Activity> weakActivity) {
+        this.presenter = presenter;
         this.weakActivity = weakActivity;
-        realm = basePresenter.getEncryptedRealm();
+        realm = presenter.getEncryptedRealm();
         sharedPrefs = new SharedPrefs();
     }
 
@@ -268,7 +268,7 @@ public class BaseModelImp implements BaseModel {
     public Baby getBaby() {
         return realm.where(Baby.class)
                 .equalTo(Constants.REALM_ID,
-                        basePresenter.getRecentBaby(
+                        presenter.getRecentBaby(
                                 realm.where(Baby.class).findAll()))
                 .findFirst();
     }
@@ -284,7 +284,7 @@ public class BaseModelImp implements BaseModel {
     public Pregnancy getPregnancy() {
         return realm.where(Pregnancy.class)
                 .equalTo(Constants.REALM_ID,
-                        basePresenter.getRecentPregnancy(
+                        presenter.getRecentPregnancy(
                                 realm.where(Pregnancy.class).findAll()))
                 .findFirst();
     }
@@ -381,6 +381,11 @@ public class BaseModelImp implements BaseModel {
     }
 
     @Override
+    public List<ServiceOption> getServiceOptions() {
+        return realm.where(ServiceOption.class).findAll();
+    }
+
+    @Override
     public void clearData() {
         startPurge();
         deleteSharedPref();
@@ -449,6 +454,6 @@ public class BaseModelImp implements BaseModel {
         realm.clear(VitKHistory.class);
         realm.commitTransaction();
 
-        basePresenter.closeRealm();
+        presenter.closeRealm();
     }
 }

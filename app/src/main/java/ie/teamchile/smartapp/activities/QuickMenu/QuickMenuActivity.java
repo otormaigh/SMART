@@ -16,26 +16,19 @@ import ie.teamchile.smartapp.activities.ClinicTimeRecord.ClinicTimeRecordActivit
 import ie.teamchile.smartapp.activities.Login.LoginActivity;
 import ie.teamchile.smartapp.activities.ServiceUserSearch.ServiceUserSearchActivity;
 import ie.teamchile.smartapp.activities.TodayAppointment.TodayAppointmentActivity;
-import ie.teamchile.smartapp.model.Clinic;
-import ie.teamchile.smartapp.model.Login;
-import ie.teamchile.smartapp.model.ServiceOption;
 import ie.teamchile.smartapp.util.Constants;
-import io.realm.Realm;
 
 public class QuickMenuActivity extends BaseActivity implements QuickMenuView, OnClickListener {
-    private Realm realm;
-    private QuickMenuPresenter quickMenuPresenter;
+    private QuickMenuPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentForNav(R.layout.activity_quick_menu);
 
-        quickMenuPresenter = new QuickMenuPresenterImp(this, new WeakReference<Activity>(QuickMenuActivity.this));
-
-        realm = quickMenuPresenter.getEncryptedRealm();
-
         initViews();
+
+        presenter = new QuickMenuPresenterImp(new WeakReference<Activity>(QuickMenuActivity.this));
     }
 
     @Override
@@ -51,7 +44,7 @@ public class QuickMenuActivity extends BaseActivity implements QuickMenuView, On
 
     @Override
     public void onBackPressed() {
-        if (realm.where(Login.class).findFirst().isLoggedIn())
+        if (presenter.isLoggedIn())
             showLogoutDialog();
 
         moveTaskToBack(true);
@@ -60,12 +53,14 @@ public class QuickMenuActivity extends BaseActivity implements QuickMenuView, On
     @Override
     protected void onResume() {
         super.onResume();
-        checkIfLoggedIn();
+        if (presenter.isDataEmpty())
+            presenter.updateData();
+
         SharedPreferences.Editor prefs = getSharedPreferences(getString(R.string.app_name), MODE_PRIVATE).edit();
         prefs.putBoolean(Constants.REUSE, false);
         prefs.commit();
 
-        if (realm.where(Login.class).findFirst() == null) {
+        if (presenter.isLoggedIn()) {
             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
         }
 
@@ -74,15 +69,6 @@ public class QuickMenuActivity extends BaseActivity implements QuickMenuView, On
 
         if (getNotificationManager() != null)
             getNotificationManager().cancelAll();
-    }
-
-    private void checkIfLoggedIn() {
-        if (realm.where(Login.class).findFirst() == null
-                && realm.where(Login.class).findFirst().isLoggedIn()
-                || realm.where(Clinic.class).findAll().size() == 0
-                || realm.where(ServiceOption.class).findAll().size() == 0) {
-            quickMenuPresenter.updateData();
-        }
     }
 
     @Override

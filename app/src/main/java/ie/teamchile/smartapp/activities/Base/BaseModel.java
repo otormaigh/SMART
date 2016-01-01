@@ -105,5 +105,7 @@ public interface BaseModel {
 
     void updateAppointments(List<Appointment> appointments);
 
+    List<ServiceOption> getServiceOptions();
+
     void clearData();
 }
