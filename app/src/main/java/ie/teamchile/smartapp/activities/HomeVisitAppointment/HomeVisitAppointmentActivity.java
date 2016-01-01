@@ -1,4 +1,4 @@
-package ie.teamchile.smartapp.activities;
+package ie.teamchile.smartapp.activities.HomeVisitAppointment;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
@@ -46,7 +46,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import timber.log.Timber;
 
-public class HomeVisitAppointmentActivity extends BaseActivity {
+public class HomeVisitAppointmentActivity extends BaseActivity implements HomeVisitAppointmentView {
     public static Date daySelected;
     public static int visitOptionSelected;
     private String dateSelectedStr, nameOfClinic;

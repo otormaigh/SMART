@@ -77,7 +77,7 @@
             android:name=".activities.MidwiferyLog.MidwiferyLogActivity"
             android:screenOrientation="sensorPortrait"/>
         <activity
-            android:name=".activities.HomeVisitAppointmentActivity"
+            android:name=".activities.HomeVisitAppointment.HomeVisitAppointmentActivity"
             android:screenOrientation="sensorPortrait"/>
         <activity
             android:name=".activities.About.AboutActivity"

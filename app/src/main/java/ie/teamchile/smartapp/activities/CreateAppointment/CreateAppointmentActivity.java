@@ -32,7 +32,7 @@ import java.util.List;
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.activities.AppointmentCalendar.AppointmentCalendarActivity;
 import ie.teamchile.smartapp.activities.Base.BaseActivity;
-import ie.teamchile.smartapp.activities.HomeVisitAppointmentActivity;
+import ie.teamchile.smartapp.activities.HomeVisitAppointment.HomeVisitAppointmentActivity;
 import ie.teamchile.smartapp.model.Clinic;
 import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.model.ServiceOption;
