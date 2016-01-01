@@ -97,6 +97,10 @@ public interface BaseModel {
 
     void updateNbst();
 
+    Appointment getAppointmentById(int appointmentId);
+
+    List<Appointment> getAppointments();
+
     void updateAppointment(Appointment appointment);
 
     void updateAppointments(List<Appointment> appointments);

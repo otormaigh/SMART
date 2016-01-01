@@ -357,6 +357,16 @@ public class BaseModelImp implements BaseModel {
     }
 
     @Override
+    public Appointment getAppointmentById(int appointmentId) {
+        return realm.where(Appointment.class).equalTo(Constants.REALM_ID, appointmentId).findFirst();
+    }
+
+    @Override
+    public List<Appointment> getAppointments() {
+        return realm.where(Appointment.class).findAll();
+    }
+
+    @Override
     public void updateAppointment(Appointment appointment) {
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(appointment);

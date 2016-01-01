@@ -138,6 +138,7 @@ public class CreateAppointmentActivity extends BaseActivity implements CreateApp
         daySelected = HomeVisitAppointmentActivity.daySelected;
         serviceOptionId = Integer.parseInt(getIntent().getStringExtra(Constants.ARGS_SERVICE_OPTION_ID));
         clinicName = realm.where(ServiceOption.class).equalTo(Constants.REALM_ID, serviceOptionId).findFirst().getName();
+
         tvTime.setVisibility(View.GONE);
         tvTimeTitle.setVisibility(View.GONE);
         visitReturnTypeSpinner.setVisibility(View.GONE);

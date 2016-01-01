@@ -1,7 +1,7 @@
 package ie.teamchile.smartapp.activities.HomeVisitAppointment;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -16,10 +16,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.daimajia.swipe.SwipeLayout;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -31,66 +31,44 @@ import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.activities.Base.BaseActivity;
 import ie.teamchile.smartapp.activities.CreateAppointment.CreateAppointmentActivity;
 import ie.teamchile.smartapp.activities.ServiceUser.ServiceUserActivity;
-import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.Appointment;
-import ie.teamchile.smartapp.model.BaseResponseModel;
-import ie.teamchile.smartapp.model.Login;
-import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.model.RealmInteger;
 import ie.teamchile.smartapp.model.ServiceOption;
 import ie.teamchile.smartapp.util.Constants;
-import ie.teamchile.smartapp.util.CustomDialogs;
 import io.realm.Realm;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
-import timber.log.Timber;
 
 public class HomeVisitAppointmentActivity extends BaseActivity implements HomeVisitAppointmentView {
     public static Date daySelected;
     public static int visitOptionSelected;
-    private String dateSelectedStr, nameOfClinic;
-    private int dayOfWeek;
     private Calendar c = Calendar.getInstance(), myCalendar = Calendar.getInstance();
     private Intent intent;
     private List<Integer> idList = new ArrayList<>();
     private Button dateInList, btnPrevWeek, btnNextWeek;
     private BaseAdapter adapter;
-    private ListView listView;
-    private ProgressDialog pd;
     private Realm realm;
+    private HomeVisitAppointmentPresenter homeVisitAppointmentPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentForNav(R.layout.activity_home_visit_appointment);
 
-        realm = Realm.getInstance(this);
+        initViews();
 
-        dateInList = (Button) findViewById(R.id.btn_date);
-        listView = (ListView) findViewById(R.id.lv_home_visit);
-        btnPrevWeek = (Button) findViewById(R.id.btn_prev);
-        btnPrevWeek.setOnClickListener(new ButtonClick());
-        btnNextWeek = (Button) findViewById(R.id.btn_next);
-        btnNextWeek.setOnClickListener(new ButtonClick());
+        homeVisitAppointmentPresenter = new HomeVisitAppointmentPresenterImp(this, new WeakReference<Activity>(HomeVisitAppointmentActivity.this));
+
+        realm = homeVisitAppointmentPresenter.getEncryptedRealm();
 
         c.setTime(daySelected);
-        dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
 
         idList = new ArrayList<>();
-        adapter = new ListElementAdapter();
-        listView.setAdapter(adapter);
 
         newSetToList(daySelected);
-        createDatePicker();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-        if (realm != null)
-            realm.close();
     }
 
     @Override
@@ -102,6 +80,19 @@ public class HomeVisitAppointmentActivity extends BaseActivity implements HomeVi
     protected void onResume() {
         super.onResume();
         newSetToList(daySelected);
+    }
+
+    @Override
+    public void initViews() {
+        dateInList = (Button) findViewById(R.id.btn_date);
+        dateInList.setOnClickListener(new ButtonClick());
+        btnPrevWeek = (Button) findViewById(R.id.btn_prev);
+        btnPrevWeek.setOnClickListener(new ButtonClick());
+        btnNextWeek = (Button) findViewById(R.id.btn_next);
+        btnNextWeek.setOnClickListener(new ButtonClick());
+
+        adapter = new ListElementAdapter();
+        ((ListView) findViewById(R.id.lv_home_visit)).setAdapter(adapter);
     }
 
     public void pauseButton() {
@@ -131,12 +122,10 @@ public class HomeVisitAppointmentActivity extends BaseActivity implements HomeVi
 
     private void createDatePicker() {
         myCalendar.setTime(daySelected);
-        final DatePickerDialog.OnDateSetListener pickerDate = new DatePickerDialog.OnDateSetListener() {
+        DatePickerDialog.OnDateSetListener pickerDate = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                if (pd != null) {
-                    pd.dismiss();
-                }
+                homeVisitAppointmentPresenter.dismissProgressDialog();
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
@@ -144,14 +133,9 @@ public class HomeVisitAppointmentActivity extends BaseActivity implements HomeVi
                 newSetToList(myCalendar.getTime());
             }
         };
-        dateInList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new DatePickerDialog(HomeVisitAppointmentActivity.this, pickerDate, myCalendar
-                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-            }
-        });
+        new DatePickerDialog(HomeVisitAppointmentActivity.this, pickerDate, myCalendar
+                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                myCalendar.get(Calendar.DAY_OF_MONTH)).show();
     }
 
     private void newSetToList(Date dateSelected) {
@@ -159,9 +143,9 @@ public class HomeVisitAppointmentActivity extends BaseActivity implements HomeVi
 
         daySelected = dateSelected;
 
-        dateSelectedStr = Constants.DF_DATE_ONLY.format(dateSelected);
+        String dateSelectedStr = Constants.DF_DATE_ONLY.format(dateSelected);
         dateInList.setText(Constants.DF_DATE_W_MONTH_NAME.format(dateSelected));
-        nameOfClinic = realm.where(ServiceOption.class).equalTo(Constants.REALM_ID, visitOptionSelected).findFirst().getName();
+        String nameOfClinic = realm.where(ServiceOption.class).equalTo(Constants.REALM_ID, visitOptionSelected).findFirst().getName();
         setActionBarTitle(nameOfClinic);
 
         List<Appointment> appointmentList = realm.where(Appointment.class)
@@ -198,69 +182,6 @@ public class HomeVisitAppointmentActivity extends BaseActivity implements HomeVi
         adapter.notifyDataSetChanged();
     }
 
-    private void changeAttendStatus(Boolean status, int position) {
-        pd = new CustomDialogs().showProgressDialog(
-                HomeVisitAppointmentActivity.this,
-                "Changing Attended Status");
-
-        PostingData attendedStatus = new PostingData();
-        attendedStatus.putAppointmentStatus(
-                status,
-                0,
-                realm.where(Login.class).findFirst().getId(),
-                realm.where(Appointment.class).equalTo(Constants.REALM_ID, idList.get(position)).findFirst().getServiceUserId());
-
-        SmartApiClient.getAuthorizedApiClient(this).putAppointmentStatus(
-                attendedStatus,
-                idList.get(position),
-                new Callback<BaseResponseModel>() {
-                    @Override
-                    public void success(BaseResponseModel baseResponseModel, Response response) {
-                        Timber.d("changeAttendStatus success");
-
-                        realm.beginTransaction();
-                        realm.copyToRealmOrUpdate(baseResponseModel.getAppointment());
-                        realm.commitTransaction();
-
-                        Toast.makeText(HomeVisitAppointmentActivity.this,
-                                "Status changed", Toast.LENGTH_LONG).show();
-                        pd.dismiss();
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Timber.d("changeAttendStatus error = " + error);
-                        pd.dismiss();
-                    }
-                }
-        );
-    }
-
-    private void searchServiceUser(int serviceUserId, final Intent intent) {
-        SmartApiClient.getAuthorizedApiClient(this).getServiceUserById(serviceUserId,
-                new Callback<BaseResponseModel>() {
-                    @Override
-                    public void success(BaseResponseModel baseResponseModel, Response response) {
-                        realm.beginTransaction();
-                        realm.copyToRealmOrUpdate(baseResponseModel.getServiceUsers());
-                        realm.copyToRealmOrUpdate(baseResponseModel.getBabies());
-                        realm.copyToRealmOrUpdate(baseResponseModel.getPregnancies());
-                        realm.commitTransaction();
-                        startActivity(intent);
-                        pd.dismiss();
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        pd.dismiss();
-                        Toast.makeText(
-                                HomeVisitAppointmentActivity.this,
-                                "Error Search Patient: " + error,
-                                Toast.LENGTH_LONG).show();
-                    }
-                });
-    }
-
     public void setDaySelected(Date daySelected) {
         HomeVisitAppointmentActivity.daySelected = daySelected;
     }
@@ -277,7 +198,6 @@ public class HomeVisitAppointmentActivity extends BaseActivity implements HomeVi
                     c.add(Calendar.DAY_OF_YEAR, -1);
                     daySelected = c.getTime();
                     myCalendar.setTime(daySelected);
-                    createDatePicker();
                     newSetToList(c.getTime());
                     pauseButton();
                     break;
@@ -286,9 +206,11 @@ public class HomeVisitAppointmentActivity extends BaseActivity implements HomeVi
                     c.add(Calendar.DAY_OF_YEAR, 1);
                     daySelected = c.getTime();
                     myCalendar.setTime(daySelected);
-                    createDatePicker();
                     newSetToList(c.getTime());
                     pauseButton();
+                    break;
+                case R.id.btn_date:
+                    createDatePicker();
                     break;
             }
         }
@@ -353,16 +275,13 @@ public class HomeVisitAppointmentActivity extends BaseActivity implements HomeVi
                 public boolean onLongClick(View v) {
                     if (getItem(position).equals(0)) {
                         intent = new Intent(HomeVisitAppointmentActivity.this, CreateAppointmentActivity.class);
-                        intent.putExtra("from", "home-visit");
-                        intent.putExtra("serviceOptionId", String.valueOf(visitOptionSelected));
+                        intent.putExtra(Constants.ARGS_FROM, Constants.ARGS_HOME_VISIT);
+                        intent.putExtra(Constants.ARGS_SERVICE_OPTION_ID, String.valueOf(visitOptionSelected));
                         startActivity(intent);
                     } else {
                         int serviceUserId = appointment.getServiceUserId();
-                        pd = new CustomDialogs().showProgressDialog(
-                                HomeVisitAppointmentActivity.this,
-                                "Fetching Information");
                         intent = new Intent(HomeVisitAppointmentActivity.this, ServiceUserActivity.class);
-                        searchServiceUser(serviceUserId, intent);
+                        homeVisitAppointmentPresenter.searchServiceUser(serviceUserId, intent);
                     }
                     return true;
                 }
@@ -373,7 +292,7 @@ public class HomeVisitAppointmentActivity extends BaseActivity implements HomeVi
                 public void onClick(View v) {
                     holder.swipeLayout.close();
 
-                    changeAttendStatus(!attended, position);
+                    homeVisitAppointmentPresenter.changeAttendStatus(!attended, idList.get(position));
                     realm.beginTransaction();
                     appointment.setAttended(!attended);
                     realm.commitTransaction();
