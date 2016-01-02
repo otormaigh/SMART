@@ -6,7 +6,7 @@ import io.realm.annotations.PrimaryKey;
 /**
  * Created by user on 7/1/15.
  */
-public class ServiceUserAction extends RealmObject {
+public class ResponseServiceUserAction extends RealmObject {
     private String description;
     @PrimaryKey
     private int id;

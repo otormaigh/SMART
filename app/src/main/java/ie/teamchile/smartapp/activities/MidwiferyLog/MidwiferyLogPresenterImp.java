@@ -11,7 +11,7 @@ import ie.teamchile.smartapp.activities.Base.BaseModel;
 import ie.teamchile.smartapp.activities.Base.BaseModelImp;
 import ie.teamchile.smartapp.activities.Base.BasePresenterImp;
 import ie.teamchile.smartapp.api.SmartApiClient;
-import ie.teamchile.smartapp.model.BaseResponseModel;
+import ie.teamchile.smartapp.model.ResponseBase;
 import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.util.CustomDialogs;
 import retrofit.Callback;
@@ -44,15 +44,15 @@ public class MidwiferyLogPresenterImp extends BasePresenterImp implements Midwif
                 weakActivity.get(),
                 weakActivity.get().getString(R.string.adding_note));
 
-        SmartApiClient.getAuthorizedApiClient(weakActivity.get()).postPregnancyNote(
+        SmartApiClient.getAuthorizedApiClient(getEncryptedRealm()).postPregnancyNote(
                 postNote,
                 baseModel.getPregnancy().getId(),
-                new Callback<BaseResponseModel>() {
+                new Callback<ResponseBase>() {
                     @Override
-                    public void success(BaseResponseModel baseResponseModel, Response response) {
+                    public void success(ResponseBase responseBase, Response response) {
                         Timber.d("postNote success");
 
-                        baseModel.updatePregnancyNote(baseResponseModel.getPregnancyNote());
+                        baseModel.updatePregnancyNote(responseBase.getResponsePregnancyNote());
                         midwiferyLogView.updatePregnancyList(new ArrayList<>(baseModel.getPregnancyNotes()));
 
                         pd.dismiss();

@@ -8,14 +8,14 @@ import io.realm.annotations.PrimaryKey;
 /**
  * Created by user on 6/23/15.
  */
-public class NbstHistory extends RealmObject {
+public class ResponseVitKHistory extends RealmObject {
     private int babyId;
     private Date createdAt;
     @PrimaryKey
     private int id;
-    private String nbst;
     private int serviceProviderId;
     private String serviceProviderName;
+    private String vitK;
 
     public int getBabyId() {
         return babyId;
@@ -41,14 +41,6 @@ public class NbstHistory extends RealmObject {
         this.id = id;
     }
 
-    public String getNbst() {
-        return nbst;
-    }
-
-    public void setNbst(String nbst) {
-        this.nbst = nbst;
-    }
-
     public int getServiceProviderId() {
         return serviceProviderId;
     }
@@ -63,5 +55,13 @@ public class NbstHistory extends RealmObject {
 
     public void setServiceProviderName(String serviceProviderName) {
         this.serviceProviderName = serviceProviderName;
+    }
+
+    public String getVitK() {
+        return vitK;
+    }
+
+    public void setVitK(String vitK) {
+        this.vitK = vitK;
     }
 }

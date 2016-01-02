@@ -6,7 +6,7 @@ import io.realm.annotations.PrimaryKey;
 /**
  * Created by user on 6/3/15.
  */
-public class ClinicTimeRecord extends RealmObject {
+public class ResponseClinicTimeRecord extends RealmObject {
     private int clinicId;
     private String endTime;
     @PrimaryKey

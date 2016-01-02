@@ -6,7 +6,7 @@ import io.realm.annotations.PrimaryKey;
 /**
  * Created by user on 5/26/15.
  */
-public class ServiceProvider extends RealmObject {
+public class ResponseServiceProvider extends RealmObject {
     private boolean active;
     private boolean admin;
     private String email;

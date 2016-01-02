@@ -133,7 +133,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView, OnCli
         switch (v.getId()) {
             case R.id.btn_login:
                 Tracking.startUsage(LoginActivity.this);
-                Timber.d("hockeyApp Login pressed");
+                Timber.d("hockeyApp ResponseLogin pressed");
                 Timber.d("hockeyApp timeUsage = " + Tracking.getUsageTime(LoginActivity.this));
                 validateInput();
                 break;

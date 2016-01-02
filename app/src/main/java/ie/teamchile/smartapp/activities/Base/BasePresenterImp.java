@@ -23,9 +23,9 @@ import javax.net.ssl.SSLHandshakeException;
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.activities.SpalshScreen.SplashScreenActivity;
 import ie.teamchile.smartapp.api.SmartApiClient;
-import ie.teamchile.smartapp.model.Baby;
-import ie.teamchile.smartapp.model.BaseResponseModel;
-import ie.teamchile.smartapp.model.Pregnancy;
+import ie.teamchile.smartapp.model.ResponseBaby;
+import ie.teamchile.smartapp.model.ResponseBase;
+import ie.teamchile.smartapp.model.ResponsePregnancy;
 import ie.teamchile.smartapp.util.Constants;
 import ie.teamchile.smartapp.util.CustomDialogs;
 import io.realm.Realm;
@@ -89,61 +89,57 @@ public class BasePresenterImp implements BasePresenter {
 
     @Override
     public void closeRealm() {
-        if (realm != null)
-            realm.close();
-
-        realm = null;
     }
 
     @Override
-    public int getRecentPregnancy(List<Pregnancy> pregnancyList) {
+    public int getRecentPregnancy(List<ResponsePregnancy> responsePregnancyList) {
         List<Long> asDate = new ArrayList<>();
-        if (pregnancyList.size() > 1) {
+        if (responsePregnancyList.size() > 1) {
             try {
-                for (int i = 0; i < pregnancyList.size(); i++) {
-                    if (pregnancyList.get(i).getEstimatedDeliveryDate() != null) {
-                        asDate.add(pregnancyList.get(i).getEstimatedDeliveryDate().getTime());
+                for (int i = 0; i < responsePregnancyList.size(); i++) {
+                    if (responsePregnancyList.get(i).getEstimatedDeliveryDate() != null) {
+                        asDate.add(responsePregnancyList.get(i).getEstimatedDeliveryDate().getTime());
                     } else {
                         asDate.add(0L);
                     }
                 }
-                return pregnancyList
+                return responsePregnancyList
                         .get(asDate.indexOf(Collections.max(asDate)))
                         .getId();
             } catch (NullPointerException e) {
                 Timber.e(Log.getStackTraceString(e));
                 return 0;
             }
-        } else if (pregnancyList.isEmpty()) {
+        } else if (responsePregnancyList.isEmpty()) {
             return 0;
         } else {
-            return pregnancyList.get(0).getId();
+            return responsePregnancyList.get(0).getId();
         }
     }
 
     @Override
-    public int getRecentBaby(List<Baby> babyList) {
+    public int getRecentBaby(List<ResponseBaby> responseBabyList) {
         List<Long> asDate = new ArrayList<>();
-        if (babyList.size() > 1) {
+        if (responseBabyList.size() > 1) {
             try {
-                for (int i = 0; i < babyList.size(); i++) {
-                    if (babyList.get(i).getDeliveryDateTime() != null) {
-                        asDate.add(babyList.get(i).getDeliveryDateTime().getTime());
+                for (int i = 0; i < responseBabyList.size(); i++) {
+                    if (responseBabyList.get(i).getDeliveryDateTime() != null) {
+                        asDate.add(responseBabyList.get(i).getDeliveryDateTime().getTime());
                     } else {
                         asDate.add(0L);
                     }
                 }
-                return babyList
+                return responseBabyList
                         .get(asDate.indexOf(Collections.max(asDate)))
                         .getId();
             } catch (NullPointerException e) {
                 Timber.e(Log.getStackTraceString(e));
                 return 0;
             }
-        } else if (babyList.isEmpty()) {
+        } else if (responseBabyList.isEmpty()) {
             return 0;
         } else {
-            return babyList.get(0).getId();
+            return responseBabyList.get(0).getId();
         }
     }
 
@@ -154,11 +150,11 @@ public class BasePresenterImp implements BasePresenter {
                         weakActivity.get(),
                         weakActivity.get().getString(R.string.logging_out));
 
-        SmartApiClient.getAuthorizedApiClient(weakActivity.get()).postLogout(
+        SmartApiClient.getAuthorizedApiClient(realm).postLogout(
                 "",
-                new Callback<BaseResponseModel>() {
+                new Callback<ResponseBase>() {
                     @Override
-                    public void success(BaseResponseModel baseResponseModel, Response response) {
+                    public void success(ResponseBase responseBase, Response response) {
                         Timber.d("logout success");
                         Tracking.stopUsage(weakActivity.get());
                         Timber.d("timeUsage = " + Tracking.getUsageTime(weakActivity.get()));
@@ -187,11 +183,11 @@ public class BasePresenterImp implements BasePresenter {
 
     @Override
     public void doLogoutWithoutIntent() {
-        SmartApiClient.getAuthorizedApiClient(weakActivity.get()).postLogout(
+        SmartApiClient.getAuthorizedApiClient(realm).postLogout(
                 "",
-                new Callback<BaseResponseModel>() {
+                new Callback<ResponseBase>() {
                     @Override
-                    public void success(BaseResponseModel baseResponseModel, Response response) {
+                    public void success(ResponseBase responseBase, Response response) {
                         Timber.d("in logout success");
                         Tracking.stopUsage(weakActivity.get());
                         Timber.d("timeUsage QuickMenu = " + Tracking.getUsageTime(weakActivity.get()));
@@ -226,11 +222,11 @@ public class BasePresenterImp implements BasePresenter {
                         weakActivity.get(),
                         weakActivity.get().getString(R.string.updating_appointments));
 
-        SmartApiClient.getAuthorizedApiClient(weakActivity.get()).getAllAppointments(
-                new Callback<BaseResponseModel>() {
+        SmartApiClient.getAuthorizedApiClient(realm).getAllAppointments(
+                new Callback<ResponseBase>() {
                     @Override
-                    public void success(BaseResponseModel baseResponseModel, Response response) {
-                        model.saveAppointmentsToRealm(baseResponseModel.getAppointments());
+                    public void success(ResponseBase responseBase, Response response) {
+                        model.saveAppointmentsToRealm(responseBase.getAppointments());
                         pd.dismiss();
                     }
 

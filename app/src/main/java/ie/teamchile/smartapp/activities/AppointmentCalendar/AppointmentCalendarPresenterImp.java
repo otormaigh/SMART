@@ -11,8 +11,8 @@ import ie.teamchile.smartapp.activities.Base.BaseModel;
 import ie.teamchile.smartapp.activities.Base.BaseModelImp;
 import ie.teamchile.smartapp.activities.Base.BasePresenterImp;
 import ie.teamchile.smartapp.api.SmartApiClient;
-import ie.teamchile.smartapp.model.BaseResponseModel;
-import ie.teamchile.smartapp.model.Login;
+import ie.teamchile.smartapp.model.ResponseBase;
+import ie.teamchile.smartapp.model.ResponseLogin;
 import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.util.CustomDialogs;
 import io.realm.Realm;
@@ -48,20 +48,20 @@ public class AppointmentCalendarPresenterImp extends BasePresenterImp implements
         attendedStatus.putAppointmentStatus(
                 status,
                 clinicSelected,
-                realm.where(Login.class).findFirst().getId(),
+                realm.where(ResponseLogin.class).findFirst().getId(),
                 serviceUserId);
 
         SmartApiClient.getAuthorizedApiClient(realm).putAppointmentStatus(
                 attendedStatus,
                 appointmentId,
-                new Callback<BaseResponseModel>() {
+                new Callback<ResponseBase>() {
                     @Override
-                    public void success(BaseResponseModel baseResponseModel, Response response) {
+                    public void success(ResponseBase responseBase, Response response) {
                         Toast.makeText(weakActivity.get(),
                                 weakActivity.get().getString(R.string.status_changed),
                                 Toast.LENGTH_LONG).show();
 
-                        baseModel.saveAppointmentToRealm(baseResponseModel.getAppointment());
+                        baseModel.saveAppointmentToRealm(responseBase.getAppointment());
 
                         pd.dismiss();
                     }
@@ -83,10 +83,10 @@ public class AppointmentCalendarPresenterImp extends BasePresenterImp implements
                         weakActivity.get().getString(R.string.fetching_information));
 
         SmartApiClient.getAuthorizedApiClient(realm).getServiceUserById(serviceUserId,
-                new Callback<BaseResponseModel>() {
+                new Callback<ResponseBase>() {
                     @Override
-                    public void success(BaseResponseModel baseResponseModel, Response response) {
-                        baseModel.saveServiceUserToRealm(baseResponseModel);
+                    public void success(ResponseBase responseBase, Response response) {
+                        baseModel.saveServiceUserToRealm(responseBase);
                         appointmentCalendarView.gotoServiceUserActivity();
 
                         pd.dismiss();

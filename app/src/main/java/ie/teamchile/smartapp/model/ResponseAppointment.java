@@ -6,16 +6,16 @@ import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class Appointment extends RealmObject {
+public class ResponseAppointment extends RealmObject {
     private int clinicId;
     private String date;
     @PrimaryKey
     private int id;
-    private Links links;
+    private ResponseLinks links;
     private String priority;
     private RealmList<RealmInteger> serviceOptionIds;
     private int serviceProviderId;
-    private ServiceUser serviceUser;
+    private ResponseServiceUser serviceUser;
     private int serviceUserId;
     private Date time;
     //private RealmList<Object> visitLogs;
@@ -46,11 +46,11 @@ public class Appointment extends RealmObject {
         this.id = id;
     }
 
-    public Links getLinks() {
+    public ResponseLinks getLinks() {
         return links;
     }
 
-    public void setLinks(Links links) {
+    public void setLinks(ResponseLinks links) {
         this.links = links;
     }
 
@@ -78,11 +78,11 @@ public class Appointment extends RealmObject {
         this.serviceProviderId = serviceProviderId;
     }
 
-    public ServiceUser getServiceUser() {
+    public ResponseServiceUser getServiceUser() {
         return serviceUser;
     }
 
-    public void setServiceUser(ServiceUser serviceUser) {
+    public void setServiceUser(ResponseServiceUser serviceUser) {
         this.serviceUser = serviceUser;
     }
 

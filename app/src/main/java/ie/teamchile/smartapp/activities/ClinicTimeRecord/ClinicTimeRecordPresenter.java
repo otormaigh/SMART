@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import ie.teamchile.smartapp.activities.Base.BasePresenter;
-import ie.teamchile.smartapp.model.Clinic;
-import ie.teamchile.smartapp.model.ClinicTimeRecord;
+import ie.teamchile.smartapp.model.ResponseClinic;
+import ie.teamchile.smartapp.model.ResponseClinicTimeRecord;
 
 /**
  * Created by elliot on 01/01/2016.
@@ -21,9 +21,9 @@ public interface ClinicTimeRecordPresenter extends BasePresenter {
 
     void getDataFromDb();
 
-    Map<Integer, Clinic> getClinicIdMap();
+    Map<Integer, ResponseClinic> getClinicIdMap();
 
-    List<ClinicTimeRecord> getClinicTimeRecords();
+    List<ResponseClinicTimeRecord> getClinicTimeRecords();
 
     List<Integer> getClinicStopped();
 

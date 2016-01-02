@@ -6,7 +6,7 @@ import io.realm.annotations.PrimaryKey;
 /**
  * Created by user on 5/26/15.
  */
-public class Login extends RealmObject {
+public class ResponseLogin extends RealmObject {
     @PrimaryKey
     private int id;
     private String token;

@@ -26,12 +26,12 @@ import java.util.List;
 
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.activities.Base.BaseActivity;
-import ie.teamchile.smartapp.model.PregnancyNote;
+import ie.teamchile.smartapp.model.ResponsePregnancyNote;
 import ie.teamchile.smartapp.util.Constants;
 import ie.teamchile.smartapp.util.CustomDialogs;
 
 public class MidwiferyLogActivity extends BaseActivity implements MidwiferyLogView, OnClickListener {
-    private List<PregnancyNote> pregnancyNotes = new ArrayList<>();
+    private List<ResponsePregnancyNote> responsePregnancyNotes = new ArrayList<>();
     private BaseAdapter adapter;
     private AlertDialog ad;
     private ProgressDialog pd;
@@ -55,16 +55,16 @@ public class MidwiferyLogActivity extends BaseActivity implements MidwiferyLogVi
     }
 
     @Override
-    public void updatePregnancyList(List<PregnancyNote> pregnancyNotes) {
-        Collections.sort(pregnancyNotes, new Comparator<PregnancyNote>() {
+    public void updatePregnancyList(List<ResponsePregnancyNote> responsePregnancyNotes) {
+        Collections.sort(responsePregnancyNotes, new Comparator<ResponsePregnancyNote>() {
 
             @Override
-            public int compare(PregnancyNote a, PregnancyNote b) {
+            public int compare(ResponsePregnancyNote a, ResponsePregnancyNote b) {
                 return ((Integer) a.getId()).compareTo(b.getId());
             }
         });
 
-        this.pregnancyNotes = pregnancyNotes;
+        this.responsePregnancyNotes = responsePregnancyNotes;
 
         adapter.notifyDataSetChanged();
     }
@@ -165,17 +165,17 @@ public class MidwiferyLogActivity extends BaseActivity implements MidwiferyLogVi
 
         @Override
         public int getCount() {
-            return pregnancyNotes.size();
+            return responsePregnancyNotes.size();
         }
 
         @Override
-        public PregnancyNote getItem(int position) {
-            return pregnancyNotes.get(position);
+        public ResponsePregnancyNote getItem(int position) {
+            return responsePregnancyNotes.get(position);
         }
 
         @Override
         public long getItemId(int position) {
-            return pregnancyNotes.get(position).hashCode();
+            return responsePregnancyNotes.get(position).hashCode();
         }
 
         @Override

@@ -6,7 +6,7 @@ import io.realm.RealmObject;
  * Created by user on 5/26/15.
  */
 
-public class Links extends RealmObject {
+public class ResponseLinks extends RealmObject {
     private String serviceOptions;
     private String serviceProvider;
     private String serviceUser;

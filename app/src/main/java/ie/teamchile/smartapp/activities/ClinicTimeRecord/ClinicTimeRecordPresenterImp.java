@@ -16,9 +16,9 @@ import ie.teamchile.smartapp.activities.Base.BaseModel;
 import ie.teamchile.smartapp.activities.Base.BaseModelImp;
 import ie.teamchile.smartapp.activities.Base.BasePresenterImp;
 import ie.teamchile.smartapp.api.SmartApiClient;
-import ie.teamchile.smartapp.model.BaseResponseModel;
-import ie.teamchile.smartapp.model.Clinic;
-import ie.teamchile.smartapp.model.ClinicTimeRecord;
+import ie.teamchile.smartapp.model.ResponseBase;
+import ie.teamchile.smartapp.model.ResponseClinic;
+import ie.teamchile.smartapp.model.ResponseClinicTimeRecord;
 import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.util.Constants;
 import ie.teamchile.smartapp.util.CustomDialogs;
@@ -40,7 +40,7 @@ public class ClinicTimeRecordPresenterImp extends BasePresenterImp implements Cl
     private CountDownTimer timer;
     private String todayDay;
     private String todayDate;
-    private Map<Integer, Clinic> clinicIdMap = new HashMap<>();
+    private Map<Integer, ResponseClinic> clinicIdMap = new HashMap<>();
     private int recordId = 0;
     private int recordGetDone;
     private List<Integer> clinicStopped = new ArrayList<>();
@@ -70,18 +70,18 @@ public class ClinicTimeRecordPresenterImp extends BasePresenterImp implements Cl
         SmartApiClient.getAuthorizedApiClient(realm).getTimeRecords(
                 clinicId,
                 date,
-                new Callback<BaseResponseModel>() {
+                new Callback<ResponseBase>() {
                     @Override
-                    public void success(BaseResponseModel baseResponseModel, Response response) {
+                    public void success(ResponseBase responseBase, Response response) {
                         Timber.d("get time record success");
-                        if (baseResponseModel.getClinicTimeRecords().size() > 0) {
-                            baseModel.updateClinicTimeRecords(baseResponseModel.getClinicTimeRecords());
+                        if (responseBase.getResponseClinicTimeRecords().size() > 0) {
+                            baseModel.updateClinicTimeRecords(responseBase.getResponseClinicTimeRecords());
 
-                            if (baseResponseModel.getClinicTimeRecords().get(0).getEndTime() == null) {
+                            if (responseBase.getResponseClinicTimeRecords().get(0).getEndTime() == null) {
                                 if (!clinicStarted.contains(clinicId))
                                     clinicStarted.add(clinicId);
-                            } else if (baseResponseModel.getClinicTimeRecords().get(0).getEndTime() == null &&
-                                    baseResponseModel.getClinicTimeRecords().get(0).getStartTime() == null) {
+                            } else if (responseBase.getResponseClinicTimeRecords().get(0).getEndTime() == null &&
+                                    responseBase.getResponseClinicTimeRecords().get(0).getStartTime() == null) {
                                 clinicNotStarted.add(clinicId);
                             } else {
                                 if (!clinicStopped.contains(clinicId))
@@ -120,12 +120,12 @@ public class ClinicTimeRecordPresenterImp extends BasePresenterImp implements Cl
         SmartApiClient.getAuthorizedApiClient(realm).postTimeRecords(
                 timeRecord,
                 clinicId,
-                new Callback<BaseResponseModel>() {
+                new Callback<ResponseBase>() {
                     @Override
-                    public void success(BaseResponseModel baseResponseModel, Response response) {
+                    public void success(ResponseBase responseBase, Response response) {
                         Timber.d("retro success");
                         clinicTimeRecordView.disableButtons();
-                        baseModel.updateClinicTimeRecord(baseResponseModel.getClinicTimeRecord());
+                        baseModel.updateClinicTimeRecord(responseBase.getResponseClinicTimeRecord());
 
                         clinicNotStarted.remove(clinicNotStarted.indexOf(clinicId));
                         clinicStarted.add(clinicId);
@@ -165,12 +165,12 @@ public class ClinicTimeRecordPresenterImp extends BasePresenterImp implements Cl
                 timeRecord,
                 clinicId,
                 recordId,
-                new Callback<BaseResponseModel>() {
+                new Callback<ResponseBase>() {
                     @Override
-                    public void success(BaseResponseModel baseResponseModel, Response response) {
+                    public void success(ResponseBase responseBase, Response response) {
                         Timber.d("retro success");
                         clinicTimeRecordView.disableButtons();
-                        baseModel.updateClinicTimeRecord(baseResponseModel.getClinicTimeRecord());
+                        baseModel.updateClinicTimeRecord(responseBase.getResponseClinicTimeRecord());
 
                         int size = getClinicTimeRecords().size();
                         for (int i = 0; i < size; i++) {
@@ -203,12 +203,12 @@ public class ClinicTimeRecordPresenterImp extends BasePresenterImp implements Cl
         SmartApiClient.getAuthorizedApiClient(realm).deleteTimeRecordById(
                 clinicIdForDelete,
                 recordIdForDelete,
-                new Callback<BaseResponseModel>() {
+                new Callback<ResponseBase>() {
                     @Override
-                    public void success(BaseResponseModel baseResponseModel, Response response) {
+                    public void success(ResponseBase responseBase, Response response) {
                         Timber.d("deleteTimeRecord success");
                         clinicTimeRecordView.disableButtons();
-                        baseModel.updateClinicTimeRecord(baseResponseModel.getClinicTimeRecord());
+                        baseModel.updateClinicTimeRecord(responseBase.getResponseClinicTimeRecord());
 
                         int size = getClinicTimeRecords().size();
                         for (int i = 0; i < size; i++) {
@@ -239,26 +239,26 @@ public class ClinicTimeRecordPresenterImp extends BasePresenterImp implements Cl
         recordGetDone = 0;
 
         Map<String, List<Integer>> clinicDayMap = new HashMap<>();
-        List<Clinic> clinics = baseModel.getClinics();
+        List<ResponseClinic> responseClinics = baseModel.getClinics();
         List<String> trueDays;
 
-        int clinicSize = clinics.size();
+        int clinicSize = responseClinics.size();
         int trueDaySize;
         List<Integer> idList;
         for (int i = 0; i < clinicSize; i++) {
             trueDays = new GeneralUtils().getTrueDays(
-                    clinics.get(i).getDays());
+                    responseClinics.get(i).getDays());
             trueDaySize = trueDays.size();
             for (int j = 0; j < trueDaySize; j++) {
-                clinicIdMap.put(clinics.get(i).getId(), clinics.get(i));
+                clinicIdMap.put(responseClinics.get(i).getId(), responseClinics.get(i));
 
                 idList = new ArrayList<>();
                 if (clinicDayMap.get(trueDays.get(j)) != null) {
                     idList = clinicDayMap.get(trueDays.get(j));
-                    idList.add(clinics.get(i).getId());
+                    idList.add(responseClinics.get(i).getId());
                     clinicDayMap.put(trueDays.get(j), idList);
                 } else {
-                    idList.add(clinics.get(i).getId());
+                    idList.add(responseClinics.get(i).getId());
                     clinicDayMap.put(trueDays.get(j), idList);
                 }
             }
@@ -298,12 +298,12 @@ public class ClinicTimeRecordPresenterImp extends BasePresenterImp implements Cl
     }
 
     @Override
-    public Map<Integer, Clinic> getClinicIdMap() {
+    public Map<Integer, ResponseClinic> getClinicIdMap() {
         return clinicIdMap;
     }
 
     @Override
-    public List<ClinicTimeRecord> getClinicTimeRecords() {
+    public List<ResponseClinicTimeRecord> getClinicTimeRecords() {
         return baseModel.getClinicTimeRecords();
     }
 

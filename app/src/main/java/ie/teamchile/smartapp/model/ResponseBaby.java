@@ -9,7 +9,7 @@ import io.realm.annotations.PrimaryKey;
 /**
  * Created by user on 5/26/15.
  */
-public class Baby extends RealmObject {
+public class ResponseBaby extends RealmObject {
     private String birthOutcome;
     private Date deliveryDateTime;
     private String gender;
@@ -18,7 +18,7 @@ public class Baby extends RealmObject {
     private String hospitalNumber;
     @PrimaryKey
     private int id;
-    private Links links;
+    private ResponseLinks links;
     private String name;
     private String nbst;
     private RealmList<RealmInteger> nbstHistoryIds;
@@ -83,11 +83,11 @@ public class Baby extends RealmObject {
         this.id = id;
     }
 
-    public Links getLinks() {
+    public ResponseLinks getLinks() {
         return links;
     }
 
-    public void setLinks(Links links) {
+    public void setLinks(ResponseLinks links) {
         this.links = links;
     }
 

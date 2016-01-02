@@ -6,13 +6,13 @@ import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 /**
- * Created by user on 6/16/15.
+ * Created by user on 6/23/15.
  */
-public class PregnancyNote extends RealmObject {
+public class ResponseFeedingHistory extends RealmObject {
     private Date createdAt;
+    private String feeding;
     @PrimaryKey
     private int id;
-    private String note;
     private int pregnancyId;
     private int serviceProviderId;
     private String serviceProviderName;
@@ -25,20 +25,20 @@ public class PregnancyNote extends RealmObject {
         this.createdAt = createdAt;
     }
 
+    public String getFeeding() {
+        return feeding;
+    }
+
+    public void setFeeding(String feeding) {
+        this.feeding = feeding;
+    }
+
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
     }
 
     public int getPregnancyId() {

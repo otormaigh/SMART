@@ -9,40 +9,20 @@ import io.realm.annotations.PrimaryKey;
 /**
  * Created by user on 5/26/15.
  */
-public class Clinic extends RealmObject {
+public class ResponseClinic extends RealmObject {
     private String address;
     private RealmList<RealmInteger> announcementIds;
     private int appointmentInterval;
     private Date closingTime;
-    private Days days;
+    private ResponseDays days;
     @PrimaryKey
     private int id;
-    private Links links;
+    private ResponseLinks links;
     private String name;
     private Date openingTime;
     private String recurrence;
     private RealmList<RealmInteger> serviceOptionIds;
     private String type;
-
-    /*public List<String> getTrueDays() {
-        List<String> trueDays = new ArrayList<>();
-        if (days.getMonday())
-            trueDays.add("Monday");
-        if (days.getTuesday())
-            trueDays.add("Tuesday");
-        if (days.getWednesday())
-            trueDays.add("Wednesday");
-        if (days.getThursday())
-            trueDays.add("Thursday");
-        if (days.getFriday())
-            trueDays.add("Friday");
-        if (days.getSaturday())
-            trueDays.add("Saturday");
-        if (days.getSunday())
-            trueDays.add("Sunday");
-
-        return trueDays;
-    }*/
 
     public String getAddress() {
         return address;
@@ -76,11 +56,11 @@ public class Clinic extends RealmObject {
         this.closingTime = closingTime;
     }
 
-    public Days getDays() {
+    public ResponseDays getDays() {
         return days;
     }
 
-    public void setDays(Days days) {
+    public void setDays(ResponseDays days) {
         this.days = days;
     }
 
@@ -92,11 +72,11 @@ public class Clinic extends RealmObject {
         this.id = id;
     }
 
-    public Links getLinks() {
+    public ResponseLinks getLinks() {
         return links;
     }
 
-    public void setLinks(Links links) {
+    public void setLinks(ResponseLinks links) {
         this.links = links;
     }
 

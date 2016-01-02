@@ -11,7 +11,7 @@ import ie.teamchile.smartapp.activities.Base.BaseModel;
 import ie.teamchile.smartapp.activities.Base.BaseModelImp;
 import ie.teamchile.smartapp.activities.Base.BasePresenterImp;
 import ie.teamchile.smartapp.api.SmartApiClient;
-import ie.teamchile.smartapp.model.BaseResponseModel;
+import ie.teamchile.smartapp.model.ResponseBase;
 import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.util.CustomDialogs;
 import retrofit.Callback;
@@ -50,11 +50,11 @@ public class HomeVisitAppointmentPresenterImp extends BasePresenterImp implement
         SmartApiClient.getAuthorizedApiClient(getEncryptedRealm()).putAppointmentStatus(
                 attendedStatus,
                 appointmentId,
-                new Callback<BaseResponseModel>() {
+                new Callback<ResponseBase>() {
                     @Override
-                    public void success(BaseResponseModel baseResponseModel, Response response) {
+                    public void success(ResponseBase responseBase, Response response) {
                         Timber.d("changeAttendStatus success");
-                        baseModel.updateAppointment(baseResponseModel.getAppointment());
+                        baseModel.updateAppointment(responseBase.getAppointment());
 
                         Toast.makeText(weakActivity.get(),
                                 "Status changed", Toast.LENGTH_LONG).show();
@@ -77,10 +77,10 @@ public class HomeVisitAppointmentPresenterImp extends BasePresenterImp implement
                 "Fetching Information");
 
         SmartApiClient.getAuthorizedApiClient(getEncryptedRealm()).getServiceUserById(serviceUserId,
-                new Callback<BaseResponseModel>() {
+                new Callback<ResponseBase>() {
                     @Override
-                    public void success(BaseResponseModel baseResponseModel, Response response) {
-                        baseModel.saveServiceUserToRealm(baseResponseModel);
+                    public void success(ResponseBase responseBase, Response response) {
+                        baseModel.saveServiceUserToRealm(responseBase);
                         weakActivity.get().startActivity(intent);
                         weakActivity.get().finish();
                         pd.dismiss();

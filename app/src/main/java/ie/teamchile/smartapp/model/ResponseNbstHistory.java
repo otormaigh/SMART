@@ -8,12 +8,12 @@ import io.realm.annotations.PrimaryKey;
 /**
  * Created by user on 6/23/15.
  */
-public class HearingHistory extends RealmObject {
+public class ResponseNbstHistory extends RealmObject {
     private int babyId;
     private Date createdAt;
-    private String hearing;
     @PrimaryKey
     private int id;
+    private String nbst;
     private int serviceProviderId;
     private String serviceProviderName;
 
@@ -33,20 +33,20 @@ public class HearingHistory extends RealmObject {
         this.createdAt = createdAt;
     }
 
-    public String getHearing() {
-        return hearing;
-    }
-
-    public void setHearing(String hearing) {
-        this.hearing = hearing;
-    }
-
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getNbst() {
+        return nbst;
+    }
+
+    public void setNbst(String nbst) {
+        this.nbst = nbst;
     }
 
     public int getServiceProviderId() {

@@ -5,7 +5,7 @@ import io.realm.RealmObject;
 /**
  * Created by user on 5/26/15.
  */
-public class Days extends RealmObject {
+public class ResponseDays extends RealmObject {
     private boolean friday;
     private boolean monday;
     private boolean saturday;

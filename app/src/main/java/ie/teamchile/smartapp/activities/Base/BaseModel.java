@@ -2,22 +2,22 @@ package ie.teamchile.smartapp.activities.Base;
 
 import java.util.List;
 
-import ie.teamchile.smartapp.model.Appointment;
-import ie.teamchile.smartapp.model.Baby;
-import ie.teamchile.smartapp.model.BaseResponseModel;
-import ie.teamchile.smartapp.model.Clinic;
-import ie.teamchile.smartapp.model.ClinicTimeRecord;
-import ie.teamchile.smartapp.model.FeedingHistory;
-import ie.teamchile.smartapp.model.HearingHistory;
-import ie.teamchile.smartapp.model.Login;
-import ie.teamchile.smartapp.model.NbstHistory;
-import ie.teamchile.smartapp.model.Pregnancy;
-import ie.teamchile.smartapp.model.PregnancyNote;
-import ie.teamchile.smartapp.model.ServiceOption;
-import ie.teamchile.smartapp.model.ServiceProvider;
-import ie.teamchile.smartapp.model.ServiceUser;
-import ie.teamchile.smartapp.model.ServiceUserAction;
-import ie.teamchile.smartapp.model.VitKHistory;
+import ie.teamchile.smartapp.model.ResponseAppointment;
+import ie.teamchile.smartapp.model.ResponseBaby;
+import ie.teamchile.smartapp.model.ResponseBase;
+import ie.teamchile.smartapp.model.ResponseClinic;
+import ie.teamchile.smartapp.model.ResponseClinicTimeRecord;
+import ie.teamchile.smartapp.model.ResponseFeedingHistory;
+import ie.teamchile.smartapp.model.ResponseHearingHistory;
+import ie.teamchile.smartapp.model.ResponseLogin;
+import ie.teamchile.smartapp.model.ResponseNbstHistory;
+import ie.teamchile.smartapp.model.ResponsePregnancy;
+import ie.teamchile.smartapp.model.ResponsePregnancyNote;
+import ie.teamchile.smartapp.model.ResponseServiceOption;
+import ie.teamchile.smartapp.model.ResponseServiceProvider;
+import ie.teamchile.smartapp.model.ResponseServiceUser;
+import ie.teamchile.smartapp.model.ResponseServiceUserAction;
+import ie.teamchile.smartapp.model.ResponseVitKHistory;
 
 /**
  * Created by elliot on 28/12/2015.
@@ -25,67 +25,67 @@ import ie.teamchile.smartapp.model.VitKHistory;
 public interface BaseModel {
     void deleteSingletonInstance();
 
-    Login getLogin();
+    ResponseLogin getLogin();
 
     void getLoginSharedPrefs();
 
     long getTimeFromPrefs();
 
-    void saveAppointmentsToRealm(List<Appointment> appointments);
+    void saveAppointmentsToRealm(List<ResponseAppointment> responseAppointments);
 
-    void saveServiceUserToRealm(BaseResponseModel baseResponseModel);
+    void saveServiceUserToRealm(ResponseBase responseBase);
 
-    void saveServiceProviderToRealm(ServiceProvider serviceProvider);
+    void saveServiceProviderToRealm(ResponseServiceProvider responseServiceProvider);
 
-    void saveServiceOptionsToRealm(List<ServiceOption> serviceOptions);
+    void saveServiceOptionsToRealm(List<ResponseServiceOption> responseServiceOptions);
 
-    List<Clinic> getClinics();
+    List<ResponseClinic> getClinics();
 
-    void updateClinics(List<Clinic> clinics);
+    void updateClinics(List<ResponseClinic> responseClinics);
 
-    List<ClinicTimeRecord> getClinicTimeRecords();
+    List<ResponseClinicTimeRecord> getClinicTimeRecords();
 
-    void updateClinicTimeRecords(List<ClinicTimeRecord> clinicTimeRecords);
+    void updateClinicTimeRecords(List<ResponseClinicTimeRecord> responseClinicTimeRecords);
 
-    void updateClinicTimeRecord(ClinicTimeRecord clinicTimeRecord);
+    void updateClinicTimeRecord(ResponseClinicTimeRecord responseClinicTimeRecord);
 
-    void saveServiceUserActionsToRealm(List<ServiceUserAction> serviceUserActions);
+    void saveServiceUserActionsToRealm(List<ResponseServiceUserAction> responseServiceUserActions);
 
-    List<PregnancyNote> getPregnancyNotes();
+    List<ResponsePregnancyNote> getPregnancyNotes();
 
-    void updatePregnancyNote(PregnancyNote pregnancyNote);
+    void updatePregnancyNote(ResponsePregnancyNote responsePregnancyNote);
 
-    void updatePregnancyNotes(List<PregnancyNote> pregnancyNotes);
+    void updatePregnancyNotes(List<ResponsePregnancyNote> responsePregnancyNotes);
 
     void deleteServiceUserFromRealm();
 
-    void saveVitKToRealm(List<VitKHistory> vitKHistories);
+    void saveVitKToRealm(List<ResponseVitKHistory> vitKHistories);
 
-    void saveHearingToRealm(List<HearingHistory> hearingHistories);
+    void saveHearingToRealm(List<ResponseHearingHistory> hearingHistories);
 
-    void saveNbstToRealm(List<NbstHistory> nbstHistories);
+    void saveNbstToRealm(List<ResponseNbstHistory> nbstHistories);
 
-    void saveFeedingHistoriesToRealm(List<FeedingHistory> feedingHistories);
+    void saveFeedingHistoriesToRealm(List<ResponseFeedingHistory> feedingHistories);
 
-    void saveAppointmentToRealm(Appointment appointment);
+    void saveAppointmentToRealm(ResponseAppointment responseAppointment);
 
-    void saveLoginToRealm(Login login);
+    void saveLoginToRealm(ResponseLogin responseLogin);
 
     void deleteRealmLogin();
 
-    ServiceProvider getServiceProvider();
+    ResponseServiceProvider getServiceProvider();
 
-    ServiceUser getServiceUser();
+    ResponseServiceUser getServiceUser();
 
-    List<ServiceUser> getServiceUsers();
+    List<ResponseServiceUser> getServiceUsers();
 
-    Baby getBaby();
+    ResponseBaby getBaby();
 
-    void updateBaby(Baby baby);
+    void updateBaby(ResponseBaby responseBaby);
 
-    Pregnancy getPregnancy();
+    ResponsePregnancy getPregnancy();
 
-    void updatePregnancy(Pregnancy pregnancy);
+    void updatePregnancy(ResponsePregnancy responsePregnancy);
 
     void updateAntiD();
 
@@ -97,15 +97,15 @@ public interface BaseModel {
 
     void updateNbst();
 
-    Appointment getAppointmentById(int appointmentId);
+    ResponseAppointment getAppointmentById(int appointmentId);
 
-    List<Appointment> getAppointments();
+    List<ResponseAppointment> getAppointments();
 
-    void updateAppointment(Appointment appointment);
+    void updateAppointment(ResponseAppointment responseAppointment);
 
-    void updateAppointments(List<Appointment> appointments);
+    void updateAppointments(List<ResponseAppointment> responseAppointments);
 
-    List<ServiceOption> getServiceOptions();
+    List<ResponseServiceOption> getServiceOptions();
 
     void clearData();
 }

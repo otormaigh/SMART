@@ -31,9 +31,9 @@ import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.activities.Base.BaseActivity;
 import ie.teamchile.smartapp.activities.CreateAppointment.CreateAppointmentActivity;
 import ie.teamchile.smartapp.activities.ServiceUser.ServiceUserActivity;
-import ie.teamchile.smartapp.model.Appointment;
+import ie.teamchile.smartapp.model.ResponseAppointment;
 import ie.teamchile.smartapp.model.RealmInteger;
-import ie.teamchile.smartapp.model.ServiceOption;
+import ie.teamchile.smartapp.model.ResponseServiceOption;
 import ie.teamchile.smartapp.util.Constants;
 import io.realm.Realm;
 
@@ -145,18 +145,18 @@ public class HomeVisitAppointmentActivity extends BaseActivity implements HomeVi
 
         String dateSelectedStr = Constants.DF_DATE_ONLY.format(dateSelected);
         dateInList.setText(Constants.DF_DATE_W_MONTH_NAME.format(dateSelected));
-        String nameOfClinic = realm.where(ServiceOption.class).equalTo(Constants.REALM_ID, visitOptionSelected).findFirst().getName();
+        String nameOfClinic = realm.where(ResponseServiceOption.class).equalTo(Constants.REALM_ID, visitOptionSelected).findFirst().getName();
         setActionBarTitle(nameOfClinic);
 
-        List<Appointment> appointmentList = realm.where(Appointment.class)
+        List<ResponseAppointment> responseAppointmentList = realm.where(ResponseAppointment.class)
                 .equalTo(Constants.REALM_DATE, dateSelectedStr)
                 .findAll();
 
-        if (!appointmentList.isEmpty()) {
-            for (Appointment appointment : appointmentList) {
-                for (RealmInteger id : appointment.getServiceOptionIds()) {
+        if (!responseAppointmentList.isEmpty()) {
+            for (ResponseAppointment responseAppointment : responseAppointmentList) {
+                for (RealmInteger id : responseAppointment.getServiceOptionIds()) {
                     if (id.getValue() == visitOptionSelected)
-                        idList.add(appointment.getId());
+                        idList.add(responseAppointment.getId());
                 }
             }
 
@@ -234,7 +234,7 @@ public class HomeVisitAppointmentActivity extends BaseActivity implements HomeVi
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-            final Appointment appointment = realm.where(Appointment.class).equalTo(Constants.REALM_ID, getItem(position)).findFirst();
+            final ResponseAppointment responseAppointment = realm.where(ResponseAppointment.class).equalTo(Constants.REALM_ID, getItem(position)).findFirst();
             final ViewHolder holder;
             final Boolean attended;
 
@@ -254,9 +254,9 @@ public class HomeVisitAppointmentActivity extends BaseActivity implements HomeVi
                 holder.nameText.setTextColor(getResources().getColor(R.color.free_slot));
                 holder.nameText.setTypeface(null, Typeface.ITALIC);
             } else {
-                holder.nameText.setText(appointment.getServiceUser().getName());
-                holder.gestText.setText(appointment.getServiceUser().getGestation());
-                attended = appointment.isAttended();
+                holder.nameText.setText(responseAppointment.getServiceUser().getName());
+                holder.gestText.setText(responseAppointment.getServiceUser().getGestation());
+                attended = responseAppointment.isAttended();
                 holder.swipeLayout.setSwipeEnabled(true);
                 holder.nameText.setTextColor(holder.gestText.getTextColors().getDefaultColor());
                 holder.nameText.setTypeface(null, Typeface.NORMAL);
@@ -279,7 +279,7 @@ public class HomeVisitAppointmentActivity extends BaseActivity implements HomeVi
                         intent.putExtra(Constants.ARGS_SERVICE_OPTION_ID, String.valueOf(visitOptionSelected));
                         startActivity(intent);
                     } else {
-                        int serviceUserId = appointment.getServiceUserId();
+                        int serviceUserId = responseAppointment.getServiceUserId();
                         intent = new Intent(HomeVisitAppointmentActivity.this, ServiceUserActivity.class);
                         homeVisitAppointmentPresenter.searchServiceUser(serviceUserId, intent);
                     }
@@ -294,7 +294,7 @@ public class HomeVisitAppointmentActivity extends BaseActivity implements HomeVi
 
                     homeVisitAppointmentPresenter.changeAttendStatus(!attended, idList.get(position));
                     realm.beginTransaction();
-                    appointment.setAttended(!attended);
+                    responseAppointment.setAttended(!attended);
                     realm.commitTransaction();
                     notifyDataSetChanged();
                 }

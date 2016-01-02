@@ -41,8 +41,8 @@ import ie.teamchile.smartapp.activities.ClinicTimeRecord.ClinicTimeRecordActivit
 import ie.teamchile.smartapp.activities.Login.LoginActivity;
 import ie.teamchile.smartapp.activities.QuickMenu.QuickMenuActivity;
 import ie.teamchile.smartapp.activities.ServiceUserSearch.ServiceUserSearchActivity;
-import ie.teamchile.smartapp.model.Baby;
-import ie.teamchile.smartapp.model.Pregnancy;
+import ie.teamchile.smartapp.model.ResponseBaby;
+import ie.teamchile.smartapp.model.ResponsePregnancy;
 import ie.teamchile.smartapp.util.CustomDialogs;
 import ie.teamchile.smartapp.util.ToastAlert;
 import timber.log.Timber;
@@ -260,12 +260,12 @@ public class BaseActivity extends AppCompatActivity implements BaseViewSec {
         return listAsString;
     }
 
-    protected int getRecentPregnancy(List<Pregnancy> pregnancyList) {   //TODO: Remove
-        return presenter.getRecentPregnancy(pregnancyList);
+    protected int getRecentPregnancy(List<ResponsePregnancy> responsePregnancyList) {   //TODO: Remove
+        return presenter.getRecentPregnancy(responsePregnancyList);
     }
 
-    protected int getRecentBaby(List<Baby> babyList) {                  //TODO: Remove
-        return presenter.getRecentBaby(babyList);
+    protected int getRecentBaby(List<ResponseBaby> responseBabyList) {                  //TODO: Remove
+        return presenter.getRecentBaby(responseBabyList);
     }
 
     @Override

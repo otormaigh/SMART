@@ -32,8 +32,8 @@ import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.activities.Base.BaseActivity;
 import ie.teamchile.smartapp.activities.CreateAppointment.CreateAppointmentActivity;
 import ie.teamchile.smartapp.activities.ServiceUser.ServiceUserActivity;
-import ie.teamchile.smartapp.model.Appointment;
-import ie.teamchile.smartapp.model.Clinic;
+import ie.teamchile.smartapp.model.ResponseAppointment;
+import ie.teamchile.smartapp.model.ResponseClinic;
 import ie.teamchile.smartapp.util.Constants;
 import ie.teamchile.smartapp.util.CustomDialogs;
 import io.realm.Realm;
@@ -67,13 +67,13 @@ public class AppointmentCalendarActivity extends BaseActivity implements Appoint
 
         realm = appointmentCalendarPresenter.getEncryptedRealm();
 
-        serviceOptionId = realm.where(Clinic.class).equalTo(Constants.REALM_ID, clinicSelected).findFirst().getServiceOptionIds().get(0).getValue();
+        serviceOptionId = realm.where(ResponseClinic.class).equalTo(Constants.REALM_ID, clinicSelected).findFirst().getServiceOptionIds().get(0).getValue();
 
-        clinicOpening = realm.where(Clinic.class).equalTo(Constants.REALM_ID, clinicSelected).findFirst().getOpeningTime();
+        clinicOpening = realm.where(ResponseClinic.class).equalTo(Constants.REALM_ID, clinicSelected).findFirst().getOpeningTime();
 
-        clinicClosing = realm.where(Clinic.class).equalTo(Constants.REALM_ID, clinicSelected).findFirst().getClosingTime();
+        clinicClosing = realm.where(ResponseClinic.class).equalTo(Constants.REALM_ID, clinicSelected).findFirst().getClosingTime();
 
-        appointmentInterval = realm.where(Clinic.class).equalTo(Constants.REALM_ID, clinicSelected).findFirst().getAppointmentInterval();
+        appointmentInterval = realm.where(ResponseClinic.class).equalTo(Constants.REALM_ID, clinicSelected).findFirst().getAppointmentInterval();
 
         myCalendar.setTime(clinicClosing);
         myCalendar.add(Calendar.MINUTE, (-appointmentInterval));
@@ -194,7 +194,7 @@ public class AppointmentCalendarActivity extends BaseActivity implements Appoint
 
         String dateSelectedStr = Constants.DF_DATE_ONLY.format(dateSelected);
         dateInList.setText(Constants.DF_DATE_W_MONTH_NAME.format(dateSelected));
-        String nameOfClinic = realm.where(Clinic.class).equalTo(Constants.REALM_ID, clinicSelected).findFirst().getName();
+        String nameOfClinic = realm.where(ResponseClinic.class).equalTo(Constants.REALM_ID, clinicSelected).findFirst().getName();
         setActionBarTitle(nameOfClinic);
 
         while (!clinicClosing.before(apptTime)) {
@@ -205,20 +205,20 @@ public class AppointmentCalendarActivity extends BaseActivity implements Appoint
             apptTime = c.getTime();
         }
 
-        List<Appointment> appointmentList = realm.where(Appointment.class)
+        List<ResponseAppointment> responseAppointmentList = realm.where(ResponseAppointment.class)
                 .equalTo(Constants.REALM_CLINIC_ID, clinicSelected)
                 .equalTo(Constants.REALM_DATE, dateSelectedStr)
                 .findAll();
 
-        if (!appointmentList.isEmpty()) {
-            int size = appointmentList.size();
-            Appointment appointment;
+        if (!responseAppointmentList.isEmpty()) {
+            int size = responseAppointmentList.size();
+            ResponseAppointment responseAppointment;
             String timeOfAppt;
             for (int i = 0; i < size; i++) {
-                appointment = appointmentList.get(i);
-                timeOfAppt = Constants.DF_DATE_ONLY.format(appointment.getTime());
+                responseAppointment = responseAppointmentList.get(i);
+                timeOfAppt = Constants.DF_DATE_ONLY.format(responseAppointment.getTime());
                 if (timeList.contains(timeOfAppt)) {
-                    idList.set(timeList.indexOf(timeOfAppt), appointment.getId());
+                    idList.set(timeList.indexOf(timeOfAppt), responseAppointment.getId());
                 }
             }
         }
@@ -278,8 +278,8 @@ public class AppointmentCalendarActivity extends BaseActivity implements Appoint
             return idList.get(position);
         }
 
-        public Appointment getAppointment(int position) {
-            return realm.where(Appointment.class).equalTo(Constants.REALM_ID, getItem(position)).findFirst();
+        public ResponseAppointment getAppointment(int position) {
+            return realm.where(ResponseAppointment.class).equalTo(Constants.REALM_ID, getItem(position)).findFirst();
         }
 
         @Override
@@ -352,7 +352,7 @@ public class AppointmentCalendarActivity extends BaseActivity implements Appoint
                             !attended,
                             position,
                             clinicSelected,
-                            realm.where(Appointment.class)
+                            realm.where(ResponseAppointment.class)
                                     .equalTo(Constants.REALM_ID,
                                             idList.get(position)).findFirst()
                                     .getServiceUserId(),

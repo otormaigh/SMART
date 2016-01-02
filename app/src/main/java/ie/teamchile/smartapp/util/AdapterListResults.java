@@ -11,7 +11,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.model.ServiceUser;
+import ie.teamchile.smartapp.model.ResponseServiceUser;
 import timber.log.Timber;
 
 /**
@@ -19,30 +19,30 @@ import timber.log.Timber;
  */
 public class AdapterListResults extends BaseAdapter {
     private ViewHolder holder;
-    private List<ServiceUser> serviceUsers;
+    private List<ResponseServiceUser> responseServiceUsers;
     private LayoutInflater layoutInflater;
 
     public AdapterListResults(
             Context context,
-            List<ServiceUser> serviceUsers){
-        this.serviceUsers = serviceUsers;
+            List<ResponseServiceUser> responseServiceUsers){
+        this.responseServiceUsers = responseServiceUsers;
 
        layoutInflater = LayoutInflater.from(context);
 
     }
     @Override
     public int getCount() {
-        return serviceUsers.size();
+        return responseServiceUsers.size();
     }
 
     @Override
-    public ServiceUser getItem(int position) {
-        return serviceUsers.get(position);
+    public ResponseServiceUser getItem(int position) {
+        return responseServiceUsers.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return serviceUsers.get(position).getId();
+        return responseServiceUsers.get(position).getId();
     }
 
     @Override

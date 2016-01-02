@@ -13,9 +13,9 @@ import ie.teamchile.smartapp.activities.Base.BaseModel;
 import ie.teamchile.smartapp.activities.Base.BaseModelImp;
 import ie.teamchile.smartapp.activities.Base.BasePresenterImp;
 import ie.teamchile.smartapp.api.SmartApiClient;
-import ie.teamchile.smartapp.model.BaseResponseModel;
+import ie.teamchile.smartapp.model.ResponseBase;
 import ie.teamchile.smartapp.model.PostingData;
-import ie.teamchile.smartapp.model.ServiceUser;
+import ie.teamchile.smartapp.model.ResponseServiceUser;
 import ie.teamchile.smartapp.util.Constants;
 import ie.teamchile.smartapp.util.CustomDialogs;
 import ie.teamchile.smartapp.util.SharedPrefs;
@@ -49,12 +49,12 @@ public class CreateAppointmentPresenterImp extends BasePresenterImp implements C
 
         SmartApiClient.getAuthorizedApiClient(realm).getServiceUserByName(
                 serviceUserName,
-                new Callback<BaseResponseModel>() {
+                new Callback<ResponseBase>() {
                     @Override
-                    public void success(BaseResponseModel baseResponseModel, Response response) {
+                    public void success(ResponseBase responseBase, Response response) {
                         Timber.d("searchPatient success");
-                        if (baseResponseModel.getServiceUsers().size() != 0) {
-                            baseModel.saveServiceUserToRealm(baseResponseModel);
+                        if (responseBase.getResponseServiceUsers().size() != 0) {
+                            baseModel.saveServiceUserToRealm(responseBase);
                             pd.dismiss();
                             createAppointmentView.userSearchDialog(
                                     weakActivity.get().getString(R.string.search_results),
@@ -93,14 +93,14 @@ public class CreateAppointmentPresenterImp extends BasePresenterImp implements C
 
         SmartApiClient.getAuthorizedApiClient(realm).postAppointment(
                 appointment,
-                new Callback<BaseResponseModel>() {
+                new Callback<ResponseBase>() {
                     @Override
-                    public void success(BaseResponseModel baseResponseModel, Response response) {
+                    public void success(ResponseBase responseBase, Response response) {
                         Timber.d("postAppointment success");
-                        baseModel.updateAppointment(baseResponseModel.getAppointment());
+                        baseModel.updateAppointment(responseBase.getAppointment());
 
                         if (returnType.equals(Constants.ARGS_NEW)) {
-                            getAppointmentById(baseResponseModel.getAppointment().getId(), priority, ad, pd);
+                            getAppointmentById(responseBase.getAppointment().getId(), priority, ad, pd);
                         } else {
                             if (ad.isShowing())
                                 ad.cancel();
@@ -128,7 +128,7 @@ public class CreateAppointmentPresenterImp extends BasePresenterImp implements C
                         checkRetroError(error, weakActivity.get());
                         if (error.getKind() != RetrofitError.Kind.NETWORK) {
                             if (error.getResponse().getStatus() == 422) {
-                                BaseResponseModel body = (BaseResponseModel) error.getBodyAs(BaseResponseModel.class);
+                                ResponseBase body = (ResponseBase) error.getBodyAs(ResponseBase.class);
                                 Toast.makeText(weakActivity.get(),
                                         body.getError().getAppointmentTaken(), Toast.LENGTH_LONG).show();
                             }
@@ -152,13 +152,13 @@ public class CreateAppointmentPresenterImp extends BasePresenterImp implements C
 
     @Override
     public void getAppointmentById(int apptId, final String priority, final AlertDialog ad, final ProgressDialog pd) {
-        SmartApiClient.getAuthorizedApiClient(weakActivity.get()).getAppointmentById(
+        SmartApiClient.getAuthorizedApiClient(realm).getAppointmentById(
                 apptId + 1,
-                new Callback<BaseResponseModel>() {
+                new Callback<ResponseBase>() {
                     @Override
-                    public void success(BaseResponseModel baseResponseModel, Response response) {
+                    public void success(ResponseBase responseBase, Response response) {
                         Timber.d("getAppointmentById success");
-                        baseModel.updateAppointment(baseResponseModel.getAppointment());
+                        baseModel.updateAppointment(responseBase.getAppointment());
 
                         if (ad.isShowing())
                             ad.cancel();
@@ -195,7 +195,7 @@ public class CreateAppointmentPresenterImp extends BasePresenterImp implements C
     }
 
     @Override
-    public ServiceUser getServiceUser(int position) {
+    public ResponseServiceUser getServiceUser(int position) {
         return baseModel.getServiceUsers().get(position);
     }
 

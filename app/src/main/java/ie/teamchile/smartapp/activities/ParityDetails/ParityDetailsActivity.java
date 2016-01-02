@@ -23,9 +23,9 @@ import java.util.List;
 
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.activities.Base.BaseActivity;
-import ie.teamchile.smartapp.model.Baby;
-import ie.teamchile.smartapp.model.Pregnancy;
-import ie.teamchile.smartapp.model.ServiceUser;
+import ie.teamchile.smartapp.model.ResponseBaby;
+import ie.teamchile.smartapp.model.ResponsePregnancy;
+import ie.teamchile.smartapp.model.ResponseServiceUser;
 import ie.teamchile.smartapp.util.Constants;
 import ie.teamchile.smartapp.util.DividerItemDecoration;
 import io.realm.Realm;
@@ -63,24 +63,24 @@ public class ParityDetailsActivity extends BaseActivity implements ParityDetails
 
         realm = parityDetailsPresenter.getEncryptedRealm();
 
-        patientName = realm.where(ServiceUser.class).findFirst().getPersonalFields().getName();
-        patientParity = realm.where(ServiceUser.class).findFirst().getClinicalFields().getParity();
+        patientName = realm.where(ResponseServiceUser.class).findFirst().getPersonalFields().getName();
+        patientParity = realm.where(ResponseServiceUser.class).findFirst().getClinicalFields().getParity();
         setActionBarTitle(String.format(Constants.FORMAT_PARITY_DETAILS_TITLE, patientName, patientParity));
 
-        List<Baby> babyList = realm.where(Baby.class).findAll();
+        List<ResponseBaby> responseBabyList = realm.where(ResponseBaby.class).findAll();
 
-        for (int i = 0; i < babyList.size(); i++) {
-            nameBaby.add(babyList.get(i).getName());
-            hospitalNumber.add(babyList.get(i).getHospitalNumber());
-            dobBaby.add(babyList.get(i).getDeliveryDateTime());
-            genderBaby.add(babyList.get(i).getGender());
-            gestationBaby.add(realm.where(Pregnancy.class).findAll().get(i).getGestation());
-            weightBaby.add(babyList.get(i).getWeight());
-            //birthMode.add(putArrayToString(BaseResponseModel.getInstance().getPregnancies().get(i).getBirthMode()));
-            birthOutcome.add(babyList.get(i).getBirthOutcome());
-            hearing.add(babyList.get(i).getHearing());
-            nbstList.add(babyList.get(i).getNbst());
-            vitKList.add(babyList.get(i).getVitK());
+        for (int i = 0; i < responseBabyList.size(); i++) {
+            nameBaby.add(responseBabyList.get(i).getName());
+            hospitalNumber.add(responseBabyList.get(i).getHospitalNumber());
+            dobBaby.add(responseBabyList.get(i).getDeliveryDateTime());
+            genderBaby.add(responseBabyList.get(i).getGender());
+            gestationBaby.add(realm.where(ResponsePregnancy.class).findAll().get(i).getGestation());
+            weightBaby.add(responseBabyList.get(i).getWeight());
+            //birthMode.add(putArrayToString(ResponseBase.getInstance().getPregnancies().get(i).getBirthMode()));
+            birthOutcome.add(responseBabyList.get(i).getBirthOutcome());
+            hearing.add(responseBabyList.get(i).getHearing());
+            nbstList.add(responseBabyList.get(i).getNbst());
+            vitKList.add(responseBabyList.get(i).getVitK());
         }
 
         dobStr = new ArrayList<>();

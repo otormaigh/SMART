@@ -5,8 +5,8 @@ import android.content.Intent;
 
 import java.util.List;
 
-import ie.teamchile.smartapp.model.Baby;
-import ie.teamchile.smartapp.model.Pregnancy;
+import ie.teamchile.smartapp.model.ResponseBaby;
+import ie.teamchile.smartapp.model.ResponsePregnancy;
 import io.realm.Realm;
 import retrofit.RetrofitError;
 
@@ -18,9 +18,9 @@ public interface BasePresenter {
 
     void closeRealm();
 
-    int getRecentPregnancy(List<Pregnancy> pregnancyList);
+    int getRecentPregnancy(List<ResponsePregnancy> responsePregnancyList);
 
-    int getRecentBaby(List<Baby> babyList);
+    int getRecentBaby(List<ResponseBaby> responseBabyList);
 
     void doLogout(Intent intent);
 

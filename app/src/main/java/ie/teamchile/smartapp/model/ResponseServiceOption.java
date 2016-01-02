@@ -7,7 +7,7 @@ import io.realm.annotations.PrimaryKey;
 /**
  * Created by user on 5/26/15.
  */
-public class ServiceOption extends RealmObject {
+public class ResponseServiceOption extends RealmObject {
     private RealmList<RealmInteger> clinicIds;
     private boolean homeVisit;
     @PrimaryKey

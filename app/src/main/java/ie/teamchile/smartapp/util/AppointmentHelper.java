@@ -7,7 +7,7 @@ import java.util.Date;
 
 import ie.teamchile.smartapp.activities.Base.BaseActivity;
 import ie.teamchile.smartapp.api.SmartApiClient;
-import ie.teamchile.smartapp.model.BaseResponseModel;
+import ie.teamchile.smartapp.model.ResponseBase;
 import io.realm.Realm;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -45,15 +45,15 @@ public class AppointmentHelper extends BaseActivity {
     }
 
     public void getAppointmentsForClinic(String date, int clinicId) {
-        SmartApiClient.getAuthorizedApiClient(this).getAppointmentsForDayClinic(
+        SmartApiClient.getAuthorizedApiClient(realm).getAppointmentsForDayClinic(
                 date,
                 clinicId,
-                new Callback<BaseResponseModel>() {
+                new Callback<ResponseBase>() {
                     @Override
-                    public void success(BaseResponseModel baseResponseModel, Response response) {
+                    public void success(ResponseBase responseBase, Response response) {
                         Log.d("retro", "getAppointmentsForClinic success");
                         realm.beginTransaction();
-                        realm.copyToRealmOrUpdate(baseResponseModel.getAppointments());
+                        realm.copyToRealmOrUpdate(responseBase.getAppointments());
                         realm.commitTransaction();
 
                         BaseActivity.apptDone++;
@@ -69,16 +69,16 @@ public class AppointmentHelper extends BaseActivity {
     }
 
     public void getAppointmentsHomeVisit(String date, int serviceOptionId) {
-        SmartApiClient.getAuthorizedApiClient(this).getHomeVisitApptByDateId(
+        SmartApiClient.getAuthorizedApiClient(realm).getHomeVisitApptByDateId(
                 "home-visit",
                 date,
                 serviceOptionId,
-                new Callback<BaseResponseModel>() {
+                new Callback<ResponseBase>() {
                     @Override
-                    public void success(BaseResponseModel baseResponseModel, Response response) {
+                    public void success(ResponseBase responseBase, Response response) {
                         Log.d("retro", "getAppointmentsForClinic success");
                         realm.beginTransaction();
-                        realm.copyToRealmOrUpdate(baseResponseModel.getAppointments());
+                        realm.copyToRealmOrUpdate(responseBase.getAppointments());
                         realm.commitTransaction();
 
                         BaseActivity.apptDone++;

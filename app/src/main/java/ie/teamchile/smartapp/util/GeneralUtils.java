@@ -3,28 +3,28 @@ package ie.teamchile.smartapp.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import ie.teamchile.smartapp.model.Days;
+import ie.teamchile.smartapp.model.ResponseDays;
 
 /**
  * Created by user on 11/1/15.
  */
 public class GeneralUtils {
 
-    public List<String> getTrueDays(Days days) {
+    public List<String> getTrueDays(ResponseDays responseDays) {
         List<String> trueDays = new ArrayList<>();
-        if (days.isMonday())
+        if (responseDays.isMonday())
             trueDays.add("Monday");
-        if (days.isTuesday())
+        if (responseDays.isTuesday())
             trueDays.add("Tuesday");
-        if (days.isWednesday())
+        if (responseDays.isWednesday())
             trueDays.add("Wednesday");
-        if (days.isThursday())
+        if (responseDays.isThursday())
             trueDays.add("Thursday");
-        if (days.isFriday())
+        if (responseDays.isFriday())
             trueDays.add("Friday");
-        if (days.isSaturday())
+        if (responseDays.isSaturday())
             trueDays.add("Saturday");
-        if (days.isSunday())
+        if (responseDays.isSunday())
             trueDays.add("Sunday");
         return trueDays;
     }

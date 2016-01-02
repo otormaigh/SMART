@@ -13,18 +13,18 @@ public interface Constants {
 
     String SHARED_PREFS_SPLASH_LOG = "splash_log";
 
-    //Realm Clinic.class;
+    //Realm ResponseClinic.class;
     String REALM_ID = "id";
 
-    //Realm ServiceOption.class
+    //Realm ResponseServiceOption.class
     String REALM_HOME_VISIT = "homeVisit";
 
-    //Realm Appointment.class
+    //Realm ResponseAppointment.class
     String REALM_CLINIC_ID = "clinicId";
     String REALM_SERVICE_OPTION_IDS = "serviceOptionIds";
     String REALM_DATE = "date";
 
-    //Realm Pregnancy.class
+    //Realm ResponsePregnancy.class
     String REALM_SERVICE_USER_ID = "serviceUserId";
 
     //Date Formats

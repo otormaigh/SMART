@@ -13,31 +13,31 @@ import java.util.Map;
 
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.api.SmartApiClient;
-import ie.teamchile.smartapp.model.Announcement;
-import ie.teamchile.smartapp.model.AntiDHistory;
-import ie.teamchile.smartapp.model.Appointment;
-import ie.teamchile.smartapp.model.Baby;
-import ie.teamchile.smartapp.model.BaseResponseModel;
-import ie.teamchile.smartapp.model.Clinic;
-import ie.teamchile.smartapp.model.ClinicTimeRecord;
-import ie.teamchile.smartapp.model.ClinicalFields;
-import ie.teamchile.smartapp.model.Days;
-import ie.teamchile.smartapp.model.FeedingHistory;
-import ie.teamchile.smartapp.model.HearingHistory;
-import ie.teamchile.smartapp.model.Links;
-import ie.teamchile.smartapp.model.Login;
-import ie.teamchile.smartapp.model.NbstHistory;
-import ie.teamchile.smartapp.model.PersonalFields;
-import ie.teamchile.smartapp.model.Pregnancy;
-import ie.teamchile.smartapp.model.PregnancyAction;
-import ie.teamchile.smartapp.model.PregnancyNote;
+import ie.teamchile.smartapp.model.ResponseAnnouncement;
+import ie.teamchile.smartapp.model.ResponseAntiDHistory;
+import ie.teamchile.smartapp.model.ResponseAppointment;
+import ie.teamchile.smartapp.model.ResponseBaby;
+import ie.teamchile.smartapp.model.ResponseBase;
+import ie.teamchile.smartapp.model.ResponseClinic;
+import ie.teamchile.smartapp.model.ResponseClinicTimeRecord;
+import ie.teamchile.smartapp.model.ResponseClinicalFields;
+import ie.teamchile.smartapp.model.ResponseDays;
+import ie.teamchile.smartapp.model.ResponseFeedingHistory;
+import ie.teamchile.smartapp.model.ResponseHearingHistory;
+import ie.teamchile.smartapp.model.ResponseLinks;
+import ie.teamchile.smartapp.model.ResponseLogin;
+import ie.teamchile.smartapp.model.ResponseNbstHistory;
+import ie.teamchile.smartapp.model.ResponsePersonalFields;
+import ie.teamchile.smartapp.model.ResponsePregnancy;
+import ie.teamchile.smartapp.model.ResponsePregnancyAction;
+import ie.teamchile.smartapp.model.ResponsePregnancyNote;
 import ie.teamchile.smartapp.model.RealmInteger;
 import ie.teamchile.smartapp.model.RealmString;
-import ie.teamchile.smartapp.model.ServiceOption;
-import ie.teamchile.smartapp.model.ServiceProvider;
-import ie.teamchile.smartapp.model.ServiceUser;
-import ie.teamchile.smartapp.model.ServiceUserAction;
-import ie.teamchile.smartapp.model.VitKHistory;
+import ie.teamchile.smartapp.model.ResponseServiceOption;
+import ie.teamchile.smartapp.model.ResponseServiceProvider;
+import ie.teamchile.smartapp.model.ResponseServiceUser;
+import ie.teamchile.smartapp.model.ResponseServiceUserAction;
+import ie.teamchile.smartapp.model.ResponseVitKHistory;
 import ie.teamchile.smartapp.util.Constants;
 import ie.teamchile.smartapp.util.SharedPrefs;
 import io.realm.Realm;
@@ -66,12 +66,12 @@ public class BaseModelImp implements BaseModel {
 
     @Override
     public void deleteSingletonInstance() {
-        BaseResponseModel.getInstance().deleteInstance();
+        ResponseBase.getInstance().deleteInstance();
     }
 
     @Override
-    public Login getLogin() {
-        return realm.where(Login.class).findFirst();
+    public ResponseLogin getLogin() {
+        return realm.where(ResponseLogin.class).findFirst();
     }
 
     @Override
@@ -87,7 +87,9 @@ public class BaseModelImp implements BaseModel {
                 sharedPrefs.postAppointment(
                         sharedPrefs.getObjectFromString(
                                 prefs.getString(entry.getKey(), "")),
-                        weakActivity.get(), entry.getKey());
+                        weakActivity.get(),
+                        realm,
+                        entry.getKey());
             }
         }
     }
@@ -98,291 +100,291 @@ public class BaseModelImp implements BaseModel {
     }
 
     @Override
-    public void saveAppointmentsToRealm(List<Appointment> appointments) {
+    public void saveAppointmentsToRealm(List<ResponseAppointment> responseAppointments) {
         realm.beginTransaction();
-        realm.copyToRealmOrUpdate(appointments);
+        realm.copyToRealmOrUpdate(responseAppointments);
         realm.commitTransaction();
     }
 
     @Override
-    public void saveServiceUserToRealm(BaseResponseModel baseResponseModel) {
+    public void saveServiceUserToRealm(ResponseBase responseBase) {
         realm.beginTransaction();
-        realm.copyToRealmOrUpdate(baseResponseModel.getServiceUsers());
-        realm.copyToRealmOrUpdate(baseResponseModel.getPregnancies());
-        realm.copyToRealmOrUpdate(baseResponseModel.getBabies());
-        realm.copyToRealmOrUpdate(baseResponseModel.getAntiDHistories());
+        realm.copyToRealmOrUpdate(responseBase.getResponseServiceUsers());
+        realm.copyToRealmOrUpdate(responseBase.getPregnancies());
+        realm.copyToRealmOrUpdate(responseBase.getBabies());
+        realm.copyToRealmOrUpdate(responseBase.getAntiDHistories());
         realm.commitTransaction();
     }
 
     @Override
-    public void saveServiceProviderToRealm(ServiceProvider serviceProvider) {
+    public void saveServiceProviderToRealm(ResponseServiceProvider responseServiceProvider) {
         realm.beginTransaction();
-        realm.copyToRealmOrUpdate(serviceProvider);
+        realm.copyToRealmOrUpdate(responseServiceProvider);
         realm.commitTransaction();
     }
 
     @Override
-    public void saveServiceOptionsToRealm(List<ServiceOption> serviceOptions) {
+    public void saveServiceOptionsToRealm(List<ResponseServiceOption> responseServiceOptions) {
         realm.beginTransaction();
-        realm.copyToRealmOrUpdate(serviceOptions);
+        realm.copyToRealmOrUpdate(responseServiceOptions);
         realm.commitTransaction();
     }
 
     @Override
-    public List<Clinic> getClinics() {
-        return realm.where(Clinic.class).findAll();
+    public List<ResponseClinic> getClinics() {
+        return realm.where(ResponseClinic.class).findAll();
     }
 
     @Override
-    public void updateClinics(List<Clinic> clinics) {
+    public void updateClinics(List<ResponseClinic> responseClinics) {
         realm.beginTransaction();
-        realm.copyToRealmOrUpdate(clinics);
+        realm.copyToRealmOrUpdate(responseClinics);
         realm.commitTransaction();
     }
 
     @Override
-    public List<ClinicTimeRecord> getClinicTimeRecords() {
-        return realm.where(ClinicTimeRecord.class).findAll();
+    public List<ResponseClinicTimeRecord> getClinicTimeRecords() {
+        return realm.where(ResponseClinicTimeRecord.class).findAll();
     }
 
     @Override
-    public void updateClinicTimeRecords(List<ClinicTimeRecord> clinicTimeRecords) {
+    public void updateClinicTimeRecords(List<ResponseClinicTimeRecord> responseClinicTimeRecords) {
         realm.beginTransaction();
-        realm.copyToRealmOrUpdate(clinicTimeRecords);
+        realm.copyToRealmOrUpdate(responseClinicTimeRecords);
         realm.commitTransaction();
     }
 
     @Override
-    public void updateClinicTimeRecord(ClinicTimeRecord clinicTimeRecord) {
+    public void updateClinicTimeRecord(ResponseClinicTimeRecord responseClinicTimeRecord) {
         realm.beginTransaction();
-        realm.copyToRealmOrUpdate(clinicTimeRecord);
+        realm.copyToRealmOrUpdate(responseClinicTimeRecord);
         realm.commitTransaction();
     }
 
     @Override
-    public void saveServiceUserActionsToRealm(List<ServiceUserAction> serviceUserActions) {
+    public void saveServiceUserActionsToRealm(List<ResponseServiceUserAction> responseServiceUserActions) {
         realm.beginTransaction();
-        realm.copyToRealmOrUpdate(serviceUserActions);
+        realm.copyToRealmOrUpdate(responseServiceUserActions);
         realm.commitTransaction();
     }
 
     @Override
-    public List<PregnancyNote> getPregnancyNotes() {
-        return realm.where(PregnancyNote.class).findAll();
+    public List<ResponsePregnancyNote> getPregnancyNotes() {
+        return realm.where(ResponsePregnancyNote.class).findAll();
     }
 
     @Override
-    public void updatePregnancyNote(PregnancyNote pregnancyNote) {
+    public void updatePregnancyNote(ResponsePregnancyNote responsePregnancyNote) {
         realm.beginTransaction();
-        realm.copyToRealmOrUpdate(pregnancyNote);
+        realm.copyToRealmOrUpdate(responsePregnancyNote);
         realm.commitTransaction();
     }
 
     @Override
-    public void updatePregnancyNotes(List<PregnancyNote> pregnancyNotes) {
+    public void updatePregnancyNotes(List<ResponsePregnancyNote> responsePregnancyNotes) {
         realm.beginTransaction();
-        realm.copyToRealmOrUpdate(pregnancyNotes);
+        realm.copyToRealmOrUpdate(responsePregnancyNotes);
         realm.commitTransaction();
     }
 
     @Override
     public void deleteServiceUserFromRealm() {
         realm.beginTransaction();
-        realm.allObjects(ServiceUser.class).clear();
-        realm.allObjects(Pregnancy.class).clear();
-        realm.allObjects(Baby.class).clear();
-        realm.allObjects(AntiDHistory.class).clear();
-        realm.allObjects(FeedingHistory.class).clear();
-        realm.allObjects(NbstHistory.class).clear();
-        realm.allObjects(HearingHistory.class).clear();
-        realm.allObjects(VitKHistory.class).clear();
+        realm.allObjects(ResponseServiceUser.class).clear();
+        realm.allObjects(ResponsePregnancy.class).clear();
+        realm.allObjects(ResponseBaby.class).clear();
+        realm.allObjects(ResponseAntiDHistory.class).clear();
+        realm.allObjects(ResponseFeedingHistory.class).clear();
+        realm.allObjects(ResponseNbstHistory.class).clear();
+        realm.allObjects(ResponseHearingHistory.class).clear();
+        realm.allObjects(ResponseVitKHistory.class).clear();
         realm.commitTransaction();
     }
 
     @Override
-    public void saveVitKToRealm(List<VitKHistory> vitKHistories) {
+    public void saveVitKToRealm(List<ResponseVitKHistory> vitKHistories) {
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(vitKHistories);
         realm.commitTransaction();
     }
 
     @Override
-    public void saveHearingToRealm(List<HearingHistory> hearingHistories) {
+    public void saveHearingToRealm(List<ResponseHearingHistory> hearingHistories) {
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(hearingHistories);
         realm.commitTransaction();
     }
 
     @Override
-    public void saveNbstToRealm(List<NbstHistory> nbstHistories) {
+    public void saveNbstToRealm(List<ResponseNbstHistory> nbstHistories) {
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(nbstHistories);
         realm.commitTransaction();
     }
 
     @Override
-    public void saveFeedingHistoriesToRealm(List<FeedingHistory> feedingHistories) {
+    public void saveFeedingHistoriesToRealm(List<ResponseFeedingHistory> feedingHistories) {
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(feedingHistories);
         realm.commitTransaction();
     }
 
     @Override
-    public void saveAppointmentToRealm(Appointment appointment) {
+    public void saveAppointmentToRealm(ResponseAppointment responseAppointment) {
         realm.beginTransaction();
-        realm.copyToRealmOrUpdate(appointment);
+        realm.copyToRealmOrUpdate(responseAppointment);
         realm.commitTransaction();
     }
 
     @Override
-    public void saveLoginToRealm(Login login) {
+    public void saveLoginToRealm(ResponseLogin responseLogin) {
         realm.beginTransaction();
-        login.setLoggedIn(true);
-        realm.copyToRealmOrUpdate(login);
+        responseLogin.setLoggedIn(true);
+        realm.copyToRealmOrUpdate(responseLogin);
         realm.commitTransaction();
     }
 
     @Override
     public void deleteRealmLogin() {
         realm.beginTransaction();
-        realm.clear(Login.class);
+        realm.clear(ResponseLogin.class);
         realm.commitTransaction();
     }
 
     @Override
-    public ServiceProvider getServiceProvider() {
-        return realm.where(ServiceProvider.class).findFirst();
+    public ResponseServiceProvider getServiceProvider() {
+        return realm.where(ResponseServiceProvider.class).findFirst();
     }
 
     @Override
-    public ServiceUser getServiceUser() {
-        return realm.where(ServiceUser.class).findFirst();
+    public ResponseServiceUser getServiceUser() {
+        return realm.where(ResponseServiceUser.class).findFirst();
     }
 
     @Override
-    public List<ServiceUser> getServiceUsers() {
-        return realm.where(ServiceUser.class).findAll();
+    public List<ResponseServiceUser> getServiceUsers() {
+        return realm.where(ResponseServiceUser.class).findAll();
     }
 
     @Override
-    public Baby getBaby() {
-        return realm.where(Baby.class)
+    public ResponseBaby getBaby() {
+        return realm.where(ResponseBaby.class)
                 .equalTo(Constants.REALM_ID,
                         presenter.getRecentBaby(
-                                realm.where(Baby.class).findAll()))
+                                realm.where(ResponseBaby.class).findAll()))
                 .findFirst();
     }
 
     @Override
-    public void updateBaby(Baby baby) {
+    public void updateBaby(ResponseBaby responseBaby) {
         realm.beginTransaction();
-        realm.copyToRealmOrUpdate(baby);
+        realm.copyToRealmOrUpdate(responseBaby);
         realm.commitTransaction();
     }
 
     @Override
-    public Pregnancy getPregnancy() {
-        return realm.where(Pregnancy.class)
+    public ResponsePregnancy getPregnancy() {
+        return realm.where(ResponsePregnancy.class)
                 .equalTo(Constants.REALM_ID,
                         presenter.getRecentPregnancy(
-                                realm.where(Pregnancy.class).findAll()))
+                                realm.where(ResponsePregnancy.class).findAll()))
                 .findFirst();
     }
 
     @Override
-    public void updatePregnancy(Pregnancy pregnancy) {
+    public void updatePregnancy(ResponsePregnancy responsePregnancy) {
         realm.beginTransaction();
-        realm.copyToRealmOrUpdate(pregnancy);
+        realm.copyToRealmOrUpdate(responsePregnancy);
         realm.commitTransaction();
     }
 
     @Override
     public void updateAntiD() {
-        AntiDHistory antiDHistory = new AntiDHistory();
-        antiDHistory.setAntiD(getPregnancy().getAntiD());
-        antiDHistory.setCreatedAt(Calendar.getInstance().getTime());
-        antiDHistory.setServiceProviderName(getServiceProvider().getName());
+        ResponseAntiDHistory responseAntiDHistory = new ResponseAntiDHistory();
+        responseAntiDHistory.setAntiD(getPregnancy().getAntiD());
+        responseAntiDHistory.setCreatedAt(Calendar.getInstance().getTime());
+        responseAntiDHistory.setServiceProviderName(getServiceProvider().getName());
 
         realm.beginTransaction();
-        realm.copyToRealmOrUpdate(antiDHistory);
+        realm.copyToRealmOrUpdate(responseAntiDHistory);
         realm.commitTransaction();
     }
 
     @Override
     public void updateFeeding() {
-        FeedingHistory feedingHistory = new FeedingHistory();
-        feedingHistory.setFeeding(getPregnancy().getFeeding());
-        feedingHistory.setCreatedAt(Calendar.getInstance().getTime());
-        feedingHistory.setServiceProviderName(getServiceProvider().getName());
+        ResponseFeedingHistory responseFeedingHistory = new ResponseFeedingHistory();
+        responseFeedingHistory.setFeeding(getPregnancy().getFeeding());
+        responseFeedingHistory.setCreatedAt(Calendar.getInstance().getTime());
+        responseFeedingHistory.setServiceProviderName(getServiceProvider().getName());
 
         realm.beginTransaction();
-        realm.copyToRealmOrUpdate(feedingHistory);
+        realm.copyToRealmOrUpdate(responseFeedingHistory);
         realm.commitTransaction();
     }
 
     @Override
     public void updateVitK() {
-        VitKHistory vitKHistory = new VitKHistory();
-        vitKHistory.setVitK(getBaby().getVitK());
-        vitKHistory.setCreatedAt(Calendar.getInstance().getTime());
-        vitKHistory.setServiceProviderName(getServiceProvider().getName());
+        ResponseVitKHistory responseVitKHistory = new ResponseVitKHistory();
+        responseVitKHistory.setVitK(getBaby().getVitK());
+        responseVitKHistory.setCreatedAt(Calendar.getInstance().getTime());
+        responseVitKHistory.setServiceProviderName(getServiceProvider().getName());
 
         realm.beginTransaction();
-        realm.copyToRealmOrUpdate(vitKHistory);
+        realm.copyToRealmOrUpdate(responseVitKHistory);
         realm.commitTransaction();
     }
 
     @Override
     public void updateHearing() {
-        HearingHistory hearingHistory = new HearingHistory();
-        hearingHistory.setHearing(getBaby().getHearing());
-        hearingHistory.setCreatedAt(Calendar.getInstance().getTime());
-        hearingHistory.setServiceProviderName(getServiceProvider().getName());
+        ResponseHearingHistory responseHearingHistory = new ResponseHearingHistory();
+        responseHearingHistory.setHearing(getBaby().getHearing());
+        responseHearingHistory.setCreatedAt(Calendar.getInstance().getTime());
+        responseHearingHistory.setServiceProviderName(getServiceProvider().getName());
 
         realm.beginTransaction();
-        realm.copyToRealmOrUpdate(hearingHistory);
+        realm.copyToRealmOrUpdate(responseHearingHistory);
         realm.commitTransaction();
     }
 
     @Override
     public void updateNbst() {
-        NbstHistory nbstHistory = new NbstHistory();
-        nbstHistory.setNbst(getBaby().getNbst());
-        nbstHistory.setCreatedAt(Calendar.getInstance().getTime());
-        nbstHistory.setServiceProviderName(getServiceProvider().getName());
+        ResponseNbstHistory responseNbstHistory = new ResponseNbstHistory();
+        responseNbstHistory.setNbst(getBaby().getNbst());
+        responseNbstHistory.setCreatedAt(Calendar.getInstance().getTime());
+        responseNbstHistory.setServiceProviderName(getServiceProvider().getName());
 
         realm.beginTransaction();
-        realm.copyToRealmOrUpdate(nbstHistory);
+        realm.copyToRealmOrUpdate(responseNbstHistory);
         realm.commitTransaction();
     }
 
     @Override
-    public Appointment getAppointmentById(int appointmentId) {
-        return realm.where(Appointment.class).equalTo(Constants.REALM_ID, appointmentId).findFirst();
+    public ResponseAppointment getAppointmentById(int appointmentId) {
+        return realm.where(ResponseAppointment.class).equalTo(Constants.REALM_ID, appointmentId).findFirst();
     }
 
     @Override
-    public List<Appointment> getAppointments() {
-        return realm.where(Appointment.class).findAll();
+    public List<ResponseAppointment> getAppointments() {
+        return realm.where(ResponseAppointment.class).findAll();
     }
 
     @Override
-    public void updateAppointment(Appointment appointment) {
+    public void updateAppointment(ResponseAppointment responseAppointment) {
         realm.beginTransaction();
-        realm.copyToRealmOrUpdate(appointment);
+        realm.copyToRealmOrUpdate(responseAppointment);
         realm.commitTransaction();
     }
 
     @Override
-    public void updateAppointments(List<Appointment> appointments) {
+    public void updateAppointments(List<ResponseAppointment> responseAppointments) {
         realm.beginTransaction();
-        realm.copyToRealmOrUpdate(appointments);
+        realm.copyToRealmOrUpdate(responseAppointments);
         realm.commitTransaction();
     }
 
     @Override
-    public List<ServiceOption> getServiceOptions() {
-        return realm.where(ServiceOption.class).findAll();
+    public List<ResponseServiceOption> getServiceOptions() {
+        return realm.where(ResponseServiceOption.class).findAll();
     }
 
     @Override
@@ -394,7 +396,7 @@ public class BaseModelImp implements BaseModel {
     }
 
     private void startPurge() {
-        BaseResponseModel.getInstance().deleteInstance();
+        ResponseBase.getInstance().deleteInstance();
         trimCache(weakActivity.get());
     }
 
@@ -429,29 +431,29 @@ public class BaseModelImp implements BaseModel {
 
     private void deleteRealm() {
         realm.beginTransaction();
-        realm.clear(Announcement.class);
-        realm.clear(Appointment.class);
-        realm.clear(Baby.class);
-        realm.clear(Clinic.class);
-        realm.clear(ClinicalFields.class);
-        realm.clear(ClinicTimeRecord.class);
-        realm.clear(Days.class);
-        realm.clear(FeedingHistory.class);
-        realm.clear(HearingHistory.class);
-        realm.clear(Links.class);
-        realm.clear(Login.class);
-        realm.clear(NbstHistory.class);
-        realm.clear(PersonalFields.class);
-        realm.clear(Pregnancy.class);
-        realm.clear(PregnancyAction.class);
-        realm.clear(PregnancyNote.class);
+        realm.clear(ResponseAnnouncement.class);
+        realm.clear(ResponseAppointment.class);
+        realm.clear(ResponseBaby.class);
+        realm.clear(ResponseClinic.class);
+        realm.clear(ResponseClinicalFields.class);
+        realm.clear(ResponseClinicTimeRecord.class);
+        realm.clear(ResponseDays.class);
+        realm.clear(ResponseFeedingHistory.class);
+        realm.clear(ResponseHearingHistory.class);
+        realm.clear(ResponseLinks.class);
+        realm.clear(ResponseLogin.class);
+        realm.clear(ResponseNbstHistory.class);
+        realm.clear(ResponsePersonalFields.class);
+        realm.clear(ResponsePregnancy.class);
+        realm.clear(ResponsePregnancyAction.class);
+        realm.clear(ResponsePregnancyNote.class);
         realm.clear(RealmInteger.class);
         realm.clear(RealmString.class);
-        realm.clear(ServiceOption.class);
-        realm.clear(ServiceProvider.class);
-        realm.clear(ServiceUser.class);
-        realm.clear(ServiceUserAction.class);
-        realm.clear(VitKHistory.class);
+        realm.clear(ResponseServiceOption.class);
+        realm.clear(ResponseServiceProvider.class);
+        realm.clear(ResponseServiceUser.class);
+        realm.clear(ResponseServiceUserAction.class);
+        realm.clear(ResponseVitKHistory.class);
         realm.commitTransaction();
 
         presenter.closeRealm();

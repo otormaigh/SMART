@@ -21,7 +21,7 @@
 
     <!-- MAIN SCREEN -->
     <string name="main_logo"> main_logo</string>
-    <string name="login">Login</string>
+    <string name="responseLogin">Login</string>
     <string name="username"><i>Username</i></string>
     <string name="password"><i>Password</i></string>
     <string name="smart">SMART</string>

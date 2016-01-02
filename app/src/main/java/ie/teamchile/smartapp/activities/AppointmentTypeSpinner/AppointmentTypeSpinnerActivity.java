@@ -26,9 +26,9 @@ import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.activities.AppointmentCalendar.AppointmentCalendarActivity;
 import ie.teamchile.smartapp.activities.Base.BaseActivity;
 import ie.teamchile.smartapp.activities.HomeVisitAppointment.HomeVisitAppointmentActivity;
-import ie.teamchile.smartapp.model.Clinic;
+import ie.teamchile.smartapp.model.ResponseClinic;
 import ie.teamchile.smartapp.model.RealmInteger;
-import ie.teamchile.smartapp.model.ServiceOption;
+import ie.teamchile.smartapp.model.ResponseServiceOption;
 import ie.teamchile.smartapp.util.AdapterSpinner;
 import ie.teamchile.smartapp.util.AppointmentHelper;
 import ie.teamchile.smartapp.util.Constants;
@@ -51,8 +51,8 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity implements Appo
     private CountDownTimer timer;
     private ProgressDialog pd;
     private Realm realm;
-    private List<ServiceOption> serviceOptionClinicList;
-    private List<ServiceOption> serviceOptionVisitList;
+    private List<ResponseServiceOption> responseServiceOptionClinicList;
+    private List<ResponseServiceOption> responseServiceOptionVisitList;
     private AppointmentTypeSpinnerPresenter appointmentTypeSpinnerPresenter;
 
     @Override
@@ -124,14 +124,14 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity implements Appo
     }
 
     private void setServiceOptionSpinner() {
-        serviceOptionClinicList = realm.where(ServiceOption.class).equalTo(Constants.REALM_HOME_VISIT, false).findAll();
+        responseServiceOptionClinicList = realm.where(ResponseServiceOption.class).equalTo(Constants.REALM_HOME_VISIT, false).findAll();
         List<String> serviceOptionNameList = new ArrayList<>();
         serviceOptionNameList.add(getString(R.string.select_service_option));
 
-        if (!serviceOptionClinicList.isEmpty()) {
-            int mapSize = serviceOptionClinicList.size();
+        if (!responseServiceOptionClinicList.isEmpty()) {
+            int mapSize = responseServiceOptionClinicList.size();
             for (int i = 0; i < mapSize; i++) {
-                serviceOptionNameList.add("- " + serviceOptionClinicList.get(i).getName());
+                serviceOptionNameList.add("- " + responseServiceOptionClinicList.get(i).getName());
             }
         }
 
@@ -141,7 +141,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity implements Appo
     }
 
     private void setClinicSpinner(int z) {
-        idList = serviceOptionClinicList.get(z - 1).getClinicIds();
+        idList = responseServiceOptionClinicList.get(z - 1).getClinicIds();
 
         List<String> clinicNames = new ArrayList<>();
         clinicNames.add(getString(R.string.select_clinic));
@@ -149,7 +149,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity implements Appo
         if (!idList.isEmpty()) {
             int size = idList.size();
             for (int i = 0; i < size; i++) {
-                clinicNames.add("- " + realm.where(Clinic.class).equalTo(Constants.REALM_ID, idList.get(i).getValue()).findFirst().getName());
+                clinicNames.add("- " + realm.where(ResponseClinic.class).equalTo(Constants.REALM_ID, idList.get(i).getValue()).findFirst().getName());
             }
         }
 
@@ -160,15 +160,15 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity implements Appo
     }
 
     private void setVisitSpinner() {
-        serviceOptionVisitList = realm.where(ServiceOption.class).equalTo(Constants.REALM_HOME_VISIT, true).findAll();
+        responseServiceOptionVisitList = realm.where(ResponseServiceOption.class).equalTo(Constants.REALM_HOME_VISIT, true).findAll();
 
         List<String> visitClinics = new ArrayList<>();
         visitClinics.add(getString(R.string.select_visit_option));
 
-        if (!serviceOptionVisitList.isEmpty()) {
-            int size = serviceOptionVisitList.size();
+        if (!responseServiceOptionVisitList.isEmpty()) {
+            int size = responseServiceOptionVisitList.size();
             for (int i = 0; i < size; i++) {
-                visitClinics.add("- " + serviceOptionVisitList.get(i).getName());
+                visitClinics.add("- " + responseServiceOptionVisitList.get(i).getName());
             }
         }
 
@@ -356,7 +356,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity implements Appo
                             visitDaySpinner.setVisibility(View.VISIBLE);
                             tvVisitDay.setVisibility(View.VISIBLE);
                             visitDaySpinner.setSelection(0);
-                            int visitOptionSelected = serviceOptionVisitList.get(position - 1).getId();
+                            int visitOptionSelected = responseServiceOptionVisitList.get(position - 1).getId();
                             loopForServiceOptionDay(visitOptionSelected);
 
                             HomeVisitAppointmentActivity.visitOptionSelected = visitOptionSelected;
@@ -444,7 +444,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity implements Appo
 
                             clinicSelected = idList.get(position - 1).getValue();
                             List<String> trueDays = new GeneralUtils().getTrueDays(
-                                    realm.where(Clinic.class)
+                                    realm.where(ResponseClinic.class)
                                             .equalTo(Constants.REALM_ID, clinicSelected)
                                             .findFirst().getDays());
 

@@ -15,10 +15,10 @@ import ie.teamchile.smartapp.activities.Base.BaseModel;
 import ie.teamchile.smartapp.activities.Base.BaseModelImp;
 import ie.teamchile.smartapp.activities.Base.BasePresenterImp;
 import ie.teamchile.smartapp.api.SmartApiClient;
-import ie.teamchile.smartapp.model.BaseResponseModel;
-import ie.teamchile.smartapp.model.Clinic;
-import ie.teamchile.smartapp.model.Login;
-import ie.teamchile.smartapp.model.ServiceUserAction;
+import ie.teamchile.smartapp.model.ResponseBase;
+import ie.teamchile.smartapp.model.ResponseClinic;
+import ie.teamchile.smartapp.model.ResponseLogin;
+import ie.teamchile.smartapp.model.ResponseServiceUserAction;
 import ie.teamchile.smartapp.util.CustomDialogs;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -46,13 +46,13 @@ public class QuickMenuPresenterImp extends BasePresenterImp implements QuickMenu
         final ProgressDialog pd = new CustomDialogs().showProgressDialog(weakActivity.get(), weakActivity.get().getString(R.string.updating_info));
 
         SmartApiClient.getAuthorizedApiClient(getEncryptedRealm()).getServiceProviderById(
-                getEncryptedRealm().where(Login.class).findFirst().getId(),
-                new Callback<BaseResponseModel>() {
+                getEncryptedRealm().where(ResponseLogin.class).findFirst().getId(),
+                new Callback<ResponseBase>() {
                     @Override
-                    public void success(BaseResponseModel baseResponseModel, Response response) {
+                    public void success(ResponseBase responseBase, Response response) {
                         Timber.d("serviceProvider success");
 
-                        model.saveServiceProviderToRealm(baseResponseModel.getServiceProviders().get(0));
+                        model.saveServiceProviderToRealm(responseBase.getResponseServiceProviders().get(0));
 
                         done++;
                         Timber.d("done = " + done);
@@ -67,10 +67,10 @@ public class QuickMenuPresenterImp extends BasePresenterImp implements QuickMenu
         );
 
         SmartApiClient.getAuthorizedApiClient(getEncryptedRealm()).getAllServiceOptions(
-                new Callback<BaseResponseModel>() {
+                new Callback<ResponseBase>() {
                     @Override
-                    public void success(BaseResponseModel baseResponseModel, Response response) {
-                        model.saveServiceOptionsToRealm(baseResponseModel.getServiceOptions());
+                    public void success(ResponseBase responseBase, Response response) {
+                        model.saveServiceOptionsToRealm(responseBase.getResponseServiceOptions());
 
                         Timber.d("service options finished");
                         done++;
@@ -85,17 +85,17 @@ public class QuickMenuPresenterImp extends BasePresenterImp implements QuickMenu
                 }
         );
         SmartApiClient.getAuthorizedApiClient(getEncryptedRealm()).getAllClinics(
-                new Callback<BaseResponseModel>() {
+                new Callback<ResponseBase>() {
                     @Override
-                    public void success(BaseResponseModel baseResponseModel, Response response) {
-                        model.updateClinics(baseResponseModel.getClinics());
+                    public void success(ResponseBase responseBase, Response response) {
+                        model.updateClinics(responseBase.getResponseClinics());
 
-                        Map<Integer, Clinic> clinicMap = new HashMap<>();
-                        for (int i = 0; i < baseResponseModel.getClinics().size(); i++) {
-                            clinicMap.put(baseResponseModel.getClinics().get(i).getId(),
-                                    baseResponseModel.getClinics().get(i));
+                        Map<Integer, ResponseClinic> clinicMap = new HashMap<>();
+                        for (int i = 0; i < responseBase.getResponseClinics().size(); i++) {
+                            clinicMap.put(responseBase.getResponseClinics().get(i).getId(),
+                                    responseBase.getResponseClinics().get(i));
                         }
-                        BaseResponseModel.getInstance().setClinicMap(clinicMap);
+                        ResponseBase.getInstance().setClinicMap(clinicMap);
                         Timber.d("clinics finished");
                         done++;
                         Timber.d("done = " + done);
@@ -110,17 +110,17 @@ public class QuickMenuPresenterImp extends BasePresenterImp implements QuickMenu
         );
 
         SmartApiClient.getAuthorizedApiClient(getEncryptedRealm()).getServiceUserActions(
-                new Callback<BaseResponseModel>() {
+                new Callback<ResponseBase>() {
                     @Override
-                    public void success(BaseResponseModel baseResponseModel, Response response) {
+                    public void success(ResponseBase responseBase, Response response) {
                         Timber.d("actions retro success");
-                        Collections.sort(baseResponseModel.getServiceUserActions(), new Comparator<ServiceUserAction>() {
+                        Collections.sort(responseBase.getResponseServiceUserActions(), new Comparator<ResponseServiceUserAction>() {
                             @Override
-                            public int compare(ServiceUserAction lhs, ServiceUserAction rhs) {
+                            public int compare(ResponseServiceUserAction lhs, ResponseServiceUserAction rhs) {
                                 return (lhs.getShortCode()).compareTo(rhs.getShortCode());
                             }
                         });
-                        model.saveServiceUserActionsToRealm(baseResponseModel.getServiceUserActions());
+                        model.saveServiceUserActionsToRealm(responseBase.getResponseServiceUserActions());
                         done++;
                     }
 

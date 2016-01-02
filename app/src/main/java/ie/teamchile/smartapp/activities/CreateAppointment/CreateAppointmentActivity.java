@@ -33,10 +33,10 @@ import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.activities.AppointmentCalendar.AppointmentCalendarActivity;
 import ie.teamchile.smartapp.activities.Base.BaseActivity;
 import ie.teamchile.smartapp.activities.HomeVisitAppointment.HomeVisitAppointmentActivity;
-import ie.teamchile.smartapp.model.Clinic;
+import ie.teamchile.smartapp.model.ResponseClinic;
 import ie.teamchile.smartapp.model.PostingData;
-import ie.teamchile.smartapp.model.ServiceOption;
-import ie.teamchile.smartapp.model.ServiceUser;
+import ie.teamchile.smartapp.model.ResponseServiceOption;
+import ie.teamchile.smartapp.model.ResponseServiceUser;
 import ie.teamchile.smartapp.util.AdapterListResults;
 import ie.teamchile.smartapp.util.AdapterSpinner;
 import ie.teamchile.smartapp.util.Constants;
@@ -123,7 +123,7 @@ public class CreateAppointmentActivity extends BaseActivity implements CreateApp
     private void clinicAppt() {
         clinicID = Integer.parseInt(getIntent().getStringExtra(Constants.ARGS_CLINIC_ID));
         daySelected = AppointmentCalendarActivity.daySelected;
-        clinicName = realm.where(Clinic.class).equalTo(Constants.REALM_ID, clinicID).findFirst().getName();
+        clinicName = realm.where(ResponseClinic.class).equalTo(Constants.REALM_ID, clinicID).findFirst().getName();
         time = getIntent().getStringExtra(Constants.ARGS_TIME);
         tvTime.setText(time);
         visitPrioritySpinner.setSelection(1);
@@ -137,7 +137,7 @@ public class CreateAppointmentActivity extends BaseActivity implements CreateApp
     private void homeVisitAppt() {
         daySelected = HomeVisitAppointmentActivity.daySelected;
         serviceOptionId = Integer.parseInt(getIntent().getStringExtra(Constants.ARGS_SERVICE_OPTION_ID));
-        clinicName = realm.where(ServiceOption.class).equalTo(Constants.REALM_ID, serviceOptionId).findFirst().getName();
+        clinicName = realm.where(ResponseServiceOption.class).equalTo(Constants.REALM_ID, serviceOptionId).findFirst().getName();
 
         tvTime.setVisibility(View.GONE);
         tvTimeTitle.setVisibility(View.GONE);
@@ -236,7 +236,7 @@ public class CreateAppointmentActivity extends BaseActivity implements CreateApp
     }
 
     @Override
-    public void userSearchDialog(String title, List<ServiceUser> serviceUsers) {
+    public void userSearchDialog(String title, List<ResponseServiceUser> responseServiceUsers) {
         LayoutInflater inflater = getLayoutInflater();
         alertDialog = new AlertDialog.Builder(this);
         View convertView = inflater.inflate(R.layout.dialog_list_only, null);
@@ -257,7 +257,7 @@ public class CreateAppointmentActivity extends BaseActivity implements CreateApp
         tvDialogTitle.setText(title);
         BaseAdapter baseAdapter = new AdapterListResults(
                 getApplicationContext(),
-                serviceUsers);
+                responseServiceUsers);
         list.setAdapter(baseAdapter);
         ad = alertDialog.show();
     }
@@ -416,15 +416,15 @@ public class CreateAppointmentActivity extends BaseActivity implements CreateApp
             switch (parent.getId()) {
                 case R.id.lv_dialog:
                     hideKeyboard();
-                    ServiceUser serviceUser = createAppointmentPresenter.getServiceUser(position);
-                    userName = serviceUser.getPersonalFields().getName();
-                    hospitalNumber = serviceUser.getHospitalNumber();
-                    email = serviceUser.getPersonalFields().getEmail();
-                    sms = serviceUser.getPersonalFields().getMobilePhone();
-                    address = serviceUser.getPersonalFields().getHomeAddress();
+                    ResponseServiceUser responseServiceUser = createAppointmentPresenter.getServiceUser(position);
+                    userName = responseServiceUser.getPersonalFields().getName();
+                    hospitalNumber = responseServiceUser.getHospitalNumber();
+                    email = responseServiceUser.getPersonalFields().getEmail();
+                    sms = responseServiceUser.getPersonalFields().getMobilePhone();
+                    address = responseServiceUser.getPersonalFields().getHomeAddress();
 
                     etUserName.setText(userName);
-                    userID = serviceUser.getId();
+                    userID = responseServiceUser.getId();
                     postOrAnte();
                     ad.cancel();
                     break;

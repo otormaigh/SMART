@@ -9,7 +9,7 @@ import io.realm.annotations.PrimaryKey;
 /**
  * Created by user on 5/26/15.
  */
-public class Pregnancy extends RealmObject {
+public class ResponsePregnancy extends RealmObject {
     private String additionalInfo;
     private String antiD;
     private RealmList<RealmInteger> babyIds;
@@ -24,7 +24,7 @@ public class Pregnancy extends RealmObject {
     private Date lastMenstrualPeriod;
     private String perineum;
     private int serviceUserId;
-    private RealmList<PregnancyNote> pregnancyNotes;
+    private RealmList<ResponsePregnancyNote> pregnancyNotes;
 
     public String getAdditionalInfo() {
         return additionalInfo;
@@ -130,11 +130,11 @@ public class Pregnancy extends RealmObject {
         this.serviceUserId = serviceUserId;
     }
 
-    public RealmList<PregnancyNote> getPregnancyNotes() {
+    public RealmList<ResponsePregnancyNote> getPregnancyNotes() {
         return pregnancyNotes;
     }
 
-    public void setPregnancyNotes(RealmList<PregnancyNote> pregnancyNotes) {
+    public void setPregnancyNotes(RealmList<ResponsePregnancyNote> pregnancyNotes) {
         this.pregnancyNotes = pregnancyNotes;
     }
 }

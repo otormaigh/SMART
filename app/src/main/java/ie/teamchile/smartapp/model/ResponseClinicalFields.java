@@ -5,7 +5,7 @@ import io.realm.RealmObject;
 /**
  * Created by user on 5/27/15.
  */
-public class ClinicalFields extends RealmObject {
+public class ResponseClinicalFields extends RealmObject {
     private String bloodGroup;
     private String bmi;
     private String parity;

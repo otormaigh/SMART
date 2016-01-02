@@ -26,7 +26,7 @@ import java.util.List;
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.activities.Base.BaseActivity;
 import ie.teamchile.smartapp.activities.ServiceUser.ServiceUserActivity;
-import ie.teamchile.smartapp.model.ServiceUser;
+import ie.teamchile.smartapp.model.ResponseServiceUser;
 import ie.teamchile.smartapp.util.Constants;
 import io.realm.Realm;
 
@@ -35,7 +35,7 @@ public class ServiceUserSearchActivity extends BaseActivity implements ServiceUs
     private EditText searchName, searchHospitalNumber,
             searchDOBDay, searchDOBMonth, searchDOBYear;
     private TextView tvSearchResults;
-    private List<ServiceUser> serviceUserList = new ArrayList<>();
+    private List<ResponseServiceUser> responseServiceUserList = new ArrayList<>();
     private ListView lvSearchResults;
     private LinearLayout llNoUserFound;
     private boolean changeActivity;
@@ -94,7 +94,7 @@ public class ServiceUserSearchActivity extends BaseActivity implements ServiceUs
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        String hospitalNumber = serviceUserList.get(position).getHospitalNumber();
+        String hospitalNumber = responseServiceUserList.get(position).getHospitalNumber();
 
         changeActivity = true;
         serviceUserSearchPresenter.searchForPatient("", hospitalNumber, "");
@@ -104,7 +104,7 @@ public class ServiceUserSearchActivity extends BaseActivity implements ServiceUs
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_search:
-                serviceUserList = new ArrayList<>();
+                responseServiceUserList = new ArrayList<>();
                 changeActivity = false;
                 llNoUserFound.setVisibility(View.GONE);
                 tvSearchResults.setVisibility(View.GONE);
@@ -141,7 +141,7 @@ public class ServiceUserSearchActivity extends BaseActivity implements ServiceUs
                 } else {
                     Toast.makeText(getApplicationContext(),
                             getString(R.string.enter_something_into_fields), Toast.LENGTH_LONG).show();
-                    serviceUserList.clear();
+                    responseServiceUserList.clear();
                     adapterListResults.notifyDataSetChanged();
                 }
                 break;
@@ -154,12 +154,12 @@ public class ServiceUserSearchActivity extends BaseActivity implements ServiceUs
     }
 
     @Override
-    public void updateServiceUserList(List<ServiceUser> serviceUsers) {
-        if (serviceUsers.isEmpty()) {
+    public void updateServiceUserList(List<ResponseServiceUser> responseServiceUsers) {
+        if (responseServiceUsers.isEmpty()) {
             llNoUserFound.setVisibility(View.VISIBLE);
         }
 
-        serviceUserList = serviceUsers;
+        responseServiceUserList = responseServiceUsers;
         adapterListResults.notifyDataSetChanged();
     }
 
@@ -172,17 +172,17 @@ public class ServiceUserSearchActivity extends BaseActivity implements ServiceUs
 
         @Override
         public int getCount() {
-            return serviceUserList.size();
+            return responseServiceUserList.size();
         }
 
         @Override
-        public ServiceUser getItem(int position) {
-            return serviceUserList.get(position);
+        public ResponseServiceUser getItem(int position) {
+            return responseServiceUserList.get(position);
         }
 
         @Override
         public long getItemId(int position) {
-            return serviceUserList.get(position).hashCode();
+            return responseServiceUserList.get(position).hashCode();
         }
 
         @Override

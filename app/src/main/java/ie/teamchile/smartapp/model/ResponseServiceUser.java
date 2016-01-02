@@ -8,15 +8,15 @@ import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class ServiceUser extends RealmObject {
+public class ResponseServiceUser extends RealmObject {
     private String gestation;
     @PrimaryKey
     private int id;
     private String name;
     private RealmList<RealmInteger> babyIds;
-    private ClinicalFields clinicalFields;
+    private ResponseClinicalFields clinicalFields;
     private String hospitalNumber;
-    private PersonalFields personalFields;
+    private ResponsePersonalFields personalFields;
     private RealmList<RealmInteger> pregnancyIds;
 
     public String getGestation() {
@@ -51,11 +51,11 @@ public class ServiceUser extends RealmObject {
         this.babyIds = babyIds;
     }
 
-    public ClinicalFields getClinicalFields() {
+    public ResponseClinicalFields getClinicalFields() {
         return clinicalFields;
     }
 
-    public void setClinicalFields(ClinicalFields clinicalFields) {
+    public void setClinicalFields(ResponseClinicalFields responseClinicalFields) {
         this.clinicalFields = clinicalFields;
     }
 
@@ -67,11 +67,11 @@ public class ServiceUser extends RealmObject {
         this.hospitalNumber = hospitalNumber;
     }
 
-    public PersonalFields getPersonalFields() {
+    public ResponsePersonalFields getPersonalFields() {
         return personalFields;
     }
 
-    public void setPersonalFields(PersonalFields personalFields) {
+    public void setPersonalFields(ResponsePersonalFields personalFields) {
         this.personalFields = personalFields;
     }
 

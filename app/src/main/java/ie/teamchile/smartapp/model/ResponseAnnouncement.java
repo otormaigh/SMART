@@ -6,7 +6,7 @@ import io.realm.annotations.PrimaryKey;
 /**
  * Created by user on 5/26/15.
  */
-public class Announcement extends RealmObject {
+public class ResponseAnnouncement extends RealmObject {
     private boolean blocking;
     private String date;
     @PrimaryKey

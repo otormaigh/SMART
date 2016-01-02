@@ -8,14 +8,22 @@ import io.realm.annotations.PrimaryKey;
 /**
  * Created by user on 6/23/15.
  */
-public class FeedingHistory extends RealmObject {
+public class ResponseHearingHistory extends RealmObject {
+    private int babyId;
     private Date createdAt;
-    private String feeding;
+    private String hearing;
     @PrimaryKey
     private int id;
-    private int pregnancyId;
     private int serviceProviderId;
     private String serviceProviderName;
+
+    public int getBabyId() {
+        return babyId;
+    }
+
+    public void setBabyId(int babyId) {
+        this.babyId = babyId;
+    }
 
     public Date getCreatedAt() {
         return createdAt;
@@ -25,12 +33,12 @@ public class FeedingHistory extends RealmObject {
         this.createdAt = createdAt;
     }
 
-    public String getFeeding() {
-        return feeding;
+    public String getHearing() {
+        return hearing;
     }
 
-    public void setFeeding(String feeding) {
-        this.feeding = feeding;
+    public void setHearing(String hearing) {
+        this.hearing = hearing;
     }
 
     public int getId() {
@@ -39,14 +47,6 @@ public class FeedingHistory extends RealmObject {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getPregnancyId() {
-        return pregnancyId;
-    }
-
-    public void setPregnancyId(int pregnancyId) {
-        this.pregnancyId = pregnancyId;
     }
 
     public int getServiceProviderId() {

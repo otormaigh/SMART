@@ -10,8 +10,9 @@ import java.util.Set;
 
 import ie.teamchile.smartapp.activities.Base.BaseActivity;
 import ie.teamchile.smartapp.api.SmartApiClient;
-import ie.teamchile.smartapp.model.BaseResponseModel;
+import ie.teamchile.smartapp.model.ResponseBase;
 import ie.teamchile.smartapp.model.PostingData;
+import io.realm.Realm;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -131,12 +132,12 @@ public class SharedPrefs extends BaseActivity {
         }
     }
 
-    public void postAppointment(PostingData data, final Context context, final String tag) {
-        SmartApiClient.getAuthorizedApiClient(this).postAppointment(
+    public void postAppointment(PostingData data, final Context context, Realm realm, final String tag) {
+        SmartApiClient.getAuthorizedApiClient(realm).postAppointment(
                 data,
-                new Callback<BaseResponseModel>() {
+                new Callback<ResponseBase>() {
                     @Override
-                    public void success(BaseResponseModel baseResponseModel, Response response) {
+                    public void success(ResponseBase responseBase, Response response) {
                         Timber.d("post appointment success");
                         deletePrefs(context, tag);
                     }

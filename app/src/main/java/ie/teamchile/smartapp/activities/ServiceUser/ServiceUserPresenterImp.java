@@ -13,7 +13,7 @@ import ie.teamchile.smartapp.activities.Base.BaseModel;
 import ie.teamchile.smartapp.activities.Base.BaseModelImp;
 import ie.teamchile.smartapp.activities.Base.BasePresenterImp;
 import ie.teamchile.smartapp.api.SmartApiClient;
-import ie.teamchile.smartapp.model.BaseResponseModel;
+import ie.teamchile.smartapp.model.ResponseBase;
 import ie.teamchile.smartapp.model.PostingData;
 import ie.teamchile.smartapp.util.Constants;
 import ie.teamchile.smartapp.util.CustomDialogs;
@@ -58,15 +58,15 @@ public class ServiceUserPresenterImp extends BasePresenterImp implements Service
                 weakActivity.get(),
                 "Updating Anti-D");
 
-        SmartApiClient.getAuthorizedApiClient(weakActivity.get()).putAnitD(
+        SmartApiClient.getAuthorizedApiClient(getEncryptedRealm()).putAnitD(
                 puttingAntiD,
                 baseModel.getPregnancy().getId(),
-                new Callback<BaseResponseModel>() {
+                new Callback<ResponseBase>() {
                     @Override
-                    public void success(BaseResponseModel baseResponseModel, Response response) {
+                    public void success(ResponseBase responseBase, Response response) {
                         Timber.d("put anti-d retro success");
 
-                        baseModel.updatePregnancy(baseResponseModel.getPregnancy());
+                        baseModel.updatePregnancy(responseBase.getResponsePregnancy());
                         baseModel.updateAntiD();
 
                         updateViews();
@@ -96,15 +96,15 @@ public class ServiceUserPresenterImp extends BasePresenterImp implements Service
                 weakActivity.get(),
                 "Updating Feeding");
 
-        SmartApiClient.getAuthorizedApiClient(weakActivity.get()).putAnitD(
+        SmartApiClient.getAuthorizedApiClient(getEncryptedRealm()).putAnitD(
                 puttingFeeding,
                 baseModel.getPregnancy().getId(),
-                new Callback<BaseResponseModel>() {
+                new Callback<ResponseBase>() {
                     @Override
-                    public void success(BaseResponseModel baseResponseModel, Response response) {
+                    public void success(ResponseBase responseBase, Response response) {
                         Timber.d("put feeding retro success");
 
-                        baseModel.updatePregnancy(baseResponseModel.getPregnancy());
+                        baseModel.updatePregnancy(responseBase.getResponsePregnancy());
                         baseModel.updateFeeding();
 
                         updateViews();
@@ -136,15 +136,15 @@ public class ServiceUserPresenterImp extends BasePresenterImp implements Service
                 weakActivity.get(),
                 "Updating Vit-K");
 
-        SmartApiClient.getAuthorizedApiClient(weakActivity.get()).putVitK(
+        SmartApiClient.getAuthorizedApiClient(getEncryptedRealm()).putVitK(
                 puttingVitK,
                 baseModel.getBaby().getId(),
-                new Callback<BaseResponseModel>() {
+                new Callback<ResponseBase>() {
                     @Override
-                    public void success(BaseResponseModel baseResponseModel, Response response) {
+                    public void success(ResponseBase responseBase, Response response) {
                         Timber.d("put vit k retro success");
 
-                        baseModel.updateBaby(baseResponseModel.getBaby());
+                        baseModel.updateBaby(responseBase.getResponseBaby());
                         baseModel.updateVitK();
 
                         updateViews();
@@ -175,15 +175,15 @@ public class ServiceUserPresenterImp extends BasePresenterImp implements Service
                 weakActivity.get(),
                 "Updating Hearing");
 
-        SmartApiClient.getAuthorizedApiClient(weakActivity.get()).putHearing(
+        SmartApiClient.getAuthorizedApiClient(getEncryptedRealm()).putHearing(
                 puttingHearing,
                 baseModel.getBaby().getId(),
-                new Callback<BaseResponseModel>() {
+                new Callback<ResponseBase>() {
                     @Override
-                    public void success(BaseResponseModel baseResponseModel, Response response) {
+                    public void success(ResponseBase responseBase, Response response) {
                         Timber.d("put hearing retro success");
 
-                        baseModel.updateBaby(baseResponseModel.getBaby());
+                        baseModel.updateBaby(responseBase.getResponseBaby());
                         baseModel.updateHearing();
 
                         updateViews();
@@ -214,15 +214,15 @@ public class ServiceUserPresenterImp extends BasePresenterImp implements Service
                 weakActivity.get(),
                 "Updating NBST");
 
-        SmartApiClient.getAuthorizedApiClient(weakActivity.get()).putNBST(
+        SmartApiClient.getAuthorizedApiClient(getEncryptedRealm()).putNBST(
                 puttingNbst,
                 baseModel.getBaby().getId(),
-                new Callback<BaseResponseModel>() {
+                new Callback<ResponseBase>() {
                     @Override
-                    public void success(BaseResponseModel baseResponseModel, Response response) {
+                    public void success(ResponseBase responseBase, Response response) {
                         Timber.d("put nbst retro success");
 
-                        baseModel.updateBaby(baseResponseModel.getBaby());
+                        baseModel.updateBaby(responseBase.getResponseBaby());
                         baseModel.updateNbst();
 
                         updateViews();
@@ -245,12 +245,12 @@ public class ServiceUserPresenterImp extends BasePresenterImp implements Service
         PostingData postAction = new PostingData();
         postAction.postPregnancyAction(action);
 
-        SmartApiClient.getAuthorizedApiClient(weakActivity.get()).postPregnancyAction(
+        SmartApiClient.getAuthorizedApiClient(getEncryptedRealm()).postPregnancyAction(
                 postAction,
                 baseModel.getPregnancy().getId(),
-                new Callback<BaseResponseModel>() {
+                new Callback<ResponseBase>() {
                     @Override
-                    public void success(BaseResponseModel baseResponseModel, Response response) {
+                    public void success(ResponseBase responseBase, Response response) {
                         Timber.d("post pregnancy action retro success");
                     }
 

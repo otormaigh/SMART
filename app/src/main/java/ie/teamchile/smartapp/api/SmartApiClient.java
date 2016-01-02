@@ -1,7 +1,5 @@
 package ie.teamchile.smartapp.api;
 
-import android.content.Context;
-
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 import com.google.gson.FieldNamingPolicy;
@@ -16,9 +14,9 @@ import java.io.IOException;
 import java.util.Date;
 
 import ie.teamchile.smartapp.BuildConfig;
-import ie.teamchile.smartapp.model.Login;
 import ie.teamchile.smartapp.model.RealmInteger;
 import ie.teamchile.smartapp.model.RealmString;
+import ie.teamchile.smartapp.model.ResponseLogin;
 import ie.teamchile.smartapp.util.NotKeys;
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -113,34 +111,12 @@ public class SmartApiClient {
         return unAuthorizedSmartApi;
     }
 
-    public static synchronized SmartApi getAuthorizedApiClient(final Context context) {
-        if (authorizedSmartApi == null) {
-            RequestInterceptor requestInterceptor = new RequestInterceptor() {
-                @Override
-                public void intercept(RequestFacade request) {
-                    String authToken = Realm.getInstance(context).where(Login.class).findFirst().getToken();
-                    request.addHeader(AUTH_TOKEN, authToken);
-                    request.addHeader(API_KEY, NotKeys.API_KEY);
-                }
-            };
-
-            authorizedSmartApi = new RestAdapter.Builder()
-                    .setEndpoint(NotKeys.BASE_URL + NotKeys.PORT)
-                    .setLogLevel(BuildConfig.RETROFIT_LOG_LEVEL)
-                    .setClient(new OkClient())
-                    .setRequestInterceptor(requestInterceptor)
-                    .setConverter(new GsonConverter(gson))
-                    .build().create(SmartApi.class);
-        }
-        return authorizedSmartApi;
-    }
-
     public static synchronized SmartApi getAuthorizedApiClient(final Realm realm) {
         if (authorizedSmartApi == null) {
             RequestInterceptor requestInterceptor = new RequestInterceptor() {
                 @Override
                 public void intercept(RequestFacade request) {
-                    String authToken = realm.where(Login.class).findFirst().getToken();
+                    String authToken = realm.where(ResponseLogin.class).findFirst().getToken();
                     request.addHeader(AUTH_TOKEN, authToken);
                     request.addHeader(API_KEY, NotKeys.API_KEY);
                 }

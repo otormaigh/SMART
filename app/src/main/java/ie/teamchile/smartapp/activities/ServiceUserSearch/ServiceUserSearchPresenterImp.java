@@ -12,8 +12,8 @@ import ie.teamchile.smartapp.activities.Base.BaseModel;
 import ie.teamchile.smartapp.activities.Base.BaseModelImp;
 import ie.teamchile.smartapp.activities.Base.BasePresenterImp;
 import ie.teamchile.smartapp.api.SmartApiClient;
-import ie.teamchile.smartapp.model.BaseResponseModel;
-import ie.teamchile.smartapp.model.ServiceUser;
+import ie.teamchile.smartapp.model.ResponseBase;
+import ie.teamchile.smartapp.model.ResponseServiceUser;
 import ie.teamchile.smartapp.util.CustomDialogs;
 import io.realm.Realm;
 import retrofit.Callback;
@@ -44,11 +44,11 @@ public class ServiceUserSearchPresenterImp extends BasePresenterImp implements S
 
         SmartApiClient.getAuthorizedApiClient(realm).getVitKHistories(
                 babyId,
-                new Callback<BaseResponseModel>() {
+                new Callback<ResponseBase>() {
                     @Override
-                    public void success(BaseResponseModel baseResponseModel, Response response) {
+                    public void success(ResponseBase responseBase, Response response) {
                         Timber.d("vit k history done");
-                        baseModel.saveVitKToRealm(baseResponseModel.getVitKHistories());
+                        baseModel.saveVitKToRealm(responseBase.getVitKHistories());
                     }
 
                     @Override
@@ -59,11 +59,11 @@ public class ServiceUserSearchPresenterImp extends BasePresenterImp implements S
         );
         SmartApiClient.getAuthorizedApiClient(realm).getHearingHistories(
                 babyId,
-                new Callback<BaseResponseModel>() {
+                new Callback<ResponseBase>() {
                     @Override
-                    public void success(BaseResponseModel baseResponseModel, Response response) {
+                    public void success(ResponseBase responseBase, Response response) {
                         Timber.d("hearing history done");
-                        baseModel.saveHearingToRealm(baseResponseModel.getHearingHistories());
+                        baseModel.saveHearingToRealm(responseBase.getHearingHistories());
                     }
 
                     @Override
@@ -74,10 +74,10 @@ public class ServiceUserSearchPresenterImp extends BasePresenterImp implements S
         );
         SmartApiClient.getAuthorizedApiClient(realm).getNbstHistories(
                 babyId,
-                new Callback<BaseResponseModel>() {
+                new Callback<ResponseBase>() {
                     @Override
-                    public void success(BaseResponseModel baseResponseModel, Response response) {
-                        baseModel.saveNbstToRealm(baseResponseModel.getNbstHistories());
+                    public void success(ResponseBase responseBase, Response response) {
+                        baseModel.saveNbstToRealm(responseBase.getNbstHistories());
                     }
 
                     @Override
@@ -88,11 +88,11 @@ public class ServiceUserSearchPresenterImp extends BasePresenterImp implements S
         );
         SmartApiClient.getAuthorizedApiClient(realm).getFeedingHistoriesByPregId(
                 pregnancyId,
-                new Callback<BaseResponseModel>() {
+                new Callback<ResponseBase>() {
                     @Override
-                    public void success(BaseResponseModel baseResponseModel, Response response) {
+                    public void success(ResponseBase responseBase, Response response) {
                         Timber.d("feeding history done");
-                        baseModel.saveFeedingHistoriesToRealm(baseResponseModel.getFeedingHistories());
+                        baseModel.saveFeedingHistoriesToRealm(responseBase.getFeedingHistories());
                     }
 
                     @Override
@@ -118,25 +118,25 @@ public class ServiceUserSearchPresenterImp extends BasePresenterImp implements S
                 name,
                 hospitalNumber.trim(),
                 dob.trim(),
-                new Callback<BaseResponseModel>() {
+                new Callback<ResponseBase>() {
                     @Override
-                    public void success(BaseResponseModel baseResponseModel, Response response) {
-                        Timber.wtf("size = " + baseResponseModel.getServiceUsers().size());
+                    public void success(ResponseBase responseBase, Response response) {
+                        Timber.wtf("size = " + responseBase.getResponseServiceUsers().size());
 
-                        if (!baseResponseModel.getServiceUsers().isEmpty()) {
+                        if (!responseBase.getResponseServiceUsers().isEmpty()) {
                             if (serviceUserSearchView.shouldChangeActivity()) {
 
-                                baseModel.saveServiceUserToRealm(baseResponseModel);
+                                baseModel.saveServiceUserToRealm(responseBase);
 
                                 getPregnancyNotes();
                                 getHistories();
 
                                 serviceUserSearchView.gotoServiceUserActivity();
                             } else {
-                                serviceUserSearchView.updateServiceUserList(baseResponseModel.getServiceUsers());
+                                serviceUserSearchView.updateServiceUserList(responseBase.getResponseServiceUsers());
                             }
                         } else {
-                            serviceUserSearchView.updateServiceUserList(new ArrayList<ServiceUser>());
+                            serviceUserSearchView.updateServiceUserList(new ArrayList<ResponseServiceUser>());
                         }
                         pd.dismiss();
                     }
@@ -144,7 +144,7 @@ public class ServiceUserSearchPresenterImp extends BasePresenterImp implements S
                     @Override
                     public void failure(RetrofitError error) {
                         Timber.d("ServiceUserSearchActivity user search failure = " + error);
-                        serviceUserSearchView.updateServiceUserList(new ArrayList<ServiceUser>());
+                        serviceUserSearchView.updateServiceUserList(new ArrayList<ResponseServiceUser>());
                         pd.dismiss();
                     }
                 }
@@ -154,14 +154,14 @@ public class ServiceUserSearchPresenterImp extends BasePresenterImp implements S
 
     @Override
     public void getPregnancyNotes() {
-        SmartApiClient.getAuthorizedApiClient(weakActivity.get()).getPregnancyNotes(
+        SmartApiClient.getAuthorizedApiClient(getEncryptedRealm()).getPregnancyNotes(
                 baseModel.getPregnancy().getId(),
-                new Callback<BaseResponseModel>() {
+                new Callback<ResponseBase>() {
                     @Override
-                    public void success(BaseResponseModel baseResponseModel, Response response) {
+                    public void success(ResponseBase responseBase, Response response) {
                         Timber.d("put getMidwiferyNotes retro success");
 
-                        baseModel.updatePregnancyNotes(baseResponseModel.getPregnancyNotes());
+                        baseModel.updatePregnancyNotes(responseBase.getResponsePregnancyNotes());
                     }
 
                     @Override

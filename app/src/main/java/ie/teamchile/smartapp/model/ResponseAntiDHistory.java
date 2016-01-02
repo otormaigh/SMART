@@ -8,7 +8,7 @@ import io.realm.annotations.PrimaryKey;
 /**
  * Created by user on 6/16/15.
  */
-public class AntiDHistory extends RealmObject {
+public class ResponseAntiDHistory extends RealmObject {
     @PrimaryKey
     private int id;
     private String antiD;

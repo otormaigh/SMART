@@ -8,7 +8,7 @@ import java.lang.ref.WeakReference;
 import ie.teamchile.smartapp.activities.Base.BaseModel;
 import ie.teamchile.smartapp.activities.Base.BaseModelImp;
 import ie.teamchile.smartapp.activities.Base.BasePresenterImp;
-import ie.teamchile.smartapp.model.Login;
+import ie.teamchile.smartapp.model.ResponseLogin;
 import ie.teamchile.smartapp.util.EnvironmentChecker;
 import io.realm.Realm;
 
@@ -31,7 +31,7 @@ public class SplashScreenPresenterImp extends BasePresenterImp implements Splash
 
     @Override
     public void checkIfLoggedIn() {
-        if (realm.where(Login.class).findFirst() != null && realm.where(Login.class).findFirst().isLoggedIn()) {
+        if (realm.where(ResponseLogin.class).findFirst() != null && realm.where(ResponseLogin.class).findFirst().isLoggedIn()) {
             splashScreenView.gotoQuickMenu();
         } else {
             splashScreenView.gotoLogin();
