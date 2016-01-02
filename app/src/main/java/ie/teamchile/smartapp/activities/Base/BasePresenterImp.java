@@ -89,6 +89,10 @@ public class BasePresenterImp implements BasePresenter {
 
     @Override
     public void closeRealm() {
+        if (realm != null)
+            realm.close();
+
+        realm = null;
     }
 
     @Override
