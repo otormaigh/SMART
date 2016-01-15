@@ -54,7 +54,7 @@ public class AppointmentCalendarActivity extends BaseActivity implements Appoint
     private ListView listView;
     private ProgressDialog pd;
     private Realm realm;
-    private AppointmentCalendarPresenter appointmentCalendarPresenter;
+    private AppointmentCalendarPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +63,9 @@ public class AppointmentCalendarActivity extends BaseActivity implements Appoint
 
         initViews();
 
-        appointmentCalendarPresenter = new AppointmentCalendarPresenterImp(this, new WeakReference<Activity>(AppointmentCalendarActivity.this));
+        presenter = new AppointmentCalendarPresenterImp(this, new WeakReference<Activity>(AppointmentCalendarActivity.this));
 
-        realm = appointmentCalendarPresenter.getEncryptedRealm();
+        realm = presenter.getEncryptedRealm();
 
         serviceOptionId = realm.where(ResponseClinic.class).equalTo(Constants.REALM_ID, clinicSelected).findFirst().getServiceOptionIds().get(0).getValue();
 
@@ -334,7 +334,7 @@ public class AppointmentCalendarActivity extends BaseActivity implements Appoint
                         intent.putExtra(Constants.ARGS_SERVICE_OPTION_ID, String.valueOf(serviceOptionId));
                         startActivity(intent);
                     } else {
-                        appointmentCalendarPresenter.searchServiceUser(getAppointment(position).getServiceUserId());
+                        presenter.searchServiceUser(getAppointment(position).getServiceUserId());
                     }
                     return true;
                 }
@@ -348,7 +348,7 @@ public class AppointmentCalendarActivity extends BaseActivity implements Appoint
                     realm.beginTransaction();
                     getAppointment(position).setAttended(!attended);
                     realm.commitTransaction();
-                    appointmentCalendarPresenter.changeAttendStatus(
+                    presenter.changeAttendStatus(
                             !attended,
                             position,
                             clinicSelected,

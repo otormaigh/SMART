@@ -112,7 +112,7 @@ public class ServiceUserActivity extends BaseActivity implements ServiceUserView
     private List<ResponseHearingHistory> responseHearingHistoryList = new ArrayList<>();
     private List<ResponseVitKHistory> responseVitKHistoryList = new ArrayList<>();
     private List<ResponseServiceUserAction> responseServiceUserActionList = new ArrayList<>();
-    private ServiceUserPresenter serviceUserPresenter;
+    private ServiceUserPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,9 +121,9 @@ public class ServiceUserActivity extends BaseActivity implements ServiceUserView
 
         initViews();
 
-        serviceUserPresenter = new ServiceUserPresenterImp(this, new WeakReference<Activity>(ServiceUserActivity.this));
+        presenter = new ServiceUserPresenterImp(this, new WeakReference<Activity>(ServiceUserActivity.this));
 
-        realm = serviceUserPresenter.getEncryptedRealm();
+        realm = presenter.getEncryptedRealm();
 
         antiDHistoryList.addAll(realm.where(ResponseAntiDHistory.class).findAll());
 
@@ -141,14 +141,14 @@ public class ServiceUserActivity extends BaseActivity implements ServiceUserView
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        serviceUserPresenter.onLeaveView();
+        presenter.onLeaveView();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
-        serviceUserPresenter.onLeaveView();
+        presenter.onLeaveView();
     }
 
     private void setAntiD() {
@@ -445,15 +445,15 @@ public class ServiceUserActivity extends BaseActivity implements ServiceUserView
                         if (list.isSelected()) {
                             String optionSelected = historyOptions.get(optionPosition);
                             if (title.equals("Anti-D"))
-                                serviceUserPresenter.putAntiD(optionSelected, ad);
+                                presenter.putAntiD(optionSelected, ad);
                             else if (title.equals("Vit-K"))
-                                serviceUserPresenter.putVitK(optionSelected, ad);
+                                presenter.putVitK(optionSelected, ad);
                             else if (title.equals("Hearing"))
-                                serviceUserPresenter.putHearing(optionSelected, ad);
+                                presenter.putHearing(optionSelected, ad);
                             else if (title.equals("NBST"))
-                                serviceUserPresenter.putNBST(optionSelected, ad);
+                                presenter.putNBST(optionSelected, ad);
                             else if (title.equals("Feeding"))
-                                serviceUserPresenter.putFeeding(optionSelected, ad);
+                                presenter.putFeeding(optionSelected, ad);
                         } else
                             Toast.makeText(ServiceUserActivity.this, "Please Make A Selection First", Toast.LENGTH_LONG).show();
                     }
@@ -797,7 +797,7 @@ public class ServiceUserActivity extends BaseActivity implements ServiceUserView
                     ivStatus.setBackgroundResource(R.color.attended);
                     swipeLayout.close();
                     //actionIdList.add(responseServiceUserActionList.get(position).getId());
-                    serviceUserPresenter.postPregnancyActions(getItem(position));
+                    presenter.postPregnancyActions(getItem(position));
                 }
             });
 

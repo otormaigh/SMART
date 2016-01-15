@@ -50,7 +50,7 @@ public class ParityDetailsActivity extends BaseActivity implements ParityDetails
     private int orientation;
     private RecyclerView rvParity;
     private Realm realm;
-    private ParityDetailsPresenter parityDetailsPresenter;
+    private ParityDetailsPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,9 +59,9 @@ public class ParityDetailsActivity extends BaseActivity implements ParityDetails
 
         initViews();
 
-        parityDetailsPresenter = new ParityDetailsPresenterImp(this, new WeakReference<Activity>(ParityDetailsActivity.this));
+        presenter = new ParityDetailsPresenterImp(this, new WeakReference<Activity>(ParityDetailsActivity.this));
 
-        realm = parityDetailsPresenter.getEncryptedRealm();
+        realm = presenter.getEncryptedRealm();
 
         patientName = realm.where(ResponseServiceUser.class).findFirst().getPersonalFields().getName();
         patientParity = realm.where(ResponseServiceUser.class).findFirst().getClinicalFields().getParity();

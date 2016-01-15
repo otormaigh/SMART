@@ -35,7 +35,7 @@ public class MidwiferyLogActivity extends BaseActivity implements MidwiferyLogVi
     private BaseAdapter adapter;
     private AlertDialog ad;
     private ProgressDialog pd;
-    private MidwiferyLogPresenter midwiferyLogPresenter;
+    private MidwiferyLogPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +44,7 @@ public class MidwiferyLogActivity extends BaseActivity implements MidwiferyLogVi
 
         initViews();
 
-        midwiferyLogPresenter = new MidwiferyLogPresenterImp(this, new WeakReference<Activity>(MidwiferyLogActivity.this));
+        presenter = new MidwiferyLogPresenterImp(this, new WeakReference<Activity>(MidwiferyLogActivity.this));
 
         setActionBarTitle(getResources().getString(R.string.midwifery_log));
     }
@@ -135,7 +135,7 @@ public class MidwiferyLogActivity extends BaseActivity implements MidwiferyLogVi
                     }.start();
 
                 } else {
-                    midwiferyLogPresenter.postNote(etEnterNote.getText().toString());
+                    presenter.postNote(etEnterNote.getText().toString());
                     ad.dismiss();
                 }
             }

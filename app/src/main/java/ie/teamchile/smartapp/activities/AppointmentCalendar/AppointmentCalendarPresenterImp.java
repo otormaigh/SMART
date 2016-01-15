@@ -25,15 +25,15 @@ import timber.log.Timber;
  * Created by elliot on 30/12/2015.
  */
 public class AppointmentCalendarPresenterImp extends BasePresenterImp implements AppointmentCalendarPresenter {
-    private AppointmentCalendarView appointmentCalendarView;
-    private BaseModel baseModel;
+    private AppointmentCalendarView view;
+    private BaseModel model;
     private WeakReference<Activity> weakActivity;
     private Realm realm;
 
-    public AppointmentCalendarPresenterImp(AppointmentCalendarView appointmentCalendarView, WeakReference<Activity> weakActivity) {
-        this.appointmentCalendarView = appointmentCalendarView;
+    public AppointmentCalendarPresenterImp(AppointmentCalendarView view, WeakReference<Activity> weakActivity) {
+        this.view = view;
         this.weakActivity = weakActivity;
-        baseModel = new BaseModelImp(this);
+        model = new BaseModelImp(this);
         realm = getEncryptedRealm();
     }
 
@@ -61,7 +61,7 @@ public class AppointmentCalendarPresenterImp extends BasePresenterImp implements
                                 weakActivity.get().getString(R.string.status_changed),
                                 Toast.LENGTH_LONG).show();
 
-                        baseModel.saveAppointmentToRealm(responseBase.getAppointment());
+                        model.saveAppointmentToRealm(responseBase.getAppointment());
 
                         pd.dismiss();
                     }
@@ -86,8 +86,8 @@ public class AppointmentCalendarPresenterImp extends BasePresenterImp implements
                 new Callback<ResponseBase>() {
                     @Override
                     public void success(ResponseBase responseBase, Response response) {
-                        baseModel.updateServiceUsers(responseBase);
-                        appointmentCalendarView.gotoServiceUserActivity();
+                        model.updateServiceUsers(responseBase);
+                        view.gotoServiceUserActivity();
 
                         pd.dismiss();
                     }

@@ -25,22 +25,22 @@ import timber.log.Timber;
  * Created by elliot on 27/12/2015.
  */
 public class ServiceUserSearchPresenterImp extends BasePresenterImp implements ServiceUserSearchPresenter {
-    private ServiceUserSearchView serviceUserSearchView;
+    private ServiceUserSearchView view;
     private WeakReference<Activity> weakActivity;
-    private BaseModel baseModel;
+    private BaseModel model;
     private Realm realm;
 
-    public ServiceUserSearchPresenterImp(ServiceUserSearchView serviceUserSearchView, WeakReference<Activity> weakActivity) {
-        this.serviceUserSearchView = serviceUserSearchView;
+    public ServiceUserSearchPresenterImp(ServiceUserSearchView view, WeakReference<Activity> weakActivity) {
+        this.view = view;
         this.weakActivity = weakActivity;
-        baseModel = new BaseModelImp(this);
+        model = new BaseModelImp(this);
         realm = getEncryptedRealm();
     }
 
     @Override
     public void getHistories() {
-        int babyId = baseModel.getBaby().getId();
-        int pregnancyId = baseModel.getPregnancy().getId();
+        int babyId = model.getBaby().getId();
+        int pregnancyId = model.getPregnancy().getId();
 
         SmartApiClient.getAuthorizedApiClient(realm).getVitKHistories(
                 babyId,
@@ -48,7 +48,7 @@ public class ServiceUserSearchPresenterImp extends BasePresenterImp implements S
                     @Override
                     public void success(ResponseBase responseBase, Response response) {
                         Timber.d("vit k history done");
-                        baseModel.saveVitKToRealm(responseBase.getVitKHistories());
+                        model.saveVitKToRealm(responseBase.getVitKHistories());
                     }
 
                     @Override
@@ -63,7 +63,7 @@ public class ServiceUserSearchPresenterImp extends BasePresenterImp implements S
                     @Override
                     public void success(ResponseBase responseBase, Response response) {
                         Timber.d("hearing history done");
-                        baseModel.saveHearingToRealm(responseBase.getHearingHistories());
+                        model.saveHearingToRealm(responseBase.getHearingHistories());
                     }
 
                     @Override
@@ -77,7 +77,7 @@ public class ServiceUserSearchPresenterImp extends BasePresenterImp implements S
                 new Callback<ResponseBase>() {
                     @Override
                     public void success(ResponseBase responseBase, Response response) {
-                        baseModel.saveNbstToRealm(responseBase.getNbstHistories());
+                        model.saveNbstToRealm(responseBase.getNbstHistories());
                     }
 
                     @Override
@@ -92,7 +92,7 @@ public class ServiceUserSearchPresenterImp extends BasePresenterImp implements S
                     @Override
                     public void success(ResponseBase responseBase, Response response) {
                         Timber.d("feeding history done");
-                        baseModel.saveFeedingHistoriesToRealm(responseBase.getFeedingHistories());
+                        model.saveFeedingHistoriesToRealm(responseBase.getFeedingHistories());
                     }
 
                     @Override
@@ -124,18 +124,18 @@ public class ServiceUserSearchPresenterImp extends BasePresenterImp implements S
                         Timber.wtf("size = " + responseBase.getResponseServiceUsers().size());
 
                         if (!responseBase.getResponseServiceUsers().isEmpty()) {
-                            if (serviceUserSearchView.shouldChangeActivity()) {
-                                baseModel.updateServiceUsers(responseBase);
+                            if (view.shouldChangeActivity()) {
+                                model.updateServiceUsers(responseBase);
 
                                 getPregnancyNotes();
                                 getHistories();
 
-                                serviceUserSearchView.gotoServiceUserActivity();
+                                view.gotoServiceUserActivity();
                             } else {
-                                serviceUserSearchView.updateServiceUserList(responseBase.getResponseServiceUsers());
+                                view.updateServiceUserList(responseBase.getResponseServiceUsers());
                             }
                         } else {
-                            serviceUserSearchView.updateServiceUserList(new ArrayList<ResponseServiceUser>());
+                            view.updateServiceUserList(new ArrayList<ResponseServiceUser>());
                         }
                         pd.dismiss();
                     }
@@ -143,7 +143,7 @@ public class ServiceUserSearchPresenterImp extends BasePresenterImp implements S
                     @Override
                     public void failure(RetrofitError error) {
                         Timber.d("ServiceUserSearchActivity user search failure = " + error);
-                        serviceUserSearchView.updateServiceUserList(new ArrayList<ResponseServiceUser>());
+                        view.updateServiceUserList(new ArrayList<ResponseServiceUser>());
                         pd.dismiss();
                     }
                 }
@@ -154,13 +154,13 @@ public class ServiceUserSearchPresenterImp extends BasePresenterImp implements S
     @Override
     public void getPregnancyNotes() {
         SmartApiClient.getAuthorizedApiClient(getEncryptedRealm()).getPregnancyNotes(
-                baseModel.getPregnancy().getId(),
+                model.getPregnancy().getId(),
                 new Callback<ResponseBase>() {
                     @Override
                     public void success(ResponseBase responseBase, Response response) {
                         Timber.d("put getMidwiferyNotes retro success");
 
-                        baseModel.updatePregnancyNotes(responseBase.getResponsePregnancyNotes());
+                        model.updatePregnancyNotes(responseBase.getResponsePregnancyNotes());
                     }
 
                     @Override
@@ -173,6 +173,6 @@ public class ServiceUserSearchPresenterImp extends BasePresenterImp implements S
 
     @Override
     public void onLeaveView() {
-        baseModel.deleteServiceUserFromRealm();
+        model.deleteServiceUserFromRealm();
     }
 }

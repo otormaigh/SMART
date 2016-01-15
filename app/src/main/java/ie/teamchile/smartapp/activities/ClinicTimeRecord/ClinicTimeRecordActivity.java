@@ -50,7 +50,7 @@ public class ClinicTimeRecordActivity extends BaseActivity implements ClinicTime
     private SharedPrefs sharedPrefs = new SharedPrefs();
     private AppointmentHelper appointmentHelper;
     private Calendar c;
-    private ClinicTimeRecordPresenter clinicTimeRecordPresenter;
+    private ClinicTimeRecordPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,9 +59,9 @@ public class ClinicTimeRecordActivity extends BaseActivity implements ClinicTime
 
         initViews();
 
-        clinicTimeRecordPresenter = new ClinicTimeRecordPresenterImp(this, new WeakReference<Activity>(ClinicTimeRecordActivity.this));
+        presenter = new ClinicTimeRecordPresenterImp(this, new WeakReference<Activity>(ClinicTimeRecordActivity.this));
 
-        appointmentHelper = new AppointmentHelper(clinicTimeRecordPresenter.getEncryptedRealm());
+        appointmentHelper = new AppointmentHelper(presenter.getEncryptedRealm());
 
         disableButtons();
 
@@ -114,18 +114,18 @@ public class ClinicTimeRecordActivity extends BaseActivity implements ClinicTime
 
     @Override
     public void setNotStartedList() {
-        clinicTimeRecordPresenter.updateRecordGetDone(1);
+        presenter.updateRecordGetDone(1);
         String clinicName;
         List<String> clinicNotStartedName = new ArrayList<>();
-        if (clinicTimeRecordPresenter.getClinicNotStarted().size() == 0) {
+        if (presenter.getClinicNotStarted().size() == 0) {
             clinicNotStartedName.add(getString(R.string.no_clinics_to_be_started));
             lvNotStarted.setEnabled(false);
         } else {
             lvNotStarted.setEnabled(true);
-            int size = clinicTimeRecordPresenter.getClinicNotStarted().size();
+            int size = presenter.getClinicNotStarted().size();
             for (int i = 0; i < size; i++) {
-                clinicName = clinicTimeRecordPresenter.getClinicIdMap().get(clinicTimeRecordPresenter.getClinicNotStarted().get(i)).getName();
-                int clinicId = clinicTimeRecordPresenter.getClinicNotStarted().get(i);
+                clinicName = presenter.getClinicIdMap().get(presenter.getClinicNotStarted().get(i)).getName();
+                int clinicId = presenter.getClinicNotStarted().get(i);
                 clinicNotStartedName.add(formatClinicName(clinicId, clinicName));
             }
         }
@@ -142,19 +142,19 @@ public class ClinicTimeRecordActivity extends BaseActivity implements ClinicTime
 
     @Override
     public void setStartedList() {
-        clinicTimeRecordPresenter.updateRecordGetDone(1);
+        presenter.updateRecordGetDone(1);
         clinicStartedName = new ArrayList<>();
-        if (clinicTimeRecordPresenter.getClinicStarted().size() == 0) {
+        if (presenter.getClinicStarted().size() == 0) {
             clinicStartedName.add(getString(R.string.no_clinics_currently_started));
             lvStarted.setEnabled(false);
         } else {
             lvStarted.setEnabled(true);
             String clinicName;
             int clinicId;
-            int size = clinicTimeRecordPresenter.getClinicStarted().size();
+            int size = presenter.getClinicStarted().size();
             for (int i = 0; i < size; i++) {
-                clinicName = clinicTimeRecordPresenter.getClinicIdMap().get(clinicTimeRecordPresenter.getClinicStarted().get(i)).getName();
-                clinicId = clinicTimeRecordPresenter.getClinicStarted().get(i);
+                clinicName = presenter.getClinicIdMap().get(presenter.getClinicStarted().get(i)).getName();
+                clinicId = presenter.getClinicStarted().get(i);
                 clinicStartedName.add(formatClinicName(clinicId, clinicName));
             }
         }
@@ -171,20 +171,20 @@ public class ClinicTimeRecordActivity extends BaseActivity implements ClinicTime
 
     @Override
     public void setStoppedList() {
-        clinicTimeRecordPresenter.updateRecordGetDone(1);
+        presenter.updateRecordGetDone(1);
         clinicStoppedName = new ArrayList<>();
 
-        if (clinicTimeRecordPresenter.getClinicStopped().size() == 0) {
+        if (presenter.getClinicStopped().size() == 0) {
             clinicStoppedName.add(getString(R.string.no_clinics_currently_stopped));
             lvStopped.setEnabled(false);
         } else {
             lvStopped.setEnabled(true);
             String clinicName;
             int clinicId;
-            int size = clinicTimeRecordPresenter.getClinicStopped().size();
+            int size = presenter.getClinicStopped().size();
             for (int i = 0; i < size; i++) {
-                clinicName = clinicTimeRecordPresenter.getClinicIdMap().get(clinicTimeRecordPresenter.getClinicStopped().get(i)).getName();
-                clinicId = clinicTimeRecordPresenter.getClinicStopped().get(i);
+                clinicName = presenter.getClinicIdMap().get(presenter.getClinicStopped().get(i)).getName();
+                clinicId = presenter.getClinicStopped().get(i);
                 clinicStoppedName.add(formatClinicName(clinicId, clinicName));
             }
         }
@@ -216,14 +216,14 @@ public class ClinicTimeRecordActivity extends BaseActivity implements ClinicTime
                 clinicStartedId = 0;
                 adapterStart.notifyDataSetChanged();
                 lvStarted.setAdapter(adapterStart);
-                clinicNotStartedId = clinicTimeRecordPresenter.getClinicNotStarted().get(position);
+                clinicNotStartedId = presenter.getClinicNotStarted().get(position);
                 break;
             case R.id.lv_clinics_started:
                 btnStopClinic.setEnabled(true);
                 clinicNotStartedId = 0;
                 adapterNotStart.notifyDataSetChanged();
                 lvNotStarted.setAdapter(adapterNotStart);
-                clinicStartedId = clinicTimeRecordPresenter.getClinicStarted().get(position);
+                clinicStartedId = presenter.getClinicStarted().get(position);
                 break;
         }
     }
@@ -235,11 +235,11 @@ public class ClinicTimeRecordActivity extends BaseActivity implements ClinicTime
             case R.id.lv_clinics_stopped:
                 btnResetRecord.setEnabled(true);
                 vibe.vibrate(50);
-                clinicIdForDelete = clinicTimeRecordPresenter.getClinicStopped().get(position);
-                int size = clinicTimeRecordPresenter.getClinicTimeRecords().size();
+                clinicIdForDelete = presenter.getClinicStopped().get(position);
+                int size = presenter.getClinicTimeRecords().size();
                 for (int i = 0; i < size; i++) {
-                    if (clinicTimeRecordPresenter.getClinicTimeRecords().get(i).getClinicId() == clinicIdForDelete) {
-                        recordIdForDelete = clinicTimeRecordPresenter.getClinicTimeRecords().get(i).getId();
+                    if (presenter.getClinicTimeRecords().get(i).getClinicId() == clinicIdForDelete) {
+                        recordIdForDelete = presenter.getClinicTimeRecords().get(i).getId();
                     }
                 }
                 break;
@@ -262,7 +262,7 @@ public class ClinicTimeRecordActivity extends BaseActivity implements ClinicTime
                             Constants.CLINIC_STARTED, String.valueOf(clinicNotStartedId));
                     sharedPrefs.addToStringSetPrefs(ClinicTimeRecordActivity.this,
                             Constants.APPTS_GOT, String.valueOf(clinicNotStartedId));
-                    clinicTimeRecordPresenter.putStartTime(now, date, clinicNotStartedId);
+                    presenter.putStartTime(now, date, clinicNotStartedId);
                     c = Calendar.getInstance();
                     Date todayDate = c.getTime();
                     appointmentHelper.weekDateLooper(todayDate, clinicNotStartedId);
@@ -270,11 +270,11 @@ public class ClinicTimeRecordActivity extends BaseActivity implements ClinicTime
                 break;
             case R.id.btn_stop_clinic:
                 if (clinicStartedId != 0)
-                    clinicTimeRecordPresenter.putEndTime(then, date, clinicStartedId);
+                    presenter.putEndTime(then, date, clinicStartedId);
                 break;
             case R.id.btn_reset_clinic_record:
                 if (clinicIdForDelete != 0)
-                    clinicTimeRecordPresenter.deleteTimeRecord(clinicIdForDelete, recordIdForDelete);
+                    presenter.deleteTimeRecord(clinicIdForDelete, recordIdForDelete);
                 break;
         }
         clinicNotStartedId = 0;

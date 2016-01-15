@@ -33,10 +33,10 @@ import timber.log.Timber;
  * Created by elliot on 01/01/2016.
  */
 public class ClinicTimeRecordPresenterImp extends BasePresenterImp implements ClinicTimeRecordPresenter {
-    private ClinicTimeRecordView clinicTimeRecordView;
+    private ClinicTimeRecordView view;
     private WeakReference<Activity> weakActivity;
     private Realm realm;
-    private BaseModel baseModel;
+    private BaseModel model;
     private CountDownTimer timer;
     private String todayDay;
     private String todayDate;
@@ -48,12 +48,12 @@ public class ClinicTimeRecordPresenterImp extends BasePresenterImp implements Cl
     private List<Integer> clinicNotStarted = new ArrayList<>();
     private ProgressDialog pd;
 
-    public ClinicTimeRecordPresenterImp(ClinicTimeRecordView clinicTimeRecordView, WeakReference<Activity> weakActivity) {
-        super(clinicTimeRecordView, weakActivity);
-        this.clinicTimeRecordView = clinicTimeRecordView;
+    public ClinicTimeRecordPresenterImp(ClinicTimeRecordView view, WeakReference<Activity> weakActivity) {
+        super(view, weakActivity);
+        this.view = view;
         this.weakActivity = weakActivity;
         realm = getEncryptedRealm();
-        baseModel = new BaseModelImp(this, weakActivity);
+        model = new BaseModelImp(this, weakActivity);
 
         todayDay = Constants.DF_DAY_LONG.format(Calendar.getInstance().getTime());
         todayDate = Constants.DF_DATE_ONLY.format(Calendar.getInstance().getTime());
@@ -75,7 +75,7 @@ public class ClinicTimeRecordPresenterImp extends BasePresenterImp implements Cl
                     public void success(ResponseBase responseBase, Response response) {
                         Timber.d("get time record success");
                         if (responseBase.getResponseClinicTimeRecords().size() > 0) {
-                            baseModel.updateClinicTimeRecords(responseBase.getResponseClinicTimeRecords());
+                            model.updateClinicTimeRecords(responseBase.getResponseClinicTimeRecords());
 
                             if (responseBase.getResponseClinicTimeRecords().get(0).getEndTime() == null) {
                                 if (!clinicStarted.contains(clinicId))
@@ -92,9 +92,9 @@ public class ClinicTimeRecordPresenterImp extends BasePresenterImp implements Cl
                                 clinicNotStarted.add(clinicId);
                         }
 
-                        clinicTimeRecordView.setNotStartedList();
-                        clinicTimeRecordView.setStartedList();
-                        clinicTimeRecordView.setStoppedList();
+                        view.setNotStartedList();
+                        view.setStartedList();
+                        view.setStoppedList();
                     }
 
                     @Override
@@ -124,14 +124,14 @@ public class ClinicTimeRecordPresenterImp extends BasePresenterImp implements Cl
                     @Override
                     public void success(ResponseBase responseBase, Response response) {
                         Timber.d("retro success");
-                        clinicTimeRecordView.disableButtons();
-                        baseModel.updateClinicTimeRecord(responseBase.getResponseClinicTimeRecord());
+                        view.disableButtons();
+                        model.updateClinicTimeRecord(responseBase.getResponseClinicTimeRecord());
 
                         clinicNotStarted.remove(clinicNotStarted.indexOf(clinicId));
                         clinicStarted.add(clinicId);
 
-                        clinicTimeRecordView.setNotStartedList();
-                        clinicTimeRecordView.setStartedList();
+                        view.setNotStartedList();
+                        view.setStartedList();
                         pd.dismiss();
                     }
 
@@ -139,7 +139,7 @@ public class ClinicTimeRecordPresenterImp extends BasePresenterImp implements Cl
                     public void failure(RetrofitError error) {
                         Timber.d("retro error = " + error.getResponse());
                         pd.dismiss();
-                        clinicTimeRecordView.disableButtons();
+                        view.disableButtons();
                     }
                 });
     }
@@ -169,8 +169,8 @@ public class ClinicTimeRecordPresenterImp extends BasePresenterImp implements Cl
                     @Override
                     public void success(ResponseBase responseBase, Response response) {
                         Timber.d("retro success");
-                        clinicTimeRecordView.disableButtons();
-                        baseModel.updateClinicTimeRecord(responseBase.getResponseClinicTimeRecord());
+                        view.disableButtons();
+                        model.updateClinicTimeRecord(responseBase.getResponseClinicTimeRecord());
 
                         int size = getClinicTimeRecords().size();
                         for (int i = 0; i < size; i++) {
@@ -178,8 +178,8 @@ public class ClinicTimeRecordPresenterImp extends BasePresenterImp implements Cl
                                 clinicStarted.remove(clinicStarted.indexOf(clinicId));
                                 clinicStopped.add(clinicId);
 
-                                clinicTimeRecordView.setStartedList();
-                                clinicTimeRecordView.setStoppedList();
+                                view.setStartedList();
+                                view.setStoppedList();
                             }
                         }
                         pd.dismiss();
@@ -189,7 +189,7 @@ public class ClinicTimeRecordPresenterImp extends BasePresenterImp implements Cl
                     public void failure(RetrofitError error) {
                         Timber.d("retro error = " + error.getResponse());
                         pd.dismiss();
-                        clinicTimeRecordView.disableButtons();
+                        view.disableButtons();
                     }
                 });
     }
@@ -207,8 +207,8 @@ public class ClinicTimeRecordPresenterImp extends BasePresenterImp implements Cl
                     @Override
                     public void success(ResponseBase responseBase, Response response) {
                         Timber.d("deleteTimeRecord success");
-                        clinicTimeRecordView.disableButtons();
-                        baseModel.updateClinicTimeRecord(responseBase.getResponseClinicTimeRecord());
+                        view.disableButtons();
+                        model.updateClinicTimeRecord(responseBase.getResponseClinicTimeRecord());
 
                         int size = getClinicTimeRecords().size();
                         for (int i = 0; i < size; i++) {
@@ -216,9 +216,9 @@ public class ClinicTimeRecordPresenterImp extends BasePresenterImp implements Cl
                                 clinicStopped.remove(clinicStopped.indexOf(clinicIdForDelete));
                                 clinicNotStarted.add(clinicIdForDelete);
 
-                                clinicTimeRecordView.setStartedList();
-                                clinicTimeRecordView.setStoppedList();
-                                clinicTimeRecordView.setNotStartedList();
+                                view.setStartedList();
+                                view.setStoppedList();
+                                view.setNotStartedList();
                             }
                         }
                         pd.dismiss();
@@ -228,7 +228,7 @@ public class ClinicTimeRecordPresenterImp extends BasePresenterImp implements Cl
                     public void failure(RetrofitError error) {
                         Timber.d("deleteTimeRecord failure = " + error);
                         pd.dismiss();
-                        clinicTimeRecordView.disableButtons();
+                        view.disableButtons();
                     }
                 }
         );
@@ -239,7 +239,7 @@ public class ClinicTimeRecordPresenterImp extends BasePresenterImp implements Cl
         recordGetDone = 0;
 
         Map<String, List<Integer>> clinicDayMap = new HashMap<>();
-        List<ResponseClinic> responseClinics = baseModel.getClinics();
+        List<ResponseClinic> responseClinics = model.getClinics();
         List<String> trueDays;
 
         int clinicSize = responseClinics.size();
@@ -275,9 +275,9 @@ public class ClinicTimeRecordPresenterImp extends BasePresenterImp implements Cl
                 getTimeRecords(idList.get(i), todayDate);
             }
         } else {
-            clinicTimeRecordView.setNotStartedList();
-            clinicTimeRecordView.setStartedList();
-            clinicTimeRecordView.setStoppedList();
+            view.setNotStartedList();
+            view.setStartedList();
+            view.setStoppedList();
         }
 
         timer = new CountDownTimer(200, 100) {
@@ -304,7 +304,7 @@ public class ClinicTimeRecordPresenterImp extends BasePresenterImp implements Cl
 
     @Override
     public List<ResponseClinicTimeRecord> getClinicTimeRecords() {
-        return baseModel.getClinicTimeRecords();
+        return model.getClinicTimeRecords();
     }
 
     @Override

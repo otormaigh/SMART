@@ -15,13 +15,13 @@ import ie.teamchile.smartapp.util.SharedPrefs;
  * Created by elliot on 30/12/2015.
  */
 public class AppointmentTypeSpinnerPresenterImp extends BasePresenterImp implements AppointmentTypeSpinnerPresenter {
-    private AppointmentTypeSpinnerView appointmentTypeSpinnerView;
+    private AppointmentTypeSpinnerView view;
     private WeakReference<Activity> weakActivity;
 
-    public AppointmentTypeSpinnerPresenterImp(AppointmentTypeSpinnerView appointmentTypeSpinnerView,
+    public AppointmentTypeSpinnerPresenterImp(AppointmentTypeSpinnerView view,
                                               WeakReference<Activity> weakActivity) {
         super(weakActivity);
-        this.appointmentTypeSpinnerView = appointmentTypeSpinnerView;
+        this.view = view;
         this.weakActivity = weakActivity;
     }
 

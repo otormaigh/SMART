@@ -23,16 +23,16 @@ import timber.log.Timber;
  * Created by elliot on 31/12/2015.
  */
 public class MidwiferyLogPresenterImp extends BasePresenterImp implements MidwiferyLogPresenter {
-    private MidwiferyLogView midwiferyLogView;
+    private MidwiferyLogView view;
     private WeakReference<Activity> weakActivity;
-    private BaseModel baseModel;
+    private BaseModel model;
 
-    public MidwiferyLogPresenterImp(MidwiferyLogView midwiferyLogView, WeakReference<Activity> weakActivity) {
-        this.midwiferyLogView = midwiferyLogView;
+    public MidwiferyLogPresenterImp(MidwiferyLogView view, WeakReference<Activity> weakActivity) {
+        this.view = view;
         this.weakActivity = weakActivity;
-        baseModel = new BaseModelImp(this);
+        model = new BaseModelImp(this);
 
-        midwiferyLogView.updatePregnancyList(new ArrayList<>(baseModel.getPregnancyNotes()));
+        view.updatePregnancyList(new ArrayList<>(model.getPregnancyNotes()));
     }
 
     @Override
@@ -46,14 +46,14 @@ public class MidwiferyLogPresenterImp extends BasePresenterImp implements Midwif
 
         SmartApiClient.getAuthorizedApiClient(getEncryptedRealm()).postPregnancyNote(
                 postNote,
-                baseModel.getPregnancy().getId(),
+                model.getPregnancy().getId(),
                 new Callback<ResponseBase>() {
                     @Override
                     public void success(ResponseBase responseBase, Response response) {
                         Timber.d("postNote success");
 
-                        baseModel.updatePregnancyNote(responseBase.getResponsePregnancyNote());
-                        midwiferyLogView.updatePregnancyList(new ArrayList<>(baseModel.getPregnancyNotes()));
+                        model.updatePregnancyNote(responseBase.getResponsePregnancyNote());
+                        view.updatePregnancyList(new ArrayList<>(model.getPregnancyNotes()));
 
                         pd.dismiss();
                     }

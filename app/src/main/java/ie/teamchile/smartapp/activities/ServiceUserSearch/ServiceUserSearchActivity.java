@@ -40,16 +40,16 @@ public class ServiceUserSearchActivity extends BaseActivity implements ServiceUs
     private LinearLayout llNoUserFound;
     private boolean changeActivity;
     private Realm realm;
-    private ServiceUserSearchPresenter serviceUserSearchPresenter;
+    private ServiceUserSearchPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentForNav(R.layout.activity_service_user_search);
 
-        serviceUserSearchPresenter = new ServiceUserSearchPresenterImp(this, new WeakReference<Activity>(ServiceUserSearchActivity.this));
+        presenter = new ServiceUserSearchPresenterImp(this, new WeakReference<Activity>(ServiceUserSearchActivity.this));
 
-        realm = serviceUserSearchPresenter.getEncryptedRealm();
+        realm = presenter.getEncryptedRealm();
 
         initViews();
 
@@ -59,13 +59,13 @@ public class ServiceUserSearchActivity extends BaseActivity implements ServiceUs
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        serviceUserSearchPresenter.onLeaveView();
+        presenter.onLeaveView();
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        serviceUserSearchPresenter.onLeaveView();
+        presenter.onLeaveView();
     }
 
     @Override
@@ -97,7 +97,7 @@ public class ServiceUserSearchActivity extends BaseActivity implements ServiceUs
         String hospitalNumber = responseServiceUserList.get(position).getHospitalNumber();
 
         changeActivity = true;
-        serviceUserSearchPresenter.searchForPatient("", hospitalNumber, "");
+        presenter.searchForPatient("", hospitalNumber, "");
     }
 
     @Override
@@ -134,7 +134,7 @@ public class ServiceUserSearchActivity extends BaseActivity implements ServiceUs
                                 searchDOBDay.getText());
                     }
 
-                    serviceUserSearchPresenter.searchForPatient(
+                    presenter.searchForPatient(
                             searchName.getText().toString(),
                             searchHospitalNumber.getText().toString(),
                             dob);

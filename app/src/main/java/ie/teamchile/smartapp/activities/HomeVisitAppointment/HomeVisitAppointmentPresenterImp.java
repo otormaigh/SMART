@@ -23,15 +23,15 @@ import timber.log.Timber;
  * Created by elliot on 01/01/2016.
  */
 public class HomeVisitAppointmentPresenterImp extends BasePresenterImp implements HomeVisitAppointmentPresenter {
-    private HomeVisitAppointmentView homeVisitAppointmentView;
+    private HomeVisitAppointmentView view;
     private WeakReference<Activity> weakActivity;
-    private BaseModel baseModel;
+    private BaseModel model;
     private ProgressDialog pd;
 
-    public HomeVisitAppointmentPresenterImp(HomeVisitAppointmentView homeVisitAppointmentView, WeakReference<Activity> weakActivity) {
-        this.homeVisitAppointmentView = homeVisitAppointmentView;
+    public HomeVisitAppointmentPresenterImp(HomeVisitAppointmentView view, WeakReference<Activity> weakActivity) {
+        this.view = view;
         this.weakActivity = weakActivity;
-        baseModel = new BaseModelImp(this);
+        model = new BaseModelImp(this);
     }
 
     @Override
@@ -44,8 +44,8 @@ public class HomeVisitAppointmentPresenterImp extends BasePresenterImp implement
         attendedStatus.putAppointmentStatus(
                 status,
                 0,
-                baseModel.getLogin().getId(),
-                baseModel.getAppointmentById(appointmentId).getServiceUserId());
+                model.getLogin().getId(),
+                model.getAppointmentById(appointmentId).getServiceUserId());
 
         SmartApiClient.getAuthorizedApiClient(getEncryptedRealm()).putAppointmentStatus(
                 attendedStatus,
@@ -54,7 +54,7 @@ public class HomeVisitAppointmentPresenterImp extends BasePresenterImp implement
                     @Override
                     public void success(ResponseBase responseBase, Response response) {
                         Timber.d("changeAttendStatus success");
-                        baseModel.updateAppointment(responseBase.getAppointment());
+                        model.updateAppointment(responseBase.getAppointment());
 
                         Toast.makeText(weakActivity.get(),
                                 "Status changed", Toast.LENGTH_LONG).show();
@@ -80,7 +80,7 @@ public class HomeVisitAppointmentPresenterImp extends BasePresenterImp implement
                 new Callback<ResponseBase>() {
                     @Override
                     public void success(ResponseBase responseBase, Response response) {
-                        baseModel.updateServiceUsers(responseBase);
+                        model.updateServiceUsers(responseBase);
                         weakActivity.get().startActivity(intent);
                         weakActivity.get().finish();
                         pd.dismiss();

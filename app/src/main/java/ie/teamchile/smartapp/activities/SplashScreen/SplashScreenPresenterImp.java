@@ -16,25 +16,25 @@ import io.realm.Realm;
  * Created by elliot on 27/12/2015.
  */
 public class SplashScreenPresenterImp extends BasePresenterImp implements SplashScreenPresenter {
-    private SplashScreenView splashScreenView;
-    private BaseModel baseModel;
+    private SplashScreenView view;
+    private BaseModel model;
     private WeakReference<Activity> weakActivity;
     private Realm realm;
 
-    public SplashScreenPresenterImp(SplashScreenView splashScreenView, WeakReference<Activity> weakActivity) {
+    public SplashScreenPresenterImp(SplashScreenView view, WeakReference<Activity> weakActivity) {
         super(weakActivity);
-        this.splashScreenView = splashScreenView;
+        this.view = view;
         this.weakActivity = weakActivity;
-        baseModel = new BaseModelImp(this, weakActivity);
+        model = new BaseModelImp(this, weakActivity);
         realm = getEncryptedRealm();
     }
 
     @Override
     public void checkIfLoggedIn() {
         if (realm.where(ResponseLogin.class).findFirst() != null && realm.where(ResponseLogin.class).findFirst().isLoggedIn()) {
-            splashScreenView.gotoQuickMenu();
+            view.gotoQuickMenu();
         } else {
-            splashScreenView.gotoLogin();
+            view.gotoLogin();
         }
     }
 
@@ -46,7 +46,7 @@ public class SplashScreenPresenterImp extends BasePresenterImp implements Splash
                 || EnvironmentChecker.isEmulator()) {
             weakActivity.get().finish();
         } else {
-            long time = baseModel.getTimeFromPrefs();
+            long time = model.getTimeFromPrefs();
 
             if (time != 0) {
                 if (DateUtils.isToday(time))

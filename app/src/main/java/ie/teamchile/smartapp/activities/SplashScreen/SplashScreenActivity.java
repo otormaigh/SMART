@@ -17,7 +17,7 @@ import ie.teamchile.smartapp.activities.QuickMenu.QuickMenuActivity;
 import static android.view.View.OnClickListener;
 
 public class SplashScreenActivity extends AppCompatActivity implements SplashScreenView, OnClickListener {
-    private SplashScreenPresenter splashScreenPresenter;
+    private SplashScreenPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,12 +25,12 @@ public class SplashScreenActivity extends AppCompatActivity implements SplashScr
         disableScreenshot();
         setContentView(R.layout.activity_splash_screen);
 
-        splashScreenPresenter = new SplashScreenPresenterImp(this, new WeakReference<Activity>(SplashScreenActivity.this));
+        presenter = new SplashScreenPresenterImp(this, new WeakReference<Activity>(SplashScreenActivity.this));
 
         initViews();
 
         if (!BuildConfig.DEBUG) {
-            splashScreenPresenter.checkIfValidEnvironment();
+            presenter.checkIfValidEnvironment();
         }
     }
 
@@ -54,7 +54,7 @@ public class SplashScreenActivity extends AppCompatActivity implements SplashScr
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_yes:
-                splashScreenPresenter.checkIfLoggedIn();
+                presenter.checkIfLoggedIn();
                 break;
             case R.id.btn_no:
                 finish();

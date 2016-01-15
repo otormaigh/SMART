@@ -53,7 +53,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity implements Appo
     private Realm realm;
     private List<ResponseServiceOption> responseServiceOptionClinicList;
     private List<ResponseServiceOption> responseServiceOptionVisitList;
-    private AppointmentTypeSpinnerPresenter appointmentTypeSpinnerPresenter;
+    private AppointmentTypeSpinnerPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,10 +62,10 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity implements Appo
 
         initViews();
 
-        appointmentTypeSpinnerPresenter = new AppointmentTypeSpinnerPresenterImp(
+        presenter = new AppointmentTypeSpinnerPresenterImp(
                 this, new WeakReference<Activity>(AppointmentTypeSpinnerActivity.this));
 
-        realm = appointmentTypeSpinnerPresenter.getEncryptedRealm();
+        realm = presenter.getEncryptedRealm();
 
         apptHelp = new AppointmentHelper(realm);
 
@@ -459,7 +459,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity implements Appo
                                     weekSpinner.setVisibility(View.VISIBLE);
                                     weekSpinner.setSelection(0);
                                     dayOfWeek = Constants.DF_DAY_SHORT.parse(trueDays.get(0));
-                                    appointmentTypeSpinnerPresenter.getAppointment(clinicSelected, dayOfWeek);
+                                    presenter.getAppointment(clinicSelected, dayOfWeek);
                                     setWeekSpinner(dayOfWeek);
                                 } catch (ParseException e) {
                                     Timber.e(Log.getStackTraceString(e));
@@ -482,7 +482,7 @@ public class AppointmentTypeSpinnerActivity extends BaseActivity implements Appo
                             weekSpinner.setSelection(0);
                             try {
                                 dayOfWeek = Constants.DF_DAY_SHORT.parse(daySpinner.getSelectedItem().toString());
-                                appointmentTypeSpinnerPresenter.getAppointment(clinicSelected, dayOfWeek);
+                                presenter.getAppointment(clinicSelected, dayOfWeek);
                                 setWeekSpinner(dayOfWeek);
                             } catch (ParseException e) {
                                 Timber.e(Log.getStackTraceString(e));
