@@ -125,8 +125,7 @@ public class ServiceUserSearchPresenterImp extends BasePresenterImp implements S
 
                         if (!responseBase.getResponseServiceUsers().isEmpty()) {
                             if (serviceUserSearchView.shouldChangeActivity()) {
-
-                                baseModel.saveServiceUserToRealm(responseBase);
+                                baseModel.updateServiceUsers(responseBase);
 
                                 getPregnancyNotes();
                                 getHistories();

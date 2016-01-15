@@ -12,11 +12,12 @@ public class SmartApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        initTimber();
+        if (BuildConfig.DEBUG) {
+            initTimber();
+        }
     }
 
     private void initTimber() {
-        if (BuildConfig.DEBUG)
-            Timber.plant(new Timber.DebugTree());
+        Timber.plant(new Timber.DebugTree());
     }
 }

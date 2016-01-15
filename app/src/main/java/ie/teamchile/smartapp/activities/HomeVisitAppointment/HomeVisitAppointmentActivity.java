@@ -31,22 +31,24 @@ import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.activities.Base.BaseActivity;
 import ie.teamchile.smartapp.activities.CreateAppointment.CreateAppointmentActivity;
 import ie.teamchile.smartapp.activities.ServiceUser.ServiceUserActivity;
-import ie.teamchile.smartapp.model.ResponseAppointment;
 import ie.teamchile.smartapp.model.RealmInteger;
+import ie.teamchile.smartapp.model.ResponseAppointment;
 import ie.teamchile.smartapp.model.ResponseServiceOption;
+import ie.teamchile.smartapp.model.ResponseServiceUser;
 import ie.teamchile.smartapp.util.Constants;
 import io.realm.Realm;
+import timber.log.Timber;
 
 public class HomeVisitAppointmentActivity extends BaseActivity implements HomeVisitAppointmentView {
     public static Date daySelected;
     public static int visitOptionSelected;
     private Calendar c = Calendar.getInstance(), myCalendar = Calendar.getInstance();
     private Intent intent;
-    private List<Integer> idList = new ArrayList<>();
     private Button dateInList, btnPrevWeek, btnNextWeek;
     private BaseAdapter adapter;
     private Realm realm;
-    private HomeVisitAppointmentPresenter homeVisitAppointmentPresenter;
+    private HomeVisitAppointmentPresenter presenter;
+    private List<Integer> idList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,15 +57,11 @@ public class HomeVisitAppointmentActivity extends BaseActivity implements HomeVi
 
         initViews();
 
-        homeVisitAppointmentPresenter = new HomeVisitAppointmentPresenterImp(this, new WeakReference<Activity>(HomeVisitAppointmentActivity.this));
+        presenter = new HomeVisitAppointmentPresenterImp(this, new WeakReference<Activity>(HomeVisitAppointmentActivity.this));
 
-        realm = homeVisitAppointmentPresenter.getEncryptedRealm();
+        realm = presenter.getEncryptedRealm();
 
         c.setTime(daySelected);
-
-        idList = new ArrayList<>();
-
-        newSetToList(daySelected);
     }
 
     @Override
@@ -125,7 +123,7 @@ public class HomeVisitAppointmentActivity extends BaseActivity implements HomeVi
         DatePickerDialog.OnDateSetListener pickerDate = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                homeVisitAppointmentPresenter.dismissProgressDialog();
+                presenter.dismissProgressDialog();
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
@@ -150,6 +148,7 @@ public class HomeVisitAppointmentActivity extends BaseActivity implements HomeVi
 
         List<ResponseAppointment> responseAppointmentList = realm.where(ResponseAppointment.class)
                 .equalTo(Constants.REALM_DATE, dateSelectedStr)
+                .equalTo(Constants.REALM_CLINIC_ID, 0)
                 .findAll();
 
         if (!responseAppointmentList.isEmpty()) {
@@ -160,9 +159,7 @@ public class HomeVisitAppointmentActivity extends BaseActivity implements HomeVi
                 }
             }
 
-            if (idList.size() == 0) {
-                idList.add(0);
-            } else {
+            if (!idList.isEmpty()) {
                 Collections.sort(idList, new Comparator<Integer>() {
                     @Override
                     public int compare(Integer a, Integer b) {
@@ -217,6 +214,9 @@ public class HomeVisitAppointmentActivity extends BaseActivity implements HomeVi
     }
 
     private class ListElementAdapter extends BaseAdapter {
+        private ViewHolder holder;
+        private boolean attended = false;
+
         @Override
         public int getCount() {
             return idList.size();
@@ -232,31 +232,61 @@ public class HomeVisitAppointmentActivity extends BaseActivity implements HomeVi
             return idList.get(position).hashCode();
         }
 
+        private ResponseAppointment getAppointment(int position) {
+            return realm.where(ResponseAppointment.class).equalTo(Constants.REALM_ID, getItem(position)).findFirst();
+        }
+
+        private ResponseServiceUser getServiceUser(int serviceUserId) {
+            return realm.where(ResponseServiceUser.class)
+                    .equalTo(Constants.REALM_ID, serviceUserId).findFirst();
+        }
+
+        private String getUserName(int position) {
+            /*if (getAppointment(position).getServiceUser().getName() != null)
+                return getAppointment(position).getServiceUser().getName();
+            else if (realm.where(ResponseServiceUser.class)
+                    .equalTo(
+                            Constants.REALM_ID,
+                            getAppointment(position).getServiceUserId()).findFirst().getName() != null)
+                return getServiceUser(getAppointment(position).getServiceUserId()).getName();
+            else
+                return "null";*/
+            return getServiceUser(getAppointment(position).getServiceUserId()).getName();
+        }
+
+        private String getUserGestation(int position) {
+            if (getAppointment(position).getServiceUser().getGestation() != null)
+                return getAppointment(position).getServiceUser().getName();
+            else
+                return "null";
+        }
+
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-            final ResponseAppointment responseAppointment = realm.where(ResponseAppointment.class).equalTo(Constants.REALM_ID, getItem(position)).findFirst();
-            final ViewHolder holder;
-            final Boolean attended;
-
             if (convertView == null) {
                 LayoutInflater layoutInflater = LayoutInflater.from(HomeVisitAppointmentActivity.this);
                 convertView = layoutInflater.inflate(R.layout.list_layout_home_visit_appointment, null);
                 holder = new ViewHolder(convertView);
                 convertView.setTag(holder);
-            } else
+            } else {
                 holder = (ViewHolder) convertView.getTag();
+            }
 
-            if(getItem(position) == 0){
+            if (getItem(position) == 0) {
                 holder.nameText.setText("Book Home Visit");
-                holder.gestText.setText("");
+                holder.gestText.setText(null);
                 attended = false;
                 holder.swipeLayout.setSwipeEnabled(false);
                 holder.nameText.setTextColor(getResources().getColor(R.color.free_slot));
                 holder.nameText.setTypeface(null, Typeface.ITALIC);
             } else {
-                holder.nameText.setText(responseAppointment.getServiceUser().getName());
-                holder.gestText.setText(responseAppointment.getServiceUser().getGestation());
-                attended = responseAppointment.isAttended();
+                Timber.wtf("appointment = " + getAppointment(position));
+                Timber.wtf("serviceUser = " + getAppointment(position).getServiceUser());
+                Timber.wtf("username = " + getUserName(position));
+
+                holder.nameText.setText(getUserName(position));
+                holder.gestText.setText(getUserGestation(position));
+                attended = getAppointment(position).isAttended();
                 holder.swipeLayout.setSwipeEnabled(true);
                 holder.nameText.setTextColor(holder.gestText.getTextColors().getDefaultColor());
                 holder.nameText.setTypeface(null, Typeface.NORMAL);
@@ -264,10 +294,10 @@ public class HomeVisitAppointmentActivity extends BaseActivity implements HomeVi
 
             if (attended) {
                 holder.ivAttend.setBackgroundResource(R.color.attended);
-                holder.btnChangeStatus.setText("No");
+                holder.btnChangeStatus.setText(getString(R.string.no));
             } else {
                 holder.ivAttend.setBackgroundResource(R.color.unattended);
-                holder.btnChangeStatus.setText("Yes");
+                holder.btnChangeStatus.setText(getString(R.string.yes));
             }
 
             holder.llApptListItem.setOnLongClickListener(new View.OnLongClickListener() {
@@ -279,9 +309,9 @@ public class HomeVisitAppointmentActivity extends BaseActivity implements HomeVi
                         intent.putExtra(Constants.ARGS_SERVICE_OPTION_ID, String.valueOf(visitOptionSelected));
                         startActivity(intent);
                     } else {
-                        int serviceUserId = responseAppointment.getServiceUserId();
+                        int serviceUserId = getAppointment(position).getServiceUserId();
                         intent = new Intent(HomeVisitAppointmentActivity.this, ServiceUserActivity.class);
-                        homeVisitAppointmentPresenter.searchServiceUser(serviceUserId, intent);
+                        presenter.searchServiceUser(serviceUserId, intent);
                     }
                     return true;
                 }
@@ -292,9 +322,9 @@ public class HomeVisitAppointmentActivity extends BaseActivity implements HomeVi
                 public void onClick(View v) {
                     holder.swipeLayout.close();
 
-                    homeVisitAppointmentPresenter.changeAttendStatus(!attended, idList.get(position));
+                    presenter.changeAttendStatus(!attended, idList.get(position));
                     realm.beginTransaction();
-                    responseAppointment.setAttended(!attended);
+                    getAppointment(position).setAttended(!attended);
                     realm.commitTransaction();
                     notifyDataSetChanged();
                 }

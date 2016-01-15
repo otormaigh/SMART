@@ -19,6 +19,19 @@ public class ResponseServiceUser extends RealmObject {
     private ResponsePersonalFields personalFields;
     private RealmList<RealmInteger> pregnancyIds;
 
+    public ResponseServiceUser() {}
+
+    public ResponseServiceUser(ResponseServiceUser serviceUser) {
+        setGestation(serviceUser.getGestation());
+        setId(serviceUser.getId());
+        setName(serviceUser.getName());
+        setBabyIds(serviceUser.getBabyIds());
+        setClinicalFields(serviceUser.getClinicalFields());
+        setHospitalNumber(serviceUser.getHospitalNumber());
+        setPersonalFields(serviceUser.getPersonalFields());
+        setPregnancyIds(serviceUser.getPregnancyIds());
+    }
+
     public String getGestation() {
         return gestation;
     }
@@ -55,7 +68,7 @@ public class ResponseServiceUser extends RealmObject {
         return clinicalFields;
     }
 
-    public void setClinicalFields(ResponseClinicalFields responseClinicalFields) {
+    public void setClinicalFields(ResponseClinicalFields clinicalFields) {
         this.clinicalFields = clinicalFields;
     }
 

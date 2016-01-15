@@ -20,6 +20,22 @@ public class ResponseServiceProvider extends RealmObject {
     private String secondaryPhone;
     private String username;
 
+    public ResponseServiceProvider() {}
+
+    public ResponseServiceProvider(ResponseServiceProvider serviceProvider) {
+        setActive(serviceProvider.isActive());
+        setAdmin(serviceProvider.isAdmin());
+        setEmail(serviceProvider.getEmail());
+        setId(serviceProvider.getId());
+        setJobLevel(serviceProvider.getJobLevel());
+        setJobOccupation(serviceProvider.getJobOccupation());
+        setName(serviceProvider.getName());
+        setPassword(serviceProvider.getPassword());
+        setPrimaryPhone(serviceProvider.getPrimaryPhone());
+        setSecondaryPhone(serviceProvider.getSecondaryPhone());
+        setUsername(serviceProvider.getUsername());
+    }
+
     public boolean isActive() {
         return active;
     }

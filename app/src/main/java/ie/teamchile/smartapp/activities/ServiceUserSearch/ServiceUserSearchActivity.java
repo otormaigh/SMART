@@ -221,7 +221,7 @@ public class ServiceUserSearchActivity extends BaseActivity implements ServiceUs
         public ViewHolder(View view) {
             tvName = (TextView) view.findViewById(R.id.tv_results_name);
             tvDob = (TextView) view.findViewById(R.id.tv_results_dob);
-            tvHospitalNumber = (TextView) view.findViewById(R.id.tv_results_hospital_number);
+            tvHospitalNumber = (TextView) view.findViewById(ie.teamchile.smartapp.R.id.tv_results_hospital_number);
         }
     }
 }

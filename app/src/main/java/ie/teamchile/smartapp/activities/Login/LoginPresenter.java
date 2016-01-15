@@ -9,6 +9,4 @@ import ie.teamchile.smartapp.activities.Base.BasePresenter;
  */
 public interface LoginPresenter extends BasePresenter {
     void postLogin(ProgressDialog pd);
-
-    void onBackPressed();
 }

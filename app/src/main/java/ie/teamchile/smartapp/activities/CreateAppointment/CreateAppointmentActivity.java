@@ -61,7 +61,7 @@ public class CreateAppointmentActivity extends BaseActivity implements CreateApp
     private String returnType;
     private ProgressDialog pd;
     private Realm realm;
-    private CreateAppointmentPresenter createAppointmentPresenter;
+    private CreateAppointmentPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,9 +70,9 @@ public class CreateAppointmentActivity extends BaseActivity implements CreateApp
 
         initViews();
 
-        createAppointmentPresenter = new CreateAppointmentPresenterImp(this, new WeakReference<Activity>(CreateAppointmentActivity.this));
+        presenter = new CreateAppointmentPresenterImp(this, new WeakReference<Activity>(CreateAppointmentActivity.this));
 
-        realm = createAppointmentPresenter.getEncryptedRealm();
+        realm = presenter.getEncryptedRealm();
 
         c = Calendar.getInstance();
 
@@ -302,15 +302,15 @@ public class CreateAppointmentActivity extends BaseActivity implements CreateApp
                         PostingData appointment = new PostingData();
                         switch (priority) {
                             case Constants.ARGS_HOME_VISIT:
-                                appointment.postAppointment(createAppointmentPresenter.getLogingId(), apptDate, userID, priority, visitType, returnType, serviceOptionId);
+                                appointment.postAppointment(presenter.getLogingId(), apptDate, userID, priority, visitType, returnType, serviceOptionId);
                                 break;
                             case Constants.ARGS_SCHEDULED:
                                 int clinicID = Integer.parseInt(getIntent().getStringExtra(Constants.ARGS_CLINIC_ID));
-                                appointment.postAppointment(createAppointmentPresenter.getLogingId(), apptDate, time, userID, clinicID, priority, visitType, returnType);
+                                appointment.postAppointment(presenter.getLogingId(), apptDate, time, userID, clinicID, priority, visitType, returnType);
                                 break;
                         }
 
-                        createAppointmentPresenter.postAppointment(returnType, appointment, priority, ad);
+                        presenter.postAppointment(returnType, appointment, priority, ad);
                     }
                 });
         convertView.findViewById(R.id.btn_confirm_no)
@@ -365,7 +365,7 @@ public class CreateAppointmentActivity extends BaseActivity implements CreateApp
                     userName = etUserName.getText().toString();
                     checkIfEditEmpty();
 
-                    createAppointmentPresenter.searchPatient(userName);
+                    presenter.searchPatient(userName);
                 }
                 break;
         }
@@ -416,7 +416,7 @@ public class CreateAppointmentActivity extends BaseActivity implements CreateApp
             switch (parent.getId()) {
                 case R.id.lv_dialog:
                     hideKeyboard();
-                    ResponseServiceUser responseServiceUser = createAppointmentPresenter.getServiceUser(position);
+                    ResponseServiceUser responseServiceUser = presenter.getServiceUser(position);
                     userName = responseServiceUser.getPersonalFields().getName();
                     hospitalNumber = responseServiceUser.getHospitalNumber();
                     email = responseServiceUser.getPersonalFields().getEmail();

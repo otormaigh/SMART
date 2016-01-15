@@ -80,7 +80,7 @@ public class HomeVisitAppointmentPresenterImp extends BasePresenterImp implement
                 new Callback<ResponseBase>() {
                     @Override
                     public void success(ResponseBase responseBase, Response response) {
-                        baseModel.saveServiceUserToRealm(responseBase);
+                        baseModel.updateServiceUsers(responseBase);
                         weakActivity.get().startActivity(intent);
                         weakActivity.get().finish();
                         pd.dismiss();

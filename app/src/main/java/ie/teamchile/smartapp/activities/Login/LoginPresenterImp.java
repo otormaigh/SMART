@@ -72,9 +72,4 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
             }
         });
     }
-
-    @Override
-    public void onBackPressed() {
-        baseModel.clearData();
-    }
 }

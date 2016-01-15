@@ -33,8 +33,6 @@ public interface BaseModel {
 
     void saveAppointmentsToRealm(List<ResponseAppointment> responseAppointments);
 
-    void saveServiceUserToRealm(ResponseBase responseBase);
-
     void saveServiceProviderToRealm(ResponseServiceProvider responseServiceProvider);
 
     void saveServiceOptionsToRealm(List<ResponseServiceOption> responseServiceOptions);
@@ -74,6 +72,8 @@ public interface BaseModel {
     void deleteRealmLogin();
 
     ResponseServiceProvider getServiceProvider();
+
+    void updateServiceUsers(ResponseBase responseBase);
 
     ResponseServiceUser getServiceUser();
 

@@ -12,6 +12,14 @@ public class ResponseLogin extends RealmObject {
     private String token;
     private boolean loggedIn = false;
 
+    public ResponseLogin() {}
+
+    public ResponseLogin(ResponseLogin login) {
+        setId(login.getId());
+        setToken(login.getToken());
+        setLoggedIn(login.isLoggedIn());
+    }
+
     public int getId() {
         return id;
     }

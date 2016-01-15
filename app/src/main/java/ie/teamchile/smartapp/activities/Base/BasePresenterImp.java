@@ -21,7 +21,7 @@ import java.util.List;
 import javax.net.ssl.SSLHandshakeException;
 
 import ie.teamchile.smartapp.R;
-import ie.teamchile.smartapp.activities.SpalshScreen.SplashScreenActivity;
+import ie.teamchile.smartapp.activities.SplashScreen.SplashScreenActivity;
 import ie.teamchile.smartapp.api.SmartApiClient;
 import ie.teamchile.smartapp.model.ResponseBaby;
 import ie.teamchile.smartapp.model.ResponseBase;
@@ -163,12 +163,12 @@ public class BasePresenterImp implements BasePresenter {
                         Tracking.stopUsage(weakActivity.get());
                         Timber.d("timeUsage = " + Tracking.getUsageTime(weakActivity.get()));
 
+                        model.clearData();
                         Toast.makeText(weakActivity.get(),
                                 weakActivity.get().getString(R.string.you_are_now_logged_out),
                                 Toast.LENGTH_SHORT).show();
                         pd.dismiss();
                         weakActivity.get().startActivity(intent);
-                        model.clearData();
                     }
 
                     @Override
@@ -206,7 +206,6 @@ public class BasePresenterImp implements BasePresenter {
                             baseViewSec.showNotification(weakActivity.get().getString(R.string.app_name),
                                     weakActivity.get().getString(R.string.success_logout),
                                     SplashScreenActivity.class);
-                        model.clearData();
                     }
 
                     @Override

@@ -86,7 +86,7 @@ public class AppointmentCalendarPresenterImp extends BasePresenterImp implements
                 new Callback<ResponseBase>() {
                     @Override
                     public void success(ResponseBase responseBase, Response response) {
-                        baseModel.saveServiceUserToRealm(responseBase);
+                        baseModel.updateServiceUsers(responseBase);
                         appointmentCalendarView.gotoServiceUserActivity();
 
                         pd.dismiss();

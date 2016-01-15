@@ -22,6 +22,23 @@ public class ResponseAppointment extends RealmObject {
     private String visitType;
     private boolean attended;
 
+    public ResponseAppointment() {}
+
+    public ResponseAppointment(ResponseAppointment appointment) {
+        setClinicId(appointment.getClinicId());
+        setDate(appointment.getDate());
+        setId(appointment.getId());
+        setLinks(appointment.getLinks());
+        setPriority(appointment.getPriority());
+        setServiceOptionIds(appointment.getServiceOptionIds());
+        setServiceProviderId(appointment.getServiceProviderId());
+        setServiceUser(appointment.getServiceUser());
+        setServiceUserId(appointment.getServiceUserId());
+        setTime(appointment.getTime());
+        setVisitType(appointment.getVisitType());
+        setAttended(appointment.isAttended());
+    }
+
     public int getClinicId() {
         return clinicId;
     }

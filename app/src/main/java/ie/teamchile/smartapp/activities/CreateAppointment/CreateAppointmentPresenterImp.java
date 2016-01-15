@@ -13,13 +13,12 @@ import ie.teamchile.smartapp.activities.Base.BaseModel;
 import ie.teamchile.smartapp.activities.Base.BaseModelImp;
 import ie.teamchile.smartapp.activities.Base.BasePresenterImp;
 import ie.teamchile.smartapp.api.SmartApiClient;
-import ie.teamchile.smartapp.model.ResponseBase;
 import ie.teamchile.smartapp.model.PostingData;
+import ie.teamchile.smartapp.model.ResponseBase;
 import ie.teamchile.smartapp.model.ResponseServiceUser;
 import ie.teamchile.smartapp.util.Constants;
 import ie.teamchile.smartapp.util.CustomDialogs;
 import ie.teamchile.smartapp.util.SharedPrefs;
-import io.realm.Realm;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -29,16 +28,14 @@ import timber.log.Timber;
  * Created by elliot on 01/01/2016.
  */
 public class CreateAppointmentPresenterImp extends BasePresenterImp implements CreateAppointmentPresenter {
-    private CreateAppointmentView createAppointmentView;
+    private CreateAppointmentView view;
     private WeakReference<Activity> weakActivity;
-    private Realm realm;
-    private BaseModel baseModel;
+    private BaseModel model;
 
-    public CreateAppointmentPresenterImp(CreateAppointmentView createAppointmentView, WeakReference<Activity> weakActivity) {
-        this.createAppointmentView = createAppointmentView;
+    public CreateAppointmentPresenterImp(CreateAppointmentView view, WeakReference<Activity> weakActivity) {
+        this.view = view;
         this.weakActivity = weakActivity;
-        realm = getEncryptedRealm();
-        baseModel = new BaseModelImp(this, weakActivity);
+        model = new BaseModelImp(this, weakActivity);
     }
 
     @Override
@@ -47,18 +44,18 @@ public class CreateAppointmentPresenterImp extends BasePresenterImp implements C
                 weakActivity.get(),
                 weakActivity.get().getString(R.string.fetching_information));
 
-        SmartApiClient.getAuthorizedApiClient(realm).getServiceUserByName(
+        SmartApiClient.getAuthorizedApiClient(getEncryptedRealm()).getServiceUserByName(
                 serviceUserName,
                 new Callback<ResponseBase>() {
                     @Override
                     public void success(ResponseBase responseBase, Response response) {
                         Timber.d("searchPatient success");
                         if (responseBase.getResponseServiceUsers().size() != 0) {
-                            baseModel.saveServiceUserToRealm(responseBase);
+                            model.updateServiceUsers(responseBase);
                             pd.dismiss();
-                            createAppointmentView.userSearchDialog(
+                            view.userSearchDialog(
                                     weakActivity.get().getString(R.string.search_results),
-                                    baseModel.getServiceUsers());
+                                    model.getServiceUsers());
                         } else {
                             pd.dismiss();
                             new CustomDialogs().showWarningDialog(
@@ -91,13 +88,13 @@ public class CreateAppointmentPresenterImp extends BasePresenterImp implements C
                 weakActivity.get(),
                 weakActivity.get().getString(R.string.booking_appointment));
 
-        SmartApiClient.getAuthorizedApiClient(realm).postAppointment(
+        SmartApiClient.getAuthorizedApiClient(getEncryptedRealm()).postAppointment(
                 appointment,
                 new Callback<ResponseBase>() {
                     @Override
                     public void success(ResponseBase responseBase, Response response) {
                         Timber.d("postAppointment success");
-                        baseModel.updateAppointment(responseBase.getAppointment());
+                        model.updateAppointment(responseBase.getAppointment());
 
                         if (returnType.equals(Constants.ARGS_NEW)) {
                             getAppointmentById(responseBase.getAppointment().getId(), priority, ad, pd);
@@ -110,13 +107,13 @@ public class CreateAppointmentPresenterImp extends BasePresenterImp implements C
 
                             switch (priority) {
                                 case Constants.ARGS_HOME_VISIT:
-                                    createAppointmentView.gotoHomeVisitAppointment();
+                                    view.gotoHomeVisitAppointment();
                                     break;
                                 case Constants.ARGS_SCHEDULED:
-                                    createAppointmentView.gotoClinicAppointment();
+                                    view.gotoClinicAppointment();
                                     break;
                                 case Constants.ARGS_DROP_IN:
-                                    createAppointmentView.gotoClinicAppointment();
+                                    view.gotoClinicAppointment();
                                     break;
                             }
                         }
@@ -152,13 +149,13 @@ public class CreateAppointmentPresenterImp extends BasePresenterImp implements C
 
     @Override
     public void getAppointmentById(int apptId, final String priority, final AlertDialog ad, final ProgressDialog pd) {
-        SmartApiClient.getAuthorizedApiClient(realm).getAppointmentById(
+        SmartApiClient.getAuthorizedApiClient(getEncryptedRealm()).getAppointmentById(
                 apptId + 1,
                 new Callback<ResponseBase>() {
                     @Override
                     public void success(ResponseBase responseBase, Response response) {
                         Timber.d("getAppointmentById success");
-                        baseModel.updateAppointment(responseBase.getAppointment());
+                        model.updateAppointment(responseBase.getAppointment());
 
                         if (ad.isShowing())
                             ad.cancel();
@@ -168,13 +165,13 @@ public class CreateAppointmentPresenterImp extends BasePresenterImp implements C
 
                         switch (priority) {
                             case Constants.ARGS_HOME_VISIT:
-                                createAppointmentView.gotoHomeVisitAppointment();
+                                view.gotoHomeVisitAppointment();
                                 break;
                             case Constants.ARGS_SCHEDULED:
-                                createAppointmentView.gotoClinicAppointment();
+                                view.gotoClinicAppointment();
                                 break;
                             case Constants.ARGS_DROP_IN:
-                                createAppointmentView.gotoClinicAppointment();
+                                view.gotoClinicAppointment();
                                 break;
                         }
                     }
@@ -196,11 +193,11 @@ public class CreateAppointmentPresenterImp extends BasePresenterImp implements C
 
     @Override
     public ResponseServiceUser getServiceUser(int position) {
-        return baseModel.getServiceUsers().get(position);
+        return model.getServiceUsers().get(position);
     }
 
     @Override
     public int getLogingId() {
-        return baseModel.getLogin().getId();
+        return model.getLogin().getId();
     }
 }

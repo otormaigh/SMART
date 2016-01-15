@@ -64,14 +64,11 @@ public class LoginActivity extends AppCompatActivity implements LoginView, OnCli
         super.onResume();
         if (!BuildConfig.DEBUG)
             initHockeyApp();
-
-        loginPresenter.onBackPressed();
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        loginPresenter.onBackPressed();
 
         finish();
     }

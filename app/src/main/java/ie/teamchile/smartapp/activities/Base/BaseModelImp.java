@@ -7,12 +7,15 @@ import android.util.Log;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
 import ie.teamchile.smartapp.R;
 import ie.teamchile.smartapp.api.SmartApiClient;
+import ie.teamchile.smartapp.model.RealmInteger;
+import ie.teamchile.smartapp.model.RealmString;
 import ie.teamchile.smartapp.model.ResponseAnnouncement;
 import ie.teamchile.smartapp.model.ResponseAntiDHistory;
 import ie.teamchile.smartapp.model.ResponseAppointment;
@@ -31,8 +34,6 @@ import ie.teamchile.smartapp.model.ResponsePersonalFields;
 import ie.teamchile.smartapp.model.ResponsePregnancy;
 import ie.teamchile.smartapp.model.ResponsePregnancyAction;
 import ie.teamchile.smartapp.model.ResponsePregnancyNote;
-import ie.teamchile.smartapp.model.RealmInteger;
-import ie.teamchile.smartapp.model.RealmString;
 import ie.teamchile.smartapp.model.ResponseServiceOption;
 import ie.teamchile.smartapp.model.ResponseServiceProvider;
 import ie.teamchile.smartapp.model.ResponseServiceUser;
@@ -71,7 +72,7 @@ public class BaseModelImp implements BaseModel {
 
     @Override
     public ResponseLogin getLogin() {
-        return realm.where(ResponseLogin.class).findFirst();
+        return new ResponseLogin(realm.where(ResponseLogin.class).findFirst());
     }
 
     @Override
@@ -107,16 +108,6 @@ public class BaseModelImp implements BaseModel {
     }
 
     @Override
-    public void saveServiceUserToRealm(ResponseBase responseBase) {
-        realm.beginTransaction();
-        realm.copyToRealmOrUpdate(responseBase.getResponseServiceUsers());
-        realm.copyToRealmOrUpdate(responseBase.getPregnancies());
-        realm.copyToRealmOrUpdate(responseBase.getBabies());
-        realm.copyToRealmOrUpdate(responseBase.getAntiDHistories());
-        realm.commitTransaction();
-    }
-
-    @Override
     public void saveServiceProviderToRealm(ResponseServiceProvider responseServiceProvider) {
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(responseServiceProvider);
@@ -132,7 +123,7 @@ public class BaseModelImp implements BaseModel {
 
     @Override
     public List<ResponseClinic> getClinics() {
-        return realm.where(ResponseClinic.class).findAll();
+        return new ArrayList<>(realm.where(ResponseClinic.class).findAll());
     }
 
     @Override
@@ -144,7 +135,7 @@ public class BaseModelImp implements BaseModel {
 
     @Override
     public List<ResponseClinicTimeRecord> getClinicTimeRecords() {
-        return realm.where(ResponseClinicTimeRecord.class).findAll();
+        return new ArrayList<>(realm.where(ResponseClinicTimeRecord.class).findAll());
     }
 
     @Override
@@ -170,7 +161,7 @@ public class BaseModelImp implements BaseModel {
 
     @Override
     public List<ResponsePregnancyNote> getPregnancyNotes() {
-        return realm.where(ResponsePregnancyNote.class).findAll();
+        return new ArrayList<>(realm.where(ResponsePregnancyNote.class).findAll());
     }
 
     @Override
@@ -253,17 +244,27 @@ public class BaseModelImp implements BaseModel {
 
     @Override
     public ResponseServiceProvider getServiceProvider() {
-        return realm.where(ResponseServiceProvider.class).findFirst();
+        return new ResponseServiceProvider(realm.where(ResponseServiceProvider.class).findFirst());
+    }
+
+    @Override
+    public void updateServiceUsers(ResponseBase responseBase) {
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(responseBase.getResponseServiceUsers());
+        realm.copyToRealmOrUpdate(responseBase.getPregnancies());
+        realm.copyToRealmOrUpdate(responseBase.getBabies());
+        realm.copyToRealmOrUpdate(responseBase.getAntiDHistories());
+        realm.commitTransaction();
     }
 
     @Override
     public ResponseServiceUser getServiceUser() {
-        return realm.where(ResponseServiceUser.class).findFirst();
+        return new ResponseServiceUser(realm.where(ResponseServiceUser.class).findFirst());
     }
 
     @Override
     public List<ResponseServiceUser> getServiceUsers() {
-        return realm.where(ResponseServiceUser.class).findAll();
+        return new ArrayList<>(realm.where(ResponseServiceUser.class).findAll());
     }
 
     @Override
@@ -360,12 +361,12 @@ public class BaseModelImp implements BaseModel {
 
     @Override
     public ResponseAppointment getAppointmentById(int appointmentId) {
-        return realm.where(ResponseAppointment.class).equalTo(Constants.REALM_ID, appointmentId).findFirst();
+        return new ResponseAppointment(realm.where(ResponseAppointment.class).equalTo(Constants.REALM_ID, appointmentId).findFirst());
     }
 
     @Override
     public List<ResponseAppointment> getAppointments() {
-        return realm.where(ResponseAppointment.class).findAll();
+        return new ArrayList<>(realm.where(ResponseAppointment.class).findAll());
     }
 
     @Override
@@ -384,7 +385,7 @@ public class BaseModelImp implements BaseModel {
 
     @Override
     public List<ResponseServiceOption> getServiceOptions() {
-        return realm.where(ResponseServiceOption.class).findAll();
+        return new ArrayList<>(realm.where(ResponseServiceOption.class).findAll());
     }
 
     @Override
@@ -393,6 +394,7 @@ public class BaseModelImp implements BaseModel {
         deleteSharedPref();
         deleteRealm();
         SmartApiClient.clearApiClient();
+        realm = null;
     }
 
     private void startPurge() {
