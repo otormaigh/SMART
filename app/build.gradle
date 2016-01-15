@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "ie.teamchile.smartapp"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 23
         versionCode 7
         versionName "1.1.5"
@@ -21,28 +21,19 @@ android {
     buildTypes {
         release {
             minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField "retrofit.RestAdapter.LogLevel", "RETROFIT_LOG_LEVEL", "retrofit.RestAdapter.LogLevel.NONE"
         }
 
         debug {
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField "retrofit.RestAdapter.LogLevel", "RETROFIT_LOG_LEVEL", "retrofit.RestAdapter.LogLevel.FULL"
         }
     }
-
-    /*splits {
-        abi {
-            enable true
-            reset()
-            include 'x86', 'armeabi', 'armeabi-v7a', 'mips'
-            universalApk false
-        }
-    }*/
 }
 
 dependencies {
-    def supportVersion = "23.1.1"
+    def supportVersion = '23.1.1'
 
     compile "com.android.support:appcompat-v7:$supportVersion"
     compile "com.android.support:recyclerview-v7:$supportVersion"
@@ -51,5 +42,5 @@ dependencies {
     compile 'com.jakewharton.timber:timber:3.1.0'
     compile 'com.daimajia.swipelayout:library:1.2.0@aar'
     compile 'net.hockeyapp.android:HockeySDK:3.5.0'
-    compile 'io.realm:realm-android:0.87.1'
+    compile "io.realm:realm-android:0.87.2"
 }
