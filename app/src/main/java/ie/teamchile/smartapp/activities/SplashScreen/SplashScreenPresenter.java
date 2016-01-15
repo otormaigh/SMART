@@ -1,4 +1,4 @@
-package ie.teamchile.smartapp.activities.SpalshScreen;
+package ie.teamchile.smartapp.activities.SplashScreen;
 
 import ie.teamchile.smartapp.activities.Base.BasePresenter;
 

@@ -1,4 +1,4 @@
-package ie.teamchile.smartapp.activities.SpalshScreen;
+package ie.teamchile.smartapp.activities.SplashScreen;
 
 import android.app.Activity;
 import android.text.format.DateUtils;
