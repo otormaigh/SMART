@@ -25,23 +25,23 @@ import timber.log.Timber;
  * Created by elliot on 27/12/2015.
  */
 public class LoginPresenterImp extends BasePresenterImp implements LoginPresenter {
-    private LoginView loginView;
-    private BaseModel baseModel;
+    private LoginView view;
+    private BaseModel model;
     private WeakReference<Activity> weakActivity;
     private SharedPrefs prefsUtil;
 
-    public LoginPresenterImp(LoginView loginView, WeakReference<Activity> weakActivity) {
+    public LoginPresenterImp(LoginView view, WeakReference<Activity> weakActivity) {
         super(weakActivity);
-        this.loginView = loginView;
+        this.view = view;
         this.weakActivity = weakActivity;
-        baseModel = new BaseModelImp(this, weakActivity);
+        model = new BaseModelImp(this, weakActivity);
         prefsUtil = new SharedPrefs();
     }
 
     @Override
     public void postLogin(final ProgressDialog pd) {
         final PostingData login = new PostingData();
-        login.postLogin(loginView.getUsername(), loginView.getPassword());
+        login.postLogin(view.getUsername(), view.getPassword());
 
         SmartApiClient.getUnAuthorizedApiClient().postLogin(login, new Callback<ResponseBase>() {
             @Override
@@ -53,12 +53,12 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
                         Constants.SHARED_PREFS_SPLASH_LOG);
                 prefsUtil.deletePrefs(weakActivity.get(), Constants.APPTS_GOT);
 
-                baseModel.saveLoginToRealm(responseBase.getResponseLogin());
+                model.saveLoginToRealm(responseBase.getResponseLogin());
 
                 pd.dismiss();
-                baseModel.getLoginSharedPrefs();
+                model.getLoginSharedPrefs();
 
-                loginView.gotoQuickMenu();
+                view.gotoQuickMenu();
             }
 
             @Override
@@ -66,7 +66,7 @@ public class LoginPresenterImp extends BasePresenterImp implements LoginPresente
                 if (error.getResponse() != null) {
                     ResponseBase body = (ResponseBase) error.getBodyAs(ResponseBase.class);
                     Timber.d("retro error = " + body.getError().getError());
-                    loginView.showErrorToast(body.getError().getError());
+                    view.showErrorToast(body.getError().getError());
                 }
                 pd.dismiss();
             }

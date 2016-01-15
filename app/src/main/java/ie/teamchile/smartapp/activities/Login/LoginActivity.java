@@ -29,7 +29,7 @@ import timber.log.Timber;
 public class LoginActivity extends AppCompatActivity implements LoginView, OnClickListener {
     private TextView tvUsername;
     private TextView tvPassword;
-    private LoginPresenter loginPresenter;
+    private LoginPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +39,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView, OnCli
 
         initViews();
 
-        loginPresenter = new LoginPresenterImp(this, new WeakReference<Activity>(LoginActivity.this));
+        presenter = new LoginPresenterImp(this, new WeakReference<Activity>(LoginActivity.this));
 
         if (BuildConfig.DEBUG) {
             tvUsername.setText(NotKeys.USERNAME);
@@ -79,7 +79,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView, OnCli
             ProgressDialog pd = new CustomDialogs().showProgressDialog(
                     LoginActivity.this,
                     getString(R.string.logging_in));
-            loginPresenter.postLogin(pd);
+            presenter.postLogin(pd);
         } else {
             new CustomDialogs().showErrorDialog(
                     LoginActivity.this,
