@@ -1,9 +1,13 @@
 package ie.teamchile.smartapp.activities.Base;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.ProgressDialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -272,5 +276,36 @@ public class BasePresenterImp implements BasePresenter {
     @Override
     public boolean isLoggedIn() {
         return model.getLogin() == null && model.getLogin().isLoggedIn();
+    }
+
+    @Override
+    public boolean isMyServiceRunning() {
+        ActivityManager am = (ActivityManager) weakActivity.get().getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> tasks = am.getRunningTasks(1);
+        if (!tasks.isEmpty()) {
+            ComponentName topActivity = tasks.get(0).topActivity;
+            if (!topActivity.getPackageName().equals(weakActivity.get().getPackageName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean checkIfConnected() {
+        ConnectivityManager conMgr = (ConnectivityManager) weakActivity.get()
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
+
+        if (netInfo == null) {
+            Toast.makeText(weakActivity.get(), weakActivity.get().getString(R.string.no_internet), Toast.LENGTH_LONG).show();
+            Timber.d("no internet");
+            return false;
+        } else if (!netInfo.isConnected() || !netInfo.isAvailable()) {
+            Toast.makeText(weakActivity.get(), weakActivity.get().getString(R.string.no_internet), Toast.LENGTH_LONG).show();
+            Timber.d("no internet");
+            return false;
+        }
+        return true;
     }
 }

@@ -31,4 +31,8 @@ public interface BasePresenter {
     void checkRetroError(RetrofitError error, Context context);
 
     boolean isLoggedIn();
+
+    boolean checkIfConnected();
+
+    boolean isMyServiceRunning();
 }

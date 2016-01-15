@@ -1,18 +1,14 @@
 package ie.teamchile.smartapp.activities.Base;
 
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -30,7 +26,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -41,7 +36,6 @@ import ie.teamchile.smartapp.activities.ClinicTimeRecord.ClinicTimeRecordActivit
 import ie.teamchile.smartapp.activities.Login.LoginActivity;
 import ie.teamchile.smartapp.activities.QuickMenu.QuickMenuActivity;
 import ie.teamchile.smartapp.activities.ServiceUserSearch.ServiceUserSearchActivity;
-import ie.teamchile.smartapp.model.ResponseBaby;
 import ie.teamchile.smartapp.model.ResponsePregnancy;
 import ie.teamchile.smartapp.util.CustomDialogs;
 import ie.teamchile.smartapp.util.ToastAlert;
@@ -97,7 +91,7 @@ public class BaseActivity extends AppCompatActivity implements BaseViewSec {
     protected void onStop() {
         super.onStop();
 
-        if (isMyServiceRunning()) {
+        if (presenter.isMyServiceRunning()) {
             new ToastAlert(getBaseContext(), getString(R.string.view_is_hidden), false);
             thingALing++;
             showNotification(getString(R.string.app_name), getString(R.string.warning_logged_out_soon), QuickMenuActivity.class);
@@ -120,35 +114,6 @@ public class BaseActivity extends AppCompatActivity implements BaseViewSec {
 
     @Override
     public void initViews() {
-    }
-
-    private boolean isMyServiceRunning() {
-        ActivityManager am = (ActivityManager) this.getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningTaskInfo> tasks = am.getRunningTasks(1);
-        if (!tasks.isEmpty()) {
-            ComponentName topActivity = tasks.get(0).topActivity;
-            if (!topActivity.getPackageName().equals(this.getPackageName())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    protected boolean checkIfConnected(Context context) {
-        ConnectivityManager conMgr = (ConnectivityManager) getApplicationContext()
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
-
-        if (netInfo == null) {
-            Toast.makeText(getApplicationContext(), getString(R.string.no_internet), Toast.LENGTH_LONG).show();
-            Timber.d("no internet");
-            return false;
-        } else if (!netInfo.isConnected() || !netInfo.isAvailable()) {
-            Toast.makeText(getApplicationContext(), getString(R.string.no_internet), Toast.LENGTH_LONG).show();
-            Timber.d("no internet");
-            return false;
-        }
-        return true;
     }
 
     @Override
@@ -225,7 +190,8 @@ public class BaseActivity extends AppCompatActivity implements BaseViewSec {
         }
     }
 
-    protected void showLogoutDialog() {
+    @Override
+    public void showLogoutDialog() {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.logout_title)
                 .setMessage(R.string.logout_dialog_message)
@@ -248,24 +214,8 @@ public class BaseActivity extends AppCompatActivity implements BaseViewSec {
                 }).show();
     }
 
-    protected String putArrayToString(List<String> badList) {
-        String listAsString = "";
-        int listSize = badList.size();
-        for (int i = 0; i < listSize; i++) {
-            if (i == (listSize - 1))
-                listAsString += badList.get(i);
-            else
-                listAsString += badList.get(i) + ", ";
-        }
-        return listAsString;
-    }
-
     protected int getRecentPregnancy(List<ResponsePregnancy> responsePregnancyList) {   //TODO: Remove
         return presenter.getRecentPregnancy(responsePregnancyList);
-    }
-
-    protected int getRecentBaby(List<ResponseBaby> responseBabyList) {                  //TODO: Remove
-        return presenter.getRecentBaby(responseBabyList);
     }
 
     @Override

@@ -15,4 +15,6 @@ public interface BaseViewSec extends BaseViewPri{
     void showNotification(String title, String message, Class activity);
 
     NotificationManager getNotificationManager();
+
+    void showLogoutDialog();
 }
